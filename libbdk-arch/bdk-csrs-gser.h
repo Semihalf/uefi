@@ -296,7 +296,17 @@ typedef union
     struct bdk_gserx_br_rxx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
+        uint64_t reserved_4_63         : 60;
+        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For Base-R links the terminating condition for link training receiver adaptation
+                                                                 is a 330 milliseconds time-out timer.  When the receiver adaptation time-out timer
+                                                                 expires the receiver adaptation process is concluded and the link is considered good.
+                                                                 Note that when Base-R link training is performed under software control,
+                                                                 (GSER()_BR_RX()_CTL[RXT_SWM] is set), the receiver adaptation time-out timer is disabled
+                                                                 and not used.
+
+                                                                 Set this bit to a one to disable the link training receiver adaptation time-out
+                                                                 timer during Base-R link training under hardware control.  For diagnostic use only.
+                                                                 Added in pass 2. */
         uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
 
                                                                  See GSER()_BR_RX()_EER[EXT_EER]. */
@@ -334,7 +344,17 @@ typedef union
         uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
 
                                                                  See GSER()_BR_RX()_EER[EXT_EER]. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For Base-R links the terminating condition for link training receiver adaptation
+                                                                 is a 330 milliseconds time-out timer.  When the receiver adaptation time-out timer
+                                                                 expires the receiver adaptation process is concluded and the link is considered good.
+                                                                 Note that when Base-R link training is performed under software control,
+                                                                 (GSER()_BR_RX()_CTL[RXT_SWM] is set), the receiver adaptation time-out timer is disabled
+                                                                 and not used.
+
+                                                                 Set this bit to a one to disable the link training receiver adaptation time-out
+                                                                 timer during Base-R link training under hardware control.  For diagnostic use only.
+                                                                 Added in pass 2. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     struct bdk_gserx_br_rxx_ctl_cn88xxp1
@@ -446,70 +466,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gserx_br_rxx_ctl_cn81xx cn83xx; */
-    struct bdk_gserx_br_rxx_ctl_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For Base-R links the terminating condition for link training receiver adaptation
-                                                                 is a 330 milliseconds time-out timer.  When the receiver adaptation time-out timer
-                                                                 expires the receiver adaptation process is concluded and the link is considered good.
-                                                                 Note that when Base-R link training is performed under software control,
-                                                                 (GSER()_BR_RX()_CTL[RXT_SWM] is set), the receiver adaptation time-out timer is disabled
-                                                                 and not used.
-
-                                                                 Set this bit to a one to disable the link training receiver adaptation time-out
-                                                                 timer during Base-R link training under hardware control.  For diagnostic use only.
-                                                                 Added in pass 2. */
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
-
-                                                                 See GSER()_BR_RX()_EER[EXT_EER]. */
-        uint64_t rxt_preset            : 1;  /**< [  1:  1](R/W) For all link training, this bit determines how to configure the preset bit in the
-                                                                 coefficient update message that is sent to the far end transmitter. When set, a one time
-                                                                 request is made that the coefficients be set to a state where equalization is turned off.
-
-                                                                 To perform a preset, set this bit prior to link training. Link training needs to be
-                                                                 disabled to complete the request and get the rxtrain state machine back to idle. Note that
-                                                                 it is illegal to set both the preset and initialize bits at the same time. For diagnostic
-                                                                 use only. */
-        uint64_t rxt_initialize        : 1;  /**< [  0:  0](R/W) For all link training, this bit determines how to configure the initialize bit in the
-                                                                 coefficient update message that is sent to the far end transmitter of RX training. When
-                                                                 set, a request is made that the coefficients be set to its INITIALIZE state. To perform an
-                                                                 initialize prior to link training, set this bit prior to performing link training. Note
-                                                                 that it is illegal to set both the preset and initialize bits at the same time. Since the
-                                                                 far end transmitter is required to be initialized prior to starting link training, it is
-                                                                 not expected that software will need to set this bit. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t rxt_initialize        : 1;  /**< [  0:  0](R/W) For all link training, this bit determines how to configure the initialize bit in the
-                                                                 coefficient update message that is sent to the far end transmitter of RX training. When
-                                                                 set, a request is made that the coefficients be set to its INITIALIZE state. To perform an
-                                                                 initialize prior to link training, set this bit prior to performing link training. Note
-                                                                 that it is illegal to set both the preset and initialize bits at the same time. Since the
-                                                                 far end transmitter is required to be initialized prior to starting link training, it is
-                                                                 not expected that software will need to set this bit. For diagnostic use only. */
-        uint64_t rxt_preset            : 1;  /**< [  1:  1](R/W) For all link training, this bit determines how to configure the preset bit in the
-                                                                 coefficient update message that is sent to the far end transmitter. When set, a one time
-                                                                 request is made that the coefficients be set to a state where equalization is turned off.
-
-                                                                 To perform a preset, set this bit prior to link training. Link training needs to be
-                                                                 disabled to complete the request and get the rxtrain state machine back to idle. Note that
-                                                                 it is illegal to set both the preset and initialize bits at the same time. For diagnostic
-                                                                 use only. */
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
-
-                                                                 See GSER()_BR_RX()_EER[EXT_EER]. */
-        uint64_t rxt_adtmout_disable   : 1;  /**< [  3:  3](R/W) For Base-R links the terminating condition for link training receiver adaptation
-                                                                 is a 330 milliseconds time-out timer.  When the receiver adaptation time-out timer
-                                                                 expires the receiver adaptation process is concluded and the link is considered good.
-                                                                 Note that when Base-R link training is performed under software control,
-                                                                 (GSER()_BR_RX()_CTL[RXT_SWM] is set), the receiver adaptation time-out timer is disabled
-                                                                 and not used.
-
-                                                                 Set this bit to a one to disable the link training receiver adaptation time-out
-                                                                 timer during Base-R link training under hardware control.  For diagnostic use only.
-                                                                 Added in pass 2. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_gserx_br_rxx_ctl_s cn88xxp2; */
 } bdk_gserx_br_rxx_ctl_t;
 
 static inline uint64_t BDK_GSERX_BR_RXX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -3752,6 +3709,60 @@ typedef union
         uint64_t cfg_rx_errdet_ctrl_ovrrd_en : 1;/**< [  4:  4](R/W) When asserted, pcs_sds_rx_err_det_ctrl is set
                                                                  to cfg_rx_errdet_ctrl in registers
                                                                  GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
+        uint64_t reserved_1_3          : 3;
+        uint64_t cfg_rxeq_eval_restore_en : 1;/**< [  0:  0](R/W) When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
+                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
+                                                                 Added in pass 2. */
+#else /* Word 0 - Little Endian */
+        uint64_t cfg_rxeq_eval_restore_en : 1;/**< [  0:  0](R/W) When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
+                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
+                                                                 Added in pass 2. */
+        uint64_t reserved_1_3          : 3;
+        uint64_t cfg_rx_errdet_ctrl_ovrrd_en : 1;/**< [  4:  4](R/W) When asserted, pcs_sds_rx_err_det_ctrl is set
+                                                                 to cfg_rx_errdet_ctrl in registers
+                                                                 GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
+        uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
+                                                                 signal from the RX Power State machine with
+                                                                 CFG_RX_DLL_LOCKEN in register
+                                                                 GSER()_LANE()_RX_CFG_1. */
+        uint64_t reserved_6            : 1;
+        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ Eval
+                                                                 When asserted, training mode is controlled by
+                                                                 CFG_RX_EQ_EVAL_OVRRD_VAL. */
+        uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
+        uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
+        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX Electrical-Idle-Exit
+                                                                 Detect Enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX Electrical-Idle-Exit
+                                                                 Detect Enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB Clock Enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_gserx_lanex_rx_misc_ovrrd_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
+        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB Clock Enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX Electrical-Idle-Exit
+                                                                 Detect Enable. */
+        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX Electrical-Idle-Exit
+                                                                 Detect Enable. */
+        uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
+        uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
+        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ Eval
+                                                                 When asserted, training mode is controlled by
+                                                                 CFG_RX_EQ_EVAL_OVRRD_VAL. */
+        uint64_t reserved_6            : 1;
+        uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
+                                                                 signal from the RX Power State machine with
+                                                                 CFG_RX_DLL_LOCKEN in register
+                                                                 GSER()_LANE()_RX_CFG_1. */
+        uint64_t cfg_rx_errdet_ctrl_ovrrd_en : 1;/**< [  4:  4](R/W) When asserted, pcs_sds_rx_err_det_ctrl is set
+                                                                 to cfg_rx_errdet_ctrl in registers
+                                                                 GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
         uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_3          : 4;
@@ -3776,8 +3787,7 @@ typedef union
         uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gserx_lanex_rx_misc_ovrrd_s cn88xxp1; */
+    } cn88xxp1;
     struct bdk_gserx_lanex_rx_misc_ovrrd_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3831,60 +3841,7 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gserx_lanex_rx_misc_ovrrd_cn81xx cn83xx; */
-    struct bdk_gserx_lanex_rx_misc_ovrrd_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB Clock Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
-        uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
-        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ Eval
-                                                                 When asserted, training mode is controlled by
-                                                                 CFG_RX_EQ_EVAL_OVRRD_VAL. */
-        uint64_t reserved_6            : 1;
-        uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
-                                                                 signal from the RX Power State machine with
-                                                                 CFG_RX_DLL_LOCKEN in register
-                                                                 GSER()_LANE()_RX_CFG_1. */
-        uint64_t cfg_rx_errdet_ctrl_ovrrd_en : 1;/**< [  4:  4](R/W) When asserted, pcs_sds_rx_err_det_ctrl is set
-                                                                 to cfg_rx_errdet_ctrl in registers
-                                                                 GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t cfg_rxeq_eval_restore_en : 1;/**< [  0:  0](R/W) When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
-                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
-                                                                 Added in pass 2. */
-#else /* Word 0 - Little Endian */
-        uint64_t cfg_rxeq_eval_restore_en : 1;/**< [  0:  0](R/W) When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
-                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
-                                                                 Added in pass 2. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t cfg_rx_errdet_ctrl_ovrrd_en : 1;/**< [  4:  4](R/W) When asserted, pcs_sds_rx_err_det_ctrl is set
-                                                                 to cfg_rx_errdet_ctrl in registers
-                                                                 GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
-        uint64_t cfg_rx_dll_locken_ovrrd_en : 1;/**< [  5:  5](R/W) When asserted, override DLL lock enable
-                                                                 signal from the RX Power State machine with
-                                                                 CFG_RX_DLL_LOCKEN in register
-                                                                 GSER()_LANE()_RX_CFG_1. */
-        uint64_t reserved_6            : 1;
-        uint64_t cfg_rx_eq_eval_ovrrd_en : 1;/**< [  7:  7](R/W) Override enable for RX-EQ Eval
-                                                                 When asserted, training mode is controlled by
-                                                                 CFG_RX_EQ_EVAL_OVRRD_VAL. */
-        uint64_t cfg_rx_eq_eval_ovrrd_val : 1;/**< [  8:  8](R/W) Training mode control in override mode. */
-        uint64_t cfg_rx_cdr_ctrl_ovrrd_en : 1;/**< [  9:  9](R/W) Not supported. */
-        uint64_t cfg_rx_eie_det_ovrrd_en : 1;/**< [ 10: 10](R/W) Override enable for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_eie_det_ovrrd_val : 1;/**< [ 11: 11](R/W) Override value for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_en : 1;/**< [ 12: 12](R/W) Override enable for RX OOB Clock Enable. */
-        uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
-        uint64_t reserved_14_63        : 50;
-#endif /* Word 0 - End */
-    } cn88xxp2;
+    /* struct bdk_gserx_lanex_rx_misc_ovrrd_s cn88xxp2; */
 } bdk_gserx_lanex_rx_misc_ovrrd_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_MISC_OVRRD(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7917,17 +7874,17 @@ typedef union
 
                                                                  <pre>
                                                                  SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
+                                                                 0x0:  100 MHz     1.25 Gb     R_125G_REFCLK15625_KX
                                                                  0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
                                                                  0x2:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
+                                                                 0x4:  125 MHz     1.25 Gb     R_125G_REFCLK15625_KX
+                                                                 0x5:  125 MHz     2.5 Gb      R_25G_REFCLK125
                                                                  0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0x7:  125 MHz     5 Gb        R_5G_REFCLK125
                                                                  0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
                                                                  0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
+                                                                 0xA:  156.25 MHz  2.5 Gb      R_25G_REFCLK100
                                                                  0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
                                                                  0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
@@ -7959,17 +7916,17 @@ typedef union
 
                                                                  <pre>
                                                                  SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
+                                                                 0x0:  100 MHz     1.25 Gb     R_125G_REFCLK15625_KX
                                                                  0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
                                                                  0x2:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
+                                                                 0x4:  125 MHz     1.25 Gb     R_125G_REFCLK15625_KX
+                                                                 0x5:  125 MHz     2.5 Gb      R_25G_REFCLK125
                                                                  0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0x7:  125 MHz     5 Gb        R_5G_REFCLK125
                                                                  0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
                                                                  0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
+                                                                 0xA:  156.25 MHz  2.5 Gb      R_25G_REFCLK100
                                                                  0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
                                                                  0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
@@ -7996,7 +7953,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gserx_spd_cn88xxp1
+    /* struct bdk_gserx_spd_s cn88xxp1; */
+    struct bdk_gserx_spd_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -8007,17 +7965,17 @@ typedef union
 
                                                                  <pre>
                                                                  SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     1.25 Gb     R_125G_REFCLK15625_KX
+                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
                                                                  0x2:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  125 MHz     1.25 Gb     R_125G_REFCLK15625_KX
-                                                                 0x5:  125 MHz     2.5 Gb      R_25G_REFCLK125
+                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
+                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
                                                                  0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0x7:  125 MHz     5 Gb        R_5G_REFCLK125
                                                                  0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
                                                                  0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  2.5 Gb      R_25G_REFCLK100
+                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
                                                                  0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
                                                                  0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
@@ -8049,17 +8007,17 @@ typedef union
 
                                                                  <pre>
                                                                  SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     1.25 Gb     R_125G_REFCLK15625_KX
+                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
                                                                  0x2:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  125 MHz     1.25 Gb     R_125G_REFCLK15625_KX
-                                                                 0x5:  125 MHz     2.5 Gb      R_25G_REFCLK125
+                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
+                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
                                                                  0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0x7:  125 MHz     5 Gb        R_5G_REFCLK125
                                                                  0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
                                                                  0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  2.5 Gb      R_25G_REFCLK100
+                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
                                                                  0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
                                                                  0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
@@ -8085,9 +8043,8 @@ typedef union
                                                                   where in "GSER(x)", x is 8..13, and in "P(z)", z equals LMODE. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cn88xxp1;
-    /* struct bdk_gserx_spd_s cn81xx; */
-    /* struct bdk_gserx_spd_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_gserx_spd_cn81xx cn83xx; */
     struct bdk_gserx_spd_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

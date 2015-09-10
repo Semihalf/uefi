@@ -407,6 +407,44 @@ static inline uint64_t BDK_NDF_ECC_CNT_FUNC(void)
 #define arguments_BDK_NDF_ECC_CNT -1,-1,-1,-1
 
 /**
+ * Register (NCB) ndf_eco
+ *
+ * INTERNAL: NDF ECO Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ndf_eco_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) ECO flops. */
+#else /* Word 0 - Little Endian */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) ECO flops. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ndf_eco_s cn; */
+} bdk_ndf_eco_t;
+
+#define BDK_NDF_ECO BDK_NDF_ECO_FUNC()
+static inline uint64_t BDK_NDF_ECO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NDF_ECO_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x8080000000f8ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8080000000f8ll;
+    __bdk_csr_fatal("NDF_ECO", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_NDF_ECO bdk_ndf_eco_t
+#define bustype_BDK_NDF_ECO BDK_CSR_TYPE_NCB
+#define basename_BDK_NDF_ECO "NDF_ECO"
+#define busnum_BDK_NDF_ECO 0
+#define arguments_BDK_NDF_ECO -1,-1,-1,-1
+
+/**
  * Register (NCB) ndf_int
  *
  * NAND Flash Interrupt Register
@@ -784,9 +822,9 @@ static inline uint64_t BDK_NDF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_NDF_MSIX_PBAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
-        return 0x808000ff0008ll + 0ll * ((a) & 0x0);
+        return 0x808000ff0000ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x808000ff0008ll + 0ll * ((a) & 0x0);
+        return 0x808000ff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("NDF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 

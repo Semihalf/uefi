@@ -256,7 +256,8 @@ union bdk_zip_inst_s
                                                                  second extra bit, etc. All unused EXBITS bits must be 0x0.
 
                                                                  For decompression, EXN, EXBITS must be 0x0 */
-        uint64_t reserved_12_15        : 4;
+        uint64_t reserved_15           : 1;
+        uint64_t halg                  : 3;  /**< [ 14: 12] Hash algorithm and enable. Enumerated by ZIP_HASH_ALG_E. */
         uint64_t sf                    : 1;  /**< [ 11: 11] SYNC_FLUSH. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
@@ -430,7 +431,8 @@ union bdk_zip_inst_s
 
                                                                  For decompression,
                                                                  [SF] should always be set. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t halg                  : 3;  /**< [ 14: 12] Hash algorithm and enable. Enumerated by ZIP_HASH_ALG_E. */
+        uint64_t reserved_15           : 1;
         uint64_t exbits                : 7;  /**< [ 22: 16] EXN,EXBITS are the previously-generated compressed bits beyond the last
                                                                  compressed byte written for the file. These bits are required context for partial-file
                                                                  processing because the ZIP compression algorithm produces a compressed bit
@@ -616,9 +618,27 @@ union bdk_zip_inst_s
         uint64_t reserved_896_959      : 64;
 #endif /* Word 14 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 15 - Big Endian */
-        uint64_t reserved_960_1023     : 64;
+        uint64_t reserved_1009_1023    : 15;
+        uint64_t iv_ptr                : 49; /**< [1008:960] Hash initial value pointer.
+
+                                                                 If ZIP_INST_S[HALG] = 0x0 (NONE), must be 0x0.
+
+                                                                 If ZIP_INST_S[HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, and [IV_PTR] != 0x0, points
+                                                                 to the address ZIP will read 32 bytes from to obtain the initial hash value.
+
+                                                                 If ZIP_INST_S[HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, and [IV_PTR] = 0x0, the
+                                                                 initial hash value is the standard value enumerated by ZIP_HASH_ALG_E. */
 #else /* Word 15 - Little Endian */
-        uint64_t reserved_960_1023     : 64;
+        uint64_t iv_ptr                : 49; /**< [1008:960] Hash initial value pointer.
+
+                                                                 If ZIP_INST_S[HALG] = 0x0 (NONE), must be 0x0.
+
+                                                                 If ZIP_INST_S[HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, and [IV_PTR] != 0x0, points
+                                                                 to the address ZIP will read 32 bytes from to obtain the initial hash value.
+
+                                                                 If ZIP_INST_S[HALG] = ZIP_HASH_ALG_E::SHA1/SHA256, and [IV_PTR] = 0x0, the
+                                                                 initial hash value is the standard value enumerated by ZIP_HASH_ALG_E. */
+        uint64_t reserved_1009_1023    : 15;
 #endif /* Word 15 - End */
     } s;
     struct bdk_zip_inst_s_cn88xx
@@ -1793,24 +1813,32 @@ union bdk_zip_zres_s
         uint64_t reserved_192_255      : 64;
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t reserved_256_319      : 64;
+        uint64_t hash0                 : 64; /**< [319:256] Word 0 of computed hash. This word is only written when ZIP_INST_S[HALG] !=
+                                                                 ZIP_OP_E::NONE. */
 #else /* Word 4 - Little Endian */
-        uint64_t reserved_256_319      : 64;
+        uint64_t hash0                 : 64; /**< [319:256] Word 0 of computed hash. This word is only written when ZIP_INST_S[HALG] !=
+                                                                 ZIP_OP_E::NONE. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t reserved_320_383      : 64;
+        uint64_t hash1                 : 64; /**< [383:320] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
+                                                                 ZIP_OP_E::NONE. */
 #else /* Word 5 - Little Endian */
-        uint64_t reserved_320_383      : 64;
+        uint64_t hash1                 : 64; /**< [383:320] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
+                                                                 ZIP_OP_E::NONE. */
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t reserved_384_447      : 64;
+        uint64_t hash2                 : 64; /**< [447:384] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
+                                                                 ZIP_OP_E::NONE. */
 #else /* Word 6 - Little Endian */
-        uint64_t reserved_384_447      : 64;
+        uint64_t hash2                 : 64; /**< [447:384] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
+                                                                 ZIP_OP_E::NONE. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t reserved_448_511      : 64;
+        uint64_t hash3                 : 64; /**< [511:448] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
+                                                                 ZIP_OP_E::NONE. */
 #else /* Word 7 - Little Endian */
-        uint64_t reserved_448_511      : 64;
+        uint64_t hash3                 : 64; /**< [511:448] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
+                                                                 ZIP_OP_E::NONE. */
 #endif /* Word 7 - End */
     } s;
     struct bdk_zip_zres_s_cn88xx
@@ -2038,249 +2066,7 @@ union bdk_zip_zres_s
 #else /* Word 7 - Little Endian */
 #endif /* Word 7 - End */
     } cn88xx;
-    struct bdk_zip_zres_s_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t crc32                 : 32; /**< [ 63: 32] The CRC32 result corresponding to the bytes processed in the uncompressed stream,
-                                                                 seeded with ZIP_INST_S[ADLERCRC32].
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] indicates the
-                                                                 number of non-history bytes from the input stream that contributed to the hardware
-                                                                 CRC32 calculation. CRC32 is valid for all error-free compression invocations,
-                                                                 whether at the beginning, middle, or end of file.
-
-                                                                 For decompression, CRC32 is valid only for error-free invocations that find the end of
-                                                                 file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32 result
-                                                                 for the file */
-        uint64_t adler32               : 32; /**< [ 31:  0] The ADLER32 result corresponding to the bytes processed in the uncompressed
-                                                                 stream, starting with the checksum ZIP_INST_S[ADLERCRC32].
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] indicates the
-                                                                 number of non-history bytes from the input stream that contributed to the hardware
-                                                                 ADLER32 calculation. ADLER32 is valid for all error-free compression invocations,
-                                                                 whether at the beginning, middle, or end of file.
-
-                                                                 For decompression, ADLER32 is valid only for error-free invocations that find the
-                                                                 end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
-                                                                 result for the file. */
-#else /* Word 0 - Little Endian */
-        uint64_t adler32               : 32; /**< [ 31:  0] The ADLER32 result corresponding to the bytes processed in the uncompressed
-                                                                 stream, starting with the checksum ZIP_INST_S[ADLERCRC32].
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] indicates the
-                                                                 number of non-history bytes from the input stream that contributed to the hardware
-                                                                 ADLER32 calculation. ADLER32 is valid for all error-free compression invocations,
-                                                                 whether at the beginning, middle, or end of file.
-
-                                                                 For decompression, ADLER32 is valid only for error-free invocations that find the
-                                                                 end of file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32
-                                                                 result for the file. */
-        uint64_t crc32                 : 32; /**< [ 63: 32] The CRC32 result corresponding to the bytes processed in the uncompressed stream,
-                                                                 seeded with ZIP_INST_S[ADLERCRC32].
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] indicates the
-                                                                 number of non-history bytes from the input stream that contributed to the hardware
-                                                                 CRC32 calculation. CRC32 is valid for all error-free compression invocations,
-                                                                 whether at the beginning, middle, or end of file.
-
-                                                                 For decompression, CRC32 is valid only for error-free invocations that find the end of
-                                                                 file (i.e. that have [EF] = 1), where it indicates the ADLER/CRC32 result
-                                                                 for the file */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t totalbyteswritten     : 32; /**< [127: 96] The total number of bytes produced in the output stream during this coprocessor
-                                                                 invocation. TOTALBYTESWRITTEN <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all error-free cases
-
-                                                                 For an error-free compression, TOTALBYTESWRITTEN is the number of
-                                                                 compressed output bytes that were written during the compression. This includes
-                                                                 any valid [EXN],[EXBITS] when [EF] = 1, and excludes
-                                                                 any valid [EXN],[EXBITS] when [EF] = 0.
-
-                                                                 For an error-free decompression, TOTALBYTESWRITTEN is the number of uncompressed
-                                                                 output bytes produced by the operation */
-        uint64_t totalbytesread        : 32; /**< [ 95: 64] The total number of bytes processed from the input stream during this coprocessor
-                                                                 invocation. Note that for a compression operation, TOTALBYTESREAD does count
-                                                                 the history bytes read in (when ZIP_INST_S[HISTORYLENGTH] != 0x0).
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] ZIP_INST_S[HISTORYLENGTH] is
-                                                                 the number of uncompressed input bytes which, when compressed and concatenated after
-                                                                 ZIP_INST_S[EXN], ZIP_INST_S[EXBITS], produces the compressed byte-output stream
-                                                                 (and [EXN],[EXBITS] when valid). In all error-free compression
-                                                                 invocations, TOTALBYTESREAD equals the total number of input bytes supplied
-                                                                 via INP_PTR (input and compression history bytes).
-
-                                                                 For an error-free decompression, TOTALBYTESREAD is the number of compressed
-                                                                 input bytes which were read during the decompression. */
-#else /* Word 1 - Little Endian */
-        uint64_t totalbytesread        : 32; /**< [ 95: 64] The total number of bytes processed from the input stream during this coprocessor
-                                                                 invocation. Note that for a compression operation, TOTALBYTESREAD does count
-                                                                 the history bytes read in (when ZIP_INST_S[HISTORYLENGTH] != 0x0).
-
-                                                                 For an error-free compression, [TOTALBYTESREAD] ZIP_INST_S[HISTORYLENGTH] is
-                                                                 the number of uncompressed input bytes which, when compressed and concatenated after
-                                                                 ZIP_INST_S[EXN], ZIP_INST_S[EXBITS], produces the compressed byte-output stream
-                                                                 (and [EXN],[EXBITS] when valid). In all error-free compression
-                                                                 invocations, TOTALBYTESREAD equals the total number of input bytes supplied
-                                                                 via INP_PTR (input and compression history bytes).
-
-                                                                 For an error-free decompression, TOTALBYTESREAD is the number of compressed
-                                                                 input bytes which were read during the decompression. */
-        uint64_t totalbyteswritten     : 32; /**< [127: 96] The total number of bytes produced in the output stream during this coprocessor
-                                                                 invocation. TOTALBYTESWRITTEN <= ZIP_INST_S[TOTALOUTPUTLENGTH] in all error-free cases
-
-                                                                 For an error-free compression, TOTALBYTESWRITTEN is the number of
-                                                                 compressed output bytes that were written during the compression. This includes
-                                                                 any valid [EXN],[EXBITS] when [EF] = 1, and excludes
-                                                                 any valid [EXN],[EXBITS] when [EF] = 0.
-
-                                                                 For an error-free decompression, TOTALBYTESWRITTEN is the number of uncompressed
-                                                                 output bytes produced by the operation */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t totalbitsprocessed    : 32; /**< [191:160] When [EF] = 1 for an error-free decompression operation,
-                                                                 TOTALBITSPROCESSED indicates the number of compressed input bits consumed
-                                                                 to decompress all blocks in the file. (TOTALBITSPROCESSED + 7)/8 is the total
-                                                                 number of bytes in the entire compressed input stream from the file in that case. (For
-                                                                 example, this can be used to find the location of the ADLER32/CRC32 codes that
-                                                                 follow the compressed data.) Note that TOTALBITSPROCESSED refers to the total
-                                                                 number of bits processed during all invocations of the ZIP decompression coprocessor
-                                                                 for the entire file.
-
-                                                                 For any decompress with an error or with [EF] = 0, TOTALBITSPROCESSED is unused
-                                                                 and undefined.
-
-                                                                 For any compress, TOTALBITSPROCESSED is unused and undefined.
-
-                                                                 If the true total bits processed by the ZIP coprocessor equals or exceeds 2^32 for a file,
-                                                                 TOTALBITSPROCESSED contains the low-order 32-bits of the actual value for the
-                                                                 file. If necessary, in this large file decompression case, software can calculate the true
-                                                                 total bits processed by the ZIP coprocessor using the TOTALBITSPROCESSED
-                                                                 value returned by the hardware, together with the total number of input bytes in the
-                                                                 compressed file. */
-        uint64_t doneint               : 1;  /**< [159:159] Done Interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
-        uint64_t reserved_155_158      : 4;
-        uint64_t exn                   : 3;  /**< [154:152] The number of bits produced beyond the last output byte written.
-                                                                 See details in [EXBITS]. */
-        uint64_t reserved_151          : 1;
-        uint64_t exbits                : 7;  /**< [150:144] [EXN] and [EXBITS] are the compressed bits produced beyond the last compressed byte
-                                                                 written. These bits are required context for partial-file processing as the ZIP
-                                                                 compression algorithm produces a compressed bit stream, but the output stream of the
-                                                                 operation is byte-based. [EXN], [EXBITS] are valid for any error-free compress when
-                                                                 ZIP_INST_S[EF] = 0 and ZIP_INST_S[SF] = 0, and are not used and undefined in all other
-                                                                 cases.
-
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
-                                                                 second extra bit, etc.
-
-                                                                 For decompression, [EXN] and [EXBITS] are not used and are undefined. */
-        uint64_t reserved_137_143      : 7;
-        uint64_t ef                    : 1;  /**< [136:136] End of file.
-
-                                                                 For any error-free decompression, EF indicates whether the ZIP
-                                                                 coprocessor completed decompression of all blocks in the file during this invocation. If
-                                                                 EF = 1 for a decompression operation, the ZIP coprocessor must not be invoked again
-                                                                 for further processing on this file.
-
-                                                                 For compression, EF is not used and is undefined. */
-        uint64_t compcode              : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
-                                                                 as enumerated by ZIP_COMP_E. Core
-                                                                 software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by checking for a non-zero
-                                                                 value.
-
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the ZIP
-                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data. */
-#else /* Word 2 - Little Endian */
-        uint64_t compcode              : 8;  /**< [135:128] Indicates completion/error status of the ZIP coprocessor for this invocation,
-                                                                 as enumerated by ZIP_COMP_E. Core
-                                                                 software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by checking for a non-zero
-                                                                 value.
-
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the ZIP
-                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data. */
-        uint64_t ef                    : 1;  /**< [136:136] End of file.
-
-                                                                 For any error-free decompression, EF indicates whether the ZIP
-                                                                 coprocessor completed decompression of all blocks in the file during this invocation. If
-                                                                 EF = 1 for a decompression operation, the ZIP coprocessor must not be invoked again
-                                                                 for further processing on this file.
-
-                                                                 For compression, EF is not used and is undefined. */
-        uint64_t reserved_137_143      : 7;
-        uint64_t exbits                : 7;  /**< [150:144] [EXN] and [EXBITS] are the compressed bits produced beyond the last compressed byte
-                                                                 written. These bits are required context for partial-file processing as the ZIP
-                                                                 compression algorithm produces a compressed bit stream, but the output stream of the
-                                                                 operation is byte-based. [EXN], [EXBITS] are valid for any error-free compress when
-                                                                 ZIP_INST_S[EF] = 0 and ZIP_INST_S[SF] = 0, and are not used and undefined in all other
-                                                                 cases.
-
-                                                                 EXBITS contains the extra bits. Bit <0> contains the first extra bit, <1> the
-                                                                 second extra bit, etc.
-
-                                                                 For decompression, [EXN] and [EXBITS] are not used and are undefined. */
-        uint64_t reserved_151          : 1;
-        uint64_t exn                   : 3;  /**< [154:152] The number of bits produced beyond the last output byte written.
-                                                                 See details in [EXBITS]. */
-        uint64_t reserved_155_158      : 4;
-        uint64_t doneint               : 1;  /**< [159:159] Done Interrupt. This bit is copied from the corrresponding ZIP instruction ZIP_INST_S[DONEINT]. */
-        uint64_t totalbitsprocessed    : 32; /**< [191:160] When [EF] = 1 for an error-free decompression operation,
-                                                                 TOTALBITSPROCESSED indicates the number of compressed input bits consumed
-                                                                 to decompress all blocks in the file. (TOTALBITSPROCESSED + 7)/8 is the total
-                                                                 number of bytes in the entire compressed input stream from the file in that case. (For
-                                                                 example, this can be used to find the location of the ADLER32/CRC32 codes that
-                                                                 follow the compressed data.) Note that TOTALBITSPROCESSED refers to the total
-                                                                 number of bits processed during all invocations of the ZIP decompression coprocessor
-                                                                 for the entire file.
-
-                                                                 For any decompress with an error or with [EF] = 0, TOTALBITSPROCESSED is unused
-                                                                 and undefined.
-
-                                                                 For any compress, TOTALBITSPROCESSED is unused and undefined.
-
-                                                                 If the true total bits processed by the ZIP coprocessor equals or exceeds 2^32 for a file,
-                                                                 TOTALBITSPROCESSED contains the low-order 32-bits of the actual value for the
-                                                                 file. If necessary, in this large file decompression case, software can calculate the true
-                                                                 total bits processed by the ZIP coprocessor using the TOTALBITSPROCESSED
-                                                                 value returned by the hardware, together with the total number of input bytes in the
-                                                                 compressed file. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t reserved_192_255      : 64;
-#else /* Word 3 - Little Endian */
-        uint64_t reserved_192_255      : 64;
-#endif /* Word 3 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t hash0                 : 64; /**< [319:256] Word 0 of computed hash. This word is only written when ZIP_INST_S[HALG] !=
-                                                                 ZIP_OP_E::NONE. */
-#else /* Word 4 - Little Endian */
-        uint64_t hash0                 : 64; /**< [319:256] Word 0 of computed hash. This word is only written when ZIP_INST_S[HALG] !=
-                                                                 ZIP_OP_E::NONE. */
-#endif /* Word 4 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t hash1                 : 64; /**< [383:320] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
-                                                                 ZIP_OP_E::NONE. */
-#else /* Word 5 - Little Endian */
-        uint64_t hash1                 : 64; /**< [383:320] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
-                                                                 ZIP_OP_E::NONE. */
-#endif /* Word 5 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t hash2                 : 64; /**< [447:384] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
-                                                                 ZIP_OP_E::NONE. */
-#else /* Word 6 - Little Endian */
-        uint64_t hash2                 : 64; /**< [447:384] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
-                                                                 ZIP_OP_E::NONE. */
-#endif /* Word 6 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t hash3                 : 64; /**< [511:448] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
-                                                                 ZIP_OP_E::NONE. */
-#else /* Word 7 - Little Endian */
-        uint64_t hash3                 : 64; /**< [511:448] Word 1 of computed hash. Note this word is only written when ZIP_INST_S[HALG] !=
-                                                                 ZIP_OP_E::NONE. */
-#endif /* Word 7 - End */
-    } cn83xx;
+    /* struct bdk_zip_zres_s_s cn83xx; */
 };
 
 /**
@@ -2338,6 +2124,30 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t nexec                 : 8;  /**< [ 63: 56](RO) Number of available ZIP executive units. If ZIP is disabled, this field is 0x0. */
+        uint64_t reserved_50_55        : 6;
+        uint64_t hash                  : 1;  /**< [ 49: 49](RO) Hashing supported: 1 = supported, 0 = not supported. */
+        uint64_t syncflush_capable     : 1;  /**< [ 48: 48](RO) Sync flush supported: 1 = supported, 0 = not supported. */
+        uint64_t depth                 : 16; /**< [ 47: 32](RO) Maximum search depth for compression. */
+        uint64_t onfsize               : 12; /**< [ 31: 20](RO) Output near full threshold, in bytes. */
+        uint64_t ctxsize               : 12; /**< [ 19:  8](RO) Decompression context size in bytes. */
+        uint64_t reserved_1_7          : 7;
+        uint64_t disabled              : 1;  /**< [  0:  0](RO) Disable. 1 = ZIP is disabled, 0 = ZIP is enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t disabled              : 1;  /**< [  0:  0](RO) Disable. 1 = ZIP is disabled, 0 = ZIP is enabled. */
+        uint64_t reserved_1_7          : 7;
+        uint64_t ctxsize               : 12; /**< [ 19:  8](RO) Decompression context size in bytes. */
+        uint64_t onfsize               : 12; /**< [ 31: 20](RO) Output near full threshold, in bytes. */
+        uint64_t depth                 : 16; /**< [ 47: 32](RO) Maximum search depth for compression. */
+        uint64_t syncflush_capable     : 1;  /**< [ 48: 48](RO) Sync flush supported: 1 = supported, 0 = not supported. */
+        uint64_t hash                  : 1;  /**< [ 49: 49](RO) Hashing supported: 1 = supported, 0 = not supported. */
+        uint64_t reserved_50_55        : 6;
+        uint64_t nexec                 : 8;  /**< [ 63: 56](RO) Number of available ZIP executive units. If ZIP is disabled, this field is 0x0. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_zip_constants_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t nexec                 : 8;  /**< [ 63: 56](RO) Number of available ZIP executive units. If ZIP is disabled, this field is 0x0. */
         uint64_t reserved_49_55        : 7;
         uint64_t syncflush_capable     : 1;  /**< [ 48: 48](RO) Sync flush supported: 1 = supported, 0 = not supported. */
         uint64_t depth                 : 16; /**< [ 47: 32](RO) Maximum search depth for compression. */
@@ -2355,8 +2165,7 @@ typedef union
         uint64_t reserved_49_55        : 7;
         uint64_t nexec                 : 8;  /**< [ 63: 56](RO) Number of available ZIP executive units. If ZIP is disabled, this field is 0x0. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_zip_constants_s cn88xx; */
+    } cn88xx;
     struct bdk_zip_constants_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2794,43 +2603,43 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
-        uint64_t reserved_35_62        : 28;
+        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, core is wait for outstanding L2C transaction(s).
+                                                                 Otherwise, there is no outstanding L2C transaction and core can be reset if needed. Added
+                                                                 in pass 2. */
+        uint64_t cto                   : 1;  /**< [ 61: 61](RO/H) Core timeout detected. When set, it indicated this core is timed out when
+                                                                 executig the current instruction with instruction ID [IID] from queue [QID].
+                                                                 Added in pass 2. */
+        uint64_t reserved_35_60        : 26;
         uint64_t qid                   : 3;  /**< [ 34: 32](RO/H) Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
         uint64_t iid                   : 32; /**< [ 31:  0](RO/H) Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
 #else /* Word 0 - Little Endian */
         uint64_t iid                   : 32; /**< [ 31:  0](RO/H) Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
         uint64_t qid                   : 3;  /**< [ 34: 32](RO/H) Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
-        uint64_t reserved_35_62        : 28;
+        uint64_t reserved_35_60        : 26;
+        uint64_t cto                   : 1;  /**< [ 61: 61](RO/H) Core timeout detected. When set, it indicated this core is timed out when
+                                                                 executig the current instruction with instruction ID [IID] from queue [QID].
+                                                                 Added in pass 2. */
+        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, core is wait for outstanding L2C transaction(s).
+                                                                 Otherwise, there is no outstanding L2C transaction and core can be reset if needed. Added
+                                                                 in pass 2. */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_dbg_corex_inst_s cn83xx; */
-    struct bdk_zip_dbg_corex_inst_cn88xxp2
+    struct bdk_zip_dbg_corex_inst_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
-        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, core is wait for outstanding L2C transaction(s).
-                                                                 Otherwise, there is no outstanding L2C transaction and core can be reset if needed. Added
-                                                                 in pass 2. */
-        uint64_t cto                   : 1;  /**< [ 61: 61](RO/H) Core timeout detected. When set, it indicated this core is timed out when
-                                                                 executig the current instruction with instruction ID [IID] from queue [QID].
-                                                                 Added in pass 2. */
-        uint64_t reserved_35_60        : 26;
+        uint64_t reserved_35_62        : 28;
         uint64_t qid                   : 3;  /**< [ 34: 32](RO/H) Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
         uint64_t iid                   : 32; /**< [ 31:  0](RO/H) Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
 #else /* Word 0 - Little Endian */
         uint64_t iid                   : 32; /**< [ 31:  0](RO/H) Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
         uint64_t qid                   : 3;  /**< [ 34: 32](RO/H) Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
-        uint64_t reserved_35_60        : 26;
-        uint64_t cto                   : 1;  /**< [ 61: 61](RO/H) Core timeout detected. When set, it indicated this core is timed out when
-                                                                 executig the current instruction with instruction ID [IID] from queue [QID].
-                                                                 Added in pass 2. */
-        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, core is wait for outstanding L2C transaction(s).
-                                                                 Otherwise, there is no outstanding L2C transaction and core can be reset if needed. Added
-                                                                 in pass 2. */
+        uint64_t reserved_35_62        : 28;
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
 #endif /* Word 0 - End */
-    } cn88xxp2;
+    } cn83xx;
+    /* struct bdk_zip_dbg_corex_inst_s cn88xxp2; */
     struct bdk_zip_dbg_corex_inst_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2920,7 +2729,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
-        uint64_t reserved_56_62        : 7;
+        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, queue is wait for outstanding L2C transaction(s).
+                                                                 Otherwise, there are no outstanding L2C transaction and queue can be reset if
+                                                                 needed. Added in pass 2. */
+        uint64_t reserved_56_61        : 6;
         uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
         uint64_t nii                   : 32; /**< [ 31:  0](RO/H) Number of instructions issued from this queue. Reset to 0x0 when ZIP_QUE(0..7)_SBUF_ADDR
                                                                  is written. */
@@ -2928,19 +2740,18 @@ typedef union
         uint64_t nii                   : 32; /**< [ 31:  0](RO/H) Number of instructions issued from this queue. Reset to 0x0 when ZIP_QUE(0..7)_SBUF_ADDR
                                                                  is written. */
         uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
-        uint64_t reserved_56_62        : 7;
+        uint64_t reserved_56_61        : 6;
+        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, queue is wait for outstanding L2C transaction(s).
+                                                                 Otherwise, there are no outstanding L2C transaction and queue can be reset if
+                                                                 needed. Added in pass 2. */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_dbg_quex_sta_s cn83xx; */
-    struct bdk_zip_dbg_quex_sta_cn88xxp2
+    struct bdk_zip_dbg_quex_sta_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
-        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, queue is wait for outstanding L2C transaction(s).
-                                                                 Otherwise, there are no outstanding L2C transaction and queue can be reset if
-                                                                 needed. Added in pass 2. */
-        uint64_t reserved_56_61        : 6;
+        uint64_t reserved_56_62        : 7;
         uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
         uint64_t nii                   : 32; /**< [ 31:  0](RO/H) Number of instructions issued from this queue. Reset to 0x0 when ZIP_QUE(0..7)_SBUF_ADDR
                                                                  is written. */
@@ -2948,13 +2759,11 @@ typedef union
         uint64_t nii                   : 32; /**< [ 31:  0](RO/H) Number of instructions issued from this queue. Reset to 0x0 when ZIP_QUE(0..7)_SBUF_ADDR
                                                                  is written. */
         uint64_t rqwc                  : 24; /**< [ 55: 32](RO/H) Number of remaining instruction qwords to be fetched. */
-        uint64_t reserved_56_61        : 6;
-        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, queue is wait for outstanding L2C transaction(s).
-                                                                 Otherwise, there are no outstanding L2C transaction and queue can be reset if
-                                                                 needed. Added in pass 2. */
+        uint64_t reserved_56_62        : 7;
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Queue state. 0 = queue is idle; 1 = queue is busy. */
 #endif /* Word 0 - End */
-    } cn88xxp2;
+    } cn83xx;
+    /* struct bdk_zip_dbg_quex_sta_s cn88xxp2; */
     struct bdk_zip_dbg_quex_sta_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4086,7 +3895,9 @@ typedef union
     struct bdk_zip_quex_err_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_17_63        : 47;
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Added in pass 2.0. Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t reserved_5_15         : 11;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[NRRP]. */
@@ -4098,16 +3909,15 @@ typedef union
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[NRRP]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_5_15         : 11;
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Added in pass 2.0. Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_quex_err_ena_w1c_s cn83xx; */
-    struct bdk_zip_quex_err_ena_w1c_cn88xxp2
+    struct bdk_zip_quex_err_ena_w1c_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Added in pass 2.0. Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
-        uint64_t reserved_5_15         : 11;
+        uint64_t reserved_5_63         : 59;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[NRRP]. */
@@ -4119,11 +3929,10 @@ typedef union
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[NRRP]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
-        uint64_t reserved_5_15         : 11;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Added in pass 2.0. Reads or clears enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } cn88xxp2;
+    } cn83xx;
+    /* struct bdk_zip_quex_err_ena_w1c_s cn88xxp2; */
     struct bdk_zip_quex_err_ena_w1c_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4176,7 +3985,9 @@ typedef union
     struct bdk_zip_quex_err_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_17_63        : 47;
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t reserved_5_15         : 11;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[NRRP]. */
@@ -4188,16 +3999,15 @@ typedef union
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[NRRP]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_5_15         : 11;
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_quex_err_ena_w1s_s cn83xx; */
-    struct bdk_zip_quex_err_ena_w1s_cn88xxp2
+    struct bdk_zip_quex_err_ena_w1s_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
-        uint64_t reserved_5_15         : 11;
+        uint64_t reserved_5_63         : 59;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[NRRP]. */
@@ -4209,11 +4019,10 @@ typedef union
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[NRRP]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[MDBE]. */
-        uint64_t reserved_5_15         : 11;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets enable for ZIP_QUE(0..7)_ERR_INT[CTO]. */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } cn88xxp2;
+    } cn83xx;
+    /* struct bdk_zip_quex_err_ena_w1s_s cn88xxp2; */
     struct bdk_zip_quex_err_ena_w1s_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4266,7 +4075,9 @@ typedef union
     struct bdk_zip_quex_err_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_17_63        : 47;
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Core time out detected. Added pass 2. */
+        uint64_t reserved_5_15         : 11;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) SRAM ECC double-bit error. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB write response error. */
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1C/H) NCB read response error. */
@@ -4278,16 +4089,15 @@ typedef union
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1C/H) NCB read response error. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB write response error. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) SRAM ECC double-bit error. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_5_15         : 11;
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Core time out detected. Added pass 2. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_quex_err_int_s cn83xx; */
-    struct bdk_zip_quex_err_int_cn88xxp2
+    struct bdk_zip_quex_err_int_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Core time out detected. Added pass 2. */
-        uint64_t reserved_5_15         : 11;
+        uint64_t reserved_5_63         : 59;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) SRAM ECC double-bit error. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB write response error. */
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1C/H) NCB read response error. */
@@ -4299,11 +4109,10 @@ typedef union
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1C/H) NCB read response error. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB write response error. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) SRAM ECC double-bit error. */
-        uint64_t reserved_5_15         : 11;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1C/H) Core time out detected. Added pass 2. */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } cn88xxp2;
+    } cn83xx;
+    /* struct bdk_zip_quex_err_int_s cn88xxp2; */
     struct bdk_zip_quex_err_int_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4356,7 +4165,9 @@ typedef union
     struct bdk_zip_quex_err_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_17_63        : 47;
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t reserved_5_15         : 11;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[NRRP]. */
@@ -4368,16 +4179,15 @@ typedef union
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[NRRP]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[MDBE]. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t reserved_5_15         : 11;
+        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets ZIP_QUE(0..7)_ERR_INT[CTO]. */
+        uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_zip_quex_err_int_w1s_s cn83xx; */
-    struct bdk_zip_quex_err_int_w1s_cn88xxp2
+    struct bdk_zip_quex_err_int_w1s_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets ZIP_QUE(0..7)_ERR_INT[CTO]. */
-        uint64_t reserved_5_15         : 11;
+        uint64_t reserved_5_63         : 59;
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[NRRP]. */
@@ -4389,11 +4199,10 @@ typedef union
         uint64_t nrrp                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[NRRP]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets ZIP_QUE(0..7)_ERR_INT[MDBE]. */
-        uint64_t reserved_5_15         : 11;
-        uint64_t cto                   : 1;  /**< [ 16: 16](R/W1S/H) Added in pass 2.0. Reads or sets ZIP_QUE(0..7)_ERR_INT[CTO]. */
-        uint64_t reserved_17_63        : 47;
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } cn88xxp2;
+    } cn83xx;
+    /* struct bdk_zip_quex_err_int_w1s_s cn88xxp2; */
     struct bdk_zip_quex_err_int_w1s_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4518,9 +4327,19 @@ typedef union
     struct bdk_zip_quex_map_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_6_63         : 58;
+        uint64_t zce                   : 6;  /**< [  5:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which ZIP core.
+                                                                 Setting ZCE to 0 effectively disables the queue from being served (however the instruction
+                                                                 can still be fetched).
+                                                                 _ ZCE<1> = 1: ZIP core 1 can serve the queue.
+                                                                 _ ZCE<0> = 1: ZIP core 0 can serve the queue. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t zce                   : 6;  /**< [  5:  0](R/W) ZIP core enable. Controls the logical instruction queue can be serviced by which ZIP core.
+                                                                 Setting ZCE to 0 effectively disables the queue from being served (however the instruction
+                                                                 can still be fetched).
+                                                                 _ ZCE<1> = 1: ZIP core 1 can serve the queue.
+                                                                 _ ZCE<0> = 1: ZIP core 0 can serve the queue. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
     struct bdk_zip_quex_map_cn88xx
@@ -4662,7 +4481,9 @@ typedef union
         uint64_t inst_be               : 1;  /**< [ 31: 31](R/W) Instruction big endian control. When set, instructions are storaged in big endian format
                                                                  in
                                                                  memory. */
-        uint64_t reserved_24_30        : 7;
+        uint64_t inst_free             : 1;  /**< [ 30: 30](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
+        uint64_t reserved_24_29        : 6;
         uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) STREAM_ID is the lower 8-bits of stream ID for the queue. */
         uint64_t reserved_12_15        : 4;
         uint64_t aura                  : 12; /**< [ 11:  0](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
@@ -4672,7 +4493,9 @@ typedef union
                                                                  Only used when [INST_FREE] is set. */
         uint64_t reserved_12_15        : 4;
         uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) STREAM_ID is the lower 8-bits of stream ID for the queue. */
-        uint64_t reserved_24_30        : 7;
+        uint64_t reserved_24_29        : 6;
+        uint64_t inst_free             : 1;  /**< [ 30: 30](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
         uint64_t inst_be               : 1;  /**< [ 31: 31](R/W) Instruction big endian control. When set, instructions are storaged in big endian format
                                                                  in
                                                                  memory. */
@@ -4704,36 +4527,7 @@ typedef union
         uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_zip_quex_sbuf_ctl_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_45_63        : 19;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
-        uint64_t inst_be               : 1;  /**< [ 31: 31](R/W) Instruction big endian control. When set, instructions are storaged in big endian format
-                                                                 in
-                                                                 memory. */
-        uint64_t inst_free             : 1;  /**< [ 30: 30](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t reserved_24_29        : 6;
-        uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) STREAM_ID is the lower 8-bits of stream ID for the queue. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t aura                  : 12; /**< [ 11:  0](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
-#else /* Word 0 - Little Endian */
-        uint64_t aura                  : 12; /**< [ 11:  0](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) STREAM_ID is the lower 8-bits of stream ID for the queue. */
-        uint64_t reserved_24_29        : 6;
-        uint64_t inst_free             : 1;  /**< [ 30: 30](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t inst_be               : 1;  /**< [ 31: 31](R/W) Instruction big endian control. When set, instructions are storaged in big endian format
-                                                                 in
-                                                                 memory. */
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
-        uint64_t reserved_45_63        : 19;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_zip_quex_sbuf_ctl_s cn83xx; */
 } bdk_zip_quex_sbuf_ctl_t;
 
 static inline uint64_t BDK_ZIP_QUEX_SBUF_CTL(unsigned long a) __attribute__ ((pure, always_inline));

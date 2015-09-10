@@ -1042,7 +1042,8 @@ typedef union
                                                                  For optimal performance set to
                                                                  10 * (DDR-clock period/core-clock period) - 1.
                                                                  To disable set to 0. All other values are reserved. */
-        uint64_t reserved_4_5          : 2;
+        uint64_t reserved_5            : 1;
+        uint64_t disgsyncto            : 1;  /**< [  4:  4](R/W) Disable global sync timeout. */
         uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
         uint64_t dissblkdty            : 1;  /**< [  2:  2](R/W) Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
                                                                  sub-blocks when possible. In an CCPI system all nodes must use the same setting of
@@ -1056,7 +1057,8 @@ typedef union
                                                                  sub-blocks when possible. In an CCPI system all nodes must use the same setting of
                                                                  DISSBLKDTY or operation is undefined. */
         uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
-        uint64_t reserved_4_5          : 2;
+        uint64_t disgsyncto            : 1;  /**< [  4:  4](R/W) Disable global sync timeout. */
+        uint64_t reserved_5            : 1;
         uint64_t rdf_cnt               : 8;  /**< [ 13:  6](R/W) Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
                                                                  For optimal performance set to
                                                                  10 * (DDR-clock period/core-clock period) - 1.
@@ -1132,63 +1134,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_l2c_ctl_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t ocla_qos              : 3;  /**< [ 31: 29](R/W) QOS level for the transactions from OCLA to L2C. */
-        uint64_t reserved_28           : 1;
-        uint64_t disstgl2i             : 1;  /**< [ 27: 27](R/W) Disable STGL2Is from changing the tags. */
-        uint64_t reserved_25_26        : 2;
-        uint64_t discclk               : 1;  /**< [ 24: 24](R/W) Disable conditional clocking in L2C PNR blocks. */
-        uint64_t reserved_16_23        : 8;
-        uint64_t rsp_arb_mode          : 1;  /**< [ 15: 15](R/W) Arbitration mode for RSC/RSD bus. 0 = round-robin; 1 = static priority.
-                                                                 1. IOR data.
-                                                                 2. STIN/FILLs.
-                                                                 3. STDN/SCDN/SCFL. */
-        uint64_t xmc_arb_mode          : 1;  /**< [ 14: 14](R/W) Arbitration mode for ADD bus QOS queues. 0 = fully determined through QOS, 1 = QOS0
-                                                                 highest priority; QOS 1-7 use normal mode. */
-        uint64_t rdf_cnt               : 8;  /**< [ 13:  6](R/W) Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
-                                                                 For optimal performance set to
-                                                                 10 * (DDR-clock period/core-clock period) - 1.
-                                                                 To disable set to 0. All other values are reserved. */
-        uint64_t reserved_5            : 1;
-        uint64_t disgsyncto            : 1;  /**< [  4:  4](R/W) Disable global sync timeout. */
-        uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
-        uint64_t dissblkdty            : 1;  /**< [  2:  2](R/W) Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
-                                                                 sub-blocks when possible. In an CCPI system all nodes must use the same setting of
-                                                                 DISSBLKDTY or operation is undefined. */
-        uint64_t disecc                : 1;  /**< [  1:  1](R/W) Tag and data ECC disable. */
-        uint64_t disidxalias           : 1;  /**< [  0:  0](R/W) Index alias disable. */
-#else /* Word 0 - Little Endian */
-        uint64_t disidxalias           : 1;  /**< [  0:  0](R/W) Index alias disable. */
-        uint64_t disecc                : 1;  /**< [  1:  1](R/W) Tag and data ECC disable. */
-        uint64_t dissblkdty            : 1;  /**< [  2:  2](R/W) Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
-                                                                 sub-blocks when possible. In an CCPI system all nodes must use the same setting of
-                                                                 DISSBLKDTY or operation is undefined. */
-        uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
-        uint64_t disgsyncto            : 1;  /**< [  4:  4](R/W) Disable global sync timeout. */
-        uint64_t reserved_5            : 1;
-        uint64_t rdf_cnt               : 8;  /**< [ 13:  6](R/W) Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
-                                                                 For optimal performance set to
-                                                                 10 * (DDR-clock period/core-clock period) - 1.
-                                                                 To disable set to 0. All other values are reserved. */
-        uint64_t xmc_arb_mode          : 1;  /**< [ 14: 14](R/W) Arbitration mode for ADD bus QOS queues. 0 = fully determined through QOS, 1 = QOS0
-                                                                 highest priority; QOS 1-7 use normal mode. */
-        uint64_t rsp_arb_mode          : 1;  /**< [ 15: 15](R/W) Arbitration mode for RSC/RSD bus. 0 = round-robin; 1 = static priority.
-                                                                 1. IOR data.
-                                                                 2. STIN/FILLs.
-                                                                 3. STDN/SCDN/SCFL. */
-        uint64_t reserved_16_23        : 8;
-        uint64_t discclk               : 1;  /**< [ 24: 24](R/W) Disable conditional clocking in L2C PNR blocks. */
-        uint64_t reserved_25_26        : 2;
-        uint64_t disstgl2i             : 1;  /**< [ 27: 27](R/W) Disable STGL2Is from changing the tags. */
-        uint64_t reserved_28           : 1;
-        uint64_t ocla_qos              : 3;  /**< [ 31: 29](R/W) QOS level for the transactions from OCLA to L2C. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_l2c_ctl_cn81xx cn83xx; */
+    /* struct bdk_l2c_ctl_s cn81xx; */
+    /* struct bdk_l2c_ctl_s cn83xx; */
     struct bdk_l2c_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1450,7 +1397,10 @@ typedef union
     struct bdk_l2c_oci_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_31_63        : 33;
+        uint64_t ncpend                : 1;  /**< [ 30: 30](RO/H) An indication that a node change is pending.  Hardware sets this bit when
+                                                                 OCX_COM_NODE[ID] is changed and clears the bit when the node change has taken
+                                                                 effect. */
         uint64_t lock_local_cas        : 1;  /**< [ 29: 29](RO) Reserved. */
         uint64_t lock_local_stc        : 1;  /**< [ 28: 28](RO) Reserved. */
         uint64_t lock_local_pp         : 1;  /**< [ 27: 27](RO) Reserved. */
@@ -1484,7 +1434,10 @@ typedef union
         uint64_t lock_local_pp         : 1;  /**< [ 27: 27](RO) Reserved. */
         uint64_t lock_local_stc        : 1;  /**< [ 28: 28](RO) Reserved. */
         uint64_t lock_local_cas        : 1;  /**< [ 29: 29](RO) Reserved. */
-        uint64_t reserved_30_63        : 34;
+        uint64_t ncpend                : 1;  /**< [ 30: 30](RO/H) An indication that a node change is pending.  Hardware sets this bit when
+                                                                 OCX_COM_NODE[ID] is changed and clears the bit when the node change has taken
+                                                                 effect. */
+        uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;
     struct bdk_l2c_oci_ctl_cn88xxp1
@@ -1619,53 +1572,8 @@ typedef union
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_l2c_oci_ctl_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
-        uint64_t ncpend                : 1;  /**< [ 30: 30](RO/H) An indication that a node change is pending.  Hardware sets this bit when
-                                                                 OCX_COM_NODE[ID] is changed and clears the bit when the node change has taken
-                                                                 effect. */
-        uint64_t lock_local_cas        : 1;  /**< [ 29: 29](RO) Reserved. */
-        uint64_t lock_local_stc        : 1;  /**< [ 28: 28](RO) Reserved. */
-        uint64_t lock_local_pp         : 1;  /**< [ 27: 27](RO) Reserved. */
-        uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Reserved.
-                                                                 INTERNAL: This only controls the GSYNC timeout in the L2C_CBCs in non-OCI chips. */
-        uint64_t shtolen               : 5;  /**< [ 21: 17](RO) Reserved. */
-        uint64_t shtoioen              : 1;  /**< [ 16: 16](RO) Reserved. */
-        uint64_t shtoen                : 3;  /**< [ 15: 13](RO) Reserved. */
-        uint64_t shto                  : 1;  /**< [ 12: 12](RO) Reserved. */
-        uint64_t inv_mode              : 2;  /**< [ 11: 10](RO) Reserved. */
-        uint64_t cas_fdx               : 1;  /**< [  9:  9](RO) Reserved. */
-        uint64_t rldd_psha             : 1;  /**< [  8:  8](RO) Reserved. */
-        uint64_t lock_local_iob        : 1;  /**< [  7:  7](RO) Reserved. */
-        uint64_t iofrcl                : 1;  /**< [  6:  6](RO) Reserved. */
-        uint64_t reserved_4_5          : 2;
-        uint64_t enaoci                : 4;  /**< [  3:  0](RO) CCPI is not present. Any attempt to enable it will be ignored. */
-#else /* Word 0 - Little Endian */
-        uint64_t enaoci                : 4;  /**< [  3:  0](RO) CCPI is not present. Any attempt to enable it will be ignored. */
-        uint64_t reserved_4_5          : 2;
-        uint64_t iofrcl                : 1;  /**< [  6:  6](RO) Reserved. */
-        uint64_t lock_local_iob        : 1;  /**< [  7:  7](RO) Reserved. */
-        uint64_t rldd_psha             : 1;  /**< [  8:  8](RO) Reserved. */
-        uint64_t cas_fdx               : 1;  /**< [  9:  9](RO) Reserved. */
-        uint64_t inv_mode              : 2;  /**< [ 11: 10](RO) Reserved. */
-        uint64_t shto                  : 1;  /**< [ 12: 12](RO) Reserved. */
-        uint64_t shtoen                : 3;  /**< [ 15: 13](RO) Reserved. */
-        uint64_t shtoioen              : 1;  /**< [ 16: 16](RO) Reserved. */
-        uint64_t shtolen               : 5;  /**< [ 21: 17](RO) Reserved. */
-        uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Reserved.
-                                                                 INTERNAL: This only controls the GSYNC timeout in the L2C_CBCs in non-OCI chips. */
-        uint64_t lock_local_pp         : 1;  /**< [ 27: 27](RO) Reserved. */
-        uint64_t lock_local_stc        : 1;  /**< [ 28: 28](RO) Reserved. */
-        uint64_t lock_local_cas        : 1;  /**< [ 29: 29](RO) Reserved. */
-        uint64_t ncpend                : 1;  /**< [ 30: 30](RO/H) An indication that a node change is pending.  Hardware sets this bit when
-                                                                 OCX_COM_NODE[ID] is changed and clears the bit when the node change has taken
-                                                                 effect. */
-        uint64_t reserved_31_63        : 33;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_l2c_oci_ctl_cn81xx cn83xx; */
+    /* struct bdk_l2c_oci_ctl_s cn81xx; */
+    /* struct bdk_l2c_oci_ctl_s cn83xx; */
     struct bdk_l2c_oci_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2211,7 +2119,7 @@ typedef union
                                                                  must be 0 or operation is undefined. */
         uint64_t reserved_59           : 1;
         uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
-        uint64_t reserved_49_57        : 9;
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
         uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
         uint64_t reserved_6_41         : 36;
         uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
@@ -2241,7 +2149,7 @@ typedef union
         uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
         uint64_t reserved_6_41         : 36;
         uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-        uint64_t reserved_49_57        : 9;
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
         uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
         uint64_t reserved_59           : 1;
         uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY

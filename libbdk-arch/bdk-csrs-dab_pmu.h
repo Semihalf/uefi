@@ -1895,9 +1895,11 @@ typedef union
                                                                  If the value of this bit is equal to the value of P, events in
                                                                      Secure EL3 are counted.
                                                                  Otherwise, events in Secure EL3 are not counted. */
-        uint32_t reserved_0_25         : 26;
+        uint32_t reserved_16_25        : 10;
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_25         : 26;
+        uint32_t evtcount              : 16; /**< [ 15:  0](R/W) Event to count. */
+        uint32_t reserved_16_25        : 10;
         uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
                                                                      bit and set the value to zero. If EL3 is not implemented, this
                                                                      bit is RES0.

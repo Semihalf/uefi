@@ -376,7 +376,14 @@ typedef union
     struct bdk_slix_m2s_macx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_19_63        : 45;
+        uint64_t reserved_20_63        : 44;
+        uint64_t wait_pxfr             : 1;  /**< [ 19: 19](R/W) When set, will cause a Posted TLP write from a MAC to follow the following sequence:
+                                                                 (having this bit set will cut the Posted-TLP performance about 50%).
+                                                                 _ 1. Request the NCBI.
+                                                                 _ 2. Wait for the grant and send the transfer on the NCBI.
+                                                                 _ 3. Start the next Posted TLP.
+
+                                                                 For diagnostic use only. */
         uint64_t wvirt                 : 1;  /**< [ 18: 18](R/W) Write virtual:
                                                                    1 = Addresses in SLI()_WIN_WR_ADDR and SLI()_WIN_RD_ADDR are virtual addresses.
                                                                    0 = Addresses are physical addresses. */
@@ -440,21 +447,20 @@ typedef union
         uint64_t wvirt                 : 1;  /**< [ 18: 18](R/W) Write virtual:
                                                                    1 = Addresses in SLI()_WIN_WR_ADDR and SLI()_WIN_RD_ADDR are virtual addresses.
                                                                    0 = Addresses are physical addresses. */
-        uint64_t reserved_19_63        : 45;
+        uint64_t wait_pxfr             : 1;  /**< [ 19: 19](R/W) When set, will cause a Posted TLP write from a MAC to follow the following sequence:
+                                                                 (having this bit set will cut the Posted-TLP performance about 50%).
+                                                                 _ 1. Request the NCBI.
+                                                                 _ 2. Wait for the grant and send the transfer on the NCBI.
+                                                                 _ 3. Start the next Posted TLP.
+
+                                                                 For diagnostic use only. */
+        uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_m2s_macx_ctl_s cn88xxp1; */
-    struct bdk_slix_m2s_macx_ctl_cn81xx
+    struct bdk_slix_m2s_macx_ctl_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t wait_pxfr             : 1;  /**< [ 19: 19](R/W) When set, will cause a Posted TLP write from a MAC to follow the following sequence:
-                                                                 (having this bit set will cut the Posted-TLP performance about 50%).
-                                                                 _ 1. Request the NCBI.
-                                                                 _ 2. Wait for the grant and send the transfer on the NCBI.
-                                                                 _ 3. Start the next Posted TLP.
-
-                                                                 For diagnostic use only. */
+        uint64_t reserved_19_63        : 45;
         uint64_t wvirt                 : 1;  /**< [ 18: 18](R/W) Write virtual:
                                                                    1 = Addresses in SLI()_WIN_WR_ADDR and SLI()_WIN_RD_ADDR are virtual addresses.
                                                                    0 = Addresses are physical addresses. */
@@ -518,17 +524,11 @@ typedef union
         uint64_t wvirt                 : 1;  /**< [ 18: 18](R/W) Write virtual:
                                                                    1 = Addresses in SLI()_WIN_WR_ADDR and SLI()_WIN_RD_ADDR are virtual addresses.
                                                                    0 = Addresses are physical addresses. */
-        uint64_t wait_pxfr             : 1;  /**< [ 19: 19](R/W) When set, will cause a Posted TLP write from a MAC to follow the following sequence:
-                                                                 (having this bit set will cut the Posted-TLP performance about 50%).
-                                                                 _ 1. Request the NCBI.
-                                                                 _ 2. Wait for the grant and send the transfer on the NCBI.
-                                                                 _ 3. Start the next Posted TLP.
-
-                                                                 For diagnostic use only. */
-        uint64_t reserved_20_63        : 44;
+        uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_slix_m2s_macx_ctl_cn81xx cn83xx; */
+    } cn88xxp1;
+    /* struct bdk_slix_m2s_macx_ctl_s cn81xx; */
+    /* struct bdk_slix_m2s_macx_ctl_s cn83xx; */
     struct bdk_slix_m2s_macx_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1238,7 +1238,18 @@ typedef union
     struct bdk_slix_s2m_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_15_63        : 49;
+        uint64_t rd_flt                : 1;  /**< [ 14: 14](R/W) Read Fault.
+                                                                 0 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
+                                                                 to the NCB/cores all-ones and non-fault.
+
+                                                                 1 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
+                                                                 to the NCB/cores all-zeros and fault.  In the case of a read by a core, this fault will
+                                                                 cause an synchronous external abort in the core.
+
+                                                                 Config reads which are terminated by PCIe in with an error (UR, etc), or config reads when
+                                                                 the PEM is disabled or link is down, will return to the NCB/cores all-ones and non-fault
+                                                                 regardless of this bit. */
         uint64_t max_word              : 4;  /**< [ 13: 10](R/W) Maximum number of words. Specifies the maximum number of 8-byte words to merge into a
                                                                  single write operation from the cores to the MAC. Legal values are 1 to 8, with 0 treated
                                                                  as 16. */
@@ -1252,25 +1263,24 @@ typedef union
         uint64_t max_word              : 4;  /**< [ 13: 10](R/W) Maximum number of words. Specifies the maximum number of 8-byte words to merge into a
                                                                  single write operation from the cores to the MAC. Legal values are 1 to 8, with 0 treated
                                                                  as 16. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t rd_flt                : 1;  /**< [ 14: 14](R/W) Read Fault.
+                                                                 0 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
+                                                                 to the NCB/cores all-ones and non-fault.
+
+                                                                 1 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
+                                                                 to the NCB/cores all-zeros and fault.  In the case of a read by a core, this fault will
+                                                                 cause an synchronous external abort in the core.
+
+                                                                 Config reads which are terminated by PCIe in with an error (UR, etc), or config reads when
+                                                                 the PEM is disabled or link is down, will return to the NCB/cores all-ones and non-fault
+                                                                 regardless of this bit. */
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_s2m_ctl_s cn88xxp1; */
-    struct bdk_slix_s2m_ctl_cn81xx
+    struct bdk_slix_s2m_ctl_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t rd_flt                : 1;  /**< [ 14: 14](R/W) Read Fault.
-                                                                 0 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
-                                                                 to the NCB/cores all-ones and non-fault.
-
-                                                                 1 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
-                                                                 to the NCB/cores all-zeros and fault.  In the case of a read by a core, this fault will
-                                                                 cause an synchronous external abort in the core.
-
-                                                                 Config reads which are terminated by PCIe in with an error (UR, etc), or config reads when
-                                                                 the PEM is disabled or link is down, will return to the NCB/cores all-ones and non-fault
-                                                                 regardless of this bit. */
+        uint64_t reserved_14_63        : 50;
         uint64_t max_word              : 4;  /**< [ 13: 10](R/W) Maximum number of words. Specifies the maximum number of 8-byte words to merge into a
                                                                  single write operation from the cores to the MAC. Legal values are 1 to 8, with 0 treated
                                                                  as 16. */
@@ -1284,21 +1294,11 @@ typedef union
         uint64_t max_word              : 4;  /**< [ 13: 10](R/W) Maximum number of words. Specifies the maximum number of 8-byte words to merge into a
                                                                  single write operation from the cores to the MAC. Legal values are 1 to 8, with 0 treated
                                                                  as 16. */
-        uint64_t rd_flt                : 1;  /**< [ 14: 14](R/W) Read Fault.
-                                                                 0 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
-                                                                 to the NCB/cores all-ones and non-fault.
-
-                                                                 1 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
-                                                                 to the NCB/cores all-zeros and fault.  In the case of a read by a core, this fault will
-                                                                 cause an synchronous external abort in the core.
-
-                                                                 Config reads which are terminated by PCIe in with an error (UR, etc), or config reads when
-                                                                 the PEM is disabled or link is down, will return to the NCB/cores all-ones and non-fault
-                                                                 regardless of this bit. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_slix_s2m_ctl_cn81xx cn83xx; */
+    } cn88xxp1;
+    /* struct bdk_slix_s2m_ctl_s cn81xx; */
+    /* struct bdk_slix_s2m_ctl_s cn83xx; */
     struct bdk_slix_s2m_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1629,7 +1629,13 @@ typedef union
     struct bdk_slix_win_rd_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
+        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
+                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
+                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
+
+                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
+                                                                 onto the NCB, though the SMMU may later promote them to secure. */
+        uint64_t reserved_51_62        : 12;
         uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command size.
                                                                  0x3 = Load 8 bytes.
                                                                  0x2 = Load 4 bytes.
@@ -1643,20 +1649,19 @@ typedef union
                                                                  0x2 = Load 4 bytes.
                                                                  0x1 = Load 2 bytes.
                                                                  0x0 = Load 1 bytes. */
-        uint64_t reserved_51_63        : 13;
+        uint64_t reserved_51_62        : 12;
+        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
+                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
+                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
+
+                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
+                                                                 onto the NCB, though the SMMU may later promote them to secure. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_win_rd_addr_s cn88xxp1; */
-    struct bdk_slix_win_rd_addr_cn81xx
+    struct bdk_slix_win_rd_addr_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
-                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
-                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
-
-                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
-                                                                 onto the NCB, though the SMMU may later promote them to secure. */
-        uint64_t reserved_51_62        : 12;
+        uint64_t reserved_51_63        : 13;
         uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command size.
                                                                  0x3 = Load 8 bytes.
                                                                  0x2 = Load 4 bytes.
@@ -1670,16 +1675,11 @@ typedef union
                                                                  0x2 = Load 4 bytes.
                                                                  0x1 = Load 2 bytes.
                                                                  0x0 = Load 1 bytes. */
-        uint64_t reserved_51_62        : 12;
-        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
-                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
-                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
-
-                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
-                                                                 onto the NCB, though the SMMU may later promote them to secure. */
+        uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_slix_win_rd_addr_cn81xx cn83xx; */
+    } cn88xxp1;
+    /* struct bdk_slix_win_rd_addr_s cn81xx; */
+    /* struct bdk_slix_win_rd_addr_s cn83xx; */
     struct bdk_slix_win_rd_addr_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1780,41 +1780,41 @@ typedef union
     struct bdk_slix_win_wr_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
+        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
+                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
+                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
+
+                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
+                                                                 onto the NCB, though the SMMU may later promote them to secure. */
+        uint64_t reserved_49_62        : 14;
         uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
         uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_2          : 3;
         uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t reserved_49_62        : 14;
+        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
+                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
+                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
+
+                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
+                                                                 onto the NCB, though the SMMU may later promote them to secure. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_win_wr_addr_s cn88xxp1; */
-    struct bdk_slix_win_wr_addr_cn81xx
+    struct bdk_slix_win_wr_addr_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
-                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
-                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
-
-                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
-                                                                 onto the NCB, though the SMMU may later promote them to secure. */
-        uint64_t reserved_49_62        : 14;
+        uint64_t reserved_49_63        : 15;
         uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
         uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_2          : 3;
         uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
-        uint64_t reserved_49_62        : 14;
-        uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
-                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
-                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
-
-                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
-                                                                 onto the NCB, though the SMMU may later promote them to secure. */
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_slix_win_wr_addr_cn81xx cn83xx; */
+    } cn88xxp1;
+    /* struct bdk_slix_win_wr_addr_s cn81xx; */
+    /* struct bdk_slix_win_wr_addr_s cn83xx; */
     struct bdk_slix_win_wr_addr_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

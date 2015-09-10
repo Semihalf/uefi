@@ -116,7 +116,8 @@ typedef union
     struct bdk_dap_hwpoll_cnt_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
+        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. */
+        uint32_t reserved_16_30        : 15;
         uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
                                                                  With the approximate transaction delay of 256 cycles, the default
                                                                  results in a poll approximately every 2048 cycles.
@@ -126,7 +127,8 @@ typedef union
                                                                  With the approximate transaction delay of 256 cycles, the default
                                                                  results in a poll approximately every 2048 cycles.
                                                                  Must not be zero. For diagnostic use only. */
-        uint32_t reserved_16_31        : 16;
+        uint32_t reserved_16_30        : 15;
+        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_dap_hwpoll_cnt_cn88xxp1
@@ -147,25 +149,8 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_dap_hwpoll_cnt_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. */
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_dap_hwpoll_cnt_cn81xx cn83xx; */
+    /* struct bdk_dap_hwpoll_cnt_s cn81xx; */
+    /* struct bdk_dap_hwpoll_cnt_s cn83xx; */
     struct bdk_dap_hwpoll_cnt_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -212,7 +197,15 @@ typedef union
     struct bdk_dap_imp_dar_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_11_31        : 21;
+        uint32_t reserved_30_31        : 2;
+        uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
+                                                                 INTERNAL: Passed to trace unit, but not presently used.
+                                                                 0 = Future trace feature enabled.
+                                                                 1 = Future trace feature disabled. */
+        uint32_t distrace              : 1;  /**< [ 28: 28](R/W) Disable trace unit discovery.
+                                                                 0 = Trace unit is discoverable by software.
+                                                                 1 = Trace unit is hidden. */
+        uint32_t reserved_11_27        : 17;
         uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable non-secure CAB accesses from NCB and RSL devices.
                                                                  0 = Return fault on non-secure CAB accesses.
                                                                  1 = Enable non-secure CAB accesses. */
@@ -268,22 +261,21 @@ typedef union
         uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable non-secure CAB accesses from NCB and RSL devices.
                                                                  0 = Return fault on non-secure CAB accesses.
                                                                  1 = Enable non-secure CAB accesses. */
-        uint32_t reserved_11_31        : 21;
+        uint32_t reserved_11_27        : 17;
+        uint32_t distrace              : 1;  /**< [ 28: 28](R/W) Disable trace unit discovery.
+                                                                 0 = Trace unit is discoverable by software.
+                                                                 1 = Trace unit is hidden. */
+        uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
+                                                                 INTERNAL: Passed to trace unit, but not presently used.
+                                                                 0 = Future trace feature enabled.
+                                                                 1 = Future trace feature disabled. */
+        uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dap_imp_dar_s cn88xxp1; */
-    struct bdk_dap_imp_dar_cn81xx
+    struct bdk_dap_imp_dar_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_30_31        : 2;
-        uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
-                                                                 INTERNAL: Passed to trace unit, but not presently used.
-                                                                 0 = Future trace feature enabled.
-                                                                 1 = Future trace feature disabled. */
-        uint32_t distrace              : 1;  /**< [ 28: 28](R/W) Disable trace unit discovery.
-                                                                 0 = Trace unit is discoverable by software.
-                                                                 1 = Trace unit is hidden. */
-        uint32_t reserved_11_27        : 17;
+        uint32_t reserved_11_31        : 21;
         uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable non-secure CAB accesses from NCB and RSL devices.
                                                                  0 = Return fault on non-secure CAB accesses.
                                                                  1 = Enable non-secure CAB accesses. */
@@ -339,18 +331,11 @@ typedef union
         uint32_t cabnsen               : 1;  /**< [ 10: 10](R/W) Enable non-secure CAB accesses from NCB and RSL devices.
                                                                  0 = Return fault on non-secure CAB accesses.
                                                                  1 = Enable non-secure CAB accesses. */
-        uint32_t reserved_11_27        : 17;
-        uint32_t distrace              : 1;  /**< [ 28: 28](R/W) Disable trace unit discovery.
-                                                                 0 = Trace unit is discoverable by software.
-                                                                 1 = Trace unit is hidden. */
-        uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
-                                                                 INTERNAL: Passed to trace unit, but not presently used.
-                                                                 0 = Future trace feature enabled.
-                                                                 1 = Future trace feature disabled. */
-        uint32_t reserved_30_31        : 2;
+        uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_dap_imp_dar_cn81xx cn83xx; */
+    } cn88xxp1;
+    /* struct bdk_dap_imp_dar_s cn81xx; */
+    /* struct bdk_dap_imp_dar_s cn83xx; */
     struct bdk_dap_imp_dar_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -460,13 +445,15 @@ typedef union
     struct bdk_dap_owb_to_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
+        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. */
+        uint32_t reserved_16_30        : 15;
         uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
                                                                  of coprocessor-clock cycles, it will timeout. */
 #else /* Word 0 - Little Endian */
         uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
                                                                  of coprocessor-clock cycles, it will timeout. */
-        uint32_t reserved_16_31        : 16;
+        uint32_t reserved_16_30        : 15;
+        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_dap_owb_to_cn88xxp1
@@ -483,21 +470,8 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_dap_owb_to_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
-                                                                 of coprocessor-clock cycles, it will timeout. */
-#else /* Word 0 - Little Endian */
-        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
-                                                                 of coprocessor-clock cycles, it will timeout. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. */
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_dap_owb_to_cn81xx cn83xx; */
+    /* struct bdk_dap_owb_to_s cn81xx; */
+    /* struct bdk_dap_owb_to_s cn83xx; */
     struct bdk_dap_owb_to_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

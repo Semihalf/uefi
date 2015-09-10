@@ -87,7 +87,10 @@ typedef union
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t reserved_18_33        : 16;
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
@@ -121,7 +124,10 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t reserved_18_33        : 16;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
         uint64_t reserved_36_63        : 28;
@@ -362,7 +368,10 @@ typedef union
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t reserved_18_33        : 16;
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
@@ -396,7 +405,10 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t reserved_18_33        : 16;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
         uint64_t reserved_36_63        : 28;
@@ -641,7 +653,10 @@ typedef union
                                                                  RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
                                                                  to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
                                                                  See L2C_TAD()_ERR for logged information. */
-        uint64_t reserved_18_33        : 16;
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
                                                                  occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
                                                                  first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
@@ -725,7 +740,10 @@ typedef union
                                                                  occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
                                                                  first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
                                                                  capture info from the lowest LFB number that timed out. */
-        uint64_t reserved_18_33        : 16;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) RTG single-bit error. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) RTG double-bit error. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
                                                                  RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
                                                                  to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
@@ -1097,7 +1115,10 @@ typedef union
         uint64_t reserved_36_63        : 28;
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t reserved_18_33        : 16;
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
@@ -1131,7 +1152,10 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t reserved_18_33        : 16;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
         uint64_t reserved_36_63        : 28;
@@ -1718,7 +1742,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
         uint64_t xmdmskfl              : 2;  /**< [ 49: 48](RO/H) BIST failure status for RSTP XMDMSK memories. */
-        uint64_t reserved_18_47        : 30;
+        uint64_t rtgfl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for RTG ways. */
+        uint64_t reserved_18_31        : 14;
         uint64_t lrulfbfl              : 1;  /**< [ 17: 17](RO) Reserved, always zero. */
         uint64_t lrufl                 : 1;  /**< [ 16: 16](RO/H) BIST failure status for tag LRU. */
         uint64_t tagfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for TAG ways. */
@@ -1726,19 +1751,18 @@ typedef union
         uint64_t tagfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for TAG ways. */
         uint64_t lrufl                 : 1;  /**< [ 16: 16](RO/H) BIST failure status for tag LRU. */
         uint64_t lrulfbfl              : 1;  /**< [ 17: 17](RO) Reserved, always zero. */
-        uint64_t reserved_18_47        : 30;
+        uint64_t reserved_18_31        : 14;
+        uint64_t rtgfl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for RTG ways. */
         uint64_t xmdmskfl              : 2;  /**< [ 49: 48](RO/H) BIST failure status for RSTP XMDMSK memories. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_tadx_ttg_bist_status_s cn81xx; */
-    struct bdk_l2c_tadx_ttg_bist_status_cn88xx
+    struct bdk_l2c_tadx_ttg_bist_status_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
         uint64_t xmdmskfl              : 2;  /**< [ 49: 48](RO/H) BIST failure status for RSTP XMDMSK memories. */
-        uint64_t rtgfl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for RTG ways. */
-        uint64_t reserved_18_31        : 14;
+        uint64_t reserved_18_47        : 30;
         uint64_t lrulfbfl              : 1;  /**< [ 17: 17](RO) Reserved, always zero. */
         uint64_t lrufl                 : 1;  /**< [ 16: 16](RO/H) BIST failure status for tag LRU. */
         uint64_t tagfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for TAG ways. */
@@ -1746,13 +1770,13 @@ typedef union
         uint64_t tagfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for TAG ways. */
         uint64_t lrufl                 : 1;  /**< [ 16: 16](RO/H) BIST failure status for tag LRU. */
         uint64_t lrulfbfl              : 1;  /**< [ 17: 17](RO) Reserved, always zero. */
-        uint64_t reserved_18_31        : 14;
-        uint64_t rtgfl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for RTG ways. */
+        uint64_t reserved_18_47        : 30;
         uint64_t xmdmskfl              : 2;  /**< [ 49: 48](RO/H) BIST failure status for RSTP XMDMSK memories. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_l2c_tadx_ttg_bist_status_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_l2c_tadx_ttg_bist_status_s cn88xx; */
+    /* struct bdk_l2c_tadx_ttg_bist_status_cn81xx cn83xx; */
 } bdk_l2c_tadx_ttg_bist_status_t;
 
 static inline uint64_t BDK_L2C_TADX_TTG_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));

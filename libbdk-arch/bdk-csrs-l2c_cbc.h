@@ -84,7 +84,8 @@ typedef union
     struct bdk_l2c_cbcx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_CBC(0..1)_INT_W1C[GSYNCTO]. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[IORDDISOCI]. */
         uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[MIBDBE]. */
@@ -100,7 +101,8 @@ typedef union
         uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[MIBDBE]. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[IORDDISOCI]. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_CBC(0..1)_INT_W1C[GSYNCTO]. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     struct bdk_l2c_cbcx_int_ena_w1c_cn88xxp1
@@ -231,7 +233,8 @@ typedef union
     struct bdk_l2c_cbcx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_CBC(0..1)_INT_W1C[GSYNCTO]. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[IORDDISOCI]. */
         uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[MIBDBE]. */
@@ -247,7 +250,8 @@ typedef union
         uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[MIBDBE]. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[IORDDISOCI]. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_CBC(0..1)_INT_W1C[GSYNCTO]. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     struct bdk_l2c_cbcx_int_ena_w1s_cn88xxp1
@@ -378,7 +382,9 @@ typedef union
     struct bdk_l2c_cbcx_int_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Global sync timeout.
+                                                                 INTERNAL: The CBC global sync timeout only, so not an OCI timeout. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1C/H) Illegal I/O write operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
                                                                  clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
                                                                  to IOBST, IOBSTP, IOBADDR, IASET, IACLR, IAADD, IASWP, IACAS, and LMTST XMC
@@ -404,7 +410,9 @@ typedef union
                                                                  clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
                                                                  to IOBST, IOBSTP, IOBADDR, IASET, IACLR, IAADD, IASWP, IACAS, and LMTST XMC
                                                                  commands. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Global sync timeout.
+                                                                 INTERNAL: The CBC global sync timeout only, so not an OCI timeout. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     struct bdk_l2c_cbcx_int_w1c_cn88xxp1
@@ -441,43 +449,8 @@ typedef union
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_l2c_cbcx_int_w1c_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Global sync timeout.
-                                                                 INTERNAL: The CBC global sync timeout only, so not an OCI timeout. */
-        uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1C/H) Illegal I/O write operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
-                                                                 clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
-                                                                 to IOBST, IOBSTP, IOBADDR, IASET, IACLR, IAADD, IASWP, IACAS, and LMTST XMC
-                                                                 commands. */
-        uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1C/H) Illegal I/O read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
-                                                                 clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
-                                                                 to IOBLD, IASET, IACLR, IAADD, IASWP, and IACAS XMC commands. */
-        uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
-        uint64_t mibsbe                : 1;  /**< [  4:  4](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t rsddbe                : 1;  /**< [  1:  1](R/W1C/H) RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
-        uint64_t rsdsbe                : 1;  /**< [  0:  0](R/W1C/H) RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
-#else /* Word 0 - Little Endian */
-        uint64_t rsdsbe                : 1;  /**< [  0:  0](R/W1C/H) RSD single-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
-        uint64_t rsddbe                : 1;  /**< [  1:  1](R/W1C/H) RSD double-bit error occurred. See L2C_CBC()_RSDERR for logged information. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t mibsbe                : 1;  /**< [  4:  4](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
-        uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1C/H) MIB double-bit error occurred. See L2C_CBC()_MIBERR for logged information. */
-        uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1C/H) Illegal I/O read operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
-                                                                 clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
-                                                                 to IOBLD, IASET, IACLR, IAADD, IASWP, and IACAS XMC commands. */
-        uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1C/H) Illegal I/O write operation to a remote node with L2C_OCI_CTL[ENAOCI][node]
-                                                                 clear. See L2C_CBC()_IODISOCIERR for logged information. This interrupt applies
-                                                                 to IOBST, IOBSTP, IOBADDR, IASET, IACLR, IAADD, IASWP, IACAS, and LMTST XMC
-                                                                 commands. */
-        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1C/H) Global sync timeout.
-                                                                 INTERNAL: The CBC global sync timeout only, so not an OCI timeout. */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_l2c_cbcx_int_w1c_cn81xx cn83xx; */
+    /* struct bdk_l2c_cbcx_int_w1c_s cn81xx; */
+    /* struct bdk_l2c_cbcx_int_w1c_s cn83xx; */
     struct bdk_l2c_cbcx_int_w1c_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -548,7 +521,8 @@ typedef union
     struct bdk_l2c_cbcx_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_9_63         : 55;
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_CBC(0..1)_INT_W1C[GSYNCTO]. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[IORDDISOCI]. */
         uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[MIBDBE]. */
@@ -564,7 +538,8 @@ typedef union
         uint64_t mibdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[MIBDBE]. */
         uint64_t iorddisoci            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[IORDDISOCI]. */
         uint64_t iowrdisoci            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets L2C_CBC(0..3)_INT_W1C[IOWRDISOCI]. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t gsyncto               : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_CBC(0..1)_INT_W1C[GSYNCTO]. */
+        uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
     struct bdk_l2c_cbcx_int_w1s_cn88xxp1
@@ -1112,11 +1087,6 @@ static inline uint64_t BDK_L2C_CBCX_XMCX_PFC(unsigned long a, unsigned long b)
  *
  * Any FILL responses generated by the ADD bus command are ignored. Generated STINs, however,
  * will correctly invalidate the required cores.
- *
- * Any L2D read generated by the ADD bus command records the syndrome information in
- * L2C_TAD(0..3)_ECC0/1. If ECC is disabled prior to the CSR write, this provides the ability to
- * read the ECC bits directly. If ECC is not disabled, this should log zeros (assuming no ECC
- * errors were found in the block).
  *
  * A write that arrives while the INUSE bit is set will block until the INUSE bit clears. This
  * gives software two options when needing to issue a stream of write operations to L2C_XMC_CMD:

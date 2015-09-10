@@ -1133,27 +1133,27 @@ typedef union
     struct bdk_trcx_trcdevaff0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t reserved_24_31        : 8;
+        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. */
+        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node */
+        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16 */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16 */
+        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node */
+        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. */
+        uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_trcx_trcdevaff0_s cn88xxp1; */
-    struct bdk_trcx_trcdevaff0_cn81xx
+    struct bdk_trcx_trcdevaff0_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. */
-        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node */
-        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16 */
+        uint32_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
-        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16 */
-        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node */
-        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. */
-        uint32_t reserved_24_31        : 8;
+        uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_trcx_trcdevaff0_cn81xx cn83xx; */
+    } cn88xxp1;
+    /* struct bdk_trcx_trcdevaff0_s cn81xx; */
+    /* struct bdk_trcx_trcdevaff0_s cn83xx; */
     struct bdk_trcx_trcdevaff0_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2187,6 +2187,78 @@ typedef union
     struct bdk_trcx_trcidr2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Read as one. */
+        uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
+                                                                 cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
+
+                                                                 For CNXXXX, 0x0 as does not implement a counter. */
+        uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes.
+                                                                   0x0 = Data value tracing is not supported. Therefore, an implementation must set
+                                                                   TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                   0x4 = Maximum of 32-bit data value size.
+                                                                   0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
+                                                                   ARMv6 and ARMv7 PEs. */
+        uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data address size in bytes.
+                                                                 0x0 = Data address tracing is not supported. Therefore, an implementation must
+                                                                 also set TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                 0x4 = Maximum of 32-bit data address size.
+                                                                 0x8 = Maximum of 64-bit data address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs.
+
+                                                                 For CNXXXX, not supported. */
+        uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
+                                                                 size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
+                                                                 TRC()_TRCCONFIGR[VMID] is supported. */
+        uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the Context ID size. The permitted values are:
+                                                                   0x0 = Context ID tracing is not supported.
+                                                                   0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
+                                                                 supported.  32 bit contextID supported.
+
+                                                                 For CNXXXX, 32-bit. */
+        uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
+                                                                 0x4 = Maximum of 32-bit address size.
+                                                                 0x8 = Maximum of 64-bit address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs. */
+#else /* Word 0 - Little Endian */
+        uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
+                                                                 0x4 = Maximum of 32-bit address size.
+                                                                 0x8 = Maximum of 64-bit address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs. */
+        uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the Context ID size. The permitted values are:
+                                                                   0x0 = Context ID tracing is not supported.
+                                                                   0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
+                                                                 supported.  32 bit contextID supported.
+
+                                                                 For CNXXXX, 32-bit. */
+        uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
+                                                                 size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
+                                                                 TRC()_TRCCONFIGR[VMID] is supported. */
+        uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data address size in bytes.
+                                                                 0x0 = Data address tracing is not supported. Therefore, an implementation must
+                                                                 also set TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                 0x4 = Maximum of 32-bit data address size.
+                                                                 0x8 = Maximum of 64-bit data address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs.
+
+                                                                 For CNXXXX, not supported. */
+        uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes.
+                                                                   0x0 = Data value tracing is not supported. Therefore, an implementation must set
+                                                                   TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                   0x4 = Maximum of 32-bit data value size.
+                                                                   0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
+                                                                   ARMv6 and ARMv7 PEs. */
+        uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
+                                                                 cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
+
+                                                                 For CNXXXX, 0x0 as does not implement a counter. */
+        uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Read as one. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_trcx_trcidr2_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
         uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
                                                                  cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
@@ -2253,8 +2325,7 @@ typedef union
                                                                  For CNXXXX, 0x0 as does not implement a counter. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcidr2_s cn88xxp1; */
+    } cn88xxp1;
     struct bdk_trcx_trcidr2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

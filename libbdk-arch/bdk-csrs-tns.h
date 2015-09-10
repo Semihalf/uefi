@@ -5317,7 +5317,26 @@ typedef union
     struct bdk_tns_tdma_nb_dbg_config1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_43_63        : 21;
+        uint64_t reserved_44_63        : 20;
+        uint64_t cutthru_chk           : 1;  /**< [ 43: 43](R/W) Enable cut-thru packet checks.
+                                                                 When set, the TDMA performs additional checks to avoid reading
+                                                                 too far in to the page pointer link list if the sequence number of
+                                                                 the packet to be transmitted matches the sequence number of the
+                                                                 packet currently being received on the physical source port on which
+                                                                 the packet to be transmitted had arrived.
+                                                                 For each port where CUTTHRU_CHK is set and the corresponding
+                                                                 *_CUTTHRU_EN field is 0, the data path will operate in a
+                                                                 store-and-forward mode, stopping packet transmission if the packet
+                                                                 being transmitted appears to be in receipt.
+                                                                 When this field is 0, the TDMA packet checks are disabled and the
+                                                                 data path will walk the packet link list until the packet's EOP
+                                                                 is reached.
+                                                                 In order to prevent unnecessary stalling during packet
+                                                                 transmission, this field should be 0 when the TNS Parser or TxQ
+                                                                 is configured for all ports to operate in a store-and-forward mode.
+                                                                 This field has no effect on those TDMA ports where the associated
+                                                                 *_CUTTHRU_EN field is set.
+                                                                 This field was added in pass 2.0. */
         uint64_t lb_cutthru_en         : 1;  /**< [ 42: 42](R/W) Enable cut-thru packet checks and transmission on the internal
                                                                  loopback bus.
                                                                  When set, the TDMA performs packet checks to avoid reading
@@ -5483,33 +5502,32 @@ typedef union
                                                                  be cleared to prevent unnecessary stalling during packet transmission
                                                                  due to the cut-through packet checks possibly determining the packet
                                                                  to be transmitted is currently being received. */
-        uint64_t reserved_43_63        : 21;
+        uint64_t cutthru_chk           : 1;  /**< [ 43: 43](R/W) Enable cut-thru packet checks.
+                                                                 When set, the TDMA performs additional checks to avoid reading
+                                                                 too far in to the page pointer link list if the sequence number of
+                                                                 the packet to be transmitted matches the sequence number of the
+                                                                 packet currently being received on the physical source port on which
+                                                                 the packet to be transmitted had arrived.
+                                                                 For each port where CUTTHRU_CHK is set and the corresponding
+                                                                 *_CUTTHRU_EN field is 0, the data path will operate in a
+                                                                 store-and-forward mode, stopping packet transmission if the packet
+                                                                 being transmitted appears to be in receipt.
+                                                                 When this field is 0, the TDMA packet checks are disabled and the
+                                                                 data path will walk the packet link list until the packet's EOP
+                                                                 is reached.
+                                                                 In order to prevent unnecessary stalling during packet
+                                                                 transmission, this field should be 0 when the TNS Parser or TxQ
+                                                                 is configured for all ports to operate in a store-and-forward mode.
+                                                                 This field has no effect on those TDMA ports where the associated
+                                                                 *_CUTTHRU_EN field is set.
+                                                                 This field was added in pass 2.0. */
+        uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tns_tdma_nb_dbg_config1_s cn88xxp1; */
-    struct bdk_tns_tdma_nb_dbg_config1_cn88xxp2
+    struct bdk_tns_tdma_nb_dbg_config1_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_44_63        : 20;
-        uint64_t cutthru_chk           : 1;  /**< [ 43: 43](R/W) Enable cut-thru packet checks.
-                                                                 When set, the TDMA performs additional checks to avoid reading
-                                                                 too far in to the page pointer link list if the sequence number of
-                                                                 the packet to be transmitted matches the sequence number of the
-                                                                 packet currently being received on the physical source port on which
-                                                                 the packet to be transmitted had arrived.
-                                                                 For each port where CUTTHRU_CHK is set and the corresponding
-                                                                 *_CUTTHRU_EN field is 0, the data path will operate in a
-                                                                 store-and-forward mode, stopping packet transmission if the packet
-                                                                 being transmitted appears to be in receipt.
-                                                                 When this field is 0, the TDMA packet checks are disabled and the
-                                                                 data path will walk the packet link list until the packet's EOP
-                                                                 is reached.
-                                                                 In order to prevent unnecessary stalling during packet
-                                                                 transmission, this field should be 0 when the TNS Parser or TxQ
-                                                                 is configured for all ports to operate in a store-and-forward mode.
-                                                                 This field has no effect on those TDMA ports where the associated
-                                                                 *_CUTTHRU_EN field is set.
-                                                                 This field was added in pass 2.0. */
+        uint64_t reserved_43_63        : 21;
         uint64_t lb_cutthru_en         : 1;  /**< [ 42: 42](R/W) Enable cut-thru packet checks and transmission on the internal
                                                                  loopback bus.
                                                                  When set, the TDMA performs packet checks to avoid reading
@@ -5675,28 +5693,10 @@ typedef union
                                                                  be cleared to prevent unnecessary stalling during packet transmission
                                                                  due to the cut-through packet checks possibly determining the packet
                                                                  to be transmitted is currently being received. */
-        uint64_t cutthru_chk           : 1;  /**< [ 43: 43](R/W) Enable cut-thru packet checks.
-                                                                 When set, the TDMA performs additional checks to avoid reading
-                                                                 too far in to the page pointer link list if the sequence number of
-                                                                 the packet to be transmitted matches the sequence number of the
-                                                                 packet currently being received on the physical source port on which
-                                                                 the packet to be transmitted had arrived.
-                                                                 For each port where CUTTHRU_CHK is set and the corresponding
-                                                                 *_CUTTHRU_EN field is 0, the data path will operate in a
-                                                                 store-and-forward mode, stopping packet transmission if the packet
-                                                                 being transmitted appears to be in receipt.
-                                                                 When this field is 0, the TDMA packet checks are disabled and the
-                                                                 data path will walk the packet link list until the packet's EOP
-                                                                 is reached.
-                                                                 In order to prevent unnecessary stalling during packet
-                                                                 transmission, this field should be 0 when the TNS Parser or TxQ
-                                                                 is configured for all ports to operate in a store-and-forward mode.
-                                                                 This field has no effect on those TDMA ports where the associated
-                                                                 *_CUTTHRU_EN field is set.
-                                                                 This field was added in pass 2.0. */
-        uint64_t reserved_44_63        : 20;
+        uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
-    } cn88xxp2;
+    } cn88xxp1;
+    /* struct bdk_tns_tdma_nb_dbg_config1_s cn88xxp2; */
 } bdk_tns_tdma_nb_dbg_config1_t;
 
 #define BDK_TNS_TDMA_NB_DBG_CONFIG1 BDK_TNS_TDMA_NB_DBG_CONFIG1_FUNC()

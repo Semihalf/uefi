@@ -1423,13 +1423,13 @@ typedef union
         uint64_t pa                    : 1;  /**< [  0:  0](R/W) When set, [PTR] and all DMA addresses are physical addresses and will not be translated by
                                                                  the SMMU.  When clear, is a virtual address which is subject to SMMU translation.
 
-                                                                 Only used for OCLA(2) in the coprocessor-clock domain; for OCLA(0..1) in the core-clock
+                                                                 Only used for OCLA(4) in the coprocessor-clock domain; for OCLA(0..3) in the core-clock
                                                                  domains this bit is ignored, addresses are always physical. */
 #else /* Word 0 - Little Endian */
         uint64_t pa                    : 1;  /**< [  0:  0](R/W) When set, [PTR] and all DMA addresses are physical addresses and will not be translated by
                                                                  the SMMU.  When clear, is a virtual address which is subject to SMMU translation.
 
-                                                                 Only used for OCLA(2) in the coprocessor-clock domain; for OCLA(0..1) in the core-clock
+                                                                 Only used for OCLA(4) in the coprocessor-clock domain; for OCLA(0..3) in the core-clock
                                                                  domains this bit is ignored, addresses are always physical. */
         uint64_t sec                   : 1;  /**< [  1:  1](SR/W) If set, and physical addressing is used as described under [PA], the physical address
                                                                  is in the secure world. */
@@ -1440,8 +1440,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_oclax_stack_base_s cn81xx; */
-    struct bdk_oclax_stack_base_cn88xx
+    struct bdk_oclax_stack_base_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
@@ -1454,13 +1453,13 @@ typedef union
         uint64_t pa                    : 1;  /**< [  0:  0](R/W) When set, [PTR] and all DMA addresses are physical addresses and will not be translated by
                                                                  the SMMU.  When clear, is a virtual address which is subject to SMMU translation.
 
-                                                                 Only used for OCLA(4) in the coprocessor-clock domain; for OCLA(0..3) in the core-clock
+                                                                 Only used for OCLA(2) in the coprocessor-clock domain; for OCLA(0..1) in the core-clock
                                                                  domains this bit is ignored, addresses are always physical. */
 #else /* Word 0 - Little Endian */
         uint64_t pa                    : 1;  /**< [  0:  0](R/W) When set, [PTR] and all DMA addresses are physical addresses and will not be translated by
                                                                  the SMMU.  When clear, is a virtual address which is subject to SMMU translation.
 
-                                                                 Only used for OCLA(4) in the coprocessor-clock domain; for OCLA(0..3) in the core-clock
+                                                                 Only used for OCLA(2) in the coprocessor-clock domain; for OCLA(0..1) in the core-clock
                                                                  domains this bit is ignored, addresses are always physical. */
         uint64_t sec                   : 1;  /**< [  1:  1](SR/W) If set, and physical addressing is used as described under [PA], the physical address
                                                                  is in the secure world. */
@@ -1470,8 +1469,9 @@ typedef union
                                                                  This may be an IOVA or physical address; see [PA]. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_oclax_stack_base_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_oclax_stack_base_s cn88xx; */
+    /* struct bdk_oclax_stack_base_cn81xx cn83xx; */
 } bdk_oclax_stack_base_t;
 
 static inline uint64_t BDK_OCLAX_STACK_BASE(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1959,9 +1959,11 @@ typedef union
     struct bdk_oclax_time_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t cycle                 : 64; /**< [ 63:  0](R/W/H) Current time as free running counter. Loaded into captured control packets.
+                                                                 Unconditionally clocked, independent of OCLA()_SFT_RST. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t cycle                 : 64; /**< [ 63:  0](R/W/H) Current time as free running counter. Loaded into captured control packets.
+                                                                 Unconditionally clocked, independent of OCLA()_SFT_RST. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_oclax_time_cn88xxp1
@@ -1976,17 +1978,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_oclax_time_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cycle                 : 64; /**< [ 63:  0](R/W/H) Current time as free running counter. Loaded into captured control packets.
-                                                                 Unconditionally clocked, independent of OCLA()_SFT_RST. */
-#else /* Word 0 - Little Endian */
-        uint64_t cycle                 : 64; /**< [ 63:  0](R/W/H) Current time as free running counter. Loaded into captured control packets.
-                                                                 Unconditionally clocked, independent of OCLA()_SFT_RST. */
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_oclax_time_cn81xx cn83xx; */
+    /* struct bdk_oclax_time_s cn81xx; */
+    /* struct bdk_oclax_time_s cn83xx; */
     struct bdk_oclax_time_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

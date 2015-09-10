@@ -7816,20 +7816,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
-        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
-                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
-                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
-                                                                 whether or not to load the shift register with PHY's internal settings before
-                                                                 the shifting process. */
-        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
-                                                                 when configuring the read deskew settings. */
-        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
-                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
-                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
-                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
-                                                                 ECC,3,2,1,0.
-                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
-                                                                 DQ has 10-bits deskew setting. */
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](RO) Reserved. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](RO) Reserved. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](RO) Reserved. */
         uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
                                                                  backed out through odd DQ at the same rate.
@@ -8031,20 +8020,9 @@ typedef union
                                                                  backed out through odd DQ at the same rate.
                                                                  When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
                                                                  DQ against each DQS edge seperately. This is done at the clock rate. */
-        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
-                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
-                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
-                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
-                                                                 ECC,3,2,1,0.
-                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
-                                                                 DQ has 10-bits deskew setting. */
-        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
-                                                                 when configuring the read deskew settings. */
-        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
-                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
-                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
-                                                                 whether or not to load the shift register with PHY's internal settings before
-                                                                 the shifting process. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](RO) Reserved. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](RO) Reserved. */
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](RO) Reserved. */
         uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } s;
@@ -8232,8 +8210,243 @@ typedef union
         uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_lmcx_phy_ctl_s cn81xx; */
-    /* struct bdk_lmcx_phy_ctl_s cn83xx; */
+    struct bdk_lmcx_phy_ctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
+                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
+                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
+                                                                 whether or not to load the shift register with PHY's internal settings before
+                                                                 the shifting process. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
+                                                                 when configuring the read deskew settings. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
+                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
+                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
+                                                                 ECC,3,2,1,0.
+                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
+                                                                 DQ has 10-bits deskew setting. */
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
+                                                                 backed out through odd DQ at the same rate.
+                                                                 When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
+                                                                 DQ against each DQS edge seperately. This is done at the clock rate. */
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
+                                                                 without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
+                                                                 LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
+        uint64_t dm_disable            : 1;  /**< [ 55: 55](R/W) Write to 1 to disable the DRAM Data Mask feature by having LMC driving a constant value on
+                                                                 the
+                                                                 DDRX_DQS<17:9>_P pins of the chip during write operations. LMC drives a constant 0 in DDR3
+                                                                 and drives a constant 1 in DDR4.
+                                                                 Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
+                                                                 on
+                                                                 (MODEREG_PARAMS3[WR_DBI]=1). */
+        uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 0x0 = C1 is not routed to any output pin.
+                                                                 0x1 = C1 is routed to CS3.
+                                                                 0x2 = C1 is routed to A17 address pin.
+                                                                 0x3 = C1 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 0x0 = C0 is not routed to any output pin.
+                                                                 0x1 = C0 is routed to CS2.
+                                                                 0x2 = C0 is routed to TEN output pin.
+                                                                 0x3 = C0 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved. INTERNAL: Write to 1 to reset the PHY, one-shot operation, will automatically
+                                                                 clear to value of 0. */
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved. INTERNAL: Indicates completion of a read operation, will clear to 0 when a read
+                                                                 operation is started, then set to 1 when operation is complete. */
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved. INTERNAL: Data from a deskew read operation. Only valid when the
+                                                                 LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved. INTERNAL: Write 1 to start deskew data read operation, will automatically clear
+                                                                 to 0. Write to 1 will also clear the complete bit. */
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
+                                                                 0x0 = Deskew read clock toggles every 4 DCLKs.
+                                                                 0x1 = Deskew read clock toggles every 8 DCLKs.
+                                                                 0x2 = Deskew read clock toggles every 12 DCLKs.
+                                                                 0x3 = Deskew read clock toggles every 16 DCLKs. */
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
+                                                                 DDR PHY. */
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
+                                                                 0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
+                                                                 1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
+                                                                 have to be set to 1. */
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
+                                                                 byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
+                                                                 0x0 = DQ0.
+                                                                 0x1 = DQ1.
+                                                                 0x2 = DQ2.
+                                                                 0x3 = DQ3.
+                                                                 0x4 = DAC.
+                                                                 0x5 = DBI.
+                                                                 0x6 = DQ4.
+                                                                 0x7 = DQ5.
+                                                                 0x8 = DQ6.
+                                                                 0x9 = DQ7. */
+        uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
+        uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: PHY DAC on. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+                                                                 when loopback is enabled. */
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: PHY loopback enable. */
+        uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
+                                                                 training sequence is in the idle state. */
+        uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
+        uint64_t phy_pwr_save_disable  : 1;  /**< [ 16: 16](R/W) DDR PHY power save disable. */
+        uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Set to force read_enable to PHY active all the time.
+                                                                 This bit MUST not be set when LMC initialization is in progress. Internal VREF and
+                                                                 Deskew training requires normal operation on the dqx/s read_enable signals. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero. INTERNAL: Low Voltage Mode (1.35V.) */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
+        uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
+                                                                 INTERNAL: external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 bits
+                                                                 are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
+                                                                 LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
+                                                                 can be loop-backed out through DQS1 of the same byte. For DQ, when
+                                                                 LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
+                                                                 flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
+                                                                 loop-backed out after being flop'd by incoming DQS. */
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero. INTERNAL: Loopback pos mode. This works in conjunction with
+                                                                 LMC()_PHY_CTL[LOOPBACK] mentioned above. */
+        uint64_t ts_stagger            : 1;  /**< [  0:  0](R/W) TS stagger mode. This mode configures output drivers with two-stage drive strength to
+                                                                 avoid undershoot issues on the bus when strong drivers are suddenly turned on. When this
+                                                                 mode is asserted, CNXXXX will configure output drivers to be weak drivers (60ohm output
+                                                                 impedance) at the first CK cycle, and change drivers to the designated drive strengths
+                                                                 specified in LMC()_COMP_CTL2[CMD_CTL/CK_CTL/DQX_CTL] starting at the following cycle. */
+#else /* Word 0 - Little Endian */
+        uint64_t ts_stagger            : 1;  /**< [  0:  0](R/W) TS stagger mode. This mode configures output drivers with two-stage drive strength to
+                                                                 avoid undershoot issues on the bus when strong drivers are suddenly turned on. When this
+                                                                 mode is asserted, CNXXXX will configure output drivers to be weak drivers (60ohm output
+                                                                 impedance) at the first CK cycle, and change drivers to the designated drive strengths
+                                                                 specified in LMC()_COMP_CTL2[CMD_CTL/CK_CTL/DQX_CTL] starting at the following cycle. */
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero. INTERNAL: Loopback pos mode. This works in conjunction with
+                                                                 LMC()_PHY_CTL[LOOPBACK] mentioned above. */
+        uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
+                                                                 INTERNAL: external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 bits
+                                                                 are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
+                                                                 LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
+                                                                 can be loop-backed out through DQS1 of the same byte. For DQ, when
+                                                                 LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
+                                                                 flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
+                                                                 loop-backed out after being flop'd by incoming DQS. */
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero. INTERNAL: Low Voltage Mode (1.35V.) */
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Set to force read_enable to PHY active all the time.
+                                                                 This bit MUST not be set when LMC initialization is in progress. Internal VREF and
+                                                                 Deskew training requires normal operation on the dqx/s read_enable signals. */
+        uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
+        uint64_t phy_pwr_save_disable  : 1;  /**< [ 16: 16](R/W) DDR PHY power save disable. */
+        uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
+        uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
+                                                                 training sequence is in the idle state. */
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: PHY loopback enable. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+                                                                 when loopback is enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: PHY DAC on. */
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
+        uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
+        uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
+                                                                 0x0 = DQ0.
+                                                                 0x1 = DQ1.
+                                                                 0x2 = DQ2.
+                                                                 0x3 = DQ3.
+                                                                 0x4 = DAC.
+                                                                 0x5 = DBI.
+                                                                 0x6 = DQ4.
+                                                                 0x7 = DQ5.
+                                                                 0x8 = DQ6.
+                                                                 0x9 = DQ7. */
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
+                                                                 byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
+                                                                 0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
+                                                                 1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
+                                                                 have to be set to 1. */
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
+                                                                 DDR PHY. */
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
+                                                                 0x0 = Deskew read clock toggles every 4 DCLKs.
+                                                                 0x1 = Deskew read clock toggles every 8 DCLKs.
+                                                                 0x2 = Deskew read clock toggles every 12 DCLKs.
+                                                                 0x3 = Deskew read clock toggles every 16 DCLKs. */
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved. INTERNAL: Write 1 to start deskew data read operation, will automatically clear
+                                                                 to 0. Write to 1 will also clear the complete bit. */
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved. INTERNAL: Data from a deskew read operation. Only valid when the
+                                                                 LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved. INTERNAL: Indicates completion of a read operation, will clear to 0 when a read
+                                                                 operation is started, then set to 1 when operation is complete. */
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved. INTERNAL: Write to 1 to reset the PHY, one-shot operation, will automatically
+                                                                 clear to value of 0. */
+        uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 0x0 = C0 is not routed to any output pin.
+                                                                 0x1 = C0 is routed to CS2.
+                                                                 0x2 = C0 is routed to TEN output pin.
+                                                                 0x3 = C0 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 0x0 = C1 is not routed to any output pin.
+                                                                 0x1 = C1 is routed to CS3.
+                                                                 0x2 = C1 is routed to A17 address pin.
+                                                                 0x3 = C1 is not routed to any output pin.
+
+                                                                 Set to 0x0 if not interfacing with 3DS DRAM. */
+        uint64_t dm_disable            : 1;  /**< [ 55: 55](R/W) Write to 1 to disable the DRAM Data Mask feature by having LMC driving a constant value on
+                                                                 the
+                                                                 DDRX_DQS<17:9>_P pins of the chip during write operations. LMC drives a constant 0 in DDR3
+                                                                 and drives a constant 1 in DDR4.
+                                                                 Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
+                                                                 on
+                                                                 (MODEREG_PARAMS3[WR_DBI]=1). */
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
+                                                                 without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
+                                                                 LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
+                                                                 backed out through odd DQ at the same rate.
+                                                                 When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
+                                                                 DQ against each DQS edge seperately. This is done at the clock rate. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
+                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
+                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
+                                                                 ECC,3,2,1,0.
+                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
+                                                                 DQ has 10-bits deskew setting. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
+                                                                 when configuring the read deskew settings. */
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
+                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
+                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
+                                                                 whether or not to load the shift register with PHY's internal settings before
+                                                                 the shifting process. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_lmcx_phy_ctl_cn81xx cn83xx; */
     struct bdk_lmcx_phy_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -9070,9 +9283,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) When set, the read leveling sequence uses MODEREG_PARAMS3[TCCD_L] to
-                                                                 space out back-to-back read commands. Otherwise the back-to-back
-                                                                 reads commands are spaced out by a default 4 cycles. */
+        uint64_t tccd_sel              : 1;  /**< [ 32: 32](RO) Reserved. */
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
         uint64_t reserved_22_23        : 2;
         uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
@@ -9122,17 +9333,18 @@ typedef union
                                                                  normally be set, particularly at higher speeds. */
         uint64_t reserved_22_23        : 2;
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
-        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) When set, the read leveling sequence uses MODEREG_PARAMS3[TCCD_L] to
-                                                                 space out back-to-back read commands. Otherwise the back-to-back
-                                                                 reads commands are spaced out by a default 4 cycles. */
+        uint64_t tccd_sel              : 1;  /**< [ 32: 32](RO) Reserved. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_rlevel_ctl_cn88xxp1
+    /* struct bdk_lmcx_rlevel_ctl_s cn88xxp1; */
+    struct bdk_lmcx_rlevel_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t tccd_sel              : 1;  /**< [ 32: 32](RO) Reserved. */
+        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) When set, the read leveling sequence uses MODEREG_PARAMS3[TCCD_L] to
+                                                                 space out back-to-back read commands. Otherwise the back-to-back
+                                                                 reads commands are spaced out by a default 4 cycles. */
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
         uint64_t reserved_22_23        : 2;
         uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
@@ -9182,12 +9394,13 @@ typedef union
                                                                  normally be set, particularly at higher speeds. */
         uint64_t reserved_22_23        : 2;
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
-        uint64_t tccd_sel              : 1;  /**< [ 32: 32](RO) Reserved. */
+        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) When set, the read leveling sequence uses MODEREG_PARAMS3[TCCD_L] to
+                                                                 space out back-to-back read commands. Otherwise the back-to-back
+                                                                 reads commands are spaced out by a default 4 cycles. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
-    } cn88xxp1;
-    /* struct bdk_lmcx_rlevel_ctl_s cn81xx; */
-    /* struct bdk_lmcx_rlevel_ctl_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_lmcx_rlevel_ctl_cn81xx cn83xx; */
     struct bdk_lmcx_rlevel_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -10280,7 +10493,14 @@ typedef union
     struct bdk_lmcx_timing_params0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_54_63        : 10;
+        uint64_t tbcw                  : 6;  /**< [ 53: 48](R/W) Indicates tBCW constraints. Set this field as follows:
+                                                                 _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
+
+                                                                 where TBCW is from the JEDEC DDR4DB spec, and TCYC(ns) is the DDR clock frequency (not
+                                                                 data rate).
+
+                                                                 TYP = 16. */
         uint64_t tcksre                : 4;  /**< [ 47: 44](R/W) Indicates TCKSRE constraints. Set this field as follows:
                                                                  _ RNDUP[TCKSRE(ns) / TCYC(ns)] - 1
 
@@ -10444,7 +10664,14 @@ typedef union
                                                                  frequency (not data rate).
 
                                                                  TYP = max(5nCK, 10 ns). */
-        uint64_t reserved_48_63        : 16;
+        uint64_t tbcw                  : 6;  /**< [ 53: 48](R/W) Indicates tBCW constraints. Set this field as follows:
+                                                                 _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
+
+                                                                 where TBCW is from the JEDEC DDR4DB spec, and TCYC(ns) is the DDR clock frequency (not
+                                                                 data rate).
+
+                                                                 TYP = 16. */
+        uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } s;
     struct bdk_lmcx_timing_params0_cn88xxp1
@@ -10631,191 +10858,8 @@ typedef union
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } cn88xxp1;
-    struct bdk_lmcx_timing_params0_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_54_63        : 10;
-        uint64_t tbcw                  : 6;  /**< [ 53: 48](R/W) Indicates tBCW constraints. Set this field as follows:
-                                                                 _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
-
-                                                                 where TBCW is from the JEDEC DDR4DB spec, and TCYC(ns) is the DDR clock frequency (not
-                                                                 data rate).
-
-                                                                 TYP = 16. */
-        uint64_t tcksre                : 4;  /**< [ 47: 44](R/W) Indicates TCKSRE constraints. Set this field as follows:
-                                                                 _ RNDUP[TCKSRE(ns) / TCYC(ns)] - 1
-
-                                                                 where TCKSRE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(5nCK, 10 ns). */
-        uint64_t trp                   : 5;  /**< [ 43: 39](R/W) Indicates TRP constraints. Set TRP as follows:
-
-                                                                 _ RNDUP[TRP(ns) / TCYC(ns)] - 1
-
-                                                                 where TRP and TRTP are from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency
-                                                                 (not data rate).
-
-                                                                 TYP TRP = 10-15ns.
-
-                                                                 TYP TRTP = max(4nCK, 7.5 ns). */
-        uint64_t tzqinit               : 4;  /**< [ 38: 35](R/W) Indicates TZQINIT constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TZQINIT(ns) / (256 * TCYC(ns))]
-
-                                                                 where TZQINIT is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 2 (equivalent to 512). */
-        uint64_t tdllk                 : 4;  /**< [ 34: 31](R/W) Indicates TDLLK constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TDLLK(ns) / (256 * TCYC(ns))]
-
-                                                                 where TDLLK is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 3 (equivalent to 768).
-
-                                                                 This parameter is used in self-refresh exit and assumed to be greater than TRFC. */
-        uint64_t tmod                  : 5;  /**< [ 30: 26](R/W) Indicates tMOD constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TMOD(ns) / TCYC(ns)] - 1
-
-                                                                 where TMOD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(24nCK, 15 ns). */
-        uint64_t tmrd                  : 4;  /**< [ 25: 22](R/W) Indicates TMRD constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TMRD(ns) / TCYC(ns)] - 1
-
-                                                                 where TMRD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 8nCK. */
-        uint64_t txpr                  : 6;  /**< [ 21: 16](R/W) Indicates TXPR constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TXPR(ns) / (16 * TCYC(ns))]
-
-                                                                 where TXPR is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(5nCK, TRFC+10 ns). */
-        uint64_t tcke                  : 4;  /**< [ 15: 12](R/W) Indicates TCKE constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TCKE(ns) / TCYC(ns)] - 1
-
-                                                                 where TCKE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(3nCK, 7.5/5.625/5.625/5 ns).
-
-                                                                 Because a DDR4 register can shorten the pulse width of CKE (it delays the falling edge
-                                                                 but does not delay the rising edge), care must be taken to set this parameter larger
-                                                                 to account for this effective reduction in the pulse width. */
-        uint64_t tzqcs                 : 4;  /**< [ 11:  8](R/W) Indicates TZQCS constraints. This field is set as follows:
-
-                                                                 _ RNDUP[(2 * TZQCS(ns)) / (16 * TCYC(ns))]
-
-                                                                 where TZQCS is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP >= 8 (greater-than-or-equal-to 128), to allow for dclk90 calibration. */
-        uint64_t reserved_0_7          : 8;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_7          : 8;
-        uint64_t tzqcs                 : 4;  /**< [ 11:  8](R/W) Indicates TZQCS constraints. This field is set as follows:
-
-                                                                 _ RNDUP[(2 * TZQCS(ns)) / (16 * TCYC(ns))]
-
-                                                                 where TZQCS is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP >= 8 (greater-than-or-equal-to 128), to allow for dclk90 calibration. */
-        uint64_t tcke                  : 4;  /**< [ 15: 12](R/W) Indicates TCKE constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TCKE(ns) / TCYC(ns)] - 1
-
-                                                                 where TCKE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(3nCK, 7.5/5.625/5.625/5 ns).
-
-                                                                 Because a DDR4 register can shorten the pulse width of CKE (it delays the falling edge
-                                                                 but does not delay the rising edge), care must be taken to set this parameter larger
-                                                                 to account for this effective reduction in the pulse width. */
-        uint64_t txpr                  : 6;  /**< [ 21: 16](R/W) Indicates TXPR constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TXPR(ns) / (16 * TCYC(ns))]
-
-                                                                 where TXPR is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(5nCK, TRFC+10 ns). */
-        uint64_t tmrd                  : 4;  /**< [ 25: 22](R/W) Indicates TMRD constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TMRD(ns) / TCYC(ns)] - 1
-
-                                                                 where TMRD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 8nCK. */
-        uint64_t tmod                  : 5;  /**< [ 30: 26](R/W) Indicates tMOD constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TMOD(ns) / TCYC(ns)] - 1
-
-                                                                 where TMOD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(24nCK, 15 ns). */
-        uint64_t tdllk                 : 4;  /**< [ 34: 31](R/W) Indicates TDLLK constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TDLLK(ns) / (256 * TCYC(ns))]
-
-                                                                 where TDLLK is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 3 (equivalent to 768).
-
-                                                                 This parameter is used in self-refresh exit and assumed to be greater than TRFC. */
-        uint64_t tzqinit               : 4;  /**< [ 38: 35](R/W) Indicates TZQINIT constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TZQINIT(ns) / (256 * TCYC(ns))]
-
-                                                                 where TZQINIT is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 2 (equivalent to 512). */
-        uint64_t trp                   : 5;  /**< [ 43: 39](R/W) Indicates TRP constraints. Set TRP as follows:
-
-                                                                 _ RNDUP[TRP(ns) / TCYC(ns)] - 1
-
-                                                                 where TRP and TRTP are from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency
-                                                                 (not data rate).
-
-                                                                 TYP TRP = 10-15ns.
-
-                                                                 TYP TRTP = max(4nCK, 7.5 ns). */
-        uint64_t tcksre                : 4;  /**< [ 47: 44](R/W) Indicates TCKSRE constraints. Set this field as follows:
-                                                                 _ RNDUP[TCKSRE(ns) / TCYC(ns)] - 1
-
-                                                                 where TCKSRE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(5nCK, 10 ns). */
-        uint64_t tbcw                  : 6;  /**< [ 53: 48](R/W) Indicates tBCW constraints. Set this field as follows:
-                                                                 _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
-
-                                                                 where TBCW is from the JEDEC DDR4DB spec, and TCYC(ns) is the DDR clock frequency (not
-                                                                 data rate).
-
-                                                                 TYP = 16. */
-        uint64_t reserved_54_63        : 10;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_lmcx_timing_params0_cn81xx cn83xx; */
+    /* struct bdk_lmcx_timing_params0_s cn81xx; */
+    /* struct bdk_lmcx_timing_params0_s cn83xx; */
     struct bdk_lmcx_timing_params0_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

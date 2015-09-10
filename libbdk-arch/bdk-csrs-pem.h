@@ -67,18 +67,10 @@
  * PEM MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_PEM_INT_VEC_E_DBG_INFO_CN81XX (0xd) /**< See interrupt clears PEM(0..5)_DBG_INFO,
-                                       interrupt sets PEM(0..5)_DBG_INFO_W1S,
-                                       enable clears PEM(0..5)_DBG_ENA_W1C,
-                                       and enable sets PEM(0..5)_DBG_ENA_W1S. */
-#define BDK_PEM_INT_VEC_E_DBG_INFO_CN88XX (0xd) /**< See interrupt clears PEM()_DBG_INFO,
+#define BDK_PEM_INT_VEC_E_DBG_INFO (0xd) /**< See interrupt clears PEM()_DBG_INFO,
                                        interrupt sets PEM()_DBG_INFO_W1S,
                                        enable clears PEM()_DBG_ENA_W1C,
                                        and enable sets PEM()_DBG_ENA_W1S. */
-#define BDK_PEM_INT_VEC_E_DBG_INFO_CN83XX (0xd) /**< See interrupt clears PEM(0..5)_DBG_INFO,
-                                       interrupt sets PEM(0..5)_DBG_INFO_W1S,
-                                       enable clears PEM(0..5)_DBG_ENA_W1C,
-                                       and enable sets PEM(0..5)_DBG_ENA_W1S. */
 #define BDK_PEM_INT_VEC_E_ERROR_AERI (0) /**< See PCIERC()_CFG076. */
 #define BDK_PEM_INT_VEC_E_ERROR_AERI_CLEAR (1) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_ERROR_PMEI (2) /**< See PCIERC()_CFG036. */
@@ -97,18 +89,10 @@
 #define BDK_PEM_INT_VEC_E_INTC_CLEAR (9) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_INTD (0xa) /**< PCI INTD legacy interrupt set vector. */
 #define BDK_PEM_INT_VEC_E_INTD_CLEAR (0xb) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INT_SUM_CN81XX (0xc) /**< See interrupt clears PEM(0..5)_INT_SUM,
-                                       interrupt sets PEM(0..5)_INT_SUM_W1S,
-                                       enable clears PEM(0..5)_INT_ENA_W1C,
-                                       and enable sets PEM(0..5)_INT_ENA_W1S. */
-#define BDK_PEM_INT_VEC_E_INT_SUM_CN88XX (0xc) /**< See interrupt clears PEM()_INT_SUM,
+#define BDK_PEM_INT_VEC_E_INT_SUM (0xc) /**< See interrupt clears PEM()_INT_SUM,
                                        interrupt sets PEM()_INT_SUM_W1S,
                                        enable clears PEM()_INT_ENA_W1C,
                                        and enable sets PEM()_INT_ENA_W1S. */
-#define BDK_PEM_INT_VEC_E_INT_SUM_CN83XX (0xc) /**< See interrupt clears PEM(0..5)_INT_SUM,
-                                       interrupt sets PEM(0..5)_INT_SUM_W1S,
-                                       enable clears PEM(0..5)_INT_ENA_W1C,
-                                       and enable sets PEM(0..5)_INT_ENA_W1S. */
 
 /**
  * Register (RSL) pem#_bar1_index#
@@ -272,16 +256,16 @@ typedef union
         uint64_t rqhdrb1               : 1;  /**< [ 22: 22](RO) Rx queue header memory buffer 1. */
         uint64_t rqdatab0              : 1;  /**< [ 21: 21](RO) Rx queue data buffer 0. */
         uint64_t rqdatab1              : 1;  /**< [ 20: 20](RO) Rx queue data buffer 1. */
-        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) Reserved. */
-        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) Reserved. */
-        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) Reserved. */
-        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) Reserved. */
-        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) Reserved. */
-        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) Reserved. */
-        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) Reserved. */
-        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) Reserved. */
-        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) Reserved. */
-        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) Reserved. */
+        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) BIST Status for the tlp_n_afifo_data0. */
+        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) BIST Status for the tlp_n_afifo_data1. */
+        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) BIST Status for the tlp_n_afifo_ctl. */
+        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) BIST Status for the tlp_p_afifo_data0. */
+        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) BIST Status for the tlp_p_afifo_data1. */
+        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) BIST Status for the tlp_p_afifo_ctl. */
+        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) BIST Status for the tlp_c_afifo_data0. */
+        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) BIST Status for the tlp_c_afifo_data1. */
+        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) BIST Status for the tlp_c_afifo_ctl. */
+        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) BIST Status for the peai__pesc_fifo. */
         uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
         uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
         uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
@@ -303,16 +287,16 @@ typedef union
         uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
         uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
         uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
-        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) Reserved. */
-        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) Reserved. */
-        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) Reserved. */
-        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) Reserved. */
-        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) Reserved. */
-        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) Reserved. */
-        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) Reserved. */
-        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) Reserved. */
-        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) Reserved. */
-        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) Reserved. */
+        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) BIST Status for the peai__pesc_fifo. */
+        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) BIST Status for the tlp_c_afifo_ctl. */
+        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) BIST Status for the tlp_c_afifo_data1. */
+        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) BIST Status for the tlp_c_afifo_data0. */
+        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) BIST Status for the tlp_p_afifo_ctl. */
+        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) BIST Status for the tlp_p_afifo_data1. */
+        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) BIST Status for the tlp_p_afifo_data0. */
+        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) BIST Status for the tlp_n_afifo_ctl. */
+        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) BIST Status for the tlp_n_afifo_data1. */
+        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) BIST Status for the tlp_n_afifo_data0. */
         uint64_t rqdatab1              : 1;  /**< [ 20: 20](RO) Rx queue data buffer 1. */
         uint64_t rqdatab0              : 1;  /**< [ 21: 21](RO) Rx queue data buffer 0. */
         uint64_t rqhdrb1               : 1;  /**< [ 22: 22](RO) Rx queue header memory buffer 1. */
@@ -322,7 +306,8 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_bist_status_cn88xxp1
+    /* struct bdk_pemx_bist_status_s cn88xxp1; */
+    struct bdk_pemx_bist_status_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
@@ -332,16 +317,16 @@ typedef union
         uint64_t rqhdrb1               : 1;  /**< [ 22: 22](RO) Rx queue header memory buffer 1. */
         uint64_t rqdatab0              : 1;  /**< [ 21: 21](RO) Rx queue data buffer 0. */
         uint64_t rqdatab1              : 1;  /**< [ 20: 20](RO) Rx queue data buffer 1. */
-        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) BIST Status for the tlp_n_afifo_data0. */
-        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) BIST Status for the tlp_n_afifo_data1. */
-        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) BIST Status for the tlp_n_afifo_ctl. */
-        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) BIST Status for the tlp_p_afifo_data0. */
-        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) BIST Status for the tlp_p_afifo_data1. */
-        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) BIST Status for the tlp_p_afifo_ctl. */
-        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) BIST Status for the tlp_c_afifo_data0. */
-        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) BIST Status for the tlp_c_afifo_data1. */
-        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) BIST Status for the tlp_c_afifo_ctl. */
-        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) BIST Status for the peai__pesc_fifo. */
+        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) Reserved. */
+        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) Reserved. */
+        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) Reserved. */
+        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) Reserved. */
+        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) Reserved. */
+        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) Reserved. */
+        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) Reserved. */
+        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) Reserved. */
+        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) Reserved. */
+        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) Reserved. */
         uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
         uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
         uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
@@ -363,16 +348,16 @@ typedef union
         uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
         uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
         uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
-        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) BIST Status for the peai__pesc_fifo. */
-        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) BIST Status for the tlp_c_afifo_ctl. */
-        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) BIST Status for the tlp_c_afifo_data1. */
-        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) BIST Status for the tlp_c_afifo_data0. */
-        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) BIST Status for the tlp_p_afifo_ctl. */
-        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) BIST Status for the tlp_p_afifo_data1. */
-        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) BIST Status for the tlp_p_afifo_data0. */
-        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) BIST Status for the tlp_n_afifo_ctl. */
-        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) BIST Status for the tlp_n_afifo_data1. */
-        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) BIST Status for the tlp_n_afifo_data0. */
+        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) Reserved. */
+        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) Reserved. */
+        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) Reserved. */
+        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) Reserved. */
+        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) Reserved. */
+        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) Reserved. */
+        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) Reserved. */
+        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) Reserved. */
+        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) Reserved. */
+        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) Reserved. */
         uint64_t rqdatab1              : 1;  /**< [ 20: 20](RO) Rx queue data buffer 1. */
         uint64_t rqdatab0              : 1;  /**< [ 21: 21](RO) Rx queue data buffer 0. */
         uint64_t rqhdrb1               : 1;  /**< [ 22: 22](RO) Rx queue header memory buffer 1. */
@@ -381,10 +366,9 @@ typedef union
         uint64_t retryc                : 1;  /**< [ 25: 25](RO) Retry buffer memory C. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
-    } cn88xxp1;
-    /* struct bdk_pemx_bist_status_s cn81xx; */
-    /* struct bdk_pemx_bist_status_s cn83xx; */
-    /* struct bdk_pemx_bist_status_s cn88xxp2; */
+    } cn81xx;
+    /* struct bdk_pemx_bist_status_cn81xx cn83xx; */
+    /* struct bdk_pemx_bist_status_cn81xx cn88xxp2; */
 } bdk_pemx_bist_status_t;
 
 static inline uint64_t BDK_PEMX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -641,7 +625,21 @@ typedef union
     struct bdk_pemx_ctl_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
+        uint64_t reserved_55_63        : 9;
+        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM.to improve
+                                                                 small TLP performance. */
+        uint64_t rd_flt                : 1;  /**< [ 51: 51](RO) Read fault.
+
+                                                                   0 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will
+                                                                       return to the NCB/cores all-ones and non-fault.
+                                                                       This is compatible with CN88XX pass 1.0.
+                                                                   1 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will
+                                                                       return to the NCB/cores all-ones and fault. In the case of a read by a core,
+                                                                       this fault will cause a synchronous external abort in the core.
+
+                                                                 Config reads which are terminated by PCIe with an error (UR, etc), or config reads
+                                                                 when the PEM is disabled or link is down, will return to the NCB/cores all-ones and
+                                                                 non-fault regardless of this bit. */
         uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
                                                                  block to force a parity error when it is later read. */
         uint64_t reserved_48_49        : 2;
@@ -695,7 +693,21 @@ typedef union
         uint64_t reserved_48_49        : 2;
         uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
                                                                  block to force a parity error when it is later read. */
-        uint64_t reserved_51_63        : 13;
+        uint64_t rd_flt                : 1;  /**< [ 51: 51](RO) Read fault.
+
+                                                                   0 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will
+                                                                       return to the NCB/cores all-ones and non-fault.
+                                                                       This is compatible with CN88XX pass 1.0.
+                                                                   1 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will
+                                                                       return to the NCB/cores all-ones and fault. In the case of a read by a core,
+                                                                       this fault will cause a synchronous external abort in the core.
+
+                                                                 Config reads which are terminated by PCIe with an error (UR, etc), or config reads
+                                                                 when the PEM is disabled or link is down, will return to the NCB/cores all-ones and
+                                                                 non-fault regardless of this bit. */
+        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM.to improve
+                                                                 small TLP performance. */
+        uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } s;
     struct bdk_pemx_ctl_status_cn88xxp1
@@ -989,7 +1001,8 @@ typedef union
     struct bdk_pemx_dbg_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_57_63        : 7;
+        uint64_t reserved_58_63        : 6;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
@@ -1105,15 +1118,14 @@ typedef union
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t reserved_57_63        : 7;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pemx_dbg_ena_w1c_s cn88xxp1; */
-    struct bdk_pemx_dbg_ena_w1c_cn81xx
+    struct bdk_pemx_dbg_ena_w1c_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_58_63        : 6;
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t reserved_57_63        : 7;
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
@@ -1229,11 +1241,11 @@ typedef union
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
-        uint64_t reserved_58_63        : 6;
+        uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_pemx_dbg_ena_w1c_cn81xx cn83xx; */
+    } cn88xxp1;
+    /* struct bdk_pemx_dbg_ena_w1c_s cn81xx; */
+    /* struct bdk_pemx_dbg_ena_w1c_s cn83xx; */
     struct bdk_pemx_dbg_ena_w1c_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1386,7 +1398,8 @@ typedef union
     struct bdk_pemx_dbg_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_57_63        : 7;
+        uint64_t reserved_58_63        : 6;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
@@ -1502,15 +1515,14 @@ typedef union
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t reserved_57_63        : 7;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pemx_dbg_ena_w1s_s cn88xxp1; */
-    struct bdk_pemx_dbg_ena_w1s_cn81xx
+    struct bdk_pemx_dbg_ena_w1s_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_58_63        : 6;
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t reserved_57_63        : 7;
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
@@ -1626,11 +1638,11 @@ typedef union
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
-        uint64_t reserved_58_63        : 6;
+        uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_pemx_dbg_ena_w1s_cn81xx cn83xx; */
+    } cn88xxp1;
+    /* struct bdk_pemx_dbg_ena_w1s_s cn81xx; */
+    /* struct bdk_pemx_dbg_ena_w1s_s cn83xx; */
     struct bdk_pemx_dbg_ena_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1783,7 +1795,8 @@ typedef union
     struct bdk_pemx_dbg_info_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_57_63        : 7;
+        uint64_t reserved_58_63        : 6;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Detected a M2S FIFO parity error. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Detected a core header queue bank1 double bit error. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Detected a core header queue bank1 single bit error. */
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Detected a core header queue bank0 double bit error. */
@@ -1919,15 +1932,14 @@ typedef union
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Detected a core header queue bank0 double bit error. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Detected a core header queue bank1 single bit error. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Detected a core header queue bank1 double bit error. */
-        uint64_t reserved_57_63        : 7;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Detected a M2S FIFO parity error. */
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pemx_dbg_info_s cn88xxp1; */
-    struct bdk_pemx_dbg_info_cn81xx
+    struct bdk_pemx_dbg_info_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_58_63        : 6;
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Detected a M2S FIFO parity error. */
+        uint64_t reserved_57_63        : 7;
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Detected a core header queue bank1 double bit error. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Detected a core header queue bank1 single bit error. */
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Detected a core header queue bank0 double bit error. */
@@ -2063,11 +2075,11 @@ typedef union
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Detected a core header queue bank0 double bit error. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Detected a core header queue bank1 single bit error. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Detected a core header queue bank1 double bit error. */
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Detected a M2S FIFO parity error. */
-        uint64_t reserved_58_63        : 6;
+        uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_pemx_dbg_info_cn81xx cn83xx; */
+    } cn88xxp1;
+    /* struct bdk_pemx_dbg_info_s cn81xx; */
+    /* struct bdk_pemx_dbg_info_s cn83xx; */
     struct bdk_pemx_dbg_info_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2240,7 +2252,8 @@ typedef union
     struct bdk_pemx_dbg_info_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_57_63        : 7;
+        uint64_t reserved_58_63        : 6;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
@@ -2356,15 +2369,14 @@ typedef union
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t reserved_57_63        : 7;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pemx_dbg_info_w1s_s cn88xxp1; */
-    struct bdk_pemx_dbg_info_w1s_cn81xx
+    struct bdk_pemx_dbg_info_w1s_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_58_63        : 6;
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t reserved_57_63        : 7;
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
@@ -2480,11 +2492,11 @@ typedef union
         uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
-        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
-        uint64_t reserved_58_63        : 6;
+        uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_pemx_dbg_info_w1s_cn81xx cn83xx; */
+    } cn88xxp1;
+    /* struct bdk_pemx_dbg_info_w1s_s cn81xx; */
+    /* struct bdk_pemx_dbg_info_w1s_s cn83xx; */
     struct bdk_pemx_dbg_info_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2637,29 +2649,29 @@ typedef union
     struct bdk_pemx_debug_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_8_63         : 56;
+        uint64_t inv_m2s_par           : 1;  /**< [  7:  7](R/W) Invert the generated parity to be written into the M2S FIFO
+                                                                 to force a parity error when it is later read. */
         uint64_t intval                : 7;  /**< [  6:  0](RO/H) Status of INTX, PMEI, and AERI interrupts. */
 #else /* Word 0 - Little Endian */
         uint64_t intval                : 7;  /**< [  6:  0](RO/H) Status of INTX, PMEI, and AERI interrupts. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t inv_m2s_par           : 1;  /**< [  7:  7](R/W) Invert the generated parity to be written into the M2S FIFO
+                                                                 to force a parity error when it is later read. */
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pemx_debug_s cn88xxp1; */
-    struct bdk_pemx_debug_cn81xx
+    struct bdk_pemx_debug_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t inv_m2s_par           : 1;  /**< [  7:  7](R/W) Invert the generated parity to be written into the M2S FIFO
-                                                                 to force a parity error when it is later read. */
+        uint64_t reserved_7_63         : 57;
         uint64_t intval                : 7;  /**< [  6:  0](RO/H) Status of INTX, PMEI, and AERI interrupts. */
 #else /* Word 0 - Little Endian */
         uint64_t intval                : 7;  /**< [  6:  0](RO/H) Status of INTX, PMEI, and AERI interrupts. */
-        uint64_t inv_m2s_par           : 1;  /**< [  7:  7](R/W) Invert the generated parity to be written into the M2S FIFO
-                                                                 to force a parity error when it is later read. */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_pemx_debug_cn81xx cn83xx; */
+    } cn88xxp1;
+    /* struct bdk_pemx_debug_s cn81xx; */
+    /* struct bdk_pemx_debug_s cn83xx; */
     struct bdk_pemx_debug_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

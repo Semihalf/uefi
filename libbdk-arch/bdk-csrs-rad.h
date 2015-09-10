@@ -550,9 +550,21 @@ union bdk_rad_resp_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t istr                  : 8;  /**< [ 63: 56] When RAD_CWORD_S[WQE] is clear, and RAD_CWORD_S[STREN] is set, the SMMU stream
                                                                  for [PTR]. */
-        uint64_t reserved_0_55         : 56;
+        uint64_t reserved_44_55        : 12;
+        uint64_t ggrp                  : 10; /**< [ 43: 34] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO guest-group to use when RAD
+                                                                 submits work to SSO. */
+        uint64_t tt                    : 2;  /**< [ 33: 32] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO tag type to use when RAD
+                                                                 submits work to SSO. */
+        uint64_t tag                   : 32; /**< [ 31:  0] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO tag to use when RAD submits
+                                                                 work to SSO. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_55         : 56;
+        uint64_t tag                   : 32; /**< [ 31:  0] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO tag to use when RAD submits
+                                                                 work to SSO. */
+        uint64_t tt                    : 2;  /**< [ 33: 32] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO tag type to use when RAD
+                                                                 submits work to SSO. */
+        uint64_t ggrp                  : 10; /**< [ 43: 34] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO guest-group to use when RAD
+                                                                 submits work to SSO. */
+        uint64_t reserved_44_55        : 12;
         uint64_t istr                  : 8;  /**< [ 63: 56] When RAD_CWORD_S[WQE] is clear, and RAD_CWORD_S[STREN] is set, the SMMU stream
                                                                  for [PTR]. */
 #endif /* Word 0 - End */
@@ -603,51 +615,7 @@ union bdk_rad_resp_s
         uint64_t reserved_113_127      : 15;
 #endif /* Word 1 - End */
     } cn88xx;
-    struct bdk_rad_resp_s_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t istr                  : 8;  /**< [ 63: 56] When RAD_CWORD_S[WQE] is clear, and RAD_CWORD_S[STREN] is set, the SMMU stream
-                                                                 for [PTR]. */
-        uint64_t reserved_44_55        : 12;
-        uint64_t ggrp                  : 10; /**< [ 43: 34] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO guest-group to use when RAD
-                                                                 submits work to SSO. */
-        uint64_t tt                    : 2;  /**< [ 33: 32] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO tag type to use when RAD
-                                                                 submits work to SSO. */
-        uint64_t tag                   : 32; /**< [ 31:  0] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO tag to use when RAD submits
-                                                                 work to SSO. */
-#else /* Word 0 - Little Endian */
-        uint64_t tag                   : 32; /**< [ 31:  0] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO tag to use when RAD submits
-                                                                 work to SSO. */
-        uint64_t tt                    : 2;  /**< [ 33: 32] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO tag type to use when RAD
-                                                                 submits work to SSO. */
-        uint64_t ggrp                  : 10; /**< [ 43: 34] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO guest-group to use when RAD
-                                                                 submits work to SSO. */
-        uint64_t reserved_44_55        : 12;
-        uint64_t istr                  : 8;  /**< [ 63: 56] When RAD_CWORD_S[WQE] is clear, and RAD_CWORD_S[STREN] is set, the SMMU stream
-                                                                 for [PTR]. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_113_127      : 15;
-        uint64_t ptr                   : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM IOVA byte
-                                                                 indicated by [PTR] to zero after completing the
-                                                                 instruction. RAD_REG_CTL[STORE_BE] indicates the endianness of [PTR]. The SMMU
-                                                                 stream used may be overridden with [STR].
-
-                                                                 When RAD_CWORD_S[WQE] is set and [PTR] != 0, it is a pointer to a work-queue
-                                                                 entry that RAD submits work to SSO after completing the instruction. [PTR] must
-                                                                 be naturally-aligned on an 8B boundary (i.e. <2:0> must be zero). */
-#else /* Word 1 - Little Endian */
-        uint64_t ptr                   : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM IOVA byte
-                                                                 indicated by [PTR] to zero after completing the
-                                                                 instruction. RAD_REG_CTL[STORE_BE] indicates the endianness of [PTR]. The SMMU
-                                                                 stream used may be overridden with [STR].
-
-                                                                 When RAD_CWORD_S[WQE] is set and [PTR] != 0, it is a pointer to a work-queue
-                                                                 entry that RAD submits work to SSO after completing the instruction. [PTR] must
-                                                                 be naturally-aligned on an 8B boundary (i.e. <2:0> must be zero). */
-        uint64_t reserved_113_127      : 15;
-#endif /* Word 1 - End */
-    } cn83xx;
+    /* struct bdk_rad_resp_s_s cn83xx; */
 };
 
 /**
