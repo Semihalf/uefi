@@ -1178,7 +1178,7 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
             c.s.ena = 1;
             c.s.ldwb = BDK_USE_DWB;
             c.s.qsize = RBDR_ENTRIES_QSIZE;
-            c.cn88xxp1.lines = buffer_size / 128);
+            c.s.lines = buffer_size / 128);
         do_fill = 1;
     }
 
@@ -1252,12 +1252,12 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     /* TL3 feeds Tl2. We only need one entry */
     int tl3_index = tl2_index * 4;
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3AX_CFG(tl3_index / 4),
-        c.cn88xx.tl3a = tl2_index);
+        c.s.tl3a = tl2_index);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CFG(tl3_index),
         c.s.rr_quantum = (MAX_MTU+4) / 4);
     int tl_channel = BDK_NIC_CHAN_E_BGXX_PORTX_CHX(handle->interface, priv->port, 0/*channel*/);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CHAN(tl3_index),
-        c.cn88xx.chan = tl_channel);
+        c.s.chan = tl_channel);
 
     /* TL4 feeds TL3. We only need one entry */
     int tl4_index = tl3_index * 4;
@@ -1266,7 +1266,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL4X_CFG(tl4_index),
         c.s.sq_qs = priv->vnic;
         c.s.sq_idx = priv->qos;
-        c.cn88xx.rr_quantum = (MAX_MTU+4) / 4);
+        c.s.rr_quantum = (MAX_MTU+4) / 4);
 
     /* SQ feeds TL4 */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_SQX_CFG2(priv->vnic, priv->qos),
@@ -1346,7 +1346,7 @@ static int vnic_setup(bdk_if_handle_t handle)
         c.s.vlan_strip = 0;
         c.s.len_l4 = 0;
         c.s.len_l3 = 0;
-        c.cn88xxp1.csum_sctp = 0;
+        c.s.csum_sctp = 0;
         c.s.csum_l4 = 0;
         c.s.ip6_udp_opt = 0;
         c.s.splt_hdr_ena = 0;
@@ -1407,7 +1407,7 @@ static int vnic_setup(bdk_if_handle_t handle)
 
     /* Bypass the TNS */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_INTFX_SEND_CFG(handle->interface),
-       c.cn88xx.tns_nonbypass = 0;
+       c.s.tns_nonbypass = 0;
        c.s.block = 0x8 + handle->interface);
 
     /* Errata (NIC-21858) If NIC_PF_QS()_CFG ENA is set after RRM enabled...RRM breaks */
