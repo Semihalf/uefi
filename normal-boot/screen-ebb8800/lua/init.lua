@@ -12,8 +12,12 @@ local all_pass = true
 local bist_failures = 0
 
 local function tg_run(tg, ports, size, count, rate, to_secs)
-    print("")
-    tg:command("default %s" % ports)
+    print("TESTINGS PORT "..ports.."\n");
+    if not tg:command("default %s" % ports) then
+        printf("Test %s, size %d, count %d: FAIL\n", ports, size, count)
+        return false
+    end
+
     tg:command("clear all")
     tg:command("size %d" % size)
     tg:command("count %d" % count)
@@ -205,38 +209,6 @@ end
 
 -- Go multicore, based on coremask provided by script.
 printf("Using coremask: 0x%x\n", coremask)
-
--- Set up traffic QLMs here, as we want to overlap the link negotiation delay
--- with other tests.
-if (config_num == 1) then
---------------------------------------------------------------
--- Configuring PHY addresses for various BGX interfaces
---------------------------------------------------------------
--- This code sets the default MDIO addresses for SGMII PHYs
--- The number is "(0x100 * bus) + phy".
-
-    -- BGX0 (QLM0)
-    set_config(cavium.CONFIG_PHY_IF0_PORT0, 0)
-    set_config(cavium.CONFIG_PHY_IF0_PORT1, 1)
-    set_config(cavium.CONFIG_PHY_IF0_PORT2, 2)
-    set_config(cavium.CONFIG_PHY_IF0_PORT3, 3)
-
-    cavium.csr.GSERX_REFCLK_SEL(0).COM_CLK_SEL = 0
-    cavium.csr.GSERX_REFCLK_SEL(0).USE_COM1 = 0
-    cavium.c.bdk_qlm_reset(node, 0)
-    cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_SGMII, 1250, 0)
-
-    cavium.csr.GSERX_REFCLK_SEL(1).COM_CLK_SEL = 1
-    cavium.csr.GSERX_REFCLK_SEL(1).USE_COM1 = 1
-    cavium.c.bdk_qlm_reset(node, 1)
-    cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_XAUI_1X4, 3125, 0)
-elseif (config_num == 2) then
-    cavium.csr.GSERX_REFCLK_SEL(0).COM_CLK_SEL = 1
-    cavium.csr.GSERX_REFCLK_SEL(0).USE_COM1 = 1
-    cavium.c.bdk_qlm_reset(node, 0)
-    cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_XAUI_1X4, 3125, 0)
-
-end
 
 if (config_num == 0) then
 
