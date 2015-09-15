@@ -25,6 +25,7 @@
 #include "bdk-functions.h"
 #endif
 #include "../libbdk-lua/bdk-lua.h"
+#include "../libbdk-bist/bist.h"
 
 /**
  * @mainpage
