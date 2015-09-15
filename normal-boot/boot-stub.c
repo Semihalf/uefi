@@ -201,7 +201,8 @@ static void slt_boot_image(bdk_node_t node)
             " 1) Load image from MMC, eMMC, or SD\n"
             " 2) Load image from SPI\n"
             " 3) Load ATF image from MMC, eMMC or SD\n"
-            " 4) Do USB BIST check\n");
+            " 4) BIST Check\n"
+            " 5) Do USB BIST check\n");
     const char *input;
     input = bdk_readline("Menu choice: ", NULL, 0);
     int option = atoi(input);
@@ -223,6 +224,9 @@ static void slt_boot_image(bdk_node_t node)
             bdk_error("Unable to load image\n");
             break;
         case 4:
+            bist_check();
+            break;
+        case 5:
             usb_bist(0,0,0);
             usb_bist(0,0,1);
             usb_bist(0,1,0);
