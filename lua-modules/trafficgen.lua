@@ -941,7 +941,9 @@ function TrafficGen.new()
                 return result
             else
                 printf("ERROR: %s\n", result)
+                return nil
             end
+            return result
         end
     end
 
