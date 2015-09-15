@@ -3,6 +3,10 @@
 
 #include "boot-common.h"
 
+#ifndef MFG_SYSTEM_LEVEL_TEST
+#define MFG_SYSTEM_LEVEL_TEST 0
+#endif
+
 /* Enable or disable detailed tracing of the boot stub (0 or 1) */
 #define BDK_TRACE_ENABLE_CHAINLOADER 0
 
@@ -58,6 +62,10 @@ int main(void)
         "\n",
         version, boot_count);
     print_node_strapping(bdk_numa_master());
+    if (MFG_SYSTEM_LEVEL_TEST)
+    {
+        bist_check();
+    }
 
     /* Load and transfer control to next image */
     BDK_TRACE(CHAINLOADER, "Looking for BDK image\n");
