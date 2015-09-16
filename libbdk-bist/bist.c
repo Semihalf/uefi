@@ -60,14 +60,14 @@ int check_bist_reg(const char *reg_name, uint64_t bist_val, uint64_t expected, u
 
     /* Log complete value for reference.... */
     if (verbose)
-	    printf("REG %-25s: 0x%016llx\n", reg_name, (unsigned long long)bist_val);
+        printf("REG %-25s: 0x%016llx\n", reg_name, (unsigned long long)bist_val);
     masked_val = (bist_val & mask) ^ expected;
     if (masked_val)
     {
         bist_failures++;
         failed = 1;
-	//BDK_SYNCW;
-	printf("BIST FAILURE: %s, error bits ((register & mask) ^ expected): 0x%016llx\n", reg_name, (unsigned long long)masked_val);
+        //BDK_SYNCW;
+        printf("BIST FAILURE: %s, error bits ((register & mask) ^ expected): 0x%016llx\n", reg_name, (unsigned long long)masked_val);
     }
     return failed;
 }
@@ -76,46 +76,46 @@ static int done = 0;
 
 static void bist_t88xx_core(int verbose, void *unused1)
 {
-        int failures = 0;
-        int core = bdk_get_core_num();
-	if (verbose)
-            printf("Starting core BIST on core %d\n", bdk_get_core_num());
+    int failures = 0;
+    int core = bdk_get_core_num();
+    if (verbose)
+        printf("Starting core BIST on core %d\n", bdk_get_core_num());
 
-bdk_ap_cvm_bist0_el1_t bist0;
-BDK_MRS(s3_0_c11_c1_0, bist0.u);
-failures += check_bist_reg("BIST0_EL1", bist0.u, 0, ~(3ULL << 32), verbose);
+    bdk_ap_cvm_bist0_el1_t bist0;
+    BDK_MRS(s3_0_c11_c1_0, bist0.u);
+    failures += check_bist_reg("BIST0_EL1", bist0.u, 0, ~(3ULL << 32), verbose);
 
-bdk_ap_cvm_bist1_el1_t bist1;
-BDK_MRS(s3_0_c11_c1_1, bist1.u);
-failures += check_bist_reg("BIST1_EL1", bist1.u, 0xffffffffffff, 0xffffffffffff, verbose);
+    bdk_ap_cvm_bist1_el1_t bist1;
+    BDK_MRS(s3_0_c11_c1_1, bist1.u);
+    failures += check_bist_reg("BIST1_EL1", bist1.u, 0xffffffffffff, 0xffffffffffff, verbose);
 
-bdk_ap_cvm_bist2_el1_t bist2;
-BDK_MRS(s3_0_c11_c1_4, bist2.u);
-failures += check_bist_reg("BIST2_EL1", bist2.u, 0, ~0ULL, verbose);
+    bdk_ap_cvm_bist2_el1_t bist2;
+    BDK_MRS(s3_0_c11_c1_4, bist2.u);
+    failures += check_bist_reg("BIST2_EL1", bist2.u, 0, ~0ULL, verbose);
 
-bdk_ap_cvm_bist3_el1_t bist3;
-BDK_MRS(s3_0_c11_c1_5, bist3.u);
-failures += check_bist_reg("BIST3_EL1", bist3.u, 0xffffffffffff, 0xffffffffffff, verbose);
+    bdk_ap_cvm_bist3_el1_t bist3;
+    BDK_MRS(s3_0_c11_c1_5, bist3.u);
+    failures += check_bist_reg("BIST3_EL1", bist3.u, 0xffffffffffff, 0xffffffffffff, verbose);
 
-        if (failures)
-            printf("core %d BIST FAILED\n", core);
-        else if (VERBOSE)
-            printf("core %d BIST PASSED\n", core);
+    if (failures)
+        printf("core %d BIST FAILED\n", core);
+    else if (VERBOSE)
+        printf("core %d BIST PASSED\n", core);
 
-	fflush(NULL);
-	done = 1;
-	//BDK_SYNCW;
+    fflush(NULL);
+    done = 1;
+    //BDK_SYNCW;
 }
 
 #define BIST_CHECK_REG(name, exp, mask) \
-do {\
-check_bist_reg(#name, BDK_CSR_READ(node, BDK_##name), exp, mask, VERBOSE);\
-} while (0)
+    do {\
+        check_bist_reg(#name, BDK_CSR_READ(node, BDK_##name), exp, mask, VERBOSE);\
+    } while (0)
 
 #define BIST_CHECK_REG0(name) \
-do {\
-check_bist_reg(#name, BDK_CSR_READ(node, BDK_##name), 0, ~0ULL, VERBOSE);\
-} while (0)
+    do {\
+        check_bist_reg(#name, BDK_CSR_READ(node, BDK_##name), 0, ~0ULL, VERBOSE);\
+    } while (0)
 
 extern int global_ddr_clock_initialized;
 
@@ -164,7 +164,7 @@ static void bist_t88xx_global(void)
     //L2C BIST
     BIST_CHECK_REG0(BGXX_CMR_BIST_STATUS(0));
     BIST_CHECK_REG0(BGXX_CMR_BIST_STATUS(1));
-	
+
     BIST_CHECK_REG0(BGXX_SPU_BIST_STATUS(0));
     BIST_CHECK_REG0(BGXX_SPU_BIST_STATUS(1));
 
@@ -172,7 +172,7 @@ static void bist_t88xx_global(void)
 
     BIST_CHECK_REG0(GIC_BIST_STATUSR);
     BIST_CHECK_REG0(GTI_ERR_BIST_STATUS);
-    
+
     for(int cnt=0;cnt<2;cnt++)
         BIST_CHECK_REG0(IOBNX_BISTR_REG(cnt));
 
@@ -190,7 +190,7 @@ static void bist_t88xx_global(void)
 
     for(int cnt=0;cnt<8;cnt++)
         BIST_CHECK_REG0(L2C_TADX_TBF_BIST_STATUS(cnt));
-    
+
     for(int cnt=0;cnt<8;cnt++)
         BIST_CHECK_REG0(L2C_TADX_TDT_BIST_STATUS(cnt));
 
@@ -276,7 +276,7 @@ static void bist_t88xx_global(void)
         BIST_CHECK_REG0(SMMUX_BIST_STATUS(cnt));
 #endif
 
-   
+
     if (fus_dat3.s.tns_cripple)
     {
         printf("INFO: TNS is disabled. Skipping TNS_BIST checks\n");
@@ -299,8 +299,8 @@ static void bist_t88xx_global(void)
     }
 
 
-//TODO: BDK does not seem to have the following registers.
-//Have to add these BIST registers
+    //TODO: BDK does not seem to have the following registers.
+    //Have to add these BIST registers
 #if 0
     BIST_CHECK_REG0(TNS_SE_AGE_MEM_BIST_STDN);
 
@@ -331,7 +331,7 @@ static void bist_t88xx_global(void)
     {
         printf("INFO: ZIP is disabled. Skipping ZIP_BIST checks\n");
     }
- 
+
 
 
     BDK_CSR_INIT(rst_boot, node, BDK_RST_BOOT);
@@ -431,7 +431,7 @@ void bist_check()
     for (uint64_t core=0; core<num_cores; core++)
     {
         done = 0;
-    	int timeout_ms = 50;
+        int timeout_ms = 50;
         if (!((1ULL<<core) & coremask))
         {
             continue;
@@ -442,10 +442,10 @@ void bist_check()
             bdk_error("Failed to create thread for core %d\n", core);
         }
         while (!done && timeout_ms-- > 0)
-	{
-		bdk_thread_yield();
-		bdk_wait_usec(1000);
-	}
+        {
+            bdk_thread_yield();
+            bdk_wait_usec(1000);
+        }
         if (!done)
         {
             bdk_error("BIST FAILED to complete on core %d\n", core);
