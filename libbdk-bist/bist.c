@@ -428,7 +428,7 @@ void bist_check()
         printf("Skipping Global BIST check\n");
     }
     fflush(NULL);
-    for (uint64_t core=0; core<num_cores; core++)
+    for (int core=0; core<num_cores; core++)
     {
         done = 0;
         int timeout_ms = 50;
