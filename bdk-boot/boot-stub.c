@@ -1,15 +1,6 @@
 #include <bdk.h>
 #include <malloc.h>
 
-/* The boot-stub has a hard size limit of 192KB. To reduce size,
-   this define can enable / disable support for DRAM init and testing
-   in the boot stub. If you need this, make sure only the DRAM configs
-   required are defined in DBDK_DRAM_CONFIG*. If you have too many,
-   the boot stub will be too big */
-#ifndef ENABLE_DRAM_MENU
-#define ENABLE_DRAM_MENU 0
-#endif
-
 /**
  * This function is not defined by the BDK libraries. It must be
  * defined by all BDK applications. It should be empty except for
@@ -319,69 +310,6 @@ static void choose_image(const char *path)
     boot_image(image_names[use_image]);
 }
 
-#if ENABLE_DRAM_MENU
-
-/**
- * Display a menu of DRAM options
- */
-static void dram_menu()
-{
-    const int MAX_DRAM_CONFIGS = 4;
-    int num_dram_configs = 0;
-    const char *dram_config[MAX_DRAM_CONFIGS];
-    int ddr_hz = 0;
-
-    /* Create a list of all DRAM configs */
-    for (int c = 0; c < MAX_DRAM_CONFIGS; c++)
-    {
-        dram_config[c] = bdk_dram_get_config_name(c);
-        if (dram_config[c] == NULL)
-            break;
-        num_dram_configs++;
-    }
-
-    while (1)
-    {
-        printf("\n"
-            "DRAM Menu\n"
-            "=========\n");
-        for (int c = 0; c < num_dram_configs; c++)
-        {
-            printf(" %d) Initialize DRAM using config \"%s\"\n", c + 1, dram_config[c]);
-        }
-        printf(" %d) Configure DRAM clock\n", num_dram_configs + 1);
-        printf(" %d) Main menu\n", num_dram_configs + 2);
-
-        const char *input = bdk_readline("Menu choice: ", NULL, 0);
-        int option = atoi(input);
-
-        if ((option >= 1) && (option <= num_dram_configs))
-        {
-            /* Configure DRAM */
-            int mbytes = bdk_dram_config(bdk_numa_local(), dram_config[option - 1], ddr_hz);
-            if (mbytes <= 0)
-                bdk_error("DRAM initialization failed\n");
-        }
-        else if (option == num_dram_configs + 1)
-        {
-            /* Configure DRAM clock frequency */
-            input = bdk_readline("DRAM clock Hz: ", NULL, 0);
-            ddr_hz = atoi(input);
-        }
-        else if (option == num_dram_configs + 2)
-        {
-            /* Exit menu */
-            return;
-        }
-        else
-        {
-            bdk_error("Illegal selection\n");
-        }
-    }
-}
-
-#endif
-
 /**
  * Main entry point
  *
@@ -488,12 +416,7 @@ int main(void)
             " 3) Load image from SPI\n"
             " 4) Write image to MMC, eMMC, or SD using Xmodem\n"
             " 5) Write image to SPI EEPROM or NOR using Xmodem\n"
-#if ENABLE_DRAM_MENU
-            " 6) DRAM options\n"
-            " 7) Soft reset chip\n");
-#else
             " 6) Soft reset chip\n");
-#endif
         const char *input;
         if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
             input = "2"; /* Skip menu on the emulator */
@@ -552,14 +475,7 @@ int main(void)
                 do_upload(name);
                 break;
             }
-#if ENABLE_DRAM_MENU
-            case 6: /* DRAM options */
-                dram_menu();
-                break;
-            case 7: /* Soft reset */
-#else
             case 6: /* Soft reset */
-#endif
                 printf("Performing a soft reset\n");
                 bdk_reset_chip(node);
                 break;

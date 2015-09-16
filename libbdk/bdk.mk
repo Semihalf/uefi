@@ -13,8 +13,6 @@ SHELL=/bin/bash
 ifdef BDK_DRAM_CONFIG
     # User supplied a single exact memory config
     override BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG=$(BDK_DRAM_CONFIG)
-    # Enable the BDK boot stub DRAM menu as we should have space
-    override BDK_EXTRA_CPPFLAGS += -DENABLE_DRAM_MENU=1
 else
     # No config was specified, include them all in the main BDK, but not in
     # the boot stub
