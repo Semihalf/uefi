@@ -393,7 +393,7 @@ void bist_check()
 
     input = bdk_readline("BIST Coremask (in decimal, enter 0 for all available cores): ", NULL, 0);
     coremask = strtoull(input, NULL, 16);
-    printf("User supplied coremask is %llx\n", coremask);
+    printf("User supplied coremask is %llx\n", (unsigned long long)coremask);
 
     input = bdk_readline("Global BIST(y/n): ", NULL, 0);
     if ((*input) == 'y')
@@ -410,7 +410,7 @@ void bist_check()
     bdk_init_cores(node, coremask);
     coremask = bdk_get_running_coremask(node);
     int num_cores = bdk_get_num_cores(node);
-    printf("Starting all(%d) cores. Coremask %llx\n", num_cores, coremask);
+    printf("Starting all(%d) cores. Coremask %llx\n", num_cores, (unsigned long long)coremask);
 
 
     BDK_CSR_INIT(mio_rst_boot, node, BDK_RST_BOOT);
