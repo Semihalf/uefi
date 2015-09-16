@@ -51,9 +51,10 @@
  */
 #define VERBOSE 1
 
-int bist_failures = 0;
-int bist_warnings = 0;
-int check_bist_reg(const char *reg_name, uint64_t bist_val, uint64_t expected, uint64_t mask, int verbose)
+static int bist_failures = 0;
+static int bist_warnings = 0;
+static int done = 0;
+static int check_bist_reg(const char *reg_name, uint64_t bist_val, uint64_t expected, uint64_t mask, int verbose)
 {
     uint64_t masked_val;
     int failed = 0;
@@ -71,8 +72,16 @@ int check_bist_reg(const char *reg_name, uint64_t bist_val, uint64_t expected, u
     }
     return failed;
 }
+#define BIST_CHECK_REG(name, exp, mask) \
+    do {\
+        check_bist_reg(#name, BDK_CSR_READ(node, BDK_##name), exp, mask, VERBOSE);\
+    } while (0)
 
-static int done = 0;
+#define BIST_CHECK_REG0(name) \
+    do {\
+        check_bist_reg(#name, BDK_CSR_READ(node, BDK_##name), 0, ~0ULL, VERBOSE);\
+    } while (0)
+
 
 static void bist_t88xx_core(int verbose, void *unused1)
 {
@@ -107,17 +116,6 @@ static void bist_t88xx_core(int verbose, void *unused1)
     //BDK_SYNCW;
 }
 
-#define BIST_CHECK_REG(name, exp, mask) \
-    do {\
-        check_bist_reg(#name, BDK_CSR_READ(node, BDK_##name), exp, mask, VERBOSE);\
-    } while (0)
-
-#define BIST_CHECK_REG0(name) \
-    do {\
-        check_bist_reg(#name, BDK_CSR_READ(node, BDK_##name), 0, ~0ULL, VERBOSE);\
-    } while (0)
-
-extern int global_ddr_clock_initialized;
 
 static void dfa_bist(bdk_node_t node)
 {
@@ -336,7 +334,7 @@ static void bist_t88xx_global(void)
     fflush(NULL);
 }
 
-void bist_check()
+void bdk_bist_check()
 {
     uint64_t coremask = 0;
     char global_bist = 1;
@@ -410,8 +408,6 @@ void bist_check()
         }
     }
 
-
-
     if (global_bist)
         dump_fuses();
     else
@@ -419,6 +415,6 @@ void bist_check()
 
 
     printf("BIST test Complete, %d warnings, %d errors\n", bist_warnings, bist_failures);
-
     fflush(NULL);
 }
+

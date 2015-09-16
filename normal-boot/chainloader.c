@@ -64,7 +64,7 @@ int main(void)
     print_node_strapping(bdk_numa_master());
     if (MFG_SYSTEM_LEVEL_TEST)
     {
-        bist_check();
+        bdk_bist_check();
     }
 
     /* Load and transfer control to next image */

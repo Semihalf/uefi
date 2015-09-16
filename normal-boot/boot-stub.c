@@ -224,7 +224,7 @@ static void slt_boot_image(bdk_node_t node)
             bdk_error("Unable to load image\n");
             break;
         case 4:
-            bist_check();
+            bdk_bist_check();
             break;
         case 5:
             usb_bist(0,0,0);
