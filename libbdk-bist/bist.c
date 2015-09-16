@@ -248,25 +248,6 @@ static void bist_t88xx_global(void)
 
     BIST_CHECK_REG(RST_BIST_TIMER, 0, 1ULL << 28);
 
-#if 0
-    for(int cnt=0;cnt<16;cnt++)
-        BIST_CHECK_REG0(SATAX_UAHC_GBL_BISTAFR(cnt));
-
-    for(int cnt=0;cnt<16;cnt++)
-        BIST_CHECK_REG0(SATAX_UAHC_GBL_BISTCR(cnt));
-
-    for(int cnt=0;cnt<16;cnt++)
-        BIST_CHECK_REG0(SATAX_UAHC_GBL_BISTDECR(cnt));
-
-    for(int cnt=0;cnt<16;cnt++)
-        BIST_CHECK_REG0(SATAX_UAHC_GBL_BISTFCTR(cnt));
-
-    for(int cnt=0;cnt<16;cnt++)
-        BIST_CHECK_REG0(SATAX_UAHC_GBL_BISTSR(cnt));
-
-    for(int cnt=0;cnt<16;cnt++)
-        BIST_CHECK_REG0(SATAX_UCTL_BIST_STATUS(cnt));
-#endif
     for(int cnt=0;cnt<2;cnt++)
         BIST_CHECK_REG0(SLIX_BIST_STATUS(cnt));
 
@@ -297,29 +278,6 @@ static void bist_t88xx_global(void)
         BIST_CHECK_REG0(TNS_BIST_STATUS10);
         BIST_CHECK_REG0(TNS_BIST_STATUS11);
     }
-
-
-    //TODO: BDK does not seem to have the following registers.
-    //Have to add these BIST registers
-#if 0
-    BIST_CHECK_REG0(TNS_SE_AGE_MEM_BIST_STDN);
-
-    for(int cnt=0;cnt<8;cnt++)
-        BIST_CHECK_REG0(TNS_SE_SRAM_PAIRX_BIST_STDN(cnt));
-    for(int cnt=0;cnt<8;cnt++)
-        BIST_CHECK_REG0(TNS_SE_TCAM_DBX_BIST_STDN(cnt));
-    for(int cnt=0;cnt<8;cnt++)
-        BIST_CHECK_REG0(TNS_SE_TCAM_SRAMX_BIST_STDN(cnt));
-    BIST_CHECK_REG0(TNS_TXQ_CNT_QAC_BIST_STDN);
-    BIST_CHECK_REG0(TNS_TXQ_DQ_BIST_STDN);
-    BIST_CHECK_REG0(TNS_TXQ_EQ_BIST_STDN);
-    BIST_CHECK_REG0(TNS_TXQ_TBC_BIST_STDN);
-#endif
-
-#if 0
-    for(int cnt=0;cnt<2;cnt++)
-        BIST_CHECK_REG0(USBHX_UCTL_BIST_STATUS(cnt));
-#endif
 
     if (!fus_dat3.s.nozip) 
     {
