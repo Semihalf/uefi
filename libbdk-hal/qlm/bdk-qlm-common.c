@@ -1239,6 +1239,33 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
                 did_update = 1;
             }
         }
+
+        /* Apply TX gain settings */
+        int gain = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_GAIN, node, qlm, lane);
+        if (gain != -1)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_3(qlm, lane),
+                c.s.pcs_sds_tx_gain = gain);
+            did_update = 1;
+        }
+
+        /* Apply TX vboost settings */
+        int vboost = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_VBOOST, node, qlm, lane);
+        if (vboost != -1)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_3(qlm, lane),
+                c.s.cfg_tx_vboost_en = vboost);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
+                c.s.tx_vboost_en_ovrrd_en = 1);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_0(qlm, lane),
+                c.s.cfg_tx_vboost_en_ovrrd_val = vboost;
+                c.s.cfg_tx_coeff_req_ovrrd_val = vboost);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+                c.s.cfg_tx_vboost_en_ovrrd_en = 1;
+                c.s.cfg_tx_coeff_req_ovrrd_en = 1;
+                c.s.ctlifc_ovrrd_req = 1);
+            did_update = 1;
+        }
     }
     if (did_update)
         bdk_wait_usec(10);
