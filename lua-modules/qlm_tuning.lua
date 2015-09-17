@@ -279,6 +279,42 @@ local function set_swing_tap(qlm)
     cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
 end
 
+local function set_gain(qlm)
+    local csr_value = 0
+    local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
+    for lane=0, num_lanes-1 do
+        csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_CFG_3(qlm,lane).pcs_sds_tx_gain
+        printf("GSERX_LANEX_TX_CFG_3(%d,%d)[PCS_SDS_TX_GAIN] = 0x%x\n", qlm, lane, csr_value)
+    end
+    local csr_setting = menu.prompt_number("New setting for QLM%s PCS_SDS_TX_GAIN" % qlm, csr_value, 0, 7)
+    for lane=0, num_lanes-1 do
+        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_3(qlm,lane).pcs_sds_tx_gain = csr_setting
+    end
+    cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
+end
+
+local function set_vboost(qlm)
+    local csr_value = 0
+    local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
+    for lane=0, num_lanes-1 do
+        if cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_vboost_en_ovrrd_en == 1 then
+            csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_CFG_3(qlm,lane).cfg_tx_vboost_en
+        end
+        printf("GSERX_LANEX_TX_CFG_3(%d,%d)[CFG_TX_VBOOST_EN] = 0x%x\n", qlm, lane, csr_value)
+    end
+    local csr_setting = menu.prompt_number("New setting for QLM%s CFG_TX_VBOOST_EN" % qlm, csr_value, 0, 1)
+    for lane=0, num_lanes-1 do
+        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_3(qlm,lane).cfg_tx_vboost_en = csr_setting
+        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_vboost_en_ovrrd_en = 1
+        cavium.csr[menu.node].GSERX_LANEX_PCS_CTLIFC_0(qlm,lane).cfg_tx_vboost_en_ovrrd_val = csr_setting
+        cavium.csr[menu.node].GSERX_LANEX_PCS_CTLIFC_0(qlm,lane).cfg_tx_coeff_req_ovrrd_val = csr_setting
+        cavium.csr[menu.node].GSERX_LANEX_PCS_CTLIFC_2(qlm,lane).cfg_tx_vboost_en_ovrrd_en = 1
+        cavium.csr[menu.node].GSERX_LANEX_PCS_CTLIFC_2(qlm,lane).cfg_tx_coeff_req_ovrrd_en = 1
+        cavium.csr[menu.node].GSERX_LANEX_PCS_CTLIFC_2(qlm,lane).ctlifc_ovrrd_req = 1
+    end
+    cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
+end
+
 local function manual_rx_evaluation(qlm)
     cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
 end
@@ -342,6 +378,8 @@ function qlm_tuning.run()
         m:item("fixedp", "Fixed pattern (000, PAT, 3ff, ~PAT)", do_custom, 0xa)
         m:item("swing",  "Set %s TX Swing Tap" % current_qlm, set_swing_tap, qlm_tuning.qlm)
         m:item("prepost","Set %s Post and Pre TX Taps" % current_qlm, set_pre_post_tap, qlm_tuning.qlm)
+        m:item("gain",  "Set %s TX Gain" % current_qlm, set_gain, qlm_tuning.qlm)
+        m:item("vboost","Set %s TX VBoost" % current_qlm, set_vboost, qlm_tuning.qlm)
         m:item("rx_eval","Perform a RX equalization evaluation on %s" % current_qlm, manual_rx_evaluation, qlm_tuning.qlm)
         m:item("loop",   "Toggle loopback of TX to RX on %s" % current_qlm, do_loopback)
         m:item("eye",    "Display Eye", do_eye)
