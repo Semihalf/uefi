@@ -246,7 +246,7 @@ int __bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_
     {
         gserx_cfg.s.pcie = 0;
         BDK_CSR_WRITE(node, BDK_GSERX_CFG(qlm), gserx_cfg.u);
-        bdk_warn("N%d.QLM%d: Disabling PCIe for PRBS\n", node, qlm);
+        bdk_warn("N%d.QLM%d: Disabling PCIe for PRBS/pattern generation\n", node, qlm);
     }
     /* For some reason PRBS doesn't work if GSER is configured for SATA.
        Disconnect SATA when we start PRBS */
@@ -254,7 +254,8 @@ int __bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_
     {
         gserx_cfg.s.sata = 0;
         BDK_CSR_WRITE(node, BDK_GSERX_CFG(qlm), gserx_cfg.u);
-        bdk_warn("N%d.QLM%d: Disabling SATA for PRBS\n", node, qlm);
+        bdk_warn("N%d.QLM%d: Disabling SATA for PRBS/pattern generation\n", node, qlm);
+        bdk_warn("N%d.QLM%d: SATA PRBS/patterns always run at 6G\n", node, qlm);
     }
 
     BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
