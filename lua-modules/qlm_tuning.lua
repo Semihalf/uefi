@@ -111,7 +111,7 @@ local function do_prbs(mode)
     local function display_status(run_time)
         printf("\n\n");
         printf("Time: %d seconds (Press return to exit, 'E' to inject an error, 'C' to clear errors,\n", run_time)
-        printf("                  'P' to change TX pre-emphasis, 'S' to change TX swing,\n")
+        printf("                  'P' to change TX pre/post-emphasis, 'S' to change TX swing,\n")
         printf("                  '0' - '3' to display the eye diagram for the lane on QLM %d)\n", qlm_tuning.qlm)
         for qlm_base=1,#qlm_list,3 do
             output_line(qlm_base, "", function(qlm, lane)
@@ -215,6 +215,7 @@ local function do_prbs(mode)
             start_time = os.time()
         end
         if (key == 'p') or (key =='P') then
+            printf("Usage: CFG_TX_PREMPTAP Bits [8:5] = Tx Post Tap ; Bits [3:0] = Tx Pre Tap\n")
             for _,qlm_num in ipairs(qlm_list) do
                 local csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm_num,0).cfg_tx_premptap
                 printf("GSERX_LANEX_TX_PRE_EMPHASIS(%d,0)[CFG_TX_PREMPTAP] = 0x%x\n", qlm_num, csr_value)
@@ -247,9 +248,10 @@ local function do_prbs(mode)
     until key == '\r'
 end
 
-local function set_preemphasis(qlm)
+local function set_pre_post_tap(qlm)
     local csr_value = 0
     local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
+    printf("Usage: CFG_TX_PREMPTAP Bits [8:5] = Tx Post Tap ; Bits [3:0] = Tx Pre Tap\n")
     for lane=0, num_lanes-1 do
         csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm,lane).cfg_tx_premptap
         printf("GSERX_LANEX_TX_PRE_EMPHASIS(%d,%d)[CFG_TX_PREMPTAP] = 0x%x\n", qlm, lane, csr_value)
@@ -262,7 +264,7 @@ local function set_preemphasis(qlm)
     cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
 end
 
-local function set_preandpost(qlm)
+local function set_swing_tap(qlm)
     local csr_value = 0
     local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
     for lane=0, num_lanes-1 do
@@ -327,8 +329,8 @@ function qlm_tuning.run()
         local current_qlm = (num_lanes == 2) and "DLM" or "QLM"
         current_qlm = current_qlm .. qlm_tuning.qlm
         m:item("qlm",    "Select active QLM/DLM (Currently %s)" % current_qlm, select_qlm)
-        m:item("down",   "Reset and power down", cavium.c.bdk_qlm_reset, menu.node, qlm_tuning.qlm)
-        m:item("invert",  "Polarity swap receive P/N", do_polarity_swap)
+        m:item("down",   "Reset and power down %s" % current_qlm, cavium.c.bdk_qlm_reset, menu.node, qlm_tuning.qlm)
+        m:item("invert", "Polarity swap receive P/N on %s" % current_qlm, do_polarity_swap)
         m:item("prbs7",  "PRBS-7", do_prbs, 7)
         m:item("prbs11", "PRBS-11", do_prbs, 11)
         m:item("prbs15", "PRBS-15", do_prbs, 15)
@@ -338,12 +340,12 @@ function qlm_tuning.run()
         m:item("fixedw", "Fixed 10 bit word (PAT)", do_custom, 0x8)
         m:item("dc-bal", "DC-balanced word (PAT, ~PAT)", do_custom, 0x9)
         m:item("fixedp", "Fixed pattern (000, PAT, 3ff, ~PAT)", do_custom, 0xa)
-        m:item("preemphasis",  "Set QLM pre-emphasis", set_preemphasis, qlm_tuning.qlm)
-        m:item("preandpost",  "Set QLM pre and post taps", set_preandpost, qlm_tuning.qlm)
-        m:item("rx_eval",  "Perform a RX equalization evaluation", manual_rx_evaluation, qlm_tuning.qlm)
-        m:item("loop", "Toggle loopback of TX to RX", do_loopback)
-        m:item("eye", "Display Eye", do_eye)
-        --m:item("eye-param", "Configure EYE capture parameters", adjust_eye_params)
+        m:item("swing",  "Set %s TX Swing Tap" % current_qlm, set_swing_tap, qlm_tuning.qlm)
+        m:item("prepost","Set %s Post and Pre TX Taps" % current_qlm, set_pre_post_tap, qlm_tuning.qlm)
+        m:item("rx_eval","Perform a RX equalization evaluation on %s" % current_qlm, manual_rx_evaluation, qlm_tuning.qlm)
+        m:item("loop",   "Toggle loopback of TX to RX on %s" % current_qlm, do_loopback)
+        m:item("eye",    "Display Eye", do_eye)
+        m:item("eye-param", "Configure EYE capture parameters", adjust_eye_params)
 
         m:item("quit",   "Main menu")
     until (m:show() == "quit")
