@@ -12,5 +12,6 @@
  *
  * @defgroup boot Boot related support functions
  */
+#include "bdk-image.h"
 
 #endif
