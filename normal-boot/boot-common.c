@@ -20,7 +20,6 @@ static int BRD_DISABLE_DRAM  = 0;
 static int BRD_DISABLE_CCPI  = 0;
 static int BRD_DISABLE_QLM   = 0;
 static int BRD_DISABLE_BGX   = 0;
-static int BRD_DISABLE_USB   = 0;
 
 void boot_read_config()
 {
@@ -33,7 +32,6 @@ void boot_read_config()
     BRD_DISABLE_CCPI  = bdk_brd_cfg_get_int(BRD_DISABLE_CCPI,   BDK_BRD_CFG_DISABLE_CCPI);
     BRD_DISABLE_QLM   = bdk_brd_cfg_get_int(BRD_DISABLE_QLM,    BDK_BRD_CFG_DISABLE_QLM);
     BRD_DISABLE_BGX   = bdk_brd_cfg_get_int(BRD_DISABLE_BGX,    BDK_BRD_CFG_DISABLE_BGX);
-    BRD_DISABLE_USB   = bdk_brd_cfg_get_int(BRD_DISABLE_USB,    BDK_BRD_CFG_DISABLE_USB);
 }
 
 #define XCONFIG_STR_NAME(n)	#n
@@ -444,25 +442,6 @@ void boot_init_bgx()
                     if (-1 != en)
                         BDK_CSR_WRITE(n, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx, p), en);
                 }
-            }
-        }
-    }
-}
-
-void boot_init_usb()
-{
-    if (BRD_DISABLE_USB)
-        return;
-
-    /* Initialize USB, ready for standard XHCI driver */
-    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
-    {
-        if (bdk_numa_exists(n))
-        {
-            for (int p = 0; p < 2; p++)
-            {
-                BDK_TRACE(BOOT_STUB, "Initializing USB%d on Node %d\n", p, n);
-                bdk_usb_intialize(n, p, 0);
             }
         }
     }

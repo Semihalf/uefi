@@ -106,7 +106,6 @@ extern void bdk_showenv(void);
 #define BDK_BRD_CFG_DISABLE_CCPI            "BRD.CFG.DISABLE_CCPI"
 #define BDK_BRD_CFG_DISABLE_QLM             "BRD.CFG.DISABLE_QLM"
 #define BDK_BRD_CFG_DISABLE_BGX             "BRD.CFG.DISABLE_BGX"
-#define BDK_BRD_CFG_DISABLE_USB             "BRD.CFG.DISABLE_USB"
 
 /**
  * Get a board configuration variable as integer

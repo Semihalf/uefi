@@ -317,7 +317,7 @@ int main(void)
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_QLM_COMPLETE);
 
         boot_init_bgx();
-        boot_init_usb();
+        bdk_boot_usb();
     }
 
     bdk_watchdog_poke();

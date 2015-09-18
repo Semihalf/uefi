@@ -22,7 +22,6 @@ void boot_init_ccpi_node();
 void boot_init_qlm_clk();
 void boot_init_qlm_mode();
 void boot_init_bgx();
-void boot_init_usb();
 
 /* Weakly bound default functions. Can be overwritten by board specific
  * functions in board/$(BOARD_TYPE)/board_init.c
