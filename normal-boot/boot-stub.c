@@ -312,8 +312,7 @@ int main(void)
         boot_init_dram(BDK_NODE_1); /* Initialize DRAM on node 1 */
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
 
-        boot_init_qlm_clk();    /* Initialize QLM clocks */
-        boot_init_qlm_mode();   /* Initialize QLM modes */
+        bdk_boot_qlm();
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_QLM_COMPLETE);
 
         bdk_boot_bgx();
