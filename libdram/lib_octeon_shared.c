@@ -131,7 +131,7 @@ static int init_octeon_dram_interface(bdk_node_t node,
 	ddr_hertz = strtoul(s, NULL, 0);
 
     /* Poke the watchdog timer so it doesn't expire during DRAM init */
-    BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
+    bdk_watchdog_poke();
 
     mem_size_mbytes = init_octeon3_ddr3_interface(node,
 						  ddr_configuration,
