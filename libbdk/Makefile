@@ -15,6 +15,7 @@ dirs += libdram
 dirs += libdram/configs
 dirs += libfatfs
 dirs += libbdk-bist
+dirs += libbdk-boot
 
 #
 # Create a list of all source files

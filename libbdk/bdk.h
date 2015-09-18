@@ -26,6 +26,7 @@
 #endif
 #include "../libbdk-lua/bdk-lua.h"
 #include "../libbdk-bist/bist.h"
+#include "../libbdk-boot/bdk-boot.h"
 
 /**
  * @mainpage
