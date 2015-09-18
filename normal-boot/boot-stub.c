@@ -322,7 +322,7 @@ int main(void)
 
     bdk_watchdog_poke();
 
-    boot_init_pci();
+    bdk_boot_pcie();
     board_init_late();
 
     /* Select ATF or diagnostics image */

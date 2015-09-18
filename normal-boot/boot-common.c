@@ -21,7 +21,6 @@ static int BRD_DISABLE_CCPI  = 0;
 static int BRD_DISABLE_QLM   = 0;
 static int BRD_DISABLE_BGX   = 0;
 static int BRD_DISABLE_USB   = 0;
-static int BRD_DISABLE_PCI   = 0;
 
 void boot_read_config()
 {
@@ -35,7 +34,6 @@ void boot_read_config()
     BRD_DISABLE_QLM   = bdk_brd_cfg_get_int(BRD_DISABLE_QLM,    BDK_BRD_CFG_DISABLE_QLM);
     BRD_DISABLE_BGX   = bdk_brd_cfg_get_int(BRD_DISABLE_BGX,    BDK_BRD_CFG_DISABLE_BGX);
     BRD_DISABLE_USB   = bdk_brd_cfg_get_int(BRD_DISABLE_USB,    BDK_BRD_CFG_DISABLE_USB);
-    BRD_DISABLE_PCI   = bdk_brd_cfg_get_int(BRD_DISABLE_PCI,    BDK_BRD_CFG_DISABLE_PCI);
 }
 
 #define XCONFIG_STR_NAME(n)	#n
@@ -465,29 +463,6 @@ void boot_init_usb()
             {
                 BDK_TRACE(BOOT_STUB, "Initializing USB%d on Node %d\n", p, n);
                 bdk_usb_intialize(n, p, 0);
-            }
-        }
-    }
-}
-
-void boot_init_pci()
-{
-    if (BRD_DISABLE_PCI)
-        return;
-
-    /* Initialize PCIe and bring up the link */
-    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
-    {
-        if (bdk_numa_exists(n))
-        {
-            for (int p = 0; p < bdk_pcie_get_num_ports(n); p++)
-            {
-                /* Only init PCIe that are attached to QLMs */
-                if (bdk_qlm_get(n, BDK_IF_PCIE, p, 0) != -1)
-                {
-                    BDK_TRACE(BOOT_STUB, "Initializing PCIe%d on Node %d\n", p, n);
-                    bdk_pcie_rc_initialize(n, p);
-                }
             }
         }
     }
