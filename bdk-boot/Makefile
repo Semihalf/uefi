@@ -19,6 +19,7 @@ $(DIR)/$(IMAGE_NAME).bin: $(IMAGE_NAME).bin
 	cp $(IMAGE_NAME).bin $(DIR)/$(IMAGE_NAME).bin
 
 $(IMAGE_NAME).bin: $(BOOT_STUB_BIN) $(DIAGNOSTICS_BIN) lua/*.lua default.cfg
+	if [ `stat -c %s $(BOOT_STUB_BIN)` -gt 196608 ]; then echo "ERROR: $(BOOT_STUB_BIN) image must be 192KB or less";exit 1;fi
 	$(BDK_ROOT)/bin/bdk-create-fatfs-image -o $@ \
 	    -0 $(BOOT_STUB_BIN) -1 $(DIAGNOSTICS_BIN) -2 $(DIAGNOSTICS_BIN) \
 	    -l "lua/*.lua" -c default.cfg
