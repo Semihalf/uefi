@@ -17,8 +17,6 @@ void print_node_strapping(bdk_node_t node);
 const char *boot_device_name_for_boot_method(int boot_method);
 
 void boot_init_dram(bdk_node_t node);
-void boot_init_ccpi_link();
-void boot_init_ccpi_node();
 
 /* Weakly bound default functions. Can be overwritten by board specific
  * functions in board/$(BOARD_TYPE)/board_init.c

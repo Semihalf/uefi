@@ -17,7 +17,6 @@ static const char *DRAM_NODE0 = NULL;
 static const char *DRAM_NODE1 = NULL;
 
 static int BRD_DISABLE_DRAM  = 0;
-static int BRD_DISABLE_CCPI  = 0;
 
 void boot_read_config()
 {
@@ -27,7 +26,6 @@ void boot_read_config()
     DRAM_NODE1        = bdk_brd_cfg_get_str(DRAM_NODE1,         BDK_BRD_CFG_DRAM_NODE, 1);
 
     BRD_DISABLE_DRAM  = bdk_brd_cfg_get_int(BRD_DISABLE_DRAM,   BDK_BRD_CFG_DISABLE_DRAM);
-    BRD_DISABLE_CCPI  = bdk_brd_cfg_get_int(BRD_DISABLE_CCPI,   BDK_BRD_CFG_DISABLE_CCPI);
 }
 
 #define XCONFIG_STR_NAME(n)	#n
@@ -278,48 +276,6 @@ void boot_init_dram(bdk_node_t node)
         /* Poke the watchdog */
         bdk_watchdog_poke();
     }
-}
-
-void boot_init_ccpi_link()
-{
-    if (BRD_DISABLE_CCPI || !MULTI_NODE)
-        return;
-
-    BDK_TRACE(BOOT_STUB, "Initializing CCPI links\n");
-    if (__bdk_init_ccpi_links(0))
-    {
-        if (1 == MULTI_NODE) /* fail case for 'on' setting */
-        {
-            printf("CCPI: Link timeout\n");
-            /* Reset on failure if we're using the watchdog */
-            if (bdk_watchdog_is_running())
-                bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
-        }
-        else /* fail case for 'auto' setting */
-        {
-            BDK_TRACE(BOOT_STUB, "Auto configured 1 node.\n");
-            MULTI_NODE = 0;
-        }
-    }
-    else if (2 == MULTI_NODE) /* success case for 'auto' setting */
-        BDK_TRACE(BOOT_STUB, "Auto configured 2 nodes.\n");
-
-    bdk_watchdog_poke();
-}
-
-void boot_init_ccpi_node()
-{
-    if (BRD_DISABLE_CCPI || !MULTI_NODE)
-        return;
-
-    BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
-    bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
-    bdk_init_nodes(1, 0);
-    /* Reset if CCPI failed */
-    if (bdk_numa_is_only_one() && bdk_watchdog_is_running())
-        bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
-
-    bdk_watchdog_poke();
 }
 
 /* Weakly bound default functions. Can be overwritten by board specific

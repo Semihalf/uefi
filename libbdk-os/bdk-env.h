@@ -103,7 +103,6 @@ extern void bdk_showenv(void);
  * to the configuration file, where xxxx is the ID of the peripheral.
  */
 #define BDK_BRD_CFG_DISABLE_DRAM            "BRD.CFG.DISABLE_DRAM"
-#define BDK_BRD_CFG_DISABLE_CCPI            "BRD.CFG.DISABLE_CCPI"
 
 /**
  * Get a board configuration variable as integer

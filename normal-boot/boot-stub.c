@@ -301,12 +301,12 @@ int main(void)
 
     if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
-        boot_init_ccpi_link();      /* Set up CCPI */
+        bdk_boot_ccpi_link();      /* Set up CCPI */
 
         boot_init_dram(BDK_NODE_0); /* Initialize DRAM on node 0 */
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
 
-        boot_init_ccpi_node();      /* Set up CCPI */
+        bdk_boot_ccpi_nodes();     /* Set up CCPI */
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_CCPI_COMPLETE);
 
         boot_init_dram(BDK_NODE_1); /* Initialize DRAM on node 1 */
