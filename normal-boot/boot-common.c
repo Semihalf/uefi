@@ -19,7 +19,6 @@ static const char *DRAM_NODE1 = NULL;
 static int BRD_DISABLE_DRAM  = 0;
 static int BRD_DISABLE_CCPI  = 0;
 static int BRD_DISABLE_QLM   = 0;
-static int BRD_DISABLE_BGX   = 0;
 
 void boot_read_config()
 {
@@ -31,7 +30,6 @@ void boot_read_config()
     BRD_DISABLE_DRAM  = bdk_brd_cfg_get_int(BRD_DISABLE_DRAM,   BDK_BRD_CFG_DISABLE_DRAM);
     BRD_DISABLE_CCPI  = bdk_brd_cfg_get_int(BRD_DISABLE_CCPI,   BDK_BRD_CFG_DISABLE_CCPI);
     BRD_DISABLE_QLM   = bdk_brd_cfg_get_int(BRD_DISABLE_QLM,    BDK_BRD_CFG_DISABLE_QLM);
-    BRD_DISABLE_BGX   = bdk_brd_cfg_get_int(BRD_DISABLE_BGX,    BDK_BRD_CFG_DISABLE_BGX);
 }
 
 #define XCONFIG_STR_NAME(n)	#n
@@ -418,30 +416,6 @@ void boot_init_qlm_mode()
                 }
 
                 bdk_qlm_set_mode(n, qlm, mode, freq, 0);
-            }
-        }
-    }
-}
-
-void boot_init_bgx()
-{
-    if (BRD_DISABLE_BGX)
-        return;
-
-    /* Initialize BGX, ready for driver */
-    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
-    {
-        if (bdk_numa_exists(n))
-        {
-            /* Enable ports based on config file. */
-            for (int bgx = 0; bgx < 2; bgx++)
-            {
-                for (int p = 0; p < 4; p++)
-                {
-                    int en = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_BGX_ENABLE, n, bgx, p);
-                    if (-1 != en)
-                        BDK_CSR_WRITE(n, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx, p), en);
-                }
             }
         }
     }

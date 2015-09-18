@@ -13,6 +13,7 @@
  * @defgroup boot Boot related support functions
  */
 
+#include "bdk-boot-bgx.h"
 #include "bdk-boot-pcie.h"
 #include "bdk-boot-status.h"
 #include "bdk-boot-usb.h"

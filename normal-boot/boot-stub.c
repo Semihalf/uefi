@@ -316,7 +316,7 @@ int main(void)
         boot_init_qlm_mode();   /* Initialize QLM modes */
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_QLM_COMPLETE);
 
-        boot_init_bgx();
+        bdk_boot_bgx();
         bdk_boot_usb();
     }
 
