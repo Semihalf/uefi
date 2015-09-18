@@ -12,11 +12,14 @@ FILE_PREFIX = "bdk-csrs"
 # For the top level common fields, we don't know which chip to use
 # the field for. As a guess, use the last of the sorted chip names
 #
-def getAnyField(data, field):
+def getAnyField(data, field, arch):
     keys = data[field].keys()
     keys.sort()
-    chip = keys[-1]
-    return data[field][chip]
+    keys.reverse()
+    for chip in keys:
+        if csr_utils.isChipArch(arch, chip):
+            return data[field][chip]
+    return None
 
 #
 # Format a description for use at the end of a line. All but the first line
@@ -112,7 +115,7 @@ def writeEnum(out, arch, enum):
     out.write("\n")
     out.write("/**\n")
     out.write(" * Enumeration %s\n" % enum["name"])
-    description = getAnyField(enum, "description")
+    description = getAnyField(enum, "description", arch)
     if description:
         out.write(" *\n")
         for l in description.split("\n"):
@@ -226,7 +229,7 @@ def writeStruct(out, arch, struct, title="Structure"):
     out.write("\n")
     out.write("/**\n")
     out.write(" * %s %s\n" % (title, struct["name"]))
-    description = getAnyField(struct, "description")
+    description = getAnyField(struct, "description", arch)
     if description:
         out.write(" *\n")
         for l in description.split("\n"):
@@ -295,13 +298,13 @@ def writeStruct(out, arch, struct, title="Structure"):
 #
 def writeReg(out, arch, reg):
     # Reuse the structure writer to write the register
-    writeStruct(out, arch, reg, title="Register (%s)" % getAnyField(reg, "bus"))
+    writeStruct(out, arch, reg, title="Register (%s)" % getAnyField(reg, "bus", arch))
     out.write("\n")
     # Get common stuff need for register code
     base_name = reg["name"].replace("#", "X").upper()
     typedef_base = (PREFIX + base_name).lower()
     macro_name = typedef_base.upper()
-    reg_range = getAnyField(reg, "ranges")
+    reg_range = getAnyField(reg, "ranges", arch)
     # Function to return address
     prototype = "static inline uint64_t %s" % macro_name
     if reg_range:
@@ -389,8 +392,28 @@ def writeReg(out, arch, reg):
     macro_args = createDefineArgs(reg_range)
     macro = macro_name + macro_args
     out.write("#define typedef_%s %s_t\n" % (macro, typedef_base))
-    out.write("#define bustype_%s %sCSR_TYPE_%s\n" % (macro, PREFIX, getAnyField(reg, "bus")))
+    out.write("#define bustype_%s %sCSR_TYPE_%s\n" % (macro, PREFIX, getAnyField(reg, "bus", arch)))
     out.write("#define basename_%s \"%s\"\n" % (macro, base_name))
+    if reg["bar"]:
+        bar = getAnyField(reg, "bar", arch)
+        if bar == None:
+            pass
+        elif bar == "PF_BAR0":
+            bar_index = 0;
+        elif bar == "PF_BAR2":
+            bar_index = 2;
+        elif bar == "PF_BAR4":
+            bar_index = 4;
+        elif bar == "VF_BAR0":
+            bar_index = 0x10;
+        elif bar == "VF_BAR2":
+            bar_index = 0x12;
+        elif bar == "VF_BAR4":
+            bar_index = 0x14;
+        else:
+            assert False, "Invalid bar register %s for %s" % (bar, reg["name"])
+        if bar != None:
+            out.write("#define device_bar_%s 0x%x /* %s */\n" % (macro, bar_index, bar))
     if macro_args:
         params_paren = "(a)"
         for p in range(1, len(reg_range)):
