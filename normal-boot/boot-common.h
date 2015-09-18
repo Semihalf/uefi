@@ -11,9 +11,6 @@
 /* Address of ATF in flash */
 #define ATF_ADDRESS 0x00400000
 
-/* Filename for bootstrap (ATF) image on FAT filesystem, if available */
-#define BOOTSTRAP_IMAGE_FILENAME "bootstrap.bin"
-
 void boot_read_config();
 
 void print_node_strapping(bdk_node_t node);
