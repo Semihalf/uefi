@@ -188,6 +188,7 @@ static inline uint64_t BDK_OCLAX_BIST_RESULT(unsigned long a)
 #define typedef_BDK_OCLAX_BIST_RESULT(a) bdk_oclax_bist_result_t
 #define bustype_BDK_OCLAX_BIST_RESULT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_BIST_RESULT(a) "OCLAX_BIST_RESULT"
+#define device_bar_BDK_OCLAX_BIST_RESULT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_BIST_RESULT(a) (a)
 #define arguments_BDK_OCLAX_BIST_RESULT(a) (a),-1,-1,-1
 
@@ -265,6 +266,7 @@ static inline uint64_t BDK_OCLAX_CDHX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_OCLAX_CDHX_CTL(a,b) bdk_oclax_cdhx_ctl_t
 #define bustype_BDK_OCLAX_CDHX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_CDHX_CTL(a,b) "OCLAX_CDHX_CTL"
+#define device_bar_BDK_OCLAX_CDHX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_CDHX_CTL(a,b) (a)
 #define arguments_BDK_OCLAX_CDHX_CTL(a,b) (a),(b),-1,-1
 
@@ -319,6 +321,7 @@ static inline uint64_t BDK_OCLAX_CONST(unsigned long a)
 #define typedef_BDK_OCLAX_CONST(a) bdk_oclax_const_t
 #define bustype_BDK_OCLAX_CONST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_CONST(a) "OCLAX_CONST"
+#define device_bar_BDK_OCLAX_CONST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_CONST(a) (a)
 #define arguments_BDK_OCLAX_CONST(a) (a),-1,-1,-1
 
@@ -354,6 +357,7 @@ static inline uint64_t BDK_OCLAX_DATX(unsigned long a, unsigned long b)
 #define typedef_BDK_OCLAX_DATX(a,b) bdk_oclax_datx_t
 #define bustype_BDK_OCLAX_DATX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_DATX(a,b) "OCLAX_DATX"
+#define device_bar_BDK_OCLAX_DATX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_DATX(a,b) (a)
 #define arguments_BDK_OCLAX_DATX(a,b) (a),(b),-1,-1
 
@@ -405,6 +409,7 @@ static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long a)
 #define typedef_BDK_OCLAX_DAT_POP(a) bdk_oclax_dat_pop_t
 #define bustype_BDK_OCLAX_DAT_POP(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_DAT_POP(a) "OCLAX_DAT_POP"
+#define device_bar_BDK_OCLAX_DAT_POP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_DAT_POP(a) (a)
 #define arguments_BDK_OCLAX_DAT_POP(a) (a),-1,-1,-1
 
@@ -412,6 +417,8 @@ static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long a)
  * Register (RSL) ocla#_eco
  *
  * INTERNAL: OCLA ECO Register
+ *
+ * Added in pass 2.
  */
 typedef union
 {
@@ -444,6 +451,7 @@ static inline uint64_t BDK_OCLAX_ECO(unsigned long a)
 #define typedef_BDK_OCLAX_ECO(a) bdk_oclax_eco_t
 #define bustype_BDK_OCLAX_ECO(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_ECO(a) "OCLAX_ECO"
+#define device_bar_BDK_OCLAX_ECO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_ECO(a) (a)
 #define arguments_BDK_OCLAX_ECO(a) (a),-1,-1,-1
 
@@ -479,6 +487,7 @@ static inline uint64_t BDK_OCLAX_FIFO_DEPTH(unsigned long a)
 #define typedef_BDK_OCLAX_FIFO_DEPTH(a) bdk_oclax_fifo_depth_t
 #define bustype_BDK_OCLAX_FIFO_DEPTH(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_FIFO_DEPTH(a) "OCLAX_FIFO_DEPTH"
+#define device_bar_BDK_OCLAX_FIFO_DEPTH(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_FIFO_DEPTH(a) (a)
 #define arguments_BDK_OCLAX_FIFO_DEPTH(a) (a),-1,-1,-1
 
@@ -532,6 +541,7 @@ static inline uint64_t BDK_OCLAX_FIFO_LIMIT(unsigned long a)
 #define typedef_BDK_OCLAX_FIFO_LIMIT(a) bdk_oclax_fifo_limit_t
 #define bustype_BDK_OCLAX_FIFO_LIMIT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_FIFO_LIMIT(a) "OCLAX_FIFO_LIMIT"
+#define device_bar_BDK_OCLAX_FIFO_LIMIT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_FIFO_LIMIT(a) (a)
 #define arguments_BDK_OCLAX_FIFO_LIMIT(a) (a),-1,-1,-1
 
@@ -567,6 +577,7 @@ static inline uint64_t BDK_OCLAX_FIFO_TAIL(unsigned long a)
 #define typedef_BDK_OCLAX_FIFO_TAIL(a) bdk_oclax_fifo_tail_t
 #define bustype_BDK_OCLAX_FIFO_TAIL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_FIFO_TAIL(a) "OCLAX_FIFO_TAIL"
+#define device_bar_BDK_OCLAX_FIFO_TAIL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_FIFO_TAIL(a) (a)
 #define arguments_BDK_OCLAX_FIFO_TAIL(a) (a),-1,-1,-1
 
@@ -608,6 +619,7 @@ static inline uint64_t BDK_OCLAX_FIFO_TRIG(unsigned long a)
 #define typedef_BDK_OCLAX_FIFO_TRIG(a) bdk_oclax_fifo_trig_t
 #define bustype_BDK_OCLAX_FIFO_TRIG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_FIFO_TRIG(a) "OCLAX_FIFO_TRIG"
+#define device_bar_BDK_OCLAX_FIFO_TRIG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_FIFO_TRIG(a) (a)
 #define arguments_BDK_OCLAX_FIFO_TRIG(a) (a),-1,-1,-1
 
@@ -647,6 +659,7 @@ static inline uint64_t BDK_OCLAX_FIFO_WRAP(unsigned long a)
 #define typedef_BDK_OCLAX_FIFO_WRAP(a) bdk_oclax_fifo_wrap_t
 #define bustype_BDK_OCLAX_FIFO_WRAP(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_FIFO_WRAP(a) "OCLAX_FIFO_WRAP"
+#define device_bar_BDK_OCLAX_FIFO_WRAP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_FIFO_WRAP(a) (a)
 #define arguments_BDK_OCLAX_FIFO_WRAP(a) (a),-1,-1,-1
 
@@ -730,6 +743,7 @@ static inline uint64_t BDK_OCLAX_FSMX_ANDX_IX(unsigned long a, unsigned long b, 
 #define typedef_BDK_OCLAX_FSMX_ANDX_IX(a,b,c,d) bdk_oclax_fsmx_andx_ix_t
 #define bustype_BDK_OCLAX_FSMX_ANDX_IX(a,b,c,d) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_FSMX_ANDX_IX(a,b,c,d) "OCLAX_FSMX_ANDX_IX"
+#define device_bar_BDK_OCLAX_FSMX_ANDX_IX(a,b,c,d) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_FSMX_ANDX_IX(a,b,c,d) (a)
 #define arguments_BDK_OCLAX_FSMX_ANDX_IX(a,b,c,d) (a),(b),(c),(d)
 
@@ -765,6 +779,7 @@ static inline uint64_t BDK_OCLAX_FSMX_ORX(unsigned long a, unsigned long b, unsi
 #define typedef_BDK_OCLAX_FSMX_ORX(a,b,c) bdk_oclax_fsmx_orx_t
 #define bustype_BDK_OCLAX_FSMX_ORX(a,b,c) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_FSMX_ORX(a,b,c) "OCLAX_FSMX_ORX"
+#define device_bar_BDK_OCLAX_FSMX_ORX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_FSMX_ORX(a,b,c) (a)
 #define arguments_BDK_OCLAX_FSMX_ORX(a,b,c) (a),(b),(c),-1
 
@@ -825,6 +840,7 @@ static inline uint64_t BDK_OCLAX_FSMX_STATEX(unsigned long a, unsigned long b, u
 #define typedef_BDK_OCLAX_FSMX_STATEX(a,b,c) bdk_oclax_fsmx_statex_t
 #define bustype_BDK_OCLAX_FSMX_STATEX(a,b,c) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_FSMX_STATEX(a,b,c) "OCLAX_FSMX_STATEX"
+#define device_bar_BDK_OCLAX_FSMX_STATEX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_FSMX_STATEX(a,b,c) (a)
 #define arguments_BDK_OCLAX_FSMX_STATEX(a,b,c) (a),(b),(c),-1
 
@@ -963,6 +979,7 @@ static inline uint64_t BDK_OCLAX_GEN_CTL(unsigned long a)
 #define typedef_BDK_OCLAX_GEN_CTL(a) bdk_oclax_gen_ctl_t
 #define bustype_BDK_OCLAX_GEN_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_GEN_CTL(a) "OCLAX_GEN_CTL"
+#define device_bar_BDK_OCLAX_GEN_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_GEN_CTL(a) (a)
 #define arguments_BDK_OCLAX_GEN_CTL(a) (a),-1,-1,-1
 
@@ -1000,6 +1017,7 @@ static inline uint64_t BDK_OCLAX_MATX_COUNT(unsigned long a, unsigned long b)
 #define typedef_BDK_OCLAX_MATX_COUNT(a,b) bdk_oclax_matx_count_t
 #define bustype_BDK_OCLAX_MATX_COUNT(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_MATX_COUNT(a,b) "OCLAX_MATX_COUNT"
+#define device_bar_BDK_OCLAX_MATX_COUNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_MATX_COUNT(a,b) (a)
 #define arguments_BDK_OCLAX_MATX_COUNT(a,b) (a),(b),-1,-1
 
@@ -1045,6 +1063,7 @@ static inline uint64_t BDK_OCLAX_MATX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_OCLAX_MATX_CTL(a,b) bdk_oclax_matx_ctl_t
 #define bustype_BDK_OCLAX_MATX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_MATX_CTL(a,b) "OCLAX_MATX_CTL"
+#define device_bar_BDK_OCLAX_MATX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_MATX_CTL(a,b) (a)
 #define arguments_BDK_OCLAX_MATX_CTL(a,b) (a),(b),-1,-1
 
@@ -1123,6 +1142,7 @@ static inline uint64_t BDK_OCLAX_MATX_MASKX(unsigned long a, unsigned long b, un
 #define typedef_BDK_OCLAX_MATX_MASKX(a,b,c) bdk_oclax_matx_maskx_t
 #define bustype_BDK_OCLAX_MATX_MASKX(a,b,c) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_MATX_MASKX(a,b,c) "OCLAX_MATX_MASKX"
+#define device_bar_BDK_OCLAX_MATX_MASKX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_MATX_MASKX(a,b,c) (a)
 #define arguments_BDK_OCLAX_MATX_MASKX(a,b,c) (a),(b),(c),-1
 
@@ -1160,6 +1180,7 @@ static inline uint64_t BDK_OCLAX_MATX_THRESH(unsigned long a, unsigned long b)
 #define typedef_BDK_OCLAX_MATX_THRESH(a,b) bdk_oclax_matx_thresh_t
 #define bustype_BDK_OCLAX_MATX_THRESH(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_MATX_THRESH(a,b) "OCLAX_MATX_THRESH"
+#define device_bar_BDK_OCLAX_MATX_THRESH(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_MATX_THRESH(a,b) (a)
 #define arguments_BDK_OCLAX_MATX_THRESH(a,b) (a),(b),-1,-1
 
@@ -1197,6 +1218,7 @@ static inline uint64_t BDK_OCLAX_MATX_VALUEX(unsigned long a, unsigned long b, u
 #define typedef_BDK_OCLAX_MATX_VALUEX(a,b,c) bdk_oclax_matx_valuex_t
 #define bustype_BDK_OCLAX_MATX_VALUEX(a,b,c) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_MATX_VALUEX(a,b,c) "OCLAX_MATX_VALUEX"
+#define device_bar_BDK_OCLAX_MATX_VALUEX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_MATX_VALUEX(a,b,c) (a)
 #define arguments_BDK_OCLAX_MATX_VALUEX(a,b,c) (a),(b),(c),-1
 
@@ -1233,6 +1255,7 @@ static inline uint64_t BDK_OCLAX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_OCLAX_MSIX_PBAX(a,b) bdk_oclax_msix_pbax_t
 #define bustype_BDK_OCLAX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_MSIX_PBAX(a,b) "OCLAX_MSIX_PBAX"
+#define device_bar_BDK_OCLAX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_OCLAX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_OCLAX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -1289,6 +1312,7 @@ static inline uint64_t BDK_OCLAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
 #define typedef_BDK_OCLAX_MSIX_VECX_ADDR(a,b) bdk_oclax_msix_vecx_addr_t
 #define bustype_BDK_OCLAX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_MSIX_VECX_ADDR(a,b) "OCLAX_MSIX_VECX_ADDR"
+#define device_bar_BDK_OCLAX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_OCLAX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_OCLAX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -1329,6 +1353,7 @@ static inline uint64_t BDK_OCLAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_OCLAX_MSIX_VECX_CTL(a,b) bdk_oclax_msix_vecx_ctl_t
 #define bustype_BDK_OCLAX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_MSIX_VECX_CTL(a,b) "OCLAX_MSIX_VECX_CTL"
+#define device_bar_BDK_OCLAX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_OCLAX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_OCLAX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -1364,6 +1389,7 @@ static inline uint64_t BDK_OCLAX_RAWX(unsigned long a, unsigned long b)
 #define typedef_BDK_OCLAX_RAWX(a,b) bdk_oclax_rawx_t
 #define bustype_BDK_OCLAX_RAWX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_RAWX(a,b) "OCLAX_RAWX"
+#define device_bar_BDK_OCLAX_RAWX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_RAWX(a,b) (a)
 #define arguments_BDK_OCLAX_RAWX(a,b) (a),(b),-1,-1
 
@@ -1399,6 +1425,7 @@ static inline uint64_t BDK_OCLAX_SFT_RST(unsigned long a)
 #define typedef_BDK_OCLAX_SFT_RST(a) bdk_oclax_sft_rst_t
 #define bustype_BDK_OCLAX_SFT_RST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_SFT_RST(a) "OCLAX_SFT_RST"
+#define device_bar_BDK_OCLAX_SFT_RST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_SFT_RST(a) (a)
 #define arguments_BDK_OCLAX_SFT_RST(a) (a),-1,-1,-1
 
@@ -1485,6 +1512,7 @@ static inline uint64_t BDK_OCLAX_STACK_BASE(unsigned long a)
 #define typedef_BDK_OCLAX_STACK_BASE(a) bdk_oclax_stack_base_t
 #define bustype_BDK_OCLAX_STACK_BASE(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_STACK_BASE(a) "OCLAX_STACK_BASE"
+#define device_bar_BDK_OCLAX_STACK_BASE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_STACK_BASE(a) (a)
 #define arguments_BDK_OCLAX_STACK_BASE(a) (a),-1,-1,-1
 
@@ -1528,6 +1556,7 @@ static inline uint64_t BDK_OCLAX_STACK_CUR(unsigned long a)
 #define typedef_BDK_OCLAX_STACK_CUR(a) bdk_oclax_stack_cur_t
 #define bustype_BDK_OCLAX_STACK_CUR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_STACK_CUR(a) "OCLAX_STACK_CUR"
+#define device_bar_BDK_OCLAX_STACK_CUR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_STACK_CUR(a) (a)
 #define arguments_BDK_OCLAX_STACK_CUR(a) (a),-1,-1,-1
 
@@ -1563,6 +1592,7 @@ static inline uint64_t BDK_OCLAX_STACK_STORE_CNT(unsigned long a)
 #define typedef_BDK_OCLAX_STACK_STORE_CNT(a) bdk_oclax_stack_store_cnt_t
 #define bustype_BDK_OCLAX_STACK_STORE_CNT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_STACK_STORE_CNT(a) "OCLAX_STACK_STORE_CNT"
+#define device_bar_BDK_OCLAX_STACK_STORE_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_STACK_STORE_CNT(a) (a)
 #define arguments_BDK_OCLAX_STACK_STORE_CNT(a) (a),-1,-1,-1
 
@@ -1604,6 +1634,7 @@ static inline uint64_t BDK_OCLAX_STACK_TOP(unsigned long a)
 #define typedef_BDK_OCLAX_STACK_TOP(a) bdk_oclax_stack_top_t
 #define bustype_BDK_OCLAX_STACK_TOP(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_STACK_TOP(a) "OCLAX_STACK_TOP"
+#define device_bar_BDK_OCLAX_STACK_TOP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_STACK_TOP(a) (a)
 #define arguments_BDK_OCLAX_STACK_TOP(a) (a),-1,-1,-1
 
@@ -1641,6 +1672,7 @@ static inline uint64_t BDK_OCLAX_STACK_WRAP(unsigned long a)
 #define typedef_BDK_OCLAX_STACK_WRAP(a) bdk_oclax_stack_wrap_t
 #define bustype_BDK_OCLAX_STACK_WRAP(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_STACK_WRAP(a) "OCLAX_STACK_WRAP"
+#define device_bar_BDK_OCLAX_STACK_WRAP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_STACK_WRAP(a) (a)
 #define arguments_BDK_OCLAX_STACK_WRAP(a) (a),-1,-1,-1
 
@@ -1676,6 +1708,7 @@ static inline uint64_t BDK_OCLAX_STAGEX(unsigned long a, unsigned long b)
 #define typedef_BDK_OCLAX_STAGEX(a,b) bdk_oclax_stagex_t
 #define bustype_BDK_OCLAX_STAGEX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_STAGEX(a,b) "OCLAX_STAGEX"
+#define device_bar_BDK_OCLAX_STAGEX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_STAGEX(a,b) (a)
 #define arguments_BDK_OCLAX_STAGEX(a,b) (a),(b),-1,-1
 
@@ -1732,6 +1765,7 @@ static inline uint64_t BDK_OCLAX_STATE_ENA_W1C(unsigned long a)
 #define typedef_BDK_OCLAX_STATE_ENA_W1C(a) bdk_oclax_state_ena_w1c_t
 #define bustype_BDK_OCLAX_STATE_ENA_W1C(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_STATE_ENA_W1C(a) "OCLAX_STATE_ENA_W1C"
+#define device_bar_BDK_OCLAX_STATE_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_STATE_ENA_W1C(a) (a)
 #define arguments_BDK_OCLAX_STATE_ENA_W1C(a) (a),-1,-1,-1
 
@@ -1788,6 +1822,7 @@ static inline uint64_t BDK_OCLAX_STATE_ENA_W1S(unsigned long a)
 #define typedef_BDK_OCLAX_STATE_ENA_W1S(a) bdk_oclax_state_ena_w1s_t
 #define bustype_BDK_OCLAX_STATE_ENA_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_STATE_ENA_W1S(a) "OCLAX_STATE_ENA_W1S"
+#define device_bar_BDK_OCLAX_STATE_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_STATE_ENA_W1S(a) (a)
 #define arguments_BDK_OCLAX_STATE_ENA_W1S(a) (a),-1,-1,-1
 
@@ -1875,6 +1910,7 @@ static inline uint64_t BDK_OCLAX_STATE_INT(unsigned long a)
 #define typedef_BDK_OCLAX_STATE_INT(a) bdk_oclax_state_int_t
 #define bustype_BDK_OCLAX_STATE_INT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_STATE_INT(a) "OCLAX_STATE_INT"
+#define device_bar_BDK_OCLAX_STATE_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_STATE_INT(a) (a)
 #define arguments_BDK_OCLAX_STATE_INT(a) (a),-1,-1,-1
 
@@ -1945,6 +1981,7 @@ static inline uint64_t BDK_OCLAX_STATE_SET(unsigned long a)
 #define typedef_BDK_OCLAX_STATE_SET(a) bdk_oclax_state_set_t
 #define bustype_BDK_OCLAX_STATE_SET(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_STATE_SET(a) "OCLAX_STATE_SET"
+#define device_bar_BDK_OCLAX_STATE_SET(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_STATE_SET(a) (a)
 #define arguments_BDK_OCLAX_STATE_SET(a) (a),-1,-1,-1
 
@@ -2005,6 +2042,7 @@ static inline uint64_t BDK_OCLAX_TIME(unsigned long a)
 #define typedef_BDK_OCLAX_TIME(a) bdk_oclax_time_t
 #define bustype_BDK_OCLAX_TIME(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_OCLAX_TIME(a) "OCLAX_TIME"
+#define device_bar_BDK_OCLAX_TIME(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_OCLAX_TIME(a) (a)
 #define arguments_BDK_OCLAX_TIME(a) (a),-1,-1,-1
 

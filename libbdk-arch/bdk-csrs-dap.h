@@ -102,6 +102,7 @@ static inline uint64_t BDK_DAP_ECO_FUNC(void)
 #define typedef_BDK_DAP_ECO bdk_dap_eco_t
 #define bustype_BDK_DAP_ECO BDK_CSR_TYPE_RSL
 #define basename_BDK_DAP_ECO "DAP_ECO"
+#define device_bar_BDK_DAP_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_DAP_ECO 0
 #define arguments_BDK_DAP_ECO -1,-1,-1,-1
 
@@ -181,6 +182,7 @@ static inline uint64_t BDK_DAP_HWPOLL_CNT_FUNC(void)
 #define typedef_BDK_DAP_HWPOLL_CNT bdk_dap_hwpoll_cnt_t
 #define bustype_BDK_DAP_HWPOLL_CNT BDK_CSR_TYPE_RSL32b
 #define basename_BDK_DAP_HWPOLL_CNT "DAP_HWPOLL_CNT"
+#define device_bar_BDK_DAP_HWPOLL_CNT 0x0 /* PF_BAR0 */
 #define busnum_BDK_DAP_HWPOLL_CNT 0
 #define arguments_BDK_DAP_HWPOLL_CNT -1,-1,-1,-1
 
@@ -430,6 +432,7 @@ static inline uint64_t BDK_DAP_IMP_DAR_FUNC(void)
 #define typedef_BDK_DAP_IMP_DAR bdk_dap_imp_dar_t
 #define bustype_BDK_DAP_IMP_DAR BDK_CSR_TYPE_RSL32b
 #define basename_BDK_DAP_IMP_DAR "DAP_IMP_DAR"
+#define device_bar_BDK_DAP_IMP_DAR 0x0 /* PF_BAR0 */
 #define busnum_BDK_DAP_IMP_DAR 0
 #define arguments_BDK_DAP_IMP_DAR -1,-1,-1,-1
 
@@ -498,6 +501,7 @@ static inline uint64_t BDK_DAP_OWB_TO_FUNC(void)
 #define typedef_BDK_DAP_OWB_TO bdk_dap_owb_to_t
 #define bustype_BDK_DAP_OWB_TO BDK_CSR_TYPE_RSL32b
 #define basename_BDK_DAP_OWB_TO "DAP_OWB_TO"
+#define device_bar_BDK_DAP_OWB_TO 0x0 /* PF_BAR0 */
 #define busnum_BDK_DAP_OWB_TO 0
 #define arguments_BDK_DAP_OWB_TO -1,-1,-1,-1
 
@@ -545,6 +549,7 @@ static inline uint64_t BDK_DAP_RST_ON_WARM_FUNC(void)
 #define typedef_BDK_DAP_RST_ON_WARM bdk_dap_rst_on_warm_t
 #define bustype_BDK_DAP_RST_ON_WARM BDK_CSR_TYPE_RSL
 #define basename_BDK_DAP_RST_ON_WARM "DAP_RST_ON_WARM"
+#define device_bar_BDK_DAP_RST_ON_WARM 0x0 /* PF_BAR0 */
 #define busnum_BDK_DAP_RST_ON_WARM 0
 #define arguments_BDK_DAP_RST_ON_WARM -1,-1,-1,-1
 
@@ -585,6 +590,7 @@ static inline uint64_t BDK_DAP_SCRATCH_FUNC(void)
 #define typedef_BDK_DAP_SCRATCH bdk_dap_scratch_t
 #define bustype_BDK_DAP_SCRATCH BDK_CSR_TYPE_RSL
 #define basename_BDK_DAP_SCRATCH "DAP_SCRATCH"
+#define device_bar_BDK_DAP_SCRATCH 0x0 /* PF_BAR0 */
 #define busnum_BDK_DAP_SCRATCH 0
 #define arguments_BDK_DAP_SCRATCH -1,-1,-1,-1
 
@@ -696,6 +702,7 @@ static inline uint64_t BDK_DAP_SRAADDR_FUNC(void)
 #define typedef_BDK_DAP_SRAADDR bdk_dap_sraaddr_t
 #define bustype_BDK_DAP_SRAADDR BDK_CSR_TYPE_RSL32b
 #define basename_BDK_DAP_SRAADDR "DAP_SRAADDR"
+#define device_bar_BDK_DAP_SRAADDR 0x0 /* PF_BAR0 */
 #define busnum_BDK_DAP_SRAADDR 0
 #define arguments_BDK_DAP_SRAADDR -1,-1,-1,-1
 
@@ -729,6 +736,7 @@ static inline uint64_t BDK_DAP_SRADATA_FUNC(void)
 #define typedef_BDK_DAP_SRADATA bdk_dap_sradata_t
 #define bustype_BDK_DAP_SRADATA BDK_CSR_TYPE_RSL
 #define basename_BDK_DAP_SRADATA "DAP_SRADATA"
+#define device_bar_BDK_DAP_SRADATA 0x0 /* PF_BAR0 */
 #define busnum_BDK_DAP_SRADATA 0
 #define arguments_BDK_DAP_SRADATA -1,-1,-1,-1
 

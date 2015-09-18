@@ -156,6 +156,7 @@ static inline uint64_t BDK_SGP_CFG0_FUNC(void)
 #define typedef_BDK_SGP_CFG0 bdk_sgp_cfg0_t
 #define bustype_BDK_SGP_CFG0 BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_CFG0 "SGP_CFG0"
+#define device_bar_BDK_SGP_CFG0 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_CFG0 0
 #define arguments_BDK_SGP_CFG0 -1,-1,-1,-1
 
@@ -252,6 +253,7 @@ static inline uint64_t BDK_SGP_CFG1_FUNC(void)
 #define typedef_BDK_SGP_CFG1 bdk_sgp_cfg1_t
 #define bustype_BDK_SGP_CFG1 BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_CFG1 "SGP_CFG1"
+#define device_bar_BDK_SGP_CFG1 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_CFG1 0
 #define arguments_BDK_SGP_CFG1 -1,-1,-1,-1
 
@@ -292,6 +294,7 @@ static inline uint64_t BDK_SGP_IMP_CLK_FUNC(void)
 #define typedef_BDK_SGP_IMP_CLK bdk_sgp_imp_clk_t
 #define bustype_BDK_SGP_IMP_CLK BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_IMP_CLK "SGP_IMP_CLK"
+#define device_bar_BDK_SGP_IMP_CLK 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_IMP_CLK 0
 #define arguments_BDK_SGP_IMP_CLK -1,-1,-1,-1
 
@@ -344,6 +347,7 @@ static inline uint64_t BDK_SGP_IMP_CTL_FUNC(void)
 #define typedef_BDK_SGP_IMP_CTL bdk_sgp_imp_ctl_t
 #define bustype_BDK_SGP_IMP_CTL BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_IMP_CTL "SGP_IMP_CTL"
+#define device_bar_BDK_SGP_IMP_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_IMP_CTL 0
 #define arguments_BDK_SGP_IMP_CTL -1,-1,-1,-1
 
@@ -403,6 +407,7 @@ static inline uint64_t BDK_SGP_IMP_DRIVEX(unsigned long a)
 #define typedef_BDK_SGP_IMP_DRIVEX(a) bdk_sgp_imp_drivex_t
 #define bustype_BDK_SGP_IMP_DRIVEX(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_IMP_DRIVEX(a) "SGP_IMP_DRIVEX"
+#define device_bar_BDK_SGP_IMP_DRIVEX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_IMP_DRIVEX(a) (a)
 #define arguments_BDK_SGP_IMP_DRIVEX(a) (a),-1,-1,-1
 
@@ -441,6 +446,7 @@ static inline uint64_t BDK_SGP_IMP_SEC_CLK_FUNC(void)
 #define typedef_BDK_SGP_IMP_SEC_CLK bdk_sgp_imp_sec_clk_t
 #define bustype_BDK_SGP_IMP_SEC_CLK BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_IMP_SEC_CLK "SGP_IMP_SEC_CLK"
+#define device_bar_BDK_SGP_IMP_SEC_CLK 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_IMP_SEC_CLK 0
 #define arguments_BDK_SGP_IMP_SEC_CLK -1,-1,-1,-1
 
@@ -488,6 +494,7 @@ static inline uint64_t BDK_SGP_RXX(unsigned long a)
 #define typedef_BDK_SGP_RXX(a) bdk_sgp_rxx_t
 #define bustype_BDK_SGP_RXX(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_RXX(a) "SGP_RXX"
+#define device_bar_BDK_SGP_RXX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_RXX(a) (a)
 #define arguments_BDK_SGP_RXX(a) (a),-1,-1,-1
 
@@ -545,6 +552,7 @@ static inline uint64_t BDK_SGP_RX_GPX(unsigned long a)
 #define typedef_BDK_SGP_RX_GPX(a) bdk_sgp_rx_gpx_t
 #define bustype_BDK_SGP_RX_GPX(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_RX_GPX(a) "SGP_RX_GPX"
+#define device_bar_BDK_SGP_RX_GPX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_RX_GPX(a) (a)
 #define arguments_BDK_SGP_RX_GPX(a) (a),-1,-1,-1
 
@@ -581,6 +589,7 @@ static inline uint64_t BDK_SGP_RX_GP_CFG_FUNC(void)
 #define typedef_BDK_SGP_RX_GP_CFG bdk_sgp_rx_gp_cfg_t
 #define bustype_BDK_SGP_RX_GP_CFG BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_RX_GP_CFG "SGP_RX_GP_CFG"
+#define device_bar_BDK_SGP_RX_GP_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_RX_GP_CFG 0
 #define arguments_BDK_SGP_RX_GP_CFG -1,-1,-1,-1
 
@@ -636,6 +645,7 @@ static inline uint64_t BDK_SGP_TXX(unsigned long a)
 #define typedef_BDK_SGP_TXX(a) bdk_sgp_txx_t
 #define bustype_BDK_SGP_TXX(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_TXX(a) "SGP_TXX"
+#define device_bar_BDK_SGP_TXX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_TXX(a) (a)
 #define arguments_BDK_SGP_TXX(a) (a),-1,-1,-1
 
@@ -693,6 +703,7 @@ static inline uint64_t BDK_SGP_TX_GPX(unsigned long a)
 #define typedef_BDK_SGP_TX_GPX(a) bdk_sgp_tx_gpx_t
 #define bustype_BDK_SGP_TX_GPX(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_TX_GPX(a) "SGP_TX_GPX"
+#define device_bar_BDK_SGP_TX_GPX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_TX_GPX(a) (a)
 #define arguments_BDK_SGP_TX_GPX(a) (a),-1,-1,-1
 
@@ -737,6 +748,7 @@ static inline uint64_t BDK_SGP_TX_GP_CFG_FUNC(void)
 #define typedef_BDK_SGP_TX_GP_CFG bdk_sgp_tx_gp_cfg_t
 #define bustype_BDK_SGP_TX_GP_CFG BDK_CSR_TYPE_RSL32b
 #define basename_BDK_SGP_TX_GP_CFG "SGP_TX_GP_CFG"
+#define device_bar_BDK_SGP_TX_GP_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_SGP_TX_GP_CFG 0
 #define arguments_BDK_SGP_TX_GP_CFG -1,-1,-1,-1
 

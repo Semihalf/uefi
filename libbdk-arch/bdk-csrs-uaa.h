@@ -110,6 +110,7 @@ static inline uint64_t BDK_UAAX_CIDR0(unsigned long a)
 #define typedef_BDK_UAAX_CIDR0(a) bdk_uaax_cidr0_t
 #define bustype_BDK_UAAX_CIDR0(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_CIDR0(a) "UAAX_CIDR0"
+#define device_bar_BDK_UAAX_CIDR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_CIDR0(a) (a)
 #define arguments_BDK_UAAX_CIDR0(a) (a),-1,-1,-1
 
@@ -149,6 +150,7 @@ static inline uint64_t BDK_UAAX_CIDR1(unsigned long a)
 #define typedef_BDK_UAAX_CIDR1(a) bdk_uaax_cidr1_t
 #define bustype_BDK_UAAX_CIDR1(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_CIDR1(a) "UAAX_CIDR1"
+#define device_bar_BDK_UAAX_CIDR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_CIDR1(a) (a)
 #define arguments_BDK_UAAX_CIDR1(a) (a),-1,-1,-1
 
@@ -188,6 +190,7 @@ static inline uint64_t BDK_UAAX_CIDR2(unsigned long a)
 #define typedef_BDK_UAAX_CIDR2(a) bdk_uaax_cidr2_t
 #define bustype_BDK_UAAX_CIDR2(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_CIDR2(a) "UAAX_CIDR2"
+#define device_bar_BDK_UAAX_CIDR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_CIDR2(a) (a)
 #define arguments_BDK_UAAX_CIDR2(a) (a),-1,-1,-1
 
@@ -227,6 +230,7 @@ static inline uint64_t BDK_UAAX_CIDR3(unsigned long a)
 #define typedef_BDK_UAAX_CIDR3(a) bdk_uaax_cidr3_t
 #define bustype_BDK_UAAX_CIDR3(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_CIDR3(a) "UAAX_CIDR3"
+#define device_bar_BDK_UAAX_CIDR3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_CIDR3(a) (a)
 #define arguments_BDK_UAAX_CIDR3(a) (a),-1,-1,-1
 
@@ -339,6 +343,7 @@ static inline uint64_t BDK_UAAX_CR(unsigned long a)
 #define typedef_BDK_UAAX_CR(a) bdk_uaax_cr_t
 #define bustype_BDK_UAAX_CR(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_CR(a) "UAAX_CR"
+#define device_bar_BDK_UAAX_CR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_CR(a) (a)
 #define arguments_BDK_UAAX_CR(a) (a),-1,-1,-1
 
@@ -390,6 +395,7 @@ static inline uint64_t BDK_UAAX_DR(unsigned long a)
 #define typedef_BDK_UAAX_DR(a) bdk_uaax_dr_t
 #define bustype_BDK_UAAX_DR(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_DR(a) "UAAX_DR"
+#define device_bar_BDK_UAAX_DR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_DR(a) (a)
 #define arguments_BDK_UAAX_DR(a) (a),-1,-1,-1
 
@@ -437,6 +443,7 @@ static inline uint64_t BDK_UAAX_FBRD(unsigned long a)
 #define typedef_BDK_UAAX_FBRD(a) bdk_uaax_fbrd_t
 #define bustype_BDK_UAAX_FBRD(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_FBRD(a) "UAAX_FBRD"
+#define device_bar_BDK_UAAX_FBRD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_FBRD(a) (a)
 #define arguments_BDK_UAAX_FBRD(a) (a),-1,-1,-1
 
@@ -492,6 +499,7 @@ static inline uint64_t BDK_UAAX_FR(unsigned long a)
 #define typedef_BDK_UAAX_FR(a) bdk_uaax_fr_t
 #define bustype_BDK_UAAX_FR(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_FR(a) "UAAX_FR"
+#define device_bar_BDK_UAAX_FR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_FR(a) (a)
 #define arguments_BDK_UAAX_FR(a) (a),-1,-1,-1
 
@@ -542,6 +550,7 @@ static inline uint64_t BDK_UAAX_IBRD(unsigned long a)
 #define typedef_BDK_UAAX_IBRD(a) bdk_uaax_ibrd_t
 #define bustype_BDK_UAAX_IBRD(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_IBRD(a) "UAAX_IBRD"
+#define device_bar_BDK_UAAX_IBRD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_IBRD(a) (a)
 #define arguments_BDK_UAAX_IBRD(a) (a),-1,-1,-1
 
@@ -602,6 +611,7 @@ static inline uint64_t BDK_UAAX_ICR(unsigned long a)
 #define typedef_BDK_UAAX_ICR(a) bdk_uaax_icr_t
 #define bustype_BDK_UAAX_ICR(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_ICR(a) "UAAX_ICR"
+#define device_bar_BDK_UAAX_ICR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_ICR(a) (a)
 #define arguments_BDK_UAAX_ICR(a) (a),-1,-1,-1
 
@@ -667,6 +677,7 @@ static inline uint64_t BDK_UAAX_IFLS(unsigned long a)
 #define typedef_BDK_UAAX_IFLS(a) bdk_uaax_ifls_t
 #define bustype_BDK_UAAX_IFLS(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_IFLS(a) "UAAX_IFLS"
+#define device_bar_BDK_UAAX_IFLS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_IFLS(a) (a)
 #define arguments_BDK_UAAX_IFLS(a) (a),-1,-1,-1
 
@@ -726,6 +737,7 @@ static inline uint64_t BDK_UAAX_IMSC(unsigned long a)
 #define typedef_BDK_UAAX_IMSC(a) bdk_uaax_imsc_t
 #define bustype_BDK_UAAX_IMSC(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_IMSC(a) "UAAX_IMSC"
+#define device_bar_BDK_UAAX_IMSC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_IMSC(a) (a)
 #define arguments_BDK_UAAX_IMSC(a) (a),-1,-1,-1
 
@@ -789,6 +801,7 @@ static inline uint64_t BDK_UAAX_LCR_H(unsigned long a)
 #define typedef_BDK_UAAX_LCR_H(a) bdk_uaax_lcr_h_t
 #define bustype_BDK_UAAX_LCR_H(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_LCR_H(a) "UAAX_LCR_H"
+#define device_bar_BDK_UAAX_LCR_H(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_LCR_H(a) (a)
 #define arguments_BDK_UAAX_LCR_H(a) (a),-1,-1,-1
 
@@ -851,6 +864,7 @@ static inline uint64_t BDK_UAAX_MIS(unsigned long a)
 #define typedef_BDK_UAAX_MIS(a) bdk_uaax_mis_t
 #define bustype_BDK_UAAX_MIS(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_MIS(a) "UAAX_MIS"
+#define device_bar_BDK_UAAX_MIS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_MIS(a) (a)
 #define arguments_BDK_UAAX_MIS(a) (a),-1,-1,-1
 
@@ -891,6 +905,7 @@ static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_UAAX_MSIX_PBAX(a,b) bdk_uaax_msix_pbax_t
 #define bustype_BDK_UAAX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_UAAX_MSIX_PBAX(a,b) "UAAX_MSIX_PBAX"
+#define device_bar_BDK_UAAX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_UAAX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_UAAX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -982,6 +997,7 @@ static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 #define typedef_BDK_UAAX_MSIX_VECX_ADDR(a,b) bdk_uaax_msix_vecx_addr_t
 #define bustype_BDK_UAAX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_UAAX_MSIX_VECX_ADDR(a,b) "UAAX_MSIX_VECX_ADDR"
+#define device_bar_BDK_UAAX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_UAAX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_UAAX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -1026,6 +1042,7 @@ static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_UAAX_MSIX_VECX_CTL(a,b) bdk_uaax_msix_vecx_ctl_t
 #define bustype_BDK_UAAX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_UAAX_MSIX_VECX_CTL(a,b) "UAAX_MSIX_VECX_CTL"
+#define device_bar_BDK_UAAX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_UAAX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_UAAX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -1065,6 +1082,7 @@ static inline uint64_t BDK_UAAX_PIDR0(unsigned long a)
 #define typedef_BDK_UAAX_PIDR0(a) bdk_uaax_pidr0_t
 #define bustype_BDK_UAAX_PIDR0(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_PIDR0(a) "UAAX_PIDR0"
+#define device_bar_BDK_UAAX_PIDR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_PIDR0(a) (a)
 #define arguments_BDK_UAAX_PIDR0(a) (a),-1,-1,-1
 
@@ -1106,6 +1124,7 @@ static inline uint64_t BDK_UAAX_PIDR1(unsigned long a)
 #define typedef_BDK_UAAX_PIDR1(a) bdk_uaax_pidr1_t
 #define bustype_BDK_UAAX_PIDR1(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_PIDR1(a) "UAAX_PIDR1"
+#define device_bar_BDK_UAAX_PIDR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_PIDR1(a) (a)
 #define arguments_BDK_UAAX_PIDR1(a) (a),-1,-1,-1
 
@@ -1151,6 +1170,7 @@ static inline uint64_t BDK_UAAX_PIDR2(unsigned long a)
 #define typedef_BDK_UAAX_PIDR2(a) bdk_uaax_pidr2_t
 #define bustype_BDK_UAAX_PIDR2(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_PIDR2(a) "UAAX_PIDR2"
+#define device_bar_BDK_UAAX_PIDR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_PIDR2(a) (a)
 #define arguments_BDK_UAAX_PIDR2(a) (a),-1,-1,-1
 
@@ -1194,6 +1214,7 @@ static inline uint64_t BDK_UAAX_PIDR3(unsigned long a)
 #define typedef_BDK_UAAX_PIDR3(a) bdk_uaax_pidr3_t
 #define bustype_BDK_UAAX_PIDR3(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_PIDR3(a) "UAAX_PIDR3"
+#define device_bar_BDK_UAAX_PIDR3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_PIDR3(a) (a)
 #define arguments_BDK_UAAX_PIDR3(a) (a),-1,-1,-1
 
@@ -1231,6 +1252,7 @@ static inline uint64_t BDK_UAAX_PIDR4(unsigned long a)
 #define typedef_BDK_UAAX_PIDR4(a) bdk_uaax_pidr4_t
 #define bustype_BDK_UAAX_PIDR4(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_PIDR4(a) "UAAX_PIDR4"
+#define device_bar_BDK_UAAX_PIDR4(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_PIDR4(a) (a)
 #define arguments_BDK_UAAX_PIDR4(a) (a),-1,-1,-1
 
@@ -1268,6 +1290,7 @@ static inline uint64_t BDK_UAAX_PIDR5(unsigned long a)
 #define typedef_BDK_UAAX_PIDR5(a) bdk_uaax_pidr5_t
 #define bustype_BDK_UAAX_PIDR5(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_PIDR5(a) "UAAX_PIDR5"
+#define device_bar_BDK_UAAX_PIDR5(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_PIDR5(a) (a)
 #define arguments_BDK_UAAX_PIDR5(a) (a),-1,-1,-1
 
@@ -1305,6 +1328,7 @@ static inline uint64_t BDK_UAAX_PIDR6(unsigned long a)
 #define typedef_BDK_UAAX_PIDR6(a) bdk_uaax_pidr6_t
 #define bustype_BDK_UAAX_PIDR6(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_PIDR6(a) "UAAX_PIDR6"
+#define device_bar_BDK_UAAX_PIDR6(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_PIDR6(a) (a)
 #define arguments_BDK_UAAX_PIDR6(a) (a),-1,-1,-1
 
@@ -1342,6 +1366,7 @@ static inline uint64_t BDK_UAAX_PIDR7(unsigned long a)
 #define typedef_BDK_UAAX_PIDR7(a) bdk_uaax_pidr7_t
 #define bustype_BDK_UAAX_PIDR7(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_PIDR7(a) "UAAX_PIDR7"
+#define device_bar_BDK_UAAX_PIDR7(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_PIDR7(a) (a)
 #define arguments_BDK_UAAX_PIDR7(a) (a),-1,-1,-1
 
@@ -1402,6 +1427,7 @@ static inline uint64_t BDK_UAAX_RIS(unsigned long a)
 #define typedef_BDK_UAAX_RIS(a) bdk_uaax_ris_t
 #define bustype_BDK_UAAX_RIS(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_RIS(a) "UAAX_RIS"
+#define device_bar_BDK_UAAX_RIS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_RIS(a) (a)
 #define arguments_BDK_UAAX_RIS(a) (a),-1,-1,-1
 
@@ -1451,6 +1477,7 @@ static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long a)
 #define typedef_BDK_UAAX_RSR_ECR(a) bdk_uaax_rsr_ecr_t
 #define bustype_BDK_UAAX_RSR_ECR(a) BDK_CSR_TYPE_RSL32b
 #define basename_BDK_UAAX_RSR_ECR(a) "UAAX_RSR_ECR"
+#define device_bar_BDK_UAAX_RSR_ECR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_RSR_ECR(a) (a)
 #define arguments_BDK_UAAX_RSR_ECR(a) (a),-1,-1,-1
 
@@ -1578,6 +1605,7 @@ static inline uint64_t BDK_UAAX_UCTL_CTL(unsigned long a)
 #define typedef_BDK_UAAX_UCTL_CTL(a) bdk_uaax_uctl_ctl_t
 #define bustype_BDK_UAAX_UCTL_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_UAAX_UCTL_CTL(a) "UAAX_UCTL_CTL"
+#define device_bar_BDK_UAAX_UCTL_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_UCTL_CTL(a) (a)
 #define arguments_BDK_UAAX_UCTL_CTL(a) (a),-1,-1,-1
 
@@ -1616,6 +1644,7 @@ static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long a)
 #define typedef_BDK_UAAX_UCTL_SPARE0(a) bdk_uaax_uctl_spare0_t
 #define bustype_BDK_UAAX_UCTL_SPARE0(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_UAAX_UCTL_SPARE0(a) "UAAX_UCTL_SPARE0"
+#define device_bar_BDK_UAAX_UCTL_SPARE0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_UCTL_SPARE0(a) (a)
 #define arguments_BDK_UAAX_UCTL_SPARE0(a) (a),-1,-1,-1
 
@@ -1654,6 +1683,7 @@ static inline uint64_t BDK_UAAX_UCTL_SPARE1(unsigned long a)
 #define typedef_BDK_UAAX_UCTL_SPARE1(a) bdk_uaax_uctl_spare1_t
 #define bustype_BDK_UAAX_UCTL_SPARE1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_UAAX_UCTL_SPARE1(a) "UAAX_UCTL_SPARE1"
+#define device_bar_BDK_UAAX_UCTL_SPARE1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_UAAX_UCTL_SPARE1(a) (a)
 #define arguments_BDK_UAAX_UCTL_SPARE1(a) (a),-1,-1,-1
 

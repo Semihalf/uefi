@@ -198,6 +198,7 @@ static inline uint64_t BDK_SLIX_BIST_STATUS(unsigned long a)
 #define typedef_BDK_SLIX_BIST_STATUS(a) bdk_slix_bist_status_t
 #define bustype_BDK_SLIX_BIST_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_BIST_STATUS(a) "SLIX_BIST_STATUS"
+#define device_bar_BDK_SLIX_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_BIST_STATUS(a) (a)
 #define arguments_BDK_SLIX_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -248,6 +249,7 @@ static inline uint64_t BDK_SLIX_CONST(unsigned long a)
 #define typedef_BDK_SLIX_CONST(a) bdk_slix_const_t
 #define bustype_BDK_SLIX_CONST(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_CONST(a) "SLIX_CONST"
+#define device_bar_BDK_SLIX_CONST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_CONST(a) (a)
 #define arguments_BDK_SLIX_CONST(a) (a),-1,-1,-1
 
@@ -284,6 +286,7 @@ static inline uint64_t BDK_SLIX_CONST1(unsigned long a)
 #define typedef_BDK_SLIX_CONST1(a) bdk_slix_const1_t
 #define bustype_BDK_SLIX_CONST1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_CONST1(a) "SLIX_CONST1"
+#define device_bar_BDK_SLIX_CONST1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_CONST1(a) (a)
 #define arguments_BDK_SLIX_CONST1(a) (a),-1,-1,-1
 
@@ -326,6 +329,7 @@ static inline uint64_t BDK_SLIX_DATA_OUT_CNTX(unsigned long a, unsigned long b)
 #define typedef_BDK_SLIX_DATA_OUT_CNTX(a,b) bdk_slix_data_out_cntx_t
 #define bustype_BDK_SLIX_DATA_OUT_CNTX(a,b) BDK_CSR_TYPE_PEXP_NCB
 #define basename_BDK_SLIX_DATA_OUT_CNTX(a,b) "SLIX_DATA_OUT_CNTX"
+#define device_bar_BDK_SLIX_DATA_OUT_CNTX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_DATA_OUT_CNTX(a,b) (a)
 #define arguments_BDK_SLIX_DATA_OUT_CNTX(a,b) (a),(b),-1,-1
 
@@ -360,6 +364,7 @@ static inline uint64_t BDK_SLIX_END_MERGE(unsigned long a)
 #define typedef_BDK_SLIX_END_MERGE(a) bdk_slix_end_merge_t
 #define bustype_BDK_SLIX_END_MERGE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_END_MERGE(a) "SLIX_END_MERGE"
+#define device_bar_BDK_SLIX_END_MERGE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_END_MERGE(a) (a)
 #define arguments_BDK_SLIX_END_MERGE(a) (a),-1,-1,-1
 
@@ -628,6 +633,7 @@ static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_SLIX_M2S_MACX_CTL(a,b) bdk_slix_m2s_macx_ctl_t
 #define bustype_BDK_SLIX_M2S_MACX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_M2S_MACX_CTL(a,b) "SLIX_M2S_MACX_CTL"
+#define device_bar_BDK_SLIX_M2S_MACX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_M2S_MACX_CTL(a,b) (a)
 #define arguments_BDK_SLIX_M2S_MACX_CTL(a,b) (a),(b),-1,-1
 
@@ -670,6 +676,7 @@ static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1C(unsigned long a, unsigned long 
 #define typedef_BDK_SLIX_MACX_INT_ENA_W1C(a,b) bdk_slix_macx_int_ena_w1c_t
 #define bustype_BDK_SLIX_MACX_INT_ENA_W1C(a,b) BDK_CSR_TYPE_PEXP_NCB
 #define basename_BDK_SLIX_MACX_INT_ENA_W1C(a,b) "SLIX_MACX_INT_ENA_W1C"
+#define device_bar_BDK_SLIX_MACX_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MACX_INT_ENA_W1C(a,b) (a)
 #define arguments_BDK_SLIX_MACX_INT_ENA_W1C(a,b) (a),(b),-1,-1
 
@@ -712,6 +719,7 @@ static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1S(unsigned long a, unsigned long 
 #define typedef_BDK_SLIX_MACX_INT_ENA_W1S(a,b) bdk_slix_macx_int_ena_w1s_t
 #define bustype_BDK_SLIX_MACX_INT_ENA_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
 #define basename_BDK_SLIX_MACX_INT_ENA_W1S(a,b) "SLIX_MACX_INT_ENA_W1S"
+#define device_bar_BDK_SLIX_MACX_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MACX_INT_ENA_W1S(a,b) (a)
 #define arguments_BDK_SLIX_MACX_INT_ENA_W1S(a,b) (a),(b),-1,-1
 
@@ -762,6 +770,7 @@ static inline uint64_t BDK_SLIX_MACX_INT_SUM(unsigned long a, unsigned long b)
 #define typedef_BDK_SLIX_MACX_INT_SUM(a,b) bdk_slix_macx_int_sum_t
 #define bustype_BDK_SLIX_MACX_INT_SUM(a,b) BDK_CSR_TYPE_PEXP_NCB
 #define basename_BDK_SLIX_MACX_INT_SUM(a,b) "SLIX_MACX_INT_SUM"
+#define device_bar_BDK_SLIX_MACX_INT_SUM(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MACX_INT_SUM(a,b) (a)
 #define arguments_BDK_SLIX_MACX_INT_SUM(a,b) (a),(b),-1,-1
 
@@ -804,6 +813,7 @@ static inline uint64_t BDK_SLIX_MACX_INT_SUM_W1S(unsigned long a, unsigned long 
 #define typedef_BDK_SLIX_MACX_INT_SUM_W1S(a,b) bdk_slix_macx_int_sum_w1s_t
 #define bustype_BDK_SLIX_MACX_INT_SUM_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
 #define basename_BDK_SLIX_MACX_INT_SUM_W1S(a,b) "SLIX_MACX_INT_SUM_W1S"
+#define device_bar_BDK_SLIX_MACX_INT_SUM_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MACX_INT_SUM_W1S(a,b) (a)
 #define arguments_BDK_SLIX_MACX_INT_SUM_W1S(a,b) (a),(b),-1,-1
 
@@ -890,6 +900,7 @@ static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_SLIX_MBE_INT_ENA_W1C(a) bdk_slix_mbe_int_ena_w1c_t
 #define bustype_BDK_SLIX_MBE_INT_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MBE_INT_ENA_W1C(a) "SLIX_MBE_INT_ENA_W1C"
+#define device_bar_BDK_SLIX_MBE_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MBE_INT_ENA_W1C(a) (a)
 #define arguments_BDK_SLIX_MBE_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -930,6 +941,7 @@ static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_SLIX_MBE_INT_ENA_W1S(a) bdk_slix_mbe_int_ena_w1s_t
 #define bustype_BDK_SLIX_MBE_INT_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MBE_INT_ENA_W1S(a) "SLIX_MBE_INT_ENA_W1S"
+#define device_bar_BDK_SLIX_MBE_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MBE_INT_ENA_W1S(a) (a)
 #define arguments_BDK_SLIX_MBE_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -970,6 +982,7 @@ static inline uint64_t BDK_SLIX_MBE_INT_SUM(unsigned long a)
 #define typedef_BDK_SLIX_MBE_INT_SUM(a) bdk_slix_mbe_int_sum_t
 #define bustype_BDK_SLIX_MBE_INT_SUM(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MBE_INT_SUM(a) "SLIX_MBE_INT_SUM"
+#define device_bar_BDK_SLIX_MBE_INT_SUM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MBE_INT_SUM(a) (a)
 #define arguments_BDK_SLIX_MBE_INT_SUM(a) (a),-1,-1,-1
 
@@ -1010,6 +1023,7 @@ static inline uint64_t BDK_SLIX_MBE_INT_SUM_W1S(unsigned long a)
 #define typedef_BDK_SLIX_MBE_INT_SUM_W1S(a) bdk_slix_mbe_int_sum_w1s_t
 #define bustype_BDK_SLIX_MBE_INT_SUM_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MBE_INT_SUM_W1S(a) "SLIX_MBE_INT_SUM_W1S"
+#define device_bar_BDK_SLIX_MBE_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MBE_INT_SUM_W1S(a) (a)
 #define arguments_BDK_SLIX_MBE_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -1092,6 +1106,7 @@ static inline uint64_t BDK_SLIX_MEM_CTL(unsigned long a)
 #define typedef_BDK_SLIX_MEM_CTL(a) bdk_slix_mem_ctl_t
 #define bustype_BDK_SLIX_MEM_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MEM_CTL(a) "SLIX_MEM_CTL"
+#define device_bar_BDK_SLIX_MEM_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MEM_CTL(a) (a)
 #define arguments_BDK_SLIX_MEM_CTL(a) (a),-1,-1,-1
 
@@ -1128,6 +1143,7 @@ static inline uint64_t BDK_SLIX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_SLIX_MSIX_PBAX(a,b) bdk_slix_msix_pbax_t
 #define bustype_BDK_SLIX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MSIX_PBAX(a,b) "SLIX_MSIX_PBAX"
+#define device_bar_BDK_SLIX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SLIX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_SLIX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -1182,6 +1198,7 @@ static inline uint64_t BDK_SLIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 #define typedef_BDK_SLIX_MSIX_VECX_ADDR(a,b) bdk_slix_msix_vecx_addr_t
 #define bustype_BDK_SLIX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MSIX_VECX_ADDR(a,b) "SLIX_MSIX_VECX_ADDR"
+#define device_bar_BDK_SLIX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SLIX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_SLIX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -1222,6 +1239,7 @@ static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_SLIX_MSIX_VECX_CTL(a,b) bdk_slix_msix_vecx_ctl_t
 #define bustype_BDK_SLIX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MSIX_VECX_CTL(a,b) "SLIX_MSIX_VECX_CTL"
+#define device_bar_BDK_SLIX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SLIX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_SLIX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -1358,6 +1376,7 @@ static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long a)
 #define typedef_BDK_SLIX_S2M_CTL(a) bdk_slix_s2m_ctl_t
 #define bustype_BDK_SLIX_S2M_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_S2M_CTL(a) "SLIX_S2M_CTL"
+#define device_bar_BDK_SLIX_S2M_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_S2M_CTL(a) (a)
 #define arguments_BDK_SLIX_S2M_CTL(a) (a),-1,-1,-1
 
@@ -1409,6 +1428,7 @@ static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_SLIX_S2M_MACX_CTL(a,b) bdk_slix_s2m_macx_ctl_t
 #define bustype_BDK_SLIX_S2M_MACX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_S2M_MACX_CTL(a,b) "SLIX_S2M_MACX_CTL"
+#define device_bar_BDK_SLIX_S2M_MACX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_S2M_MACX_CTL(a,b) (a)
 #define arguments_BDK_SLIX_S2M_MACX_CTL(a,b) (a),(b),-1,-1
 
@@ -1484,6 +1504,7 @@ static inline uint64_t BDK_SLIX_S2M_REGX_ACC(unsigned long a, unsigned long b)
 #define typedef_BDK_SLIX_S2M_REGX_ACC(a,b) bdk_slix_s2m_regx_acc_t
 #define bustype_BDK_SLIX_S2M_REGX_ACC(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_S2M_REGX_ACC(a,b) "SLIX_S2M_REGX_ACC"
+#define device_bar_BDK_SLIX_S2M_REGX_ACC(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_S2M_REGX_ACC(a,b) (a)
 #define arguments_BDK_SLIX_S2M_REGX_ACC(a,b) (a),(b),-1,-1
 
@@ -1518,6 +1539,7 @@ static inline uint64_t BDK_SLIX_SCRATCH_1(unsigned long a)
 #define typedef_BDK_SLIX_SCRATCH_1(a) bdk_slix_scratch_1_t
 #define bustype_BDK_SLIX_SCRATCH_1(a) BDK_CSR_TYPE_PEXP_NCB
 #define basename_BDK_SLIX_SCRATCH_1(a) "SLIX_SCRATCH_1"
+#define device_bar_BDK_SLIX_SCRATCH_1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_SCRATCH_1(a) (a)
 #define arguments_BDK_SLIX_SCRATCH_1(a) (a),-1,-1,-1
 
@@ -1552,6 +1574,7 @@ static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long a)
 #define typedef_BDK_SLIX_SCRATCH_2(a) bdk_slix_scratch_2_t
 #define bustype_BDK_SLIX_SCRATCH_2(a) BDK_CSR_TYPE_PEXP_NCB
 #define basename_BDK_SLIX_SCRATCH_2(a) "SLIX_SCRATCH_2"
+#define device_bar_BDK_SLIX_SCRATCH_2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_SCRATCH_2(a) (a)
 #define arguments_BDK_SLIX_SCRATCH_2(a) (a),-1,-1,-1
 
@@ -1612,6 +1635,7 @@ static inline uint64_t BDK_SLIX_SCTL(unsigned long a)
 #define typedef_BDK_SLIX_SCTL(a) bdk_slix_sctl_t
 #define bustype_BDK_SLIX_SCTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_SCTL(a) "SLIX_SCTL"
+#define device_bar_BDK_SLIX_SCTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_SCTL(a) (a)
 #define arguments_BDK_SLIX_SCTL(a) (a),-1,-1,-1
 

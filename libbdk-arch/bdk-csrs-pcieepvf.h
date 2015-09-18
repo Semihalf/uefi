@@ -55,7 +55,7 @@
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg000
  *
- * PCIe VF PCIe Vendor and Device Register
+ * PCIe Vendor and Device Register
  * This register contains the first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -91,7 +91,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG000(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg001
  *
- * PCIe VF Command/Status Register
+ * Command/Status Register
  * This register contains the second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -181,7 +181,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG001(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg002
  *
- * PCIe VF Class Code/Revision ID Register
+ * Class Code/Revision ID Register
  * This register contains the third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -221,7 +221,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG002(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg003
  *
- * PCIe VF BIST, Header Type, Master Latency Timer, Cache Line Size Register
+ * BIST, Header Type, Master Latency Timer, Cache Line Size Register
  * This register contains the fourth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -271,7 +271,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG003(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg004
  *
- * PCIe VF Base Address 0 Low Register
+ * Base Address 0 Low Register
  * This register contains the fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -305,7 +305,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG004(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg005
  *
- * PCIe VF Base Address 0 High Register
+ * Base Address 0 High Register
  * This register contains the sixth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -339,7 +339,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG005(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg006
  *
- * PCIe VF Base Address 1 Low Register
+ * Base Address 1 Low Register
  * This register contains the seventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -373,7 +373,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG006(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg007
  *
- * PCIe VF Base Address 1 High Register
+ * Base Address 1 High Register
  * This register contains the eighth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -407,7 +407,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG007(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg008
  *
- * PCIe VF Base Address 2 Low Register
+ * Base Address 2 Low Register
  * This register contains the ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -441,7 +441,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG008(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg009
  *
- * PCIe VF Base Address Register 2 - High Register
+ * Base Address Register 2 - High Register
  * This register contains the tenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -475,7 +475,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG009(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg010
  *
- * PCIe VF Card Bus CIS Pointer Register
+ * Card Bus CIS Pointer Register
  * This register contains the eleventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -509,7 +509,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG010(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg011
  *
- * PCIe VF SubSystem ID/Subsystem Vendor ID Register
+ * SubSystem ID/Subsystem Vendor ID Register
  * This register contains the twelfth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -545,7 +545,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG011(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg012
  *
- * PCIe VF Expansion ROM Base Address Register
+ * Expansion ROM Base Address Register
  * This register contains the thirteenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -583,7 +583,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG012(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg013
  *
- * PCIe VF Capability Pointer Register
+ * Capability Pointer Register
  * This register contains the fourteenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -619,7 +619,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG013(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg015
  *
- * PCIe VF Interrupt Line/Interrupt Pin/Bridge Control Register
+ * Interrupt Line/Interrupt Pin/Bridge Control Register
  * This register contains the sixteenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -659,7 +659,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG015(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg028
  *
- * PCIe VF PCIe Capabilities/PCIe Capabilities List Register
+ * PCIe Capabilities/PCIe Capabilities List Register
  * This register contains the twenty-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -705,7 +705,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG028(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg029
  *
- * PCIe VF Device Capabilities Register
+ * Device Capabilities Register
  * This register contains the thirtieth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -794,7 +794,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG029(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg030
  *
- * PCIe VF Device Control/Device Status Register
+ * Device Control/Device Status Register
  * This register contains the thirty-first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -892,7 +892,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG030(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg031
  *
- * PCIe VF Link Capabilities Register
+ * Link Capabilities Register
  * This register contains the thirty-second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -946,7 +946,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG031(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg032
  *
- * PCIe VF Link Control/Link Status Register
+ * Link Control/Link Status Register
  * This register contains the thirty-third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1006,7 +1006,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG032(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg037
  *
- * PCIe VF Device Capabilities 2 Register
+ * Device Capabilities 2 Register
  * This register contains the thirty-eighth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1086,7 +1086,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG037(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg038
  *
- * PCIe VF Device Control 2 Register/Device Status 2 Register
+ * Device Control 2 Register/Device Status 2 Register
  * This register contains the thirty-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1134,7 +1134,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG038(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg040
  *
- * PCIe VF Link Control 2 Register/Link Status 2 Register
+ * Link Control 2 Register/Link Status 2 Register
  * This register contains the forty-first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1188,7 +1188,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG040(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg044
  *
- * PCIe VF PCI Express MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
+ * PCI Express MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
  * This register contains the forty-fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1246,7 +1246,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG044(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg045
  *
- * PCIe VF PCI Express MSI-X Table Offset and BIR Register
+ * PCI Express MSI-X Table Offset and BIR Register
  * This register contains the forty-sixth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1282,7 +1282,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG045(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg046
  *
- * PCIe VF PCI Express MSI-X PBA Offset and BIR Register
+ * PCI Express MSI-X PBA Offset and BIR Register
  * This register contains the forty-seventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1318,7 +1318,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG046(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg064
  *
- * PCIe VF PCI Express ARI Extended Capability
+ * PCI Express ARI Extended Capability
  * This register contains the sixty-fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1356,7 +1356,7 @@ static inline uint64_t BDK_PCIEEPVFX_CFG064(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg065
  *
- * PCIe VF PCI Express ARI Capability Register/PCI Express ARI Control Register
+ * PCI Express ARI Capability Register/PCI Express ARI Control Register
  * This register contains the sixty-sixth 32-bits of PCIe type 0 configuration space.
  */
 typedef union

@@ -2170,6 +2170,7 @@ static inline uint64_t BDK_PKO_CHANNEL_LEVEL_FUNC(void)
 #define typedef_BDK_PKO_CHANNEL_LEVEL bdk_pko_channel_level_t
 #define bustype_BDK_PKO_CHANNEL_LEVEL BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_CHANNEL_LEVEL "PKO_CHANNEL_LEVEL"
+#define device_bar_BDK_PKO_CHANNEL_LEVEL 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_CHANNEL_LEVEL 0
 #define arguments_BDK_PKO_CHANNEL_LEVEL -1,-1,-1,-1
 
@@ -2207,6 +2208,7 @@ static inline uint64_t BDK_PKO_CONST_FUNC(void)
 #define typedef_BDK_PKO_CONST bdk_pko_const_t
 #define bustype_BDK_PKO_CONST BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_CONST "PKO_CONST"
+#define device_bar_BDK_PKO_CONST 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_CONST 0
 #define arguments_BDK_PKO_CONST -1,-1,-1,-1
 
@@ -2242,6 +2244,7 @@ static inline uint64_t BDK_PKO_CONST1_FUNC(void)
 #define typedef_BDK_PKO_CONST1 bdk_pko_const1_t
 #define bustype_BDK_PKO_CONST1 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_CONST1 "PKO_CONST1"
+#define device_bar_BDK_PKO_CONST1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_CONST1 0
 #define arguments_BDK_PKO_CONST1 -1,-1,-1,-1
 
@@ -2277,6 +2280,7 @@ static inline uint64_t BDK_PKO_CONST2_FUNC(void)
 #define typedef_BDK_PKO_CONST2 bdk_pko_const2_t
 #define bustype_BDK_PKO_CONST2 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_CONST2 "PKO_CONST2"
+#define device_bar_BDK_PKO_CONST2 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_CONST2 0
 #define arguments_BDK_PKO_CONST2 -1,-1,-1,-1
 
@@ -2312,6 +2316,7 @@ static inline uint64_t BDK_PKO_CONST3_FUNC(void)
 #define typedef_BDK_PKO_CONST3 bdk_pko_const3_t
 #define bustype_BDK_PKO_CONST3 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_CONST3 "PKO_CONST3"
+#define device_bar_BDK_PKO_CONST3 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_CONST3 0
 #define arguments_BDK_PKO_CONST3 -1,-1,-1,-1
 
@@ -2352,6 +2357,7 @@ static inline uint64_t BDK_PKO_DPFI_ENA_FUNC(void)
 #define typedef_BDK_PKO_DPFI_ENA bdk_pko_dpfi_ena_t
 #define bustype_BDK_PKO_DPFI_ENA BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DPFI_ENA "PKO_DPFI_ENA"
+#define device_bar_BDK_PKO_DPFI_ENA 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DPFI_ENA 0
 #define arguments_BDK_PKO_DPFI_ENA -1,-1,-1,-1
 
@@ -2396,6 +2402,7 @@ static inline uint64_t BDK_PKO_DPFI_FLUSH_FUNC(void)
 #define typedef_BDK_PKO_DPFI_FLUSH bdk_pko_dpfi_flush_t
 #define bustype_BDK_PKO_DPFI_FLUSH BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DPFI_FLUSH "PKO_DPFI_FLUSH"
+#define device_bar_BDK_PKO_DPFI_FLUSH 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DPFI_FLUSH 0
 #define arguments_BDK_PKO_DPFI_FLUSH -1,-1,-1,-1
 
@@ -2440,6 +2447,7 @@ static inline uint64_t BDK_PKO_DPFI_FPA_AURA_FUNC(void)
 #define typedef_BDK_PKO_DPFI_FPA_AURA bdk_pko_dpfi_fpa_aura_t
 #define bustype_BDK_PKO_DPFI_FPA_AURA BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DPFI_FPA_AURA "PKO_DPFI_FPA_AURA"
+#define device_bar_BDK_PKO_DPFI_FPA_AURA 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DPFI_FPA_AURA 0
 #define arguments_BDK_PKO_DPFI_FPA_AURA -1,-1,-1,-1
 
@@ -2490,6 +2498,7 @@ static inline uint64_t BDK_PKO_DPFI_GMCTL_FUNC(void)
 #define typedef_BDK_PKO_DPFI_GMCTL bdk_pko_dpfi_gmctl_t
 #define bustype_BDK_PKO_DPFI_GMCTL BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DPFI_GMCTL "PKO_DPFI_GMCTL"
+#define device_bar_BDK_PKO_DPFI_GMCTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DPFI_GMCTL 0
 #define arguments_BDK_PKO_DPFI_GMCTL -1,-1,-1,-1
 
@@ -2620,6 +2629,7 @@ static inline uint64_t BDK_PKO_DPFI_STATUS_FUNC(void)
 #define typedef_BDK_PKO_DPFI_STATUS bdk_pko_dpfi_status_t
 #define bustype_BDK_PKO_DPFI_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DPFI_STATUS "PKO_DPFI_STATUS"
+#define device_bar_BDK_PKO_DPFI_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DPFI_STATUS 0
 #define arguments_BDK_PKO_DPFI_STATUS -1,-1,-1,-1
 
@@ -2656,6 +2666,7 @@ static inline uint64_t BDK_PKO_DQX_BYTES(unsigned long a)
 #define typedef_BDK_PKO_DQX_BYTES(a) bdk_pko_dqx_bytes_t
 #define bustype_BDK_PKO_DQX_BYTES(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_BYTES(a) "PKO_DQX_BYTES"
+#define device_bar_BDK_PKO_DQX_BYTES(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_BYTES(a) (a)
 #define arguments_BDK_PKO_DQX_BYTES(a) (a),-1,-1,-1
 
@@ -2750,6 +2761,7 @@ static inline uint64_t BDK_PKO_DQX_CIR(unsigned long a)
 #define typedef_BDK_PKO_DQX_CIR(a) bdk_pko_dqx_cir_t
 #define bustype_BDK_PKO_DQX_CIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_CIR(a) "PKO_DQX_CIR"
+#define device_bar_BDK_PKO_DQX_CIR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_CIR(a) (a)
 #define arguments_BDK_PKO_DQX_CIR(a) (a),-1,-1,-1
 
@@ -2786,6 +2798,7 @@ static inline uint64_t BDK_PKO_DQX_DROPPED_BYTES(unsigned long a)
 #define typedef_BDK_PKO_DQX_DROPPED_BYTES(a) bdk_pko_dqx_dropped_bytes_t
 #define bustype_BDK_PKO_DQX_DROPPED_BYTES(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_DROPPED_BYTES(a) "PKO_DQX_DROPPED_BYTES"
+#define device_bar_BDK_PKO_DQX_DROPPED_BYTES(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_DROPPED_BYTES(a) (a)
 #define arguments_BDK_PKO_DQX_DROPPED_BYTES(a) (a),-1,-1,-1
 
@@ -2822,6 +2835,7 @@ static inline uint64_t BDK_PKO_DQX_DROPPED_PACKETS(unsigned long a)
 #define typedef_BDK_PKO_DQX_DROPPED_PACKETS(a) bdk_pko_dqx_dropped_packets_t
 #define bustype_BDK_PKO_DQX_DROPPED_PACKETS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_DROPPED_PACKETS(a) "PKO_DQX_DROPPED_PACKETS"
+#define device_bar_BDK_PKO_DQX_DROPPED_PACKETS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_DROPPED_PACKETS(a) (a)
 #define arguments_BDK_PKO_DQX_DROPPED_PACKETS(a) (a),-1,-1,-1
 
@@ -2861,6 +2875,7 @@ static inline uint64_t BDK_PKO_DQX_FIFO(unsigned long a)
 #define typedef_BDK_PKO_DQX_FIFO(a) bdk_pko_dqx_fifo_t
 #define bustype_BDK_PKO_DQX_FIFO(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_FIFO(a) "PKO_DQX_FIFO"
+#define device_bar_BDK_PKO_DQX_FIFO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_FIFO(a) (a)
 #define arguments_BDK_PKO_DQX_FIFO(a) (a),-1,-1,-1
 
@@ -2897,6 +2912,7 @@ static inline uint64_t BDK_PKO_DQX_PACKETS(unsigned long a)
 #define typedef_BDK_PKO_DQX_PACKETS(a) bdk_pko_dqx_packets_t
 #define bustype_BDK_PKO_DQX_PACKETS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_PACKETS(a) "PKO_DQX_PACKETS"
+#define device_bar_BDK_PKO_DQX_PACKETS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_PACKETS(a) (a)
 #define arguments_BDK_PKO_DQX_PACKETS(a) (a),-1,-1,-1
 
@@ -3032,6 +3048,7 @@ static inline uint64_t BDK_PKO_DQX_PICK(unsigned long a)
 #define typedef_BDK_PKO_DQX_PICK(a) bdk_pko_dqx_pick_t
 #define bustype_BDK_PKO_DQX_PICK(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_PICK(a) "PKO_DQX_PICK"
+#define device_bar_BDK_PKO_DQX_PICK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_PICK(a) (a)
 #define arguments_BDK_PKO_DQX_PICK(a) (a),-1,-1,-1
 
@@ -3126,6 +3143,7 @@ static inline uint64_t BDK_PKO_DQX_PIR(unsigned long a)
 #define typedef_BDK_PKO_DQX_PIR(a) bdk_pko_dqx_pir_t
 #define bustype_BDK_PKO_DQX_PIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_PIR(a) "PKO_DQX_PIR"
+#define device_bar_BDK_PKO_DQX_PIR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_PIR(a) (a)
 #define arguments_BDK_PKO_DQX_PIR(a) (a),-1,-1,-1
 
@@ -3167,6 +3185,7 @@ static inline uint64_t BDK_PKO_DQX_POINTERS(unsigned long a)
 #define typedef_BDK_PKO_DQX_POINTERS(a) bdk_pko_dqx_pointers_t
 #define bustype_BDK_PKO_DQX_POINTERS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_POINTERS(a) "PKO_DQX_POINTERS"
+#define device_bar_BDK_PKO_DQX_POINTERS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_POINTERS(a) (a)
 #define arguments_BDK_PKO_DQX_POINTERS(a) (a),-1,-1,-1
 
@@ -3203,6 +3222,7 @@ static inline uint64_t BDK_PKO_DQX_SCHED_STATE(unsigned long a)
 #define typedef_BDK_PKO_DQX_SCHED_STATE(a) bdk_pko_dqx_sched_state_t
 #define bustype_BDK_PKO_DQX_SCHED_STATE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_SCHED_STATE(a) "PKO_DQX_SCHED_STATE"
+#define device_bar_BDK_PKO_DQX_SCHED_STATE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_SCHED_STATE(a) (a)
 #define arguments_BDK_PKO_DQX_SCHED_STATE(a) (a),-1,-1,-1
 
@@ -3269,6 +3289,7 @@ static inline uint64_t BDK_PKO_DQX_SCHEDULE(unsigned long a)
 #define typedef_BDK_PKO_DQX_SCHEDULE(a) bdk_pko_dqx_schedule_t
 #define bustype_BDK_PKO_DQX_SCHEDULE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_SCHEDULE(a) "PKO_DQX_SCHEDULE"
+#define device_bar_BDK_PKO_DQX_SCHEDULE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_SCHEDULE(a) (a)
 #define arguments_BDK_PKO_DQX_SCHEDULE(a) (a),-1,-1,-1
 
@@ -3327,6 +3348,7 @@ static inline uint64_t BDK_PKO_DQX_SHAPE(unsigned long a)
 #define typedef_BDK_PKO_DQX_SHAPE(a) bdk_pko_dqx_shape_t
 #define bustype_BDK_PKO_DQX_SHAPE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_SHAPE(a) "PKO_DQX_SHAPE"
+#define device_bar_BDK_PKO_DQX_SHAPE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_SHAPE(a) (a)
 #define arguments_BDK_PKO_DQX_SHAPE(a) (a),-1,-1,-1
 
@@ -3378,6 +3400,7 @@ static inline uint64_t BDK_PKO_DQX_SHAPE_STATE(unsigned long a)
 #define typedef_BDK_PKO_DQX_SHAPE_STATE(a) bdk_pko_dqx_shape_state_t
 #define bustype_BDK_PKO_DQX_SHAPE_STATE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_SHAPE_STATE(a) "PKO_DQX_SHAPE_STATE"
+#define device_bar_BDK_PKO_DQX_SHAPE_STATE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_SHAPE_STATE(a) (a)
 #define arguments_BDK_PKO_DQX_SHAPE_STATE(a) (a),-1,-1,-1
 
@@ -3415,6 +3438,7 @@ static inline uint64_t BDK_PKO_DQX_TOPOLOGY(unsigned long a)
 #define typedef_BDK_PKO_DQX_TOPOLOGY(a) bdk_pko_dqx_topology_t
 #define bustype_BDK_PKO_DQX_TOPOLOGY(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_TOPOLOGY(a) "PKO_DQX_TOPOLOGY"
+#define device_bar_BDK_PKO_DQX_TOPOLOGY(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_TOPOLOGY(a) (a)
 #define arguments_BDK_PKO_DQX_TOPOLOGY(a) (a),-1,-1,-1
 
@@ -3452,6 +3476,7 @@ static inline uint64_t BDK_PKO_DQX_WM_BUF_CNT(unsigned long a)
 #define typedef_BDK_PKO_DQX_WM_BUF_CNT(a) bdk_pko_dqx_wm_buf_cnt_t
 #define bustype_BDK_PKO_DQX_WM_BUF_CNT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_WM_BUF_CNT(a) "PKO_DQX_WM_BUF_CNT"
+#define device_bar_BDK_PKO_DQX_WM_BUF_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_WM_BUF_CNT(a) (a)
 #define arguments_BDK_PKO_DQX_WM_BUF_CNT(a) (a),-1,-1,-1
 
@@ -3503,6 +3528,7 @@ static inline uint64_t BDK_PKO_DQX_WM_BUF_CTL(unsigned long a)
 #define typedef_BDK_PKO_DQX_WM_BUF_CTL(a) bdk_pko_dqx_wm_buf_ctl_t
 #define bustype_BDK_PKO_DQX_WM_BUF_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_WM_BUF_CTL(a) "PKO_DQX_WM_BUF_CTL"
+#define device_bar_BDK_PKO_DQX_WM_BUF_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_WM_BUF_CTL(a) (a)
 #define arguments_BDK_PKO_DQX_WM_BUF_CTL(a) (a),-1,-1,-1
 
@@ -3542,6 +3568,7 @@ static inline uint64_t BDK_PKO_DQX_WM_BUF_CTL_W1C(unsigned long a)
 #define typedef_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) bdk_pko_dqx_wm_buf_ctl_w1c_t
 #define bustype_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) "PKO_DQX_WM_BUF_CTL_W1C"
+#define device_bar_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) (a)
 #define arguments_BDK_PKO_DQX_WM_BUF_CTL_W1C(a) (a),-1,-1,-1
 
@@ -3589,6 +3616,7 @@ static inline uint64_t BDK_PKO_DQX_WM_CNT(unsigned long a)
 #define typedef_BDK_PKO_DQX_WM_CNT(a) bdk_pko_dqx_wm_cnt_t
 #define bustype_BDK_PKO_DQX_WM_CNT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_WM_CNT(a) "PKO_DQX_WM_CNT"
+#define device_bar_BDK_PKO_DQX_WM_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_WM_CNT(a) (a)
 #define arguments_BDK_PKO_DQX_WM_CNT(a) (a),-1,-1,-1
 
@@ -3626,6 +3654,7 @@ static inline uint64_t BDK_PKO_DQX_WM_CTL_W1C(unsigned long a)
 #define typedef_BDK_PKO_DQX_WM_CTL_W1C(a) bdk_pko_dqx_wm_ctl_w1c_t
 #define bustype_BDK_PKO_DQX_WM_CTL_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQX_WM_CTL_W1C(a) "PKO_DQX_WM_CTL_W1C"
+#define device_bar_BDK_PKO_DQX_WM_CTL_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_WM_CTL_W1C(a) (a)
 #define arguments_BDK_PKO_DQX_WM_CTL_W1C(a) (a),-1,-1,-1
 
@@ -3660,6 +3689,7 @@ static inline uint64_t BDK_PKO_DQ_CSR_BUS_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_DQ_CSR_BUS_DEBUG bdk_pko_dq_csr_bus_debug_t
 #define bustype_BDK_PKO_DQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQ_CSR_BUS_DEBUG "PKO_DQ_CSR_BUS_DEBUG"
+#define device_bar_BDK_PKO_DQ_CSR_BUS_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQ_CSR_BUS_DEBUG 0
 #define arguments_BDK_PKO_DQ_CSR_BUS_DEBUG -1,-1,-1,-1
 
@@ -3694,6 +3724,7 @@ static inline uint64_t BDK_PKO_DQ_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_DQ_DEBUG bdk_pko_dq_debug_t
 #define bustype_BDK_PKO_DQ_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DQ_DEBUG "PKO_DQ_DEBUG"
+#define device_bar_BDK_PKO_DQ_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQ_DEBUG 0
 #define arguments_BDK_PKO_DQ_DEBUG -1,-1,-1,-1
 
@@ -3734,6 +3765,7 @@ static inline uint64_t BDK_PKO_DRAIN_IRQ_FUNC(void)
 #define typedef_BDK_PKO_DRAIN_IRQ bdk_pko_drain_irq_t
 #define bustype_BDK_PKO_DRAIN_IRQ BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_DRAIN_IRQ "PKO_DRAIN_IRQ"
+#define device_bar_BDK_PKO_DRAIN_IRQ 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DRAIN_IRQ 0
 #define arguments_BDK_PKO_DRAIN_IRQ -1,-1,-1,-1
 
@@ -3770,6 +3802,7 @@ static inline uint64_t BDK_PKO_ENABLE_FUNC(void)
 #define typedef_BDK_PKO_ENABLE bdk_pko_enable_t
 #define bustype_BDK_PKO_ENABLE BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_ENABLE "PKO_ENABLE"
+#define device_bar_BDK_PKO_ENABLE 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_ENABLE 0
 #define arguments_BDK_PKO_ENABLE -1,-1,-1,-1
 
@@ -3841,6 +3874,7 @@ static inline uint64_t BDK_PKO_FORMATX_CTL(unsigned long a)
 #define typedef_BDK_PKO_FORMATX_CTL(a) bdk_pko_formatx_ctl_t
 #define bustype_BDK_PKO_FORMATX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_FORMATX_CTL(a) "PKO_FORMATX_CTL"
+#define device_bar_BDK_PKO_FORMATX_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_FORMATX_CTL(a) (a)
 #define arguments_BDK_PKO_FORMATX_CTL(a) (a),-1,-1,-1
 
@@ -3934,6 +3968,7 @@ static inline uint64_t BDK_PKO_L1_SQX_CIR(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_CIR(a) bdk_pko_l1_sqx_cir_t
 #define bustype_BDK_PKO_L1_SQX_CIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_CIR(a) "PKO_L1_SQX_CIR"
+#define device_bar_BDK_PKO_L1_SQX_CIR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_CIR(a) (a)
 #define arguments_BDK_PKO_L1_SQX_CIR(a) (a),-1,-1,-1
 
@@ -3970,6 +4005,7 @@ static inline uint64_t BDK_PKO_L1_SQX_DROPPED_BYTES(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_DROPPED_BYTES(a) bdk_pko_l1_sqx_dropped_bytes_t
 #define bustype_BDK_PKO_L1_SQX_DROPPED_BYTES(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_DROPPED_BYTES(a) "PKO_L1_SQX_DROPPED_BYTES"
+#define device_bar_BDK_PKO_L1_SQX_DROPPED_BYTES(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_DROPPED_BYTES(a) (a)
 #define arguments_BDK_PKO_L1_SQX_DROPPED_BYTES(a) (a),-1,-1,-1
 
@@ -4006,6 +4042,7 @@ static inline uint64_t BDK_PKO_L1_SQX_DROPPED_PACKETS(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_DROPPED_PACKETS(a) bdk_pko_l1_sqx_dropped_packets_t
 #define bustype_BDK_PKO_L1_SQX_DROPPED_PACKETS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_DROPPED_PACKETS(a) "PKO_L1_SQX_DROPPED_PACKETS"
+#define device_bar_BDK_PKO_L1_SQX_DROPPED_PACKETS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_DROPPED_PACKETS(a) (a)
 #define arguments_BDK_PKO_L1_SQX_DROPPED_PACKETS(a) (a),-1,-1,-1
 
@@ -4061,6 +4098,7 @@ static inline uint64_t BDK_PKO_L1_SQX_GREEN(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_GREEN(a) bdk_pko_l1_sqx_green_t
 #define bustype_BDK_PKO_L1_SQX_GREEN(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_GREEN(a) "PKO_L1_SQX_GREEN"
+#define device_bar_BDK_PKO_L1_SQX_GREEN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_GREEN(a) (a)
 #define arguments_BDK_PKO_L1_SQX_GREEN(a) (a),-1,-1,-1
 
@@ -4096,6 +4134,7 @@ static inline uint64_t BDK_PKO_L1_SQX_GREEN_BYTES(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_GREEN_BYTES(a) bdk_pko_l1_sqx_green_bytes_t
 #define bustype_BDK_PKO_L1_SQX_GREEN_BYTES(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_GREEN_BYTES(a) "PKO_L1_SQX_GREEN_BYTES"
+#define device_bar_BDK_PKO_L1_SQX_GREEN_BYTES(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_GREEN_BYTES(a) (a)
 #define arguments_BDK_PKO_L1_SQX_GREEN_BYTES(a) (a),-1,-1,-1
 
@@ -4131,6 +4170,7 @@ static inline uint64_t BDK_PKO_L1_SQX_GREEN_PACKETS(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_GREEN_PACKETS(a) bdk_pko_l1_sqx_green_packets_t
 #define bustype_BDK_PKO_L1_SQX_GREEN_PACKETS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_GREEN_PACKETS(a) "PKO_L1_SQX_GREEN_PACKETS"
+#define device_bar_BDK_PKO_L1_SQX_GREEN_PACKETS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_GREEN_PACKETS(a) (a)
 #define arguments_BDK_PKO_L1_SQX_GREEN_PACKETS(a) (a),-1,-1,-1
 
@@ -4196,6 +4236,7 @@ static inline uint64_t BDK_PKO_L1_SQX_LINK(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_LINK(a) bdk_pko_l1_sqx_link_t
 #define bustype_BDK_PKO_L1_SQX_LINK(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_LINK(a) "PKO_L1_SQX_LINK"
+#define device_bar_BDK_PKO_L1_SQX_LINK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_LINK(a) (a)
 #define arguments_BDK_PKO_L1_SQX_LINK(a) (a),-1,-1,-1
 
@@ -4331,6 +4372,7 @@ static inline uint64_t BDK_PKO_L1_SQX_PICK(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_PICK(a) bdk_pko_l1_sqx_pick_t
 #define bustype_BDK_PKO_L1_SQX_PICK(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_PICK(a) "PKO_L1_SQX_PICK"
+#define device_bar_BDK_PKO_L1_SQX_PICK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_PICK(a) (a)
 #define arguments_BDK_PKO_L1_SQX_PICK(a) (a),-1,-1,-1
 
@@ -4372,6 +4414,7 @@ static inline uint64_t BDK_PKO_L1_SQX_RED(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_RED(a) bdk_pko_l1_sqx_red_t
 #define bustype_BDK_PKO_L1_SQX_RED(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_RED(a) "PKO_L1_SQX_RED"
+#define device_bar_BDK_PKO_L1_SQX_RED(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_RED(a) (a)
 #define arguments_BDK_PKO_L1_SQX_RED(a) (a),-1,-1,-1
 
@@ -4408,6 +4451,7 @@ static inline uint64_t BDK_PKO_L1_SQX_RED_BYTES(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_RED_BYTES(a) bdk_pko_l1_sqx_red_bytes_t
 #define bustype_BDK_PKO_L1_SQX_RED_BYTES(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_RED_BYTES(a) "PKO_L1_SQX_RED_BYTES"
+#define device_bar_BDK_PKO_L1_SQX_RED_BYTES(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_RED_BYTES(a) (a)
 #define arguments_BDK_PKO_L1_SQX_RED_BYTES(a) (a),-1,-1,-1
 
@@ -4444,6 +4488,7 @@ static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_RED_PACKETS(a) bdk_pko_l1_sqx_red_packets_t
 #define bustype_BDK_PKO_L1_SQX_RED_PACKETS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_RED_PACKETS(a) "PKO_L1_SQX_RED_PACKETS"
+#define device_bar_BDK_PKO_L1_SQX_RED_PACKETS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_RED_PACKETS(a) (a)
 #define arguments_BDK_PKO_L1_SQX_RED_PACKETS(a) (a),-1,-1,-1
 
@@ -4487,6 +4532,7 @@ static inline uint64_t BDK_PKO_L1_SQX_SCHEDULE(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_SCHEDULE(a) bdk_pko_l1_sqx_schedule_t
 #define bustype_BDK_PKO_L1_SQX_SCHEDULE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_SCHEDULE(a) "PKO_L1_SQX_SCHEDULE"
+#define device_bar_BDK_PKO_L1_SQX_SCHEDULE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_SCHEDULE(a) (a)
 #define arguments_BDK_PKO_L1_SQX_SCHEDULE(a) (a),-1,-1,-1
 
@@ -4538,6 +4584,7 @@ static inline uint64_t BDK_PKO_L1_SQX_SHAPE(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_SHAPE(a) bdk_pko_l1_sqx_shape_t
 #define bustype_BDK_PKO_L1_SQX_SHAPE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_SHAPE(a) "PKO_L1_SQX_SHAPE"
+#define device_bar_BDK_PKO_L1_SQX_SHAPE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_SHAPE(a) (a)
 #define arguments_BDK_PKO_L1_SQX_SHAPE(a) (a),-1,-1,-1
 
@@ -4586,6 +4633,7 @@ static inline uint64_t BDK_PKO_L1_SQX_SHAPE_STATE(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_SHAPE_STATE(a) bdk_pko_l1_sqx_shape_state_t
 #define bustype_BDK_PKO_L1_SQX_SHAPE_STATE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_SHAPE_STATE(a) "PKO_L1_SQX_SHAPE_STATE"
+#define device_bar_BDK_PKO_L1_SQX_SHAPE_STATE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_SHAPE_STATE(a) (a)
 #define arguments_BDK_PKO_L1_SQX_SHAPE_STATE(a) (a),-1,-1,-1
 
@@ -4671,6 +4719,7 @@ static inline uint64_t BDK_PKO_L1_SQX_SW_XOFF(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_SW_XOFF(a) bdk_pko_l1_sqx_sw_xoff_t
 #define bustype_BDK_PKO_L1_SQX_SW_XOFF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_SW_XOFF(a) "PKO_L1_SQX_SW_XOFF"
+#define device_bar_BDK_PKO_L1_SQX_SW_XOFF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_SW_XOFF(a) (a)
 #define arguments_BDK_PKO_L1_SQX_SW_XOFF(a) (a),-1,-1,-1
 
@@ -4802,6 +4851,7 @@ static inline uint64_t BDK_PKO_L1_SQX_TOPOLOGY(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_TOPOLOGY(a) bdk_pko_l1_sqx_topology_t
 #define bustype_BDK_PKO_L1_SQX_TOPOLOGY(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_TOPOLOGY(a) "PKO_L1_SQX_TOPOLOGY"
+#define device_bar_BDK_PKO_L1_SQX_TOPOLOGY(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_TOPOLOGY(a) (a)
 #define arguments_BDK_PKO_L1_SQX_TOPOLOGY(a) (a),-1,-1,-1
 
@@ -4841,6 +4891,7 @@ static inline uint64_t BDK_PKO_L1_SQX_YELLOW(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_YELLOW(a) bdk_pko_l1_sqx_yellow_t
 #define bustype_BDK_PKO_L1_SQX_YELLOW(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_YELLOW(a) "PKO_L1_SQX_YELLOW"
+#define device_bar_BDK_PKO_L1_SQX_YELLOW(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_YELLOW(a) (a)
 #define arguments_BDK_PKO_L1_SQX_YELLOW(a) (a),-1,-1,-1
 
@@ -4877,6 +4928,7 @@ static inline uint64_t BDK_PKO_L1_SQX_YELLOW_BYTES(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_YELLOW_BYTES(a) bdk_pko_l1_sqx_yellow_bytes_t
 #define bustype_BDK_PKO_L1_SQX_YELLOW_BYTES(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_YELLOW_BYTES(a) "PKO_L1_SQX_YELLOW_BYTES"
+#define device_bar_BDK_PKO_L1_SQX_YELLOW_BYTES(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_YELLOW_BYTES(a) (a)
 #define arguments_BDK_PKO_L1_SQX_YELLOW_BYTES(a) (a),-1,-1,-1
 
@@ -4913,6 +4965,7 @@ static inline uint64_t BDK_PKO_L1_SQX_YELLOW_PACKETS(unsigned long a)
 #define typedef_BDK_PKO_L1_SQX_YELLOW_PACKETS(a) bdk_pko_l1_sqx_yellow_packets_t
 #define bustype_BDK_PKO_L1_SQX_YELLOW_PACKETS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQX_YELLOW_PACKETS(a) "PKO_L1_SQX_YELLOW_PACKETS"
+#define device_bar_BDK_PKO_L1_SQX_YELLOW_PACKETS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQX_YELLOW_PACKETS(a) (a)
 #define arguments_BDK_PKO_L1_SQX_YELLOW_PACKETS(a) (a),-1,-1,-1
 
@@ -4947,6 +5000,7 @@ static inline uint64_t BDK_PKO_L1_SQ_CSR_BUS_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_L1_SQ_CSR_BUS_DEBUG bdk_pko_l1_sq_csr_bus_debug_t
 #define bustype_BDK_PKO_L1_SQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQ_CSR_BUS_DEBUG "PKO_L1_SQ_CSR_BUS_DEBUG"
+#define device_bar_BDK_PKO_L1_SQ_CSR_BUS_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQ_CSR_BUS_DEBUG 0
 #define arguments_BDK_PKO_L1_SQ_CSR_BUS_DEBUG -1,-1,-1,-1
 
@@ -4983,6 +5037,7 @@ static inline uint64_t BDK_PKO_L1_SQA_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_L1_SQA_DEBUG bdk_pko_l1_sqa_debug_t
 #define bustype_BDK_PKO_L1_SQA_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQA_DEBUG "PKO_L1_SQA_DEBUG"
+#define device_bar_BDK_PKO_L1_SQA_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQA_DEBUG 0
 #define arguments_BDK_PKO_L1_SQA_DEBUG -1,-1,-1,-1
 
@@ -5019,6 +5074,7 @@ static inline uint64_t BDK_PKO_L1_SQB_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_L1_SQB_DEBUG bdk_pko_l1_sqb_debug_t
 #define bustype_BDK_PKO_L1_SQB_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L1_SQB_DEBUG "PKO_L1_SQB_DEBUG"
+#define device_bar_BDK_PKO_L1_SQB_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L1_SQB_DEBUG 0
 #define arguments_BDK_PKO_L1_SQB_DEBUG -1,-1,-1,-1
 
@@ -5113,6 +5169,7 @@ static inline uint64_t BDK_PKO_L2_SQX_CIR(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_CIR(a) bdk_pko_l2_sqx_cir_t
 #define bustype_BDK_PKO_L2_SQX_CIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_CIR(a) "PKO_L2_SQX_CIR"
+#define device_bar_BDK_PKO_L2_SQX_CIR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_CIR(a) (a)
 #define arguments_BDK_PKO_L2_SQX_CIR(a) (a),-1,-1,-1
 
@@ -5170,6 +5227,7 @@ static inline uint64_t BDK_PKO_L2_SQX_GREEN(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_GREEN(a) bdk_pko_l2_sqx_green_t
 #define bustype_BDK_PKO_L2_SQX_GREEN(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_GREEN(a) "PKO_L2_SQX_GREEN"
+#define device_bar_BDK_PKO_L2_SQX_GREEN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_GREEN(a) (a)
 #define arguments_BDK_PKO_L2_SQX_GREEN(a) (a),-1,-1,-1
 
@@ -5305,6 +5363,7 @@ static inline uint64_t BDK_PKO_L2_SQX_PICK(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_PICK(a) bdk_pko_l2_sqx_pick_t
 #define bustype_BDK_PKO_L2_SQX_PICK(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_PICK(a) "PKO_L2_SQX_PICK"
+#define device_bar_BDK_PKO_L2_SQX_PICK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_PICK(a) (a)
 #define arguments_BDK_PKO_L2_SQX_PICK(a) (a),-1,-1,-1
 
@@ -5399,6 +5458,7 @@ static inline uint64_t BDK_PKO_L2_SQX_PIR(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_PIR(a) bdk_pko_l2_sqx_pir_t
 #define bustype_BDK_PKO_L2_SQX_PIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_PIR(a) "PKO_L2_SQX_PIR"
+#define device_bar_BDK_PKO_L2_SQX_PIR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_PIR(a) (a)
 #define arguments_BDK_PKO_L2_SQX_PIR(a) (a),-1,-1,-1
 
@@ -5438,6 +5498,7 @@ static inline uint64_t BDK_PKO_L2_SQX_POINTERS(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_POINTERS(a) bdk_pko_l2_sqx_pointers_t
 #define bustype_BDK_PKO_L2_SQX_POINTERS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_POINTERS(a) "PKO_L2_SQX_POINTERS"
+#define device_bar_BDK_PKO_L2_SQX_POINTERS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_POINTERS(a) (a)
 #define arguments_BDK_PKO_L2_SQX_POINTERS(a) (a),-1,-1,-1
 
@@ -5479,6 +5540,7 @@ static inline uint64_t BDK_PKO_L2_SQX_RED(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_RED(a) bdk_pko_l2_sqx_red_t
 #define bustype_BDK_PKO_L2_SQX_RED(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_RED(a) "PKO_L2_SQX_RED"
+#define device_bar_BDK_PKO_L2_SQX_RED(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_RED(a) (a)
 #define arguments_BDK_PKO_L2_SQX_RED(a) (a),-1,-1,-1
 
@@ -5514,6 +5576,7 @@ static inline uint64_t BDK_PKO_L2_SQX_SCHED_STATE(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_SCHED_STATE(a) bdk_pko_l2_sqx_sched_state_t
 #define bustype_BDK_PKO_L2_SQX_SCHED_STATE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_SCHED_STATE(a) "PKO_L2_SQX_SCHED_STATE"
+#define device_bar_BDK_PKO_L2_SQX_SCHED_STATE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_SCHED_STATE(a) (a)
 #define arguments_BDK_PKO_L2_SQX_SCHED_STATE(a) (a),-1,-1,-1
 
@@ -5579,6 +5642,7 @@ static inline uint64_t BDK_PKO_L2_SQX_SCHEDULE(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_SCHEDULE(a) bdk_pko_l2_sqx_schedule_t
 #define bustype_BDK_PKO_L2_SQX_SCHEDULE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_SCHEDULE(a) "PKO_L2_SQX_SCHEDULE"
+#define device_bar_BDK_PKO_L2_SQX_SCHEDULE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_SCHEDULE(a) (a)
 #define arguments_BDK_PKO_L2_SQX_SCHEDULE(a) (a),-1,-1,-1
 
@@ -5692,6 +5756,7 @@ static inline uint64_t BDK_PKO_L2_SQX_SHAPE(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_SHAPE(a) bdk_pko_l2_sqx_shape_t
 #define bustype_BDK_PKO_L2_SQX_SHAPE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_SHAPE(a) "PKO_L2_SQX_SHAPE"
+#define device_bar_BDK_PKO_L2_SQX_SHAPE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_SHAPE(a) (a)
 #define arguments_BDK_PKO_L2_SQX_SHAPE(a) (a),-1,-1,-1
 
@@ -5742,6 +5807,7 @@ static inline uint64_t BDK_PKO_L2_SQX_SHAPE_STATE(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_SHAPE_STATE(a) bdk_pko_l2_sqx_shape_state_t
 #define bustype_BDK_PKO_L2_SQX_SHAPE_STATE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_SHAPE_STATE(a) "PKO_L2_SQX_SHAPE_STATE"
+#define device_bar_BDK_PKO_L2_SQX_SHAPE_STATE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_SHAPE_STATE(a) (a)
 #define arguments_BDK_PKO_L2_SQX_SHAPE_STATE(a) (a),-1,-1,-1
 
@@ -5828,6 +5894,7 @@ static inline uint64_t BDK_PKO_L2_SQX_SW_XOFF(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_SW_XOFF(a) bdk_pko_l2_sqx_sw_xoff_t
 #define bustype_BDK_PKO_L2_SQX_SW_XOFF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_SW_XOFF(a) "PKO_L2_SQX_SW_XOFF"
+#define device_bar_BDK_PKO_L2_SQX_SW_XOFF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_SW_XOFF(a) (a)
 #define arguments_BDK_PKO_L2_SQX_SW_XOFF(a) (a),-1,-1,-1
 
@@ -5881,6 +5948,7 @@ static inline uint64_t BDK_PKO_L2_SQX_TOPOLOGY(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_TOPOLOGY(a) bdk_pko_l2_sqx_topology_t
 #define bustype_BDK_PKO_L2_SQX_TOPOLOGY(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_TOPOLOGY(a) "PKO_L2_SQX_TOPOLOGY"
+#define device_bar_BDK_PKO_L2_SQX_TOPOLOGY(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_TOPOLOGY(a) (a)
 #define arguments_BDK_PKO_L2_SQX_TOPOLOGY(a) (a),-1,-1,-1
 
@@ -5922,6 +5990,7 @@ static inline uint64_t BDK_PKO_L2_SQX_YELLOW(unsigned long a)
 #define typedef_BDK_PKO_L2_SQX_YELLOW(a) bdk_pko_l2_sqx_yellow_t
 #define bustype_BDK_PKO_L2_SQX_YELLOW(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQX_YELLOW(a) "PKO_L2_SQX_YELLOW"
+#define device_bar_BDK_PKO_L2_SQX_YELLOW(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQX_YELLOW(a) (a)
 #define arguments_BDK_PKO_L2_SQX_YELLOW(a) (a),-1,-1,-1
 
@@ -5956,6 +6025,7 @@ static inline uint64_t BDK_PKO_L2_SQ_CSR_BUS_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_L2_SQ_CSR_BUS_DEBUG bdk_pko_l2_sq_csr_bus_debug_t
 #define bustype_BDK_PKO_L2_SQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQ_CSR_BUS_DEBUG "PKO_L2_SQ_CSR_BUS_DEBUG"
+#define device_bar_BDK_PKO_L2_SQ_CSR_BUS_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQ_CSR_BUS_DEBUG 0
 #define arguments_BDK_PKO_L2_SQ_CSR_BUS_DEBUG -1,-1,-1,-1
 
@@ -5992,6 +6062,7 @@ static inline uint64_t BDK_PKO_L2_SQA_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_L2_SQA_DEBUG bdk_pko_l2_sqa_debug_t
 #define bustype_BDK_PKO_L2_SQA_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQA_DEBUG "PKO_L2_SQA_DEBUG"
+#define device_bar_BDK_PKO_L2_SQA_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQA_DEBUG 0
 #define arguments_BDK_PKO_L2_SQA_DEBUG -1,-1,-1,-1
 
@@ -6028,6 +6099,7 @@ static inline uint64_t BDK_PKO_L2_SQB_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_L2_SQB_DEBUG bdk_pko_l2_sqb_debug_t
 #define bustype_BDK_PKO_L2_SQB_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L2_SQB_DEBUG "PKO_L2_SQB_DEBUG"
+#define device_bar_BDK_PKO_L2_SQB_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L2_SQB_DEBUG 0
 #define arguments_BDK_PKO_L2_SQB_DEBUG -1,-1,-1,-1
 
@@ -6095,6 +6167,7 @@ static inline uint64_t BDK_PKO_L3_L2_SQX_CHANNEL(unsigned long a)
 #define typedef_BDK_PKO_L3_L2_SQX_CHANNEL(a) bdk_pko_l3_l2_sqx_channel_t
 #define bustype_BDK_PKO_L3_L2_SQX_CHANNEL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_L2_SQX_CHANNEL(a) "PKO_L3_L2_SQX_CHANNEL"
+#define device_bar_BDK_PKO_L3_L2_SQX_CHANNEL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_L2_SQX_CHANNEL(a) (a)
 #define arguments_BDK_PKO_L3_L2_SQX_CHANNEL(a) (a),-1,-1,-1
 
@@ -6189,6 +6262,7 @@ static inline uint64_t BDK_PKO_L3_SQX_CIR(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_CIR(a) bdk_pko_l3_sqx_cir_t
 #define bustype_BDK_PKO_L3_SQX_CIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_CIR(a) "PKO_L3_SQX_CIR"
+#define device_bar_BDK_PKO_L3_SQX_CIR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_CIR(a) (a)
 #define arguments_BDK_PKO_L3_SQX_CIR(a) (a),-1,-1,-1
 
@@ -6236,6 +6310,7 @@ static inline uint64_t BDK_PKO_L3_SQX_GREEN(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_GREEN(a) bdk_pko_l3_sqx_green_t
 #define bustype_BDK_PKO_L3_SQX_GREEN(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_GREEN(a) "PKO_L3_SQX_GREEN"
+#define device_bar_BDK_PKO_L3_SQX_GREEN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_GREEN(a) (a)
 #define arguments_BDK_PKO_L3_SQX_GREEN(a) (a),-1,-1,-1
 
@@ -6371,6 +6446,7 @@ static inline uint64_t BDK_PKO_L3_SQX_PICK(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_PICK(a) bdk_pko_l3_sqx_pick_t
 #define bustype_BDK_PKO_L3_SQX_PICK(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_PICK(a) "PKO_L3_SQX_PICK"
+#define device_bar_BDK_PKO_L3_SQX_PICK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_PICK(a) (a)
 #define arguments_BDK_PKO_L3_SQX_PICK(a) (a),-1,-1,-1
 
@@ -6465,6 +6541,7 @@ static inline uint64_t BDK_PKO_L3_SQX_PIR(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_PIR(a) bdk_pko_l3_sqx_pir_t
 #define bustype_BDK_PKO_L3_SQX_PIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_PIR(a) "PKO_L3_SQX_PIR"
+#define device_bar_BDK_PKO_L3_SQX_PIR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_PIR(a) (a)
 #define arguments_BDK_PKO_L3_SQX_PIR(a) (a),-1,-1,-1
 
@@ -6506,6 +6583,7 @@ static inline uint64_t BDK_PKO_L3_SQX_POINTERS(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_POINTERS(a) bdk_pko_l3_sqx_pointers_t
 #define bustype_BDK_PKO_L3_SQX_POINTERS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_POINTERS(a) "PKO_L3_SQX_POINTERS"
+#define device_bar_BDK_PKO_L3_SQX_POINTERS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_POINTERS(a) (a)
 #define arguments_BDK_PKO_L3_SQX_POINTERS(a) (a),-1,-1,-1
 
@@ -6547,6 +6625,7 @@ static inline uint64_t BDK_PKO_L3_SQX_RED(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_RED(a) bdk_pko_l3_sqx_red_t
 #define bustype_BDK_PKO_L3_SQX_RED(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_RED(a) "PKO_L3_SQX_RED"
+#define device_bar_BDK_PKO_L3_SQX_RED(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_RED(a) (a)
 #define arguments_BDK_PKO_L3_SQX_RED(a) (a),-1,-1,-1
 
@@ -6583,6 +6662,7 @@ static inline uint64_t BDK_PKO_L3_SQX_SCHED_STATE(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_SCHED_STATE(a) bdk_pko_l3_sqx_sched_state_t
 #define bustype_BDK_PKO_L3_SQX_SCHED_STATE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_SCHED_STATE(a) "PKO_L3_SQX_SCHED_STATE"
+#define device_bar_BDK_PKO_L3_SQX_SCHED_STATE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_SCHED_STATE(a) (a)
 #define arguments_BDK_PKO_L3_SQX_SCHED_STATE(a) (a),-1,-1,-1
 
@@ -6649,6 +6729,7 @@ static inline uint64_t BDK_PKO_L3_SQX_SCHEDULE(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_SCHEDULE(a) bdk_pko_l3_sqx_schedule_t
 #define bustype_BDK_PKO_L3_SQX_SCHEDULE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_SCHEDULE(a) "PKO_L3_SQX_SCHEDULE"
+#define device_bar_BDK_PKO_L3_SQX_SCHEDULE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_SCHEDULE(a) (a)
 #define arguments_BDK_PKO_L3_SQX_SCHEDULE(a) (a),-1,-1,-1
 
@@ -6706,6 +6787,7 @@ static inline uint64_t BDK_PKO_L3_SQX_SHAPE(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_SHAPE(a) bdk_pko_l3_sqx_shape_t
 #define bustype_BDK_PKO_L3_SQX_SHAPE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_SHAPE(a) "PKO_L3_SQX_SHAPE"
+#define device_bar_BDK_PKO_L3_SQX_SHAPE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_SHAPE(a) (a)
 #define arguments_BDK_PKO_L3_SQX_SHAPE(a) (a),-1,-1,-1
 
@@ -6757,6 +6839,7 @@ static inline uint64_t BDK_PKO_L3_SQX_SHAPE_STATE(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_SHAPE_STATE(a) bdk_pko_l3_sqx_shape_state_t
 #define bustype_BDK_PKO_L3_SQX_SHAPE_STATE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_SHAPE_STATE(a) "PKO_L3_SQX_SHAPE_STATE"
+#define device_bar_BDK_PKO_L3_SQX_SHAPE_STATE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_SHAPE_STATE(a) (a)
 #define arguments_BDK_PKO_L3_SQX_SHAPE_STATE(a) (a),-1,-1,-1
 
@@ -6843,6 +6926,7 @@ static inline uint64_t BDK_PKO_L3_SQX_SW_XOFF(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_SW_XOFF(a) bdk_pko_l3_sqx_sw_xoff_t
 #define bustype_BDK_PKO_L3_SQX_SW_XOFF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_SW_XOFF(a) "PKO_L3_SQX_SW_XOFF"
+#define device_bar_BDK_PKO_L3_SQX_SW_XOFF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_SW_XOFF(a) (a)
 #define arguments_BDK_PKO_L3_SQX_SW_XOFF(a) (a),-1,-1,-1
 
@@ -6888,6 +6972,7 @@ static inline uint64_t BDK_PKO_L3_SQX_TOPOLOGY(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_TOPOLOGY(a) bdk_pko_l3_sqx_topology_t
 #define bustype_BDK_PKO_L3_SQX_TOPOLOGY(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_TOPOLOGY(a) "PKO_L3_SQX_TOPOLOGY"
+#define device_bar_BDK_PKO_L3_SQX_TOPOLOGY(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_TOPOLOGY(a) (a)
 #define arguments_BDK_PKO_L3_SQX_TOPOLOGY(a) (a),-1,-1,-1
 
@@ -6927,6 +7012,7 @@ static inline uint64_t BDK_PKO_L3_SQX_YELLOW(unsigned long a)
 #define typedef_BDK_PKO_L3_SQX_YELLOW(a) bdk_pko_l3_sqx_yellow_t
 #define bustype_BDK_PKO_L3_SQX_YELLOW(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQX_YELLOW(a) "PKO_L3_SQX_YELLOW"
+#define device_bar_BDK_PKO_L3_SQX_YELLOW(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQX_YELLOW(a) (a)
 #define arguments_BDK_PKO_L3_SQX_YELLOW(a) (a),-1,-1,-1
 
@@ -6961,6 +7047,7 @@ static inline uint64_t BDK_PKO_L3_SQ_CSR_BUS_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_L3_SQ_CSR_BUS_DEBUG bdk_pko_l3_sq_csr_bus_debug_t
 #define bustype_BDK_PKO_L3_SQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQ_CSR_BUS_DEBUG "PKO_L3_SQ_CSR_BUS_DEBUG"
+#define device_bar_BDK_PKO_L3_SQ_CSR_BUS_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQ_CSR_BUS_DEBUG 0
 #define arguments_BDK_PKO_L3_SQ_CSR_BUS_DEBUG -1,-1,-1,-1
 
@@ -6997,6 +7084,7 @@ static inline uint64_t BDK_PKO_L3_SQA_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_L3_SQA_DEBUG bdk_pko_l3_sqa_debug_t
 #define bustype_BDK_PKO_L3_SQA_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQA_DEBUG "PKO_L3_SQA_DEBUG"
+#define device_bar_BDK_PKO_L3_SQA_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQA_DEBUG 0
 #define arguments_BDK_PKO_L3_SQA_DEBUG -1,-1,-1,-1
 
@@ -7033,6 +7121,7 @@ static inline uint64_t BDK_PKO_L3_SQB_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_L3_SQB_DEBUG bdk_pko_l3_sqb_debug_t
 #define bustype_BDK_PKO_L3_SQB_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_L3_SQB_DEBUG "PKO_L3_SQB_DEBUG"
+#define device_bar_BDK_PKO_L3_SQB_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_L3_SQB_DEBUG 0
 #define arguments_BDK_PKO_L3_SQB_DEBUG -1,-1,-1,-1
 
@@ -7048,12 +7137,20 @@ static inline uint64_t BDK_PKO_L3_SQB_DEBUG_FUNC(void)
  *   LINK/   PKI_CHAN_E    Corresponding
  * MAC_NUM   Range         PKO_LUT index   Description
  * -------   -----------   -------------   -----------------
- *     0     0x000-0x03F   0x040-0x07F     LBK Loopback
- *     1     0x100-0x13F   0x080-0x0BF     DPI packet output
+ *     0     0x000-0x03F   0x0C0-0x0FF     LBK Loopback
+ *     1     0x100-0x17F   0x100-0x17F     DPI packet output
  *     2     0x800-0x80F   0x000-0x00F     BGX0 Logical MAC 0
  *     3     0x810-0x81F   0x010-0x01F     BGX0 Logical MAC 1
  *     4     0x820-0x82F   0x020-0x02F     BGX0 Logical MAC 2
  *     5     0x830-0x83F   0x030-0x03F     BGX0 Logical MAC 3
+ *     6     0x900-0x90F   0x040-0x04F     BGX1 Logical MAC 0
+ *     7     0x910-0x91F   0x050-0x05F     BGX1 Logical MAC 1
+ *     8     0x920-0x92F   0x060-0x06F     BGX1 Logical MAC 2
+ *     9     0x930-0x93F   0x070-0x07F     BGX1 Logical MAC 3
+ *    10     0xA00-0xA0F   0x080-0x08F     BGX2 Logical MAC 0
+ *    11     0xA10-0xA1F   0x090-0x09F     BGX2 Logical MAC 1
+ *    12     0xA20-0xA2F   0x0A0-0x0AF     BGX2 Logical MAC 2
+ *    13     0xA30-0xA3F   0x0B0-0x0BF     BGX2 Logical MAC 3
  * </pre>
  */
 typedef union
@@ -7091,6 +7188,7 @@ static inline uint64_t BDK_PKO_LUTX(unsigned long a)
 #define typedef_BDK_PKO_LUTX(a) bdk_pko_lutx_t
 #define bustype_BDK_PKO_LUTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_LUTX(a) "PKO_LUTX"
+#define device_bar_BDK_PKO_LUTX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_LUTX(a) (a)
 #define arguments_BDK_PKO_LUTX(a) (a),-1,-1,-1
 
@@ -7127,6 +7225,7 @@ static inline uint64_t BDK_PKO_LUT_BIST_STATUS_FUNC(void)
 #define typedef_BDK_PKO_LUT_BIST_STATUS bdk_pko_lut_bist_status_t
 #define bustype_BDK_PKO_LUT_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_LUT_BIST_STATUS "PKO_LUT_BIST_STATUS"
+#define device_bar_BDK_PKO_LUT_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_LUT_BIST_STATUS 0
 #define arguments_BDK_PKO_LUT_BIST_STATUS -1,-1,-1,-1
 
@@ -7165,6 +7264,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_CTL0_FUNC(void)
 #define typedef_BDK_PKO_LUT_ECC_CTL0 bdk_pko_lut_ecc_ctl0_t
 #define bustype_BDK_PKO_LUT_ECC_CTL0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_LUT_ECC_CTL0 "PKO_LUT_ECC_CTL0"
+#define device_bar_BDK_PKO_LUT_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_LUT_ECC_CTL0 0
 #define arguments_BDK_PKO_LUT_ECC_CTL0 -1,-1,-1,-1
 
@@ -7203,6 +7303,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_DBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_LUT_ECC_DBE_STS0 bdk_pko_lut_ecc_dbe_sts0_t
 #define bustype_BDK_PKO_LUT_ECC_DBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_LUT_ECC_DBE_STS0 "PKO_LUT_ECC_DBE_STS0"
+#define device_bar_BDK_PKO_LUT_ECC_DBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_LUT_ECC_DBE_STS0 0
 #define arguments_BDK_PKO_LUT_ECC_DBE_STS0 -1,-1,-1,-1
 
@@ -7247,6 +7348,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_DBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_LUT_ECC_DBE_STS_CMB0 bdk_pko_lut_ecc_dbe_sts_cmb0_t
 #define bustype_BDK_PKO_LUT_ECC_DBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_LUT_ECC_DBE_STS_CMB0 "PKO_LUT_ECC_DBE_STS_CMB0"
+#define device_bar_BDK_PKO_LUT_ECC_DBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_LUT_ECC_DBE_STS_CMB0 0
 #define arguments_BDK_PKO_LUT_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
@@ -7285,6 +7387,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_LUT_ECC_SBE_STS0 bdk_pko_lut_ecc_sbe_sts0_t
 #define bustype_BDK_PKO_LUT_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_LUT_ECC_SBE_STS0 "PKO_LUT_ECC_SBE_STS0"
+#define device_bar_BDK_PKO_LUT_ECC_SBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_LUT_ECC_SBE_STS0 0
 #define arguments_BDK_PKO_LUT_ECC_SBE_STS0 -1,-1,-1,-1
 
@@ -7329,6 +7432,7 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_LUT_ECC_SBE_STS_CMB0 bdk_pko_lut_ecc_sbe_sts_cmb0_t
 #define bustype_BDK_PKO_LUT_ECC_SBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_LUT_ECC_SBE_STS_CMB0 "PKO_LUT_ECC_SBE_STS_CMB0"
+#define device_bar_BDK_PKO_LUT_ECC_SBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_LUT_ECC_SBE_STS_CMB0 0
 #define arguments_BDK_PKO_LUT_ECC_SBE_STS_CMB0 -1,-1,-1,-1
 
@@ -7345,14 +7449,18 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_STS_CMB0_FUNC(void)
  *   ---------------------------------
  *   PKO_MAC0_CFG   LBK loopback
  *   PKO_MAC1_CFG   DPI packet output
- *   PKO_MAC2_CFG   BGX0  logical MAC 0
- *   PKO_MAC3_CFG   BGX0  logical MAC 1
- *   PKO_MAC4_CFG   BGX0  logical MAC 2
- *   PKO_MAC5_CFG   BGX0  logical MAC 3
- *   PKO_MAC6_CFG   SRIO0 logical MAC 0
- *   PKO_MAC7_CFG   SRIO0 logical MAC 1
- *   PKO_MAC8_CFG   SRIO1 logical MAC 0
- *   PKO_MAC9_CFG   SRIO1 logical MAC 1
+ *   PKO_MAC2_CFG   BGX0 logical MAC 0
+ *   PKO_MAC3_CFG   BGX0 logical MAC 1
+ *   PKO_MAC4_CFG   BGX0 logical MAC 2
+ *   PKO_MAC5_CFG   BGX0 logical MAC 3
+ *   PKO_MAC6_CFG   BGX1 logical MAC 0
+ *   PKO_MAC7_CFG   BGX1 logical MAC 1
+ *   PKO_MAC8_CFG   BGX1 logical MAC 2
+ *   PKO_MAC9_CFG   BGX1 logical MAC 3
+ *   PKO_MAC10_CFG  BGX2 logical MAC 0
+ *   PKO_MAC11_CFG  BGX2 logical MAC 1
+ *   PKO_MAC12_CFG  BGX2 logical MAC 2
+ *   PKO_MAC13_CFG  BGX2 logical MAC 3
  * </pre>
  */
 typedef union
@@ -7406,6 +7514,7 @@ static inline uint64_t BDK_PKO_MACX_CFG(unsigned long a)
 #define typedef_BDK_PKO_MACX_CFG(a) bdk_pko_macx_cfg_t
 #define bustype_BDK_PKO_MACX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_MACX_CFG(a) "PKO_MACX_CFG"
+#define device_bar_BDK_PKO_MACX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_MACX_CFG(a) (a)
 #define arguments_BDK_PKO_MACX_CFG(a) (a),-1,-1,-1
 
@@ -7441,6 +7550,7 @@ static inline uint64_t BDK_PKO_MCI1_CRED_CNTX(unsigned long a)
 #define typedef_BDK_PKO_MCI1_CRED_CNTX(a) bdk_pko_mci1_cred_cntx_t
 #define bustype_BDK_PKO_MCI1_CRED_CNTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_MCI1_CRED_CNTX(a) "PKO_MCI1_CRED_CNTX"
+#define device_bar_BDK_PKO_MCI1_CRED_CNTX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_MCI1_CRED_CNTX(a) (a)
 #define arguments_BDK_PKO_MCI1_CRED_CNTX(a) (a),-1,-1,-1
 
@@ -7478,6 +7588,7 @@ static inline uint64_t BDK_PKO_MCI1_MAX_CREDX(unsigned long a)
 #define typedef_BDK_PKO_MCI1_MAX_CREDX(a) bdk_pko_mci1_max_credx_t
 #define bustype_BDK_PKO_MCI1_MAX_CREDX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_MCI1_MAX_CREDX(a) "PKO_MCI1_MAX_CREDX"
+#define device_bar_BDK_PKO_MCI1_MAX_CREDX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_MCI1_MAX_CREDX(a) (a)
 #define arguments_BDK_PKO_MCI1_MAX_CREDX(a) (a),-1,-1,-1
 
@@ -7525,6 +7636,7 @@ static inline uint64_t BDK_PKO_NCB_BIST_STATUS_FUNC(void)
 #define typedef_BDK_PKO_NCB_BIST_STATUS bdk_pko_ncb_bist_status_t
 #define bustype_BDK_PKO_NCB_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_NCB_BIST_STATUS "PKO_NCB_BIST_STATUS"
+#define device_bar_BDK_PKO_NCB_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_NCB_BIST_STATUS 0
 #define arguments_BDK_PKO_NCB_BIST_STATUS -1,-1,-1,-1
 
@@ -7583,6 +7695,7 @@ static inline uint64_t BDK_PKO_NCB_ECC_CTL0_FUNC(void)
 #define typedef_BDK_PKO_NCB_ECC_CTL0 bdk_pko_ncb_ecc_ctl0_t
 #define bustype_BDK_PKO_NCB_ECC_CTL0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_NCB_ECC_CTL0 "PKO_NCB_ECC_CTL0"
+#define device_bar_BDK_PKO_NCB_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_NCB_ECC_CTL0 0
 #define arguments_BDK_PKO_NCB_ECC_CTL0 -1,-1,-1,-1
 
@@ -7641,6 +7754,7 @@ static inline uint64_t BDK_PKO_NCB_ECC_DBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_NCB_ECC_DBE_STS0 bdk_pko_ncb_ecc_dbe_sts0_t
 #define bustype_BDK_PKO_NCB_ECC_DBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_NCB_ECC_DBE_STS0 "PKO_NCB_ECC_DBE_STS0"
+#define device_bar_BDK_PKO_NCB_ECC_DBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_NCB_ECC_DBE_STS0 0
 #define arguments_BDK_PKO_NCB_ECC_DBE_STS0 -1,-1,-1,-1
 
@@ -7695,6 +7809,7 @@ static inline uint64_t BDK_PKO_NCB_ECC_DBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_NCB_ECC_DBE_STS_CMB0 bdk_pko_ncb_ecc_dbe_sts_cmb0_t
 #define bustype_BDK_PKO_NCB_ECC_DBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_NCB_ECC_DBE_STS_CMB0 "PKO_NCB_ECC_DBE_STS_CMB0"
+#define device_bar_BDK_PKO_NCB_ECC_DBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_NCB_ECC_DBE_STS_CMB0 0
 #define arguments_BDK_PKO_NCB_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
@@ -7753,6 +7868,7 @@ static inline uint64_t BDK_PKO_NCB_ECC_SBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_NCB_ECC_SBE_STS0 bdk_pko_ncb_ecc_sbe_sts0_t
 #define bustype_BDK_PKO_NCB_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_NCB_ECC_SBE_STS0 "PKO_NCB_ECC_SBE_STS0"
+#define device_bar_BDK_PKO_NCB_ECC_SBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_NCB_ECC_SBE_STS0 0
 #define arguments_BDK_PKO_NCB_ECC_SBE_STS0 -1,-1,-1,-1
 
@@ -7807,6 +7923,7 @@ static inline uint64_t BDK_PKO_NCB_ECC_SBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_NCB_ECC_SBE_STS_CMB0 bdk_pko_ncb_ecc_sbe_sts_cmb0_t
 #define bustype_BDK_PKO_NCB_ECC_SBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_NCB_ECC_SBE_STS_CMB0 "PKO_NCB_ECC_SBE_STS_CMB0"
+#define device_bar_BDK_PKO_NCB_ECC_SBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_NCB_ECC_SBE_STS_CMB0 0
 #define arguments_BDK_PKO_NCB_ECC_SBE_STS_CMB0 -1,-1,-1,-1
 
@@ -7867,6 +7984,7 @@ static inline uint64_t BDK_PKO_NCB_INT_FUNC(void)
 #define typedef_BDK_PKO_NCB_INT bdk_pko_ncb_int_t
 #define bustype_BDK_PKO_NCB_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_NCB_INT "PKO_NCB_INT"
+#define device_bar_BDK_PKO_NCB_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_NCB_INT 0
 #define arguments_BDK_PKO_NCB_INT -1,-1,-1,-1
 
@@ -7915,6 +8033,7 @@ static inline uint64_t BDK_PKO_NCB_TX_ERR_INFO_FUNC(void)
 #define typedef_BDK_PKO_NCB_TX_ERR_INFO bdk_pko_ncb_tx_err_info_t
 #define bustype_BDK_PKO_NCB_TX_ERR_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_NCB_TX_ERR_INFO "PKO_NCB_TX_ERR_INFO"
+#define device_bar_BDK_PKO_NCB_TX_ERR_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_NCB_TX_ERR_INFO 0
 #define arguments_BDK_PKO_NCB_TX_ERR_INFO -1,-1,-1,-1
 
@@ -7953,6 +8072,7 @@ static inline uint64_t BDK_PKO_NCB_TX_ERR_WORD_FUNC(void)
 #define typedef_BDK_PKO_NCB_TX_ERR_WORD bdk_pko_ncb_tx_err_word_t
 #define bustype_BDK_PKO_NCB_TX_ERR_WORD BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_NCB_TX_ERR_WORD "PKO_NCB_TX_ERR_WORD"
+#define device_bar_BDK_PKO_NCB_TX_ERR_WORD 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_NCB_TX_ERR_WORD 0
 #define arguments_BDK_PKO_NCB_TX_ERR_WORD -1,-1,-1,-1
 
@@ -8046,6 +8166,7 @@ static inline uint64_t BDK_PKO_PDM_BIST_STATUS_FUNC(void)
 #define typedef_BDK_PKO_PDM_BIST_STATUS bdk_pko_pdm_bist_status_t
 #define bustype_BDK_PKO_PDM_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_BIST_STATUS "PKO_PDM_BIST_STATUS"
+#define device_bar_BDK_PKO_PDM_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_BIST_STATUS 0
 #define arguments_BDK_PKO_PDM_BIST_STATUS -1,-1,-1,-1
 
@@ -8153,6 +8274,7 @@ static inline uint64_t BDK_PKO_PDM_CFG_FUNC(void)
 #define typedef_BDK_PKO_PDM_CFG bdk_pko_pdm_cfg_t
 #define bustype_BDK_PKO_PDM_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_CFG "PKO_PDM_CFG"
+#define device_bar_BDK_PKO_PDM_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_CFG 0
 #define arguments_BDK_PKO_PDM_CFG -1,-1,-1,-1
 
@@ -8193,6 +8315,7 @@ static inline uint64_t BDK_PKO_PDM_CFG_DBG_FUNC(void)
 #define typedef_BDK_PKO_PDM_CFG_DBG bdk_pko_pdm_cfg_dbg_t
 #define bustype_BDK_PKO_PDM_CFG_DBG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_CFG_DBG "PKO_PDM_CFG_DBG"
+#define device_bar_BDK_PKO_PDM_CFG_DBG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_CFG_DBG 0
 #define arguments_BDK_PKO_PDM_CFG_DBG -1,-1,-1,-1
 
@@ -8243,6 +8366,7 @@ static inline uint64_t BDK_PKO_PDM_CP_DBG_FUNC(void)
 #define typedef_BDK_PKO_PDM_CP_DBG bdk_pko_pdm_cp_dbg_t
 #define bustype_BDK_PKO_PDM_CP_DBG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_CP_DBG "PKO_PDM_CP_DBG"
+#define device_bar_BDK_PKO_PDM_CP_DBG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_CP_DBG 0
 #define arguments_BDK_PKO_PDM_CP_DBG -1,-1,-1,-1
 
@@ -8304,6 +8428,7 @@ static inline uint64_t BDK_PKO_PDM_DQX_MINPAD(unsigned long a)
 #define typedef_BDK_PKO_PDM_DQX_MINPAD(a) bdk_pko_pdm_dqx_minpad_t
 #define bustype_BDK_PKO_PDM_DQX_MINPAD(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_DQX_MINPAD(a) "PKO_PDM_DQX_MINPAD"
+#define device_bar_BDK_PKO_PDM_DQX_MINPAD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_DQX_MINPAD(a) (a)
 #define arguments_BDK_PKO_PDM_DQX_MINPAD(a) (a),-1,-1,-1
 
@@ -8366,6 +8491,7 @@ static inline uint64_t BDK_PKO_PDM_DRPBUF_DBG_FUNC(void)
 #define typedef_BDK_PKO_PDM_DRPBUF_DBG bdk_pko_pdm_drpbuf_dbg_t
 #define bustype_BDK_PKO_PDM_DRPBUF_DBG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_DRPBUF_DBG "PKO_PDM_DRPBUF_DBG"
+#define device_bar_BDK_PKO_PDM_DRPBUF_DBG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_DRPBUF_DBG 0
 #define arguments_BDK_PKO_PDM_DRPBUF_DBG -1,-1,-1,-1
 
@@ -8438,6 +8564,7 @@ static inline uint64_t BDK_PKO_PDM_DWPBUF_DBG_FUNC(void)
 #define typedef_BDK_PKO_PDM_DWPBUF_DBG bdk_pko_pdm_dwpbuf_dbg_t
 #define bustype_BDK_PKO_PDM_DWPBUF_DBG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_DWPBUF_DBG "PKO_PDM_DWPBUF_DBG"
+#define device_bar_BDK_PKO_PDM_DWPBUF_DBG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_DWPBUF_DBG 0
 #define arguments_BDK_PKO_PDM_DWPBUF_DBG -1,-1,-1,-1
 
@@ -8550,6 +8677,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_CTL0_FUNC(void)
 #define typedef_BDK_PKO_PDM_ECC_CTL0 bdk_pko_pdm_ecc_ctl0_t
 #define bustype_BDK_PKO_PDM_ECC_CTL0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_ECC_CTL0 "PKO_PDM_ECC_CTL0"
+#define device_bar_BDK_PKO_PDM_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_ECC_CTL0 0
 #define arguments_BDK_PKO_PDM_ECC_CTL0 -1,-1,-1,-1
 
@@ -8602,6 +8730,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_CTL1_FUNC(void)
 #define typedef_BDK_PKO_PDM_ECC_CTL1 bdk_pko_pdm_ecc_ctl1_t
 #define bustype_BDK_PKO_PDM_ECC_CTL1 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_ECC_CTL1 "PKO_PDM_ECC_CTL1"
+#define device_bar_BDK_PKO_PDM_ECC_CTL1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_ECC_CTL1 0
 #define arguments_BDK_PKO_PDM_ECC_CTL1 -1,-1,-1,-1
 
@@ -8732,6 +8861,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_DBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PDM_ECC_DBE_STS0 bdk_pko_pdm_ecc_dbe_sts0_t
 #define bustype_BDK_PKO_PDM_ECC_DBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_ECC_DBE_STS0 "PKO_PDM_ECC_DBE_STS0"
+#define device_bar_BDK_PKO_PDM_ECC_DBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_ECC_DBE_STS0 0
 #define arguments_BDK_PKO_PDM_ECC_DBE_STS0 -1,-1,-1,-1
 
@@ -8816,6 +8946,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_DBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PDM_ECC_DBE_STS_CMB0 bdk_pko_pdm_ecc_dbe_sts_cmb0_t
 #define bustype_BDK_PKO_PDM_ECC_DBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_ECC_DBE_STS_CMB0 "PKO_PDM_ECC_DBE_STS_CMB0"
+#define device_bar_BDK_PKO_PDM_ECC_DBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_ECC_DBE_STS_CMB0 0
 #define arguments_BDK_PKO_PDM_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
@@ -8946,6 +9077,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_SBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PDM_ECC_SBE_STS0 bdk_pko_pdm_ecc_sbe_sts0_t
 #define bustype_BDK_PKO_PDM_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_ECC_SBE_STS0 "PKO_PDM_ECC_SBE_STS0"
+#define device_bar_BDK_PKO_PDM_ECC_SBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_ECC_SBE_STS0 0
 #define arguments_BDK_PKO_PDM_ECC_SBE_STS0 -1,-1,-1,-1
 
@@ -9030,6 +9162,7 @@ static inline uint64_t BDK_PKO_PDM_ECC_SBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PDM_ECC_SBE_STS_CMB0 bdk_pko_pdm_ecc_sbe_sts_cmb0_t
 #define bustype_BDK_PKO_PDM_ECC_SBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_ECC_SBE_STS_CMB0 "PKO_PDM_ECC_SBE_STS_CMB0"
+#define device_bar_BDK_PKO_PDM_ECC_SBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_ECC_SBE_STS_CMB0 0
 #define arguments_BDK_PKO_PDM_ECC_SBE_STS_CMB0 -1,-1,-1,-1
 
@@ -9096,6 +9229,7 @@ static inline uint64_t BDK_PKO_PDM_FILLB_DBG0_FUNC(void)
 #define typedef_BDK_PKO_PDM_FILLB_DBG0 bdk_pko_pdm_fillb_dbg0_t
 #define bustype_BDK_PKO_PDM_FILLB_DBG0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_FILLB_DBG0 "PKO_PDM_FILLB_DBG0"
+#define device_bar_BDK_PKO_PDM_FILLB_DBG0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_FILLB_DBG0 0
 #define arguments_BDK_PKO_PDM_FILLB_DBG0 -1,-1,-1,-1
 
@@ -9162,6 +9296,7 @@ static inline uint64_t BDK_PKO_PDM_FILLB_DBG1_FUNC(void)
 #define typedef_BDK_PKO_PDM_FILLB_DBG1 bdk_pko_pdm_fillb_dbg1_t
 #define bustype_BDK_PKO_PDM_FILLB_DBG1 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_FILLB_DBG1 "PKO_PDM_FILLB_DBG1"
+#define device_bar_BDK_PKO_PDM_FILLB_DBG1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_FILLB_DBG1 0
 #define arguments_BDK_PKO_PDM_FILLB_DBG1 -1,-1,-1,-1
 
@@ -9202,6 +9337,7 @@ static inline uint64_t BDK_PKO_PDM_FILLB_DBG2_FUNC(void)
 #define typedef_BDK_PKO_PDM_FILLB_DBG2 bdk_pko_pdm_fillb_dbg2_t
 #define bustype_BDK_PKO_PDM_FILLB_DBG2 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_FILLB_DBG2 "PKO_PDM_FILLB_DBG2"
+#define device_bar_BDK_PKO_PDM_FILLB_DBG2 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_FILLB_DBG2 0
 #define arguments_BDK_PKO_PDM_FILLB_DBG2 -1,-1,-1,-1
 
@@ -9252,6 +9388,7 @@ static inline uint64_t BDK_PKO_PDM_FLSHB_DBG0_FUNC(void)
 #define typedef_BDK_PKO_PDM_FLSHB_DBG0 bdk_pko_pdm_flshb_dbg0_t
 #define bustype_BDK_PKO_PDM_FLSHB_DBG0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_FLSHB_DBG0 "PKO_PDM_FLSHB_DBG0"
+#define device_bar_BDK_PKO_PDM_FLSHB_DBG0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_FLSHB_DBG0 0
 #define arguments_BDK_PKO_PDM_FLSHB_DBG0 -1,-1,-1,-1
 
@@ -9288,6 +9425,7 @@ static inline uint64_t BDK_PKO_PDM_FLSHB_DBG1_FUNC(void)
 #define typedef_BDK_PKO_PDM_FLSHB_DBG1 bdk_pko_pdm_flshb_dbg1_t
 #define bustype_BDK_PKO_PDM_FLSHB_DBG1 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_FLSHB_DBG1 "PKO_PDM_FLSHB_DBG1"
+#define device_bar_BDK_PKO_PDM_FLSHB_DBG1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_FLSHB_DBG1 0
 #define arguments_BDK_PKO_PDM_FLSHB_DBG1 -1,-1,-1,-1
 
@@ -9336,6 +9474,7 @@ static inline uint64_t BDK_PKO_PDM_INTF_DBG_RD_FUNC(void)
 #define typedef_BDK_PKO_PDM_INTF_DBG_RD bdk_pko_pdm_intf_dbg_rd_t
 #define bustype_BDK_PKO_PDM_INTF_DBG_RD BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_INTF_DBG_RD "PKO_PDM_INTF_DBG_RD"
+#define device_bar_BDK_PKO_PDM_INTF_DBG_RD 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_INTF_DBG_RD 0
 #define arguments_BDK_PKO_PDM_INTF_DBG_RD -1,-1,-1,-1
 
@@ -9492,6 +9631,7 @@ static inline uint64_t BDK_PKO_PDM_ISRD_DBG_FUNC(void)
 #define typedef_BDK_PKO_PDM_ISRD_DBG bdk_pko_pdm_isrd_dbg_t
 #define bustype_BDK_PKO_PDM_ISRD_DBG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_ISRD_DBG "PKO_PDM_ISRD_DBG"
+#define device_bar_BDK_PKO_PDM_ISRD_DBG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_ISRD_DBG 0
 #define arguments_BDK_PKO_PDM_ISRD_DBG -1,-1,-1,-1
 
@@ -9540,6 +9680,7 @@ static inline uint64_t BDK_PKO_PDM_ISRD_DBG_DQ_FUNC(void)
 #define typedef_BDK_PKO_PDM_ISRD_DBG_DQ bdk_pko_pdm_isrd_dbg_dq_t
 #define bustype_BDK_PKO_PDM_ISRD_DBG_DQ BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_ISRD_DBG_DQ "PKO_PDM_ISRD_DBG_DQ"
+#define device_bar_BDK_PKO_PDM_ISRD_DBG_DQ 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_ISRD_DBG_DQ 0
 #define arguments_BDK_PKO_PDM_ISRD_DBG_DQ -1,-1,-1,-1
 
@@ -9668,6 +9809,7 @@ static inline uint64_t BDK_PKO_PDM_ISRM_DBG_FUNC(void)
 #define typedef_BDK_PKO_PDM_ISRM_DBG bdk_pko_pdm_isrm_dbg_t
 #define bustype_BDK_PKO_PDM_ISRM_DBG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_ISRM_DBG "PKO_PDM_ISRM_DBG"
+#define device_bar_BDK_PKO_PDM_ISRM_DBG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_ISRM_DBG 0
 #define arguments_BDK_PKO_PDM_ISRM_DBG -1,-1,-1,-1
 
@@ -9712,6 +9854,7 @@ static inline uint64_t BDK_PKO_PDM_ISRM_DBG_DQ_FUNC(void)
 #define typedef_BDK_PKO_PDM_ISRM_DBG_DQ bdk_pko_pdm_isrm_dbg_dq_t
 #define bustype_BDK_PKO_PDM_ISRM_DBG_DQ BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_ISRM_DBG_DQ "PKO_PDM_ISRM_DBG_DQ"
+#define device_bar_BDK_PKO_PDM_ISRM_DBG_DQ 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_ISRM_DBG_DQ 0
 #define arguments_BDK_PKO_PDM_ISRM_DBG_DQ -1,-1,-1,-1
 
@@ -9770,6 +9913,7 @@ static inline uint64_t BDK_PKO_PDM_MEM_ADDR_FUNC(void)
 #define typedef_BDK_PKO_PDM_MEM_ADDR bdk_pko_pdm_mem_addr_t
 #define bustype_BDK_PKO_PDM_MEM_ADDR BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_MEM_ADDR "PKO_PDM_MEM_ADDR"
+#define device_bar_BDK_PKO_PDM_MEM_ADDR 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_MEM_ADDR 0
 #define arguments_BDK_PKO_PDM_MEM_ADDR -1,-1,-1,-1
 
@@ -9808,6 +9952,7 @@ static inline uint64_t BDK_PKO_PDM_MEM_DATA_FUNC(void)
 #define typedef_BDK_PKO_PDM_MEM_DATA bdk_pko_pdm_mem_data_t
 #define bustype_BDK_PKO_PDM_MEM_DATA BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_MEM_DATA "PKO_PDM_MEM_DATA"
+#define device_bar_BDK_PKO_PDM_MEM_DATA 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_MEM_DATA 0
 #define arguments_BDK_PKO_PDM_MEM_DATA -1,-1,-1,-1
 
@@ -9846,6 +9991,7 @@ static inline uint64_t BDK_PKO_PDM_MEM_RW_CTL_FUNC(void)
 #define typedef_BDK_PKO_PDM_MEM_RW_CTL bdk_pko_pdm_mem_rw_ctl_t
 #define bustype_BDK_PKO_PDM_MEM_RW_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_MEM_RW_CTL "PKO_PDM_MEM_RW_CTL"
+#define device_bar_BDK_PKO_PDM_MEM_RW_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_MEM_RW_CTL 0
 #define arguments_BDK_PKO_PDM_MEM_RW_CTL -1,-1,-1,-1
 
@@ -9882,6 +10028,7 @@ static inline uint64_t BDK_PKO_PDM_MEM_RW_STS_FUNC(void)
 #define typedef_BDK_PKO_PDM_MEM_RW_STS bdk_pko_pdm_mem_rw_sts_t
 #define bustype_BDK_PKO_PDM_MEM_RW_STS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_MEM_RW_STS "PKO_PDM_MEM_RW_STS"
+#define device_bar_BDK_PKO_PDM_MEM_RW_STS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_MEM_RW_STS 0
 #define arguments_BDK_PKO_PDM_MEM_RW_STS -1,-1,-1,-1
 
@@ -9970,6 +10117,7 @@ static inline uint64_t BDK_PKO_PDM_MWPBUF_DBG_FUNC(void)
 #define typedef_BDK_PKO_PDM_MWPBUF_DBG bdk_pko_pdm_mwpbuf_dbg_t
 #define bustype_BDK_PKO_PDM_MWPBUF_DBG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_MWPBUF_DBG "PKO_PDM_MWPBUF_DBG"
+#define device_bar_BDK_PKO_PDM_MWPBUF_DBG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_MWPBUF_DBG 0
 #define arguments_BDK_PKO_PDM_MWPBUF_DBG -1,-1,-1,-1
 
@@ -10094,13 +10242,14 @@ static inline uint64_t BDK_PKO_PDM_STS_FUNC(void)
 #define typedef_BDK_PKO_PDM_STS bdk_pko_pdm_sts_t
 #define bustype_BDK_PKO_PDM_STS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PDM_STS "PKO_PDM_STS"
+#define device_bar_BDK_PKO_PDM_STS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PDM_STS 0
 #define arguments_BDK_PKO_PDM_STS -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_bist_status
  *
- * PKO PEB BIST Status Information Register
+ * PEB BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -10177,6 +10326,7 @@ static inline uint64_t BDK_PKO_PEB_BIST_STATUS_FUNC(void)
 #define typedef_BDK_PKO_PEB_BIST_STATUS bdk_pko_peb_bist_status_t
 #define bustype_BDK_PKO_PEB_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_BIST_STATUS "PKO_PEB_BIST_STATUS"
+#define device_bar_BDK_PKO_PEB_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_BIST_STATUS 0
 #define arguments_BDK_PKO_PEB_BIST_STATUS -1,-1,-1,-1
 
@@ -10287,6 +10437,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_CTL0_FUNC(void)
 #define typedef_BDK_PKO_PEB_ECC_CTL0 bdk_pko_peb_ecc_ctl0_t
 #define bustype_BDK_PKO_PEB_ECC_CTL0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_ECC_CTL0 "PKO_PEB_ECC_CTL0"
+#define device_bar_BDK_PKO_PEB_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_ECC_CTL0 0
 #define arguments_BDK_PKO_PEB_ECC_CTL0 -1,-1,-1,-1
 
@@ -10335,6 +10486,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_CTL1_FUNC(void)
 #define typedef_BDK_PKO_PEB_ECC_CTL1 bdk_pko_peb_ecc_ctl1_t
 #define bustype_BDK_PKO_PEB_ECC_CTL1 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_ECC_CTL1 "PKO_PEB_ECC_CTL1"
+#define device_bar_BDK_PKO_PEB_ECC_CTL1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_ECC_CTL1 0
 #define arguments_BDK_PKO_PEB_ECC_CTL1 -1,-1,-1,-1
 
@@ -10459,6 +10611,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_DBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PEB_ECC_DBE_STS0 bdk_pko_peb_ecc_dbe_sts0_t
 #define bustype_BDK_PKO_PEB_ECC_DBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_ECC_DBE_STS0 "PKO_PEB_ECC_DBE_STS0"
+#define device_bar_BDK_PKO_PEB_ECC_DBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_ECC_DBE_STS0 0
 #define arguments_BDK_PKO_PEB_ECC_DBE_STS0 -1,-1,-1,-1
 
@@ -10543,6 +10696,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_DBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PEB_ECC_DBE_STS_CMB0 bdk_pko_peb_ecc_dbe_sts_cmb0_t
 #define bustype_BDK_PKO_PEB_ECC_DBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_ECC_DBE_STS_CMB0 "PKO_PEB_ECC_DBE_STS_CMB0"
+#define device_bar_BDK_PKO_PEB_ECC_DBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_ECC_DBE_STS_CMB0 0
 #define arguments_BDK_PKO_PEB_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
@@ -10667,6 +10821,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_SBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PEB_ECC_SBE_STS0 bdk_pko_peb_ecc_sbe_sts0_t
 #define bustype_BDK_PKO_PEB_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_ECC_SBE_STS0 "PKO_PEB_ECC_SBE_STS0"
+#define device_bar_BDK_PKO_PEB_ECC_SBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_ECC_SBE_STS0 0
 #define arguments_BDK_PKO_PEB_ECC_SBE_STS0 -1,-1,-1,-1
 
@@ -10751,6 +10906,7 @@ static inline uint64_t BDK_PKO_PEB_ECC_SBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PEB_ECC_SBE_STS_CMB0 bdk_pko_peb_ecc_sbe_sts_cmb0_t
 #define bustype_BDK_PKO_PEB_ECC_SBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_ECC_SBE_STS_CMB0 "PKO_PEB_ECC_SBE_STS_CMB0"
+#define device_bar_BDK_PKO_PEB_ECC_SBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_ECC_SBE_STS_CMB0 0
 #define arguments_BDK_PKO_PEB_ECC_SBE_STS_CMB0 -1,-1,-1,-1
 
@@ -10787,6 +10943,7 @@ static inline uint64_t BDK_PKO_PEB_ECO_FUNC(void)
 #define typedef_BDK_PKO_PEB_ECO bdk_pko_peb_eco_t
 #define bustype_BDK_PKO_PEB_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_ECO "PKO_PEB_ECO"
+#define device_bar_BDK_PKO_PEB_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_ECO 0
 #define arguments_BDK_PKO_PEB_ECO -1,-1,-1,-1
 
@@ -10843,13 +11000,14 @@ static inline uint64_t BDK_PKO_PEB_ERR_INT_FUNC(void)
 #define typedef_BDK_PKO_PEB_ERR_INT bdk_pko_peb_err_int_t
 #define bustype_BDK_PKO_PEB_ERR_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_ERR_INT "PKO_PEB_ERR_INT"
+#define device_bar_BDK_PKO_PEB_ERR_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_ERR_INT 0
 #define arguments_BDK_PKO_PEB_ERR_INT -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_ext_hdr_def_err_info
  *
- * PKO External Error Information Register
+ * PEB_EXT_HDR_DEF_ERR Error Information Register
  */
 typedef union
 {
@@ -10883,13 +11041,14 @@ static inline uint64_t BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO_FUNC(void)
 #define typedef_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO bdk_pko_peb_ext_hdr_def_err_info_t
 #define bustype_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO "PKO_PEB_EXT_HDR_DEF_ERR_INFO"
+#define device_bar_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO 0
 #define arguments_BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_fcs_sop_err_info
  *
- * PKO FCS Error Information Register
+ * PEB_FCS_SOP_ERR Error Information Register
  */
 typedef union
 {
@@ -10923,13 +11082,14 @@ static inline uint64_t BDK_PKO_PEB_FCS_SOP_ERR_INFO_FUNC(void)
 #define typedef_BDK_PKO_PEB_FCS_SOP_ERR_INFO bdk_pko_peb_fcs_sop_err_info_t
 #define bustype_BDK_PKO_PEB_FCS_SOP_ERR_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_FCS_SOP_ERR_INFO "PKO_PEB_FCS_SOP_ERR_INFO"
+#define device_bar_BDK_PKO_PEB_FCS_SOP_ERR_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_FCS_SOP_ERR_INFO 0
 #define arguments_BDK_PKO_PEB_FCS_SOP_ERR_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_jump_def_err_info
  *
- * PKO Jump Error Information Register
+ * PEB_JUMP_DEF_ERR Error Information Register
  */
 typedef union
 {
@@ -10963,13 +11123,14 @@ static inline uint64_t BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC(void)
 #define typedef_BDK_PKO_PEB_JUMP_DEF_ERR_INFO bdk_pko_peb_jump_def_err_info_t
 #define bustype_BDK_PKO_PEB_JUMP_DEF_ERR_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_JUMP_DEF_ERR_INFO "PKO_PEB_JUMP_DEF_ERR_INFO"
+#define device_bar_BDK_PKO_PEB_JUMP_DEF_ERR_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_JUMP_DEF_ERR_INFO 0
 #define arguments_BDK_PKO_PEB_JUMP_DEF_ERR_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_macx_cfg_wr_err_info
  *
- * PKO MAC Configuration Error Information Register
+ * PEB_MACX_CFG_WR_ERR Error Information Register
  */
 typedef union
 {
@@ -11001,13 +11162,14 @@ static inline uint64_t BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO_FUNC(void)
 #define typedef_BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO bdk_pko_peb_macx_cfg_wr_err_info_t
 #define bustype_BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO "PKO_PEB_MACX_CFG_WR_ERR_INFO"
+#define device_bar_BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO 0
 #define arguments_BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_max_link_err_info
  *
- * PKO Max link Error Information Register
+ * PEB_MAX_LINK_ERR Error Information Register
  */
 typedef union
 {
@@ -11041,6 +11203,7 @@ static inline uint64_t BDK_PKO_PEB_MAX_LINK_ERR_INFO_FUNC(void)
 #define typedef_BDK_PKO_PEB_MAX_LINK_ERR_INFO bdk_pko_peb_max_link_err_info_t
 #define bustype_BDK_PKO_PEB_MAX_LINK_ERR_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_MAX_LINK_ERR_INFO "PKO_PEB_MAX_LINK_ERR_INFO"
+#define device_bar_BDK_PKO_PEB_MAX_LINK_ERR_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_MAX_LINK_ERR_INFO 0
 #define arguments_BDK_PKO_PEB_MAX_LINK_ERR_INFO -1,-1,-1,-1
 
@@ -11077,13 +11240,14 @@ static inline uint64_t BDK_PKO_PEB_NCB_CFG_FUNC(void)
 #define typedef_BDK_PKO_PEB_NCB_CFG bdk_pko_peb_ncb_cfg_t
 #define bustype_BDK_PKO_PEB_NCB_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_NCB_CFG "PKO_PEB_NCB_CFG"
+#define device_bar_BDK_PKO_PEB_NCB_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_NCB_CFG 0
 #define arguments_BDK_PKO_PEB_NCB_CFG -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_pad_err_info
  *
- * PKO PAD Error Information Register
+ * PEB_PAD_ERR Error Information Register
  */
 typedef union
 {
@@ -11117,13 +11281,14 @@ static inline uint64_t BDK_PKO_PEB_PAD_ERR_INFO_FUNC(void)
 #define typedef_BDK_PKO_PEB_PAD_ERR_INFO bdk_pko_peb_pad_err_info_t
 #define bustype_BDK_PKO_PEB_PAD_ERR_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_PAD_ERR_INFO "PKO_PEB_PAD_ERR_INFO"
+#define device_bar_BDK_PKO_PEB_PAD_ERR_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_PAD_ERR_INFO 0
 #define arguments_BDK_PKO_PEB_PAD_ERR_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_pse_fifo_err_info
  *
- * PKO PSE Error Information Register
+ * PEB_PSE_FIFO_ERR Error Information Register
  */
 typedef union
 {
@@ -11157,13 +11322,14 @@ static inline uint64_t BDK_PKO_PEB_PSE_FIFO_ERR_INFO_FUNC(void)
 #define typedef_BDK_PKO_PEB_PSE_FIFO_ERR_INFO bdk_pko_peb_pse_fifo_err_info_t
 #define bustype_BDK_PKO_PEB_PSE_FIFO_ERR_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_PSE_FIFO_ERR_INFO "PKO_PEB_PSE_FIFO_ERR_INFO"
+#define device_bar_BDK_PKO_PEB_PSE_FIFO_ERR_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_PSE_FIFO_ERR_INFO 0
 #define arguments_BDK_PKO_PEB_PSE_FIFO_ERR_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_subd_addr_err_info
  *
- * PKO Subdecriptor Error Information Register
+ * PEB_SUBD_ADDR_ERR Error Information Register
  */
 typedef union
 {
@@ -11197,13 +11363,14 @@ static inline uint64_t BDK_PKO_PEB_SUBD_ADDR_ERR_INFO_FUNC(void)
 #define typedef_BDK_PKO_PEB_SUBD_ADDR_ERR_INFO bdk_pko_peb_subd_addr_err_info_t
 #define bustype_BDK_PKO_PEB_SUBD_ADDR_ERR_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_SUBD_ADDR_ERR_INFO "PKO_PEB_SUBD_ADDR_ERR_INFO"
+#define device_bar_BDK_PKO_PEB_SUBD_ADDR_ERR_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_SUBD_ADDR_ERR_INFO 0
 #define arguments_BDK_PKO_PEB_SUBD_ADDR_ERR_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_subd_size_err_info
  *
- * PKO Size_ERR Error Information Register
+ * PEB_SUBD_SIZE_ERR Error Information Register
  */
 typedef union
 {
@@ -11237,13 +11404,14 @@ static inline uint64_t BDK_PKO_PEB_SUBD_SIZE_ERR_INFO_FUNC(void)
 #define typedef_BDK_PKO_PEB_SUBD_SIZE_ERR_INFO bdk_pko_peb_subd_size_err_info_t
 #define bustype_BDK_PKO_PEB_SUBD_SIZE_ERR_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_SUBD_SIZE_ERR_INFO "PKO_PEB_SUBD_SIZE_ERR_INFO"
+#define device_bar_BDK_PKO_PEB_SUBD_SIZE_ERR_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_SUBD_SIZE_ERR_INFO 0
 #define arguments_BDK_PKO_PEB_SUBD_SIZE_ERR_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_peb_trunc_err_info
  *
- * PKO Truncation Error Information Register
+ * PEB_TRUNC_ERR Error Information Register
  */
 typedef union
 {
@@ -11277,6 +11445,7 @@ static inline uint64_t BDK_PKO_PEB_TRUNC_ERR_INFO_FUNC(void)
 #define typedef_BDK_PKO_PEB_TRUNC_ERR_INFO bdk_pko_peb_trunc_err_info_t
 #define bustype_BDK_PKO_PEB_TRUNC_ERR_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_TRUNC_ERR_INFO "PKO_PEB_TRUNC_ERR_INFO"
+#define device_bar_BDK_PKO_PEB_TRUNC_ERR_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_TRUNC_ERR_INFO 0
 #define arguments_BDK_PKO_PEB_TRUNC_ERR_INFO -1,-1,-1,-1
 
@@ -11339,6 +11508,7 @@ static inline uint64_t BDK_PKO_PEB_TSO_CFG_FUNC(void)
 #define typedef_BDK_PKO_PEB_TSO_CFG bdk_pko_peb_tso_cfg_t
 #define bustype_BDK_PKO_PEB_TSO_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PEB_TSO_CFG "PKO_PEB_TSO_CFG"
+#define device_bar_BDK_PKO_PEB_TSO_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PEB_TSO_CFG 0
 #define arguments_BDK_PKO_PEB_TSO_CFG -1,-1,-1,-1
 
@@ -11376,6 +11546,7 @@ static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_PKO_PF_MSIX_PBAX(a) bdk_pko_pf_msix_pbax_t
 #define bustype_BDK_PKO_PF_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PF_MSIX_PBAX(a) "PKO_PF_MSIX_PBAX"
+#define device_bar_BDK_PKO_PF_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PKO_PF_MSIX_PBAX(a) (a)
 #define arguments_BDK_PKO_PF_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -11432,6 +11603,7 @@ static inline uint64_t BDK_PKO_PF_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_PKO_PF_MSIX_VECX_ADDR(a) bdk_pko_pf_msix_vecx_addr_t
 #define bustype_BDK_PKO_PF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PF_MSIX_VECX_ADDR(a) "PKO_PF_MSIX_VECX_ADDR"
+#define device_bar_BDK_PKO_PF_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PKO_PF_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_PKO_PF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -11472,6 +11644,7 @@ static inline uint64_t BDK_PKO_PF_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_PKO_PF_MSIX_VECX_CTL(a) bdk_pko_pf_msix_vecx_ctl_t
 #define bustype_BDK_PKO_PF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PF_MSIX_VECX_CTL(a) "PKO_PF_MSIX_VECX_CTL"
+#define device_bar_BDK_PKO_PF_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PKO_PF_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_PKO_PF_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -11528,6 +11701,7 @@ static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a)
 #define typedef_BDK_PKO_PF_VFX_GMCTL(a) bdk_pko_pf_vfx_gmctl_t
 #define bustype_BDK_PKO_PF_VFX_GMCTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PF_VFX_GMCTL(a) "PKO_PF_VFX_GMCTL"
+#define device_bar_BDK_PKO_PF_VFX_GMCTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PF_VFX_GMCTL(a) (a)
 #define arguments_BDK_PKO_PF_VFX_GMCTL(a) (a),-1,-1,-1
 
@@ -11562,6 +11736,7 @@ static inline uint64_t BDK_PKO_PQ_CSR_BUS_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_PQ_CSR_BUS_DEBUG bdk_pko_pq_csr_bus_debug_t
 #define bustype_BDK_PKO_PQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PQ_CSR_BUS_DEBUG "PKO_PQ_CSR_BUS_DEBUG"
+#define device_bar_BDK_PKO_PQ_CSR_BUS_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PQ_CSR_BUS_DEBUG 0
 #define arguments_BDK_PKO_PQ_CSR_BUS_DEBUG -1,-1,-1,-1
 
@@ -11598,6 +11773,7 @@ static inline uint64_t BDK_PKO_PQ_DEBUG_GREEN_FUNC(void)
 #define typedef_BDK_PKO_PQ_DEBUG_GREEN bdk_pko_pq_debug_green_t
 #define bustype_BDK_PKO_PQ_DEBUG_GREEN BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PQ_DEBUG_GREEN "PKO_PQ_DEBUG_GREEN"
+#define device_bar_BDK_PKO_PQ_DEBUG_GREEN 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PQ_DEBUG_GREEN 0
 #define arguments_BDK_PKO_PQ_DEBUG_GREEN -1,-1,-1,-1
 
@@ -11634,6 +11810,7 @@ static inline uint64_t BDK_PKO_PQ_DEBUG_LINKS_FUNC(void)
 #define typedef_BDK_PKO_PQ_DEBUG_LINKS bdk_pko_pq_debug_links_t
 #define bustype_BDK_PKO_PQ_DEBUG_LINKS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PQ_DEBUG_LINKS "PKO_PQ_DEBUG_LINKS"
+#define device_bar_BDK_PKO_PQ_DEBUG_LINKS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PQ_DEBUG_LINKS 0
 #define arguments_BDK_PKO_PQ_DEBUG_LINKS -1,-1,-1,-1
 
@@ -11672,6 +11849,7 @@ static inline uint64_t BDK_PKO_PQ_DEBUG_YELLOW_FUNC(void)
 #define typedef_BDK_PKO_PQ_DEBUG_YELLOW bdk_pko_pq_debug_yellow_t
 #define bustype_BDK_PKO_PQ_DEBUG_YELLOW BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PQ_DEBUG_YELLOW "PKO_PQ_DEBUG_YELLOW"
+#define device_bar_BDK_PKO_PQ_DEBUG_YELLOW 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PQ_DEBUG_YELLOW 0
 #define arguments_BDK_PKO_PQ_DEBUG_YELLOW -1,-1,-1,-1
 
@@ -11706,6 +11884,7 @@ static inline uint64_t BDK_PKO_PQA_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_PQA_DEBUG bdk_pko_pqa_debug_t
 #define bustype_BDK_PKO_PQA_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PQA_DEBUG "PKO_PQA_DEBUG"
+#define device_bar_BDK_PKO_PQA_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PQA_DEBUG 0
 #define arguments_BDK_PKO_PQA_DEBUG -1,-1,-1,-1
 
@@ -11742,13 +11921,14 @@ static inline uint64_t BDK_PKO_PQB_DEBUG_FUNC(void)
 #define typedef_BDK_PKO_PQB_DEBUG bdk_pko_pqb_debug_t
 #define bustype_BDK_PKO_PQB_DEBUG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PQB_DEBUG "PKO_PQB_DEBUG"
+#define device_bar_BDK_PKO_PQB_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PQB_DEBUG 0
 #define arguments_BDK_PKO_PQB_DEBUG -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_pse_dq_bist_status
  *
- * PKO PSE DQ BIST Status Information Register
+ * PSE DQ BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -11785,6 +11965,7 @@ static inline uint64_t BDK_PKO_PSE_DQ_BIST_STATUS_FUNC(void)
 #define typedef_BDK_PKO_PSE_DQ_BIST_STATUS bdk_pko_pse_dq_bist_status_t
 #define bustype_BDK_PKO_PSE_DQ_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_DQ_BIST_STATUS "PKO_PSE_DQ_BIST_STATUS"
+#define device_bar_BDK_PKO_PSE_DQ_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_DQ_BIST_STATUS 0
 #define arguments_BDK_PKO_PSE_DQ_BIST_STATUS -1,-1,-1,-1
 
@@ -11833,6 +12014,7 @@ static inline uint64_t BDK_PKO_PSE_DQ_ECC_CTL0_FUNC(void)
 #define typedef_BDK_PKO_PSE_DQ_ECC_CTL0 bdk_pko_pse_dq_ecc_ctl0_t
 #define bustype_BDK_PKO_PSE_DQ_ECC_CTL0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_DQ_ECC_CTL0 "PKO_PSE_DQ_ECC_CTL0"
+#define device_bar_BDK_PKO_PSE_DQ_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_DQ_ECC_CTL0 0
 #define arguments_BDK_PKO_PSE_DQ_ECC_CTL0 -1,-1,-1,-1
 
@@ -11875,6 +12057,7 @@ static inline uint64_t BDK_PKO_PSE_DQ_ECC_DBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PSE_DQ_ECC_DBE_STS0 bdk_pko_pse_dq_ecc_dbe_sts0_t
 #define bustype_BDK_PKO_PSE_DQ_ECC_DBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_DQ_ECC_DBE_STS0 "PKO_PSE_DQ_ECC_DBE_STS0"
+#define device_bar_BDK_PKO_PSE_DQ_ECC_DBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_DQ_ECC_DBE_STS0 0
 #define arguments_BDK_PKO_PSE_DQ_ECC_DBE_STS0 -1,-1,-1,-1
 
@@ -11923,6 +12106,7 @@ static inline uint64_t BDK_PKO_PSE_DQ_ECC_DBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PSE_DQ_ECC_DBE_STS_CMB0 bdk_pko_pse_dq_ecc_dbe_sts_cmb0_t
 #define bustype_BDK_PKO_PSE_DQ_ECC_DBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_DQ_ECC_DBE_STS_CMB0 "PKO_PSE_DQ_ECC_DBE_STS_CMB0"
+#define device_bar_BDK_PKO_PSE_DQ_ECC_DBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_DQ_ECC_DBE_STS_CMB0 0
 #define arguments_BDK_PKO_PSE_DQ_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
@@ -11965,6 +12149,7 @@ static inline uint64_t BDK_PKO_PSE_DQ_ECC_SBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PSE_DQ_ECC_SBE_STS0 bdk_pko_pse_dq_ecc_sbe_sts0_t
 #define bustype_BDK_PKO_PSE_DQ_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_DQ_ECC_SBE_STS0 "PKO_PSE_DQ_ECC_SBE_STS0"
+#define device_bar_BDK_PKO_PSE_DQ_ECC_SBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_DQ_ECC_SBE_STS0 0
 #define arguments_BDK_PKO_PSE_DQ_ECC_SBE_STS0 -1,-1,-1,-1
 
@@ -12015,13 +12200,14 @@ static inline uint64_t BDK_PKO_PSE_DQ_ECC_SBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PSE_DQ_ECC_SBE_STS_CMB0 bdk_pko_pse_dq_ecc_sbe_sts_cmb0_t
 #define bustype_BDK_PKO_PSE_DQ_ECC_SBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_DQ_ECC_SBE_STS_CMB0 "PKO_PSE_DQ_ECC_SBE_STS_CMB0"
+#define device_bar_BDK_PKO_PSE_DQ_ECC_SBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_DQ_ECC_SBE_STS_CMB0 0
 #define arguments_BDK_PKO_PSE_DQ_ECC_SBE_STS_CMB0 -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_pse_pq_bist_status
  *
- * PKO PSE PQ BIST Status Information Register
+ * PSE PQ BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -12080,6 +12266,7 @@ static inline uint64_t BDK_PKO_PSE_PQ_BIST_STATUS_FUNC(void)
 #define typedef_BDK_PKO_PSE_PQ_BIST_STATUS bdk_pko_pse_pq_bist_status_t
 #define bustype_BDK_PKO_PSE_PQ_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_PQ_BIST_STATUS "PKO_PSE_PQ_BIST_STATUS"
+#define device_bar_BDK_PKO_PSE_PQ_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_PQ_BIST_STATUS 0
 #define arguments_BDK_PKO_PSE_PQ_BIST_STATUS -1,-1,-1,-1
 
@@ -12140,6 +12327,7 @@ static inline uint64_t BDK_PKO_PSE_PQ_ECC_CTL0_FUNC(void)
 #define typedef_BDK_PKO_PSE_PQ_ECC_CTL0 bdk_pko_pse_pq_ecc_ctl0_t
 #define bustype_BDK_PKO_PSE_PQ_ECC_CTL0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_PQ_ECC_CTL0 "PKO_PSE_PQ_ECC_CTL0"
+#define device_bar_BDK_PKO_PSE_PQ_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_PQ_ECC_CTL0 0
 #define arguments_BDK_PKO_PSE_PQ_ECC_CTL0 -1,-1,-1,-1
 
@@ -12198,6 +12386,7 @@ static inline uint64_t BDK_PKO_PSE_PQ_ECC_DBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PSE_PQ_ECC_DBE_STS0 bdk_pko_pse_pq_ecc_dbe_sts0_t
 #define bustype_BDK_PKO_PSE_PQ_ECC_DBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_PQ_ECC_DBE_STS0 "PKO_PSE_PQ_ECC_DBE_STS0"
+#define device_bar_BDK_PKO_PSE_PQ_ECC_DBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_PQ_ECC_DBE_STS0 0
 #define arguments_BDK_PKO_PSE_PQ_ECC_DBE_STS0 -1,-1,-1,-1
 
@@ -12252,6 +12441,7 @@ static inline uint64_t BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 bdk_pko_pse_pq_ecc_dbe_sts_cmb0_t
 #define bustype_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 "PKO_PSE_PQ_ECC_DBE_STS_CMB0"
+#define device_bar_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 0
 #define arguments_BDK_PKO_PSE_PQ_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
@@ -12310,6 +12500,7 @@ static inline uint64_t BDK_PKO_PSE_PQ_ECC_SBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PSE_PQ_ECC_SBE_STS0 bdk_pko_pse_pq_ecc_sbe_sts0_t
 #define bustype_BDK_PKO_PSE_PQ_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_PQ_ECC_SBE_STS0 "PKO_PSE_PQ_ECC_SBE_STS0"
+#define device_bar_BDK_PKO_PSE_PQ_ECC_SBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_PQ_ECC_SBE_STS0 0
 #define arguments_BDK_PKO_PSE_PQ_ECC_SBE_STS0 -1,-1,-1,-1
 
@@ -12364,13 +12555,14 @@ static inline uint64_t BDK_PKO_PSE_PQ_ECC_SBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PSE_PQ_ECC_SBE_STS_CMB0 bdk_pko_pse_pq_ecc_sbe_sts_cmb0_t
 #define bustype_BDK_PKO_PSE_PQ_ECC_SBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_PQ_ECC_SBE_STS_CMB0 "PKO_PSE_PQ_ECC_SBE_STS_CMB0"
+#define device_bar_BDK_PKO_PSE_PQ_ECC_SBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_PQ_ECC_SBE_STS_CMB0 0
 #define arguments_BDK_PKO_PSE_PQ_ECC_SBE_STS_CMB0 -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_pse_sq1_bist_status
  *
- * PKO PSE SQ1 BIST Status Information Register
+ * PSE SQ1 BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -12488,6 +12680,7 @@ static inline uint64_t BDK_PKO_PSE_SQ1_BIST_STATUS_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ1_BIST_STATUS bdk_pko_pse_sq1_bist_status_t
 #define bustype_BDK_PKO_PSE_SQ1_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ1_BIST_STATUS "PKO_PSE_SQ1_BIST_STATUS"
+#define device_bar_BDK_PKO_PSE_SQ1_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ1_BIST_STATUS 0
 #define arguments_BDK_PKO_PSE_SQ1_BIST_STATUS -1,-1,-1,-1
 
@@ -12584,6 +12777,7 @@ static inline uint64_t BDK_PKO_PSE_SQ1_ECC_CTL0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ1_ECC_CTL0 bdk_pko_pse_sq1_ecc_ctl0_t
 #define bustype_BDK_PKO_PSE_SQ1_ECC_CTL0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ1_ECC_CTL0 "PKO_PSE_SQ1_ECC_CTL0"
+#define device_bar_BDK_PKO_PSE_SQ1_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ1_ECC_CTL0 0
 #define arguments_BDK_PKO_PSE_SQ1_ECC_CTL0 -1,-1,-1,-1
 
@@ -12672,6 +12866,7 @@ static inline uint64_t BDK_PKO_PSE_SQ1_ECC_DBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ1_ECC_DBE_STS0 bdk_pko_pse_sq1_ecc_dbe_sts0_t
 #define bustype_BDK_PKO_PSE_SQ1_ECC_DBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ1_ECC_DBE_STS0 "PKO_PSE_SQ1_ECC_DBE_STS0"
+#define device_bar_BDK_PKO_PSE_SQ1_ECC_DBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ1_ECC_DBE_STS0 0
 #define arguments_BDK_PKO_PSE_SQ1_ECC_DBE_STS0 -1,-1,-1,-1
 
@@ -12740,6 +12935,7 @@ static inline uint64_t BDK_PKO_PSE_SQ1_ECC_DBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ1_ECC_DBE_STS_CMB0 bdk_pko_pse_sq1_ecc_dbe_sts_cmb0_t
 #define bustype_BDK_PKO_PSE_SQ1_ECC_DBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ1_ECC_DBE_STS_CMB0 "PKO_PSE_SQ1_ECC_DBE_STS_CMB0"
+#define device_bar_BDK_PKO_PSE_SQ1_ECC_DBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ1_ECC_DBE_STS_CMB0 0
 #define arguments_BDK_PKO_PSE_SQ1_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
@@ -12828,6 +13024,7 @@ static inline uint64_t BDK_PKO_PSE_SQ1_ECC_SBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ1_ECC_SBE_STS0 bdk_pko_pse_sq1_ecc_sbe_sts0_t
 #define bustype_BDK_PKO_PSE_SQ1_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ1_ECC_SBE_STS0 "PKO_PSE_SQ1_ECC_SBE_STS0"
+#define device_bar_BDK_PKO_PSE_SQ1_ECC_SBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ1_ECC_SBE_STS0 0
 #define arguments_BDK_PKO_PSE_SQ1_ECC_SBE_STS0 -1,-1,-1,-1
 
@@ -12896,13 +13093,14 @@ static inline uint64_t BDK_PKO_PSE_SQ1_ECC_SBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ1_ECC_SBE_STS_CMB0 bdk_pko_pse_sq1_ecc_sbe_sts_cmb0_t
 #define bustype_BDK_PKO_PSE_SQ1_ECC_SBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ1_ECC_SBE_STS_CMB0 "PKO_PSE_SQ1_ECC_SBE_STS_CMB0"
+#define device_bar_BDK_PKO_PSE_SQ1_ECC_SBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ1_ECC_SBE_STS_CMB0 0
 #define arguments_BDK_PKO_PSE_SQ1_ECC_SBE_STS_CMB0 -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_pse_sq2_bist_status
  *
- * PKO PSE SQ2 BIST Status Information Register
+ * PSE SQ2 BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -12957,6 +13155,7 @@ static inline uint64_t BDK_PKO_PSE_SQ2_BIST_STATUS_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ2_BIST_STATUS bdk_pko_pse_sq2_bist_status_t
 #define bustype_BDK_PKO_PSE_SQ2_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ2_BIST_STATUS "PKO_PSE_SQ2_BIST_STATUS"
+#define device_bar_BDK_PKO_PSE_SQ2_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ2_BIST_STATUS 0
 #define arguments_BDK_PKO_PSE_SQ2_BIST_STATUS -1,-1,-1,-1
 
@@ -13035,6 +13234,7 @@ static inline uint64_t BDK_PKO_PSE_SQ2_ECC_CTL0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ2_ECC_CTL0 bdk_pko_pse_sq2_ecc_ctl0_t
 #define bustype_BDK_PKO_PSE_SQ2_ECC_CTL0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ2_ECC_CTL0 "PKO_PSE_SQ2_ECC_CTL0"
+#define device_bar_BDK_PKO_PSE_SQ2_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ2_ECC_CTL0 0
 #define arguments_BDK_PKO_PSE_SQ2_ECC_CTL0 -1,-1,-1,-1
 
@@ -13107,6 +13307,7 @@ static inline uint64_t BDK_PKO_PSE_SQ2_ECC_DBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ2_ECC_DBE_STS0 bdk_pko_pse_sq2_ecc_dbe_sts0_t
 #define bustype_BDK_PKO_PSE_SQ2_ECC_DBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ2_ECC_DBE_STS0 "PKO_PSE_SQ2_ECC_DBE_STS0"
+#define device_bar_BDK_PKO_PSE_SQ2_ECC_DBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ2_ECC_DBE_STS0 0
 #define arguments_BDK_PKO_PSE_SQ2_ECC_DBE_STS0 -1,-1,-1,-1
 
@@ -13167,6 +13368,7 @@ static inline uint64_t BDK_PKO_PSE_SQ2_ECC_DBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ2_ECC_DBE_STS_CMB0 bdk_pko_pse_sq2_ecc_dbe_sts_cmb0_t
 #define bustype_BDK_PKO_PSE_SQ2_ECC_DBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ2_ECC_DBE_STS_CMB0 "PKO_PSE_SQ2_ECC_DBE_STS_CMB0"
+#define device_bar_BDK_PKO_PSE_SQ2_ECC_DBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ2_ECC_DBE_STS_CMB0 0
 #define arguments_BDK_PKO_PSE_SQ2_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
@@ -13239,6 +13441,7 @@ static inline uint64_t BDK_PKO_PSE_SQ2_ECC_SBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ2_ECC_SBE_STS0 bdk_pko_pse_sq2_ecc_sbe_sts0_t
 #define bustype_BDK_PKO_PSE_SQ2_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ2_ECC_SBE_STS0 "PKO_PSE_SQ2_ECC_SBE_STS0"
+#define device_bar_BDK_PKO_PSE_SQ2_ECC_SBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ2_ECC_SBE_STS0 0
 #define arguments_BDK_PKO_PSE_SQ2_ECC_SBE_STS0 -1,-1,-1,-1
 
@@ -13299,6 +13502,7 @@ static inline uint64_t BDK_PKO_PSE_SQ2_ECC_SBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ2_ECC_SBE_STS_CMB0 bdk_pko_pse_sq2_ecc_sbe_sts_cmb0_t
 #define bustype_BDK_PKO_PSE_SQ2_ECC_SBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ2_ECC_SBE_STS_CMB0 "PKO_PSE_SQ2_ECC_SBE_STS_CMB0"
+#define device_bar_BDK_PKO_PSE_SQ2_ECC_SBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ2_ECC_SBE_STS_CMB0 0
 #define arguments_BDK_PKO_PSE_SQ2_ECC_SBE_STS_CMB0 -1,-1,-1,-1
 
@@ -13360,6 +13564,7 @@ static inline uint64_t BDK_PKO_PSE_SQ3_BIST_STATUS_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ3_BIST_STATUS bdk_pko_pse_sq3_bist_status_t
 #define bustype_BDK_PKO_PSE_SQ3_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ3_BIST_STATUS "PKO_PSE_SQ3_BIST_STATUS"
+#define device_bar_BDK_PKO_PSE_SQ3_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ3_BIST_STATUS 0
 #define arguments_BDK_PKO_PSE_SQ3_BIST_STATUS -1,-1,-1,-1
 
@@ -13438,6 +13643,7 @@ static inline uint64_t BDK_PKO_PSE_SQ3_ECC_CTL0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ3_ECC_CTL0 bdk_pko_pse_sq3_ecc_ctl0_t
 #define bustype_BDK_PKO_PSE_SQ3_ECC_CTL0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ3_ECC_CTL0 "PKO_PSE_SQ3_ECC_CTL0"
+#define device_bar_BDK_PKO_PSE_SQ3_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ3_ECC_CTL0 0
 #define arguments_BDK_PKO_PSE_SQ3_ECC_CTL0 -1,-1,-1,-1
 
@@ -13510,6 +13716,7 @@ static inline uint64_t BDK_PKO_PSE_SQ3_ECC_DBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ3_ECC_DBE_STS0 bdk_pko_pse_sq3_ecc_dbe_sts0_t
 #define bustype_BDK_PKO_PSE_SQ3_ECC_DBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ3_ECC_DBE_STS0 "PKO_PSE_SQ3_ECC_DBE_STS0"
+#define device_bar_BDK_PKO_PSE_SQ3_ECC_DBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ3_ECC_DBE_STS0 0
 #define arguments_BDK_PKO_PSE_SQ3_ECC_DBE_STS0 -1,-1,-1,-1
 
@@ -13570,6 +13777,7 @@ static inline uint64_t BDK_PKO_PSE_SQ3_ECC_DBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ3_ECC_DBE_STS_CMB0 bdk_pko_pse_sq3_ecc_dbe_sts_cmb0_t
 #define bustype_BDK_PKO_PSE_SQ3_ECC_DBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ3_ECC_DBE_STS_CMB0 "PKO_PSE_SQ3_ECC_DBE_STS_CMB0"
+#define device_bar_BDK_PKO_PSE_SQ3_ECC_DBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ3_ECC_DBE_STS_CMB0 0
 #define arguments_BDK_PKO_PSE_SQ3_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
@@ -13642,6 +13850,7 @@ static inline uint64_t BDK_PKO_PSE_SQ3_ECC_SBE_STS0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ3_ECC_SBE_STS0 bdk_pko_pse_sq3_ecc_sbe_sts0_t
 #define bustype_BDK_PKO_PSE_SQ3_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ3_ECC_SBE_STS0 "PKO_PSE_SQ3_ECC_SBE_STS0"
+#define device_bar_BDK_PKO_PSE_SQ3_ECC_SBE_STS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ3_ECC_SBE_STS0 0
 #define arguments_BDK_PKO_PSE_SQ3_ECC_SBE_STS0 -1,-1,-1,-1
 
@@ -13702,6 +13911,7 @@ static inline uint64_t BDK_PKO_PSE_SQ3_ECC_SBE_STS_CMB0_FUNC(void)
 #define typedef_BDK_PKO_PSE_SQ3_ECC_SBE_STS_CMB0 bdk_pko_pse_sq3_ecc_sbe_sts_cmb0_t
 #define bustype_BDK_PKO_PSE_SQ3_ECC_SBE_STS_CMB0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PSE_SQ3_ECC_SBE_STS_CMB0 "PKO_PSE_SQ3_ECC_SBE_STS_CMB0"
+#define device_bar_BDK_PKO_PSE_SQ3_ECC_SBE_STS_CMB0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PSE_SQ3_ECC_SBE_STS_CMB0 0
 #define arguments_BDK_PKO_PSE_SQ3_ECC_SBE_STS_CMB0 -1,-1,-1,-1
 
@@ -13751,6 +13961,7 @@ static inline uint64_t BDK_PKO_PTFX_STATUS(unsigned long a)
 #define typedef_BDK_PKO_PTFX_STATUS(a) bdk_pko_ptfx_status_t
 #define bustype_BDK_PKO_PTFX_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PTFX_STATUS(a) "PKO_PTFX_STATUS"
+#define device_bar_BDK_PKO_PTFX_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PTFX_STATUS(a) (a)
 #define arguments_BDK_PKO_PTFX_STATUS(a) (a),-1,-1,-1
 
@@ -13795,6 +14006,7 @@ static inline uint64_t BDK_PKO_PTF_IOBP_CFG_FUNC(void)
 #define typedef_BDK_PKO_PTF_IOBP_CFG bdk_pko_ptf_iobp_cfg_t
 #define bustype_BDK_PKO_PTF_IOBP_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PTF_IOBP_CFG "PKO_PTF_IOBP_CFG"
+#define device_bar_BDK_PKO_PTF_IOBP_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PTF_IOBP_CFG 0
 #define arguments_BDK_PKO_PTF_IOBP_CFG -1,-1,-1,-1
 
@@ -13952,6 +14164,7 @@ static inline uint64_t BDK_PKO_PTGFX_CFG(unsigned long a)
 #define typedef_BDK_PKO_PTGFX_CFG(a) bdk_pko_ptgfx_cfg_t
 #define bustype_BDK_PKO_PTGFX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_PTGFX_CFG(a) "PKO_PTGFX_CFG"
+#define device_bar_BDK_PKO_PTGFX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PTGFX_CFG(a) (a)
 #define arguments_BDK_PKO_PTGFX_CFG(a) (a),-1,-1,-1
 
@@ -14016,6 +14229,7 @@ static inline uint64_t BDK_PKO_SHAPER_CFG_FUNC(void)
 #define typedef_BDK_PKO_SHAPER_CFG bdk_pko_shaper_cfg_t
 #define bustype_BDK_PKO_SHAPER_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_SHAPER_CFG "PKO_SHAPER_CFG"
+#define device_bar_BDK_PKO_SHAPER_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_SHAPER_CFG 0
 #define arguments_BDK_PKO_SHAPER_CFG -1,-1,-1,-1
 
@@ -14051,6 +14265,7 @@ static inline uint64_t BDK_PKO_STATE_UID_IN_USEX_RD(unsigned long a)
 #define typedef_BDK_PKO_STATE_UID_IN_USEX_RD(a) bdk_pko_state_uid_in_usex_rd_t
 #define bustype_BDK_PKO_STATE_UID_IN_USEX_RD(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_STATE_UID_IN_USEX_RD(a) "PKO_STATE_UID_IN_USEX_RD"
+#define device_bar_BDK_PKO_STATE_UID_IN_USEX_RD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_STATE_UID_IN_USEX_RD(a) (a)
 #define arguments_BDK_PKO_STATE_UID_IN_USEX_RD(a) (a),-1,-1,-1
 
@@ -14115,6 +14330,7 @@ static inline uint64_t BDK_PKO_STATUS_FUNC(void)
 #define typedef_BDK_PKO_STATUS bdk_pko_status_t
 #define bustype_BDK_PKO_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_STATUS "PKO_STATUS"
+#define device_bar_BDK_PKO_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_STATUS 0
 #define arguments_BDK_PKO_STATUS -1,-1,-1,-1
 
@@ -14150,6 +14366,7 @@ static inline uint64_t BDK_PKO_TXFX_PKT_CNT_RD(unsigned long a)
 #define typedef_BDK_PKO_TXFX_PKT_CNT_RD(a) bdk_pko_txfx_pkt_cnt_rd_t
 #define bustype_BDK_PKO_TXFX_PKT_CNT_RD(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_TXFX_PKT_CNT_RD(a) "PKO_TXFX_PKT_CNT_RD"
+#define device_bar_BDK_PKO_TXFX_PKT_CNT_RD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_TXFX_PKT_CNT_RD(a) (a)
 #define arguments_BDK_PKO_TXFX_PKT_CNT_RD(a) (a),-1,-1,-1
 
@@ -14231,6 +14448,7 @@ static inline uint64_t BDK_PKO_VDQX_OP_CLOSE(unsigned long a)
 #define typedef_BDK_PKO_VDQX_OP_CLOSE(a) bdk_pko_vdqx_op_close_t
 #define bustype_BDK_PKO_VDQX_OP_CLOSE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_VDQX_OP_CLOSE(a) "PKO_VDQX_OP_CLOSE"
+#define device_bar_BDK_PKO_VDQX_OP_CLOSE(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_PKO_VDQX_OP_CLOSE(a) (a)
 #define arguments_BDK_PKO_VDQX_OP_CLOSE(a) (a),-1,-1,-1
 
@@ -14312,6 +14530,7 @@ static inline uint64_t BDK_PKO_VDQX_OP_OPEN(unsigned long a)
 #define typedef_BDK_PKO_VDQX_OP_OPEN(a) bdk_pko_vdqx_op_open_t
 #define bustype_BDK_PKO_VDQX_OP_OPEN(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_VDQX_OP_OPEN(a) "PKO_VDQX_OP_OPEN"
+#define device_bar_BDK_PKO_VDQX_OP_OPEN(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_PKO_VDQX_OP_OPEN(a) (a)
 #define arguments_BDK_PKO_VDQX_OP_OPEN(a) (a),-1,-1,-1
 
@@ -14392,6 +14611,7 @@ static inline uint64_t BDK_PKO_VDQX_OP_QUERY(unsigned long a)
 #define typedef_BDK_PKO_VDQX_OP_QUERY(a) bdk_pko_vdqx_op_query_t
 #define bustype_BDK_PKO_VDQX_OP_QUERY(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_VDQX_OP_QUERY(a) "PKO_VDQX_OP_QUERY"
+#define device_bar_BDK_PKO_VDQX_OP_QUERY(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_PKO_VDQX_OP_QUERY(a) (a)
 #define arguments_BDK_PKO_VDQX_OP_QUERY(a) (a),-1,-1,-1
 
@@ -14446,6 +14666,7 @@ static inline uint64_t BDK_PKO_VDQX_OP_SENDX(unsigned long a, unsigned long b)
 #define typedef_BDK_PKO_VDQX_OP_SENDX(a,b) bdk_pko_vdqx_op_sendx_t
 #define bustype_BDK_PKO_VDQX_OP_SENDX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_VDQX_OP_SENDX(a,b) "PKO_VDQX_OP_SENDX"
+#define device_bar_BDK_PKO_VDQX_OP_SENDX(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_PKO_VDQX_OP_SENDX(a,b) (a)
 #define arguments_BDK_PKO_VDQX_OP_SENDX(a,b) (a),(b),-1,-1
 
@@ -14532,6 +14753,7 @@ static inline uint64_t BDK_PKO_VDQX_SW_XOFF(unsigned long a)
 #define typedef_BDK_PKO_VDQX_SW_XOFF(a) bdk_pko_vdqx_sw_xoff_t
 #define bustype_BDK_PKO_VDQX_SW_XOFF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_VDQX_SW_XOFF(a) "PKO_VDQX_SW_XOFF"
+#define device_bar_BDK_PKO_VDQX_SW_XOFF(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_PKO_VDQX_SW_XOFF(a) (a)
 #define arguments_BDK_PKO_VDQX_SW_XOFF(a) (a),-1,-1,-1
 
@@ -14568,6 +14790,7 @@ static inline uint64_t BDK_PKO_VDQX_WM_CNT(unsigned long a)
 #define typedef_BDK_PKO_VDQX_WM_CNT(a) bdk_pko_vdqx_wm_cnt_t
 #define bustype_BDK_PKO_VDQX_WM_CNT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_VDQX_WM_CNT(a) "PKO_VDQX_WM_CNT"
+#define device_bar_BDK_PKO_VDQX_WM_CNT(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_PKO_VDQX_WM_CNT(a) (a)
 #define arguments_BDK_PKO_VDQX_WM_CNT(a) (a),-1,-1,-1
 
@@ -14628,6 +14851,7 @@ static inline uint64_t BDK_PKO_VDQX_WM_CTL(unsigned long a)
 #define typedef_BDK_PKO_VDQX_WM_CTL(a) bdk_pko_vdqx_wm_ctl_t
 #define bustype_BDK_PKO_VDQX_WM_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_VDQX_WM_CTL(a) "PKO_VDQX_WM_CTL"
+#define device_bar_BDK_PKO_VDQX_WM_CTL(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_PKO_VDQX_WM_CTL(a) (a)
 #define arguments_BDK_PKO_VDQX_WM_CTL(a) (a),-1,-1,-1
 
@@ -14666,6 +14890,7 @@ static inline uint64_t BDK_PKO_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_PKO_VFX_MSIX_PBAX(a,b) bdk_pko_vfx_msix_pbax_t
 #define bustype_BDK_PKO_VFX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_VFX_MSIX_PBAX(a,b) "PKO_VFX_MSIX_PBAX"
+#define device_bar_BDK_PKO_VFX_MSIX_PBAX(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_PKO_VFX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_PKO_VFX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -14710,6 +14935,7 @@ static inline uint64_t BDK_PKO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
 #define typedef_BDK_PKO_VFX_MSIX_VECX_ADDR(a,b) bdk_pko_vfx_msix_vecx_addr_t
 #define bustype_BDK_PKO_VFX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_VFX_MSIX_VECX_ADDR(a,b) "PKO_VFX_MSIX_VECX_ADDR"
+#define device_bar_BDK_PKO_VFX_MSIX_VECX_ADDR(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_PKO_VFX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_PKO_VFX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -14750,6 +14976,7 @@ static inline uint64_t BDK_PKO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
 #define typedef_BDK_PKO_VFX_MSIX_VECX_CTL(a,b) bdk_pko_vfx_msix_vecx_ctl_t
 #define bustype_BDK_PKO_VFX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKO_VFX_MSIX_VECX_CTL(a,b) "PKO_VFX_MSIX_VECX_CTL"
+#define device_bar_BDK_PKO_VFX_MSIX_VECX_CTL(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_PKO_VFX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_PKO_VFX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 

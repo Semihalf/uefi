@@ -164,6 +164,7 @@ static inline uint64_t BDK_MPI_CFG_FUNC(void)
 #define typedef_BDK_MPI_CFG bdk_mpi_cfg_t
 #define bustype_BDK_MPI_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_MPI_CFG "MPI_CFG"
+#define device_bar_BDK_MPI_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_MPI_CFG 0
 #define arguments_BDK_MPI_CFG -1,-1,-1,-1
 
@@ -199,6 +200,7 @@ static inline uint64_t BDK_MPI_DATX(unsigned long a)
 #define typedef_BDK_MPI_DATX(a) bdk_mpi_datx_t
 #define bustype_BDK_MPI_DATX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_MPI_DATX(a) "MPI_DATX"
+#define device_bar_BDK_MPI_DATX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MPI_DATX(a) (a)
 #define arguments_BDK_MPI_DATX(a) (a),-1,-1,-1
 
@@ -236,6 +238,7 @@ static inline uint64_t BDK_MPI_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_MPI_INT_ENA_W1C bdk_mpi_int_ena_w1c_t
 #define bustype_BDK_MPI_INT_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_MPI_INT_ENA_W1C "MPI_INT_ENA_W1C"
+#define device_bar_BDK_MPI_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_MPI_INT_ENA_W1C 0
 #define arguments_BDK_MPI_INT_ENA_W1C -1,-1,-1,-1
 
@@ -273,6 +276,7 @@ static inline uint64_t BDK_MPI_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_MPI_INT_ENA_W1S bdk_mpi_int_ena_w1s_t
 #define bustype_BDK_MPI_INT_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_MPI_INT_ENA_W1S "MPI_INT_ENA_W1S"
+#define device_bar_BDK_MPI_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_MPI_INT_ENA_W1S 0
 #define arguments_BDK_MPI_INT_ENA_W1S -1,-1,-1,-1
 
@@ -309,6 +313,7 @@ static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_MPI_MSIX_PBAX(a) bdk_mpi_msix_pbax_t
 #define bustype_BDK_MPI_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_MPI_MSIX_PBAX(a) "MPI_MSIX_PBAX"
+#define device_bar_BDK_MPI_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MPI_MSIX_PBAX(a) (a)
 #define arguments_BDK_MPI_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -363,6 +368,7 @@ static inline uint64_t BDK_MPI_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_MPI_MSIX_VECX_ADDR(a) bdk_mpi_msix_vecx_addr_t
 #define bustype_BDK_MPI_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_MPI_MSIX_VECX_ADDR(a) "MPI_MSIX_VECX_ADDR"
+#define device_bar_BDK_MPI_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MPI_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_MPI_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -403,6 +409,7 @@ static inline uint64_t BDK_MPI_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_MPI_MSIX_VECX_CTL(a) bdk_mpi_msix_vecx_ctl_t
 #define bustype_BDK_MPI_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_MPI_MSIX_VECX_CTL(a) "MPI_MSIX_VECX_CTL"
+#define device_bar_BDK_MPI_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MPI_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_MPI_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -447,6 +454,7 @@ static inline uint64_t BDK_MPI_STS_FUNC(void)
 #define typedef_BDK_MPI_STS bdk_mpi_sts_t
 #define bustype_BDK_MPI_STS BDK_CSR_TYPE_NCB
 #define basename_BDK_MPI_STS "MPI_STS"
+#define device_bar_BDK_MPI_STS 0x0 /* PF_BAR0 */
 #define busnum_BDK_MPI_STS 0
 #define arguments_BDK_MPI_STS -1,-1,-1,-1
 
@@ -484,6 +492,7 @@ static inline uint64_t BDK_MPI_STS_W1S_FUNC(void)
 #define typedef_BDK_MPI_STS_W1S bdk_mpi_sts_w1s_t
 #define bustype_BDK_MPI_STS_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_MPI_STS_W1S "MPI_STS_W1S"
+#define device_bar_BDK_MPI_STS_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_MPI_STS_W1S 0
 #define arguments_BDK_MPI_STS_W1S -1,-1,-1,-1
 
@@ -534,6 +543,7 @@ static inline uint64_t BDK_MPI_TX_FUNC(void)
 #define typedef_BDK_MPI_TX bdk_mpi_tx_t
 #define bustype_BDK_MPI_TX BDK_CSR_TYPE_NCB
 #define basename_BDK_MPI_TX "MPI_TX"
+#define device_bar_BDK_MPI_TX 0x0 /* PF_BAR0 */
 #define busnum_BDK_MPI_TX 0
 #define arguments_BDK_MPI_TX -1,-1,-1,-1
 
@@ -566,6 +576,7 @@ static inline uint64_t BDK_MPI_WIDE_DAT_FUNC(void)
 #define typedef_BDK_MPI_WIDE_DAT bdk_mpi_wide_dat_t
 #define bustype_BDK_MPI_WIDE_DAT BDK_CSR_TYPE_NCB
 #define basename_BDK_MPI_WIDE_DAT "MPI_WIDE_DAT"
+#define device_bar_BDK_MPI_WIDE_DAT 0x0 /* PF_BAR0 */
 #define busnum_BDK_MPI_WIDE_DAT 0
 #define arguments_BDK_MPI_WIDE_DAT -1,-1,-1,-1
 

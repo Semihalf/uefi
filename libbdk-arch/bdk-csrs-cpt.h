@@ -356,6 +356,7 @@ static inline uint64_t BDK_CPTX_PF_BIST_STATUS(unsigned long a)
 #define typedef_BDK_CPTX_PF_BIST_STATUS(a) bdk_cptx_pf_bist_status_t
 #define bustype_BDK_CPTX_PF_BIST_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_BIST_STATUS(a) "CPTX_PF_BIST_STATUS"
+#define device_bar_BDK_CPTX_PF_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_BIST_STATUS(a) (a)
 #define arguments_BDK_CPTX_PF_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -416,6 +417,7 @@ static inline uint64_t BDK_CPTX_PF_CONSTANTS(unsigned long a)
 #define typedef_BDK_CPTX_PF_CONSTANTS(a) bdk_cptx_pf_constants_t
 #define bustype_BDK_CPTX_PF_CONSTANTS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_CONSTANTS(a) "CPTX_PF_CONSTANTS"
+#define device_bar_BDK_CPTX_PF_CONSTANTS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_CONSTANTS(a) (a)
 #define arguments_BDK_CPTX_PF_CONSTANTS(a) (a),-1,-1,-1
 
@@ -460,6 +462,7 @@ static inline uint64_t BDK_CPTX_PF_DIAG(unsigned long a)
 #define typedef_BDK_CPTX_PF_DIAG(a) bdk_cptx_pf_diag_t
 #define bustype_BDK_CPTX_PF_DIAG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_DIAG(a) "CPTX_PF_DIAG"
+#define device_bar_BDK_CPTX_PF_DIAG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_DIAG(a) (a)
 #define arguments_BDK_CPTX_PF_DIAG(a) (a),-1,-1,-1
 
@@ -499,6 +502,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_CTL(unsigned long a)
 #define typedef_BDK_CPTX_PF_ECC0_CTL(a) bdk_cptx_pf_ecc0_ctl_t
 #define bustype_BDK_CPTX_PF_ECC0_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_ECC0_CTL(a) "CPTX_PF_ECC0_CTL"
+#define device_bar_BDK_CPTX_PF_ECC0_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_ECC0_CTL(a) (a)
 #define arguments_BDK_CPTX_PF_ECC0_CTL(a) (a),-1,-1,-1
 
@@ -537,6 +541,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1C(unsigned long a)
 #define typedef_BDK_CPTX_PF_ECC0_ENA_W1C(a) bdk_cptx_pf_ecc0_ena_w1c_t
 #define bustype_BDK_CPTX_PF_ECC0_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_ECC0_ENA_W1C(a) "CPTX_PF_ECC0_ENA_W1C"
+#define device_bar_BDK_CPTX_PF_ECC0_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_ECC0_ENA_W1C(a) (a)
 #define arguments_BDK_CPTX_PF_ECC0_ENA_W1C(a) (a),-1,-1,-1
 
@@ -575,6 +580,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1S(unsigned long a)
 #define typedef_BDK_CPTX_PF_ECC0_ENA_W1S(a) bdk_cptx_pf_ecc0_ena_w1s_t
 #define bustype_BDK_CPTX_PF_ECC0_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_ECC0_ENA_W1S(a) "CPTX_PF_ECC0_ENA_W1S"
+#define device_bar_BDK_CPTX_PF_ECC0_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_ECC0_ENA_W1S(a) (a)
 #define arguments_BDK_CPTX_PF_ECC0_ENA_W1S(a) (a),-1,-1,-1
 
@@ -614,6 +620,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_FLIP(unsigned long a)
 #define typedef_BDK_CPTX_PF_ECC0_FLIP(a) bdk_cptx_pf_ecc0_flip_t
 #define bustype_BDK_CPTX_PF_ECC0_FLIP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_ECC0_FLIP(a) "CPTX_PF_ECC0_FLIP"
+#define device_bar_BDK_CPTX_PF_ECC0_FLIP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_ECC0_FLIP(a) (a)
 #define arguments_BDK_CPTX_PF_ECC0_FLIP(a) (a),-1,-1,-1
 
@@ -656,6 +663,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_INT(unsigned long a)
 #define typedef_BDK_CPTX_PF_ECC0_INT(a) bdk_cptx_pf_ecc0_int_t
 #define bustype_BDK_CPTX_PF_ECC0_INT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_ECC0_INT(a) "CPTX_PF_ECC0_INT"
+#define device_bar_BDK_CPTX_PF_ECC0_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_ECC0_INT(a) (a)
 #define arguments_BDK_CPTX_PF_ECC0_INT(a) (a),-1,-1,-1
 
@@ -694,6 +702,7 @@ static inline uint64_t BDK_CPTX_PF_ECC0_INT_W1S(unsigned long a)
 #define typedef_BDK_CPTX_PF_ECC0_INT_W1S(a) bdk_cptx_pf_ecc0_int_w1s_t
 #define bustype_BDK_CPTX_PF_ECC0_INT_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_ECC0_INT_W1S(a) "CPTX_PF_ECC0_INT_W1S"
+#define device_bar_BDK_CPTX_PF_ECC0_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_ECC0_INT_W1S(a) (a)
 #define arguments_BDK_CPTX_PF_ECC0_INT_W1S(a) (a),-1,-1,-1
 
@@ -731,6 +740,7 @@ static inline uint64_t BDK_CPTX_PF_ECO(unsigned long a)
 #define typedef_BDK_CPTX_PF_ECO(a) bdk_cptx_pf_eco_t
 #define bustype_BDK_CPTX_PF_ECO(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_ECO(a) "CPTX_PF_ECO"
+#define device_bar_BDK_CPTX_PF_ECO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_ECO(a) (a)
 #define arguments_BDK_CPTX_PF_ECO(a) (a),-1,-1,-1
 
@@ -768,6 +778,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_BIST_STATUS(unsigned long a)
 #define typedef_BDK_CPTX_PF_EXE_BIST_STATUS(a) bdk_cptx_pf_exe_bist_status_t
 #define bustype_BDK_CPTX_PF_EXE_BIST_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_BIST_STATUS(a) "CPTX_PF_EXE_BIST_STATUS"
+#define device_bar_BDK_CPTX_PF_EXE_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_BIST_STATUS(a) (a)
 #define arguments_BDK_CPTX_PF_EXE_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -806,6 +817,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_CLK(unsigned long a)
 #define typedef_BDK_CPTX_PF_EXE_CLK(a) bdk_cptx_pf_exe_clk_t
 #define bustype_BDK_CPTX_PF_EXE_CLK(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_CLK(a) "CPTX_PF_EXE_CLK"
+#define device_bar_BDK_CPTX_PF_EXE_CLK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_CLK(a) (a)
 #define arguments_BDK_CPTX_PF_EXE_CLK(a) (a),-1,-1,-1
 
@@ -842,6 +854,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_CTL(unsigned long a)
 #define typedef_BDK_CPTX_PF_EXE_CTL(a) bdk_cptx_pf_exe_ctl_t
 #define bustype_BDK_CPTX_PF_EXE_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_CTL(a) "CPTX_PF_EXE_CTL"
+#define device_bar_BDK_CPTX_PF_EXE_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_CTL(a) (a)
 #define arguments_BDK_CPTX_PF_EXE_CTL(a) (a),-1,-1,-1
 
@@ -881,6 +894,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_DBG_CNTX(unsigned long a, unsigned long b
 #define typedef_BDK_CPTX_PF_EXE_DBG_CNTX(a,b) bdk_cptx_pf_exe_dbg_cntx_t
 #define bustype_BDK_CPTX_PF_EXE_DBG_CNTX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_DBG_CNTX(a,b) "CPTX_PF_EXE_DBG_CNTX"
+#define device_bar_BDK_CPTX_PF_EXE_DBG_CNTX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_DBG_CNTX(a,b) (a)
 #define arguments_BDK_CPTX_PF_EXE_DBG_CNTX(a,b) (a),(b),-1,-1
 
@@ -923,6 +937,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_DBG_CTL(unsigned long a)
 #define typedef_BDK_CPTX_PF_EXE_DBG_CTL(a) bdk_cptx_pf_exe_dbg_ctl_t
 #define bustype_BDK_CPTX_PF_EXE_DBG_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_DBG_CTL(a) "CPTX_PF_EXE_DBG_CTL"
+#define device_bar_BDK_CPTX_PF_EXE_DBG_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_DBG_CTL(a) (a)
 #define arguments_BDK_CPTX_PF_EXE_DBG_CTL(a) (a),-1,-1,-1
 
@@ -961,6 +976,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_DBG_DATA(unsigned long a)
 #define typedef_BDK_CPTX_PF_EXE_DBG_DATA(a) bdk_cptx_pf_exe_dbg_data_t
 #define bustype_BDK_CPTX_PF_EXE_DBG_DATA(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_DBG_DATA(a) "CPTX_PF_EXE_DBG_DATA"
+#define device_bar_BDK_CPTX_PF_EXE_DBG_DATA(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_DBG_DATA(a) (a)
 #define arguments_BDK_CPTX_PF_EXE_DBG_DATA(a) (a),-1,-1,-1
 
@@ -1000,6 +1016,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_EPCI_INBX_CNT(unsigned long a, unsigned l
 #define typedef_BDK_CPTX_PF_EXE_EPCI_INBX_CNT(a,b) bdk_cptx_pf_exe_epci_inbx_cnt_t
 #define bustype_BDK_CPTX_PF_EXE_EPCI_INBX_CNT(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_EPCI_INBX_CNT(a,b) "CPTX_PF_EXE_EPCI_INBX_CNT"
+#define device_bar_BDK_CPTX_PF_EXE_EPCI_INBX_CNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_EPCI_INBX_CNT(a,b) (a)
 #define arguments_BDK_CPTX_PF_EXE_EPCI_INBX_CNT(a,b) (a),(b),-1,-1
 
@@ -1039,6 +1056,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(unsigned long a, unsigned 
 #define typedef_BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(a,b) bdk_cptx_pf_exe_epci_outbx_cnt_t
 #define bustype_BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(a,b) "CPTX_PF_EXE_EPCI_OUTBX_CNT"
+#define device_bar_BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(a,b) (a)
 #define arguments_BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(a,b) (a),(b),-1,-1
 
@@ -1089,6 +1107,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_MEM_CTL(unsigned long a)
 #define typedef_BDK_CPTX_PF_EXE_MEM_CTL(a) bdk_cptx_pf_exe_mem_ctl_t
 #define bustype_BDK_CPTX_PF_EXE_MEM_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_MEM_CTL(a) "CPTX_PF_EXE_MEM_CTL"
+#define device_bar_BDK_CPTX_PF_EXE_MEM_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_MEM_CTL(a) (a)
 #define arguments_BDK_CPTX_PF_EXE_MEM_CTL(a) (a),-1,-1,-1
 
@@ -1133,6 +1152,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_PERF_CTL(unsigned long a)
 #define typedef_BDK_CPTX_PF_EXE_PERF_CTL(a) bdk_cptx_pf_exe_perf_ctl_t
 #define bustype_BDK_CPTX_PF_EXE_PERF_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_PERF_CTL(a) "CPTX_PF_EXE_PERF_CTL"
+#define device_bar_BDK_CPTX_PF_EXE_PERF_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_PERF_CTL(a) (a)
 #define arguments_BDK_CPTX_PF_EXE_PERF_CTL(a) (a),-1,-1,-1
 
@@ -1186,6 +1206,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_PERF_EVENT_CNT(unsigned long a)
 #define typedef_BDK_CPTX_PF_EXE_PERF_EVENT_CNT(a) bdk_cptx_pf_exe_perf_event_cnt_t
 #define bustype_BDK_CPTX_PF_EXE_PERF_EVENT_CNT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_PERF_EVENT_CNT(a) "CPTX_PF_EXE_PERF_EVENT_CNT"
+#define device_bar_BDK_CPTX_PF_EXE_PERF_EVENT_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_PERF_EVENT_CNT(a) (a)
 #define arguments_BDK_CPTX_PF_EXE_PERF_EVENT_CNT(a) (a),-1,-1,-1
 
@@ -1237,6 +1258,7 @@ static inline uint64_t BDK_CPTX_PF_EXE_REQ_TIMER(unsigned long a)
 #define typedef_BDK_CPTX_PF_EXE_REQ_TIMER(a) bdk_cptx_pf_exe_req_timer_t
 #define bustype_BDK_CPTX_PF_EXE_REQ_TIMER(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_EXE_REQ_TIMER(a) "CPTX_PF_EXE_REQ_TIMER"
+#define device_bar_BDK_CPTX_PF_EXE_REQ_TIMER(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_EXE_REQ_TIMER(a) (a)
 #define arguments_BDK_CPTX_PF_EXE_REQ_TIMER(a) (a),-1,-1,-1
 
@@ -1287,6 +1309,7 @@ static inline uint64_t BDK_CPTX_PF_GX_EN(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_PF_GX_EN(a,b) bdk_cptx_pf_gx_en_t
 #define bustype_BDK_CPTX_PF_GX_EN(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_GX_EN(a,b) "CPTX_PF_GX_EN"
+#define device_bar_BDK_CPTX_PF_GX_EN(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_GX_EN(a,b) (a)
 #define arguments_BDK_CPTX_PF_GX_EN(a,b) (a),(b),-1,-1
 
@@ -1328,6 +1351,7 @@ static inline uint64_t BDK_CPTX_PF_INST_LATENCY_PC(unsigned long a)
 #define typedef_BDK_CPTX_PF_INST_LATENCY_PC(a) bdk_cptx_pf_inst_latency_pc_t
 #define bustype_BDK_CPTX_PF_INST_LATENCY_PC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_INST_LATENCY_PC(a) "CPTX_PF_INST_LATENCY_PC"
+#define device_bar_BDK_CPTX_PF_INST_LATENCY_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_INST_LATENCY_PC(a) (a)
 #define arguments_BDK_CPTX_PF_INST_LATENCY_PC(a) (a),-1,-1,-1
 
@@ -1363,6 +1387,7 @@ static inline uint64_t BDK_CPTX_PF_INST_REQ_PC(unsigned long a)
 #define typedef_BDK_CPTX_PF_INST_REQ_PC(a) bdk_cptx_pf_inst_req_pc_t
 #define bustype_BDK_CPTX_PF_INST_REQ_PC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_INST_REQ_PC(a) "CPTX_PF_INST_REQ_PC"
+#define device_bar_BDK_CPTX_PF_INST_REQ_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_INST_REQ_PC(a) (a)
 #define arguments_BDK_CPTX_PF_INST_REQ_PC(a) (a),-1,-1,-1
 
@@ -1399,6 +1424,7 @@ static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long 
 #define typedef_BDK_CPTX_PF_MBOX_ENA_W1CX(a,b) bdk_cptx_pf_mbox_ena_w1cx_t
 #define bustype_BDK_CPTX_PF_MBOX_ENA_W1CX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_MBOX_ENA_W1CX(a,b) "CPTX_PF_MBOX_ENA_W1CX"
+#define device_bar_BDK_CPTX_PF_MBOX_ENA_W1CX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_MBOX_ENA_W1CX(a,b) (a)
 #define arguments_BDK_CPTX_PF_MBOX_ENA_W1CX(a,b) (a),(b),-1,-1
 
@@ -1435,6 +1461,7 @@ static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long 
 #define typedef_BDK_CPTX_PF_MBOX_ENA_W1SX(a,b) bdk_cptx_pf_mbox_ena_w1sx_t
 #define bustype_BDK_CPTX_PF_MBOX_ENA_W1SX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_MBOX_ENA_W1SX(a,b) "CPTX_PF_MBOX_ENA_W1SX"
+#define device_bar_BDK_CPTX_PF_MBOX_ENA_W1SX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_MBOX_ENA_W1SX(a,b) (a)
 #define arguments_BDK_CPTX_PF_MBOX_ENA_W1SX(a,b) (a),(b),-1,-1
 
@@ -1472,6 +1499,7 @@ static inline uint64_t BDK_CPTX_PF_MBOX_INTX(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_PF_MBOX_INTX(a,b) bdk_cptx_pf_mbox_intx_t
 #define bustype_BDK_CPTX_PF_MBOX_INTX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_MBOX_INTX(a,b) "CPTX_PF_MBOX_INTX"
+#define device_bar_BDK_CPTX_PF_MBOX_INTX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_MBOX_INTX(a,b) (a)
 #define arguments_BDK_CPTX_PF_MBOX_INTX(a,b) (a),(b),-1,-1
 
@@ -1508,6 +1536,7 @@ static inline uint64_t BDK_CPTX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long 
 #define typedef_BDK_CPTX_PF_MBOX_INT_W1SX(a,b) bdk_cptx_pf_mbox_int_w1sx_t
 #define bustype_BDK_CPTX_PF_MBOX_INT_W1SX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_MBOX_INT_W1SX(a,b) "CPTX_PF_MBOX_INT_W1SX"
+#define device_bar_BDK_CPTX_PF_MBOX_INT_W1SX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_MBOX_INT_W1SX(a,b) (a)
 #define arguments_BDK_CPTX_PF_MBOX_INT_W1SX(a,b) (a),(b),-1,-1
 
@@ -1547,6 +1576,7 @@ static inline uint64_t BDK_CPTX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_PF_MSIX_PBAX(a,b) bdk_cptx_pf_msix_pbax_t
 #define bustype_BDK_CPTX_PF_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_MSIX_PBAX(a,b) "CPTX_PF_MSIX_PBAX"
+#define device_bar_BDK_CPTX_PF_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_CPTX_PF_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_CPTX_PF_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -1603,6 +1633,7 @@ static inline uint64_t BDK_CPTX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long
 #define typedef_BDK_CPTX_PF_MSIX_VECX_ADDR(a,b) bdk_cptx_pf_msix_vecx_addr_t
 #define bustype_BDK_CPTX_PF_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_MSIX_VECX_ADDR(a,b) "CPTX_PF_MSIX_VECX_ADDR"
+#define device_bar_BDK_CPTX_PF_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_CPTX_PF_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_CPTX_PF_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -1645,6 +1676,7 @@ static inline uint64_t BDK_CPTX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long 
 #define typedef_BDK_CPTX_PF_MSIX_VECX_CTL(a,b) bdk_cptx_pf_msix_vecx_ctl_t
 #define bustype_BDK_CPTX_PF_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_MSIX_VECX_CTL(a,b) "CPTX_PF_MSIX_VECX_CTL"
+#define device_bar_BDK_CPTX_PF_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_CPTX_PF_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_CPTX_PF_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -1689,6 +1721,7 @@ static inline uint64_t BDK_CPTX_PF_QX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_PF_QX_CTL(a,b) bdk_cptx_pf_qx_ctl_t
 #define bustype_BDK_CPTX_PF_QX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_QX_CTL(a,b) "CPTX_PF_QX_CTL"
+#define device_bar_BDK_CPTX_PF_QX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_QX_CTL(a,b) (a)
 #define arguments_BDK_CPTX_PF_QX_CTL(a,b) (a),(b),-1,-1
 
@@ -1741,6 +1774,7 @@ static inline uint64_t BDK_CPTX_PF_QX_GMCTL(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_PF_QX_GMCTL(a,b) bdk_cptx_pf_qx_gmctl_t
 #define bustype_BDK_CPTX_PF_QX_GMCTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_QX_GMCTL(a,b) "CPTX_PF_QX_GMCTL"
+#define device_bar_BDK_CPTX_PF_QX_GMCTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_QX_GMCTL(a,b) (a)
 #define arguments_BDK_CPTX_PF_QX_GMCTL(a,b) (a),(b),-1,-1
 
@@ -1780,6 +1814,7 @@ static inline uint64_t BDK_CPTX_PF_RD_LATENCY_PC(unsigned long a)
 #define typedef_BDK_CPTX_PF_RD_LATENCY_PC(a) bdk_cptx_pf_rd_latency_pc_t
 #define bustype_BDK_CPTX_PF_RD_LATENCY_PC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_RD_LATENCY_PC(a) "CPTX_PF_RD_LATENCY_PC"
+#define device_bar_BDK_CPTX_PF_RD_LATENCY_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_RD_LATENCY_PC(a) (a)
 #define arguments_BDK_CPTX_PF_RD_LATENCY_PC(a) (a),-1,-1,-1
 
@@ -1815,6 +1850,7 @@ static inline uint64_t BDK_CPTX_PF_RD_REQ_PC(unsigned long a)
 #define typedef_BDK_CPTX_PF_RD_REQ_PC(a) bdk_cptx_pf_rd_req_pc_t
 #define bustype_BDK_CPTX_PF_RD_REQ_PC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_RD_REQ_PC(a) "CPTX_PF_RD_REQ_PC"
+#define device_bar_BDK_CPTX_PF_RD_REQ_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_RD_REQ_PC(a) (a)
 #define arguments_BDK_CPTX_PF_RD_REQ_PC(a) (a),-1,-1,-1
 
@@ -1853,6 +1889,7 @@ static inline uint64_t BDK_CPTX_PF_RESET(unsigned long a)
 #define typedef_BDK_CPTX_PF_RESET(a) bdk_cptx_pf_reset_t
 #define bustype_BDK_CPTX_PF_RESET(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_RESET(a) "CPTX_PF_RESET"
+#define device_bar_BDK_CPTX_PF_RESET(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_RESET(a) (a)
 #define arguments_BDK_CPTX_PF_RESET(a) (a),-1,-1,-1
 
@@ -1900,6 +1937,7 @@ static inline uint64_t BDK_CPTX_PF_VFX_MBOXX(unsigned long a, unsigned long b, u
 #define typedef_BDK_CPTX_PF_VFX_MBOXX(a,b,c) bdk_cptx_pf_vfx_mboxx_t
 #define bustype_BDK_CPTX_PF_VFX_MBOXX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_PF_VFX_MBOXX(a,b,c) "CPTX_PF_VFX_MBOXX"
+#define device_bar_BDK_CPTX_PF_VFX_MBOXX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_VFX_MBOXX(a,b,c) (a)
 #define arguments_BDK_CPTX_PF_VFX_MBOXX(a,b,c) (a),(b),(c),-1
 
@@ -1939,6 +1977,7 @@ static inline uint64_t BDK_CPTX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, 
 #define typedef_BDK_CPTX_VFX_MSIX_PBAX(a,b,c) bdk_cptx_vfx_msix_pbax_t
 #define bustype_BDK_CPTX_VFX_MSIX_PBAX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VFX_MSIX_PBAX(a,b,c) "CPTX_VFX_MSIX_PBAX"
+#define device_bar_BDK_CPTX_VFX_MSIX_PBAX(a,b,c) 0x14 /* VF_BAR4 */
 #define busnum_BDK_CPTX_VFX_MSIX_PBAX(a,b,c) (a)
 #define arguments_BDK_CPTX_VFX_MSIX_PBAX(a,b,c) (a),(b),(c),-1
 
@@ -1985,6 +2024,7 @@ static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
 #define typedef_BDK_CPTX_VFX_MSIX_VECX_ADDR(a,b,c) bdk_cptx_vfx_msix_vecx_addr_t
 #define bustype_BDK_CPTX_VFX_MSIX_VECX_ADDR(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VFX_MSIX_VECX_ADDR(a,b,c) "CPTX_VFX_MSIX_VECX_ADDR"
+#define device_bar_BDK_CPTX_VFX_MSIX_VECX_ADDR(a,b,c) 0x14 /* VF_BAR4 */
 #define busnum_BDK_CPTX_VFX_MSIX_VECX_ADDR(a,b,c) (a)
 #define arguments_BDK_CPTX_VFX_MSIX_VECX_ADDR(a,b,c) (a),(b),(c),-1
 
@@ -2027,6 +2067,7 @@ static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long
 #define typedef_BDK_CPTX_VFX_MSIX_VECX_CTL(a,b,c) bdk_cptx_vfx_msix_vecx_ctl_t
 #define bustype_BDK_CPTX_VFX_MSIX_VECX_CTL(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VFX_MSIX_VECX_CTL(a,b,c) "CPTX_VFX_MSIX_VECX_CTL"
+#define device_bar_BDK_CPTX_VFX_MSIX_VECX_CTL(a,b,c) 0x14 /* VF_BAR4 */
 #define busnum_BDK_CPTX_VFX_MSIX_VECX_CTL(a,b,c) (a)
 #define arguments_BDK_CPTX_VFX_MSIX_VECX_CTL(a,b,c) (a),(b),(c),-1
 
@@ -2072,6 +2113,7 @@ static inline uint64_t BDK_CPTX_VFX_PF_MBOXX(unsigned long a, unsigned long b, u
 #define typedef_BDK_CPTX_VFX_PF_MBOXX(a,b,c) bdk_cptx_vfx_pf_mboxx_t
 #define bustype_BDK_CPTX_VFX_PF_MBOXX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VFX_PF_MBOXX(a,b,c) "CPTX_VFX_PF_MBOXX"
+#define device_bar_BDK_CPTX_VFX_PF_MBOXX(a,b,c) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VFX_PF_MBOXX(a,b,c) (a)
 #define arguments_BDK_CPTX_VFX_PF_MBOXX(a,b,c) (a),(b),(c),-1
 
@@ -2165,6 +2207,7 @@ static inline uint64_t BDK_CPTX_VQX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_VQX_CTL(a,b) bdk_cptx_vqx_ctl_t
 #define bustype_BDK_CPTX_VQX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_CTL(a,b) "CPTX_VQX_CTL"
+#define device_bar_BDK_CPTX_VQX_CTL(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_CTL(a,b) (a)
 #define arguments_BDK_CPTX_VQX_CTL(a,b) (a),(b),-1,-1
 
@@ -2261,6 +2304,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_VQX_DONE(a,b) bdk_cptx_vqx_done_t
 #define bustype_BDK_CPTX_VQX_DONE(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_DONE(a,b) "CPTX_VQX_DONE"
+#define device_bar_BDK_CPTX_VQX_DONE(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_DONE(a,b) (a)
 #define arguments_BDK_CPTX_VQX_DONE(a,b) (a),(b),-1,-1
 
@@ -2307,6 +2351,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_ACK(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_VQX_DONE_ACK(a,b) bdk_cptx_vqx_done_ack_t
 #define bustype_BDK_CPTX_VQX_DONE_ACK(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_DONE_ACK(a,b) "CPTX_VQX_DONE_ACK"
+#define device_bar_BDK_CPTX_VQX_DONE_ACK(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_DONE_ACK(a,b) (a)
 #define arguments_BDK_CPTX_VQX_DONE_ACK(a,b) (a),(b),-1,-1
 
@@ -2344,6 +2389,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long 
 #define typedef_BDK_CPTX_VQX_DONE_ENA_W1C(a,b) bdk_cptx_vqx_done_ena_w1c_t
 #define bustype_BDK_CPTX_VQX_DONE_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_DONE_ENA_W1C(a,b) "CPTX_VQX_DONE_ENA_W1C"
+#define device_bar_BDK_CPTX_VQX_DONE_ENA_W1C(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_DONE_ENA_W1C(a,b) (a)
 #define arguments_BDK_CPTX_VQX_DONE_ENA_W1C(a,b) (a),(b),-1,-1
 
@@ -2384,6 +2430,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long 
 #define typedef_BDK_CPTX_VQX_DONE_ENA_W1S(a,b) bdk_cptx_vqx_done_ena_w1s_t
 #define bustype_BDK_CPTX_VQX_DONE_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_DONE_ENA_W1S(a,b) "CPTX_VQX_DONE_ENA_W1S"
+#define device_bar_BDK_CPTX_VQX_DONE_ENA_W1S(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_DONE_ENA_W1S(a,b) (a)
 #define arguments_BDK_CPTX_VQX_DONE_ENA_W1S(a,b) (a),(b),-1,-1
 
@@ -2425,6 +2472,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1C(unsigned long a, unsigned long 
 #define typedef_BDK_CPTX_VQX_DONE_INT_W1C(a,b) bdk_cptx_vqx_done_int_w1c_t
 #define bustype_BDK_CPTX_VQX_DONE_INT_W1C(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_DONE_INT_W1C(a,b) "CPTX_VQX_DONE_INT_W1C"
+#define device_bar_BDK_CPTX_VQX_DONE_INT_W1C(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_DONE_INT_W1C(a,b) (a)
 #define arguments_BDK_CPTX_VQX_DONE_INT_W1C(a,b) (a),(b),-1,-1
 
@@ -2466,6 +2514,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1S(unsigned long a, unsigned long 
 #define typedef_BDK_CPTX_VQX_DONE_INT_W1S(a,b) bdk_cptx_vqx_done_int_w1s_t
 #define bustype_BDK_CPTX_VQX_DONE_INT_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_DONE_INT_W1S(a,b) "CPTX_VQX_DONE_INT_W1S"
+#define device_bar_BDK_CPTX_VQX_DONE_INT_W1S(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_DONE_INT_W1S(a,b) (a)
 #define arguments_BDK_CPTX_VQX_DONE_INT_W1S(a,b) (a),(b),-1,-1
 
@@ -2516,6 +2565,7 @@ static inline uint64_t BDK_CPTX_VQX_DONE_WAIT(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_VQX_DONE_WAIT(a,b) bdk_cptx_vqx_done_wait_t
 #define bustype_BDK_CPTX_VQX_DONE_WAIT(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_DONE_WAIT(a,b) "CPTX_VQX_DONE_WAIT"
+#define device_bar_BDK_CPTX_VQX_DONE_WAIT(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_DONE_WAIT(a,b) (a)
 #define arguments_BDK_CPTX_VQX_DONE_WAIT(a,b) (a),(b),-1,-1
 
@@ -2562,6 +2612,7 @@ static inline uint64_t BDK_CPTX_VQX_DOORBELL(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_VQX_DOORBELL(a,b) bdk_cptx_vqx_doorbell_t
 #define bustype_BDK_CPTX_VQX_DOORBELL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_DOORBELL(a,b) "CPTX_VQX_DOORBELL"
+#define device_bar_BDK_CPTX_VQX_DOORBELL(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_DOORBELL(a,b) (a)
 #define arguments_BDK_CPTX_VQX_DOORBELL(a,b) (a),(b),-1,-1
 
@@ -2606,6 +2657,7 @@ static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long 
 #define typedef_BDK_CPTX_VQX_MISC_ENA_W1C(a,b) bdk_cptx_vqx_misc_ena_w1c_t
 #define bustype_BDK_CPTX_VQX_MISC_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_MISC_ENA_W1C(a,b) "CPTX_VQX_MISC_ENA_W1C"
+#define device_bar_BDK_CPTX_VQX_MISC_ENA_W1C(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_MISC_ENA_W1C(a,b) (a)
 #define arguments_BDK_CPTX_VQX_MISC_ENA_W1C(a,b) (a),(b),-1,-1
 
@@ -2650,6 +2702,7 @@ static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long 
 #define typedef_BDK_CPTX_VQX_MISC_ENA_W1S(a,b) bdk_cptx_vqx_misc_ena_w1s_t
 #define bustype_BDK_CPTX_VQX_MISC_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_MISC_ENA_W1S(a,b) "CPTX_VQX_MISC_ENA_W1S"
+#define device_bar_BDK_CPTX_VQX_MISC_ENA_W1S(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_MISC_ENA_W1S(a,b) (a)
 #define arguments_BDK_CPTX_VQX_MISC_ENA_W1S(a,b) (a),(b),-1,-1
 
@@ -2696,6 +2749,7 @@ static inline uint64_t BDK_CPTX_VQX_MISC_INT(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_VQX_MISC_INT(a,b) bdk_cptx_vqx_misc_int_t
 #define bustype_BDK_CPTX_VQX_MISC_INT(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_MISC_INT(a,b) "CPTX_VQX_MISC_INT"
+#define device_bar_BDK_CPTX_VQX_MISC_INT(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_MISC_INT(a,b) (a)
 #define arguments_BDK_CPTX_VQX_MISC_INT(a,b) (a),(b),-1,-1
 
@@ -2740,6 +2794,7 @@ static inline uint64_t BDK_CPTX_VQX_MISC_INT_W1S(unsigned long a, unsigned long 
 #define typedef_BDK_CPTX_VQX_MISC_INT_W1S(a,b) bdk_cptx_vqx_misc_int_w1s_t
 #define bustype_BDK_CPTX_VQX_MISC_INT_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_MISC_INT_W1S(a,b) "CPTX_VQX_MISC_INT_W1S"
+#define device_bar_BDK_CPTX_VQX_MISC_INT_W1S(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_MISC_INT_W1S(a,b) (a)
 #define arguments_BDK_CPTX_VQX_MISC_INT_W1S(a,b) (a),(b),-1,-1
 
@@ -2788,6 +2843,7 @@ static inline uint64_t BDK_CPTX_VQX_SADDR(unsigned long a, unsigned long b)
 #define typedef_BDK_CPTX_VQX_SADDR(a,b) bdk_cptx_vqx_saddr_t
 #define bustype_BDK_CPTX_VQX_SADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_CPTX_VQX_SADDR(a,b) "CPTX_VQX_SADDR"
+#define device_bar_BDK_CPTX_VQX_SADDR(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_SADDR(a,b) (a)
 #define arguments_BDK_CPTX_VQX_SADDR(a,b) (a),(b),-1,-1
 

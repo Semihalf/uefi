@@ -136,6 +136,7 @@ static inline uint64_t BDK_NDF_BT_PG_INFO_FUNC(void)
 #define typedef_BDK_NDF_BT_PG_INFO bdk_ndf_bt_pg_info_t
 #define bustype_BDK_NDF_BT_PG_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_BT_PG_INFO "NDF_BT_PG_INFO"
+#define device_bar_BDK_NDF_BT_PG_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_BT_PG_INFO 0
 #define arguments_BDK_NDF_BT_PG_INFO -1,-1,-1,-1
 
@@ -180,6 +181,7 @@ static inline uint64_t BDK_NDF_CMD_FUNC(void)
 #define typedef_BDK_NDF_CMD bdk_ndf_cmd_t
 #define bustype_BDK_NDF_CMD BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_CMD "NDF_CMD"
+#define device_bar_BDK_NDF_CMD 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_CMD 0
 #define arguments_BDK_NDF_CMD -1,-1,-1,-1
 
@@ -221,6 +223,7 @@ static inline uint64_t BDK_NDF_DMA_ADR_FUNC(void)
 #define typedef_BDK_NDF_DMA_ADR bdk_ndf_dma_adr_t
 #define bustype_BDK_NDF_DMA_ADR BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_DMA_ADR "NDF_DMA_ADR"
+#define device_bar_BDK_NDF_DMA_ADR 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_DMA_ADR 0
 #define arguments_BDK_NDF_DMA_ADR -1,-1,-1,-1
 
@@ -282,6 +285,7 @@ static inline uint64_t BDK_NDF_DMA_CFG_FUNC(void)
 #define typedef_BDK_NDF_DMA_CFG bdk_ndf_dma_cfg_t
 #define bustype_BDK_NDF_DMA_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_DMA_CFG "NDF_DMA_CFG"
+#define device_bar_BDK_NDF_DMA_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_DMA_CFG 0
 #define arguments_BDK_NDF_DMA_CFG -1,-1,-1,-1
 
@@ -344,6 +348,7 @@ static inline uint64_t BDK_NDF_DRBELL_FUNC(void)
 #define typedef_BDK_NDF_DRBELL bdk_ndf_drbell_t
 #define bustype_BDK_NDF_DRBELL BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_DRBELL "NDF_DRBELL"
+#define device_bar_BDK_NDF_DRBELL 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_DRBELL 0
 #define arguments_BDK_NDF_DRBELL -1,-1,-1,-1
 
@@ -403,6 +408,7 @@ static inline uint64_t BDK_NDF_ECC_CNT_FUNC(void)
 #define typedef_BDK_NDF_ECC_CNT bdk_ndf_ecc_cnt_t
 #define bustype_BDK_NDF_ECC_CNT BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_ECC_CNT "NDF_ECC_CNT"
+#define device_bar_BDK_NDF_ECC_CNT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_ECC_CNT 0
 #define arguments_BDK_NDF_ECC_CNT -1,-1,-1,-1
 
@@ -441,6 +447,7 @@ static inline uint64_t BDK_NDF_ECO_FUNC(void)
 #define typedef_BDK_NDF_ECO bdk_ndf_eco_t
 #define bustype_BDK_NDF_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_ECO "NDF_ECO"
+#define device_bar_BDK_NDF_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_ECO 0
 #define arguments_BDK_NDF_ECO -1,-1,-1,-1
 
@@ -499,6 +506,7 @@ static inline uint64_t BDK_NDF_INT_FUNC(void)
 #define typedef_BDK_NDF_INT bdk_ndf_int_t
 #define bustype_BDK_NDF_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_INT "NDF_INT"
+#define device_bar_BDK_NDF_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_INT 0
 #define arguments_BDK_NDF_INT -1,-1,-1,-1
 
@@ -552,6 +560,7 @@ static inline uint64_t BDK_NDF_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_NDF_INT_ENA_W1C bdk_ndf_int_ena_w1c_t
 #define bustype_BDK_NDF_INT_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_INT_ENA_W1C "NDF_INT_ENA_W1C"
+#define device_bar_BDK_NDF_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_INT_ENA_W1C 0
 #define arguments_BDK_NDF_INT_ENA_W1C -1,-1,-1,-1
 
@@ -605,6 +614,7 @@ static inline uint64_t BDK_NDF_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_NDF_INT_ENA_W1S bdk_ndf_int_ena_w1s_t
 #define bustype_BDK_NDF_INT_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_INT_ENA_W1S "NDF_INT_ENA_W1S"
+#define device_bar_BDK_NDF_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_INT_ENA_W1S 0
 #define arguments_BDK_NDF_INT_ENA_W1S -1,-1,-1,-1
 
@@ -658,6 +668,7 @@ static inline uint64_t BDK_NDF_INT_W1S_FUNC(void)
 #define typedef_BDK_NDF_INT_W1S bdk_ndf_int_w1s_t
 #define bustype_BDK_NDF_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_INT_W1S "NDF_INT_W1S"
+#define device_bar_BDK_NDF_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_INT_W1S 0
 #define arguments_BDK_NDF_INT_W1S -1,-1,-1,-1
 
@@ -793,6 +804,7 @@ static inline uint64_t BDK_NDF_MISC_FUNC(void)
 #define typedef_BDK_NDF_MISC bdk_ndf_misc_t
 #define bustype_BDK_NDF_MISC BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_MISC "NDF_MISC"
+#define device_bar_BDK_NDF_MISC 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_MISC 0
 #define arguments_BDK_NDF_MISC -1,-1,-1,-1
 
@@ -831,6 +843,7 @@ static inline uint64_t BDK_NDF_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_NDF_MSIX_PBAX(a) bdk_ndf_msix_pbax_t
 #define bustype_BDK_NDF_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_MSIX_PBAX(a) "NDF_MSIX_PBAX"
+#define device_bar_BDK_NDF_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_NDF_MSIX_PBAX(a) (a)
 #define arguments_BDK_NDF_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -889,6 +902,7 @@ static inline uint64_t BDK_NDF_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_NDF_MSIX_VECX_ADDR(a) bdk_ndf_msix_vecx_addr_t
 #define bustype_BDK_NDF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_MSIX_VECX_ADDR(a) "NDF_MSIX_VECX_ADDR"
+#define device_bar_BDK_NDF_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_NDF_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_NDF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -931,6 +945,7 @@ static inline uint64_t BDK_NDF_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_NDF_MSIX_VECX_CTL(a) bdk_ndf_msix_vecx_ctl_t
 #define bustype_BDK_NDF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_MSIX_VECX_CTL(a) "NDF_MSIX_VECX_CTL"
+#define device_bar_BDK_NDF_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_NDF_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_NDF_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -986,6 +1001,7 @@ static inline uint64_t BDK_NDF_ST_REG_FUNC(void)
 #define typedef_BDK_NDF_ST_REG bdk_ndf_st_reg_t
 #define bustype_BDK_NDF_ST_REG BDK_CSR_TYPE_NCB
 #define basename_BDK_NDF_ST_REG "NDF_ST_REG"
+#define device_bar_BDK_NDF_ST_REG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NDF_ST_REG 0
 #define arguments_BDK_NDF_ST_REG -1,-1,-1,-1
 

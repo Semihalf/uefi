@@ -2107,6 +2107,7 @@ static inline uint64_t BDK_ZIP_CMD_CTL_FUNC(void)
 #define typedef_BDK_ZIP_CMD_CTL bdk_zip_cmd_ctl_t
 #define bustype_BDK_ZIP_CMD_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_CMD_CTL "ZIP_CMD_CTL"
+#define device_bar_BDK_ZIP_CMD_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_CMD_CTL 0
 #define arguments_BDK_ZIP_CMD_CTL -1,-1,-1,-1
 
@@ -2210,6 +2211,7 @@ static inline uint64_t BDK_ZIP_CONSTANTS_FUNC(void)
 #define typedef_BDK_ZIP_CONSTANTS bdk_zip_constants_t
 #define bustype_BDK_ZIP_CONSTANTS BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_CONSTANTS "ZIP_CONSTANTS"
+#define device_bar_BDK_ZIP_CONSTANTS 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_CONSTANTS 0
 #define arguments_BDK_ZIP_CONSTANTS -1,-1,-1,-1
 
@@ -2250,6 +2252,7 @@ static inline uint64_t BDK_ZIP_CONSTANTS2_FUNC(void)
 #define typedef_BDK_ZIP_CONSTANTS2 bdk_zip_constants2_t
 #define bustype_BDK_ZIP_CONSTANTS2 BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_CONSTANTS2 "ZIP_CONSTANTS2"
+#define device_bar_BDK_ZIP_CONSTANTS2 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_CONSTANTS2 0
 #define arguments_BDK_ZIP_CONSTANTS2 -1,-1,-1,-1
 
@@ -2289,6 +2292,7 @@ static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a)
 #define typedef_BDK_ZIP_COREX_BIST_STATUS(a) bdk_zip_corex_bist_status_t
 #define bustype_BDK_ZIP_COREX_BIST_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_COREX_BIST_STATUS(a) "ZIP_COREX_BIST_STATUS"
+#define device_bar_BDK_ZIP_COREX_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_COREX_BIST_STATUS(a) (a)
 #define arguments_BDK_ZIP_COREX_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -2332,6 +2336,7 @@ static inline uint64_t BDK_ZIP_COREX_TO_STA(unsigned long a)
 #define typedef_BDK_ZIP_COREX_TO_STA(a) bdk_zip_corex_to_sta_t
 #define bustype_BDK_ZIP_COREX_TO_STA(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_COREX_TO_STA(a) "ZIP_COREX_TO_STA"
+#define device_bar_BDK_ZIP_COREX_TO_STA(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_COREX_TO_STA(a) (a)
 #define arguments_BDK_ZIP_COREX_TO_STA(a) (a),-1,-1,-1
 
@@ -2375,6 +2380,7 @@ static inline uint64_t BDK_ZIP_CORE_RESET_FUNC(void)
 #define typedef_BDK_ZIP_CORE_RESET bdk_zip_core_reset_t
 #define bustype_BDK_ZIP_CORE_RESET BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_CORE_RESET "ZIP_CORE_RESET"
+#define device_bar_BDK_ZIP_CORE_RESET 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_CORE_RESET 0
 #define arguments_BDK_ZIP_CORE_RESET -1,-1,-1,-1
 
@@ -2456,6 +2462,7 @@ static inline uint64_t BDK_ZIP_CORE_TO_CFG_FUNC(void)
 #define typedef_BDK_ZIP_CORE_TO_CFG bdk_zip_core_to_cfg_t
 #define bustype_BDK_ZIP_CORE_TO_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_CORE_TO_CFG "ZIP_CORE_TO_CFG"
+#define device_bar_BDK_ZIP_CORE_TO_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_CORE_TO_CFG 0
 #define arguments_BDK_ZIP_CORE_TO_CFG -1,-1,-1,-1
 
@@ -2499,6 +2506,7 @@ static inline uint64_t BDK_ZIP_CTL_BIST_STATUS_FUNC(void)
 #define typedef_BDK_ZIP_CTL_BIST_STATUS bdk_zip_ctl_bist_status_t
 #define bustype_BDK_ZIP_CTL_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_CTL_BIST_STATUS "ZIP_CTL_BIST_STATUS"
+#define device_bar_BDK_ZIP_CTL_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_CTL_BIST_STATUS 0
 #define arguments_BDK_ZIP_CTL_BIST_STATUS -1,-1,-1,-1
 
@@ -2586,6 +2594,7 @@ static inline uint64_t BDK_ZIP_CTL_CFG_FUNC(void)
 #define typedef_BDK_ZIP_CTL_CFG bdk_zip_ctl_cfg_t
 #define bustype_BDK_ZIP_CTL_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_CTL_CFG "ZIP_CTL_CFG"
+#define device_bar_BDK_ZIP_CTL_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_CTL_CFG 0
 #define arguments_BDK_ZIP_CTL_CFG -1,-1,-1,-1
 
@@ -2671,6 +2680,7 @@ static inline uint64_t BDK_ZIP_DBG_COREX_INST(unsigned long a)
 #define typedef_BDK_ZIP_DBG_COREX_INST(a) bdk_zip_dbg_corex_inst_t
 #define bustype_BDK_ZIP_DBG_COREX_INST(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_DBG_COREX_INST(a) "ZIP_DBG_COREX_INST"
+#define device_bar_BDK_ZIP_DBG_COREX_INST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_DBG_COREX_INST(a) (a)
 #define arguments_BDK_ZIP_DBG_COREX_INST(a) (a),-1,-1,-1
 
@@ -2713,6 +2723,7 @@ static inline uint64_t BDK_ZIP_DBG_COREX_STA(unsigned long a)
 #define typedef_BDK_ZIP_DBG_COREX_STA(a) bdk_zip_dbg_corex_sta_t
 #define bustype_BDK_ZIP_DBG_COREX_STA(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_DBG_COREX_STA(a) "ZIP_DBG_COREX_STA"
+#define device_bar_BDK_ZIP_DBG_COREX_STA(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_DBG_COREX_STA(a) (a)
 #define arguments_BDK_ZIP_DBG_COREX_STA(a) (a),-1,-1,-1
 
@@ -2797,6 +2808,7 @@ static inline uint64_t BDK_ZIP_DBG_QUEX_STA(unsigned long a)
 #define typedef_BDK_ZIP_DBG_QUEX_STA(a) bdk_zip_dbg_quex_sta_t
 #define bustype_BDK_ZIP_DBG_QUEX_STA(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_DBG_QUEX_STA(a) "ZIP_DBG_QUEX_STA"
+#define device_bar_BDK_ZIP_DBG_QUEX_STA(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_DBG_QUEX_STA(a) (a)
 #define arguments_BDK_ZIP_DBG_QUEX_STA(a) (a),-1,-1,-1
 
@@ -2871,6 +2883,7 @@ static inline uint64_t BDK_ZIP_ECC_CTL_FUNC(void)
 #define typedef_BDK_ZIP_ECC_CTL bdk_zip_ecc_ctl_t
 #define bustype_BDK_ZIP_ECC_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_ECC_CTL "ZIP_ECC_CTL"
+#define device_bar_BDK_ZIP_ECC_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_ECC_CTL 0
 #define arguments_BDK_ZIP_ECC_CTL -1,-1,-1,-1
 
@@ -2914,6 +2927,7 @@ static inline uint64_t BDK_ZIP_ECCE_ENA_W1C_FUNC(void)
 #define typedef_BDK_ZIP_ECCE_ENA_W1C bdk_zip_ecce_ena_w1c_t
 #define bustype_BDK_ZIP_ECCE_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_ECCE_ENA_W1C "ZIP_ECCE_ENA_W1C"
+#define device_bar_BDK_ZIP_ECCE_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_ECCE_ENA_W1C 0
 #define arguments_BDK_ZIP_ECCE_ENA_W1C -1,-1,-1,-1
 
@@ -2957,6 +2971,7 @@ static inline uint64_t BDK_ZIP_ECCE_ENA_W1S_FUNC(void)
 #define typedef_BDK_ZIP_ECCE_ENA_W1S bdk_zip_ecce_ena_w1s_t
 #define bustype_BDK_ZIP_ECCE_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_ECCE_ENA_W1S "ZIP_ECCE_ENA_W1S"
+#define device_bar_BDK_ZIP_ECCE_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_ECCE_ENA_W1S 0
 #define arguments_BDK_ZIP_ECCE_ENA_W1S -1,-1,-1,-1
 
@@ -3004,6 +3019,7 @@ static inline uint64_t BDK_ZIP_ECCE_INT_FUNC(void)
 #define typedef_BDK_ZIP_ECCE_INT bdk_zip_ecce_int_t
 #define bustype_BDK_ZIP_ECCE_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_ECCE_INT "ZIP_ECCE_INT"
+#define device_bar_BDK_ZIP_ECCE_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_ECCE_INT 0
 #define arguments_BDK_ZIP_ECCE_INT -1,-1,-1,-1
 
@@ -3047,6 +3063,7 @@ static inline uint64_t BDK_ZIP_ECCE_INT_W1S_FUNC(void)
 #define typedef_BDK_ZIP_ECCE_INT_W1S bdk_zip_ecce_int_w1s_t
 #define bustype_BDK_ZIP_ECCE_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_ECCE_INT_W1S "ZIP_ECCE_INT_W1S"
+#define device_bar_BDK_ZIP_ECCE_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_ECCE_INT_W1S 0
 #define arguments_BDK_ZIP_ECCE_INT_W1S -1,-1,-1,-1
 
@@ -3087,6 +3104,7 @@ static inline uint64_t BDK_ZIP_ECO_FUNC(void)
 #define typedef_BDK_ZIP_ECO bdk_zip_eco_t
 #define bustype_BDK_ZIP_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_ECO "ZIP_ECO"
+#define device_bar_BDK_ZIP_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_ECO 0
 #define arguments_BDK_ZIP_ECO -1,-1,-1,-1
 
@@ -3126,6 +3144,7 @@ static inline uint64_t BDK_ZIP_FIFE_ENA_W1C_FUNC(void)
 #define typedef_BDK_ZIP_FIFE_ENA_W1C bdk_zip_fife_ena_w1c_t
 #define bustype_BDK_ZIP_FIFE_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_FIFE_ENA_W1C "ZIP_FIFE_ENA_W1C"
+#define device_bar_BDK_ZIP_FIFE_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_FIFE_ENA_W1C 0
 #define arguments_BDK_ZIP_FIFE_ENA_W1C -1,-1,-1,-1
 
@@ -3165,6 +3184,7 @@ static inline uint64_t BDK_ZIP_FIFE_ENA_W1S_FUNC(void)
 #define typedef_BDK_ZIP_FIFE_ENA_W1S bdk_zip_fife_ena_w1s_t
 #define bustype_BDK_ZIP_FIFE_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_FIFE_ENA_W1S "ZIP_FIFE_ENA_W1S"
+#define device_bar_BDK_ZIP_FIFE_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_FIFE_ENA_W1S 0
 #define arguments_BDK_ZIP_FIFE_ENA_W1S -1,-1,-1,-1
 
@@ -3203,6 +3223,7 @@ static inline uint64_t BDK_ZIP_FIFE_INT_FUNC(void)
 #define typedef_BDK_ZIP_FIFE_INT bdk_zip_fife_int_t
 #define bustype_BDK_ZIP_FIFE_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_FIFE_INT "ZIP_FIFE_INT"
+#define device_bar_BDK_ZIP_FIFE_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_FIFE_INT 0
 #define arguments_BDK_ZIP_FIFE_INT -1,-1,-1,-1
 
@@ -3242,6 +3263,7 @@ static inline uint64_t BDK_ZIP_FIFE_INT_W1S_FUNC(void)
 #define typedef_BDK_ZIP_FIFE_INT_W1S bdk_zip_fife_int_w1s_t
 #define bustype_BDK_ZIP_FIFE_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_FIFE_INT_W1S "ZIP_FIFE_INT_W1S"
+#define device_bar_BDK_ZIP_FIFE_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_FIFE_INT_W1S 0
 #define arguments_BDK_ZIP_FIFE_INT_W1S -1,-1,-1,-1
 
@@ -3280,6 +3302,7 @@ static inline uint64_t BDK_ZIP_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_ZIP_MSIX_PBAX(a) bdk_zip_msix_pbax_t
 #define bustype_BDK_ZIP_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_MSIX_PBAX(a) "ZIP_MSIX_PBAX"
+#define device_bar_BDK_ZIP_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_ZIP_MSIX_PBAX(a) (a)
 #define arguments_BDK_ZIP_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -3336,6 +3359,7 @@ static inline uint64_t BDK_ZIP_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_ZIP_MSIX_VECX_ADDR(a) bdk_zip_msix_vecx_addr_t
 #define bustype_BDK_ZIP_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_MSIX_VECX_ADDR(a) "ZIP_MSIX_VECX_ADDR"
+#define device_bar_BDK_ZIP_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_ZIP_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_ZIP_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -3378,6 +3402,7 @@ static inline uint64_t BDK_ZIP_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_ZIP_MSIX_VECX_CTL(a) bdk_zip_msix_vecx_ctl_t
 #define bustype_BDK_ZIP_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_MSIX_VECX_CTL(a) "ZIP_MSIX_VECX_CTL"
+#define device_bar_BDK_ZIP_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_ZIP_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_ZIP_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -3418,6 +3443,7 @@ static inline uint64_t BDK_ZIP_PF_INST_LATENCY_PC_FUNC(void)
 #define typedef_BDK_ZIP_PF_INST_LATENCY_PC bdk_zip_pf_inst_latency_pc_t
 #define bustype_BDK_ZIP_PF_INST_LATENCY_PC BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_PF_INST_LATENCY_PC "ZIP_PF_INST_LATENCY_PC"
+#define device_bar_BDK_ZIP_PF_INST_LATENCY_PC 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_PF_INST_LATENCY_PC 0
 #define arguments_BDK_ZIP_PF_INST_LATENCY_PC -1,-1,-1,-1
 
@@ -3452,6 +3478,7 @@ static inline uint64_t BDK_ZIP_PF_INST_REQ_PC_FUNC(void)
 #define typedef_BDK_ZIP_PF_INST_REQ_PC bdk_zip_pf_inst_req_pc_t
 #define bustype_BDK_ZIP_PF_INST_REQ_PC BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_PF_INST_REQ_PC "ZIP_PF_INST_REQ_PC"
+#define device_bar_BDK_ZIP_PF_INST_REQ_PC 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_PF_INST_REQ_PC 0
 #define arguments_BDK_ZIP_PF_INST_REQ_PC -1,-1,-1,-1
 
@@ -3492,6 +3519,7 @@ static inline uint64_t BDK_ZIP_PF_QUEX_GMCTL(unsigned long a)
 #define typedef_BDK_ZIP_PF_QUEX_GMCTL(a) bdk_zip_pf_quex_gmctl_t
 #define bustype_BDK_ZIP_PF_QUEX_GMCTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_PF_QUEX_GMCTL(a) "ZIP_PF_QUEX_GMCTL"
+#define device_bar_BDK_ZIP_PF_QUEX_GMCTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_PF_QUEX_GMCTL(a) (a)
 #define arguments_BDK_ZIP_PF_QUEX_GMCTL(a) (a),-1,-1,-1
 
@@ -3530,6 +3558,7 @@ static inline uint64_t BDK_ZIP_PF_RD_LATENCY_PC_FUNC(void)
 #define typedef_BDK_ZIP_PF_RD_LATENCY_PC bdk_zip_pf_rd_latency_pc_t
 #define bustype_BDK_ZIP_PF_RD_LATENCY_PC BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_PF_RD_LATENCY_PC "ZIP_PF_RD_LATENCY_PC"
+#define device_bar_BDK_ZIP_PF_RD_LATENCY_PC 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_PF_RD_LATENCY_PC 0
 #define arguments_BDK_ZIP_PF_RD_LATENCY_PC -1,-1,-1,-1
 
@@ -3564,6 +3593,7 @@ static inline uint64_t BDK_ZIP_PF_RD_REQ_PC_FUNC(void)
 #define typedef_BDK_ZIP_PF_RD_REQ_PC bdk_zip_pf_rd_req_pc_t
 #define bustype_BDK_ZIP_PF_RD_REQ_PC BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_PF_RD_REQ_PC "ZIP_PF_RD_REQ_PC"
+#define device_bar_BDK_ZIP_PF_RD_REQ_PC 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_PF_RD_REQ_PC 0
 #define arguments_BDK_ZIP_PF_RD_REQ_PC -1,-1,-1,-1
 
@@ -3662,6 +3692,7 @@ static inline uint64_t BDK_ZIP_QUEX_DONE(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_DONE(a) bdk_zip_quex_done_t
 #define bustype_BDK_ZIP_QUEX_DONE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_DONE(a) "ZIP_QUEX_DONE"
+#define device_bar_BDK_ZIP_QUEX_DONE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_DONE(a) (a)
 #define arguments_BDK_ZIP_QUEX_DONE(a) (a),-1,-1,-1
 
@@ -3708,6 +3739,7 @@ static inline uint64_t BDK_ZIP_QUEX_DONE_ACK(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_DONE_ACK(a) bdk_zip_quex_done_ack_t
 #define bustype_BDK_ZIP_QUEX_DONE_ACK(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_DONE_ACK(a) "ZIP_QUEX_DONE_ACK"
+#define device_bar_BDK_ZIP_QUEX_DONE_ACK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_DONE_ACK(a) (a)
 #define arguments_BDK_ZIP_QUEX_DONE_ACK(a) (a),-1,-1,-1
 
@@ -3748,6 +3780,7 @@ static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1C(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_DONE_ENA_W1C(a) bdk_zip_quex_done_ena_w1c_t
 #define bustype_BDK_ZIP_QUEX_DONE_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_DONE_ENA_W1C(a) "ZIP_QUEX_DONE_ENA_W1C"
+#define device_bar_BDK_ZIP_QUEX_DONE_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_DONE_ENA_W1C(a) (a)
 #define arguments_BDK_ZIP_QUEX_DONE_ENA_W1C(a) (a),-1,-1,-1
 
@@ -3788,6 +3821,7 @@ static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1S(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_DONE_ENA_W1S(a) bdk_zip_quex_done_ena_w1s_t
 #define bustype_BDK_ZIP_QUEX_DONE_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_DONE_ENA_W1S(a) "ZIP_QUEX_DONE_ENA_W1S"
+#define device_bar_BDK_ZIP_QUEX_DONE_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_DONE_ENA_W1S(a) (a)
 #define arguments_BDK_ZIP_QUEX_DONE_ENA_W1S(a) (a),-1,-1,-1
 
@@ -3842,6 +3876,7 @@ static inline uint64_t BDK_ZIP_QUEX_DONE_WAIT(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_DONE_WAIT(a) bdk_zip_quex_done_wait_t
 #define bustype_BDK_ZIP_QUEX_DONE_WAIT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_DONE_WAIT(a) "ZIP_QUEX_DONE_WAIT"
+#define device_bar_BDK_ZIP_QUEX_DONE_WAIT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_DONE_WAIT(a) (a)
 #define arguments_BDK_ZIP_QUEX_DONE_WAIT(a) (a),-1,-1,-1
 
@@ -3880,6 +3915,7 @@ static inline uint64_t BDK_ZIP_QUEX_DOORBELL(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_DOORBELL(a) bdk_zip_quex_doorbell_t
 #define bustype_BDK_ZIP_QUEX_DOORBELL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_DOORBELL(a) "ZIP_QUEX_DOORBELL"
+#define device_bar_BDK_ZIP_QUEX_DOORBELL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_DOORBELL(a) (a)
 #define arguments_BDK_ZIP_QUEX_DOORBELL(a) (a),-1,-1,-1
 
@@ -3970,6 +4006,7 @@ static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1C(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_ERR_ENA_W1C(a) bdk_zip_quex_err_ena_w1c_t
 #define bustype_BDK_ZIP_QUEX_ERR_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_ERR_ENA_W1C(a) "ZIP_QUEX_ERR_ENA_W1C"
+#define device_bar_BDK_ZIP_QUEX_ERR_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_ERR_ENA_W1C(a) (a)
 #define arguments_BDK_ZIP_QUEX_ERR_ENA_W1C(a) (a),-1,-1,-1
 
@@ -4060,6 +4097,7 @@ static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1S(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_ERR_ENA_W1S(a) bdk_zip_quex_err_ena_w1s_t
 #define bustype_BDK_ZIP_QUEX_ERR_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_ERR_ENA_W1S(a) "ZIP_QUEX_ERR_ENA_W1S"
+#define device_bar_BDK_ZIP_QUEX_ERR_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_ERR_ENA_W1S(a) (a)
 #define arguments_BDK_ZIP_QUEX_ERR_ENA_W1S(a) (a),-1,-1,-1
 
@@ -4150,6 +4188,7 @@ static inline uint64_t BDK_ZIP_QUEX_ERR_INT(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_ERR_INT(a) bdk_zip_quex_err_int_t
 #define bustype_BDK_ZIP_QUEX_ERR_INT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_ERR_INT(a) "ZIP_QUEX_ERR_INT"
+#define device_bar_BDK_ZIP_QUEX_ERR_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_ERR_INT(a) (a)
 #define arguments_BDK_ZIP_QUEX_ERR_INT(a) (a),-1,-1,-1
 
@@ -4240,6 +4279,7 @@ static inline uint64_t BDK_ZIP_QUEX_ERR_INT_W1S(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_ERR_INT_W1S(a) bdk_zip_quex_err_int_w1s_t
 #define bustype_BDK_ZIP_QUEX_ERR_INT_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_ERR_INT_W1S(a) "ZIP_QUEX_ERR_INT_W1S"
+#define device_bar_BDK_ZIP_QUEX_ERR_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_ERR_INT_W1S(a) (a)
 #define arguments_BDK_ZIP_QUEX_ERR_INT_W1S(a) (a),-1,-1,-1
 
@@ -4312,6 +4352,7 @@ static inline uint64_t BDK_ZIP_QUEX_GCFG(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_GCFG(a) bdk_zip_quex_gcfg_t
 #define bustype_BDK_ZIP_QUEX_GCFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_GCFG(a) "ZIP_QUEX_GCFG"
+#define device_bar_BDK_ZIP_QUEX_GCFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_GCFG(a) (a)
 #define arguments_BDK_ZIP_QUEX_GCFG(a) (a),-1,-1,-1
 
@@ -4403,6 +4444,7 @@ static inline uint64_t BDK_ZIP_QUEX_MAP(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_MAP(a) bdk_zip_quex_map_t
 #define bustype_BDK_ZIP_QUEX_MAP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_MAP(a) "ZIP_QUEX_MAP"
+#define device_bar_BDK_ZIP_QUEX_MAP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_MAP(a) (a)
 #define arguments_BDK_ZIP_QUEX_MAP(a) (a),-1,-1,-1
 
@@ -4458,6 +4500,7 @@ static inline uint64_t BDK_ZIP_QUEX_SBUF_ADDR(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_SBUF_ADDR(a) bdk_zip_quex_sbuf_addr_t
 #define bustype_BDK_ZIP_QUEX_SBUF_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_SBUF_ADDR(a) "ZIP_QUEX_SBUF_ADDR"
+#define device_bar_BDK_ZIP_QUEX_SBUF_ADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_SBUF_ADDR(a) (a)
 #define arguments_BDK_ZIP_QUEX_SBUF_ADDR(a) (a),-1,-1,-1
 
@@ -4543,6 +4586,7 @@ static inline uint64_t BDK_ZIP_QUEX_SBUF_CTL(unsigned long a)
 #define typedef_BDK_ZIP_QUEX_SBUF_CTL(a) bdk_zip_quex_sbuf_ctl_t
 #define bustype_BDK_ZIP_QUEX_SBUF_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUEX_SBUF_CTL(a) "ZIP_QUEX_SBUF_CTL"
+#define device_bar_BDK_ZIP_QUEX_SBUF_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUEX_SBUF_CTL(a) (a)
 #define arguments_BDK_ZIP_QUEX_SBUF_CTL(a) (a),-1,-1,-1
 
@@ -4586,6 +4630,7 @@ static inline uint64_t BDK_ZIP_QUE_ENA_FUNC(void)
 #define typedef_BDK_ZIP_QUE_ENA bdk_zip_que_ena_t
 #define bustype_BDK_ZIP_QUE_ENA BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUE_ENA "ZIP_QUE_ENA"
+#define device_bar_BDK_ZIP_QUE_ENA 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUE_ENA 0
 #define arguments_BDK_ZIP_QUE_ENA -1,-1,-1,-1
 
@@ -4629,6 +4674,7 @@ static inline uint64_t BDK_ZIP_QUE_PRI_FUNC(void)
 #define typedef_BDK_ZIP_QUE_PRI bdk_zip_que_pri_t
 #define bustype_BDK_ZIP_QUE_PRI BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUE_PRI "ZIP_QUE_PRI"
+#define device_bar_BDK_ZIP_QUE_PRI 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUE_PRI 0
 #define arguments_BDK_ZIP_QUE_PRI -1,-1,-1,-1
 
@@ -4669,6 +4715,7 @@ static inline uint64_t BDK_ZIP_QUE_RESET_FUNC(void)
 #define typedef_BDK_ZIP_QUE_RESET bdk_zip_que_reset_t
 #define bustype_BDK_ZIP_QUE_RESET BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_QUE_RESET "ZIP_QUE_RESET"
+#define device_bar_BDK_ZIP_QUE_RESET 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_QUE_RESET 0
 #define arguments_BDK_ZIP_QUE_RESET -1,-1,-1,-1
 
@@ -4712,6 +4759,7 @@ static inline uint64_t BDK_ZIP_THROTTLE_FUNC(void)
 #define typedef_BDK_ZIP_THROTTLE bdk_zip_throttle_t
 #define bustype_BDK_ZIP_THROTTLE BDK_CSR_TYPE_NCB
 #define basename_BDK_ZIP_THROTTLE "ZIP_THROTTLE"
+#define device_bar_BDK_ZIP_THROTTLE 0x0 /* PF_BAR0 */
 #define busnum_BDK_ZIP_THROTTLE 0
 #define arguments_BDK_ZIP_THROTTLE -1,-1,-1,-1
 

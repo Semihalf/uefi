@@ -172,6 +172,7 @@ static inline uint64_t BDK_SATAX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_SATAX_MSIX_PBAX(a,b) bdk_satax_msix_pbax_t
 #define bustype_BDK_SATAX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_MSIX_PBAX(a,b) "SATAX_MSIX_PBAX"
+#define device_bar_BDK_SATAX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SATAX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_SATAX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -237,6 +238,7 @@ static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
 #define typedef_BDK_SATAX_MSIX_VECX_ADDR(a,b) bdk_satax_msix_vecx_addr_t
 #define bustype_BDK_SATAX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_MSIX_VECX_ADDR(a,b) "SATAX_MSIX_VECX_ADDR"
+#define device_bar_BDK_SATAX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SATAX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_SATAX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -284,6 +286,7 @@ static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_SATAX_MSIX_VECX_CTL(a,b) bdk_satax_msix_vecx_ctl_t
 #define bustype_BDK_SATAX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_MSIX_VECX_CTL(a,b) "SATAX_MSIX_VECX_CTL"
+#define device_bar_BDK_SATAX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SATAX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_SATAX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -354,6 +357,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTAFR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_BISTAFR(a) bdk_satax_uahc_gbl_bistafr_t
 #define bustype_BDK_SATAX_UAHC_GBL_BISTAFR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_BISTAFR(a) "SATAX_UAHC_GBL_BISTAFR"
+#define device_bar_BDK_SATAX_UAHC_GBL_BISTAFR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_BISTAFR(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_BISTAFR(a) (a),-1,-1,-1
 
@@ -436,6 +440,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_BISTCR(a) bdk_satax_uahc_gbl_bistcr_t
 #define bustype_BDK_SATAX_UAHC_GBL_BISTCR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_BISTCR(a) "SATAX_UAHC_GBL_BISTCR"
+#define device_bar_BDK_SATAX_UAHC_GBL_BISTCR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_BISTCR(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_BISTCR(a) (a),-1,-1,-1
 
@@ -474,6 +479,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTDECR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_BISTDECR(a) bdk_satax_uahc_gbl_bistdecr_t
 #define bustype_BDK_SATAX_UAHC_GBL_BISTDECR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_BISTDECR(a) "SATAX_UAHC_GBL_BISTDECR"
+#define device_bar_BDK_SATAX_UAHC_GBL_BISTDECR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_BISTDECR(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_BISTDECR(a) (a),-1,-1,-1
 
@@ -512,6 +518,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTFCTR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_BISTFCTR(a) bdk_satax_uahc_gbl_bistfctr_t
 #define bustype_BDK_SATAX_UAHC_GBL_BISTFCTR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_BISTFCTR(a) "SATAX_UAHC_GBL_BISTFCTR"
+#define device_bar_BDK_SATAX_UAHC_GBL_BISTFCTR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_BISTFCTR(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_BISTFCTR(a) (a),-1,-1,-1
 
@@ -550,6 +557,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTSR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_BISTSR(a) bdk_satax_uahc_gbl_bistsr_t
 #define bustype_BDK_SATAX_UAHC_GBL_BISTSR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_BISTSR(a) "SATAX_UAHC_GBL_BISTSR"
+#define device_bar_BDK_SATAX_UAHC_GBL_BISTSR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_BISTSR(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_BISTSR(a) (a),-1,-1,-1
 
@@ -624,6 +632,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CAP(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_CAP(a) bdk_satax_uahc_gbl_cap_t
 #define bustype_BDK_SATAX_UAHC_GBL_CAP(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_CAP(a) "SATAX_UAHC_GBL_CAP"
+#define device_bar_BDK_SATAX_UAHC_GBL_CAP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_CAP(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_CAP(a) (a),-1,-1,-1
 
@@ -670,6 +679,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CAP2(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_CAP2(a) bdk_satax_uahc_gbl_cap2_t
 #define bustype_BDK_SATAX_UAHC_GBL_CAP2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_CAP2(a) "SATAX_UAHC_GBL_CAP2"
+#define device_bar_BDK_SATAX_UAHC_GBL_CAP2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_CAP2(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_CAP2(a) (a),-1,-1,-1
 
@@ -712,6 +722,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_CTL(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_CCC_CTL(a) bdk_satax_uahc_gbl_ccc_ctl_t
 #define bustype_BDK_SATAX_UAHC_GBL_CCC_CTL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_CCC_CTL(a) "SATAX_UAHC_GBL_CCC_CTL"
+#define device_bar_BDK_SATAX_UAHC_GBL_CCC_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_CCC_CTL(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_CCC_CTL(a) (a),-1,-1,-1
 
@@ -748,6 +759,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_PORTS(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_CCC_PORTS(a) bdk_satax_uahc_gbl_ccc_ports_t
 #define bustype_BDK_SATAX_UAHC_GBL_CCC_PORTS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_CCC_PORTS(a) "SATAX_UAHC_GBL_CCC_PORTS"
+#define device_bar_BDK_SATAX_UAHC_GBL_CCC_PORTS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_CCC_PORTS(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_CCC_PORTS(a) (a),-1,-1,-1
 
@@ -788,6 +800,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_GHC(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_GHC(a) bdk_satax_uahc_gbl_ghc_t
 #define bustype_BDK_SATAX_UAHC_GBL_GHC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_GHC(a) "SATAX_UAHC_GBL_GHC"
+#define device_bar_BDK_SATAX_UAHC_GBL_GHC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_GHC(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_GHC(a) (a),-1,-1,-1
 
@@ -848,6 +861,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM1R(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_GPARAM1R(a) bdk_satax_uahc_gbl_gparam1r_t
 #define bustype_BDK_SATAX_UAHC_GBL_GPARAM1R(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_GPARAM1R(a) "SATAX_UAHC_GBL_GPARAM1R"
+#define device_bar_BDK_SATAX_UAHC_GBL_GPARAM1R(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_GPARAM1R(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_GPARAM1R(a) (a),-1,-1,-1
 
@@ -908,6 +922,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_GPARAM2R(a) bdk_satax_uahc_gbl_gparam2r_t
 #define bustype_BDK_SATAX_UAHC_GBL_GPARAM2R(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_GPARAM2R(a) "SATAX_UAHC_GBL_GPARAM2R"
+#define device_bar_BDK_SATAX_UAHC_GBL_GPARAM2R(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_GPARAM2R(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_GPARAM2R(a) (a),-1,-1,-1
 
@@ -942,6 +957,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_IDR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_IDR(a) bdk_satax_uahc_gbl_idr_t
 #define bustype_BDK_SATAX_UAHC_GBL_IDR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_IDR(a) "SATAX_UAHC_GBL_IDR"
+#define device_bar_BDK_SATAX_UAHC_GBL_IDR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_IDR(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_IDR(a) (a),-1,-1,-1
 
@@ -978,6 +994,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_IS(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_IS(a) bdk_satax_uahc_gbl_is_t
 #define bustype_BDK_SATAX_UAHC_GBL_IS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_IS(a) "SATAX_UAHC_GBL_IS"
+#define device_bar_BDK_SATAX_UAHC_GBL_IS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_IS(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_IS(a) (a),-1,-1,-1
 
@@ -1024,6 +1041,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_OOBR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_OOBR(a) bdk_satax_uahc_gbl_oobr_t
 #define bustype_BDK_SATAX_UAHC_GBL_OOBR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_OOBR(a) "SATAX_UAHC_GBL_OOBR"
+#define device_bar_BDK_SATAX_UAHC_GBL_OOBR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_OOBR(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_OOBR(a) (a),-1,-1,-1
 
@@ -1060,6 +1078,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_PI(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_PI(a) bdk_satax_uahc_gbl_pi_t
 #define bustype_BDK_SATAX_UAHC_GBL_PI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_PI(a) "SATAX_UAHC_GBL_PI"
+#define device_bar_BDK_SATAX_UAHC_GBL_PI(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_PI(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_PI(a) (a),-1,-1,-1
 
@@ -1108,6 +1127,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_PPARAMR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_PPARAMR(a) bdk_satax_uahc_gbl_pparamr_t
 #define bustype_BDK_SATAX_UAHC_GBL_PPARAMR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_PPARAMR(a) "SATAX_UAHC_GBL_PPARAMR"
+#define device_bar_BDK_SATAX_UAHC_GBL_PPARAMR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_PPARAMR(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_PPARAMR(a) (a),-1,-1,-1
 
@@ -1148,6 +1168,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_TESTR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_TESTR(a) bdk_satax_uahc_gbl_testr_t
 #define bustype_BDK_SATAX_UAHC_GBL_TESTR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_TESTR(a) "SATAX_UAHC_GBL_TESTR"
+#define device_bar_BDK_SATAX_UAHC_GBL_TESTR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_TESTR(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_TESTR(a) (a),-1,-1,-1
 
@@ -1184,6 +1205,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_TIMER1MS(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_TIMER1MS(a) bdk_satax_uahc_gbl_timer1ms_t
 #define bustype_BDK_SATAX_UAHC_GBL_TIMER1MS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_TIMER1MS(a) "SATAX_UAHC_GBL_TIMER1MS"
+#define device_bar_BDK_SATAX_UAHC_GBL_TIMER1MS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_TIMER1MS(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_TIMER1MS(a) (a),-1,-1,-1
 
@@ -1218,6 +1240,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_VERSIONR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_VERSIONR(a) bdk_satax_uahc_gbl_versionr_t
 #define bustype_BDK_SATAX_UAHC_GBL_VERSIONR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_VERSIONR(a) "SATAX_UAHC_GBL_VERSIONR"
+#define device_bar_BDK_SATAX_UAHC_GBL_VERSIONR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_VERSIONR(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_VERSIONR(a) (a),-1,-1,-1
 
@@ -1254,6 +1277,7 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_VS(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_GBL_VS(a) bdk_satax_uahc_gbl_vs_t
 #define bustype_BDK_SATAX_UAHC_GBL_VS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_GBL_VS(a) "SATAX_UAHC_GBL_VS"
+#define device_bar_BDK_SATAX_UAHC_GBL_VS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_GBL_VS(a) (a)
 #define arguments_BDK_SATAX_UAHC_GBL_VS(a) (a),-1,-1,-1
 
@@ -1288,6 +1312,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_CI(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_CI(a) bdk_satax_uahc_p0_ci_t
 #define bustype_BDK_SATAX_UAHC_P0_CI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_CI(a) "SATAX_UAHC_P0_CI"
+#define device_bar_BDK_SATAX_UAHC_P0_CI(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_CI(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_CI(a) (a),-1,-1,-1
 
@@ -1324,6 +1349,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_CLB(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_CLB(a) bdk_satax_uahc_p0_clb_t
 #define bustype_BDK_SATAX_UAHC_P0_CLB(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UAHC_P0_CLB(a) "SATAX_UAHC_P0_CLB"
+#define device_bar_BDK_SATAX_UAHC_P0_CLB(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_CLB(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_CLB(a) (a),-1,-1,-1
 
@@ -1404,6 +1430,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_CMD(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_CMD(a) bdk_satax_uahc_p0_cmd_t
 #define bustype_BDK_SATAX_UAHC_P0_CMD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_CMD(a) "SATAX_UAHC_P0_CMD"
+#define device_bar_BDK_SATAX_UAHC_P0_CMD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_CMD(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_CMD(a) (a),-1,-1,-1
 
@@ -1446,6 +1473,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_DMACR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_DMACR(a) bdk_satax_uahc_p0_dmacr_t
 #define bustype_BDK_SATAX_UAHC_P0_DMACR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_DMACR(a) "SATAX_UAHC_P0_DMACR"
+#define device_bar_BDK_SATAX_UAHC_P0_DMACR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_DMACR(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_DMACR(a) (a),-1,-1,-1
 
@@ -1482,6 +1510,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_FB(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_FB(a) bdk_satax_uahc_p0_fb_t
 #define bustype_BDK_SATAX_UAHC_P0_FB(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UAHC_P0_FB(a) "SATAX_UAHC_P0_FB"
+#define device_bar_BDK_SATAX_UAHC_P0_FB(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_FB(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_FB(a) (a),-1,-1,-1
 
@@ -1530,6 +1559,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_FBS(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_FBS(a) bdk_satax_uahc_p0_fbs_t
 #define bustype_BDK_SATAX_UAHC_P0_FBS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_FBS(a) "SATAX_UAHC_P0_FBS"
+#define device_bar_BDK_SATAX_UAHC_P0_FBS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_FBS(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_FBS(a) (a),-1,-1,-1
 
@@ -1600,6 +1630,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_IE(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_IE(a) bdk_satax_uahc_p0_ie_t
 #define bustype_BDK_SATAX_UAHC_P0_IE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_IE(a) "SATAX_UAHC_P0_IE"
+#define device_bar_BDK_SATAX_UAHC_P0_IE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_IE(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_IE(a) (a),-1,-1,-1
 
@@ -1670,6 +1701,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_IS(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_IS(a) bdk_satax_uahc_p0_is_t
 #define bustype_BDK_SATAX_UAHC_P0_IS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_IS(a) "SATAX_UAHC_P0_IS"
+#define device_bar_BDK_SATAX_UAHC_P0_IS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_IS(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_IS(a) (a),-1,-1,-1
 
@@ -1704,6 +1736,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_PHYCR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_PHYCR(a) bdk_satax_uahc_p0_phycr_t
 #define bustype_BDK_SATAX_UAHC_P0_PHYCR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_PHYCR(a) "SATAX_UAHC_P0_PHYCR"
+#define device_bar_BDK_SATAX_UAHC_P0_PHYCR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_PHYCR(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_PHYCR(a) (a),-1,-1,-1
 
@@ -1738,6 +1771,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_PHYSR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_PHYSR(a) bdk_satax_uahc_p0_physr_t
 #define bustype_BDK_SATAX_UAHC_P0_PHYSR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_PHYSR(a) "SATAX_UAHC_P0_PHYSR"
+#define device_bar_BDK_SATAX_UAHC_P0_PHYSR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_PHYSR(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_PHYSR(a) (a),-1,-1,-1
 
@@ -1772,6 +1806,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SACT(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_SACT(a) bdk_satax_uahc_p0_sact_t
 #define bustype_BDK_SATAX_UAHC_P0_SACT(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_SACT(a) "SATAX_UAHC_P0_SACT"
+#define device_bar_BDK_SATAX_UAHC_P0_SACT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_SACT(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_SACT(a) (a),-1,-1,-1
 
@@ -1816,6 +1851,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SCTL(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_SCTL(a) bdk_satax_uahc_p0_sctl_t
 #define bustype_BDK_SATAX_UAHC_P0_SCTL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_SCTL(a) "SATAX_UAHC_P0_SCTL"
+#define device_bar_BDK_SATAX_UAHC_P0_SCTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_SCTL(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_SCTL(a) (a),-1,-1,-1
 
@@ -1888,6 +1924,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SERR(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_SERR(a) bdk_satax_uahc_p0_serr_t
 #define bustype_BDK_SATAX_UAHC_P0_SERR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_SERR(a) "SATAX_UAHC_P0_SERR"
+#define device_bar_BDK_SATAX_UAHC_P0_SERR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_SERR(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_SERR(a) (a),-1,-1,-1
 
@@ -1922,6 +1959,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SIG(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_SIG(a) bdk_satax_uahc_p0_sig_t
 #define bustype_BDK_SATAX_UAHC_P0_SIG(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_SIG(a) "SATAX_UAHC_P0_SIG"
+#define device_bar_BDK_SATAX_UAHC_P0_SIG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_SIG(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_SIG(a) (a),-1,-1,-1
 
@@ -1958,6 +1996,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SNTF(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_SNTF(a) bdk_satax_uahc_p0_sntf_t
 #define bustype_BDK_SATAX_UAHC_P0_SNTF(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_SNTF(a) "SATAX_UAHC_P0_SNTF"
+#define device_bar_BDK_SATAX_UAHC_P0_SNTF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_SNTF(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_SNTF(a) (a),-1,-1,-1
 
@@ -1998,6 +2037,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SSTS(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_SSTS(a) bdk_satax_uahc_p0_ssts_t
 #define bustype_BDK_SATAX_UAHC_P0_SSTS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_SSTS(a) "SATAX_UAHC_P0_SSTS"
+#define device_bar_BDK_SATAX_UAHC_P0_SSTS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_SSTS(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_SSTS(a) (a),-1,-1,-1
 
@@ -2036,6 +2076,7 @@ static inline uint64_t BDK_SATAX_UAHC_P0_TFD(unsigned long a)
 #define typedef_BDK_SATAX_UAHC_P0_TFD(a) bdk_satax_uahc_p0_tfd_t
 #define bustype_BDK_SATAX_UAHC_P0_TFD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SATAX_UAHC_P0_TFD(a) "SATAX_UAHC_P0_TFD"
+#define device_bar_BDK_SATAX_UAHC_P0_TFD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UAHC_P0_TFD(a) (a)
 #define arguments_BDK_SATAX_UAHC_P0_TFD(a) (a),-1,-1,-1
 
@@ -2103,6 +2144,7 @@ static inline uint64_t BDK_SATAX_UCTL_BIST_STATUS(unsigned long a)
 #define typedef_BDK_SATAX_UCTL_BIST_STATUS(a) bdk_satax_uctl_bist_status_t
 #define bustype_BDK_SATAX_UCTL_BIST_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UCTL_BIST_STATUS(a) "SATAX_UCTL_BIST_STATUS"
+#define device_bar_BDK_SATAX_UCTL_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UCTL_BIST_STATUS(a) (a)
 #define arguments_BDK_SATAX_UCTL_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -2404,6 +2446,7 @@ static inline uint64_t BDK_SATAX_UCTL_CTL(unsigned long a)
 #define typedef_BDK_SATAX_UCTL_CTL(a) bdk_satax_uctl_ctl_t
 #define bustype_BDK_SATAX_UCTL_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UCTL_CTL(a) "SATAX_UCTL_CTL"
+#define device_bar_BDK_SATAX_UCTL_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UCTL_CTL(a) (a)
 #define arguments_BDK_SATAX_UCTL_CTL(a) (a),-1,-1,-1
 
@@ -2482,6 +2525,7 @@ static inline uint64_t BDK_SATAX_UCTL_ECC(unsigned long a)
 #define typedef_BDK_SATAX_UCTL_ECC(a) bdk_satax_uctl_ecc_t
 #define bustype_BDK_SATAX_UCTL_ECC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UCTL_ECC(a) "SATAX_UCTL_ECC"
+#define device_bar_BDK_SATAX_UCTL_ECC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UCTL_ECC(a) (a)
 #define arguments_BDK_SATAX_UCTL_ECC(a) (a),-1,-1,-1
 
@@ -2544,6 +2588,7 @@ static inline uint64_t BDK_SATAX_UCTL_INTENA_W1C(unsigned long a)
 #define typedef_BDK_SATAX_UCTL_INTENA_W1C(a) bdk_satax_uctl_intena_w1c_t
 #define bustype_BDK_SATAX_UCTL_INTENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UCTL_INTENA_W1C(a) "SATAX_UCTL_INTENA_W1C"
+#define device_bar_BDK_SATAX_UCTL_INTENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UCTL_INTENA_W1C(a) (a)
 #define arguments_BDK_SATAX_UCTL_INTENA_W1C(a) (a),-1,-1,-1
 
@@ -2606,6 +2651,7 @@ static inline uint64_t BDK_SATAX_UCTL_INTENA_W1S(unsigned long a)
 #define typedef_BDK_SATAX_UCTL_INTENA_W1S(a) bdk_satax_uctl_intena_w1s_t
 #define bustype_BDK_SATAX_UCTL_INTENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UCTL_INTENA_W1S(a) "SATAX_UCTL_INTENA_W1S"
+#define device_bar_BDK_SATAX_UCTL_INTENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UCTL_INTENA_W1S(a) (a)
 #define arguments_BDK_SATAX_UCTL_INTENA_W1S(a) (a),-1,-1,-1
 
@@ -2696,6 +2742,7 @@ static inline uint64_t BDK_SATAX_UCTL_INTSTAT(unsigned long a)
 #define typedef_BDK_SATAX_UCTL_INTSTAT(a) bdk_satax_uctl_intstat_t
 #define bustype_BDK_SATAX_UCTL_INTSTAT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UCTL_INTSTAT(a) "SATAX_UCTL_INTSTAT"
+#define device_bar_BDK_SATAX_UCTL_INTSTAT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UCTL_INTSTAT(a) (a)
 #define arguments_BDK_SATAX_UCTL_INTSTAT(a) (a),-1,-1,-1
 
@@ -2758,6 +2805,7 @@ static inline uint64_t BDK_SATAX_UCTL_INTSTAT_W1S(unsigned long a)
 #define typedef_BDK_SATAX_UCTL_INTSTAT_W1S(a) bdk_satax_uctl_intstat_w1s_t
 #define bustype_BDK_SATAX_UCTL_INTSTAT_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UCTL_INTSTAT_W1S(a) "SATAX_UCTL_INTSTAT_W1S"
+#define device_bar_BDK_SATAX_UCTL_INTSTAT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UCTL_INTSTAT_W1S(a) (a)
 #define arguments_BDK_SATAX_UCTL_INTSTAT_W1S(a) (a),-1,-1,-1
 
@@ -2838,6 +2886,7 @@ static inline uint64_t BDK_SATAX_UCTL_SHIM_CFG(unsigned long a)
 #define typedef_BDK_SATAX_UCTL_SHIM_CFG(a) bdk_satax_uctl_shim_cfg_t
 #define bustype_BDK_SATAX_UCTL_SHIM_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UCTL_SHIM_CFG(a) "SATAX_UCTL_SHIM_CFG"
+#define device_bar_BDK_SATAX_UCTL_SHIM_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UCTL_SHIM_CFG(a) (a)
 #define arguments_BDK_SATAX_UCTL_SHIM_CFG(a) (a),-1,-1,-1
 
@@ -2877,6 +2926,7 @@ static inline uint64_t BDK_SATAX_UCTL_SPARE0(unsigned long a)
 #define typedef_BDK_SATAX_UCTL_SPARE0(a) bdk_satax_uctl_spare0_t
 #define bustype_BDK_SATAX_UCTL_SPARE0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UCTL_SPARE0(a) "SATAX_UCTL_SPARE0"
+#define device_bar_BDK_SATAX_UCTL_SPARE0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UCTL_SPARE0(a) (a)
 #define arguments_BDK_SATAX_UCTL_SPARE0(a) (a),-1,-1,-1
 
@@ -2916,6 +2966,7 @@ static inline uint64_t BDK_SATAX_UCTL_SPARE1(unsigned long a)
 #define typedef_BDK_SATAX_UCTL_SPARE1(a) bdk_satax_uctl_spare1_t
 #define bustype_BDK_SATAX_UCTL_SPARE1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SATAX_UCTL_SPARE1(a) "SATAX_UCTL_SPARE1"
+#define device_bar_BDK_SATAX_UCTL_SPARE1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SATAX_UCTL_SPARE1(a) (a)
 #define arguments_BDK_SATAX_UCTL_SPARE1(a) (a),-1,-1,-1
 

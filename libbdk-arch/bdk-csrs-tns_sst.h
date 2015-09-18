@@ -92,6 +92,7 @@ static inline uint64_t BDK_TNS_SDE_CFG_SPARE_FUNC(void)
 #define typedef_BDK_TNS_SDE_CFG_SPARE bdk_tns_sde_cfg_spare_t
 #define bustype_BDK_TNS_SDE_CFG_SPARE BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_CFG_SPARE "TNS_SDE_CFG_SPARE"
+#define device_bar_BDK_TNS_SDE_CFG_SPARE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CFG_SPARE 0
 #define arguments_BDK_TNS_SDE_CFG_SPARE -1,-1,-1,-1
 
@@ -132,6 +133,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_BK_ECC_CTLX(unsigned long a, unsigned
 #define typedef_BDK_TNS_SDE_CNT_BKX_BK_ECC_CTLX(a,b) bdk_tns_sde_cnt_bkx_bk_ecc_ctlx_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_BK_ECC_CTLX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_BK_ECC_CTLX(a,b) "TNS_SDE_CNT_BKX_BK_ECC_CTLX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_BK_ECC_CTLX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_BK_ECC_CTLX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_BK_ECC_CTLX(a,b) (a),(b),-1,-1
 
@@ -172,6 +174,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_CTR_OVFL_STAX(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_CNT_BKX_CTR_OVFL_STAX(a,b) bdk_tns_sde_cnt_bkx_ctr_ovfl_stax_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_CTR_OVFL_STAX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_CTR_OVFL_STAX(a,b) "TNS_SDE_CNT_BKX_CTR_OVFL_STAX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_CTR_OVFL_STAX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_CTR_OVFL_STAX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_CTR_OVFL_STAX(a,b) (a),(b),-1,-1
 
@@ -210,6 +213,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_HIX(unsigned long a, unsig
 #define typedef_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_HIX(a,b) bdk_tns_sde_cnt_bkx_ecc_int_en_hix_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_HIX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_HIX(a,b) "TNS_SDE_CNT_BKX_ECC_INT_EN_HIX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_HIX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_HIX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_HIX(a,b) (a),(b),-1,-1
 
@@ -248,6 +252,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_LOX(unsigned long a, unsig
 #define typedef_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_LOX(a,b) bdk_tns_sde_cnt_bkx_ecc_int_en_lox_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_LOX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_LOX(a,b) "TNS_SDE_CNT_BKX_ECC_INT_EN_LOX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_LOX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_LOX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_ECC_INT_EN_LOX(a,b) (a),(b),-1,-1
 
@@ -286,6 +291,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_FRCX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SDE_CNT_BKX_ECC_INT_FRCX(a,b) bdk_tns_sde_cnt_bkx_ecc_int_frcx_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_ECC_INT_FRCX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_ECC_INT_FRCX(a,b) "TNS_SDE_CNT_BKX_ECC_INT_FRCX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_ECC_INT_FRCX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_ECC_INT_FRCX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_ECC_INT_FRCX(a,b) (a),(b),-1,-1
 
@@ -324,6 +330,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_ECC_INT_W1CX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SDE_CNT_BKX_ECC_INT_W1CX(a,b) bdk_tns_sde_cnt_bkx_ecc_int_w1cx_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_ECC_INT_W1CX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_ECC_INT_W1CX(a,b) "TNS_SDE_CNT_BKX_ECC_INT_W1CX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_ECC_INT_W1CX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_ECC_INT_W1CX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_ECC_INT_W1CX(a,b) (a),(b),-1,-1
 
@@ -362,6 +369,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_HIX(unsigned long a, unsig
 #define typedef_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_HIX(a,b) bdk_tns_sde_cnt_bkx_fif_int_en_hix_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_HIX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_HIX(a,b) "TNS_SDE_CNT_BKX_FIF_INT_EN_HIX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_HIX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_HIX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_HIX(a,b) (a),(b),-1,-1
 
@@ -400,6 +408,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_LOX(unsigned long a, unsig
 #define typedef_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_LOX(a,b) bdk_tns_sde_cnt_bkx_fif_int_en_lox_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_LOX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_LOX(a,b) "TNS_SDE_CNT_BKX_FIF_INT_EN_LOX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_LOX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_LOX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_FIF_INT_EN_LOX(a,b) (a),(b),-1,-1
 
@@ -438,6 +447,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_FRCX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SDE_CNT_BKX_FIF_INT_FRCX(a,b) bdk_tns_sde_cnt_bkx_fif_int_frcx_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_FIF_INT_FRCX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_FIF_INT_FRCX(a,b) "TNS_SDE_CNT_BKX_FIF_INT_FRCX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_FIF_INT_FRCX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_FIF_INT_FRCX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_FIF_INT_FRCX(a,b) (a),(b),-1,-1
 
@@ -476,6 +486,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_FIF_INT_W1CX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SDE_CNT_BKX_FIF_INT_W1CX(a,b) bdk_tns_sde_cnt_bkx_fif_int_w1cx_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_FIF_INT_W1CX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_FIF_INT_W1CX(a,b) "TNS_SDE_CNT_BKX_FIF_INT_W1CX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_FIF_INT_W1CX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_FIF_INT_W1CX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_FIF_INT_W1CX(a,b) (a),(b),-1,-1
 
@@ -510,6 +521,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SDE_CNT_BKX_LOCK(a) bdk_tns_sde_cnt_bkx_lock_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_LOCK(a) "TNS_SDE_CNT_BKX_LOCK"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_LOCK(a) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_LOCK(a) (a),-1,-1,-1
 
@@ -548,6 +560,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(unsigned long a, unsigned l
 #define typedef_BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(a,b,c,d) bdk_tns_sde_cnt_bkx_memxdx_wx_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(a,b,c,d) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(a,b,c,d) "TNS_SDE_CNT_BKX_MEMXDX_WX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(a,b,c,d) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(a,b,c,d) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(a,b,c,d) (a),(b),(c),(d)
 
@@ -592,6 +605,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_MODEX(unsigned long a, unsigned long 
 #define typedef_BDK_TNS_SDE_CNT_BKX_MODEX(a,b) bdk_tns_sde_cnt_bkx_modex_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_MODEX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_MODEX(a,b) "TNS_SDE_CNT_BKX_MODEX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_MODEX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_MODEX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_MODEX(a,b) (a),(b),-1,-1
 
@@ -636,6 +650,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_MODE_POLX(unsigned long a, unsigned l
 #define typedef_BDK_TNS_SDE_CNT_BKX_MODE_POLX(a,b) bdk_tns_sde_cnt_bkx_mode_polx_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_MODE_POLX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_CNT_BKX_MODE_POLX(a,b) "TNS_SDE_CNT_BKX_MODE_POLX"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_MODE_POLX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_MODE_POLX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_MODE_POLX(a,b) (a),(b),-1,-1
 
@@ -670,6 +685,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SDE_CNT_BKX_SPAD(a) bdk_tns_sde_cnt_bkx_spad_t
 #define bustype_BDK_TNS_SDE_CNT_BKX_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_BKX_SPAD(a) "TNS_SDE_CNT_BKX_SPAD"
+#define device_bar_BDK_TNS_SDE_CNT_BKX_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_BKX_SPAD(a) (a)
 #define arguments_BDK_TNS_SDE_CNT_BKX_SPAD(a) (a),-1,-1,-1
 
@@ -718,6 +734,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CINF_BCKTX(unsigned long a)
 #define typedef_BDK_TNS_SDE_CNT_CINF_BCKTX(a) bdk_tns_sde_cnt_cinf_bcktx_t
 #define bustype_BDK_TNS_SDE_CNT_CINF_BCKTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_CNT_CINF_BCKTX(a) "TNS_SDE_CNT_CINF_BCKTX"
+#define device_bar_BDK_TNS_SDE_CNT_CINF_BCKTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_CINF_BCKTX(a) (a)
 #define arguments_BDK_TNS_SDE_CNT_CINF_BCKTX(a) (a),-1,-1,-1
 
@@ -755,6 +772,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CINF_INT_RO_FUNC(void)
 #define typedef_BDK_TNS_SDE_CNT_CINF_INT_RO bdk_tns_sde_cnt_cinf_int_ro_t
 #define bustype_BDK_TNS_SDE_CNT_CINF_INT_RO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_CINF_INT_RO "TNS_SDE_CNT_CINF_INT_RO"
+#define device_bar_BDK_TNS_SDE_CNT_CINF_INT_RO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_CINF_INT_RO 0
 #define arguments_BDK_TNS_SDE_CNT_CINF_INT_RO -1,-1,-1,-1
 
@@ -801,6 +819,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CINF_INTF_TBLX(unsigned long a)
 #define typedef_BDK_TNS_SDE_CNT_CINF_INTF_TBLX(a) bdk_tns_sde_cnt_cinf_intf_tblx_t
 #define bustype_BDK_TNS_SDE_CNT_CINF_INTF_TBLX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_CINF_INTF_TBLX(a) "TNS_SDE_CNT_CINF_INTF_TBLX"
+#define device_bar_BDK_TNS_SDE_CNT_CINF_INTF_TBLX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_CINF_INTF_TBLX(a) (a)
 #define arguments_BDK_TNS_SDE_CNT_CINF_INTF_TBLX(a) (a),-1,-1,-1
 
@@ -836,6 +855,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CINF_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_CNT_CINF_LOCK bdk_tns_sde_cnt_cinf_lock_t
 #define bustype_BDK_TNS_SDE_CNT_CINF_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_CINF_LOCK "TNS_SDE_CNT_CINF_LOCK"
+#define device_bar_BDK_TNS_SDE_CNT_CINF_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_CINF_LOCK 0
 #define arguments_BDK_TNS_SDE_CNT_CINF_LOCK -1,-1,-1,-1
 
@@ -871,6 +891,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CINF_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_CNT_CINF_SPAD bdk_tns_sde_cnt_cinf_spad_t
 #define bustype_BDK_TNS_SDE_CNT_CINF_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_CINF_SPAD "TNS_SDE_CNT_CINF_SPAD"
+#define device_bar_BDK_TNS_SDE_CNT_CINF_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_CINF_SPAD 0
 #define arguments_BDK_TNS_SDE_CNT_CINF_SPAD -1,-1,-1,-1
 
@@ -910,6 +931,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CRSL_CNT_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SDE_CNT_CRSL_CNT_DBG_SEL bdk_tns_sde_cnt_crsl_cnt_dbg_sel_t
 #define bustype_BDK_TNS_SDE_CNT_CRSL_CNT_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_CRSL_CNT_DBG_SEL "TNS_SDE_CNT_CRSL_CNT_DBG_SEL"
+#define device_bar_BDK_TNS_SDE_CNT_CRSL_CNT_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_CRSL_CNT_DBG_SEL 0
 #define arguments_BDK_TNS_SDE_CNT_CRSL_CNT_DBG_SEL -1,-1,-1,-1
 
@@ -945,6 +967,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CRSL_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_CNT_CRSL_LOCK bdk_tns_sde_cnt_crsl_lock_t
 #define bustype_BDK_TNS_SDE_CNT_CRSL_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_CRSL_LOCK "TNS_SDE_CNT_CRSL_LOCK"
+#define device_bar_BDK_TNS_SDE_CNT_CRSL_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_CRSL_LOCK 0
 #define arguments_BDK_TNS_SDE_CNT_CRSL_LOCK -1,-1,-1,-1
 
@@ -985,6 +1008,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CRSL_POL_ECC_CTLX(unsigned long a)
 #define typedef_BDK_TNS_SDE_CNT_CRSL_POL_ECC_CTLX(a) bdk_tns_sde_cnt_crsl_pol_ecc_ctlx_t
 #define bustype_BDK_TNS_SDE_CNT_CRSL_POL_ECC_CTLX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_CRSL_POL_ECC_CTLX(a) "TNS_SDE_CNT_CRSL_POL_ECC_CTLX"
+#define device_bar_BDK_TNS_SDE_CNT_CRSL_POL_ECC_CTLX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_CRSL_POL_ECC_CTLX(a) (a)
 #define arguments_BDK_TNS_SDE_CNT_CRSL_POL_ECC_CTLX(a) (a),-1,-1,-1
 
@@ -1021,6 +1045,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CRSL_POL_PRMXDX(unsigned long a, unsigned
 #define typedef_BDK_TNS_SDE_CNT_CRSL_POL_PRMXDX(a,b) bdk_tns_sde_cnt_crsl_pol_prmxdx_t
 #define bustype_BDK_TNS_SDE_CNT_CRSL_POL_PRMXDX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_CNT_CRSL_POL_PRMXDX(a,b) "TNS_SDE_CNT_CRSL_POL_PRMXDX"
+#define device_bar_BDK_TNS_SDE_CNT_CRSL_POL_PRMXDX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_CRSL_POL_PRMXDX(a,b) (a)
 #define arguments_BDK_TNS_SDE_CNT_CRSL_POL_PRMXDX(a,b) (a),(b),-1,-1
 
@@ -1056,6 +1081,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_CRSL_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_CNT_CRSL_SPAD bdk_tns_sde_cnt_crsl_spad_t
 #define bustype_BDK_TNS_SDE_CNT_CRSL_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_CNT_CRSL_SPAD "TNS_SDE_CNT_CRSL_SPAD"
+#define device_bar_BDK_TNS_SDE_CNT_CRSL_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_CNT_CRSL_SPAD 0
 #define arguments_BDK_TNS_SDE_CNT_CRSL_SPAD -1,-1,-1,-1
 
@@ -1095,6 +1121,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_DBG_SEL bdk_tns_sde_hdbf_dbg_sel_t
 #define bustype_BDK_TNS_SDE_HDBF_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_DBG_SEL "TNS_SDE_HDBF_DBG_SEL"
+#define device_bar_BDK_TNS_SDE_HDBF_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_DBG_SEL 0
 #define arguments_BDK_TNS_SDE_HDBF_DBG_SEL -1,-1,-1,-1
 
@@ -1148,6 +1175,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_ECC_CTL bdk_tns_sde_hdbf_ecc_ctl_t
 #define bustype_BDK_TNS_SDE_HDBF_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_ECC_CTL "TNS_SDE_HDBF_ECC_CTL"
+#define device_bar_BDK_TNS_SDE_HDBF_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_ECC_CTL 0
 #define arguments_BDK_TNS_SDE_HDBF_ECC_CTL -1,-1,-1,-1
 
@@ -1197,6 +1225,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_FL_MON_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_FL_MON bdk_tns_sde_hdbf_fl_mon_t
 #define bustype_BDK_TNS_SDE_HDBF_FL_MON BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_FL_MON "TNS_SDE_HDBF_FL_MON"
+#define device_bar_BDK_TNS_SDE_HDBF_FL_MON 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_FL_MON 0
 #define arguments_BDK_TNS_SDE_HDBF_FL_MON -1,-1,-1,-1
 
@@ -1234,6 +1263,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_FL_MON_STA_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_FL_MON_STA bdk_tns_sde_hdbf_fl_mon_sta_t
 #define bustype_BDK_TNS_SDE_HDBF_FL_MON_STA BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_FL_MON_STA "TNS_SDE_HDBF_FL_MON_STA"
+#define device_bar_BDK_TNS_SDE_HDBF_FL_MON_STA 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_FL_MON_STA 0
 #define arguments_BDK_TNS_SDE_HDBF_FL_MON_STA -1,-1,-1,-1
 
@@ -1277,6 +1307,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_FLST_CTL_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_FLST_CTL bdk_tns_sde_hdbf_flst_ctl_t
 #define bustype_BDK_TNS_SDE_HDBF_FLST_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_FLST_CTL "TNS_SDE_HDBF_FLST_CTL"
+#define device_bar_BDK_TNS_SDE_HDBF_FLST_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_FLST_CTL 0
 #define arguments_BDK_TNS_SDE_HDBF_FLST_CTL -1,-1,-1,-1
 
@@ -1317,6 +1348,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_FLST_DBG_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_FLST_DBG bdk_tns_sde_hdbf_flst_dbg_t
 #define bustype_BDK_TNS_SDE_HDBF_FLST_DBG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_FLST_DBG "TNS_SDE_HDBF_FLST_DBG"
+#define device_bar_BDK_TNS_SDE_HDBF_FLST_DBG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_FLST_DBG 0
 #define arguments_BDK_TNS_SDE_HDBF_FLST_DBG -1,-1,-1,-1
 
@@ -1356,6 +1388,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_FREE_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_FREE_CT bdk_tns_sde_hdbf_free_ct_t
 #define bustype_BDK_TNS_SDE_HDBF_FREE_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_FREE_CT "TNS_SDE_HDBF_FREE_CT"
+#define device_bar_BDK_TNS_SDE_HDBF_FREE_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_FREE_CT 0
 #define arguments_BDK_TNS_SDE_HDBF_FREE_CT -1,-1,-1,-1
 
@@ -1439,6 +1472,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_GEN_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_GEN bdk_tns_sde_hdbf_gen_t
 #define bustype_BDK_TNS_SDE_HDBF_GEN BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_GEN "TNS_SDE_HDBF_GEN"
+#define device_bar_BDK_TNS_SDE_HDBF_GEN 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_GEN 0
 #define arguments_BDK_TNS_SDE_HDBF_GEN -1,-1,-1,-1
 
@@ -1496,6 +1530,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_INT_EN_HI bdk_tns_sde_hdbf_int_en_hi_t
 #define bustype_BDK_TNS_SDE_HDBF_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_INT_EN_HI "TNS_SDE_HDBF_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_HDBF_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_INT_EN_HI 0
 #define arguments_BDK_TNS_SDE_HDBF_INT_EN_HI -1,-1,-1,-1
 
@@ -1553,6 +1588,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_INT_EN_LO bdk_tns_sde_hdbf_int_en_lo_t
 #define bustype_BDK_TNS_SDE_HDBF_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_INT_EN_LO "TNS_SDE_HDBF_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_HDBF_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_INT_EN_LO 0
 #define arguments_BDK_TNS_SDE_HDBF_INT_EN_LO -1,-1,-1,-1
 
@@ -1610,6 +1646,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_INT_FRC bdk_tns_sde_hdbf_int_frc_t
 #define bustype_BDK_TNS_SDE_HDBF_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_INT_FRC "TNS_SDE_HDBF_INT_FRC"
+#define device_bar_BDK_TNS_SDE_HDBF_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_INT_FRC 0
 #define arguments_BDK_TNS_SDE_HDBF_INT_FRC -1,-1,-1,-1
 
@@ -1667,6 +1704,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_INT_W1C bdk_tns_sde_hdbf_int_w1c_t
 #define bustype_BDK_TNS_SDE_HDBF_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_INT_W1C "TNS_SDE_HDBF_INT_W1C"
+#define device_bar_BDK_TNS_SDE_HDBF_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_INT_W1C 0
 #define arguments_BDK_TNS_SDE_HDBF_INT_W1C -1,-1,-1,-1
 
@@ -1702,6 +1740,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_LOCK bdk_tns_sde_hdbf_lock_t
 #define bustype_BDK_TNS_SDE_HDBF_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_LOCK "TNS_SDE_HDBF_LOCK"
+#define device_bar_BDK_TNS_SDE_HDBF_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_LOCK 0
 #define arguments_BDK_TNS_SDE_HDBF_LOCK -1,-1,-1,-1
 
@@ -1740,6 +1779,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_MEMCTX_ADR_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_MEMCTX_ADR bdk_tns_sde_hdbf_memctx_adr_t
 #define bustype_BDK_TNS_SDE_HDBF_MEMCTX_ADR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_MEMCTX_ADR "TNS_SDE_HDBF_MEMCTX_ADR"
+#define device_bar_BDK_TNS_SDE_HDBF_MEMCTX_ADR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_MEMCTX_ADR 0
 #define arguments_BDK_TNS_SDE_HDBF_MEMCTX_ADR -1,-1,-1,-1
 
@@ -1775,6 +1815,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_MEMCTX_WX(unsigned long a)
 #define typedef_BDK_TNS_SDE_HDBF_MEMCTX_WX(a) bdk_tns_sde_hdbf_memctx_wx_t
 #define bustype_BDK_TNS_SDE_HDBF_MEMCTX_WX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_HDBF_MEMCTX_WX(a) "TNS_SDE_HDBF_MEMCTX_WX"
+#define device_bar_BDK_TNS_SDE_HDBF_MEMCTX_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_MEMCTX_WX(a) (a)
 #define arguments_BDK_TNS_SDE_HDBF_MEMCTX_WX(a) (a),-1,-1,-1
 
@@ -1813,6 +1854,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_MEMMAIN_ADR_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_MEMMAIN_ADR bdk_tns_sde_hdbf_memmain_adr_t
 #define bustype_BDK_TNS_SDE_HDBF_MEMMAIN_ADR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_MEMMAIN_ADR "TNS_SDE_HDBF_MEMMAIN_ADR"
+#define device_bar_BDK_TNS_SDE_HDBF_MEMMAIN_ADR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_MEMMAIN_ADR 0
 #define arguments_BDK_TNS_SDE_HDBF_MEMMAIN_ADR -1,-1,-1,-1
 
@@ -1847,6 +1889,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_MEMMAIN_WX(unsigned long a)
 #define typedef_BDK_TNS_SDE_HDBF_MEMMAIN_WX(a) bdk_tns_sde_hdbf_memmain_wx_t
 #define bustype_BDK_TNS_SDE_HDBF_MEMMAIN_WX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_MEMMAIN_WX(a) "TNS_SDE_HDBF_MEMMAIN_WX"
+#define device_bar_BDK_TNS_SDE_HDBF_MEMMAIN_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_MEMMAIN_WX(a) (a)
 #define arguments_BDK_TNS_SDE_HDBF_MEMMAIN_WX(a) (a),-1,-1,-1
 
@@ -1888,6 +1931,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_MRE_BUDGET_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_MRE_BUDGET bdk_tns_sde_hdbf_mre_budget_t
 #define bustype_BDK_TNS_SDE_HDBF_MRE_BUDGET BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_MRE_BUDGET "TNS_SDE_HDBF_MRE_BUDGET"
+#define device_bar_BDK_TNS_SDE_HDBF_MRE_BUDGET 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_MRE_BUDGET 0
 #define arguments_BDK_TNS_SDE_HDBF_MRE_BUDGET -1,-1,-1,-1
 
@@ -1929,6 +1973,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_PARSER_BUDGET_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_PARSER_BUDGET bdk_tns_sde_hdbf_parser_budget_t
 #define bustype_BDK_TNS_SDE_HDBF_PARSER_BUDGET BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_PARSER_BUDGET "TNS_SDE_HDBF_PARSER_BUDGET"
+#define device_bar_BDK_TNS_SDE_HDBF_PARSER_BUDGET 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_PARSER_BUDGET 0
 #define arguments_BDK_TNS_SDE_HDBF_PARSER_BUDGET -1,-1,-1,-1
 
@@ -1968,6 +2013,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_REQ_CTS_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_REQ_CTS bdk_tns_sde_hdbf_req_cts_t
 #define bustype_BDK_TNS_SDE_HDBF_REQ_CTS BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_REQ_CTS "TNS_SDE_HDBF_REQ_CTS"
+#define device_bar_BDK_TNS_SDE_HDBF_REQ_CTS 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_REQ_CTS 0
 #define arguments_BDK_TNS_SDE_HDBF_REQ_CTS -1,-1,-1,-1
 
@@ -2003,6 +2049,7 @@ static inline uint64_t BDK_TNS_SDE_HDBF_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_HDBF_SPAD bdk_tns_sde_hdbf_spad_t
 #define bustype_BDK_TNS_SDE_HDBF_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_HDBF_SPAD "TNS_SDE_HDBF_SPAD"
+#define device_bar_BDK_TNS_SDE_HDBF_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_HDBF_SPAD 0
 #define arguments_BDK_TNS_SDE_HDBF_SPAD -1,-1,-1,-1
 
@@ -2048,6 +2095,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_CFG_LM_LDEX(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_CFG_LM_LDEX(a) bdk_tns_sde_isme_cfg_lm_ldex_t
 #define bustype_BDK_TNS_SDE_ISME_CFG_LM_LDEX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_CFG_LM_LDEX(a) "TNS_SDE_ISME_CFG_LM_LDEX"
+#define device_bar_BDK_TNS_SDE_ISME_CFG_LM_LDEX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_CFG_LM_LDEX(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_CFG_LM_LDEX(a) (a),-1,-1,-1
 
@@ -2088,6 +2136,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_CFG_LM_TILE_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_CFG_LM_TILE bdk_tns_sde_isme_cfg_lm_tile_t
 #define bustype_BDK_TNS_SDE_ISME_CFG_LM_TILE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_CFG_LM_TILE "TNS_SDE_ISME_CFG_LM_TILE"
+#define device_bar_BDK_TNS_SDE_ISME_CFG_LM_TILE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_CFG_LM_TILE 0
 #define arguments_BDK_TNS_SDE_ISME_CFG_LM_TILE -1,-1,-1,-1
 
@@ -2127,6 +2176,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_ECC_CTL_CD_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_ECC_CTL_CD bdk_tns_sde_isme_ecc_ctl_cd_t
 #define bustype_BDK_TNS_SDE_ISME_ECC_CTL_CD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_ECC_CTL_CD "TNS_SDE_ISME_ECC_CTL_CD"
+#define device_bar_BDK_TNS_SDE_ISME_ECC_CTL_CD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_ECC_CTL_CD 0
 #define arguments_BDK_TNS_SDE_ISME_ECC_CTL_CD -1,-1,-1,-1
 
@@ -2170,6 +2220,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_ECC_CTL_FLP_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_ECC_CTL_FLP bdk_tns_sde_isme_ecc_ctl_flp_t
 #define bustype_BDK_TNS_SDE_ISME_ECC_CTL_FLP BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_ECC_CTL_FLP "TNS_SDE_ISME_ECC_CTL_FLP"
+#define device_bar_BDK_TNS_SDE_ISME_ECC_CTL_FLP 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_ECC_CTL_FLP 0
 #define arguments_BDK_TNS_SDE_ISME_ECC_CTL_FLP -1,-1,-1,-1
 
@@ -2208,6 +2259,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(a) bdk_tns_sde_isme_lm_tile_lmemx_w0_t
 #define bustype_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(a) "TNS_SDE_ISME_LM_TILE_LMEMX_W0"
+#define device_bar_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(a) (a),-1,-1,-1
 
@@ -2242,6 +2294,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(a) bdk_tns_sde_isme_lm_tile_lmemx_w1_t
 #define bustype_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(a) "TNS_SDE_ISME_LM_TILE_LMEMX_W1"
+#define device_bar_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(a) (a),-1,-1,-1
 
@@ -2278,6 +2331,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(a) bdk_tns_sde_isme_lm_tile_lmemx_w2_t
 #define bustype_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(a) "TNS_SDE_ISME_LM_TILE_LMEMX_W2"
+#define device_bar_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(a) (a),-1,-1,-1
 
@@ -2312,6 +2366,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(a) bdk_tns_sde_isme_lm_tile_lmemx_w3_t
 #define bustype_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(a) "TNS_SDE_ISME_LM_TILE_LMEMX_W3"
+#define device_bar_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(a) (a),-1,-1,-1
 
@@ -2346,6 +2401,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(a) bdk_tns_sde_isme_lm_tile_lmemx_w4_t
 #define bustype_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(a) "TNS_SDE_ISME_LM_TILE_LMEMX_W4"
+#define device_bar_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(a) (a),-1,-1,-1
 
@@ -2384,6 +2440,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(a) bdk_tns_sde_isme_lm_tile_rmemx_w0_t
 #define bustype_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(a) "TNS_SDE_ISME_LM_TILE_RMEMX_W0"
+#define device_bar_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(a) (a),-1,-1,-1
 
@@ -2418,6 +2475,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(a) bdk_tns_sde_isme_lm_tile_rmemx_w1_t
 #define bustype_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(a) "TNS_SDE_ISME_LM_TILE_RMEMX_W1"
+#define device_bar_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(a) (a),-1,-1,-1
 
@@ -2454,6 +2512,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(a) bdk_tns_sde_isme_lm_tile_rmemx_w2_t
 #define bustype_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(a) "TNS_SDE_ISME_LM_TILE_RMEMX_W2"
+#define device_bar_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(a) (a),-1,-1,-1
 
@@ -2488,6 +2547,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(a) bdk_tns_sde_isme_lm_tile_rmemx_w3_t
 #define bustype_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(a) "TNS_SDE_ISME_LM_TILE_RMEMX_W3"
+#define device_bar_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(a) (a),-1,-1,-1
 
@@ -2522,6 +2582,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(a) bdk_tns_sde_isme_lm_tile_rmemx_w4_t
 #define bustype_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(a) "TNS_SDE_ISME_LM_TILE_RMEMX_W4"
+#define device_bar_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(a) (a),-1,-1,-1
 
@@ -2557,6 +2618,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LMKL_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_LMKL_LOCK bdk_tns_sde_isme_lmkl_lock_t
 #define bustype_BDK_TNS_SDE_ISME_LMKL_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_LMKL_LOCK "TNS_SDE_ISME_LMKL_LOCK"
+#define device_bar_BDK_TNS_SDE_ISME_LMKL_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_LMKL_LOCK 0
 #define arguments_BDK_TNS_SDE_ISME_LMKL_LOCK -1,-1,-1,-1
 
@@ -2596,6 +2658,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_CFG_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_RT_CFG_DBG_SEL bdk_tns_sde_isme_rt_cfg_dbg_sel_t
 #define bustype_BDK_TNS_SDE_ISME_RT_CFG_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_RT_CFG_DBG_SEL "TNS_SDE_ISME_RT_CFG_DBG_SEL"
+#define device_bar_BDK_TNS_SDE_ISME_RT_CFG_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_RT_CFG_DBG_SEL 0
 #define arguments_BDK_TNS_SDE_ISME_RT_CFG_DBG_SEL -1,-1,-1,-1
 
@@ -2643,6 +2706,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_CFG_MTRTX(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_RT_CFG_MTRTX(a) bdk_tns_sde_isme_rt_cfg_mtrtx_t
 #define bustype_BDK_TNS_SDE_ISME_RT_CFG_MTRTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_RT_CFG_MTRTX(a) "TNS_SDE_ISME_RT_CFG_MTRTX"
+#define device_bar_BDK_TNS_SDE_ISME_RT_CFG_MTRTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_RT_CFG_MTRTX(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_RT_CFG_MTRTX(a) (a),-1,-1,-1
 
@@ -2683,6 +2747,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_CFG_UTRTX(unsigned long a)
 #define typedef_BDK_TNS_SDE_ISME_RT_CFG_UTRTX(a) bdk_tns_sde_isme_rt_cfg_utrtx_t
 #define bustype_BDK_TNS_SDE_ISME_RT_CFG_UTRTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_RT_CFG_UTRTX(a) "TNS_SDE_ISME_RT_CFG_UTRTX"
+#define device_bar_BDK_TNS_SDE_ISME_RT_CFG_UTRTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_RT_CFG_UTRTX(a) (a)
 #define arguments_BDK_TNS_SDE_ISME_RT_CFG_UTRTX(a) (a),-1,-1,-1
 
@@ -2720,6 +2785,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_DBG_CPTR_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_RT_DBG_CPTR bdk_tns_sde_isme_rt_dbg_cptr_t
 #define bustype_BDK_TNS_SDE_ISME_RT_DBG_CPTR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_RT_DBG_CPTR "TNS_SDE_ISME_RT_DBG_CPTR"
+#define device_bar_BDK_TNS_SDE_ISME_RT_DBG_CPTR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_RT_DBG_CPTR 0
 #define arguments_BDK_TNS_SDE_ISME_RT_DBG_CPTR -1,-1,-1,-1
 
@@ -2765,6 +2831,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_RT_DR_INT_EN_HI bdk_tns_sde_isme_rt_dr_int_en_hi_t
 #define bustype_BDK_TNS_SDE_ISME_RT_DR_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_RT_DR_INT_EN_HI "TNS_SDE_ISME_RT_DR_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_ISME_RT_DR_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_RT_DR_INT_EN_HI 0
 #define arguments_BDK_TNS_SDE_ISME_RT_DR_INT_EN_HI -1,-1,-1,-1
 
@@ -2810,6 +2877,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_RT_DR_INT_EN_LO bdk_tns_sde_isme_rt_dr_int_en_lo_t
 #define bustype_BDK_TNS_SDE_ISME_RT_DR_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_RT_DR_INT_EN_LO "TNS_SDE_ISME_RT_DR_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_ISME_RT_DR_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_RT_DR_INT_EN_LO 0
 #define arguments_BDK_TNS_SDE_ISME_RT_DR_INT_EN_LO -1,-1,-1,-1
 
@@ -2855,6 +2923,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_RT_DR_INT_FRC bdk_tns_sde_isme_rt_dr_int_frc_t
 #define bustype_BDK_TNS_SDE_ISME_RT_DR_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_RT_DR_INT_FRC "TNS_SDE_ISME_RT_DR_INT_FRC"
+#define device_bar_BDK_TNS_SDE_ISME_RT_DR_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_RT_DR_INT_FRC 0
 #define arguments_BDK_TNS_SDE_ISME_RT_DR_INT_FRC -1,-1,-1,-1
 
@@ -2900,6 +2969,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_DR_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_RT_DR_INT_W1C bdk_tns_sde_isme_rt_dr_int_w1c_t
 #define bustype_BDK_TNS_SDE_ISME_RT_DR_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_RT_DR_INT_W1C "TNS_SDE_ISME_RT_DR_INT_W1C"
+#define device_bar_BDK_TNS_SDE_ISME_RT_DR_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_RT_DR_INT_W1C 0
 #define arguments_BDK_TNS_SDE_ISME_RT_DR_INT_W1C -1,-1,-1,-1
 
@@ -2937,6 +3007,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_FW_MODE_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_RT_FW_MODE bdk_tns_sde_isme_rt_fw_mode_t
 #define bustype_BDK_TNS_SDE_ISME_RT_FW_MODE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_RT_FW_MODE "TNS_SDE_ISME_RT_FW_MODE"
+#define device_bar_BDK_TNS_SDE_ISME_RT_FW_MODE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_RT_FW_MODE 0
 #define arguments_BDK_TNS_SDE_ISME_RT_FW_MODE -1,-1,-1,-1
 
@@ -2972,6 +3043,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_RT_LOCK bdk_tns_sde_isme_rt_lock_t
 #define bustype_BDK_TNS_SDE_ISME_RT_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_RT_LOCK "TNS_SDE_ISME_RT_LOCK"
+#define device_bar_BDK_TNS_SDE_ISME_RT_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_RT_LOCK 0
 #define arguments_BDK_TNS_SDE_ISME_RT_LOCK -1,-1,-1,-1
 
@@ -3007,6 +3079,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_RT_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_RT_SPAD bdk_tns_sde_isme_rt_spad_t
 #define bustype_BDK_TNS_SDE_ISME_RT_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_RT_SPAD "TNS_SDE_ISME_RT_SPAD"
+#define device_bar_BDK_TNS_SDE_ISME_RT_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_RT_SPAD 0
 #define arguments_BDK_TNS_SDE_ISME_RT_SPAD -1,-1,-1,-1
 
@@ -3042,6 +3115,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_SPAD bdk_tns_sde_isme_spad_t
 #define bustype_BDK_TNS_SDE_ISME_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_SPAD "TNS_SDE_ISME_SPAD"
+#define device_bar_BDK_TNS_SDE_ISME_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_SPAD 0
 #define arguments_BDK_TNS_SDE_ISME_SPAD -1,-1,-1,-1
 
@@ -3095,6 +3169,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_TILE_INT_EN_HI bdk_tns_sde_isme_tile_int_en_hi_t
 #define bustype_BDK_TNS_SDE_ISME_TILE_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_TILE_INT_EN_HI "TNS_SDE_ISME_TILE_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_ISME_TILE_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_TILE_INT_EN_HI 0
 #define arguments_BDK_TNS_SDE_ISME_TILE_INT_EN_HI -1,-1,-1,-1
 
@@ -3148,6 +3223,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_TILE_INT_EN_LO bdk_tns_sde_isme_tile_int_en_lo_t
 #define bustype_BDK_TNS_SDE_ISME_TILE_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_TILE_INT_EN_LO "TNS_SDE_ISME_TILE_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_ISME_TILE_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_TILE_INT_EN_LO 0
 #define arguments_BDK_TNS_SDE_ISME_TILE_INT_EN_LO -1,-1,-1,-1
 
@@ -3201,6 +3277,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_TILE_INT_FRC bdk_tns_sde_isme_tile_int_frc_t
 #define bustype_BDK_TNS_SDE_ISME_TILE_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_TILE_INT_FRC "TNS_SDE_ISME_TILE_INT_FRC"
+#define device_bar_BDK_TNS_SDE_ISME_TILE_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_TILE_INT_FRC 0
 #define arguments_BDK_TNS_SDE_ISME_TILE_INT_FRC -1,-1,-1,-1
 
@@ -3254,6 +3331,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_TILE_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_SDE_ISME_TILE_INT_W1C bdk_tns_sde_isme_tile_int_w1c_t
 #define bustype_BDK_TNS_SDE_ISME_TILE_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_ISME_TILE_INT_W1C "TNS_SDE_ISME_TILE_INT_W1C"
+#define device_bar_BDK_TNS_SDE_ISME_TILE_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_ISME_TILE_INT_W1C 0
 #define arguments_BDK_TNS_SDE_ISME_TILE_INT_W1C -1,-1,-1,-1
 
@@ -3292,6 +3370,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_EN_HI(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_HI(a) bdk_tns_sde_ldex_acmrh_int_en_hi_t
 #define bustype_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_HI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_HI(a) "TNS_SDE_LDEX_ACMRH_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_HI(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_HI(a) (a),-1,-1,-1
 
@@ -3330,6 +3409,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(a) bdk_tns_sde_ldex_acmrh_int_en_lo_t
 #define bustype_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(a) "TNS_SDE_LDEX_ACMRH_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(a) (a),-1,-1,-1
 
@@ -3368,6 +3448,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_FRC(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_ACMRH_INT_FRC(a) bdk_tns_sde_ldex_acmrh_int_frc_t
 #define bustype_BDK_TNS_SDE_LDEX_ACMRH_INT_FRC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_ACMRH_INT_FRC(a) "TNS_SDE_LDEX_ACMRH_INT_FRC"
+#define device_bar_BDK_TNS_SDE_LDEX_ACMRH_INT_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_ACMRH_INT_FRC(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_ACMRH_INT_FRC(a) (a),-1,-1,-1
 
@@ -3406,6 +3487,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_W1C(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_ACMRH_INT_W1C(a) bdk_tns_sde_ldex_acmrh_int_w1c_t
 #define bustype_BDK_TNS_SDE_LDEX_ACMRH_INT_W1C(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_ACMRH_INT_W1C(a) "TNS_SDE_LDEX_ACMRH_INT_W1C"
+#define device_bar_BDK_TNS_SDE_LDEX_ACMRH_INT_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_ACMRH_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_ACMRH_INT_W1C(a) (a),-1,-1,-1
 
@@ -3442,6 +3524,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_BP_MODE(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_BP_MODE(a) bdk_tns_sde_ldex_cfg_acm_bp_mode_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_BP_MODE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_BP_MODE(a) "TNS_SDE_LDEX_CFG_ACM_BP_MODE"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_BP_MODE(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_BP_MODE(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_BP_MODE(a) (a),-1,-1,-1
 
@@ -3478,6 +3561,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_EN(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_EN(a) bdk_tns_sde_ldex_cfg_acm_fmbm_en_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_EN(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_EN(a) "TNS_SDE_LDEX_CFG_ACM_FMBM_EN"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_EN(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_EN(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_EN(a) (a),-1,-1,-1
 
@@ -3514,6 +3598,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_IDX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_IDX(a) bdk_tns_sde_ldex_cfg_acm_fmbm_idx_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_IDX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_IDX(a) "TNS_SDE_LDEX_CFG_ACM_FMBM_IDX"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_IDX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_IDX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_FMBM_IDX(a) (a),-1,-1,-1
 
@@ -3550,6 +3635,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FNENG(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_FNENG(a) bdk_tns_sde_ldex_cfg_acm_fneng_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_FNENG(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_FNENG(a) "TNS_SDE_LDEX_CFG_ACM_FNENG"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_FNENG(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_FNENG(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_FNENG(a) (a),-1,-1,-1
 
@@ -3586,6 +3672,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_CP(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_CP(a) bdk_tns_sde_ldex_cfg_acm_fpcmd_cp_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_CP(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_CP(a) "TNS_SDE_LDEX_CFG_ACM_FPCMD_CP"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_CP(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_CP(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_CP(a) (a),-1,-1,-1
 
@@ -3622,6 +3709,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_DP(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_DP(a) bdk_tns_sde_ldex_cfg_acm_fpcmd_dp_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_DP(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_DP(a) "TNS_SDE_LDEX_CFG_ACM_FPCMD_DP"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_DP(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_DP(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_DP(a) (a),-1,-1,-1
 
@@ -3658,6 +3746,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_FW(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_FW(a) bdk_tns_sde_ldex_cfg_acm_fpcmd_fw_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_FW(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_FW(a) "TNS_SDE_LDEX_CFG_ACM_FPCMD_FW"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_FW(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_FW(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_FW(a) (a),-1,-1,-1
 
@@ -3694,6 +3783,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_TR(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_TR(a) bdk_tns_sde_ldex_cfg_acm_fpcmd_tr_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_TR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_TR(a) "TNS_SDE_LDEX_CFG_ACM_FPCMD_TR"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_TR(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_TR(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_FPCMD_TR(a) (a),-1,-1,-1
 
@@ -3730,6 +3820,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_FRCOD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_FRCOD(a) bdk_tns_sde_ldex_cfg_acm_frcod_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_FRCOD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_FRCOD(a) "TNS_SDE_LDEX_CFG_ACM_FRCOD"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_FRCOD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_FRCOD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_FRCOD(a) (a),-1,-1,-1
 
@@ -3766,6 +3857,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_LANEX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_LANEX(a,b) bdk_tns_sde_ldex_cfg_acm_lanex_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_LANEX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_LANEX(a,b) "TNS_SDE_LDEX_CFG_ACM_LANEX"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_LANEX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_LANEX(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_LANEX(a,b) (a),(b),-1,-1
 
@@ -3802,6 +3894,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_TO_CY(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_TO_CY(a) bdk_tns_sde_ldex_cfg_acm_to_cy_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_TO_CY(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_TO_CY(a) "TNS_SDE_LDEX_CFG_ACM_TO_CY"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_TO_CY(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_TO_CY(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_TO_CY(a) (a),-1,-1,-1
 
@@ -3838,6 +3931,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_ACM_TO_FW_EN(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_ACM_TO_FW_EN(a) bdk_tns_sde_ldex_cfg_acm_to_fw_en_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_ACM_TO_FW_EN(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_ACM_TO_FW_EN(a) "TNS_SDE_LDEX_CFG_ACM_TO_FW_EN"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_ACM_TO_FW_EN(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_ACM_TO_FW_EN(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_ACM_TO_FW_EN(a) (a),-1,-1,-1
 
@@ -3878,6 +3972,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(a,b) bdk_tns_sde_ldex_cfg_kfit0x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(a,b) "TNS_SDE_LDEX_CFG_KFIT0X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(a,b) (a),(b),-1,-1
 
@@ -3916,6 +4011,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(a,b) bdk_tns_sde_ldex_cfg_kfit0x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(a,b) "TNS_SDE_LDEX_CFG_KFIT0X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(a,b) (a),(b),-1,-1
 
@@ -3952,6 +4048,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(a,b) bdk_tns_sde_ldex_cfg_kfit0x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(a,b) "TNS_SDE_LDEX_CFG_KFIT0X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(a,b) (a),(b),-1,-1
 
@@ -3992,6 +4089,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(a,b) bdk_tns_sde_ldex_cfg_kfit1x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(a,b) "TNS_SDE_LDEX_CFG_KFIT1X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(a,b) (a),(b),-1,-1
 
@@ -4030,6 +4128,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(a,b) bdk_tns_sde_ldex_cfg_kfit1x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(a,b) "TNS_SDE_LDEX_CFG_KFIT1X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(a,b) (a),(b),-1,-1
 
@@ -4066,6 +4165,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(a,b) bdk_tns_sde_ldex_cfg_kfit1x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(a,b) "TNS_SDE_LDEX_CFG_KFIT1X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(a,b) (a),(b),-1,-1
 
@@ -4106,6 +4206,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(a,b) bdk_tns_sde_ldex_cfg_kfit2x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(a,b) "TNS_SDE_LDEX_CFG_KFIT2X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(a,b) (a),(b),-1,-1
 
@@ -4144,6 +4245,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(a,b) bdk_tns_sde_ldex_cfg_kfit2x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(a,b) "TNS_SDE_LDEX_CFG_KFIT2X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(a,b) (a),(b),-1,-1
 
@@ -4180,6 +4282,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(a,b) bdk_tns_sde_ldex_cfg_kfit2x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(a,b) "TNS_SDE_LDEX_CFG_KFIT2X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(a,b) (a),(b),-1,-1
 
@@ -4220,6 +4323,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(a,b) bdk_tns_sde_ldex_cfg_kfit3x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(a,b) "TNS_SDE_LDEX_CFG_KFIT3X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(a,b) (a),(b),-1,-1
 
@@ -4258,6 +4362,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(a,b) bdk_tns_sde_ldex_cfg_kfit3x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(a,b) "TNS_SDE_LDEX_CFG_KFIT3X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(a,b) (a),(b),-1,-1
 
@@ -4294,6 +4399,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(a,b) bdk_tns_sde_ldex_cfg_kfit3x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(a,b) "TNS_SDE_LDEX_CFG_KFIT3X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(a,b) (a),(b),-1,-1
 
@@ -4334,6 +4440,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(a,b) bdk_tns_sde_ldex_cfg_kfit4x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(a,b) "TNS_SDE_LDEX_CFG_KFIT4X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(a,b) (a),(b),-1,-1
 
@@ -4372,6 +4479,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(a,b) bdk_tns_sde_ldex_cfg_kfit4x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(a,b) "TNS_SDE_LDEX_CFG_KFIT4X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(a,b) (a),(b),-1,-1
 
@@ -4408,6 +4516,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(a,b) bdk_tns_sde_ldex_cfg_kfit4x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(a,b) "TNS_SDE_LDEX_CFG_KFIT4X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(a,b) (a),(b),-1,-1
 
@@ -4448,6 +4557,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(a,b) bdk_tns_sde_ldex_cfg_kfit5x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(a,b) "TNS_SDE_LDEX_CFG_KFIT5X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(a,b) (a),(b),-1,-1
 
@@ -4486,6 +4596,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(a,b) bdk_tns_sde_ldex_cfg_kfit5x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(a,b) "TNS_SDE_LDEX_CFG_KFIT5X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(a,b) (a),(b),-1,-1
 
@@ -4522,6 +4633,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(a,b) bdk_tns_sde_ldex_cfg_kfit5x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(a,b) "TNS_SDE_LDEX_CFG_KFIT5X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(a,b) (a),(b),-1,-1
 
@@ -4560,6 +4672,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT6X(unsigned long a, unsigned lon
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT6X(a,b) bdk_tns_sde_ldex_cfg_kfit6x_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFIT6X(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFIT6X(a,b) "TNS_SDE_LDEX_CFG_KFIT6X"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFIT6X(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFIT6X(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFIT6X(a,b) (a),(b),-1,-1
 
@@ -4596,6 +4709,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFITS_IDX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFITS_IDX(a) bdk_tns_sde_ldex_cfg_kfits_idx_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_KFITS_IDX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_KFITS_IDX(a) "TNS_SDE_LDEX_CFG_KFITS_IDX"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_KFITS_IDX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_KFITS_IDX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_KFITS_IDX(a) (a),-1,-1,-1
 
@@ -4632,6 +4746,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDE_ADR(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_LDE_ADR(a) bdk_tns_sde_ldex_cfg_lde_adr_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_LDE_ADR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_LDE_ADR(a) "TNS_SDE_LDEX_CFG_LDE_ADR"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_LDE_ADR(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_LDE_ADR(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_LDE_ADR(a) (a),-1,-1,-1
 
@@ -4668,6 +4783,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDE_TYPE(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_LDE_TYPE(a) bdk_tns_sde_ldex_cfg_lde_type_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_LDE_TYPE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_LDE_TYPE(a) "TNS_SDE_LDEX_CFG_LDE_TYPE"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_LDE_TYPE(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_LDE_TYPE(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_LDE_TYPE(a) (a),-1,-1,-1
 
@@ -4706,6 +4822,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDEA_DBG_SEL(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_LDEA_DBG_SEL(a) bdk_tns_sde_ldex_cfg_ldea_dbg_sel_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_LDEA_DBG_SEL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_LDEA_DBG_SEL(a) "TNS_SDE_LDEX_CFG_LDEA_DBG_SEL"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_LDEA_DBG_SEL(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_LDEA_DBG_SEL(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_LDEA_DBG_SEL(a) (a),-1,-1,-1
 
@@ -4744,6 +4861,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_LDEB_DBG_SEL(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_LDEB_DBG_SEL(a) bdk_tns_sde_ldex_cfg_ldeb_dbg_sel_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_LDEB_DBG_SEL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_LDEB_DBG_SEL(a) "TNS_SDE_LDEX_CFG_LDEB_DBG_SEL"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_LDEB_DBG_SEL(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_LDEB_DBG_SEL(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_LDEB_DBG_SEL(a) (a),-1,-1,-1
 
@@ -4780,6 +4898,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MAX_ACM_REQS(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_MAX_ACM_REQS(a) bdk_tns_sde_ldex_cfg_max_acm_reqs_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_MAX_ACM_REQS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_MAX_ACM_REQS(a) "TNS_SDE_LDEX_CFG_MAX_ACM_REQS"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_MAX_ACM_REQS(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_MAX_ACM_REQS(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_MAX_ACM_REQS(a) (a),-1,-1,-1
 
@@ -4816,6 +4935,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MAX_SE_REQS(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_MAX_SE_REQS(a) bdk_tns_sde_ldex_cfg_max_se_reqs_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_MAX_SE_REQS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_MAX_SE_REQS(a) "TNS_SDE_LDEX_CFG_MAX_SE_REQS"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_MAX_SE_REQS(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_MAX_SE_REQS(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_MAX_SE_REQS(a) (a),-1,-1,-1
 
@@ -4852,6 +4972,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_MERGE_MODE(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_MERGE_MODE(a) bdk_tns_sde_ldex_cfg_merge_mode_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_MERGE_MODE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_MERGE_MODE(a) "TNS_SDE_LDEX_CFG_MERGE_MODE"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_MERGE_MODE(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_MERGE_MODE(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_MERGE_MODE(a) (a),-1,-1,-1
 
@@ -4898,6 +5019,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(a,b) bdk_tns_sde_ldex_cfg_ofit0x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(a,b) "TNS_SDE_LDEX_CFG_OFIT0X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(a,b) (a),(b),-1,-1
 
@@ -4936,6 +5058,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(a,b) bdk_tns_sde_ldex_cfg_ofit0x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(a,b) "TNS_SDE_LDEX_CFG_OFIT0X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(a,b) (a),(b),-1,-1
 
@@ -4974,6 +5097,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(a,b) bdk_tns_sde_ldex_cfg_ofit0x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(a,b) "TNS_SDE_LDEX_CFG_OFIT0X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(a,b) (a),(b),-1,-1
 
@@ -5016,6 +5140,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT1X(unsigned long a, unsigned lon
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT1X(a,b) bdk_tns_sde_ldex_cfg_ofit1x_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT1X(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT1X(a,b) "TNS_SDE_LDEX_CFG_OFIT1X"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT1X(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT1X(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT1X(a,b) (a),(b),-1,-1
 
@@ -5052,6 +5177,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT2X(unsigned long a, unsigned lon
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT2X(a,b) bdk_tns_sde_ldex_cfg_ofit2x_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT2X(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT2X(a,b) "TNS_SDE_LDEX_CFG_OFIT2X"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT2X(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT2X(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT2X(a,b) (a),(b),-1,-1
 
@@ -5096,6 +5222,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT3X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W0(a,b) bdk_tns_sde_ldex_cfg_ofit3x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W0(a,b) "TNS_SDE_LDEX_CFG_OFIT3X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W0(a,b) (a),(b),-1,-1
 
@@ -5136,6 +5263,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT3X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W1(a,b) bdk_tns_sde_ldex_cfg_ofit3x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W1(a,b) "TNS_SDE_LDEX_CFG_OFIT3X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT3X_W1(a,b) (a),(b),-1,-1
 
@@ -5180,6 +5308,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(a,b) bdk_tns_sde_ldex_cfg_ofit4x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(a,b) "TNS_SDE_LDEX_CFG_OFIT4X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(a,b) (a),(b),-1,-1
 
@@ -5220,6 +5349,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(a,b) bdk_tns_sde_ldex_cfg_ofit4x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(a,b) "TNS_SDE_LDEX_CFG_OFIT4X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(a,b) (a),(b),-1,-1
 
@@ -5262,6 +5392,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(a,b) bdk_tns_sde_ldex_cfg_ofit4x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(a,b) "TNS_SDE_LDEX_CFG_OFIT4X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(a,b) (a),(b),-1,-1
 
@@ -5300,6 +5431,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(a,b) bdk_tns_sde_ldex_cfg_ofit5x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(a,b) "TNS_SDE_LDEX_CFG_OFIT5X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(a,b) (a),(b),-1,-1
 
@@ -5336,6 +5468,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(a,b) bdk_tns_sde_ldex_cfg_ofit5x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(a,b) "TNS_SDE_LDEX_CFG_OFIT5X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(a,b) (a),(b),-1,-1
 
@@ -5372,6 +5505,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(unsigned long a, unsigned
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(a,b) bdk_tns_sde_ldex_cfg_ofit5x_w10_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(a,b) "TNS_SDE_LDEX_CFG_OFIT5X_W10"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(a,b) (a),(b),-1,-1
 
@@ -5406,6 +5540,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(a,b) bdk_tns_sde_ldex_cfg_ofit5x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(a,b) "TNS_SDE_LDEX_CFG_OFIT5X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(a,b) (a),(b),-1,-1
 
@@ -5442,6 +5577,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(a,b) bdk_tns_sde_ldex_cfg_ofit5x_w3_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(a,b) "TNS_SDE_LDEX_CFG_OFIT5X_W3"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(a,b) (a),(b),-1,-1
 
@@ -5478,6 +5614,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(a,b) bdk_tns_sde_ldex_cfg_ofit5x_w4_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(a,b) "TNS_SDE_LDEX_CFG_OFIT5X_W4"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(a,b) (a),(b),-1,-1
 
@@ -5514,6 +5651,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(a,b) bdk_tns_sde_ldex_cfg_ofit5x_w5_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(a,b) "TNS_SDE_LDEX_CFG_OFIT5X_W5"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(a,b) (a),(b),-1,-1
 
@@ -5550,6 +5688,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(a,b) bdk_tns_sde_ldex_cfg_ofit5x_w6_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(a,b) "TNS_SDE_LDEX_CFG_OFIT5X_W6"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(a,b) (a),(b),-1,-1
 
@@ -5586,6 +5725,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(a,b) bdk_tns_sde_ldex_cfg_ofit5x_w7_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(a,b) "TNS_SDE_LDEX_CFG_OFIT5X_W7"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(a,b) (a),(b),-1,-1
 
@@ -5620,6 +5760,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(a,b) bdk_tns_sde_ldex_cfg_ofit5x_w8_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(a,b) "TNS_SDE_LDEX_CFG_OFIT5X_W8"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(a,b) (a),(b),-1,-1
 
@@ -5656,6 +5797,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(a,b) bdk_tns_sde_ldex_cfg_ofit5x_w9_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(a,b) "TNS_SDE_LDEX_CFG_OFIT5X_W9"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(a,b) (a),(b),-1,-1
 
@@ -5696,6 +5838,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(a,b) bdk_tns_sde_ldex_cfg_ofit6x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(a,b) "TNS_SDE_LDEX_CFG_OFIT6X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(a,b) (a),(b),-1,-1
 
@@ -5732,6 +5875,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(a,b) bdk_tns_sde_ldex_cfg_ofit6x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(a,b) "TNS_SDE_LDEX_CFG_OFIT6X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(a,b) (a),(b),-1,-1
 
@@ -5770,6 +5914,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(a,b) bdk_tns_sde_ldex_cfg_ofit6x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(a,b) "TNS_SDE_LDEX_CFG_OFIT6X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(a,b) (a),(b),-1,-1
 
@@ -5810,6 +5955,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(a,b) bdk_tns_sde_ldex_cfg_ofit7x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(a,b) "TNS_SDE_LDEX_CFG_OFIT7X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(a,b) (a),(b),-1,-1
 
@@ -5846,6 +5992,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(a,b) bdk_tns_sde_ldex_cfg_ofit7x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(a,b) "TNS_SDE_LDEX_CFG_OFIT7X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(a,b) (a),(b),-1,-1
 
@@ -5884,6 +6031,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(a,b) bdk_tns_sde_ldex_cfg_ofit7x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(a,b) "TNS_SDE_LDEX_CFG_OFIT7X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(a,b) (a),(b),-1,-1
 
@@ -5922,6 +6070,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(a,b) bdk_tns_sde_ldex_cfg_ofit8x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(a,b) "TNS_SDE_LDEX_CFG_OFIT8X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(a,b) (a),(b),-1,-1
 
@@ -5960,6 +6109,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(a,b) bdk_tns_sde_ldex_cfg_ofit8x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(a,b) "TNS_SDE_LDEX_CFG_OFIT8X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(a,b) (a),(b),-1,-1
 
@@ -5998,6 +6148,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(a,b) bdk_tns_sde_ldex_cfg_ofit8x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(a,b) "TNS_SDE_LDEX_CFG_OFIT8X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(a,b) (a),(b),-1,-1
 
@@ -6036,6 +6187,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(a,b) bdk_tns_sde_ldex_cfg_ofit8x_w3_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(a,b) "TNS_SDE_LDEX_CFG_OFIT8X_W3"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(a,b) (a),(b),-1,-1
 
@@ -6074,6 +6226,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(a,b) bdk_tns_sde_ldex_cfg_ofit8x_w4_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(a,b) "TNS_SDE_LDEX_CFG_OFIT8X_W4"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(a,b) (a),(b),-1,-1
 
@@ -6114,6 +6267,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(a,b) bdk_tns_sde_ldex_cfg_ofit9x_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(a,b) "TNS_SDE_LDEX_CFG_OFIT9X_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(a,b) (a),(b),-1,-1
 
@@ -6152,6 +6306,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(a,b) bdk_tns_sde_ldex_cfg_ofit9x_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(a,b) "TNS_SDE_LDEX_CFG_OFIT9X_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(a,b) (a),(b),-1,-1
 
@@ -6190,6 +6345,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(a,b) bdk_tns_sde_ldex_cfg_ofit9x_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(a,b) "TNS_SDE_LDEX_CFG_OFIT9X_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(a,b) (a),(b),-1,-1
 
@@ -6226,6 +6382,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(a,b) bdk_tns_sde_ldex_cfg_ofit9x_w3_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(a,b) "TNS_SDE_LDEX_CFG_OFIT9X_W3"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(a,b) (a),(b),-1,-1
 
@@ -6266,6 +6423,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(a,b) bdk_tns_sde_ldex_cfg_ofit9x_w4_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(a,b) "TNS_SDE_LDEX_CFG_OFIT9X_W4"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(a,b) (a),(b),-1,-1
 
@@ -6302,6 +6460,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFITS_IDX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFITS_IDX(a) bdk_tns_sde_ldex_cfg_ofits_idx_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_OFITS_IDX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_OFITS_IDX(a) "TNS_SDE_LDEX_CFG_OFITS_IDX"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_OFITS_IDX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_OFITS_IDX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_OFITS_IDX(a) (a),-1,-1,-1
 
@@ -6338,6 +6497,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DMBM_EN(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_EN(a) bdk_tns_sde_ldex_cfg_pol_dmbm_en_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_EN(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_EN(a) "TNS_SDE_LDEX_CFG_POL_DMBM_EN"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_EN(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_EN(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_EN(a) (a),-1,-1,-1
 
@@ -6374,6 +6534,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DMBM_IDX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_IDX(a) bdk_tns_sde_ldex_cfg_pol_dmbm_idx_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_IDX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_IDX(a) "TNS_SDE_LDEX_CFG_POL_DMBM_IDX"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_IDX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_IDX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_POL_DMBM_IDX(a) (a),-1,-1,-1
 
@@ -6410,6 +6571,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DNENG(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_POL_DNENG(a) bdk_tns_sde_ldex_cfg_pol_dneng_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_POL_DNENG(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_POL_DNENG(a) "TNS_SDE_LDEX_CFG_POL_DNENG"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_POL_DNENG(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_POL_DNENG(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_POL_DNENG(a) (a),-1,-1,-1
 
@@ -6446,6 +6608,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_CP(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_CP(a) bdk_tns_sde_ldex_cfg_pol_dpcmd_cp_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_CP(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_CP(a) "TNS_SDE_LDEX_CFG_POL_DPCMD_CP"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_CP(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_CP(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_CP(a) (a),-1,-1,-1
 
@@ -6482,6 +6645,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_DP(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_DP(a) bdk_tns_sde_ldex_cfg_pol_dpcmd_dp_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_DP(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_DP(a) "TNS_SDE_LDEX_CFG_POL_DPCMD_DP"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_DP(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_DP(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_DP(a) (a),-1,-1,-1
 
@@ -6518,6 +6682,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_FW(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_FW(a) bdk_tns_sde_ldex_cfg_pol_dpcmd_fw_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_FW(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_FW(a) "TNS_SDE_LDEX_CFG_POL_DPCMD_FW"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_FW(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_FW(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_FW(a) (a),-1,-1,-1
 
@@ -6554,6 +6719,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_TR(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_TR(a) bdk_tns_sde_ldex_cfg_pol_dpcmd_tr_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_TR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_TR(a) "TNS_SDE_LDEX_CFG_POL_DPCMD_TR"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_TR(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_TR(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_POL_DPCMD_TR(a) (a),-1,-1,-1
 
@@ -6590,6 +6756,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_POL_DRCOD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_POL_DRCOD(a) bdk_tns_sde_ldex_cfg_pol_drcod_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_POL_DRCOD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_POL_DRCOD(a) "TNS_SDE_LDEX_CFG_POL_DRCOD"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_POL_DRCOD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_POL_DRCOD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_POL_DRCOD(a) (a),-1,-1,-1
 
@@ -6630,6 +6797,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_PRFL_TBLX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_PRFL_TBLX(a,b) bdk_tns_sde_ldex_cfg_prfl_tblx_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_PRFL_TBLX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_PRFL_TBLX(a,b) "TNS_SDE_LDEX_CFG_PRFL_TBLX"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_PRFL_TBLX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_PRFL_TBLX(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_PRFL_TBLX(a,b) (a),(b),-1,-1
 
@@ -6666,6 +6834,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SE_TO_CY(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_SE_TO_CY(a) bdk_tns_sde_ldex_cfg_se_to_cy_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_SE_TO_CY(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_SE_TO_CY(a) "TNS_SDE_LDEX_CFG_SE_TO_CY"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_SE_TO_CY(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_SE_TO_CY(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_SE_TO_CY(a) (a),-1,-1,-1
 
@@ -6702,6 +6871,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SE_TO_FW_EN(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_SE_TO_FW_EN(a) bdk_tns_sde_ldex_cfg_se_to_fw_en_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_SE_TO_FW_EN(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_SE_TO_FW_EN(a) "TNS_SDE_LDEX_CFG_SE_TO_FW_EN"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_SE_TO_FW_EN(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_SE_TO_FW_EN(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_SE_TO_FW_EN(a) (a),-1,-1,-1
 
@@ -6738,6 +6908,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_SMP_LANEX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_LDEX_CFG_SMP_LANEX(a,b) bdk_tns_sde_ldex_cfg_smp_lanex_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_SMP_LANEX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_SMP_LANEX(a,b) "TNS_SDE_LDEX_CFG_SMP_LANEX"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_SMP_LANEX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_SMP_LANEX(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_SMP_LANEX(a,b) (a),(b),-1,-1
 
@@ -6776,6 +6947,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(unsigned long a, unsigne
 #define typedef_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(a,b) bdk_tns_sde_ldex_cfg_tpl_tblx_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(a,b) "TNS_SDE_LDEX_CFG_TPL_TBLX_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(a,b) (a),(b),-1,-1
 
@@ -6818,6 +6990,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(unsigned long a, unsigne
 #define typedef_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(a,b) bdk_tns_sde_ldex_cfg_tpl_tblx_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(a,b) "TNS_SDE_LDEX_CFG_TPL_TBLX_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(a,b) (a),(b),-1,-1
 
@@ -6864,6 +7037,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(unsigned long a, unsigne
 #define typedef_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(a,b) bdk_tns_sde_ldex_cfg_tpl_tblx_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(a,b) "TNS_SDE_LDEX_CFG_TPL_TBLX_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(a,b) (a),(b),-1,-1
 
@@ -6900,6 +7074,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_NENG(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_TTL_FL_NENG(a) bdk_tns_sde_ldex_cfg_ttl_fl_neng_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_TTL_FL_NENG(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_TTL_FL_NENG(a) "TNS_SDE_LDEX_CFG_TTL_FL_NENG"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_TTL_FL_NENG(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_TTL_FL_NENG(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_TTL_FL_NENG(a) (a),-1,-1,-1
 
@@ -6936,6 +7111,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_PCMD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_TTL_FL_PCMD(a) bdk_tns_sde_ldex_cfg_ttl_fl_pcmd_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_TTL_FL_PCMD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_TTL_FL_PCMD(a) "TNS_SDE_LDEX_CFG_TTL_FL_PCMD"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_TTL_FL_PCMD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_TTL_FL_PCMD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_TTL_FL_PCMD(a) (a),-1,-1,-1
 
@@ -6972,6 +7148,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TTL_FL_RCOD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_CFG_TTL_FL_RCOD(a) bdk_tns_sde_ldex_cfg_ttl_fl_rcod_t
 #define bustype_BDK_TNS_SDE_LDEX_CFG_TTL_FL_RCOD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_CFG_TTL_FL_RCOD(a) "TNS_SDE_LDEX_CFG_TTL_FL_RCOD"
+#define device_bar_BDK_TNS_SDE_LDEX_CFG_TTL_FL_RCOD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_CFG_TTL_FL_RCOD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_CFG_TTL_FL_RCOD(a) (a),-1,-1,-1
 
@@ -7022,6 +7199,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_ACMRH_W0(a) bdk_tns_sde_ldex_dbg_acmrh_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_ACMRH_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_ACMRH_W0(a) "TNS_SDE_LDEX_DBG_ACMRH_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_ACMRH_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_ACMRH_W0(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_ACMRH_W0(a) (a),-1,-1,-1
 
@@ -7076,6 +7254,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_ACMRH_W1(a) bdk_tns_sde_ldex_dbg_acmrh_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_ACMRH_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_ACMRH_W1(a) "TNS_SDE_LDEX_DBG_ACMRH_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_ACMRH_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_ACMRH_W1(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_ACMRH_W1(a) (a),-1,-1,-1
 
@@ -7142,6 +7321,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_ACMRH_W2(a) bdk_tns_sde_ldex_dbg_acmrh_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_ACMRH_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_ACMRH_W2(a) "TNS_SDE_LDEX_DBG_ACMRH_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_ACMRH_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_ACMRH_W2(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_ACMRH_W2(a) (a),-1,-1,-1
 
@@ -7184,6 +7364,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_ACMRH_W3(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_ACMRH_W3(a) bdk_tns_sde_ldex_dbg_acmrh_w3_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_ACMRH_W3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_ACMRH_W3(a) "TNS_SDE_LDEX_DBG_ACMRH_W3"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_ACMRH_W3(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_ACMRH_W3(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_ACMRH_W3(a) (a),-1,-1,-1
 
@@ -7230,6 +7411,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_IFIF(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_IFIF(a) bdk_tns_sde_ldex_dbg_ifif_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_IFIF(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_IFIF(a) "TNS_SDE_LDEX_DBG_IFIF"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_IFIF(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_IFIF(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_IFIF(a) (a),-1,-1,-1
 
@@ -7270,6 +7452,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W0(a) bdk_tns_sde_ldex_dbg_kfcp_bits_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W0(a) "TNS_SDE_LDEX_DBG_KFCP_BITS_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W0(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W0(a) (a),-1,-1,-1
 
@@ -7312,6 +7495,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W1(a) bdk_tns_sde_ldex_dbg_kfcp_bits_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W1(a) "TNS_SDE_LDEX_DBG_KFCP_BITS_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W1(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W1(a) (a),-1,-1,-1
 
@@ -7360,6 +7544,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W2(a) bdk_tns_sde_ldex_dbg_kfcp_bits_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W2(a) "TNS_SDE_LDEX_DBG_KFCP_BITS_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W2(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_KFCP_BITS_W2(a) (a),-1,-1,-1
 
@@ -7410,6 +7595,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_KFIT(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_KFCP_KFIT(a) bdk_tns_sde_ldex_dbg_kfcp_kfit_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_KFCP_KFIT(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_KFCP_KFIT(a) "TNS_SDE_LDEX_DBG_KFCP_KFIT"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_KFCP_KFIT(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_KFCP_KFIT(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_KFCP_KFIT(a) (a),-1,-1,-1
 
@@ -7450,6 +7636,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W0(a) bdk_tns_sde_ldex_dbg_kfcp_mlcd_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W0(a) "TNS_SDE_LDEX_DBG_KFCP_MLCD_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W0(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W0(a) (a),-1,-1,-1
 
@@ -7502,6 +7689,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W1(a) bdk_tns_sde_ldex_dbg_kfcp_mlcd_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W1(a) "TNS_SDE_LDEX_DBG_KFCP_MLCD_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W1(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_KFCP_MLCD_W1(a) (a),-1,-1,-1
 
@@ -7550,6 +7738,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFDP_CORE(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_KFDP_CORE(a) bdk_tns_sde_ldex_dbg_kfdp_core_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_KFDP_CORE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_KFDP_CORE(a) "TNS_SDE_LDEX_DBG_KFDP_CORE"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_KFDP_CORE(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_KFDP_CORE(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_KFDP_CORE(a) (a),-1,-1,-1
 
@@ -7602,6 +7791,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_KFDP_RIDG(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_KFDP_RIDG(a) bdk_tns_sde_ldex_dbg_kfdp_ridg_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_KFDP_RIDG(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_KFDP_RIDG(a) "TNS_SDE_LDEX_DBG_KFDP_RIDG"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_KFDP_RIDG(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_KFDP_RIDG(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_KFDP_RIDG(a) (a),-1,-1,-1
 
@@ -7672,6 +7862,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W0(a) bdk_tns_sde_ldex_dbg_mgr_info_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W0(a) "TNS_SDE_LDEX_DBG_MGR_INFO_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W0(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W0(a) (a),-1,-1,-1
 
@@ -7752,6 +7943,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W1(a) bdk_tns_sde_ldex_dbg_mgr_info_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W1(a) "TNS_SDE_LDEX_DBG_MGR_INFO_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W1(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_MGR_INFO_W1(a) (a),-1,-1,-1
 
@@ -7812,6 +8004,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_BITS(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_OFCP_BITS(a) bdk_tns_sde_ldex_dbg_ofcp_bits_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_OFCP_BITS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_DBG_OFCP_BITS(a) "TNS_SDE_LDEX_DBG_OFCP_BITS"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_OFCP_BITS(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_OFCP_BITS(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_OFCP_BITS(a) (a),-1,-1,-1
 
@@ -7846,6 +8039,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W0(a) bdk_tns_sde_ldex_dbg_ofcp_mlcd_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W0(a) "TNS_SDE_LDEX_DBG_OFCP_MLCD_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W0(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W0(a) (a),-1,-1,-1
 
@@ -7892,6 +8086,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W1(a) bdk_tns_sde_ldex_dbg_ofcp_mlcd_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W1(a) "TNS_SDE_LDEX_DBG_OFCP_MLCD_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W1(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W1(a) (a),-1,-1,-1
 
@@ -7950,6 +8145,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W2(a) bdk_tns_sde_ldex_dbg_ofcp_mlcd_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W2(a) "TNS_SDE_LDEX_DBG_OFCP_MLCD_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W2(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_OFCP_MLCD_W2(a) (a),-1,-1,-1
 
@@ -7996,6 +8192,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_MXCD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_OFCP_MXCD(a) bdk_tns_sde_ldex_dbg_ofcp_mxcd_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_OFCP_MXCD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_OFCP_MXCD(a) "TNS_SDE_LDEX_DBG_OFCP_MXCD"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_OFCP_MXCD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_OFCP_MXCD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_OFCP_MXCD(a) (a),-1,-1,-1
 
@@ -8040,6 +8237,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W0(a) bdk_tns_sde_ldex_dbg_ofcp_ofit_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W0(a) "TNS_SDE_LDEX_DBG_OFCP_OFIT_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W0(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W0(a) (a),-1,-1,-1
 
@@ -8084,6 +8282,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W1(a) bdk_tns_sde_ldex_dbg_ofcp_ofit_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W1(a) "TNS_SDE_LDEX_DBG_OFCP_OFIT_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W1(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W1(a) (a),-1,-1,-1
 
@@ -8136,6 +8335,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W2(a) bdk_tns_sde_ldex_dbg_ofcp_ofit_w2_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W2(a) "TNS_SDE_LDEX_DBG_OFCP_OFIT_W2"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W2(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_OFCP_OFIT_W2(a) (a),-1,-1,-1
 
@@ -8196,6 +8396,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFDP_ACMRIDG(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_OFDP_ACMRIDG(a) bdk_tns_sde_ldex_dbg_ofdp_acmridg_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_OFDP_ACMRIDG(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_OFDP_ACMRIDG(a) "TNS_SDE_LDEX_DBG_OFDP_ACMRIDG"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_OFDP_ACMRIDG(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_OFDP_ACMRIDG(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_OFDP_ACMRIDG(a) (a),-1,-1,-1
 
@@ -8248,6 +8449,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_OFDP_CORE(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_OFDP_CORE(a) bdk_tns_sde_ldex_dbg_ofdp_core_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_OFDP_CORE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_OFDP_CORE(a) "TNS_SDE_LDEX_DBG_OFDP_CORE"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_OFDP_CORE(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_OFDP_CORE(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_OFDP_CORE(a) (a),-1,-1,-1
 
@@ -8308,6 +8510,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TMP_TBL(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_TMP_TBL(a) bdk_tns_sde_ldex_dbg_tmp_tbl_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_TMP_TBL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_DBG_TMP_TBL(a) "TNS_SDE_LDEX_DBG_TMP_TBL"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_TMP_TBL(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_TMP_TBL(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_TMP_TBL(a) (a),-1,-1,-1
 
@@ -8356,6 +8559,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TTL_LB_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W0(a) bdk_tns_sde_ldex_dbg_ttl_lb_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W0(a) "TNS_SDE_LDEX_DBG_TTL_LB_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W0(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W0(a) (a),-1,-1,-1
 
@@ -8396,6 +8600,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_DBG_TTL_LB_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W1(a) bdk_tns_sde_ldex_dbg_ttl_lb_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W1(a) "TNS_SDE_LDEX_DBG_TTL_LB_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W1(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_DBG_TTL_LB_W1(a) (a),-1,-1,-1
 
@@ -8433,6 +8638,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_BYPM_DMUX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP0_BYPM_DMUX(a) bdk_tns_sde_ldex_kfcp0_bypm_dmux_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP0_BYPM_DMUX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFCP0_BYPM_DMUX(a) "TNS_SDE_LDEX_KFCP0_BYPM_DMUX"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP0_BYPM_DMUX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP0_BYPM_DMUX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP0_BYPM_DMUX(a) (a),-1,-1,-1
 
@@ -8468,6 +8674,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_ML_DLUT(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP0_ML_DLUT(a) bdk_tns_sde_ldex_kfcp0_ml_dlut_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP0_ML_DLUT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_KFCP0_ML_DLUT(a) "TNS_SDE_LDEX_KFCP0_ML_DLUT"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP0_ML_DLUT(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP0_ML_DLUT(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP0_ML_DLUT(a) (a),-1,-1,-1
 
@@ -8515,6 +8722,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP0_ML_DMUX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP0_ML_DMUX(a) bdk_tns_sde_ldex_kfcp0_ml_dmux_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP0_ML_DMUX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_KFCP0_ML_DMUX(a) "TNS_SDE_LDEX_KFCP0_ML_DMUX"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP0_ML_DMUX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP0_ML_DMUX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP0_ML_DMUX(a) (a),-1,-1,-1
 
@@ -8552,6 +8760,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_BYPM_DMUX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP1_BYPM_DMUX(a) bdk_tns_sde_ldex_kfcp1_bypm_dmux_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP1_BYPM_DMUX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFCP1_BYPM_DMUX(a) "TNS_SDE_LDEX_KFCP1_BYPM_DMUX"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP1_BYPM_DMUX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP1_BYPM_DMUX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP1_BYPM_DMUX(a) (a),-1,-1,-1
 
@@ -8587,6 +8796,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DLUT_WX(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_LDEX_KFCP1_ML_DLUT_WX(a,b) bdk_tns_sde_ldex_kfcp1_ml_dlut_wx_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP1_ML_DLUT_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFCP1_ML_DLUT_WX(a,b) "TNS_SDE_LDEX_KFCP1_ML_DLUT_WX"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP1_ML_DLUT_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP1_ML_DLUT_WX(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP1_ML_DLUT_WX(a,b) (a),(b),-1,-1
 
@@ -8632,6 +8842,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W0(a) bdk_tns_sde_ldex_kfcp1_ml_dmux_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W0(a) "TNS_SDE_LDEX_KFCP1_ML_DMUX_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W0(a) (a),-1,-1,-1
 
@@ -8668,6 +8879,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W1(a) bdk_tns_sde_ldex_kfcp1_ml_dmux_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W1(a) "TNS_SDE_LDEX_KFCP1_ML_DMUX_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP1_ML_DMUX_W1(a) (a),-1,-1,-1
 
@@ -8703,6 +8915,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP2_ML_DLUT(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP2_ML_DLUT(a) bdk_tns_sde_ldex_kfcp2_ml_dlut_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP2_ML_DLUT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_KFCP2_ML_DLUT(a) "TNS_SDE_LDEX_KFCP2_ML_DLUT"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP2_ML_DLUT(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP2_ML_DLUT(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP2_ML_DLUT(a) (a),-1,-1,-1
 
@@ -8750,6 +8963,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP2_ML_DMUX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP2_ML_DMUX(a) bdk_tns_sde_ldex_kfcp2_ml_dmux_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP2_ML_DMUX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_KFCP2_ML_DMUX(a) "TNS_SDE_LDEX_KFCP2_ML_DMUX"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP2_ML_DMUX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP2_ML_DMUX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP2_ML_DMUX(a) (a),-1,-1,-1
 
@@ -8784,6 +8998,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_CLOUD_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP_CLOUD_LOCK(a) bdk_tns_sde_ldex_kfcp_cloud_lock_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP_CLOUD_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFCP_CLOUD_LOCK(a) "TNS_SDE_LDEX_KFCP_CLOUD_LOCK"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP_CLOUD_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP_CLOUD_LOCK(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP_CLOUD_LOCK(a) (a),-1,-1,-1
 
@@ -8818,6 +9033,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_CLOUD_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP_CLOUD_SPAD(a) bdk_tns_sde_ldex_kfcp_cloud_spad_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP_CLOUD_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFCP_CLOUD_SPAD(a) "TNS_SDE_LDEX_KFCP_CLOUD_SPAD"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP_CLOUD_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP_CLOUD_SPAD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP_CLOUD_SPAD(a) (a),-1,-1,-1
 
@@ -8870,6 +9086,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_EN_HI(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP_INT_EN_HI(a) bdk_tns_sde_ldex_kfcp_int_en_hi_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP_INT_EN_HI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFCP_INT_EN_HI(a) "TNS_SDE_LDEX_KFCP_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP_INT_EN_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP_INT_EN_HI(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP_INT_EN_HI(a) (a),-1,-1,-1
 
@@ -8922,6 +9139,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(a) bdk_tns_sde_ldex_kfcp_int_en_lo_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(a) "TNS_SDE_LDEX_KFCP_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(a) (a),-1,-1,-1
 
@@ -8974,6 +9192,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_FRC(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP_INT_FRC(a) bdk_tns_sde_ldex_kfcp_int_frc_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP_INT_FRC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFCP_INT_FRC(a) "TNS_SDE_LDEX_KFCP_INT_FRC"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP_INT_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP_INT_FRC(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP_INT_FRC(a) (a),-1,-1,-1
 
@@ -9026,6 +9245,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_W1C(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFCP_INT_W1C(a) bdk_tns_sde_ldex_kfcp_int_w1c_t
 #define bustype_BDK_TNS_SDE_LDEX_KFCP_INT_W1C(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFCP_INT_W1C(a) "TNS_SDE_LDEX_KFCP_INT_W1C"
+#define device_bar_BDK_TNS_SDE_LDEX_KFCP_INT_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFCP_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP_INT_W1C(a) (a),-1,-1,-1
 
@@ -9066,6 +9286,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_EN_HI(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFDP_INT_EN_HI(a) bdk_tns_sde_ldex_kfdp_int_en_hi_t
 #define bustype_BDK_TNS_SDE_LDEX_KFDP_INT_EN_HI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFDP_INT_EN_HI(a) "TNS_SDE_LDEX_KFDP_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_LDEX_KFDP_INT_EN_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFDP_INT_EN_HI(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFDP_INT_EN_HI(a) (a),-1,-1,-1
 
@@ -9106,6 +9327,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_EN_LO(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFDP_INT_EN_LO(a) bdk_tns_sde_ldex_kfdp_int_en_lo_t
 #define bustype_BDK_TNS_SDE_LDEX_KFDP_INT_EN_LO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFDP_INT_EN_LO(a) "TNS_SDE_LDEX_KFDP_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_LDEX_KFDP_INT_EN_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFDP_INT_EN_LO(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFDP_INT_EN_LO(a) (a),-1,-1,-1
 
@@ -9146,6 +9368,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_FRC(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFDP_INT_FRC(a) bdk_tns_sde_ldex_kfdp_int_frc_t
 #define bustype_BDK_TNS_SDE_LDEX_KFDP_INT_FRC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFDP_INT_FRC(a) "TNS_SDE_LDEX_KFDP_INT_FRC"
+#define device_bar_BDK_TNS_SDE_LDEX_KFDP_INT_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFDP_INT_FRC(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFDP_INT_FRC(a) (a),-1,-1,-1
 
@@ -9186,6 +9409,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFDP_INT_W1C(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFDP_INT_W1C(a) bdk_tns_sde_ldex_kfdp_int_w1c_t
 #define bustype_BDK_TNS_SDE_LDEX_KFDP_INT_W1C(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFDP_INT_W1C(a) "TNS_SDE_LDEX_KFDP_INT_W1C"
+#define device_bar_BDK_TNS_SDE_LDEX_KFDP_INT_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFDP_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFDP_INT_W1C(a) (a),-1,-1,-1
 
@@ -9220,6 +9444,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFIT_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFIT_LOCK(a) bdk_tns_sde_ldex_kfit_lock_t
 #define bustype_BDK_TNS_SDE_LDEX_KFIT_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFIT_LOCK(a) "TNS_SDE_LDEX_KFIT_LOCK"
+#define device_bar_BDK_TNS_SDE_LDEX_KFIT_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFIT_LOCK(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFIT_LOCK(a) (a),-1,-1,-1
 
@@ -9254,6 +9479,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFIT_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFIT_SPAD(a) bdk_tns_sde_ldex_kfit_spad_t
 #define bustype_BDK_TNS_SDE_LDEX_KFIT_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFIT_SPAD(a) "TNS_SDE_LDEX_KFIT_SPAD"
+#define device_bar_BDK_TNS_SDE_LDEX_KFIT_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFIT_SPAD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFIT_SPAD(a) (a),-1,-1,-1
 
@@ -9290,6 +9516,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_CD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_CD(a) bdk_tns_sde_ldex_kfm_ecc_ctl_cd_t
 #define bustype_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_CD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_CD(a) "TNS_SDE_LDEX_KFM_ECC_CTL_CD"
+#define device_bar_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_CD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_CD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_CD(a) (a),-1,-1,-1
 
@@ -9326,6 +9553,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FD(a) bdk_tns_sde_ldex_kfm_ecc_ctl_fd_t
 #define bustype_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FD(a) "TNS_SDE_LDEX_KFM_ECC_CTL_FD"
+#define device_bar_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FD(a) (a),-1,-1,-1
 
@@ -9362,6 +9590,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FS(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FS(a) bdk_tns_sde_ldex_kfm_ecc_ctl_fs_t
 #define bustype_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FS(a) "TNS_SDE_LDEX_KFM_ECC_CTL_FS"
+#define device_bar_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FS(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FS(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFM_ECC_CTL_FS(a) (a),-1,-1,-1
 
@@ -9398,6 +9627,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_DBG_CPTR(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFMISC_DBG_CPTR(a) bdk_tns_sde_ldex_kfmisc_dbg_cptr_t
 #define bustype_BDK_TNS_SDE_LDEX_KFMISC_DBG_CPTR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFMISC_DBG_CPTR(a) "TNS_SDE_LDEX_KFMISC_DBG_CPTR"
+#define device_bar_BDK_TNS_SDE_LDEX_KFMISC_DBG_CPTR(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFMISC_DBG_CPTR(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFMISC_DBG_CPTR(a) (a),-1,-1,-1
 
@@ -9432,6 +9662,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFMISC_LOCK(a) bdk_tns_sde_ldex_kfmisc_lock_t
 #define bustype_BDK_TNS_SDE_LDEX_KFMISC_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFMISC_LOCK(a) "TNS_SDE_LDEX_KFMISC_LOCK"
+#define device_bar_BDK_TNS_SDE_LDEX_KFMISC_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFMISC_LOCK(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFMISC_LOCK(a) (a),-1,-1,-1
 
@@ -9466,6 +9697,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFMISC_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_KFMISC_SPAD(a) bdk_tns_sde_ldex_kfmisc_spad_t
 #define bustype_BDK_TNS_SDE_LDEX_KFMISC_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_KFMISC_SPAD(a) "TNS_SDE_LDEX_KFMISC_SPAD"
+#define device_bar_BDK_TNS_SDE_LDEX_KFMISC_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_KFMISC_SPAD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_KFMISC_SPAD(a) (a),-1,-1,-1
 
@@ -9506,6 +9738,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_EN_HI(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_LDEA_INT_EN_HI(a) bdk_tns_sde_ldex_ldea_int_en_hi_t
 #define bustype_BDK_TNS_SDE_LDEX_LDEA_INT_EN_HI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_LDEA_INT_EN_HI(a) "TNS_SDE_LDEX_LDEA_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_LDEX_LDEA_INT_EN_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_LDEA_INT_EN_HI(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_LDEA_INT_EN_HI(a) (a),-1,-1,-1
 
@@ -9546,6 +9779,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_EN_LO(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_LDEA_INT_EN_LO(a) bdk_tns_sde_ldex_ldea_int_en_lo_t
 #define bustype_BDK_TNS_SDE_LDEX_LDEA_INT_EN_LO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_LDEA_INT_EN_LO(a) "TNS_SDE_LDEX_LDEA_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_LDEX_LDEA_INT_EN_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_LDEA_INT_EN_LO(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_LDEA_INT_EN_LO(a) (a),-1,-1,-1
 
@@ -9586,6 +9820,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_FRC(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_LDEA_INT_FRC(a) bdk_tns_sde_ldex_ldea_int_frc_t
 #define bustype_BDK_TNS_SDE_LDEX_LDEA_INT_FRC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_LDEA_INT_FRC(a) "TNS_SDE_LDEX_LDEA_INT_FRC"
+#define device_bar_BDK_TNS_SDE_LDEX_LDEA_INT_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_LDEA_INT_FRC(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_LDEA_INT_FRC(a) (a),-1,-1,-1
 
@@ -9626,6 +9861,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEA_INT_W1C(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_LDEA_INT_W1C(a) bdk_tns_sde_ldex_ldea_int_w1c_t
 #define bustype_BDK_TNS_SDE_LDEX_LDEA_INT_W1C(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_LDEA_INT_W1C(a) "TNS_SDE_LDEX_LDEA_INT_W1C"
+#define device_bar_BDK_TNS_SDE_LDEX_LDEA_INT_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_LDEA_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_LDEA_INT_W1C(a) (a),-1,-1,-1
 
@@ -9666,6 +9902,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_EN_HI(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_LDEB_INT_EN_HI(a) bdk_tns_sde_ldex_ldeb_int_en_hi_t
 #define bustype_BDK_TNS_SDE_LDEX_LDEB_INT_EN_HI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_LDEB_INT_EN_HI(a) "TNS_SDE_LDEX_LDEB_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_LDEX_LDEB_INT_EN_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_LDEB_INT_EN_HI(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_LDEB_INT_EN_HI(a) (a),-1,-1,-1
 
@@ -9706,6 +9943,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_EN_LO(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_LDEB_INT_EN_LO(a) bdk_tns_sde_ldex_ldeb_int_en_lo_t
 #define bustype_BDK_TNS_SDE_LDEX_LDEB_INT_EN_LO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_LDEB_INT_EN_LO(a) "TNS_SDE_LDEX_LDEB_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_LDEX_LDEB_INT_EN_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_LDEB_INT_EN_LO(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_LDEB_INT_EN_LO(a) (a),-1,-1,-1
 
@@ -9746,6 +9984,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_FRC(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_LDEB_INT_FRC(a) bdk_tns_sde_ldex_ldeb_int_frc_t
 #define bustype_BDK_TNS_SDE_LDEX_LDEB_INT_FRC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_LDEB_INT_FRC(a) "TNS_SDE_LDEX_LDEB_INT_FRC"
+#define device_bar_BDK_TNS_SDE_LDEX_LDEB_INT_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_LDEB_INT_FRC(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_LDEB_INT_FRC(a) (a),-1,-1,-1
 
@@ -9786,6 +10025,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_W1C(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_LDEB_INT_W1C(a) bdk_tns_sde_ldex_ldeb_int_w1c_t
 #define bustype_BDK_TNS_SDE_LDEX_LDEB_INT_W1C(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_LDEB_INT_W1C(a) "TNS_SDE_LDEX_LDEB_INT_W1C"
+#define device_bar_BDK_TNS_SDE_LDEX_LDEB_INT_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_LDEB_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_LDEB_INT_W1C(a) (a),-1,-1,-1
 
@@ -9838,6 +10078,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_CD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_CD(a) bdk_tns_sde_ldex_mgr_ecc_ctl_cd_t
 #define bustype_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_CD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_CD(a) "TNS_SDE_LDEX_MGR_ECC_CTL_CD"
+#define device_bar_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_CD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_CD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_CD(a) (a),-1,-1,-1
 
@@ -9890,6 +10131,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FD(a) bdk_tns_sde_ldex_mgr_ecc_ctl_fd_t
 #define bustype_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FD(a) "TNS_SDE_LDEX_MGR_ECC_CTL_FD"
+#define device_bar_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FD(a) (a),-1,-1,-1
 
@@ -9942,6 +10184,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FS(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FS(a) bdk_tns_sde_ldex_mgr_ecc_ctl_fs_t
 #define bustype_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FS(a) "TNS_SDE_LDEX_MGR_ECC_CTL_FS"
+#define device_bar_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FS(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FS(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_MGR_ECC_CTL_FS(a) (a),-1,-1,-1
 
@@ -10016,6 +10259,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_EN_HI(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_MGR_INT_EN_HI(a) bdk_tns_sde_ldex_mgr_int_en_hi_t
 #define bustype_BDK_TNS_SDE_LDEX_MGR_INT_EN_HI(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_MGR_INT_EN_HI(a) "TNS_SDE_LDEX_MGR_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_LDEX_MGR_INT_EN_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_MGR_INT_EN_HI(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_MGR_INT_EN_HI(a) (a),-1,-1,-1
 
@@ -10090,6 +10334,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_EN_LO(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_MGR_INT_EN_LO(a) bdk_tns_sde_ldex_mgr_int_en_lo_t
 #define bustype_BDK_TNS_SDE_LDEX_MGR_INT_EN_LO(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_MGR_INT_EN_LO(a) "TNS_SDE_LDEX_MGR_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_LDEX_MGR_INT_EN_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_MGR_INT_EN_LO(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_MGR_INT_EN_LO(a) (a),-1,-1,-1
 
@@ -10164,6 +10409,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_FRC(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_MGR_INT_FRC(a) bdk_tns_sde_ldex_mgr_int_frc_t
 #define bustype_BDK_TNS_SDE_LDEX_MGR_INT_FRC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_MGR_INT_FRC(a) "TNS_SDE_LDEX_MGR_INT_FRC"
+#define device_bar_BDK_TNS_SDE_LDEX_MGR_INT_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_MGR_INT_FRC(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_MGR_INT_FRC(a) (a),-1,-1,-1
 
@@ -10238,6 +10484,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_INT_W1C(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_MGR_INT_W1C(a) bdk_tns_sde_ldex_mgr_int_w1c_t
 #define bustype_BDK_TNS_SDE_LDEX_MGR_INT_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_MGR_INT_W1C(a) "TNS_SDE_LDEX_MGR_INT_W1C"
+#define device_bar_BDK_TNS_SDE_LDEX_MGR_INT_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_MGR_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_MGR_INT_W1C(a) (a),-1,-1,-1
 
@@ -10274,6 +10521,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_LDE_TYPE(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_MGR_LDE_TYPE(a) bdk_tns_sde_ldex_mgr_lde_type_t
 #define bustype_BDK_TNS_SDE_LDEX_MGR_LDE_TYPE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_MGR_LDE_TYPE(a) "TNS_SDE_LDEX_MGR_LDE_TYPE"
+#define device_bar_BDK_TNS_SDE_LDEX_MGR_LDE_TYPE(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_MGR_LDE_TYPE(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_MGR_LDE_TYPE(a) (a),-1,-1,-1
 
@@ -10308,6 +10556,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_MGR_LOCK(a) bdk_tns_sde_ldex_mgr_lock_t
 #define bustype_BDK_TNS_SDE_LDEX_MGR_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_MGR_LOCK(a) "TNS_SDE_LDEX_MGR_LOCK"
+#define device_bar_BDK_TNS_SDE_LDEX_MGR_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_MGR_LOCK(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_MGR_LOCK(a) (a),-1,-1,-1
 
@@ -10342,6 +10591,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_MGR_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_MGR_SPAD(a) bdk_tns_sde_ldex_mgr_spad_t
 #define bustype_BDK_TNS_SDE_LDEX_MGR_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_MGR_SPAD(a) "TNS_SDE_LDEX_MGR_SPAD"
+#define device_bar_BDK_TNS_SDE_LDEX_MGR_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_MGR_SPAD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_MGR_SPAD(a) (a),-1,-1,-1
 
@@ -10379,6 +10629,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_BYPM_DMUX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP0_BYPM_DMUX(a) bdk_tns_sde_ldex_ofcp0_bypm_dmux_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP0_BYPM_DMUX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP0_BYPM_DMUX(a) "TNS_SDE_LDEX_OFCP0_BYPM_DMUX"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP0_BYPM_DMUX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP0_BYPM_DMUX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP0_BYPM_DMUX(a) (a),-1,-1,-1
 
@@ -10414,6 +10665,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_ML_DLUT(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP0_ML_DLUT(a) bdk_tns_sde_ldex_ofcp0_ml_dlut_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP0_ML_DLUT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_OFCP0_ML_DLUT(a) "TNS_SDE_LDEX_OFCP0_ML_DLUT"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP0_ML_DLUT(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP0_ML_DLUT(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP0_ML_DLUT(a) (a),-1,-1,-1
 
@@ -10461,6 +10713,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP0_ML_DMUX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP0_ML_DMUX(a) bdk_tns_sde_ldex_ofcp0_ml_dmux_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP0_ML_DMUX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_OFCP0_ML_DMUX(a) "TNS_SDE_LDEX_OFCP0_ML_DMUX"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP0_ML_DMUX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP0_ML_DMUX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP0_ML_DMUX(a) (a),-1,-1,-1
 
@@ -10498,6 +10751,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_BYPM_DMUX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP1_BYPM_DMUX(a) bdk_tns_sde_ldex_ofcp1_bypm_dmux_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP1_BYPM_DMUX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP1_BYPM_DMUX(a) "TNS_SDE_LDEX_OFCP1_BYPM_DMUX"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP1_BYPM_DMUX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP1_BYPM_DMUX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP1_BYPM_DMUX(a) (a),-1,-1,-1
 
@@ -10533,6 +10787,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DLUT_WX(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_LDEX_OFCP1_ML_DLUT_WX(a,b) bdk_tns_sde_ldex_ofcp1_ml_dlut_wx_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP1_ML_DLUT_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP1_ML_DLUT_WX(a,b) "TNS_SDE_LDEX_OFCP1_ML_DLUT_WX"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP1_ML_DLUT_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP1_ML_DLUT_WX(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP1_ML_DLUT_WX(a,b) (a),(b),-1,-1
 
@@ -10578,6 +10833,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W0(a) bdk_tns_sde_ldex_ofcp1_ml_dmux_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W0(a) "TNS_SDE_LDEX_OFCP1_ML_DMUX_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W0(a) (a),-1,-1,-1
 
@@ -10614,6 +10870,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W1(a) bdk_tns_sde_ldex_ofcp1_ml_dmux_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W1(a) "TNS_SDE_LDEX_OFCP1_ML_DMUX_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP1_ML_DMUX_W1(a) (a),-1,-1,-1
 
@@ -10651,6 +10908,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_BYPM_DMUX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP2_BYPM_DMUX(a) bdk_tns_sde_ldex_ofcp2_bypm_dmux_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP2_BYPM_DMUX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP2_BYPM_DMUX(a) "TNS_SDE_LDEX_OFCP2_BYPM_DMUX"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP2_BYPM_DMUX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP2_BYPM_DMUX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP2_BYPM_DMUX(a) (a),-1,-1,-1
 
@@ -10686,6 +10944,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_ML_DLUT(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP2_ML_DLUT(a) bdk_tns_sde_ldex_ofcp2_ml_dlut_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP2_ML_DLUT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_OFCP2_ML_DLUT(a) "TNS_SDE_LDEX_OFCP2_ML_DLUT"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP2_ML_DLUT(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP2_ML_DLUT(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP2_ML_DLUT(a) (a),-1,-1,-1
 
@@ -10733,6 +10992,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP2_ML_DMUX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP2_ML_DMUX(a) bdk_tns_sde_ldex_ofcp2_ml_dmux_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP2_ML_DMUX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_OFCP2_ML_DMUX(a) "TNS_SDE_LDEX_OFCP2_ML_DMUX"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP2_ML_DMUX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP2_ML_DMUX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP2_ML_DMUX(a) (a),-1,-1,-1
 
@@ -10770,6 +11030,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_BYPM_DMUX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP3_BYPM_DMUX(a) bdk_tns_sde_ldex_ofcp3_bypm_dmux_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP3_BYPM_DMUX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP3_BYPM_DMUX(a) "TNS_SDE_LDEX_OFCP3_BYPM_DMUX"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP3_BYPM_DMUX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP3_BYPM_DMUX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP3_BYPM_DMUX(a) (a),-1,-1,-1
 
@@ -10805,6 +11066,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DLUT_WX(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_LDEX_OFCP3_ML_DLUT_WX(a,b) bdk_tns_sde_ldex_ofcp3_ml_dlut_wx_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP3_ML_DLUT_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP3_ML_DLUT_WX(a,b) "TNS_SDE_LDEX_OFCP3_ML_DLUT_WX"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP3_ML_DLUT_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP3_ML_DLUT_WX(a,b) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP3_ML_DLUT_WX(a,b) (a),(b),-1,-1
 
@@ -10850,6 +11112,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W0(a) bdk_tns_sde_ldex_ofcp3_ml_dmux_w0_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W0(a) "TNS_SDE_LDEX_OFCP3_ML_DMUX_W0"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W0(a) (a),-1,-1,-1
 
@@ -10886,6 +11149,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W1(a) bdk_tns_sde_ldex_ofcp3_ml_dmux_w1_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W1(a) "TNS_SDE_LDEX_OFCP3_ML_DMUX_W1"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP3_ML_DMUX_W1(a) (a),-1,-1,-1
 
@@ -10921,6 +11185,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP4_ML_DLUT(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP4_ML_DLUT(a) bdk_tns_sde_ldex_ofcp4_ml_dlut_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP4_ML_DLUT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_OFCP4_ML_DLUT(a) "TNS_SDE_LDEX_OFCP4_ML_DLUT"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP4_ML_DLUT(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP4_ML_DLUT(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP4_ML_DLUT(a) (a),-1,-1,-1
 
@@ -10968,6 +11233,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP4_ML_DMUX(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP4_ML_DMUX(a) bdk_tns_sde_ldex_ofcp4_ml_dmux_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP4_ML_DMUX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_OFCP4_ML_DMUX(a) "TNS_SDE_LDEX_OFCP4_ML_DMUX"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP4_ML_DMUX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP4_ML_DMUX(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP4_ML_DMUX(a) (a),-1,-1,-1
 
@@ -11002,6 +11268,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_CLOUD_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP_CLOUD_LOCK(a) bdk_tns_sde_ldex_ofcp_cloud_lock_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP_CLOUD_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP_CLOUD_LOCK(a) "TNS_SDE_LDEX_OFCP_CLOUD_LOCK"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP_CLOUD_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP_CLOUD_LOCK(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP_CLOUD_LOCK(a) (a),-1,-1,-1
 
@@ -11036,6 +11303,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_CLOUD_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP_CLOUD_SPAD(a) bdk_tns_sde_ldex_ofcp_cloud_spad_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP_CLOUD_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP_CLOUD_SPAD(a) "TNS_SDE_LDEX_OFCP_CLOUD_SPAD"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP_CLOUD_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP_CLOUD_SPAD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP_CLOUD_SPAD(a) (a),-1,-1,-1
 
@@ -11102,6 +11370,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_EN_HI(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP_INT_EN_HI(a) bdk_tns_sde_ldex_ofcp_int_en_hi_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP_INT_EN_HI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP_INT_EN_HI(a) "TNS_SDE_LDEX_OFCP_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP_INT_EN_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP_INT_EN_HI(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP_INT_EN_HI(a) (a),-1,-1,-1
 
@@ -11168,6 +11437,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_EN_LO(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP_INT_EN_LO(a) bdk_tns_sde_ldex_ofcp_int_en_lo_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP_INT_EN_LO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP_INT_EN_LO(a) "TNS_SDE_LDEX_OFCP_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP_INT_EN_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP_INT_EN_LO(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP_INT_EN_LO(a) (a),-1,-1,-1
 
@@ -11234,6 +11504,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_FRC(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP_INT_FRC(a) bdk_tns_sde_ldex_ofcp_int_frc_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP_INT_FRC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP_INT_FRC(a) "TNS_SDE_LDEX_OFCP_INT_FRC"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP_INT_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP_INT_FRC(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP_INT_FRC(a) (a),-1,-1,-1
 
@@ -11300,6 +11571,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_W1C(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP_INT_W1C(a) bdk_tns_sde_ldex_ofcp_int_w1c_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP_INT_W1C(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFCP_INT_W1C(a) "TNS_SDE_LDEX_OFCP_INT_W1C"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP_INT_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP_INT_W1C(a) (a),-1,-1,-1
 
@@ -11350,6 +11622,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_MXXR_DYN(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFCP_MXXR_DYN(a) bdk_tns_sde_ldex_ofcp_mxxr_dyn_t
 #define bustype_BDK_TNS_SDE_LDEX_OFCP_MXXR_DYN(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_LDEX_OFCP_MXXR_DYN(a) "TNS_SDE_LDEX_OFCP_MXXR_DYN"
+#define device_bar_BDK_TNS_SDE_LDEX_OFCP_MXXR_DYN(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFCP_MXXR_DYN(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP_MXXR_DYN(a) (a),-1,-1,-1
 
@@ -11392,6 +11665,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_EN_HI(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFDP_INT_EN_HI(a) bdk_tns_sde_ldex_ofdp_int_en_hi_t
 #define bustype_BDK_TNS_SDE_LDEX_OFDP_INT_EN_HI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFDP_INT_EN_HI(a) "TNS_SDE_LDEX_OFDP_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_LDEX_OFDP_INT_EN_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFDP_INT_EN_HI(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFDP_INT_EN_HI(a) (a),-1,-1,-1
 
@@ -11434,6 +11708,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_EN_LO(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFDP_INT_EN_LO(a) bdk_tns_sde_ldex_ofdp_int_en_lo_t
 #define bustype_BDK_TNS_SDE_LDEX_OFDP_INT_EN_LO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFDP_INT_EN_LO(a) "TNS_SDE_LDEX_OFDP_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_LDEX_OFDP_INT_EN_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFDP_INT_EN_LO(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFDP_INT_EN_LO(a) (a),-1,-1,-1
 
@@ -11476,6 +11751,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_FRC(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFDP_INT_FRC(a) bdk_tns_sde_ldex_ofdp_int_frc_t
 #define bustype_BDK_TNS_SDE_LDEX_OFDP_INT_FRC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFDP_INT_FRC(a) "TNS_SDE_LDEX_OFDP_INT_FRC"
+#define device_bar_BDK_TNS_SDE_LDEX_OFDP_INT_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFDP_INT_FRC(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFDP_INT_FRC(a) (a),-1,-1,-1
 
@@ -11518,6 +11794,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFDP_INT_W1C(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFDP_INT_W1C(a) bdk_tns_sde_ldex_ofdp_int_w1c_t
 #define bustype_BDK_TNS_SDE_LDEX_OFDP_INT_W1C(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFDP_INT_W1C(a) "TNS_SDE_LDEX_OFDP_INT_W1C"
+#define device_bar_BDK_TNS_SDE_LDEX_OFDP_INT_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFDP_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFDP_INT_W1C(a) (a),-1,-1,-1
 
@@ -11552,6 +11829,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFIT_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFIT_LOCK(a) bdk_tns_sde_ldex_ofit_lock_t
 #define bustype_BDK_TNS_SDE_LDEX_OFIT_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFIT_LOCK(a) "TNS_SDE_LDEX_OFIT_LOCK"
+#define device_bar_BDK_TNS_SDE_LDEX_OFIT_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFIT_LOCK(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFIT_LOCK(a) (a),-1,-1,-1
 
@@ -11586,6 +11864,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFIT_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFIT_SPAD(a) bdk_tns_sde_ldex_ofit_spad_t
 #define bustype_BDK_TNS_SDE_LDEX_OFIT_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFIT_SPAD(a) "TNS_SDE_LDEX_OFIT_SPAD"
+#define device_bar_BDK_TNS_SDE_LDEX_OFIT_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFIT_SPAD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFIT_SPAD(a) (a),-1,-1,-1
 
@@ -11622,6 +11901,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_DBG_CPTR(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFMISC_DBG_CPTR(a) bdk_tns_sde_ldex_ofmisc_dbg_cptr_t
 #define bustype_BDK_TNS_SDE_LDEX_OFMISC_DBG_CPTR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFMISC_DBG_CPTR(a) "TNS_SDE_LDEX_OFMISC_DBG_CPTR"
+#define device_bar_BDK_TNS_SDE_LDEX_OFMISC_DBG_CPTR(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFMISC_DBG_CPTR(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFMISC_DBG_CPTR(a) (a),-1,-1,-1
 
@@ -11656,6 +11936,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFMISC_LOCK(a) bdk_tns_sde_ldex_ofmisc_lock_t
 #define bustype_BDK_TNS_SDE_LDEX_OFMISC_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFMISC_LOCK(a) "TNS_SDE_LDEX_OFMISC_LOCK"
+#define device_bar_BDK_TNS_SDE_LDEX_OFMISC_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFMISC_LOCK(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFMISC_LOCK(a) (a),-1,-1,-1
 
@@ -11690,6 +11971,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFMISC_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_OFMISC_SPAD(a) bdk_tns_sde_ldex_ofmisc_spad_t
 #define bustype_BDK_TNS_SDE_LDEX_OFMISC_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_OFMISC_SPAD(a) "TNS_SDE_LDEX_OFMISC_SPAD"
+#define device_bar_BDK_TNS_SDE_LDEX_OFMISC_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_OFMISC_SPAD(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFMISC_SPAD(a) (a),-1,-1,-1
 
@@ -11736,6 +12018,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_EN_HI(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_TLOM_INT_EN_HI(a) bdk_tns_sde_ldex_tlom_int_en_hi_t
 #define bustype_BDK_TNS_SDE_LDEX_TLOM_INT_EN_HI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_TLOM_INT_EN_HI(a) "TNS_SDE_LDEX_TLOM_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_LDEX_TLOM_INT_EN_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_TLOM_INT_EN_HI(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_TLOM_INT_EN_HI(a) (a),-1,-1,-1
 
@@ -11782,6 +12065,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_EN_LO(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_TLOM_INT_EN_LO(a) bdk_tns_sde_ldex_tlom_int_en_lo_t
 #define bustype_BDK_TNS_SDE_LDEX_TLOM_INT_EN_LO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_TLOM_INT_EN_LO(a) "TNS_SDE_LDEX_TLOM_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_LDEX_TLOM_INT_EN_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_TLOM_INT_EN_LO(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_TLOM_INT_EN_LO(a) (a),-1,-1,-1
 
@@ -11828,6 +12112,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_FRC(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_TLOM_INT_FRC(a) bdk_tns_sde_ldex_tlom_int_frc_t
 #define bustype_BDK_TNS_SDE_LDEX_TLOM_INT_FRC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_TLOM_INT_FRC(a) "TNS_SDE_LDEX_TLOM_INT_FRC"
+#define device_bar_BDK_TNS_SDE_LDEX_TLOM_INT_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_TLOM_INT_FRC(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_TLOM_INT_FRC(a) (a),-1,-1,-1
 
@@ -11874,6 +12159,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TLOM_INT_W1C(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_TLOM_INT_W1C(a) bdk_tns_sde_ldex_tlom_int_w1c_t
 #define bustype_BDK_TNS_SDE_LDEX_TLOM_INT_W1C(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_TLOM_INT_W1C(a) "TNS_SDE_LDEX_TLOM_INT_W1C"
+#define device_bar_BDK_TNS_SDE_LDEX_TLOM_INT_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_TLOM_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_TLOM_INT_W1C(a) (a),-1,-1,-1
 
@@ -11914,6 +12200,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_EN_HI(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_TTL_INT_EN_HI(a) bdk_tns_sde_ldex_ttl_int_en_hi_t
 #define bustype_BDK_TNS_SDE_LDEX_TTL_INT_EN_HI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_TTL_INT_EN_HI(a) "TNS_SDE_LDEX_TTL_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_LDEX_TTL_INT_EN_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_TTL_INT_EN_HI(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_TTL_INT_EN_HI(a) (a),-1,-1,-1
 
@@ -11954,6 +12241,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_EN_LO(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_TTL_INT_EN_LO(a) bdk_tns_sde_ldex_ttl_int_en_lo_t
 #define bustype_BDK_TNS_SDE_LDEX_TTL_INT_EN_LO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_TTL_INT_EN_LO(a) "TNS_SDE_LDEX_TTL_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_LDEX_TTL_INT_EN_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_TTL_INT_EN_LO(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_TTL_INT_EN_LO(a) (a),-1,-1,-1
 
@@ -11994,6 +12282,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_FRC(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_TTL_INT_FRC(a) bdk_tns_sde_ldex_ttl_int_frc_t
 #define bustype_BDK_TNS_SDE_LDEX_TTL_INT_FRC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_TTL_INT_FRC(a) "TNS_SDE_LDEX_TTL_INT_FRC"
+#define device_bar_BDK_TNS_SDE_LDEX_TTL_INT_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_TTL_INT_FRC(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_TTL_INT_FRC(a) (a),-1,-1,-1
 
@@ -12034,6 +12323,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_TTL_INT_W1C(unsigned long a)
 #define typedef_BDK_TNS_SDE_LDEX_TTL_INT_W1C(a) bdk_tns_sde_ldex_ttl_int_w1c_t
 #define bustype_BDK_TNS_SDE_LDEX_TTL_INT_W1C(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_LDEX_TTL_INT_W1C(a) "TNS_SDE_LDEX_TTL_INT_W1C"
+#define device_bar_BDK_TNS_SDE_LDEX_TTL_INT_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_LDEX_TTL_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_TTL_INT_W1C(a) (a),-1,-1,-1
 
@@ -12071,6 +12361,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_ARB_OUT_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_ARB_OUT_CT bdk_tns_sde_mreb_arb_out_ct_t
 #define bustype_BDK_TNS_SDE_MREB_ARB_OUT_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_ARB_OUT_CT "TNS_SDE_MREB_ARB_OUT_CT"
+#define device_bar_BDK_TNS_SDE_MREB_ARB_OUT_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_ARB_OUT_CT 0
 #define arguments_BDK_TNS_SDE_MREB_ARB_OUT_CT -1,-1,-1,-1
 
@@ -12118,6 +12409,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_ARB_OUT_STEPPER_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_ARB_OUT_STEPPER bdk_tns_sde_mreb_arb_out_stepper_t
 #define bustype_BDK_TNS_SDE_MREB_ARB_OUT_STEPPER BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_ARB_OUT_STEPPER "TNS_SDE_MREB_ARB_OUT_STEPPER"
+#define device_bar_BDK_TNS_SDE_MREB_ARB_OUT_STEPPER 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_ARB_OUT_STEPPER 0
 #define arguments_BDK_TNS_SDE_MREB_ARB_OUT_STEPPER -1,-1,-1,-1
 
@@ -12158,6 +12450,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_ARBITER_STA_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_ARBITER_STA bdk_tns_sde_mreb_arbiter_sta_t
 #define bustype_BDK_TNS_SDE_MREB_ARBITER_STA BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_ARBITER_STA "TNS_SDE_MREB_ARBITER_STA"
+#define device_bar_BDK_TNS_SDE_MREB_ARBITER_STA 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_ARBITER_STA 0
 #define arguments_BDK_TNS_SDE_MREB_ARBITER_STA -1,-1,-1,-1
 
@@ -12195,6 +12488,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_COPIES_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_COPIES_CT bdk_tns_sde_mreb_copies_ct_t
 #define bustype_BDK_TNS_SDE_MREB_COPIES_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_COPIES_CT "TNS_SDE_MREB_COPIES_CT"
+#define device_bar_BDK_TNS_SDE_MREB_COPIES_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_COPIES_CT 0
 #define arguments_BDK_TNS_SDE_MREB_COPIES_CT -1,-1,-1,-1
 
@@ -12232,6 +12526,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_DRP_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_DRP_CT bdk_tns_sde_mreb_drp_ct_t
 #define bustype_BDK_TNS_SDE_MREB_DRP_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_DRP_CT "TNS_SDE_MREB_DRP_CT"
+#define device_bar_BDK_TNS_SDE_MREB_DRP_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_DRP_CT 0
 #define arguments_BDK_TNS_SDE_MREB_DRP_CT -1,-1,-1,-1
 
@@ -12269,6 +12564,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_FEEDBACK_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_FEEDBACK_CT bdk_tns_sde_mreb_feedback_ct_t
 #define bustype_BDK_TNS_SDE_MREB_FEEDBACK_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_FEEDBACK_CT "TNS_SDE_MREB_FEEDBACK_CT"
+#define device_bar_BDK_TNS_SDE_MREB_FEEDBACK_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_FEEDBACK_CT 0
 #define arguments_BDK_TNS_SDE_MREB_FEEDBACK_CT -1,-1,-1,-1
 
@@ -12327,6 +12623,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_FILTER_CFG_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_FILTER_CFG bdk_tns_sde_mreb_filter_cfg_t
 #define bustype_BDK_TNS_SDE_MREB_FILTER_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_FILTER_CFG "TNS_SDE_MREB_FILTER_CFG"
+#define device_bar_BDK_TNS_SDE_MREB_FILTER_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_FILTER_CFG 0
 #define arguments_BDK_TNS_SDE_MREB_FILTER_CFG -1,-1,-1,-1
 
@@ -12364,6 +12661,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_HBUF_CYC_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_HBUF_CYC_CT bdk_tns_sde_mreb_hbuf_cyc_ct_t
 #define bustype_BDK_TNS_SDE_MREB_HBUF_CYC_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_HBUF_CYC_CT "TNS_SDE_MREB_HBUF_CYC_CT"
+#define device_bar_BDK_TNS_SDE_MREB_HBUF_CYC_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_HBUF_CYC_CT 0
 #define arguments_BDK_TNS_SDE_MREB_HBUF_CYC_CT -1,-1,-1,-1
 
@@ -12401,6 +12699,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_HBUF_PKT_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_HBUF_PKT_CT bdk_tns_sde_mreb_hbuf_pkt_ct_t
 #define bustype_BDK_TNS_SDE_MREB_HBUF_PKT_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_HBUF_PKT_CT "TNS_SDE_MREB_HBUF_PKT_CT"
+#define device_bar_BDK_TNS_SDE_MREB_HBUF_PKT_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_HBUF_PKT_CT 0
 #define arguments_BDK_TNS_SDE_MREB_HBUF_PKT_CT -1,-1,-1,-1
 
@@ -12440,6 +12739,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_HMEM_FREE_INST_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_HMEM_FREE_INST bdk_tns_sde_mreb_hmem_free_inst_t
 #define bustype_BDK_TNS_SDE_MREB_HMEM_FREE_INST BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_HMEM_FREE_INST "TNS_SDE_MREB_HMEM_FREE_INST"
+#define device_bar_BDK_TNS_SDE_MREB_HMEM_FREE_INST 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_HMEM_FREE_INST 0
 #define arguments_BDK_TNS_SDE_MREB_HMEM_FREE_INST -1,-1,-1,-1
 
@@ -12475,6 +12775,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_LOCK bdk_tns_sde_mreb_lock_t
 #define bustype_BDK_TNS_SDE_MREB_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_LOCK "TNS_SDE_MREB_LOCK"
+#define device_bar_BDK_TNS_SDE_MREB_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_LOCK 0
 #define arguments_BDK_TNS_SDE_MREB_LOCK -1,-1,-1,-1
 
@@ -12512,6 +12813,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_PIPEGRID_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_PIPEGRID_CT bdk_tns_sde_mreb_pipegrid_ct_t
 #define bustype_BDK_TNS_SDE_MREB_PIPEGRID_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_PIPEGRID_CT "TNS_SDE_MREB_PIPEGRID_CT"
+#define device_bar_BDK_TNS_SDE_MREB_PIPEGRID_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_PIPEGRID_CT 0
 #define arguments_BDK_TNS_SDE_MREB_PIPEGRID_CT -1,-1,-1,-1
 
@@ -12551,6 +12853,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_RCV_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_RCV bdk_tns_sde_mreb_rcv_t
 #define bustype_BDK_TNS_SDE_MREB_RCV BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_MREB_RCV "TNS_SDE_MREB_RCV"
+#define device_bar_BDK_TNS_SDE_MREB_RCV 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_RCV 0
 #define arguments_BDK_TNS_SDE_MREB_RCV -1,-1,-1,-1
 
@@ -12589,6 +12892,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_REQ_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_REQ bdk_tns_sde_mreb_req_t
 #define bustype_BDK_TNS_SDE_MREB_REQ BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_REQ "TNS_SDE_MREB_REQ"
+#define device_bar_BDK_TNS_SDE_MREB_REQ 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_REQ 0
 #define arguments_BDK_TNS_SDE_MREB_REQ -1,-1,-1,-1
 
@@ -12626,6 +12930,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_SE_REQ_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_SE_REQ_CT bdk_tns_sde_mreb_se_req_ct_t
 #define bustype_BDK_TNS_SDE_MREB_SE_REQ_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_SE_REQ_CT "TNS_SDE_MREB_SE_REQ_CT"
+#define device_bar_BDK_TNS_SDE_MREB_SE_REQ_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_SE_REQ_CT 0
 #define arguments_BDK_TNS_SDE_MREB_SE_REQ_CT -1,-1,-1,-1
 
@@ -12663,6 +12968,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_SE_RESP0_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_SE_RESP0_CT bdk_tns_sde_mreb_se_resp0_ct_t
 #define bustype_BDK_TNS_SDE_MREB_SE_RESP0_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_SE_RESP0_CT "TNS_SDE_MREB_SE_RESP0_CT"
+#define device_bar_BDK_TNS_SDE_MREB_SE_RESP0_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_SE_RESP0_CT 0
 #define arguments_BDK_TNS_SDE_MREB_SE_RESP0_CT -1,-1,-1,-1
 
@@ -12700,6 +13006,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_SE_RESP1_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_SE_RESP1_CT bdk_tns_sde_mreb_se_resp1_ct_t
 #define bustype_BDK_TNS_SDE_MREB_SE_RESP1_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_SE_RESP1_CT "TNS_SDE_MREB_SE_RESP1_CT"
+#define device_bar_BDK_TNS_SDE_MREB_SE_RESP1_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_SE_RESP1_CT 0
 #define arguments_BDK_TNS_SDE_MREB_SE_RESP1_CT -1,-1,-1,-1
 
@@ -12735,6 +13042,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_SPAD bdk_tns_sde_mreb_spad_t
 #define bustype_BDK_TNS_SDE_MREB_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_SPAD "TNS_SDE_MREB_SPAD"
+#define device_bar_BDK_TNS_SDE_MREB_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_SPAD 0
 #define arguments_BDK_TNS_SDE_MREB_SPAD -1,-1,-1,-1
 
@@ -12772,6 +13080,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_SPRSD_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_SPRSD_CT bdk_tns_sde_mreb_sprsd_ct_t
 #define bustype_BDK_TNS_SDE_MREB_SPRSD_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_SPRSD_CT "TNS_SDE_MREB_SPRSD_CT"
+#define device_bar_BDK_TNS_SDE_MREB_SPRSD_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_SPRSD_CT 0
 #define arguments_BDK_TNS_SDE_MREB_SPRSD_CT -1,-1,-1,-1
 
@@ -12809,6 +13118,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_TKN_MEM_ADR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_TKN_MEM_ADR bdk_tns_sde_mreb_tkn_mem_adr_t
 #define bustype_BDK_TNS_SDE_MREB_TKN_MEM_ADR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_TKN_MEM_ADR "TNS_SDE_MREB_TKN_MEM_ADR"
+#define device_bar_BDK_TNS_SDE_MREB_TKN_MEM_ADR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_TKN_MEM_ADR 0
 #define arguments_BDK_TNS_SDE_MREB_TKN_MEM_ADR -1,-1,-1,-1
 
@@ -12843,6 +13153,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_TKN_MEM_DAT_WX(unsigned long a)
 #define typedef_BDK_TNS_SDE_MREB_TKN_MEM_DAT_WX(a) bdk_tns_sde_mreb_tkn_mem_dat_wx_t
 #define bustype_BDK_TNS_SDE_MREB_TKN_MEM_DAT_WX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_TKN_MEM_DAT_WX(a) "TNS_SDE_MREB_TKN_MEM_DAT_WX"
+#define device_bar_BDK_TNS_SDE_MREB_TKN_MEM_DAT_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_TKN_MEM_DAT_WX(a) (a)
 #define arguments_BDK_TNS_SDE_MREB_TKN_MEM_DAT_WX(a) (a),-1,-1,-1
 
@@ -12882,6 +13193,7 @@ static inline uint64_t BDK_TNS_SDE_MREB_TKN_MEM_ECC_ERR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MREB_TKN_MEM_ECC_ERR bdk_tns_sde_mreb_tkn_mem_ecc_err_t
 #define bustype_BDK_TNS_SDE_MREB_TKN_MEM_ECC_ERR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MREB_TKN_MEM_ECC_ERR "TNS_SDE_MREB_TKN_MEM_ECC_ERR"
+#define device_bar_BDK_TNS_SDE_MREB_TKN_MEM_ECC_ERR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MREB_TKN_MEM_ECC_ERR 0
 #define arguments_BDK_TNS_SDE_MREB_TKN_MEM_ECC_ERR -1,-1,-1,-1
 
@@ -12921,6 +13233,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_ARBITER_CFG_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_ARBITER_CFG_W0 bdk_tns_sde_mret_arbiter_cfg_w0_t
 #define bustype_BDK_TNS_SDE_MRET_ARBITER_CFG_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_ARBITER_CFG_W0 "TNS_SDE_MRET_ARBITER_CFG_W0"
+#define device_bar_BDK_TNS_SDE_MRET_ARBITER_CFG_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_ARBITER_CFG_W0 0
 #define arguments_BDK_TNS_SDE_MRET_ARBITER_CFG_W0 -1,-1,-1,-1
 
@@ -12964,6 +13277,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_ARBITER_CFG_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_ARBITER_CFG_W1 bdk_tns_sde_mret_arbiter_cfg_w1_t
 #define bustype_BDK_TNS_SDE_MRET_ARBITER_CFG_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_ARBITER_CFG_W1 "TNS_SDE_MRET_ARBITER_CFG_W1"
+#define device_bar_BDK_TNS_SDE_MRET_ARBITER_CFG_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_ARBITER_CFG_W1 0
 #define arguments_BDK_TNS_SDE_MRET_ARBITER_CFG_W1 -1,-1,-1,-1
 
@@ -13031,6 +13345,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CFG2_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_CFG2 bdk_tns_sde_mret_cfg2_t
 #define bustype_BDK_TNS_SDE_MRET_CFG2 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_MRET_CFG2 "TNS_SDE_MRET_CFG2"
+#define device_bar_BDK_TNS_SDE_MRET_CFG2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_CFG2 0
 #define arguments_BDK_TNS_SDE_MRET_CFG2 -1,-1,-1,-1
 
@@ -13068,6 +13383,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CFG_NULL_PTR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_CFG_NULL_PTR bdk_tns_sde_mret_cfg_null_ptr_t
 #define bustype_BDK_TNS_SDE_MRET_CFG_NULL_PTR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_CFG_NULL_PTR "TNS_SDE_MRET_CFG_NULL_PTR"
+#define device_bar_BDK_TNS_SDE_MRET_CFG_NULL_PTR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_CFG_NULL_PTR 0
 #define arguments_BDK_TNS_SDE_MRET_CFG_NULL_PTR -1,-1,-1,-1
 
@@ -13114,6 +13430,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CFG_RCOD_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_CFG_RCOD bdk_tns_sde_mret_cfg_rcod_t
 #define bustype_BDK_TNS_SDE_MRET_CFG_RCOD BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_MRET_CFG_RCOD "TNS_SDE_MRET_CFG_RCOD"
+#define device_bar_BDK_TNS_SDE_MRET_CFG_RCOD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_CFG_RCOD 0
 #define arguments_BDK_TNS_SDE_MRET_CFG_RCOD -1,-1,-1,-1
 
@@ -13175,6 +13492,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CFG_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_CFG_W0 bdk_tns_sde_mret_cfg_w0_t
 #define bustype_BDK_TNS_SDE_MRET_CFG_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_CFG_W0 "TNS_SDE_MRET_CFG_W0"
+#define device_bar_BDK_TNS_SDE_MRET_CFG_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_CFG_W0 0
 #define arguments_BDK_TNS_SDE_MRET_CFG_W0 -1,-1,-1,-1
 
@@ -13224,6 +13542,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CFG_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_CFG_W1 bdk_tns_sde_mret_cfg_w1_t
 #define bustype_BDK_TNS_SDE_MRET_CFG_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_CFG_W1 "TNS_SDE_MRET_CFG_W1"
+#define device_bar_BDK_TNS_SDE_MRET_CFG_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_CFG_W1 0
 #define arguments_BDK_TNS_SDE_MRET_CFG_W1 -1,-1,-1,-1
 
@@ -13263,6 +13582,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CTX_MEM_ECC_ERR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_CTX_MEM_ECC_ERR bdk_tns_sde_mret_ctx_mem_ecc_err_t
 #define bustype_BDK_TNS_SDE_MRET_CTX_MEM_ECC_ERR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_CTX_MEM_ECC_ERR "TNS_SDE_MRET_CTX_MEM_ECC_ERR"
+#define device_bar_BDK_TNS_SDE_MRET_CTX_MEM_ECC_ERR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_CTX_MEM_ECC_ERR 0
 #define arguments_BDK_TNS_SDE_MRET_CTX_MEM_ECC_ERR -1,-1,-1,-1
 
@@ -13300,6 +13620,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CTXT_MEM_ADR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_CTXT_MEM_ADR bdk_tns_sde_mret_ctxt_mem_adr_t
 #define bustype_BDK_TNS_SDE_MRET_CTXT_MEM_ADR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_CTXT_MEM_ADR "TNS_SDE_MRET_CTXT_MEM_ADR"
+#define device_bar_BDK_TNS_SDE_MRET_CTXT_MEM_ADR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_CTXT_MEM_ADR 0
 #define arguments_BDK_TNS_SDE_MRET_CTXT_MEM_ADR -1,-1,-1,-1
 
@@ -13334,6 +13655,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_CTXT_MEM_DAT_WX(unsigned long a)
 #define typedef_BDK_TNS_SDE_MRET_CTXT_MEM_DAT_WX(a) bdk_tns_sde_mret_ctxt_mem_dat_wx_t
 #define bustype_BDK_TNS_SDE_MRET_CTXT_MEM_DAT_WX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_MRET_CTXT_MEM_DAT_WX(a) "TNS_SDE_MRET_CTXT_MEM_DAT_WX"
+#define device_bar_BDK_TNS_SDE_MRET_CTXT_MEM_DAT_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_CTXT_MEM_DAT_WX(a) (a)
 #define arguments_BDK_TNS_SDE_MRET_CTXT_MEM_DAT_WX(a) (a),-1,-1,-1
 
@@ -13373,6 +13695,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_DBG_SEL bdk_tns_sde_mret_dbg_sel_t
 #define bustype_BDK_TNS_SDE_MRET_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_DBG_SEL "TNS_SDE_MRET_DBG_SEL"
+#define device_bar_BDK_TNS_SDE_MRET_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_DBG_SEL 0
 #define arguments_BDK_TNS_SDE_MRET_DBG_SEL -1,-1,-1,-1
 
@@ -13418,6 +13741,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_ECC_CTL_CD_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_ECC_CTL_CD bdk_tns_sde_mret_ecc_ctl_cd_t
 #define bustype_BDK_TNS_SDE_MRET_ECC_CTL_CD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_ECC_CTL_CD "TNS_SDE_MRET_ECC_CTL_CD"
+#define device_bar_BDK_TNS_SDE_MRET_ECC_CTL_CD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_ECC_CTL_CD 0
 #define arguments_BDK_TNS_SDE_MRET_ECC_CTL_CD -1,-1,-1,-1
 
@@ -13495,6 +13819,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FEATURE_EN_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_FEATURE_EN bdk_tns_sde_mret_feature_en_t
 #define bustype_BDK_TNS_SDE_MRET_FEATURE_EN BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_FEATURE_EN "TNS_SDE_MRET_FEATURE_EN"
+#define device_bar_BDK_TNS_SDE_MRET_FEATURE_EN 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_FEATURE_EN 0
 #define arguments_BDK_TNS_SDE_MRET_FEATURE_EN -1,-1,-1,-1
 
@@ -13538,6 +13863,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FL0_FIF_PTR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_FL0_FIF_PTR bdk_tns_sde_mret_fl0_fif_ptr_t
 #define bustype_BDK_TNS_SDE_MRET_FL0_FIF_PTR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_FL0_FIF_PTR "TNS_SDE_MRET_FL0_FIF_PTR"
+#define device_bar_BDK_TNS_SDE_MRET_FL0_FIF_PTR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_FL0_FIF_PTR 0
 #define arguments_BDK_TNS_SDE_MRET_FL0_FIF_PTR -1,-1,-1,-1
 
@@ -13575,6 +13901,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FLST_BK0_ADR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_FLST_BK0_ADR bdk_tns_sde_mret_flst_bk0_adr_t
 #define bustype_BDK_TNS_SDE_MRET_FLST_BK0_ADR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_FLST_BK0_ADR "TNS_SDE_MRET_FLST_BK0_ADR"
+#define device_bar_BDK_TNS_SDE_MRET_FLST_BK0_ADR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_FLST_BK0_ADR 0
 #define arguments_BDK_TNS_SDE_MRET_FLST_BK0_ADR -1,-1,-1,-1
 
@@ -13612,6 +13939,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FLST_BK0_DAT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_FLST_BK0_DAT bdk_tns_sde_mret_flst_bk0_dat_t
 #define bustype_BDK_TNS_SDE_MRET_FLST_BK0_DAT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_FLST_BK0_DAT "TNS_SDE_MRET_FLST_BK0_DAT"
+#define device_bar_BDK_TNS_SDE_MRET_FLST_BK0_DAT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_FLST_BK0_DAT 0
 #define arguments_BDK_TNS_SDE_MRET_FLST_BK0_DAT -1,-1,-1,-1
 
@@ -13656,6 +13984,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FLST_DBG_CFG_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_FLST_DBG_CFG bdk_tns_sde_mret_flst_dbg_cfg_t
 #define bustype_BDK_TNS_SDE_MRET_FLST_DBG_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_FLST_DBG_CFG "TNS_SDE_MRET_FLST_DBG_CFG"
+#define device_bar_BDK_TNS_SDE_MRET_FLST_DBG_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_FLST_DBG_CFG 0
 #define arguments_BDK_TNS_SDE_MRET_FLST_DBG_CFG -1,-1,-1,-1
 
@@ -13695,6 +14024,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_FLST_STA_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_FLST_STA bdk_tns_sde_mret_flst_sta_t
 #define bustype_BDK_TNS_SDE_MRET_FLST_STA BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_FLST_STA "TNS_SDE_MRET_FLST_STA"
+#define device_bar_BDK_TNS_SDE_MRET_FLST_STA 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_FLST_STA 0
 #define arguments_BDK_TNS_SDE_MRET_FLST_STA -1,-1,-1,-1
 
@@ -13732,6 +14062,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_HDRCYC_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_HDRCYC_CT bdk_tns_sde_mret_hdrcyc_ct_t
 #define bustype_BDK_TNS_SDE_MRET_HDRCYC_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_HDRCYC_CT "TNS_SDE_MRET_HDRCYC_CT"
+#define device_bar_BDK_TNS_SDE_MRET_HDRCYC_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_HDRCYC_CT 0
 #define arguments_BDK_TNS_SDE_MRET_HDRCYC_CT -1,-1,-1,-1
 
@@ -13771,6 +14102,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_HMEM_ADR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_HMEM_ADR bdk_tns_sde_mret_hmem_adr_t
 #define bustype_BDK_TNS_SDE_MRET_HMEM_ADR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_HMEM_ADR "TNS_SDE_MRET_HMEM_ADR"
+#define device_bar_BDK_TNS_SDE_MRET_HMEM_ADR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_HMEM_ADR 0
 #define arguments_BDK_TNS_SDE_MRET_HMEM_ADR -1,-1,-1,-1
 
@@ -13805,6 +14137,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_HMEM_DAT_WX(unsigned long a)
 #define typedef_BDK_TNS_SDE_MRET_HMEM_DAT_WX(a) bdk_tns_sde_mret_hmem_dat_wx_t
 #define bustype_BDK_TNS_SDE_MRET_HMEM_DAT_WX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_HMEM_DAT_WX(a) "TNS_SDE_MRET_HMEM_DAT_WX"
+#define device_bar_BDK_TNS_SDE_MRET_HMEM_DAT_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_HMEM_DAT_WX(a) (a)
 #define arguments_BDK_TNS_SDE_MRET_HMEM_DAT_WX(a) (a),-1,-1,-1
 
@@ -13844,6 +14177,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_HMEM_ECC_ERR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_HMEM_ECC_ERR bdk_tns_sde_mret_hmem_ecc_err_t
 #define bustype_BDK_TNS_SDE_MRET_HMEM_ECC_ERR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_HMEM_ECC_ERR "TNS_SDE_MRET_HMEM_ECC_ERR"
+#define device_bar_BDK_TNS_SDE_MRET_HMEM_ECC_ERR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_HMEM_ECC_ERR 0
 #define arguments_BDK_TNS_SDE_MRET_HMEM_ECC_ERR -1,-1,-1,-1
 
@@ -13979,6 +14313,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_INT_EN_HI bdk_tns_sde_mret_int_en_hi_t
 #define bustype_BDK_TNS_SDE_MRET_INT_EN_HI BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_MRET_INT_EN_HI "TNS_SDE_MRET_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_MRET_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_INT_EN_HI 0
 #define arguments_BDK_TNS_SDE_MRET_INT_EN_HI -1,-1,-1,-1
 
@@ -14114,6 +14449,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_INT_EN_LO bdk_tns_sde_mret_int_en_lo_t
 #define bustype_BDK_TNS_SDE_MRET_INT_EN_LO BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_MRET_INT_EN_LO "TNS_SDE_MRET_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_MRET_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_INT_EN_LO 0
 #define arguments_BDK_TNS_SDE_MRET_INT_EN_LO -1,-1,-1,-1
 
@@ -14249,6 +14585,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_INT_FRC bdk_tns_sde_mret_int_frc_t
 #define bustype_BDK_TNS_SDE_MRET_INT_FRC BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_MRET_INT_FRC "TNS_SDE_MRET_INT_FRC"
+#define device_bar_BDK_TNS_SDE_MRET_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_INT_FRC 0
 #define arguments_BDK_TNS_SDE_MRET_INT_FRC -1,-1,-1,-1
 
@@ -14384,6 +14721,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_INT_W1C bdk_tns_sde_mret_int_w1c_t
 #define bustype_BDK_TNS_SDE_MRET_INT_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_MRET_INT_W1C "TNS_SDE_MRET_INT_W1C"
+#define device_bar_BDK_TNS_SDE_MRET_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_INT_W1C 0
 #define arguments_BDK_TNS_SDE_MRET_INT_W1C -1,-1,-1,-1
 
@@ -14419,6 +14757,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_LOCK bdk_tns_sde_mret_lock_t
 #define bustype_BDK_TNS_SDE_MRET_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_LOCK "TNS_SDE_MRET_LOCK"
+#define device_bar_BDK_TNS_SDE_MRET_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_LOCK 0
 #define arguments_BDK_TNS_SDE_MRET_LOCK -1,-1,-1,-1
 
@@ -14483,6 +14822,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_MDT_REQ_CFG_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_MDT_REQ_CFG bdk_tns_sde_mret_mdt_req_cfg_t
 #define bustype_BDK_TNS_SDE_MRET_MDT_REQ_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_MDT_REQ_CFG "TNS_SDE_MRET_MDT_REQ_CFG"
+#define device_bar_BDK_TNS_SDE_MRET_MDT_REQ_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_MDT_REQ_CFG 0
 #define arguments_BDK_TNS_SDE_MRET_MDT_REQ_CFG -1,-1,-1,-1
 
@@ -14526,6 +14866,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_MDT_RESP_CFG_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_MDT_RESP_CFG bdk_tns_sde_mret_mdt_resp_cfg_t
 #define bustype_BDK_TNS_SDE_MRET_MDT_RESP_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_MDT_RESP_CFG "TNS_SDE_MRET_MDT_RESP_CFG"
+#define device_bar_BDK_TNS_SDE_MRET_MDT_RESP_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_MDT_RESP_CFG 0
 #define arguments_BDK_TNS_SDE_MRET_MDT_RESP_CFG -1,-1,-1,-1
 
@@ -14565,6 +14906,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_ADR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_PG_FIF0_ADR bdk_tns_sde_mret_pg_fif0_adr_t
 #define bustype_BDK_TNS_SDE_MRET_PG_FIF0_ADR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_PG_FIF0_ADR "TNS_SDE_MRET_PG_FIF0_ADR"
+#define device_bar_BDK_TNS_SDE_MRET_PG_FIF0_ADR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_PG_FIF0_ADR 0
 #define arguments_BDK_TNS_SDE_MRET_PG_FIF0_ADR -1,-1,-1,-1
 
@@ -14602,6 +14944,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_DAT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_PG_FIF0_DAT bdk_tns_sde_mret_pg_fif0_dat_t
 #define bustype_BDK_TNS_SDE_MRET_PG_FIF0_DAT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_PG_FIF0_DAT "TNS_SDE_MRET_PG_FIF0_DAT"
+#define device_bar_BDK_TNS_SDE_MRET_PG_FIF0_DAT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_PG_FIF0_DAT 0
 #define arguments_BDK_TNS_SDE_MRET_PG_FIF0_DAT -1,-1,-1,-1
 
@@ -14645,6 +14988,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR0_PTR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_PG_FIF0_PR0_PTR bdk_tns_sde_mret_pg_fif0_pr0_ptr_t
 #define bustype_BDK_TNS_SDE_MRET_PG_FIF0_PR0_PTR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_PG_FIF0_PR0_PTR "TNS_SDE_MRET_PG_FIF0_PR0_PTR"
+#define device_bar_BDK_TNS_SDE_MRET_PG_FIF0_PR0_PTR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_PG_FIF0_PR0_PTR 0
 #define arguments_BDK_TNS_SDE_MRET_PG_FIF0_PR0_PTR -1,-1,-1,-1
 
@@ -14688,6 +15032,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR1_PTR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_PG_FIF0_PR1_PTR bdk_tns_sde_mret_pg_fif0_pr1_ptr_t
 #define bustype_BDK_TNS_SDE_MRET_PG_FIF0_PR1_PTR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_PG_FIF0_PR1_PTR "TNS_SDE_MRET_PG_FIF0_PR1_PTR"
+#define device_bar_BDK_TNS_SDE_MRET_PG_FIF0_PR1_PTR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_PG_FIF0_PR1_PTR 0
 #define arguments_BDK_TNS_SDE_MRET_PG_FIF0_PR1_PTR -1,-1,-1,-1
 
@@ -14731,6 +15076,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR2_PTR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_PG_FIF0_PR2_PTR bdk_tns_sde_mret_pg_fif0_pr2_ptr_t
 #define bustype_BDK_TNS_SDE_MRET_PG_FIF0_PR2_PTR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_PG_FIF0_PR2_PTR "TNS_SDE_MRET_PG_FIF0_PR2_PTR"
+#define device_bar_BDK_TNS_SDE_MRET_PG_FIF0_PR2_PTR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_PG_FIF0_PR2_PTR 0
 #define arguments_BDK_TNS_SDE_MRET_PG_FIF0_PR2_PTR -1,-1,-1,-1
 
@@ -14774,6 +15120,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF0_PR3_PTR_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_PG_FIF0_PR3_PTR bdk_tns_sde_mret_pg_fif0_pr3_ptr_t
 #define bustype_BDK_TNS_SDE_MRET_PG_FIF0_PR3_PTR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_PG_FIF0_PR3_PTR "TNS_SDE_MRET_PG_FIF0_PR3_PTR"
+#define device_bar_BDK_TNS_SDE_MRET_PG_FIF0_PR3_PTR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_PG_FIF0_PR3_PTR 0
 #define arguments_BDK_TNS_SDE_MRET_PG_FIF0_PR3_PTR -1,-1,-1,-1
 
@@ -14815,6 +15162,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF_CFG_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_PG_FIF_CFG_W0 bdk_tns_sde_mret_pg_fif_cfg_w0_t
 #define bustype_BDK_TNS_SDE_MRET_PG_FIF_CFG_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_PG_FIF_CFG_W0 "TNS_SDE_MRET_PG_FIF_CFG_W0"
+#define device_bar_BDK_TNS_SDE_MRET_PG_FIF_CFG_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_PG_FIF_CFG_W0 0
 #define arguments_BDK_TNS_SDE_MRET_PG_FIF_CFG_W0 -1,-1,-1,-1
 
@@ -14852,6 +15200,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF_CFG_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_PG_FIF_CFG_W1 bdk_tns_sde_mret_pg_fif_cfg_w1_t
 #define bustype_BDK_TNS_SDE_MRET_PG_FIF_CFG_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_PG_FIF_CFG_W1 "TNS_SDE_MRET_PG_FIF_CFG_W1"
+#define device_bar_BDK_TNS_SDE_MRET_PG_FIF_CFG_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_PG_FIF_CFG_W1 0
 #define arguments_BDK_TNS_SDE_MRET_PG_FIF_CFG_W1 -1,-1,-1,-1
 
@@ -14920,6 +15269,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_PG_FIF_DBG_CFG_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_PG_FIF_DBG_CFG bdk_tns_sde_mret_pg_fif_dbg_cfg_t
 #define bustype_BDK_TNS_SDE_MRET_PG_FIF_DBG_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_PG_FIF_DBG_CFG "TNS_SDE_MRET_PG_FIF_DBG_CFG"
+#define device_bar_BDK_TNS_SDE_MRET_PG_FIF_DBG_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_PG_FIF_DBG_CFG 0
 #define arguments_BDK_TNS_SDE_MRET_PG_FIF_DBG_CFG -1,-1,-1,-1
 
@@ -14955,6 +15305,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_SPAD bdk_tns_sde_mret_spad_t
 #define bustype_BDK_TNS_SDE_MRET_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_SPAD "TNS_SDE_MRET_SPAD"
+#define device_bar_BDK_TNS_SDE_MRET_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_SPAD 0
 #define arguments_BDK_TNS_SDE_MRET_SPAD -1,-1,-1,-1
 
@@ -14994,6 +15345,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_STA_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_STA bdk_tns_sde_mret_sta_t
 #define bustype_BDK_TNS_SDE_MRET_STA BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_STA "TNS_SDE_MRET_STA"
+#define device_bar_BDK_TNS_SDE_MRET_STA 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_STA 0
 #define arguments_BDK_TNS_SDE_MRET_STA -1,-1,-1,-1
 
@@ -15031,6 +15383,7 @@ static inline uint64_t BDK_TNS_SDE_MRET_TKN_IN_CT_FUNC(void)
 #define typedef_BDK_TNS_SDE_MRET_TKN_IN_CT bdk_tns_sde_mret_tkn_in_ct_t
 #define bustype_BDK_TNS_SDE_MRET_TKN_IN_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_MRET_TKN_IN_CT "TNS_SDE_MRET_TKN_IN_CT"
+#define device_bar_BDK_TNS_SDE_MRET_TKN_IN_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_MRET_TKN_IN_CT 0
 #define arguments_BDK_TNS_SDE_MRET_TKN_IN_CT -1,-1,-1,-1
 
@@ -15108,6 +15461,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_SDE_PARSER_INT_EN_HI bdk_tns_sde_parser_int_en_hi_t
 #define bustype_BDK_TNS_SDE_PARSER_INT_EN_HI BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PARSER_INT_EN_HI "TNS_SDE_PARSER_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_PARSER_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PARSER_INT_EN_HI 0
 #define arguments_BDK_TNS_SDE_PARSER_INT_EN_HI -1,-1,-1,-1
 
@@ -15185,6 +15539,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_SDE_PARSER_INT_EN_LO bdk_tns_sde_parser_int_en_lo_t
 #define bustype_BDK_TNS_SDE_PARSER_INT_EN_LO BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PARSER_INT_EN_LO "TNS_SDE_PARSER_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_PARSER_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PARSER_INT_EN_LO 0
 #define arguments_BDK_TNS_SDE_PARSER_INT_EN_LO -1,-1,-1,-1
 
@@ -15262,6 +15617,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_SDE_PARSER_INT_FRC bdk_tns_sde_parser_int_frc_t
 #define bustype_BDK_TNS_SDE_PARSER_INT_FRC BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PARSER_INT_FRC "TNS_SDE_PARSER_INT_FRC"
+#define device_bar_BDK_TNS_SDE_PARSER_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PARSER_INT_FRC 0
 #define arguments_BDK_TNS_SDE_PARSER_INT_FRC -1,-1,-1,-1
 
@@ -15339,6 +15695,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_SDE_PARSER_INT_W1C bdk_tns_sde_parser_int_w1c_t
 #define bustype_BDK_TNS_SDE_PARSER_INT_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PARSER_INT_W1C "TNS_SDE_PARSER_INT_W1C"
+#define device_bar_BDK_TNS_SDE_PARSER_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PARSER_INT_W1C 0
 #define arguments_BDK_TNS_SDE_PARSER_INT_W1C -1,-1,-1,-1
 
@@ -15374,6 +15731,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_PARSER_LOCK bdk_tns_sde_parser_lock_t
 #define bustype_BDK_TNS_SDE_PARSER_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PARSER_LOCK "TNS_SDE_PARSER_LOCK"
+#define device_bar_BDK_TNS_SDE_PARSER_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PARSER_LOCK 0
 #define arguments_BDK_TNS_SDE_PARSER_LOCK -1,-1,-1,-1
 
@@ -15409,6 +15767,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_PARSER_SPAD bdk_tns_sde_parser_spad_t
 #define bustype_BDK_TNS_SDE_PARSER_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PARSER_SPAD "TNS_SDE_PARSER_SPAD"
+#define device_bar_BDK_TNS_SDE_PARSER_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PARSER_SPAD 0
 #define arguments_BDK_TNS_SDE_PARSER_SPAD -1,-1,-1,-1
 
@@ -15447,6 +15806,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W0(a) bdk_tns_sde_pe_kpux_kpu_dbg_w0_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W0(a) "TNS_SDE_PE_KPUX_KPU_DBG_W0"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W0(a) (a),-1,-1,-1
 
@@ -15481,6 +15841,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W1(a) bdk_tns_sde_pe_kpux_kpu_dbg_w1_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W1(a) "TNS_SDE_PE_KPUX_KPU_DBG_W1"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W1(a) (a),-1,-1,-1
 
@@ -15521,6 +15882,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_DBG_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W2(a) bdk_tns_sde_pe_kpux_kpu_dbg_w2_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W2(a) "TNS_SDE_PE_KPUX_KPU_DBG_W2"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W2(a) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_KPU_DBG_W2(a) (a),-1,-1,-1
 
@@ -15561,6 +15923,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_ECC_CTL(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_KPUX_KPU_ECC_CTL(a) bdk_tns_sde_pe_kpux_kpu_ecc_ctl_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_KPU_ECC_CTL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_KPU_ECC_CTL(a) "TNS_SDE_PE_KPUX_KPU_ECC_CTL"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_KPU_ECC_CTL(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_KPU_ECC_CTL(a) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_KPU_ECC_CTL(a) (a),-1,-1,-1
 
@@ -15619,6 +15982,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W0(unsigned long a, unsigne
 #define typedef_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W0(a,b) bdk_tns_sde_pe_kpux_kpu_sramx_w0_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W0(a,b) "TNS_SDE_PE_KPUX_KPU_SRAMX_W0"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W0(a,b) (a),(b),-1,-1
 
@@ -15661,6 +16025,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W1(unsigned long a, unsigne
 #define typedef_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W1(a,b) bdk_tns_sde_pe_kpux_kpu_sramx_w1_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W1(a,b) "TNS_SDE_PE_KPUX_KPU_SRAMX_W1"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_KPU_SRAMX_W1(a,b) (a),(b),-1,-1
 
@@ -15695,6 +16060,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_KPUX_LOCK(a) bdk_tns_sde_pe_kpux_lock_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_LOCK(a) "TNS_SDE_PE_KPUX_LOCK"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_LOCK(a) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_LOCK(a) (a),-1,-1,-1
 
@@ -15729,6 +16095,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_KPUX_SPAD(a) bdk_tns_sde_pe_kpux_spad_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_SPAD(a) "TNS_SDE_PE_KPUX_SPAD"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_SPAD(a) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_SPAD(a) (a),-1,-1,-1
 
@@ -15773,6 +16140,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DATX(unsigned long a, unsigned l
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DATX(a,b) bdk_tns_sde_pe_kpux_tcam_datx_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_TCAM_DATX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_KPUX_TCAM_DATX(a,b) "TNS_SDE_PE_KPUX_TCAM_DATX"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_TCAM_DATX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_TCAM_DATX(a,b) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_TCAM_DATX(a,b) (a),(b),-1,-1
 
@@ -15811,6 +16179,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(a,b) bdk_tns_sde_pe_kpux_tcam_dmskx_w0_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(a,b) "TNS_SDE_PE_KPUX_TCAM_DMSKX_W0"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(a,b) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(a,b) (a),(b),-1,-1
 
@@ -15845,6 +16214,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(a,b) bdk_tns_sde_pe_kpux_tcam_dmskx_w1_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(a,b) "TNS_SDE_PE_KPUX_TCAM_DMSKX_W1"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(a,b) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(a,b) (a),(b),-1,-1
 
@@ -15879,6 +16249,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(a,b) bdk_tns_sde_pe_kpux_tcam_dmskx_w2_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(a,b) "TNS_SDE_PE_KPUX_TCAM_DMSKX_W2"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(a,b) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(a,b) (a),(b),-1,-1
 
@@ -15913,6 +16284,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(a,b) bdk_tns_sde_pe_kpux_tcam_dmskx_w3_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(a,b) "TNS_SDE_PE_KPUX_TCAM_DMSKX_W3"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(a,b) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(a,b) (a),(b),-1,-1
 
@@ -15947,6 +16319,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(a,b) bdk_tns_sde_pe_kpux_tcam_dmskx_w4_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(a,b) "TNS_SDE_PE_KPUX_TCAM_DMSKX_W4"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(a,b) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(a,b) (a),(b),-1,-1
 
@@ -15981,6 +16354,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(a,b) bdk_tns_sde_pe_kpux_tcam_dmskx_w5_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(a,b) "TNS_SDE_PE_KPUX_TCAM_DMSKX_W5"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(a,b) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(a,b) (a),(b),-1,-1
 
@@ -16019,6 +16393,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(a,b) bdk_tns_sde_pe_kpux_tcam_dmskx_w6_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(a,b) "TNS_SDE_PE_KPUX_TCAM_DMSKX_W6"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(a,b) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(a,b) (a),(b),-1,-1
 
@@ -16063,6 +16438,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_MASKX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_MASKX(a,b) bdk_tns_sde_pe_kpux_tcam_maskx_t
 #define bustype_BDK_TNS_SDE_PE_KPUX_TCAM_MASKX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_KPUX_TCAM_MASKX(a,b) "TNS_SDE_PE_KPUX_TCAM_MASKX"
+#define device_bar_BDK_TNS_SDE_PE_KPUX_TCAM_MASKX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_KPUX_TCAM_MASKX(a,b) (a)
 #define arguments_BDK_TNS_SDE_PE_KPUX_TCAM_MASKX(a,b) (a),(b),-1,-1
 
@@ -16118,6 +16494,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_CMDINFO_W0 bdk_tns_sde_pe_lcmd_cmdinfo_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_CMDINFO_W0 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_CMDINFO_W0 "TNS_SDE_PE_LCMD_CMDINFO_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_CMDINFO_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_CMDINFO_W0 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_CMDINFO_W0 -1,-1,-1,-1
 
@@ -16155,6 +16532,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_CMDINFO_W1 bdk_tns_sde_pe_lcmd_cmdinfo_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_CMDINFO_W1 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_CMDINFO_W1 "TNS_SDE_PE_LCMD_CMDINFO_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_CMDINFO_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_CMDINFO_W1 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_CMDINFO_W1 -1,-1,-1,-1
 
@@ -16192,6 +16570,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_CMDINFO_W2 bdk_tns_sde_pe_lcmd_cmdinfo_w2_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_CMDINFO_W2 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_CMDINFO_W2 "TNS_SDE_PE_LCMD_CMDINFO_W2"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_CMDINFO_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_CMDINFO_W2 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_CMDINFO_W2 -1,-1,-1,-1
 
@@ -16231,6 +16610,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CMDINFO_W3_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_CMDINFO_W3 bdk_tns_sde_pe_lcmd_cmdinfo_w3_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_CMDINFO_W3 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_CMDINFO_W3 "TNS_SDE_PE_LCMD_CMDINFO_W3"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_CMDINFO_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_CMDINFO_W3 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_CMDINFO_W3 -1,-1,-1,-1
 
@@ -16274,6 +16654,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CNNCMDX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_CNNCMDX(a) bdk_tns_sde_pe_lcmd_cnncmdx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_CNNCMDX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_CNNCMDX(a) "TNS_SDE_PE_LCMD_CNNCMDX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_CNNCMDX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_CNNCMDX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_CNNCMDX(a) (a),-1,-1,-1
 
@@ -16313,6 +16694,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CTL_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_CTL_W0 bdk_tns_sde_pe_lcmd_ctl_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_CTL_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_CTL_W0 "TNS_SDE_PE_LCMD_CTL_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_CTL_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_CTL_W0 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_CTL_W0 -1,-1,-1,-1
 
@@ -16358,6 +16740,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CTL_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_CTL_W1 bdk_tns_sde_pe_lcmd_ctl_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_CTL_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_CTL_W1 "TNS_SDE_PE_LCMD_CTL_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_CTL_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_CTL_W1 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_CTL_W1 -1,-1,-1,-1
 
@@ -16397,6 +16780,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_CTL_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_CTL_W2 bdk_tns_sde_pe_lcmd_ctl_w2_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_CTL_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_CTL_W2 "TNS_SDE_PE_LCMD_CTL_W2"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_CTL_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_CTL_W2 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_CTL_W2 -1,-1,-1,-1
 
@@ -16439,6 +16823,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ERRORBODYPTR_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_ERRORBODYPTR bdk_tns_sde_pe_lcmd_errorbodyptr_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_ERRORBODYPTR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_ERRORBODYPTR "TNS_SDE_PE_LCMD_ERRORBODYPTR"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_ERRORBODYPTR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_ERRORBODYPTR 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_ERRORBODYPTR -1,-1,-1,-1
 
@@ -16483,6 +16868,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ETHERNETCTRLX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_ETHERNETCTRLX(a) bdk_tns_sde_pe_lcmd_ethernetctrlx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_ETHERNETCTRLX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_ETHERNETCTRLX(a) "TNS_SDE_PE_LCMD_ETHERNETCTRLX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_ETHERNETCTRLX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_ETHERNETCTRLX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_ETHERNETCTRLX(a) (a),-1,-1,-1
 
@@ -16536,6 +16922,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(a) bdk_tns_sde_pe_lcmd_hashcmdsx_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(a) "TNS_SDE_PE_LCMD_HASHCMDSX_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(a) (a),-1,-1,-1
 
@@ -16586,6 +16973,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(a) bdk_tns_sde_pe_lcmd_hashcmdsx_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(a) "TNS_SDE_PE_LCMD_HASHCMDSX_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(a) (a),-1,-1,-1
 
@@ -16622,6 +17010,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(a) bdk_tns_sde_pe_lcmd_hashcmdsx_w2_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(a) "TNS_SDE_PE_LCMD_HASHCMDSX_W2"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(a) (a),-1,-1,-1
 
@@ -16679,6 +17068,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCTRL_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W0 bdk_tns_sde_pe_lcmd_hashctrl_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W0 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W0 "TNS_SDE_PE_LCMD_HASHCTRL_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W0 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W0 -1,-1,-1,-1
 
@@ -16728,6 +17118,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCTRL_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W1 bdk_tns_sde_pe_lcmd_hashctrl_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W1 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W1 "TNS_SDE_PE_LCMD_HASHCTRL_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W1 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_HASHCTRL_W1 -1,-1,-1,-1
 
@@ -16762,6 +17153,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HMEM_DAT_WX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_HMEM_DAT_WX(a) bdk_tns_sde_pe_lcmd_hmem_dat_wx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_HMEM_DAT_WX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_HMEM_DAT_WX(a) "TNS_SDE_PE_LCMD_HMEM_DAT_WX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_HMEM_DAT_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_HMEM_DAT_WX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_HMEM_DAT_WX(a) (a),-1,-1,-1
 
@@ -16797,6 +17189,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W0 bdk_tns_sde_pe_lcmd_imem_dat_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W0 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W0 "TNS_SDE_PE_LCMD_IMEM_DAT_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W0 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W0 -1,-1,-1,-1
 
@@ -16836,6 +17229,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W1 bdk_tns_sde_pe_lcmd_imem_dat_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W1 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W1 "TNS_SDE_PE_LCMD_IMEM_DAT_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W1 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W1 -1,-1,-1,-1
 
@@ -16875,6 +17269,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W2 bdk_tns_sde_pe_lcmd_imem_dat_w2_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W2 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W2 "TNS_SDE_PE_LCMD_IMEM_DAT_W2"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W2 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W2 -1,-1,-1,-1
 
@@ -16914,6 +17309,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W3_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W3 bdk_tns_sde_pe_lcmd_imem_dat_w3_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W3 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W3 "TNS_SDE_PE_LCMD_IMEM_DAT_W3"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W3 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W3 -1,-1,-1,-1
 
@@ -16953,6 +17349,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W4_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W4 bdk_tns_sde_pe_lcmd_imem_dat_w4_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W4 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W4 "TNS_SDE_PE_LCMD_IMEM_DAT_W4"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W4 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W4 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W4 -1,-1,-1,-1
 
@@ -17012,6 +17409,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W5_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W5 bdk_tns_sde_pe_lcmd_imem_dat_w5_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W5 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W5 "TNS_SDE_PE_LCMD_IMEM_DAT_W5"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W5 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W5 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W5 -1,-1,-1,-1
 
@@ -17065,6 +17463,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W6_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W6 bdk_tns_sde_pe_lcmd_imem_dat_w6_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W6 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W6 "TNS_SDE_PE_LCMD_IMEM_DAT_W6"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W6 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W6 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W6 -1,-1,-1,-1
 
@@ -17114,6 +17513,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W7_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W7 bdk_tns_sde_pe_lcmd_imem_dat_w7_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W7 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W7 "TNS_SDE_PE_LCMD_IMEM_DAT_W7"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W7 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W7 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_IMEM_DAT_W7 -1,-1,-1,-1
 
@@ -17172,6 +17572,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_ITTX_W0(a) bdk_tns_sde_pe_lcmd_ittx_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_ITTX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_ITTX_W0(a) "TNS_SDE_PE_LCMD_ITTX_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_ITTX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_ITTX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_ITTX_W0(a) (a),-1,-1,-1
 
@@ -17206,6 +17607,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_ITTX_W1(a) bdk_tns_sde_pe_lcmd_ittx_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_ITTX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_ITTX_W1(a) "TNS_SDE_PE_LCMD_ITTX_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_ITTX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_ITTX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_ITTX_W1(a) (a),-1,-1,-1
 
@@ -17242,6 +17644,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_ITTX_W2(a) bdk_tns_sde_pe_lcmd_ittx_w2_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_ITTX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_ITTX_W2(a) "TNS_SDE_PE_LCMD_ITTX_W2"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_ITTX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_ITTX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_ITTX_W2(a) (a),-1,-1,-1
 
@@ -17278,6 +17681,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W3(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_ITTX_W3(a) bdk_tns_sde_pe_lcmd_ittx_w3_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_ITTX_W3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_ITTX_W3(a) "TNS_SDE_PE_LCMD_ITTX_W3"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_ITTX_W3(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_ITTX_W3(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_ITTX_W3(a) (a),-1,-1,-1
 
@@ -17326,6 +17730,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W4(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_ITTX_W4(a) bdk_tns_sde_pe_lcmd_ittx_w4_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_ITTX_W4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_ITTX_W4(a) "TNS_SDE_PE_LCMD_ITTX_W4"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_ITTX_W4(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_ITTX_W4(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_ITTX_W4(a) (a),-1,-1,-1
 
@@ -17361,6 +17766,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_LOCK bdk_tns_sde_pe_lcmd_lock_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_LOCK "TNS_SDE_PE_LCMD_LOCK"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_LOCK 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_LOCK -1,-1,-1,-1
 
@@ -17401,6 +17807,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LSPLITCMDX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_LSPLITCMDX(a) bdk_tns_sde_pe_lcmd_lsplitcmdx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_LSPLITCMDX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_LSPLITCMDX(a) "TNS_SDE_PE_LCMD_LSPLITCMDX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_LSPLITCMDX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_LSPLITCMDX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_LSPLITCMDX(a) (a),-1,-1,-1
 
@@ -17452,6 +17859,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(a) bdk_tns_sde_pe_lcmd_ltokencmdx_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(a) "TNS_SDE_PE_LCMD_LTOKENCMDX_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(a) (a),-1,-1,-1
 
@@ -17498,6 +17906,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(a) bdk_tns_sde_pe_lcmd_ltokencmdx_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(a) "TNS_SDE_PE_LCMD_LTOKENCMDX_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(a) (a),-1,-1,-1
 
@@ -17538,6 +17947,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(a) bdk_tns_sde_pe_lcmd_ltokencmdx_w2_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(a) "TNS_SDE_PE_LCMD_LTOKENCMDX_W2"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(a) (a),-1,-1,-1
 
@@ -17578,6 +17988,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DATX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DATX(a) bdk_tns_sde_pe_lcmd_m2r_datx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_M2R_DATX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_M2R_DATX(a) "TNS_SDE_PE_LCMD_M2R_DATX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_M2R_DATX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_M2R_DATX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_M2R_DATX(a) (a),-1,-1,-1
 
@@ -17617,6 +18028,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DBG_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W0 bdk_tns_sde_pe_lcmd_m2r_dbg_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W0 "TNS_SDE_PE_LCMD_M2R_DBG_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W0 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W0 -1,-1,-1,-1
 
@@ -17652,6 +18064,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DBG_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W1 bdk_tns_sde_pe_lcmd_m2r_dbg_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W1 "TNS_SDE_PE_LCMD_M2R_DBG_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W1 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W1 -1,-1,-1,-1
 
@@ -17699,6 +18112,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DBG_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W2 bdk_tns_sde_pe_lcmd_m2r_dbg_w2_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W2 "TNS_SDE_PE_LCMD_M2R_DBG_W2"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W2 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_M2R_DBG_W2 -1,-1,-1,-1
 
@@ -17737,6 +18151,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(a) bdk_tns_sde_pe_lcmd_m2r_dmskx_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(a) "TNS_SDE_PE_LCMD_M2R_DMSKX_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(a) (a),-1,-1,-1
 
@@ -17771,6 +18186,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(a) bdk_tns_sde_pe_lcmd_m2r_dmskx_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(a) "TNS_SDE_PE_LCMD_M2R_DMSKX_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(a) (a),-1,-1,-1
 
@@ -17805,6 +18221,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(a) bdk_tns_sde_pe_lcmd_m2r_dmskx_w2_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(a) "TNS_SDE_PE_LCMD_M2R_DMSKX_W2"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(a) (a),-1,-1,-1
 
@@ -17839,6 +18256,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(a) bdk_tns_sde_pe_lcmd_m2r_dmskx_w3_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(a) "TNS_SDE_PE_LCMD_M2R_DMSKX_W3"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(a) (a),-1,-1,-1
 
@@ -17875,6 +18293,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(a) bdk_tns_sde_pe_lcmd_m2r_dmskx_w4_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(a) "TNS_SDE_PE_LCMD_M2R_DMSKX_W4"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(a) (a),-1,-1,-1
 
@@ -17915,6 +18334,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_MASKX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_MASKX(a) bdk_tns_sde_pe_lcmd_m2r_maskx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_M2R_MASKX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_M2R_MASKX(a) "TNS_SDE_PE_LCMD_M2R_MASKX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_M2R_MASKX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_M2R_MASKX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_M2R_MASKX(a) (a),-1,-1,-1
 
@@ -17958,6 +18378,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_MEMX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_MEMX(a) bdk_tns_sde_pe_lcmd_m2r_memx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_M2R_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_M2R_MEMX(a) "TNS_SDE_PE_LCMD_M2R_MEMX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_M2R_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_M2R_MEMX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_M2R_MEMX(a) (a),-1,-1,-1
 
@@ -18023,6 +18444,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_MEM_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_MEM_ECC_CTL bdk_tns_sde_pe_lcmd_mem_ecc_ctl_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_MEM_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_MEM_ECC_CTL "TNS_SDE_PE_LCMD_MEM_ECC_CTL"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_MEM_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_MEM_ECC_CTL 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_MEM_ECC_CTL -1,-1,-1,-1
 
@@ -18071,6 +18493,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_NENGX_W0(a) bdk_tns_sde_pe_lcmd_nengx_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_NENGX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_NENGX_W0(a) "TNS_SDE_PE_LCMD_NENGX_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_NENGX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_NENGX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_NENGX_W0(a) (a),-1,-1,-1
 
@@ -18111,6 +18534,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_NENGX_W1(a) bdk_tns_sde_pe_lcmd_nengx_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_NENGX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_NENGX_W1(a) "TNS_SDE_PE_LCMD_NENGX_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_NENGX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_NENGX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_NENGX_W1(a) (a),-1,-1,-1
 
@@ -18147,6 +18571,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_NENGX_W2(a) bdk_tns_sde_pe_lcmd_nengx_w2_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_NENGX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_NENGX_W2(a) "TNS_SDE_PE_LCMD_NENGX_W2"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_NENGX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_NENGX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_NENGX_W2(a) (a),-1,-1,-1
 
@@ -18183,6 +18608,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_PINDEX2PORTX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_PINDEX2PORTX(a) bdk_tns_sde_pe_lcmd_pindex2portx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_PINDEX2PORTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_PINDEX2PORTX(a) "TNS_SDE_PE_LCMD_PINDEX2PORTX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_PINDEX2PORTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_PINDEX2PORTX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_PINDEX2PORTX(a) (a),-1,-1,-1
 
@@ -18222,6 +18648,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_PRSR_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_PRSR_DBG_SEL bdk_tns_sde_pe_lcmd_prsr_dbg_sel_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_PRSR_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_PRSR_DBG_SEL "TNS_SDE_PE_LCMD_PRSR_DBG_SEL"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_PRSR_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_PRSR_DBG_SEL 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_PRSR_DBG_SEL -1,-1,-1,-1
 
@@ -18271,6 +18698,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_QOSX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_QOSX(a) bdk_tns_sde_pe_lcmd_qosx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_QOSX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_QOSX(a) "TNS_SDE_PE_LCMD_QOSX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_QOSX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_QOSX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_QOSX(a) (a),-1,-1,-1
 
@@ -18306,6 +18734,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_SPAD bdk_tns_sde_pe_lcmd_spad_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_SPAD "TNS_SDE_PE_LCMD_SPAD"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_SPAD 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_SPAD -1,-1,-1,-1
 
@@ -18359,6 +18788,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_STA_W0 bdk_tns_sde_pe_lcmd_sta_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_STA_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_STA_W0 "TNS_SDE_PE_LCMD_STA_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_STA_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_STA_W0 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_STA_W0 -1,-1,-1,-1
 
@@ -18396,6 +18826,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_STA_W1 bdk_tns_sde_pe_lcmd_sta_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_STA_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_STA_W1 "TNS_SDE_PE_LCMD_STA_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_STA_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_STA_W1 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_STA_W1 -1,-1,-1,-1
 
@@ -18435,6 +18866,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_STA_W2 bdk_tns_sde_pe_lcmd_sta_w2_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_STA_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_STA_W2 "TNS_SDE_PE_LCMD_STA_W2"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_STA_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_STA_W2 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_STA_W2 -1,-1,-1,-1
 
@@ -18480,6 +18912,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W3_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_STA_W3 bdk_tns_sde_pe_lcmd_sta_w3_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_STA_W3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_STA_W3 "TNS_SDE_PE_LCMD_STA_W3"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_STA_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_STA_W3 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_STA_W3 -1,-1,-1,-1
 
@@ -18525,6 +18958,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W4_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_STA_W4 bdk_tns_sde_pe_lcmd_sta_w4_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_STA_W4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_STA_W4 "TNS_SDE_PE_LCMD_STA_W4"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_STA_W4 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_STA_W4 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_STA_W4 -1,-1,-1,-1
 
@@ -18566,6 +19000,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W5_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_STA_W5 bdk_tns_sde_pe_lcmd_sta_w5_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_STA_W5 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_STA_W5 "TNS_SDE_PE_LCMD_STA_W5"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_STA_W5 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_STA_W5 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_STA_W5 -1,-1,-1,-1
 
@@ -18603,6 +19038,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_STA_W6_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_STA_W6 bdk_tns_sde_pe_lcmd_sta_w6_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_STA_W6 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_STA_W6 "TNS_SDE_PE_LCMD_STA_W6"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_STA_W6 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_STA_W6 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_STA_W6 -1,-1,-1,-1
 
@@ -18655,6 +19091,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DATX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DATX(a) bdk_tns_sde_pe_lcmd_tid_datx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_TID_DATX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_TID_DATX(a) "TNS_SDE_PE_LCMD_TID_DATX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_TID_DATX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_TID_DATX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_TID_DATX(a) (a),-1,-1,-1
 
@@ -18702,6 +19139,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DBG_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DBG bdk_tns_sde_pe_lcmd_tid_dbg_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_TID_DBG BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_TID_DBG "TNS_SDE_PE_LCMD_TID_DBG"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_TID_DBG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_TID_DBG 0
 #define arguments_BDK_TNS_SDE_PE_LCMD_TID_DBG -1,-1,-1,-1
 
@@ -18740,6 +19178,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(a) bdk_tns_sde_pe_lcmd_tid_dmskx_w0_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(a) "TNS_SDE_PE_LCMD_TID_DMSKX_W0"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(a) (a),-1,-1,-1
 
@@ -18774,6 +19213,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(a) bdk_tns_sde_pe_lcmd_tid_dmskx_w1_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(a) "TNS_SDE_PE_LCMD_TID_DMSKX_W1"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(a) (a),-1,-1,-1
 
@@ -18808,6 +19248,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(a) bdk_tns_sde_pe_lcmd_tid_dmskx_w2_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(a) "TNS_SDE_PE_LCMD_TID_DMSKX_W2"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(a) (a),-1,-1,-1
 
@@ -18842,6 +19283,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(a) bdk_tns_sde_pe_lcmd_tid_dmskx_w3_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(a) "TNS_SDE_PE_LCMD_TID_DMSKX_W3"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(a) (a),-1,-1,-1
 
@@ -18878,6 +19320,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(a) bdk_tns_sde_pe_lcmd_tid_dmskx_w4_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(a) "TNS_SDE_PE_LCMD_TID_DMSKX_W4"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(a) (a),-1,-1,-1
 
@@ -18930,6 +19373,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_MASKX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_MASKX(a) bdk_tns_sde_pe_lcmd_tid_maskx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_TID_MASKX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_TID_MASKX(a) "TNS_SDE_PE_LCMD_TID_MASKX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_TID_MASKX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_TID_MASKX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_TID_MASKX(a) (a),-1,-1,-1
 
@@ -18974,6 +19418,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TOKENCMDSX(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_LCMD_TOKENCMDSX(a) bdk_tns_sde_pe_lcmd_tokencmdsx_t
 #define bustype_BDK_TNS_SDE_PE_LCMD_TOKENCMDSX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_LCMD_TOKENCMDSX(a) "TNS_SDE_PE_LCMD_TOKENCMDSX"
+#define device_bar_BDK_TNS_SDE_PE_LCMD_TOKENCMDSX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_LCMD_TOKENCMDSX(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_TOKENCMDSX(a) (a),-1,-1,-1
 
@@ -19031,6 +19476,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_CONTROL_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_SKPU_CONTROL bdk_tns_sde_pe_skpu_control_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_CONTROL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_CONTROL "TNS_SDE_PE_SKPU_CONTROL"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_CONTROL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_CONTROL 0
 #define arguments_BDK_TNS_SDE_PE_SKPU_CONTROL -1,-1,-1,-1
 
@@ -19072,6 +19518,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_SKPU_ECC_CTL bdk_tns_sde_pe_skpu_ecc_ctl_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_ECC_CTL "TNS_SDE_PE_SKPU_ECC_CTL"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_ECC_CTL 0
 #define arguments_BDK_TNS_SDE_PE_SKPU_ECC_CTL -1,-1,-1,-1
 
@@ -19130,6 +19577,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_IKTX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_IKTX_W0(a) bdk_tns_sde_pe_skpu_iktx_w0_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_IKTX_W0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_SKPU_IKTX_W0(a) "TNS_SDE_PE_SKPU_IKTX_W0"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_IKTX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_IKTX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_IKTX_W0(a) (a),-1,-1,-1
 
@@ -19180,6 +19628,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_IKTX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_IKTX_W1(a) bdk_tns_sde_pe_skpu_iktx_w1_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_IKTX_W1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_SKPU_IKTX_W1(a) "TNS_SDE_PE_SKPU_IKTX_W1"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_IKTX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_IKTX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_IKTX_W1(a) (a),-1,-1,-1
 
@@ -19221,6 +19670,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_IKT_DBG_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_SKPU_IKT_DBG bdk_tns_sde_pe_skpu_ikt_dbg_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_IKT_DBG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_IKT_DBG "TNS_SDE_PE_SKPU_IKT_DBG"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_IKT_DBG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_IKT_DBG 0
 #define arguments_BDK_TNS_SDE_PE_SKPU_IKT_DBG -1,-1,-1,-1
 
@@ -19256,6 +19706,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_SKPU_LOCK bdk_tns_sde_pe_skpu_lock_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_LOCK "TNS_SDE_PE_SKPU_LOCK"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_LOCK 0
 #define arguments_BDK_TNS_SDE_PE_SKPU_LOCK -1,-1,-1,-1
 
@@ -19295,6 +19746,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W0 bdk_tns_sde_pe_skpu_skpu_dbg_w0_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W0 "TNS_SDE_PE_SKPU_SKPU_DBG_W0"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W0 0
 #define arguments_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W0 -1,-1,-1,-1
 
@@ -19330,6 +19782,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W1 bdk_tns_sde_pe_skpu_skpu_dbg_w1_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W1 "TNS_SDE_PE_SKPU_SKPU_DBG_W1"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W1 0
 #define arguments_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W1 -1,-1,-1,-1
 
@@ -19365,6 +19818,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W2 bdk_tns_sde_pe_skpu_skpu_dbg_w2_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W2 "TNS_SDE_PE_SKPU_SKPU_DBG_W2"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W2 0
 #define arguments_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W2 -1,-1,-1,-1
 
@@ -19408,6 +19862,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W3_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W3 bdk_tns_sde_pe_skpu_skpu_dbg_w3_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W3 "TNS_SDE_PE_SKPU_SKPU_DBG_W3"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W3 0
 #define arguments_BDK_TNS_SDE_PE_SKPU_SKPU_DBG_W3 -1,-1,-1,-1
 
@@ -19470,6 +19925,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(a) bdk_tns_sde_pe_skpu_skpu_sramx_w0_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(a) "TNS_SDE_PE_SKPU_SKPU_SRAMX_W0"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(a) (a),-1,-1,-1
 
@@ -19508,6 +19964,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(a) bdk_tns_sde_pe_skpu_skpu_sramx_w1_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(a) "TNS_SDE_PE_SKPU_SKPU_SRAMX_W1"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(a) (a),-1,-1,-1
 
@@ -19548,6 +20005,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(a) bdk_tns_sde_pe_skpu_skpu_sramx_w2_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(a) "TNS_SDE_PE_SKPU_SKPU_SRAMX_W2"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(a) (a),-1,-1,-1
 
@@ -19583,6 +20041,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_PE_SKPU_SPAD bdk_tns_sde_pe_skpu_spad_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_SPAD "TNS_SDE_PE_SKPU_SPAD"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_SPAD 0
 #define arguments_BDK_TNS_SDE_PE_SKPU_SPAD -1,-1,-1,-1
 
@@ -19635,6 +20094,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W0(a) bdk_tns_sde_pe_skpu_tcam_datx_w0_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W0(a) "TNS_SDE_PE_SKPU_TCAM_DATX_W0"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W0(a) (a),-1,-1,-1
 
@@ -19681,6 +20141,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W1(a) bdk_tns_sde_pe_skpu_tcam_datx_w1_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W1(a) "TNS_SDE_PE_SKPU_TCAM_DATX_W1"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_TCAM_DATX_W1(a) (a),-1,-1,-1
 
@@ -19719,6 +20180,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(a) bdk_tns_sde_pe_skpu_tcam_dmskx_w0_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(a) "TNS_SDE_PE_SKPU_TCAM_DMSKX_W0"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(a) (a),-1,-1,-1
 
@@ -19753,6 +20215,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(a) bdk_tns_sde_pe_skpu_tcam_dmskx_w1_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(a) "TNS_SDE_PE_SKPU_TCAM_DMSKX_W1"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(a) (a),-1,-1,-1
 
@@ -19787,6 +20250,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(a) bdk_tns_sde_pe_skpu_tcam_dmskx_w2_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(a) "TNS_SDE_PE_SKPU_TCAM_DMSKX_W2"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(a) (a),-1,-1,-1
 
@@ -19821,6 +20285,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(a) bdk_tns_sde_pe_skpu_tcam_dmskx_w3_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(a) "TNS_SDE_PE_SKPU_TCAM_DMSKX_W3"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(a) (a),-1,-1,-1
 
@@ -19855,6 +20320,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(a) bdk_tns_sde_pe_skpu_tcam_dmskx_w4_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(a) "TNS_SDE_PE_SKPU_TCAM_DMSKX_W4"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(a) (a),-1,-1,-1
 
@@ -19889,6 +20355,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(a) bdk_tns_sde_pe_skpu_tcam_dmskx_w5_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(a) "TNS_SDE_PE_SKPU_TCAM_DMSKX_W5"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(a) (a),-1,-1,-1
 
@@ -19927,6 +20394,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(a) bdk_tns_sde_pe_skpu_tcam_dmskx_w6_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(a) "TNS_SDE_PE_SKPU_TCAM_DMSKX_W6"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(a) (a),-1,-1,-1
 
@@ -19979,6 +20447,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W0(a) bdk_tns_sde_pe_skpu_tcam_maskx_w0_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W0(a) "TNS_SDE_PE_SKPU_TCAM_MASKX_W0"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W0(a) (a),-1,-1,-1
 
@@ -20025,6 +20494,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W1(a) bdk_tns_sde_pe_skpu_tcam_maskx_w1_t
 #define bustype_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W1(a) "TNS_SDE_PE_SKPU_TCAM_MASKX_W1"
+#define device_bar_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_PE_SKPU_TCAM_MASKX_W1(a) (a),-1,-1,-1
 
@@ -20062,6 +20532,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_AFULL_THRESH_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_AFULL_THRESH bdk_tns_sde_urw1_afull_thresh_t
 #define bustype_BDK_TNS_SDE_URW1_AFULL_THRESH BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_AFULL_THRESH "TNS_SDE_URW1_AFULL_THRESH"
+#define device_bar_BDK_TNS_SDE_URW1_AFULL_THRESH 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_AFULL_THRESH 0
 #define arguments_BDK_TNS_SDE_URW1_AFULL_THRESH -1,-1,-1,-1
 
@@ -20101,6 +20572,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_CONTROL_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_CONTROL bdk_tns_sde_urw1_control_t
 #define bustype_BDK_TNS_SDE_URW1_CONTROL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_CONTROL "TNS_SDE_URW1_CONTROL"
+#define device_bar_BDK_TNS_SDE_URW1_CONTROL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_CONTROL 0
 #define arguments_BDK_TNS_SDE_URW1_CONTROL -1,-1,-1,-1
 
@@ -20140,6 +20612,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_DBG_SEL bdk_tns_sde_urw1_dbg_sel_t
 #define bustype_BDK_TNS_SDE_URW1_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_DBG_SEL "TNS_SDE_URW1_DBG_SEL"
+#define device_bar_BDK_TNS_SDE_URW1_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_DBG_SEL 0
 #define arguments_BDK_TNS_SDE_URW1_DBG_SEL -1,-1,-1,-1
 
@@ -20177,6 +20650,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_DBG_STA_LIVE_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_DBG_STA_LIVE bdk_tns_sde_urw1_dbg_sta_live_t
 #define bustype_BDK_TNS_SDE_URW1_DBG_STA_LIVE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_DBG_STA_LIVE "TNS_SDE_URW1_DBG_STA_LIVE"
+#define device_bar_BDK_TNS_SDE_URW1_DBG_STA_LIVE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_DBG_STA_LIVE 0
 #define arguments_BDK_TNS_SDE_URW1_DBG_STA_LIVE -1,-1,-1,-1
 
@@ -20220,6 +20694,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_DBG_VLF_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_DBG_VLF bdk_tns_sde_urw1_dbg_vlf_t
 #define bustype_BDK_TNS_SDE_URW1_DBG_VLF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_DBG_VLF "TNS_SDE_URW1_DBG_VLF"
+#define device_bar_BDK_TNS_SDE_URW1_DBG_VLF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_DBG_VLF 0
 #define arguments_BDK_TNS_SDE_URW1_DBG_VLF -1,-1,-1,-1
 
@@ -20257,6 +20732,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_DYN_DBG_VLF_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_DYN_DBG_VLF bdk_tns_sde_urw1_dyn_dbg_vlf_t
 #define bustype_BDK_TNS_SDE_URW1_DYN_DBG_VLF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_DYN_DBG_VLF "TNS_SDE_URW1_DYN_DBG_VLF"
+#define device_bar_BDK_TNS_SDE_URW1_DYN_DBG_VLF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_DYN_DBG_VLF 0
 #define arguments_BDK_TNS_SDE_URW1_DYN_DBG_VLF -1,-1,-1,-1
 
@@ -20306,6 +20782,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_ECC_CTL_CD_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_ECC_CTL_CD bdk_tns_sde_urw1_ecc_ctl_cd_t
 #define bustype_BDK_TNS_SDE_URW1_ECC_CTL_CD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_ECC_CTL_CD "TNS_SDE_URW1_ECC_CTL_CD"
+#define device_bar_BDK_TNS_SDE_URW1_ECC_CTL_CD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_ECC_CTL_CD 0
 #define arguments_BDK_TNS_SDE_URW1_ECC_CTL_CD -1,-1,-1,-1
 
@@ -20355,6 +20832,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_ECC_CTL_FLP_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W0 bdk_tns_sde_urw1_ecc_ctl_flp_w0_t
 #define bustype_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W0 "TNS_SDE_URW1_ECC_CTL_FLP_W0"
+#define device_bar_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W0 0
 #define arguments_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W0 -1,-1,-1,-1
 
@@ -20404,6 +20882,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_ECC_CTL_FLP_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W1 bdk_tns_sde_urw1_ecc_ctl_flp_w1_t
 #define bustype_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W1 "TNS_SDE_URW1_ECC_CTL_FLP_W1"
+#define device_bar_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W1 0
 #define arguments_BDK_TNS_SDE_URW1_ECC_CTL_FLP_W1 -1,-1,-1,-1
 
@@ -20442,6 +20921,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(a,b) bdk_tns_sde_urw1_egr_flt_tblx_wx_t
 #define bustype_BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(a,b) "TNS_SDE_URW1_EGR_FLT_TBLX_WX"
+#define device_bar_BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(a,b) (a)
 #define arguments_BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(a,b) (a),(b),-1,-1
 
@@ -20479,6 +20959,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_EVIF_TBLX_WX(unsigned long a, unsigned l
 #define typedef_BDK_TNS_SDE_URW1_EVIF_TBLX_WX(a,b) bdk_tns_sde_urw1_evif_tblx_wx_t
 #define bustype_BDK_TNS_SDE_URW1_EVIF_TBLX_WX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW1_EVIF_TBLX_WX(a,b) "TNS_SDE_URW1_EVIF_TBLX_WX"
+#define device_bar_BDK_TNS_SDE_URW1_EVIF_TBLX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_EVIF_TBLX_WX(a,b) (a)
 #define arguments_BDK_TNS_SDE_URW1_EVIF_TBLX_WX(a,b) (a),(b),-1,-1
 
@@ -20514,6 +20995,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_EVIF_WX(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW1_EVIF_WX(a) bdk_tns_sde_urw1_evif_wx_t
 #define bustype_BDK_TNS_SDE_URW1_EVIF_WX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_EVIF_WX(a) "TNS_SDE_URW1_EVIF_WX"
+#define device_bar_BDK_TNS_SDE_URW1_EVIF_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_EVIF_WX(a) (a)
 #define arguments_BDK_TNS_SDE_URW1_EVIF_WX(a) (a),-1,-1,-1
 
@@ -20551,6 +21033,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_HI_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_INT_EN_HI_W0 bdk_tns_sde_urw1_int_en_hi_w0_t
 #define bustype_BDK_TNS_SDE_URW1_INT_EN_HI_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_INT_EN_HI_W0 "TNS_SDE_URW1_INT_EN_HI_W0"
+#define device_bar_BDK_TNS_SDE_URW1_INT_EN_HI_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_INT_EN_HI_W0 0
 #define arguments_BDK_TNS_SDE_URW1_INT_EN_HI_W0 -1,-1,-1,-1
 
@@ -20590,6 +21073,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_HI_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_INT_EN_HI_W1 bdk_tns_sde_urw1_int_en_hi_w1_t
 #define bustype_BDK_TNS_SDE_URW1_INT_EN_HI_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_INT_EN_HI_W1 "TNS_SDE_URW1_INT_EN_HI_W1"
+#define device_bar_BDK_TNS_SDE_URW1_INT_EN_HI_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_INT_EN_HI_W1 0
 #define arguments_BDK_TNS_SDE_URW1_INT_EN_HI_W1 -1,-1,-1,-1
 
@@ -20627,6 +21111,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_LO_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_INT_EN_LO_W0 bdk_tns_sde_urw1_int_en_lo_w0_t
 #define bustype_BDK_TNS_SDE_URW1_INT_EN_LO_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_INT_EN_LO_W0 "TNS_SDE_URW1_INT_EN_LO_W0"
+#define device_bar_BDK_TNS_SDE_URW1_INT_EN_LO_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_INT_EN_LO_W0 0
 #define arguments_BDK_TNS_SDE_URW1_INT_EN_LO_W0 -1,-1,-1,-1
 
@@ -20666,6 +21151,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_EN_LO_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_INT_EN_LO_W1 bdk_tns_sde_urw1_int_en_lo_w1_t
 #define bustype_BDK_TNS_SDE_URW1_INT_EN_LO_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_INT_EN_LO_W1 "TNS_SDE_URW1_INT_EN_LO_W1"
+#define device_bar_BDK_TNS_SDE_URW1_INT_EN_LO_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_INT_EN_LO_W1 0
 #define arguments_BDK_TNS_SDE_URW1_INT_EN_LO_W1 -1,-1,-1,-1
 
@@ -20703,6 +21189,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_FRC_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_INT_FRC_W0 bdk_tns_sde_urw1_int_frc_w0_t
 #define bustype_BDK_TNS_SDE_URW1_INT_FRC_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_INT_FRC_W0 "TNS_SDE_URW1_INT_FRC_W0"
+#define device_bar_BDK_TNS_SDE_URW1_INT_FRC_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_INT_FRC_W0 0
 #define arguments_BDK_TNS_SDE_URW1_INT_FRC_W0 -1,-1,-1,-1
 
@@ -20742,6 +21229,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_FRC_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_INT_FRC_W1 bdk_tns_sde_urw1_int_frc_w1_t
 #define bustype_BDK_TNS_SDE_URW1_INT_FRC_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_INT_FRC_W1 "TNS_SDE_URW1_INT_FRC_W1"
+#define device_bar_BDK_TNS_SDE_URW1_INT_FRC_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_INT_FRC_W1 0
 #define arguments_BDK_TNS_SDE_URW1_INT_FRC_W1 -1,-1,-1,-1
 
@@ -20779,6 +21267,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_W1C_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_INT_W1C_W0 bdk_tns_sde_urw1_int_w1c_w0_t
 #define bustype_BDK_TNS_SDE_URW1_INT_W1C_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_INT_W1C_W0 "TNS_SDE_URW1_INT_W1C_W0"
+#define device_bar_BDK_TNS_SDE_URW1_INT_W1C_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_INT_W1C_W0 0
 #define arguments_BDK_TNS_SDE_URW1_INT_W1C_W0 -1,-1,-1,-1
 
@@ -20818,6 +21307,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_INT_W1C_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_INT_W1C_W1 bdk_tns_sde_urw1_int_w1c_w1_t
 #define bustype_BDK_TNS_SDE_URW1_INT_W1C_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_INT_W1C_W1 "TNS_SDE_URW1_INT_W1C_W1"
+#define device_bar_BDK_TNS_SDE_URW1_INT_W1C_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_INT_W1C_W1 0
 #define arguments_BDK_TNS_SDE_URW1_INT_W1C_W1 -1,-1,-1,-1
 
@@ -20856,6 +21346,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_IVIF_TBLX_WX(unsigned long a, unsigned l
 #define typedef_BDK_TNS_SDE_URW1_IVIF_TBLX_WX(a,b) bdk_tns_sde_urw1_ivif_tblx_wx_t
 #define bustype_BDK_TNS_SDE_URW1_IVIF_TBLX_WX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW1_IVIF_TBLX_WX(a,b) "TNS_SDE_URW1_IVIF_TBLX_WX"
+#define device_bar_BDK_TNS_SDE_URW1_IVIF_TBLX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_IVIF_TBLX_WX(a,b) (a)
 #define arguments_BDK_TNS_SDE_URW1_IVIF_TBLX_WX(a,b) (a),(b),-1,-1
 
@@ -20891,6 +21382,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_IVIF_WX(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW1_IVIF_WX(a) bdk_tns_sde_urw1_ivif_wx_t
 #define bustype_BDK_TNS_SDE_URW1_IVIF_WX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_IVIF_WX(a) "TNS_SDE_URW1_IVIF_WX"
+#define device_bar_BDK_TNS_SDE_URW1_IVIF_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_IVIF_WX(a) (a)
 #define arguments_BDK_TNS_SDE_URW1_IVIF_WX(a) (a),-1,-1,-1
 
@@ -20926,6 +21418,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_LOCK bdk_tns_sde_urw1_lock_t
 #define bustype_BDK_TNS_SDE_URW1_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_LOCK "TNS_SDE_URW1_LOCK"
+#define device_bar_BDK_TNS_SDE_URW1_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_LOCK 0
 #define arguments_BDK_TNS_SDE_URW1_LOCK -1,-1,-1,-1
 
@@ -20963,6 +21456,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_MIR_MASK_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_MIR_MASK bdk_tns_sde_urw1_mir_mask_t
 #define bustype_BDK_TNS_SDE_URW1_MIR_MASK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_MIR_MASK "TNS_SDE_URW1_MIR_MASK"
+#define device_bar_BDK_TNS_SDE_URW1_MIR_MASK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_MIR_MASK 0
 #define arguments_BDK_TNS_SDE_URW1_MIR_MASK -1,-1,-1,-1
 
@@ -21006,6 +21500,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_RSN_TBLX(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW1_RSN_TBLX(a) bdk_tns_sde_urw1_rsn_tblx_t
 #define bustype_BDK_TNS_SDE_URW1_RSN_TBLX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_RSN_TBLX(a) "TNS_SDE_URW1_RSN_TBLX"
+#define device_bar_BDK_TNS_SDE_URW1_RSN_TBLX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_RSN_TBLX(a) (a)
 #define arguments_BDK_TNS_SDE_URW1_RSN_TBLX(a) (a),-1,-1,-1
 
@@ -21059,6 +21554,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_SE_RESP_TBLX(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW1_SE_RESP_TBLX(a) bdk_tns_sde_urw1_se_resp_tblx_t
 #define bustype_BDK_TNS_SDE_URW1_SE_RESP_TBLX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW1_SE_RESP_TBLX(a) "TNS_SDE_URW1_SE_RESP_TBLX"
+#define device_bar_BDK_TNS_SDE_URW1_SE_RESP_TBLX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_SE_RESP_TBLX(a) (a)
 #define arguments_BDK_TNS_SDE_URW1_SE_RESP_TBLX(a) (a),-1,-1,-1
 
@@ -21094,6 +21590,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW1_SPAD bdk_tns_sde_urw1_spad_t
 #define bustype_BDK_TNS_SDE_URW1_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_SPAD "TNS_SDE_URW1_SPAD"
+#define device_bar_BDK_TNS_SDE_URW1_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_SPAD 0
 #define arguments_BDK_TNS_SDE_URW1_SPAD -1,-1,-1,-1
 
@@ -21132,6 +21629,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_TPID_TBLX_WX(unsigned long a, unsigned l
 #define typedef_BDK_TNS_SDE_URW1_TPID_TBLX_WX(a,b) bdk_tns_sde_urw1_tpid_tblx_wx_t
 #define bustype_BDK_TNS_SDE_URW1_TPID_TBLX_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_TPID_TBLX_WX(a,b) "TNS_SDE_URW1_TPID_TBLX_WX"
+#define device_bar_BDK_TNS_SDE_URW1_TPID_TBLX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_TPID_TBLX_WX(a,b) (a)
 #define arguments_BDK_TNS_SDE_URW1_TPID_TBLX_WX(a,b) (a),(b),-1,-1
 
@@ -21172,6 +21670,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_TRT_TBLX_WX(unsigned long a, unsigned lo
 #define typedef_BDK_TNS_SDE_URW1_TRT_TBLX_WX(a,b) bdk_tns_sde_urw1_trt_tblx_wx_t
 #define bustype_BDK_TNS_SDE_URW1_TRT_TBLX_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW1_TRT_TBLX_WX(a,b) "TNS_SDE_URW1_TRT_TBLX_WX"
+#define device_bar_BDK_TNS_SDE_URW1_TRT_TBLX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW1_TRT_TBLX_WX(a,b) (a)
 #define arguments_BDK_TNS_SDE_URW1_TRT_TBLX_WX(a,b) (a),(b),-1,-1
 
@@ -21211,6 +21710,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_DBG_SEL bdk_tns_sde_urw2a_dbg_sel_t
 #define bustype_BDK_TNS_SDE_URW2A_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_DBG_SEL "TNS_SDE_URW2A_DBG_SEL"
+#define device_bar_BDK_TNS_SDE_URW2A_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_DBG_SEL 0
 #define arguments_BDK_TNS_SDE_URW2A_DBG_SEL -1,-1,-1,-1
 
@@ -21245,6 +21745,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_DBG_STA_LIVE_WX(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW2A_DBG_STA_LIVE_WX(a) bdk_tns_sde_urw2a_dbg_sta_live_wx_t
 #define bustype_BDK_TNS_SDE_URW2A_DBG_STA_LIVE_WX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_DBG_STA_LIVE_WX(a) "TNS_SDE_URW2A_DBG_STA_LIVE_WX"
+#define device_bar_BDK_TNS_SDE_URW2A_DBG_STA_LIVE_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_DBG_STA_LIVE_WX(a) (a)
 #define arguments_BDK_TNS_SDE_URW2A_DBG_STA_LIVE_WX(a) (a),-1,-1,-1
 
@@ -21281,6 +21782,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_ETAG_W0 bdk_tns_sde_urw2a_etag_w0_t
 #define bustype_BDK_TNS_SDE_URW2A_ETAG_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_ETAG_W0 "TNS_SDE_URW2A_ETAG_W0"
+#define device_bar_BDK_TNS_SDE_URW2A_ETAG_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_ETAG_W0 0
 #define arguments_BDK_TNS_SDE_URW2A_ETAG_W0 -1,-1,-1,-1
 
@@ -21316,6 +21818,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_ETAG_W1 bdk_tns_sde_urw2a_etag_w1_t
 #define bustype_BDK_TNS_SDE_URW2A_ETAG_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_ETAG_W1 "TNS_SDE_URW2A_ETAG_W1"
+#define device_bar_BDK_TNS_SDE_URW2A_ETAG_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_ETAG_W1 0
 #define arguments_BDK_TNS_SDE_URW2A_ETAG_W1 -1,-1,-1,-1
 
@@ -21351,6 +21854,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_ETAG_W2 bdk_tns_sde_urw2a_etag_w2_t
 #define bustype_BDK_TNS_SDE_URW2A_ETAG_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_ETAG_W2 "TNS_SDE_URW2A_ETAG_W2"
+#define device_bar_BDK_TNS_SDE_URW2A_ETAG_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_ETAG_W2 0
 #define arguments_BDK_TNS_SDE_URW2A_ETAG_W2 -1,-1,-1,-1
 
@@ -21386,6 +21890,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W3_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_ETAG_W3 bdk_tns_sde_urw2a_etag_w3_t
 #define bustype_BDK_TNS_SDE_URW2A_ETAG_W3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_ETAG_W3 "TNS_SDE_URW2A_ETAG_W3"
+#define device_bar_BDK_TNS_SDE_URW2A_ETAG_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_ETAG_W3 0
 #define arguments_BDK_TNS_SDE_URW2A_ETAG_W3 -1,-1,-1,-1
 
@@ -21425,6 +21930,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_ETAG_W4_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_ETAG_W4 bdk_tns_sde_urw2a_etag_w4_t
 #define bustype_BDK_TNS_SDE_URW2A_ETAG_W4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_ETAG_W4 "TNS_SDE_URW2A_ETAG_W4"
+#define device_bar_BDK_TNS_SDE_URW2A_ETAG_W4 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_ETAG_W4 0
 #define arguments_BDK_TNS_SDE_URW2A_ETAG_W4 -1,-1,-1,-1
 
@@ -21462,6 +21968,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_HDR_W0 bdk_tns_sde_urw2a_hdr_w0_t
 #define bustype_BDK_TNS_SDE_URW2A_HDR_W0 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2A_HDR_W0 "TNS_SDE_URW2A_HDR_W0"
+#define device_bar_BDK_TNS_SDE_URW2A_HDR_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_HDR_W0 0
 #define arguments_BDK_TNS_SDE_URW2A_HDR_W0 -1,-1,-1,-1
 
@@ -21497,6 +22004,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_HDR_W1 bdk_tns_sde_urw2a_hdr_w1_t
 #define bustype_BDK_TNS_SDE_URW2A_HDR_W1 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2A_HDR_W1 "TNS_SDE_URW2A_HDR_W1"
+#define device_bar_BDK_TNS_SDE_URW2A_HDR_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_HDR_W1 0
 #define arguments_BDK_TNS_SDE_URW2A_HDR_W1 -1,-1,-1,-1
 
@@ -21534,6 +22042,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_HDR_W2 bdk_tns_sde_urw2a_hdr_w2_t
 #define bustype_BDK_TNS_SDE_URW2A_HDR_W2 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2A_HDR_W2 "TNS_SDE_URW2A_HDR_W2"
+#define device_bar_BDK_TNS_SDE_URW2A_HDR_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_HDR_W2 0
 #define arguments_BDK_TNS_SDE_URW2A_HDR_W2 -1,-1,-1,-1
 
@@ -21569,6 +22078,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W3_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_HDR_W3 bdk_tns_sde_urw2a_hdr_w3_t
 #define bustype_BDK_TNS_SDE_URW2A_HDR_W3 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2A_HDR_W3 "TNS_SDE_URW2A_HDR_W3"
+#define device_bar_BDK_TNS_SDE_URW2A_HDR_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_HDR_W3 0
 #define arguments_BDK_TNS_SDE_URW2A_HDR_W3 -1,-1,-1,-1
 
@@ -21608,6 +22118,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_HDR_W4_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_HDR_W4 bdk_tns_sde_urw2a_hdr_w4_t
 #define bustype_BDK_TNS_SDE_URW2A_HDR_W4 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2A_HDR_W4 "TNS_SDE_URW2A_HDR_W4"
+#define device_bar_BDK_TNS_SDE_URW2A_HDR_W4 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_HDR_W4 0
 #define arguments_BDK_TNS_SDE_URW2A_HDR_W4 -1,-1,-1,-1
 
@@ -21646,6 +22157,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(a) bdk_tns_sde_urw2a_ins_ctd_tblx_w0_t
 #define bustype_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(a) "TNS_SDE_URW2A_INS_CTD_TBLX_W0"
+#define device_bar_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(a) (a),-1,-1,-1
 
@@ -21680,6 +22192,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(a) bdk_tns_sde_urw2a_ins_ctd_tblx_w1_t
 #define bustype_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(a) "TNS_SDE_URW2A_INS_CTD_TBLX_W1"
+#define device_bar_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(a) (a),-1,-1,-1
 
@@ -21714,6 +22227,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(a) bdk_tns_sde_urw2a_ins_ctd_tblx_w2_t
 #define bustype_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(a) "TNS_SDE_URW2A_INS_CTD_TBLX_W2"
+#define device_bar_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(a) (a),-1,-1,-1
 
@@ -21748,6 +22262,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(a) bdk_tns_sde_urw2a_ins_ctd_tblx_w3_t
 #define bustype_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(a) "TNS_SDE_URW2A_INS_CTD_TBLX_W3"
+#define device_bar_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(a) (a)
 #define arguments_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(a) (a),-1,-1,-1
 
@@ -21782,6 +22297,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(a) bdk_tns_sde_urw2a_ins_ctd_tblx_w4_t
 #define bustype_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(a) "TNS_SDE_URW2A_INS_CTD_TBLX_W4"
+#define device_bar_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(a) (a)
 #define arguments_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(a) (a),-1,-1,-1
 
@@ -21816,6 +22332,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(a) bdk_tns_sde_urw2a_ins_ctd_tblx_w5_t
 #define bustype_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(a) "TNS_SDE_URW2A_INS_CTD_TBLX_W5"
+#define device_bar_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(a) (a)
 #define arguments_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(a) (a),-1,-1,-1
 
@@ -21850,6 +22367,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(a) bdk_tns_sde_urw2a_ins_ctd_tblx_w6_t
 #define bustype_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(a) "TNS_SDE_URW2A_INS_CTD_TBLX_W6"
+#define device_bar_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(a) (a)
 #define arguments_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(a) (a),-1,-1,-1
 
@@ -21884,6 +22402,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(a) bdk_tns_sde_urw2a_ins_ctd_tblx_w7_t
 #define bustype_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(a) "TNS_SDE_URW2A_INS_CTD_TBLX_W7"
+#define device_bar_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(a) (a)
 #define arguments_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(a) (a),-1,-1,-1
 
@@ -21918,6 +22437,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(a) bdk_tns_sde_urw2a_ins_ctd_tblx_w8_t
 #define bustype_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(a) "TNS_SDE_URW2A_INS_CTD_TBLX_W8"
+#define device_bar_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(a) (a)
 #define arguments_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(a) (a),-1,-1,-1
 
@@ -21956,6 +22476,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_MEM_TBLX_WX(unsigned long a, unsign
 #define typedef_BDK_TNS_SDE_URW2A_INS_MEM_TBLX_WX(a,b) bdk_tns_sde_urw2a_ins_mem_tblx_wx_t
 #define bustype_BDK_TNS_SDE_URW2A_INS_MEM_TBLX_WX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2A_INS_MEM_TBLX_WX(a,b) "TNS_SDE_URW2A_INS_MEM_TBLX_WX"
+#define device_bar_BDK_TNS_SDE_URW2A_INS_MEM_TBLX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_INS_MEM_TBLX_WX(a,b) (a)
 #define arguments_BDK_TNS_SDE_URW2A_INS_MEM_TBLX_WX(a,b) (a),(b),-1,-1
 
@@ -21991,6 +22512,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_LOCK bdk_tns_sde_urw2a_lock_t
 #define bustype_BDK_TNS_SDE_URW2A_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_LOCK "TNS_SDE_URW2A_LOCK"
+#define device_bar_BDK_TNS_SDE_URW2A_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_LOCK 0
 #define arguments_BDK_TNS_SDE_URW2A_LOCK -1,-1,-1,-1
 
@@ -22029,6 +22551,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_RWMEM_TBLX_WX(unsigned long a, unsigned
 #define typedef_BDK_TNS_SDE_URW2A_RWMEM_TBLX_WX(a,b) bdk_tns_sde_urw2a_rwmem_tblx_wx_t
 #define bustype_BDK_TNS_SDE_URW2A_RWMEM_TBLX_WX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2A_RWMEM_TBLX_WX(a,b) "TNS_SDE_URW2A_RWMEM_TBLX_WX"
+#define device_bar_BDK_TNS_SDE_URW2A_RWMEM_TBLX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_RWMEM_TBLX_WX(a,b) (a)
 #define arguments_BDK_TNS_SDE_URW2A_RWMEM_TBLX_WX(a,b) (a),(b),-1,-1
 
@@ -22064,6 +22587,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2A_SPAD bdk_tns_sde_urw2a_spad_t
 #define bustype_BDK_TNS_SDE_URW2A_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2A_SPAD "TNS_SDE_URW2A_SPAD"
+#define device_bar_BDK_TNS_SDE_URW2A_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2A_SPAD 0
 #define arguments_BDK_TNS_SDE_URW2A_SPAD -1,-1,-1,-1
 
@@ -22107,6 +22631,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_CONTROL_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_CONTROL bdk_tns_sde_urw2b_control_t
 #define bustype_BDK_TNS_SDE_URW2B_CONTROL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_CONTROL "TNS_SDE_URW2B_CONTROL"
+#define device_bar_BDK_TNS_SDE_URW2B_CONTROL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_CONTROL 0
 #define arguments_BDK_TNS_SDE_URW2B_CONTROL -1,-1,-1,-1
 
@@ -22146,6 +22671,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_CPU_RCOD_BASE_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_CPU_RCOD_BASE bdk_tns_sde_urw2b_cpu_rcod_base_t
 #define bustype_BDK_TNS_SDE_URW2B_CPU_RCOD_BASE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_CPU_RCOD_BASE "TNS_SDE_URW2B_CPU_RCOD_BASE"
+#define device_bar_BDK_TNS_SDE_URW2B_CPU_RCOD_BASE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_CPU_RCOD_BASE 0
 #define arguments_BDK_TNS_SDE_URW2B_CPU_RCOD_BASE -1,-1,-1,-1
 
@@ -22185,6 +22711,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_DBG_SEL bdk_tns_sde_urw2b_dbg_sel_t
 #define bustype_BDK_TNS_SDE_URW2B_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_DBG_SEL "TNS_SDE_URW2B_DBG_SEL"
+#define device_bar_BDK_TNS_SDE_URW2B_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_DBG_SEL 0
 #define arguments_BDK_TNS_SDE_URW2B_DBG_SEL -1,-1,-1,-1
 
@@ -22222,6 +22749,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_DBG_STA_LIVE_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_DBG_STA_LIVE bdk_tns_sde_urw2b_dbg_sta_live_t
 #define bustype_BDK_TNS_SDE_URW2B_DBG_STA_LIVE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_DBG_STA_LIVE "TNS_SDE_URW2B_DBG_STA_LIVE"
+#define device_bar_BDK_TNS_SDE_URW2B_DBG_STA_LIVE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_DBG_STA_LIVE 0
 #define arguments_BDK_TNS_SDE_URW2B_DBG_STA_LIVE -1,-1,-1,-1
 
@@ -22258,6 +22786,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_ETAG_W0 bdk_tns_sde_urw2b_etag_w0_t
 #define bustype_BDK_TNS_SDE_URW2B_ETAG_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_ETAG_W0 "TNS_SDE_URW2B_ETAG_W0"
+#define device_bar_BDK_TNS_SDE_URW2B_ETAG_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_ETAG_W0 0
 #define arguments_BDK_TNS_SDE_URW2B_ETAG_W0 -1,-1,-1,-1
 
@@ -22293,6 +22822,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_ETAG_W1 bdk_tns_sde_urw2b_etag_w1_t
 #define bustype_BDK_TNS_SDE_URW2B_ETAG_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_ETAG_W1 "TNS_SDE_URW2B_ETAG_W1"
+#define device_bar_BDK_TNS_SDE_URW2B_ETAG_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_ETAG_W1 0
 #define arguments_BDK_TNS_SDE_URW2B_ETAG_W1 -1,-1,-1,-1
 
@@ -22328,6 +22858,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_ETAG_W2 bdk_tns_sde_urw2b_etag_w2_t
 #define bustype_BDK_TNS_SDE_URW2B_ETAG_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_ETAG_W2 "TNS_SDE_URW2B_ETAG_W2"
+#define device_bar_BDK_TNS_SDE_URW2B_ETAG_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_ETAG_W2 0
 #define arguments_BDK_TNS_SDE_URW2B_ETAG_W2 -1,-1,-1,-1
 
@@ -22363,6 +22894,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W3_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_ETAG_W3 bdk_tns_sde_urw2b_etag_w3_t
 #define bustype_BDK_TNS_SDE_URW2B_ETAG_W3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_ETAG_W3 "TNS_SDE_URW2B_ETAG_W3"
+#define device_bar_BDK_TNS_SDE_URW2B_ETAG_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_ETAG_W3 0
 #define arguments_BDK_TNS_SDE_URW2B_ETAG_W3 -1,-1,-1,-1
 
@@ -22402,6 +22934,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_ETAG_W4_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_ETAG_W4 bdk_tns_sde_urw2b_etag_w4_t
 #define bustype_BDK_TNS_SDE_URW2B_ETAG_W4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_ETAG_W4 "TNS_SDE_URW2B_ETAG_W4"
+#define device_bar_BDK_TNS_SDE_URW2B_ETAG_W4 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_ETAG_W4 0
 #define arguments_BDK_TNS_SDE_URW2B_ETAG_W4 -1,-1,-1,-1
 
@@ -22439,6 +22972,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_HDR_W0 bdk_tns_sde_urw2b_hdr_w0_t
 #define bustype_BDK_TNS_SDE_URW2B_HDR_W0 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2B_HDR_W0 "TNS_SDE_URW2B_HDR_W0"
+#define device_bar_BDK_TNS_SDE_URW2B_HDR_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_HDR_W0 0
 #define arguments_BDK_TNS_SDE_URW2B_HDR_W0 -1,-1,-1,-1
 
@@ -22474,6 +23008,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_HDR_W1 bdk_tns_sde_urw2b_hdr_w1_t
 #define bustype_BDK_TNS_SDE_URW2B_HDR_W1 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2B_HDR_W1 "TNS_SDE_URW2B_HDR_W1"
+#define device_bar_BDK_TNS_SDE_URW2B_HDR_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_HDR_W1 0
 #define arguments_BDK_TNS_SDE_URW2B_HDR_W1 -1,-1,-1,-1
 
@@ -22511,6 +23046,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_HDR_W2 bdk_tns_sde_urw2b_hdr_w2_t
 #define bustype_BDK_TNS_SDE_URW2B_HDR_W2 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2B_HDR_W2 "TNS_SDE_URW2B_HDR_W2"
+#define device_bar_BDK_TNS_SDE_URW2B_HDR_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_HDR_W2 0
 #define arguments_BDK_TNS_SDE_URW2B_HDR_W2 -1,-1,-1,-1
 
@@ -22546,6 +23082,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W3_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_HDR_W3 bdk_tns_sde_urw2b_hdr_w3_t
 #define bustype_BDK_TNS_SDE_URW2B_HDR_W3 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2B_HDR_W3 "TNS_SDE_URW2B_HDR_W3"
+#define device_bar_BDK_TNS_SDE_URW2B_HDR_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_HDR_W3 0
 #define arguments_BDK_TNS_SDE_URW2B_HDR_W3 -1,-1,-1,-1
 
@@ -22585,6 +23122,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_HDR_W4_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_HDR_W4 bdk_tns_sde_urw2b_hdr_w4_t
 #define bustype_BDK_TNS_SDE_URW2B_HDR_W4 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW2B_HDR_W4 "TNS_SDE_URW2B_HDR_W4"
+#define device_bar_BDK_TNS_SDE_URW2B_HDR_W4 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_HDR_W4 0
 #define arguments_BDK_TNS_SDE_URW2B_HDR_W4 -1,-1,-1,-1
 
@@ -22622,6 +23160,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_INT_EN_HI bdk_tns_sde_urw2b_int_en_hi_t
 #define bustype_BDK_TNS_SDE_URW2B_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_INT_EN_HI "TNS_SDE_URW2B_INT_EN_HI"
+#define device_bar_BDK_TNS_SDE_URW2B_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_INT_EN_HI 0
 #define arguments_BDK_TNS_SDE_URW2B_INT_EN_HI -1,-1,-1,-1
 
@@ -22659,6 +23198,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_INT_EN_LO bdk_tns_sde_urw2b_int_en_lo_t
 #define bustype_BDK_TNS_SDE_URW2B_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_INT_EN_LO "TNS_SDE_URW2B_INT_EN_LO"
+#define device_bar_BDK_TNS_SDE_URW2B_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_INT_EN_LO 0
 #define arguments_BDK_TNS_SDE_URW2B_INT_EN_LO -1,-1,-1,-1
 
@@ -22696,6 +23236,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_INT_FRC bdk_tns_sde_urw2b_int_frc_t
 #define bustype_BDK_TNS_SDE_URW2B_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_INT_FRC "TNS_SDE_URW2B_INT_FRC"
+#define device_bar_BDK_TNS_SDE_URW2B_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_INT_FRC 0
 #define arguments_BDK_TNS_SDE_URW2B_INT_FRC -1,-1,-1,-1
 
@@ -22733,6 +23274,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_INT_W1C bdk_tns_sde_urw2b_int_w1c_t
 #define bustype_BDK_TNS_SDE_URW2B_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_INT_W1C "TNS_SDE_URW2B_INT_W1C"
+#define device_bar_BDK_TNS_SDE_URW2B_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_INT_W1C 0
 #define arguments_BDK_TNS_SDE_URW2B_INT_W1C -1,-1,-1,-1
 
@@ -22768,6 +23310,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_LOCK bdk_tns_sde_urw2b_lock_t
 #define bustype_BDK_TNS_SDE_URW2B_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_LOCK "TNS_SDE_URW2B_LOCK"
+#define device_bar_BDK_TNS_SDE_URW2B_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_LOCK 0
 #define arguments_BDK_TNS_SDE_URW2B_LOCK -1,-1,-1,-1
 
@@ -22805,6 +23348,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MIR_MASK_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_MIR_MASK_W0 bdk_tns_sde_urw2b_mir_mask_w0_t
 #define bustype_BDK_TNS_SDE_URW2B_MIR_MASK_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_MIR_MASK_W0 "TNS_SDE_URW2B_MIR_MASK_W0"
+#define device_bar_BDK_TNS_SDE_URW2B_MIR_MASK_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_MIR_MASK_W0 0
 #define arguments_BDK_TNS_SDE_URW2B_MIR_MASK_W0 -1,-1,-1,-1
 
@@ -22842,6 +23386,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MIR_MASK_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_MIR_MASK_W1 bdk_tns_sde_urw2b_mir_mask_w1_t
 #define bustype_BDK_TNS_SDE_URW2B_MIR_MASK_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_MIR_MASK_W1 "TNS_SDE_URW2B_MIR_MASK_W1"
+#define device_bar_BDK_TNS_SDE_URW2B_MIR_MASK_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_MIR_MASK_W1 0
 #define arguments_BDK_TNS_SDE_URW2B_MIR_MASK_W1 -1,-1,-1,-1
 
@@ -22881,6 +23426,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MRE_DCNT_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_MRE_DCNT_W0 bdk_tns_sde_urw2b_mre_dcnt_w0_t
 #define bustype_BDK_TNS_SDE_URW2B_MRE_DCNT_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_MRE_DCNT_W0 "TNS_SDE_URW2B_MRE_DCNT_W0"
+#define device_bar_BDK_TNS_SDE_URW2B_MRE_DCNT_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_MRE_DCNT_W0 0
 #define arguments_BDK_TNS_SDE_URW2B_MRE_DCNT_W0 -1,-1,-1,-1
 
@@ -22920,6 +23466,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MRE_DCNT_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_MRE_DCNT_W1 bdk_tns_sde_urw2b_mre_dcnt_w1_t
 #define bustype_BDK_TNS_SDE_URW2B_MRE_DCNT_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_MRE_DCNT_W1 "TNS_SDE_URW2B_MRE_DCNT_W1"
+#define device_bar_BDK_TNS_SDE_URW2B_MRE_DCNT_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_MRE_DCNT_W1 0
 #define arguments_BDK_TNS_SDE_URW2B_MRE_DCNT_W1 -1,-1,-1,-1
 
@@ -22957,6 +23504,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MRE_DCNT_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_MRE_DCNT_W2 bdk_tns_sde_urw2b_mre_dcnt_w2_t
 #define bustype_BDK_TNS_SDE_URW2B_MRE_DCNT_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_MRE_DCNT_W2 "TNS_SDE_URW2B_MRE_DCNT_W2"
+#define device_bar_BDK_TNS_SDE_URW2B_MRE_DCNT_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_MRE_DCNT_W2 0
 #define arguments_BDK_TNS_SDE_URW2B_MRE_DCNT_W2 -1,-1,-1,-1
 
@@ -22994,6 +23542,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MRE_PRI_TBL_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_MRE_PRI_TBL bdk_tns_sde_urw2b_mre_pri_tbl_t
 #define bustype_BDK_TNS_SDE_URW2B_MRE_PRI_TBL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_MRE_PRI_TBL "TNS_SDE_URW2B_MRE_PRI_TBL"
+#define device_bar_BDK_TNS_SDE_URW2B_MRE_PRI_TBL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_MRE_PRI_TBL 0
 #define arguments_BDK_TNS_SDE_URW2B_MRE_PRI_TBL -1,-1,-1,-1
 
@@ -23041,6 +23590,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MREIF_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_MREIF bdk_tns_sde_urw2b_mreif_t
 #define bustype_BDK_TNS_SDE_URW2B_MREIF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_MREIF "TNS_SDE_URW2B_MREIF"
+#define device_bar_BDK_TNS_SDE_URW2B_MREIF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_MREIF 0
 #define arguments_BDK_TNS_SDE_URW2B_MREIF -1,-1,-1,-1
 
@@ -23078,6 +23628,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MREPTR_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_MREPTR_W0 bdk_tns_sde_urw2b_mreptr_w0_t
 #define bustype_BDK_TNS_SDE_URW2B_MREPTR_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_MREPTR_W0 "TNS_SDE_URW2B_MREPTR_W0"
+#define device_bar_BDK_TNS_SDE_URW2B_MREPTR_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_MREPTR_W0 0
 #define arguments_BDK_TNS_SDE_URW2B_MREPTR_W0 -1,-1,-1,-1
 
@@ -23117,6 +23668,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MREPTR_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_MREPTR_W1 bdk_tns_sde_urw2b_mreptr_w1_t
 #define bustype_BDK_TNS_SDE_URW2B_MREPTR_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_MREPTR_W1 "TNS_SDE_URW2B_MREPTR_W1"
+#define device_bar_BDK_TNS_SDE_URW2B_MREPTR_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_MREPTR_W1 0
 #define arguments_BDK_TNS_SDE_URW2B_MREPTR_W1 -1,-1,-1,-1
 
@@ -23154,6 +23706,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MREPTR_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_MREPTR_W2 bdk_tns_sde_urw2b_mreptr_w2_t
 #define bustype_BDK_TNS_SDE_URW2B_MREPTR_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_MREPTR_W2 "TNS_SDE_URW2B_MREPTR_W2"
+#define device_bar_BDK_TNS_SDE_URW2B_MREPTR_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_MREPTR_W2 0
 #define arguments_BDK_TNS_SDE_URW2B_MREPTR_W2 -1,-1,-1,-1
 
@@ -23189,6 +23742,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MTU_PRF_TBL_WX(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW2B_MTU_PRF_TBL_WX(a) bdk_tns_sde_urw2b_mtu_prf_tbl_wx_t
 #define bustype_BDK_TNS_SDE_URW2B_MTU_PRF_TBL_WX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_MTU_PRF_TBL_WX(a) "TNS_SDE_URW2B_MTU_PRF_TBL_WX"
+#define device_bar_BDK_TNS_SDE_URW2B_MTU_PRF_TBL_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_MTU_PRF_TBL_WX(a) (a)
 #define arguments_BDK_TNS_SDE_URW2B_MTU_PRF_TBL_WX(a) (a),-1,-1,-1
 
@@ -23224,6 +23778,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_SPAD bdk_tns_sde_urw2b_spad_t
 #define bustype_BDK_TNS_SDE_URW2B_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_SPAD "TNS_SDE_URW2B_SPAD"
+#define device_bar_BDK_TNS_SDE_URW2B_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_SPAD 0
 #define arguments_BDK_TNS_SDE_URW2B_SPAD -1,-1,-1,-1
 
@@ -23259,6 +23814,7 @@ static inline uint64_t BDK_TNS_SDE_URW2B_TCLS_PMAP_TBL_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW2B_TCLS_PMAP_TBL bdk_tns_sde_urw2b_tcls_pmap_tbl_t
 #define bustype_BDK_TNS_SDE_URW2B_TCLS_PMAP_TBL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW2B_TCLS_PMAP_TBL "TNS_SDE_URW2B_TCLS_PMAP_TBL"
+#define device_bar_BDK_TNS_SDE_URW2B_TCLS_PMAP_TBL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW2B_TCLS_PMAP_TBL 0
 #define arguments_BDK_TNS_SDE_URW2B_TCLS_PMAP_TBL -1,-1,-1,-1
 
@@ -23302,6 +23858,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_CNNCMD_TBLX(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW3_CNNCMD_TBLX(a) bdk_tns_sde_urw3_cnncmd_tblx_t
 #define bustype_BDK_TNS_SDE_URW3_CNNCMD_TBLX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW3_CNNCMD_TBLX(a) "TNS_SDE_URW3_CNNCMD_TBLX"
+#define device_bar_BDK_TNS_SDE_URW3_CNNCMD_TBLX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_CNNCMD_TBLX(a) (a)
 #define arguments_BDK_TNS_SDE_URW3_CNNCMD_TBLX(a) (a),-1,-1,-1
 
@@ -23345,6 +23902,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_CONTROL_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_CONTROL bdk_tns_sde_urw3_control_t
 #define bustype_BDK_TNS_SDE_URW3_CONTROL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_CONTROL "TNS_SDE_URW3_CONTROL"
+#define device_bar_BDK_TNS_SDE_URW3_CONTROL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_CONTROL 0
 #define arguments_BDK_TNS_SDE_URW3_CONTROL -1,-1,-1,-1
 
@@ -23388,6 +23946,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DBG_LPATHF_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_DBG_LPATHF bdk_tns_sde_urw3_dbg_lpathf_t
 #define bustype_BDK_TNS_SDE_URW3_DBG_LPATHF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_DBG_LPATHF "TNS_SDE_URW3_DBG_LPATHF"
+#define device_bar_BDK_TNS_SDE_URW3_DBG_LPATHF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_DBG_LPATHF 0
 #define arguments_BDK_TNS_SDE_URW3_DBG_LPATHF -1,-1,-1,-1
 
@@ -23427,6 +23986,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_DBG_SEL bdk_tns_sde_urw3_dbg_sel_t
 #define bustype_BDK_TNS_SDE_URW3_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_DBG_SEL "TNS_SDE_URW3_DBG_SEL"
+#define device_bar_BDK_TNS_SDE_URW3_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_DBG_SEL 0
 #define arguments_BDK_TNS_SDE_URW3_DBG_SEL -1,-1,-1,-1
 
@@ -23468,6 +24028,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DBG_STA_LIVE_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_DBG_STA_LIVE bdk_tns_sde_urw3_dbg_sta_live_t
 #define bustype_BDK_TNS_SDE_URW3_DBG_STA_LIVE BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW3_DBG_STA_LIVE "TNS_SDE_URW3_DBG_STA_LIVE"
+#define device_bar_BDK_TNS_SDE_URW3_DBG_STA_LIVE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_DBG_STA_LIVE 0
 #define arguments_BDK_TNS_SDE_URW3_DBG_STA_LIVE -1,-1,-1,-1
 
@@ -23511,6 +24072,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DBG_TXQ_RPF_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_DBG_TXQ_RPF bdk_tns_sde_urw3_dbg_txq_rpf_t
 #define bustype_BDK_TNS_SDE_URW3_DBG_TXQ_RPF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_DBG_TXQ_RPF "TNS_SDE_URW3_DBG_TXQ_RPF"
+#define device_bar_BDK_TNS_SDE_URW3_DBG_TXQ_RPF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_DBG_TXQ_RPF 0
 #define arguments_BDK_TNS_SDE_URW3_DBG_TXQ_RPF -1,-1,-1,-1
 
@@ -23548,6 +24110,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DYN_DBG_LPATHF_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_DYN_DBG_LPATHF bdk_tns_sde_urw3_dyn_dbg_lpathf_t
 #define bustype_BDK_TNS_SDE_URW3_DYN_DBG_LPATHF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_DYN_DBG_LPATHF "TNS_SDE_URW3_DYN_DBG_LPATHF"
+#define device_bar_BDK_TNS_SDE_URW3_DYN_DBG_LPATHF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_DYN_DBG_LPATHF 0
 #define arguments_BDK_TNS_SDE_URW3_DYN_DBG_LPATHF -1,-1,-1,-1
 
@@ -23585,6 +24148,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_DYN_DBG_TXQ_RPF_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_DYN_DBG_TXQ_RPF bdk_tns_sde_urw3_dyn_dbg_txq_rpf_t
 #define bustype_BDK_TNS_SDE_URW3_DYN_DBG_TXQ_RPF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_DYN_DBG_TXQ_RPF "TNS_SDE_URW3_DYN_DBG_TXQ_RPF"
+#define device_bar_BDK_TNS_SDE_URW3_DYN_DBG_TXQ_RPF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_DYN_DBG_TXQ_RPF 0
 #define arguments_BDK_TNS_SDE_URW3_DYN_DBG_TXQ_RPF -1,-1,-1,-1
 
@@ -23628,6 +24192,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_CD_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_ECC_CTL_CD bdk_tns_sde_urw3_ecc_ctl_cd_t
 #define bustype_BDK_TNS_SDE_URW3_ECC_CTL_CD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_ECC_CTL_CD "TNS_SDE_URW3_ECC_CTL_CD"
+#define device_bar_BDK_TNS_SDE_URW3_ECC_CTL_CD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_ECC_CTL_CD 0
 #define arguments_BDK_TNS_SDE_URW3_ECC_CTL_CD -1,-1,-1,-1
 
@@ -23667,6 +24232,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_FLP_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W0 bdk_tns_sde_urw3_ecc_ctl_flp_w0_t
 #define bustype_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W0 "TNS_SDE_URW3_ECC_CTL_FLP_W0"
+#define device_bar_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W0 0
 #define arguments_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W0 -1,-1,-1,-1
 
@@ -23708,6 +24274,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_FLP_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W1 bdk_tns_sde_urw3_ecc_ctl_flp_w1_t
 #define bustype_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W1 "TNS_SDE_URW3_ECC_CTL_FLP_W1"
+#define device_bar_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W1 0
 #define arguments_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W1 -1,-1,-1,-1
 
@@ -23747,6 +24314,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_ECC_CTL_FLP_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W2 bdk_tns_sde_urw3_ecc_ctl_flp_w2_t
 #define bustype_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W2 "TNS_SDE_URW3_ECC_CTL_FLP_W2"
+#define device_bar_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W2 0
 #define arguments_BDK_TNS_SDE_URW3_ECC_CTL_FLP_W2 -1,-1,-1,-1
 
@@ -23785,6 +24353,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_ETAG_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_ETAG bdk_tns_sde_urw3_etag_t
 #define bustype_BDK_TNS_SDE_URW3_ETAG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_ETAG "TNS_SDE_URW3_ETAG"
+#define device_bar_BDK_TNS_SDE_URW3_ETAG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_ETAG 0
 #define arguments_BDK_TNS_SDE_URW3_ETAG -1,-1,-1,-1
 
@@ -23826,6 +24395,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_EVIF_MREPTR_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_EVIF_MREPTR_W0 bdk_tns_sde_urw3_evif_mreptr_w0_t
 #define bustype_BDK_TNS_SDE_URW3_EVIF_MREPTR_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_EVIF_MREPTR_W0 "TNS_SDE_URW3_EVIF_MREPTR_W0"
+#define device_bar_BDK_TNS_SDE_URW3_EVIF_MREPTR_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_EVIF_MREPTR_W0 0
 #define arguments_BDK_TNS_SDE_URW3_EVIF_MREPTR_W0 -1,-1,-1,-1
 
@@ -23863,6 +24433,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_EVIF_MREPTR_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_EVIF_MREPTR_W1 bdk_tns_sde_urw3_evif_mreptr_w1_t
 #define bustype_BDK_TNS_SDE_URW3_EVIF_MREPTR_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_EVIF_MREPTR_W1 "TNS_SDE_URW3_EVIF_MREPTR_W1"
+#define device_bar_BDK_TNS_SDE_URW3_EVIF_MREPTR_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_EVIF_MREPTR_W1 0
 #define arguments_BDK_TNS_SDE_URW3_EVIF_MREPTR_W1 -1,-1,-1,-1
 
@@ -23900,6 +24471,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INS0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INS0 bdk_tns_sde_urw3_ins0_t
 #define bustype_BDK_TNS_SDE_URW3_INS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW3_INS0 "TNS_SDE_URW3_INS0"
+#define device_bar_BDK_TNS_SDE_URW3_INS0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INS0 0
 #define arguments_BDK_TNS_SDE_URW3_INS0 -1,-1,-1,-1
 
@@ -23937,6 +24509,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INS1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INS1 bdk_tns_sde_urw3_ins1_t
 #define bustype_BDK_TNS_SDE_URW3_INS1 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW3_INS1 "TNS_SDE_URW3_INS1"
+#define device_bar_BDK_TNS_SDE_URW3_INS1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INS1 0
 #define arguments_BDK_TNS_SDE_URW3_INS1 -1,-1,-1,-1
 
@@ -23974,6 +24547,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INS2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INS2 bdk_tns_sde_urw3_ins2_t
 #define bustype_BDK_TNS_SDE_URW3_INS2 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW3_INS2 "TNS_SDE_URW3_INS2"
+#define device_bar_BDK_TNS_SDE_URW3_INS2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INS2 0
 #define arguments_BDK_TNS_SDE_URW3_INS2 -1,-1,-1,-1
 
@@ -24011,6 +24585,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INS3_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INS3 bdk_tns_sde_urw3_ins3_t
 #define bustype_BDK_TNS_SDE_URW3_INS3 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW3_INS3 "TNS_SDE_URW3_INS3"
+#define device_bar_BDK_TNS_SDE_URW3_INS3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INS3 0
 #define arguments_BDK_TNS_SDE_URW3_INS3 -1,-1,-1,-1
 
@@ -24045,6 +24620,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INS_FIFX(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW3_INS_FIFX(a) bdk_tns_sde_urw3_ins_fifx_t
 #define bustype_BDK_TNS_SDE_URW3_INS_FIFX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW3_INS_FIFX(a) "TNS_SDE_URW3_INS_FIFX"
+#define device_bar_BDK_TNS_SDE_URW3_INS_FIFX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INS_FIFX(a) (a)
 #define arguments_BDK_TNS_SDE_URW3_INS_FIFX(a) (a),-1,-1,-1
 
@@ -24094,6 +24670,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_HI_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_EN_HI_W0 bdk_tns_sde_urw3_int_en_hi_w0_t
 #define bustype_BDK_TNS_SDE_URW3_INT_EN_HI_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_EN_HI_W0 "TNS_SDE_URW3_INT_EN_HI_W0"
+#define device_bar_BDK_TNS_SDE_URW3_INT_EN_HI_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_EN_HI_W0 0
 #define arguments_BDK_TNS_SDE_URW3_INT_EN_HI_W0 -1,-1,-1,-1
 
@@ -24131,6 +24708,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_HI_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_EN_HI_W1 bdk_tns_sde_urw3_int_en_hi_w1_t
 #define bustype_BDK_TNS_SDE_URW3_INT_EN_HI_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_EN_HI_W1 "TNS_SDE_URW3_INT_EN_HI_W1"
+#define device_bar_BDK_TNS_SDE_URW3_INT_EN_HI_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_EN_HI_W1 0
 #define arguments_BDK_TNS_SDE_URW3_INT_EN_HI_W1 -1,-1,-1,-1
 
@@ -24172,6 +24750,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_HI_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_EN_HI_W2 bdk_tns_sde_urw3_int_en_hi_w2_t
 #define bustype_BDK_TNS_SDE_URW3_INT_EN_HI_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_EN_HI_W2 "TNS_SDE_URW3_INT_EN_HI_W2"
+#define device_bar_BDK_TNS_SDE_URW3_INT_EN_HI_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_EN_HI_W2 0
 #define arguments_BDK_TNS_SDE_URW3_INT_EN_HI_W2 -1,-1,-1,-1
 
@@ -24221,6 +24800,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_LO_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_EN_LO_W0 bdk_tns_sde_urw3_int_en_lo_w0_t
 #define bustype_BDK_TNS_SDE_URW3_INT_EN_LO_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_EN_LO_W0 "TNS_SDE_URW3_INT_EN_LO_W0"
+#define device_bar_BDK_TNS_SDE_URW3_INT_EN_LO_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_EN_LO_W0 0
 #define arguments_BDK_TNS_SDE_URW3_INT_EN_LO_W0 -1,-1,-1,-1
 
@@ -24258,6 +24838,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_LO_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_EN_LO_W1 bdk_tns_sde_urw3_int_en_lo_w1_t
 #define bustype_BDK_TNS_SDE_URW3_INT_EN_LO_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_EN_LO_W1 "TNS_SDE_URW3_INT_EN_LO_W1"
+#define device_bar_BDK_TNS_SDE_URW3_INT_EN_LO_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_EN_LO_W1 0
 #define arguments_BDK_TNS_SDE_URW3_INT_EN_LO_W1 -1,-1,-1,-1
 
@@ -24299,6 +24880,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_EN_LO_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_EN_LO_W2 bdk_tns_sde_urw3_int_en_lo_w2_t
 #define bustype_BDK_TNS_SDE_URW3_INT_EN_LO_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_EN_LO_W2 "TNS_SDE_URW3_INT_EN_LO_W2"
+#define device_bar_BDK_TNS_SDE_URW3_INT_EN_LO_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_EN_LO_W2 0
 #define arguments_BDK_TNS_SDE_URW3_INT_EN_LO_W2 -1,-1,-1,-1
 
@@ -24348,6 +24930,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_FRC_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_FRC_W0 bdk_tns_sde_urw3_int_frc_w0_t
 #define bustype_BDK_TNS_SDE_URW3_INT_FRC_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_FRC_W0 "TNS_SDE_URW3_INT_FRC_W0"
+#define device_bar_BDK_TNS_SDE_URW3_INT_FRC_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_FRC_W0 0
 #define arguments_BDK_TNS_SDE_URW3_INT_FRC_W0 -1,-1,-1,-1
 
@@ -24385,6 +24968,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_FRC_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_FRC_W1 bdk_tns_sde_urw3_int_frc_w1_t
 #define bustype_BDK_TNS_SDE_URW3_INT_FRC_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_FRC_W1 "TNS_SDE_URW3_INT_FRC_W1"
+#define device_bar_BDK_TNS_SDE_URW3_INT_FRC_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_FRC_W1 0
 #define arguments_BDK_TNS_SDE_URW3_INT_FRC_W1 -1,-1,-1,-1
 
@@ -24426,6 +25010,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_FRC_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_FRC_W2 bdk_tns_sde_urw3_int_frc_w2_t
 #define bustype_BDK_TNS_SDE_URW3_INT_FRC_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_FRC_W2 "TNS_SDE_URW3_INT_FRC_W2"
+#define device_bar_BDK_TNS_SDE_URW3_INT_FRC_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_FRC_W2 0
 #define arguments_BDK_TNS_SDE_URW3_INT_FRC_W2 -1,-1,-1,-1
 
@@ -24475,6 +25060,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_W1C_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_W1C_W0 bdk_tns_sde_urw3_int_w1c_w0_t
 #define bustype_BDK_TNS_SDE_URW3_INT_W1C_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_W1C_W0 "TNS_SDE_URW3_INT_W1C_W0"
+#define device_bar_BDK_TNS_SDE_URW3_INT_W1C_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_W1C_W0 0
 #define arguments_BDK_TNS_SDE_URW3_INT_W1C_W0 -1,-1,-1,-1
 
@@ -24512,6 +25098,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_W1C_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_W1C_W1 bdk_tns_sde_urw3_int_w1c_w1_t
 #define bustype_BDK_TNS_SDE_URW3_INT_W1C_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_W1C_W1 "TNS_SDE_URW3_INT_W1C_W1"
+#define device_bar_BDK_TNS_SDE_URW3_INT_W1C_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_W1C_W1 0
 #define arguments_BDK_TNS_SDE_URW3_INT_W1C_W1 -1,-1,-1,-1
 
@@ -24553,6 +25140,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_INT_W1C_W2_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_INT_W1C_W2 bdk_tns_sde_urw3_int_w1c_w2_t
 #define bustype_BDK_TNS_SDE_URW3_INT_W1C_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_INT_W1C_W2 "TNS_SDE_URW3_INT_W1C_W2"
+#define device_bar_BDK_TNS_SDE_URW3_INT_W1C_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_INT_W1C_W2 0
 #define arguments_BDK_TNS_SDE_URW3_INT_W1C_W2 -1,-1,-1,-1
 
@@ -24588,6 +25176,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_LOCK bdk_tns_sde_urw3_lock_t
 #define bustype_BDK_TNS_SDE_URW3_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_LOCK "TNS_SDE_URW3_LOCK"
+#define device_bar_BDK_TNS_SDE_URW3_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_LOCK 0
 #define arguments_BDK_TNS_SDE_URW3_LOCK -1,-1,-1,-1
 
@@ -24633,6 +25222,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_MAX_IN_FLIGHT_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_MAX_IN_FLIGHT bdk_tns_sde_urw3_max_in_flight_t
 #define bustype_BDK_TNS_SDE_URW3_MAX_IN_FLIGHT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_MAX_IN_FLIGHT "TNS_SDE_URW3_MAX_IN_FLIGHT"
+#define device_bar_BDK_TNS_SDE_URW3_MAX_IN_FLIGHT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_MAX_IN_FLIGHT 0
 #define arguments_BDK_TNS_SDE_URW3_MAX_IN_FLIGHT -1,-1,-1,-1
 
@@ -24670,6 +25260,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_MIR_MASK_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_MIR_MASK bdk_tns_sde_urw3_mir_mask_t
 #define bustype_BDK_TNS_SDE_URW3_MIR_MASK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_MIR_MASK "TNS_SDE_URW3_MIR_MASK"
+#define device_bar_BDK_TNS_SDE_URW3_MIR_MASK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_MIR_MASK 0
 #define arguments_BDK_TNS_SDE_URW3_MIR_MASK -1,-1,-1,-1
 
@@ -24705,6 +25296,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_PRT_EM_WX(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW3_PRT_EM_WX(a) bdk_tns_sde_urw3_prt_em_wx_t
 #define bustype_BDK_TNS_SDE_URW3_PRT_EM_WX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_PRT_EM_WX(a) "TNS_SDE_URW3_PRT_EM_WX"
+#define device_bar_BDK_TNS_SDE_URW3_PRT_EM_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_PRT_EM_WX(a) (a)
 #define arguments_BDK_TNS_SDE_URW3_PRT_EM_WX(a) (a),-1,-1,-1
 
@@ -24746,6 +25338,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_RR_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_RR bdk_tns_sde_urw3_rr_t
 #define bustype_BDK_TNS_SDE_URW3_RR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_RR "TNS_SDE_URW3_RR"
+#define device_bar_BDK_TNS_SDE_URW3_RR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_RR 0
 #define arguments_BDK_TNS_SDE_URW3_RR -1,-1,-1,-1
 
@@ -24783,6 +25376,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SE_INS_FIF_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_SE_INS_FIF bdk_tns_sde_urw3_se_ins_fif_t
 #define bustype_BDK_TNS_SDE_URW3_SE_INS_FIF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_SE_INS_FIF "TNS_SDE_URW3_SE_INS_FIF"
+#define device_bar_BDK_TNS_SDE_URW3_SE_INS_FIF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_SE_INS_FIF 0
 #define arguments_BDK_TNS_SDE_URW3_SE_INS_FIF -1,-1,-1,-1
 
@@ -24820,6 +25414,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SE_VIF_FIF_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_SE_VIF_FIF bdk_tns_sde_urw3_se_vif_fif_t
 #define bustype_BDK_TNS_SDE_URW3_SE_VIF_FIF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_SE_VIF_FIF "TNS_SDE_URW3_SE_VIF_FIF"
+#define device_bar_BDK_TNS_SDE_URW3_SE_VIF_FIF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_SE_VIF_FIF 0
 #define arguments_BDK_TNS_SDE_URW3_SE_VIF_FIF -1,-1,-1,-1
 
@@ -24877,6 +25472,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(a) bdk_tns_sde_urw3_sein_rp_tblx_w0_t
 #define bustype_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(a) "TNS_SDE_URW3_SEIN_RP_TBLX_W0"
+#define device_bar_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(a) (a),-1,-1,-1
 
@@ -24919,6 +25515,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(a) bdk_tns_sde_urw3_sein_rp_tblx_w1_t
 #define bustype_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(a) "TNS_SDE_URW3_SEIN_RP_TBLX_W1"
+#define device_bar_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(a) (a)
 #define arguments_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(a) (a),-1,-1,-1
 
@@ -24957,6 +25554,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(a) bdk_tns_sde_urw3_sein_rp_tblx_w2_t
 #define bustype_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(a) "TNS_SDE_URW3_SEIN_RP_TBLX_W2"
+#define device_bar_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(a) (a)
 #define arguments_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(a) (a),-1,-1,-1
 
@@ -24992,6 +25590,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_SPAD bdk_tns_sde_urw3_spad_t
 #define bustype_BDK_TNS_SDE_URW3_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_SPAD "TNS_SDE_URW3_SPAD"
+#define device_bar_BDK_TNS_SDE_URW3_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_SPAD 0
 #define arguments_BDK_TNS_SDE_URW3_SPAD -1,-1,-1,-1
 
@@ -25030,6 +25629,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_TQIFX_WX(unsigned long a, unsigned long 
 #define typedef_BDK_TNS_SDE_URW3_TQIFX_WX(a,b) bdk_tns_sde_urw3_tqifx_wx_t
 #define bustype_BDK_TNS_SDE_URW3_TQIFX_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_TQIFX_WX(a,b) "TNS_SDE_URW3_TQIFX_WX"
+#define device_bar_BDK_TNS_SDE_URW3_TQIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_TQIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_SDE_URW3_TQIFX_WX(a,b) (a),(b),-1,-1
 
@@ -25064,6 +25664,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_VIF_FIFX(unsigned long a)
 #define typedef_BDK_TNS_SDE_URW3_VIF_FIFX(a) bdk_tns_sde_urw3_vif_fifx_t
 #define bustype_BDK_TNS_SDE_URW3_VIF_FIFX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SDE_URW3_VIF_FIFX(a) "TNS_SDE_URW3_VIF_FIFX"
+#define device_bar_BDK_TNS_SDE_URW3_VIF_FIFX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_VIF_FIFX(a) (a)
 #define arguments_BDK_TNS_SDE_URW3_VIF_FIFX(a) (a),-1,-1,-1
 
@@ -25105,6 +25706,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_WRR_FUNC(void)
 #define typedef_BDK_TNS_SDE_URW3_WRR bdk_tns_sde_urw3_wrr_t
 #define bustype_BDK_TNS_SDE_URW3_WRR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_URW3_WRR "TNS_SDE_URW3_WRR"
+#define device_bar_BDK_TNS_SDE_URW3_WRR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_URW3_WRR 0
 #define arguments_BDK_TNS_SDE_URW3_WRR -1,-1,-1,-1
 
@@ -25156,6 +25758,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_HI bdk_tns_se_age_mem_age_int_en_hi_t
 #define bustype_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_HI "TNS_SE_AGE_MEM_AGE_INT_EN_HI"
+#define device_bar_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_HI 0
 #define arguments_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_HI -1,-1,-1,-1
 
@@ -25207,6 +25810,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_LO bdk_tns_se_age_mem_age_int_en_lo_t
 #define bustype_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_LO "TNS_SE_AGE_MEM_AGE_INT_EN_LO"
+#define device_bar_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_LO 0
 #define arguments_BDK_TNS_SE_AGE_MEM_AGE_INT_EN_LO -1,-1,-1,-1
 
@@ -25258,6 +25862,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_AGE_INT_FRC bdk_tns_se_age_mem_age_int_frc_t
 #define bustype_BDK_TNS_SE_AGE_MEM_AGE_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_AGE_INT_FRC "TNS_SE_AGE_MEM_AGE_INT_FRC"
+#define device_bar_BDK_TNS_SE_AGE_MEM_AGE_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_AGE_INT_FRC 0
 #define arguments_BDK_TNS_SE_AGE_MEM_AGE_INT_FRC -1,-1,-1,-1
 
@@ -25309,6 +25914,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_AGE_INT_W1C bdk_tns_se_age_mem_age_int_w1c_t
 #define bustype_BDK_TNS_SE_AGE_MEM_AGE_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_AGE_INT_W1C "TNS_SE_AGE_MEM_AGE_INT_W1C"
+#define device_bar_BDK_TNS_SE_AGE_MEM_AGE_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_AGE_INT_W1C 0
 #define arguments_BDK_TNS_SE_AGE_MEM_AGE_INT_W1C -1,-1,-1,-1
 
@@ -25346,6 +25952,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W0_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_AGE_STA_W0 bdk_tns_se_age_mem_age_sta_w0_t
 #define bustype_BDK_TNS_SE_AGE_MEM_AGE_STA_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_AGE_STA_W0 "TNS_SE_AGE_MEM_AGE_STA_W0"
+#define device_bar_BDK_TNS_SE_AGE_MEM_AGE_STA_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_AGE_STA_W0 0
 #define arguments_BDK_TNS_SE_AGE_MEM_AGE_STA_W0 -1,-1,-1,-1
 
@@ -25381,6 +25988,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W1_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_AGE_STA_W1 bdk_tns_se_age_mem_age_sta_w1_t
 #define bustype_BDK_TNS_SE_AGE_MEM_AGE_STA_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_AGE_STA_W1 "TNS_SE_AGE_MEM_AGE_STA_W1"
+#define device_bar_BDK_TNS_SE_AGE_MEM_AGE_STA_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_AGE_STA_W1 0
 #define arguments_BDK_TNS_SE_AGE_MEM_AGE_STA_W1 -1,-1,-1,-1
 
@@ -25424,6 +26032,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W2_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 bdk_tns_se_age_mem_age_sta_w2_t
 #define bustype_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 "TNS_SE_AGE_MEM_AGE_STA_W2"
+#define device_bar_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 0
 #define arguments_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 -1,-1,-1,-1
 
@@ -25463,6 +26072,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_BIST_STDN_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_BIST_STDN bdk_tns_se_age_mem_bist_stdn_t
 #define bustype_BDK_TNS_SE_AGE_MEM_BIST_STDN BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_BIST_STDN "TNS_SE_AGE_MEM_BIST_STDN"
+#define device_bar_BDK_TNS_SE_AGE_MEM_BIST_STDN 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_BIST_STDN 0
 #define arguments_BDK_TNS_SE_AGE_MEM_BIST_STDN -1,-1,-1,-1
 
@@ -25500,6 +26110,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_DBG_SEL bdk_tns_se_age_mem_dbg_sel_t
 #define bustype_BDK_TNS_SE_AGE_MEM_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_DBG_SEL "TNS_SE_AGE_MEM_DBG_SEL"
+#define device_bar_BDK_TNS_SE_AGE_MEM_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_DBG_SEL 0
 #define arguments_BDK_TNS_SE_AGE_MEM_DBG_SEL -1,-1,-1,-1
 
@@ -25547,6 +26158,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_ECC_CTL bdk_tns_se_age_mem_ecc_ctl_t
 #define bustype_BDK_TNS_SE_AGE_MEM_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_ECC_CTL "TNS_SE_AGE_MEM_ECC_CTL"
+#define device_bar_BDK_TNS_SE_AGE_MEM_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_ECC_CTL 0
 #define arguments_BDK_TNS_SE_AGE_MEM_ECC_CTL -1,-1,-1,-1
 
@@ -25582,6 +26194,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_LOCK bdk_tns_se_age_mem_lock_t
 #define bustype_BDK_TNS_SE_AGE_MEM_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_LOCK "TNS_SE_AGE_MEM_LOCK"
+#define device_bar_BDK_TNS_SE_AGE_MEM_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_LOCK 0
 #define arguments_BDK_TNS_SE_AGE_MEM_LOCK -1,-1,-1,-1
 
@@ -25619,6 +26232,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_MARKXDX(unsigned long a, unsigned long
 #define typedef_BDK_TNS_SE_AGE_MEM_MARKXDX(a,b) bdk_tns_se_age_mem_markxdx_t
 #define bustype_BDK_TNS_SE_AGE_MEM_MARKXDX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SE_AGE_MEM_MARKXDX(a,b) "TNS_SE_AGE_MEM_MARKXDX"
+#define device_bar_BDK_TNS_SE_AGE_MEM_MARKXDX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_MARKXDX(a,b) (a)
 #define arguments_BDK_TNS_SE_AGE_MEM_MARKXDX(a,b) (a),(b),-1,-1
 
@@ -25654,6 +26268,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_MASKXDX(unsigned long a, unsigned long
 #define typedef_BDK_TNS_SE_AGE_MEM_MASKXDX(a,b) bdk_tns_se_age_mem_maskxdx_t
 #define bustype_BDK_TNS_SE_AGE_MEM_MASKXDX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SE_AGE_MEM_MASKXDX(a,b) "TNS_SE_AGE_MEM_MASKXDX"
+#define device_bar_BDK_TNS_SE_AGE_MEM_MASKXDX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_MASKXDX(a,b) (a)
 #define arguments_BDK_TNS_SE_AGE_MEM_MASKXDX(a,b) (a),(b),-1,-1
 
@@ -25690,6 +26305,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_MRK_ECC_LOGX(unsigned long a)
 #define typedef_BDK_TNS_SE_AGE_MEM_MRK_ECC_LOGX(a) bdk_tns_se_age_mem_mrk_ecc_logx_t
 #define bustype_BDK_TNS_SE_AGE_MEM_MRK_ECC_LOGX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_MRK_ECC_LOGX(a) "TNS_SE_AGE_MEM_MRK_ECC_LOGX"
+#define device_bar_BDK_TNS_SE_AGE_MEM_MRK_ECC_LOGX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_MRK_ECC_LOGX(a) (a)
 #define arguments_BDK_TNS_SE_AGE_MEM_MRK_ECC_LOGX(a) (a),-1,-1,-1
 
@@ -25726,6 +26342,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_MSK_ECC_LOGX(unsigned long a)
 #define typedef_BDK_TNS_SE_AGE_MEM_MSK_ECC_LOGX(a) bdk_tns_se_age_mem_msk_ecc_logx_t
 #define bustype_BDK_TNS_SE_AGE_MEM_MSK_ECC_LOGX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_MSK_ECC_LOGX(a) "TNS_SE_AGE_MEM_MSK_ECC_LOGX"
+#define device_bar_BDK_TNS_SE_AGE_MEM_MSK_ECC_LOGX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_MSK_ECC_LOGX(a) (a)
 #define arguments_BDK_TNS_SE_AGE_MEM_MSK_ECC_LOGX(a) (a),-1,-1,-1
 
@@ -25769,6 +26386,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_RFRSH_W0_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_RFRSH_W0 bdk_tns_se_age_mem_rfrsh_w0_t
 #define bustype_BDK_TNS_SE_AGE_MEM_RFRSH_W0 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SE_AGE_MEM_RFRSH_W0 "TNS_SE_AGE_MEM_RFRSH_W0"
+#define device_bar_BDK_TNS_SE_AGE_MEM_RFRSH_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_RFRSH_W0 0
 #define arguments_BDK_TNS_SE_AGE_MEM_RFRSH_W0 -1,-1,-1,-1
 
@@ -25810,6 +26428,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_RFRSH_W1_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_RFRSH_W1 bdk_tns_se_age_mem_rfrsh_w1_t
 #define bustype_BDK_TNS_SE_AGE_MEM_RFRSH_W1 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SE_AGE_MEM_RFRSH_W1 "TNS_SE_AGE_MEM_RFRSH_W1"
+#define device_bar_BDK_TNS_SE_AGE_MEM_RFRSH_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_RFRSH_W1 0
 #define arguments_BDK_TNS_SE_AGE_MEM_RFRSH_W1 -1,-1,-1,-1
 
@@ -25845,6 +26464,7 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SE_AGE_MEM_SPAD bdk_tns_se_age_mem_spad_t
 #define bustype_BDK_TNS_SE_AGE_MEM_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_MEM_SPAD "TNS_SE_AGE_MEM_SPAD"
+#define device_bar_BDK_TNS_SE_AGE_MEM_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_MEM_SPAD 0
 #define arguments_BDK_TNS_SE_AGE_MEM_SPAD -1,-1,-1,-1
 
@@ -25887,6 +26507,7 @@ static inline uint64_t BDK_TNS_SE_AGE_TBLX_CFG_IDX(unsigned long a, unsigned lon
 #define typedef_BDK_TNS_SE_AGE_TBLX_CFG_IDX(a,b) bdk_tns_se_age_tblx_cfg_idx_t
 #define bustype_BDK_TNS_SE_AGE_TBLX_CFG_IDX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_TBLX_CFG_IDX(a,b) "TNS_SE_AGE_TBLX_CFG_IDX"
+#define device_bar_BDK_TNS_SE_AGE_TBLX_CFG_IDX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_TBLX_CFG_IDX(a,b) (a)
 #define arguments_BDK_TNS_SE_AGE_TBLX_CFG_IDX(a,b) (a),(b),-1,-1
 
@@ -25921,6 +26542,7 @@ static inline uint64_t BDK_TNS_SE_AGE_TBLX_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SE_AGE_TBLX_LOCK(a) bdk_tns_se_age_tblx_lock_t
 #define bustype_BDK_TNS_SE_AGE_TBLX_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_TBLX_LOCK(a) "TNS_SE_AGE_TBLX_LOCK"
+#define device_bar_BDK_TNS_SE_AGE_TBLX_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_TBLX_LOCK(a) (a)
 #define arguments_BDK_TNS_SE_AGE_TBLX_LOCK(a) (a),-1,-1,-1
 
@@ -25955,6 +26577,7 @@ static inline uint64_t BDK_TNS_SE_AGE_TBLX_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SE_AGE_TBLX_SPAD(a) bdk_tns_se_age_tblx_spad_t
 #define bustype_BDK_TNS_SE_AGE_TBLX_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_AGE_TBLX_SPAD(a) "TNS_SE_AGE_TBLX_SPAD"
+#define device_bar_BDK_TNS_SE_AGE_TBLX_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_TBLX_SPAD(a) (a)
 #define arguments_BDK_TNS_SE_AGE_TBLX_SPAD(a) (a),-1,-1,-1
 
@@ -26007,6 +26630,7 @@ static inline uint64_t BDK_TNS_SE_AGE_TBLXCX(unsigned long a, unsigned long b)
 #define typedef_BDK_TNS_SE_AGE_TBLXCX(a,b) bdk_tns_se_age_tblxcx_t
 #define bustype_BDK_TNS_SE_AGE_TBLXCX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SE_AGE_TBLXCX(a,b) "TNS_SE_AGE_TBLXCX"
+#define device_bar_BDK_TNS_SE_AGE_TBLXCX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_AGE_TBLXCX(a,b) (a)
 #define arguments_BDK_TNS_SE_AGE_TBLXCX(a,b) (a),(b),-1,-1
 
@@ -26042,6 +26666,7 @@ static inline uint64_t BDK_TNS_SE_CFG_SPARE_FUNC(void)
 #define typedef_BDK_TNS_SE_CFG_SPARE bdk_tns_se_cfg_spare_t
 #define bustype_BDK_TNS_SE_CFG_SPARE BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SE_CFG_SPARE "TNS_SE_CFG_SPARE"
+#define device_bar_BDK_TNS_SE_CFG_SPARE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_CFG_SPARE 0
 #define arguments_BDK_TNS_SE_CFG_SPARE -1,-1,-1,-1
 
@@ -26077,6 +26702,7 @@ static inline uint64_t BDK_TNS_SE_DIRECT_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SE_DIRECT_LOCK bdk_tns_se_direct_lock_t
 #define bustype_BDK_TNS_SE_DIRECT_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_DIRECT_LOCK "TNS_SE_DIRECT_LOCK"
+#define device_bar_BDK_TNS_SE_DIRECT_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_DIRECT_LOCK 0
 #define arguments_BDK_TNS_SE_DIRECT_LOCK -1,-1,-1,-1
 
@@ -26112,6 +26738,7 @@ static inline uint64_t BDK_TNS_SE_DIRECT_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SE_DIRECT_SPAD bdk_tns_se_direct_spad_t
 #define bustype_BDK_TNS_SE_DIRECT_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_DIRECT_SPAD "TNS_SE_DIRECT_SPAD"
+#define device_bar_BDK_TNS_SE_DIRECT_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_DIRECT_SPAD 0
 #define arguments_BDK_TNS_SE_DIRECT_SPAD -1,-1,-1,-1
 
@@ -26164,6 +26791,7 @@ static inline uint64_t BDK_TNS_SE_DIRECT_TBL_DIRECTX(unsigned long a)
 #define typedef_BDK_TNS_SE_DIRECT_TBL_DIRECTX(a) bdk_tns_se_direct_tbl_directx_t
 #define bustype_BDK_TNS_SE_DIRECT_TBL_DIRECTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_DIRECT_TBL_DIRECTX(a) "TNS_SE_DIRECT_TBL_DIRECTX"
+#define device_bar_BDK_TNS_SE_DIRECT_TBL_DIRECTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_DIRECT_TBL_DIRECTX(a) (a)
 #define arguments_BDK_TNS_SE_DIRECT_TBL_DIRECTX(a) (a),-1,-1,-1
 
@@ -26201,6 +26829,7 @@ static inline uint64_t BDK_TNS_SE_HASH_HASH_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SE_HASH_HASH_DBG_SEL bdk_tns_se_hash_hash_dbg_sel_t
 #define bustype_BDK_TNS_SE_HASH_HASH_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_HASH_HASH_DBG_SEL "TNS_SE_HASH_HASH_DBG_SEL"
+#define device_bar_BDK_TNS_SE_HASH_HASH_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_HASH_HASH_DBG_SEL 0
 #define arguments_BDK_TNS_SE_HASH_HASH_DBG_SEL -1,-1,-1,-1
 
@@ -26236,6 +26865,7 @@ static inline uint64_t BDK_TNS_SE_HASH_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SE_HASH_LOCK bdk_tns_se_hash_lock_t
 #define bustype_BDK_TNS_SE_HASH_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_HASH_LOCK "TNS_SE_HASH_LOCK"
+#define device_bar_BDK_TNS_SE_HASH_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_HASH_LOCK 0
 #define arguments_BDK_TNS_SE_HASH_LOCK -1,-1,-1,-1
 
@@ -26271,6 +26901,7 @@ static inline uint64_t BDK_TNS_SE_HASH_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SE_HASH_SPAD bdk_tns_se_hash_spad_t
 #define bustype_BDK_TNS_SE_HASH_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_HASH_SPAD "TNS_SE_HASH_SPAD"
+#define device_bar_BDK_TNS_SE_HASH_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_HASH_SPAD 0
 #define arguments_BDK_TNS_SE_HASH_SPAD -1,-1,-1,-1
 
@@ -26327,6 +26958,7 @@ static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W0(unsigned long a)
 #define typedef_BDK_TNS_SE_HASH_TBL_HASHX_W0(a) bdk_tns_se_hash_tbl_hashx_w0_t
 #define bustype_BDK_TNS_SE_HASH_TBL_HASHX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_HASH_TBL_HASHX_W0(a) "TNS_SE_HASH_TBL_HASHX_W0"
+#define device_bar_BDK_TNS_SE_HASH_TBL_HASHX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_HASH_TBL_HASHX_W0(a) (a)
 #define arguments_BDK_TNS_SE_HASH_TBL_HASHX_W0(a) (a),-1,-1,-1
 
@@ -26373,6 +27005,7 @@ static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W1(unsigned long a)
 #define typedef_BDK_TNS_SE_HASH_TBL_HASHX_W1(a) bdk_tns_se_hash_tbl_hashx_w1_t
 #define bustype_BDK_TNS_SE_HASH_TBL_HASHX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_HASH_TBL_HASHX_W1(a) "TNS_SE_HASH_TBL_HASHX_W1"
+#define device_bar_BDK_TNS_SE_HASH_TBL_HASHX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_HASH_TBL_HASHX_W1(a) (a)
 #define arguments_BDK_TNS_SE_HASH_TBL_HASHX_W1(a) (a),-1,-1,-1
 
@@ -26427,6 +27060,7 @@ static inline uint64_t BDK_TNS_SE_HASH_TBL_HASHX_W2(unsigned long a)
 #define typedef_BDK_TNS_SE_HASH_TBL_HASHX_W2(a) bdk_tns_se_hash_tbl_hashx_w2_t
 #define bustype_BDK_TNS_SE_HASH_TBL_HASHX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_HASH_TBL_HASHX_W2(a) "TNS_SE_HASH_TBL_HASHX_W2"
+#define device_bar_BDK_TNS_SE_HASH_TBL_HASHX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_HASH_TBL_HASHX_W2(a) (a)
 #define arguments_BDK_TNS_SE_HASH_TBL_HASHX_W2(a) (a),-1,-1,-1
 
@@ -26472,6 +27106,7 @@ static inline uint64_t BDK_TNS_SE_INT_RO_W0_FUNC(void)
 #define typedef_BDK_TNS_SE_INT_RO_W0 bdk_tns_se_int_ro_w0_t
 #define bustype_BDK_TNS_SE_INT_RO_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_INT_RO_W0 "TNS_SE_INT_RO_W0"
+#define device_bar_BDK_TNS_SE_INT_RO_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_INT_RO_W0 0
 #define arguments_BDK_TNS_SE_INT_RO_W0 -1,-1,-1,-1
 
@@ -26515,6 +27150,7 @@ static inline uint64_t BDK_TNS_SE_INT_RO_W1_FUNC(void)
 #define typedef_BDK_TNS_SE_INT_RO_W1 bdk_tns_se_int_ro_w1_t
 #define bustype_BDK_TNS_SE_INT_RO_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_INT_RO_W1 "TNS_SE_INT_RO_W1"
+#define device_bar_BDK_TNS_SE_INT_RO_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_INT_RO_W1 0
 #define arguments_BDK_TNS_SE_INT_RO_W1 -1,-1,-1,-1
 
@@ -26556,6 +27192,7 @@ static inline uint64_t BDK_TNS_SE_INT_RO_W2_FUNC(void)
 #define typedef_BDK_TNS_SE_INT_RO_W2 bdk_tns_se_int_ro_w2_t
 #define bustype_BDK_TNS_SE_INT_RO_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_INT_RO_W2 "TNS_SE_INT_RO_W2"
+#define device_bar_BDK_TNS_SE_INT_RO_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_INT_RO_W2 0
 #define arguments_BDK_TNS_SE_INT_RO_W2 -1,-1,-1,-1
 
@@ -26659,6 +27296,7 @@ static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W0(unsigned long a)
 #define typedef_BDK_TNS_SE_LDE_SRCH_CMDX_W0(a) bdk_tns_se_lde_srch_cmdx_w0_t
 #define bustype_BDK_TNS_SE_LDE_SRCH_CMDX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDE_SRCH_CMDX_W0(a) "TNS_SE_LDE_SRCH_CMDX_W0"
+#define device_bar_BDK_TNS_SE_LDE_SRCH_CMDX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDE_SRCH_CMDX_W0(a) (a)
 #define arguments_BDK_TNS_SE_LDE_SRCH_CMDX_W0(a) (a),-1,-1,-1
 
@@ -26693,6 +27331,7 @@ static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W1(unsigned long a)
 #define typedef_BDK_TNS_SE_LDE_SRCH_CMDX_W1(a) bdk_tns_se_lde_srch_cmdx_w1_t
 #define bustype_BDK_TNS_SE_LDE_SRCH_CMDX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDE_SRCH_CMDX_W1(a) "TNS_SE_LDE_SRCH_CMDX_W1"
+#define device_bar_BDK_TNS_SE_LDE_SRCH_CMDX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDE_SRCH_CMDX_W1(a) (a)
 #define arguments_BDK_TNS_SE_LDE_SRCH_CMDX_W1(a) (a),-1,-1,-1
 
@@ -26769,6 +27408,7 @@ static inline uint64_t BDK_TNS_SE_LDE_SRCH_CMDX_W2(unsigned long a)
 #define typedef_BDK_TNS_SE_LDE_SRCH_CMDX_W2(a) bdk_tns_se_lde_srch_cmdx_w2_t
 #define bustype_BDK_TNS_SE_LDE_SRCH_CMDX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDE_SRCH_CMDX_W2(a) "TNS_SE_LDE_SRCH_CMDX_W2"
+#define device_bar_BDK_TNS_SE_LDE_SRCH_CMDX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDE_SRCH_CMDX_W2(a) (a)
 #define arguments_BDK_TNS_SE_LDE_SRCH_CMDX_W2(a) (a),-1,-1,-1
 
@@ -26804,6 +27444,7 @@ static inline uint64_t BDK_TNS_SE_LDECMD_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SE_LDECMD_LOCK bdk_tns_se_ldecmd_lock_t
 #define bustype_BDK_TNS_SE_LDECMD_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDECMD_LOCK "TNS_SE_LDECMD_LOCK"
+#define device_bar_BDK_TNS_SE_LDECMD_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDECMD_LOCK 0
 #define arguments_BDK_TNS_SE_LDECMD_LOCK -1,-1,-1,-1
 
@@ -26839,6 +27480,7 @@ static inline uint64_t BDK_TNS_SE_LDECMD_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SE_LDECMD_SPAD bdk_tns_se_ldecmd_spad_t
 #define bustype_BDK_TNS_SE_LDECMD_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDECMD_SPAD "TNS_SE_LDECMD_SPAD"
+#define device_bar_BDK_TNS_SE_LDECMD_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDECMD_SPAD 0
 #define arguments_BDK_TNS_SE_LDECMD_SPAD -1,-1,-1,-1
 
@@ -26875,6 +27517,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W0(unsigned long a)
 #define typedef_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W0(a) bdk_tns_se_ldei_cpu_rsl_lnx_w0_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W0(a) "TNS_SE_LDEI_CPU_RSL_LNX_W0"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W0(a) (a)
 #define arguments_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W0(a) (a),-1,-1,-1
 
@@ -26909,6 +27552,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W1(unsigned long a)
 #define typedef_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W1(a) bdk_tns_se_ldei_cpu_rsl_lnx_w1_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W1(a) "TNS_SE_LDEI_CPU_RSL_LNX_W1"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W1(a) (a)
 #define arguments_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W1(a) (a),-1,-1,-1
 
@@ -26963,6 +27607,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_RSL_LNX_W2(unsigned long a)
 #define typedef_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W2(a) bdk_tns_se_ldei_cpu_rsl_lnx_w2_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W2(a) "TNS_SE_LDEI_CPU_RSL_LNX_W2"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W2(a) (a)
 #define arguments_BDK_TNS_SE_LDEI_CPU_RSL_LNX_W2(a) (a),-1,-1,-1
 
@@ -27004,6 +27649,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W0_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W0 bdk_tns_se_ldei_cpu_srch_req_w0_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W0 "TNS_SE_LDEI_CPU_SRCH_REQ_W0"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W0 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W0 -1,-1,-1,-1
 
@@ -27039,6 +27685,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W1_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W1 bdk_tns_se_ldei_cpu_srch_req_w1_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W1 "TNS_SE_LDEI_CPU_SRCH_REQ_W1"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W1 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W1 -1,-1,-1,-1
 
@@ -27074,6 +27721,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W10_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W10 bdk_tns_se_ldei_cpu_srch_req_w10_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W10 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W10 "TNS_SE_LDEI_CPU_SRCH_REQ_W10"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W10 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W10 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W10 -1,-1,-1,-1
 
@@ -27109,6 +27757,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W11_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W11 bdk_tns_se_ldei_cpu_srch_req_w11_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W11 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W11 "TNS_SE_LDEI_CPU_SRCH_REQ_W11"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W11 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W11 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W11 -1,-1,-1,-1
 
@@ -27150,6 +27799,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W12_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W12 bdk_tns_se_ldei_cpu_srch_req_w12_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W12 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W12 "TNS_SE_LDEI_CPU_SRCH_REQ_W12"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W12 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W12 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W12 -1,-1,-1,-1
 
@@ -27185,6 +27835,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W2_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W2 bdk_tns_se_ldei_cpu_srch_req_w2_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W2 "TNS_SE_LDEI_CPU_SRCH_REQ_W2"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W2 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W2 -1,-1,-1,-1
 
@@ -27220,6 +27871,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W3_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W3 bdk_tns_se_ldei_cpu_srch_req_w3_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W3 "TNS_SE_LDEI_CPU_SRCH_REQ_W3"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W3 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W3 -1,-1,-1,-1
 
@@ -27255,6 +27907,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W4_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W4 bdk_tns_se_ldei_cpu_srch_req_w4_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W4 "TNS_SE_LDEI_CPU_SRCH_REQ_W4"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W4 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W4 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W4 -1,-1,-1,-1
 
@@ -27290,6 +27943,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W5_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W5 bdk_tns_se_ldei_cpu_srch_req_w5_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W5 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W5 "TNS_SE_LDEI_CPU_SRCH_REQ_W5"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W5 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W5 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W5 -1,-1,-1,-1
 
@@ -27325,6 +27979,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W6_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W6 bdk_tns_se_ldei_cpu_srch_req_w6_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W6 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W6 "TNS_SE_LDEI_CPU_SRCH_REQ_W6"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W6 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W6 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W6 -1,-1,-1,-1
 
@@ -27360,6 +28015,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W7_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W7 bdk_tns_se_ldei_cpu_srch_req_w7_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W7 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W7 "TNS_SE_LDEI_CPU_SRCH_REQ_W7"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W7 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W7 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W7 -1,-1,-1,-1
 
@@ -27395,6 +28051,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W8_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W8 bdk_tns_se_ldei_cpu_srch_req_w8_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W8 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W8 "TNS_SE_LDEI_CPU_SRCH_REQ_W8"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W8 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W8 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W8 -1,-1,-1,-1
 
@@ -27430,6 +28087,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W9_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W9 bdk_tns_se_ldei_cpu_srch_req_w9_t
 #define bustype_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W9 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W9 "TNS_SE_LDEI_CPU_SRCH_REQ_W9"
+#define device_bar_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W9 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W9 0
 #define arguments_BDK_TNS_SE_LDEI_CPU_SRCH_REQ_W9 -1,-1,-1,-1
 
@@ -27467,6 +28125,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_DBG_SEL bdk_tns_se_ldei_dbg_sel_t
 #define bustype_BDK_TNS_SE_LDEI_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_DBG_SEL "TNS_SE_LDEI_DBG_SEL"
+#define device_bar_BDK_TNS_SE_LDEI_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_DBG_SEL 0
 #define arguments_BDK_TNS_SE_LDEI_DBG_SEL -1,-1,-1,-1
 
@@ -27509,6 +28168,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_HASH_BUFX(unsigned long a)
 #define typedef_BDK_TNS_SE_LDEI_HASH_BUFX(a) bdk_tns_se_ldei_hash_bufx_t
 #define bustype_BDK_TNS_SE_LDEI_HASH_BUFX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_HASH_BUFX(a) "TNS_SE_LDEI_HASH_BUFX"
+#define device_bar_BDK_TNS_SE_LDEI_HASH_BUFX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_HASH_BUFX(a) (a)
 #define arguments_BDK_TNS_SE_LDEI_HASH_BUFX(a) (a),-1,-1,-1
 
@@ -27560,6 +28220,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_LDEIF_DBG_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_LDEIF_DBG bdk_tns_se_ldei_ldeif_dbg_t
 #define bustype_BDK_TNS_SE_LDEI_LDEIF_DBG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_LDEIF_DBG "TNS_SE_LDEI_LDEIF_DBG"
+#define device_bar_BDK_TNS_SE_LDEI_LDEIF_DBG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_LDEIF_DBG 0
 #define arguments_BDK_TNS_SE_LDEI_LDEIF_DBG -1,-1,-1,-1
 
@@ -27595,6 +28256,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_LOCK bdk_tns_se_ldei_lock_t
 #define bustype_BDK_TNS_SE_LDEI_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_LOCK "TNS_SE_LDEI_LOCK"
+#define device_bar_BDK_TNS_SE_LDEI_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_LOCK 0
 #define arguments_BDK_TNS_SE_LDEI_LOCK -1,-1,-1,-1
 
@@ -27630,6 +28292,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_SPAD bdk_tns_se_ldei_spad_t
 #define bustype_BDK_TNS_SE_LDEI_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_SPAD "TNS_SE_LDEI_SPAD"
+#define device_bar_BDK_TNS_SE_LDEI_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_SPAD 0
 #define arguments_BDK_TNS_SE_LDEI_SPAD -1,-1,-1,-1
 
@@ -27682,6 +28345,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_HASH_BUFX(unsigned long a)
 #define typedef_BDK_TNS_SE_LDEI_STA_HASH_BUFX(a) bdk_tns_se_ldei_sta_hash_bufx_t
 #define bustype_BDK_TNS_SE_LDEI_STA_HASH_BUFX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SE_LDEI_STA_HASH_BUFX(a) "TNS_SE_LDEI_STA_HASH_BUFX"
+#define device_bar_BDK_TNS_SE_LDEI_STA_HASH_BUFX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_HASH_BUFX(a) (a)
 #define arguments_BDK_TNS_SE_LDEI_STA_HASH_BUFX(a) (a),-1,-1,-1
 
@@ -27721,6 +28385,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W0_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W0 bdk_tns_se_ldei_sta_req_dbg_w0_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W0 "TNS_SE_LDEI_STA_REQ_DBG_W0"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W0 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W0 -1,-1,-1,-1
 
@@ -27756,6 +28421,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W1_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W1 bdk_tns_se_ldei_sta_req_dbg_w1_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W1 "TNS_SE_LDEI_STA_REQ_DBG_W1"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W1 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W1 -1,-1,-1,-1
 
@@ -27791,6 +28457,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W10_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W10 bdk_tns_se_ldei_sta_req_dbg_w10_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W10 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W10 "TNS_SE_LDEI_STA_REQ_DBG_W10"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W10 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W10 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W10 -1,-1,-1,-1
 
@@ -27826,6 +28493,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W11_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W11 bdk_tns_se_ldei_sta_req_dbg_w11_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W11 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W11 "TNS_SE_LDEI_STA_REQ_DBG_W11"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W11 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W11 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W11 -1,-1,-1,-1
 
@@ -27863,6 +28531,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W12_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W12 bdk_tns_se_ldei_sta_req_dbg_w12_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W12 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W12 "TNS_SE_LDEI_STA_REQ_DBG_W12"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W12 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W12 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W12 -1,-1,-1,-1
 
@@ -27898,6 +28567,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W2_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W2 bdk_tns_se_ldei_sta_req_dbg_w2_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W2 "TNS_SE_LDEI_STA_REQ_DBG_W2"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W2 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W2 -1,-1,-1,-1
 
@@ -27933,6 +28603,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W3_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W3 bdk_tns_se_ldei_sta_req_dbg_w3_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W3 "TNS_SE_LDEI_STA_REQ_DBG_W3"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W3 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W3 -1,-1,-1,-1
 
@@ -27968,6 +28639,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W4_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W4 bdk_tns_se_ldei_sta_req_dbg_w4_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W4 "TNS_SE_LDEI_STA_REQ_DBG_W4"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W4 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W4 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W4 -1,-1,-1,-1
 
@@ -28003,6 +28675,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W5_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W5 bdk_tns_se_ldei_sta_req_dbg_w5_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W5 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W5 "TNS_SE_LDEI_STA_REQ_DBG_W5"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W5 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W5 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W5 -1,-1,-1,-1
 
@@ -28038,6 +28711,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W6_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W6 bdk_tns_se_ldei_sta_req_dbg_w6_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W6 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W6 "TNS_SE_LDEI_STA_REQ_DBG_W6"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W6 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W6 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W6 -1,-1,-1,-1
 
@@ -28073,6 +28747,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W7_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W7 bdk_tns_se_ldei_sta_req_dbg_w7_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W7 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W7 "TNS_SE_LDEI_STA_REQ_DBG_W7"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W7 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W7 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W7 -1,-1,-1,-1
 
@@ -28108,6 +28783,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W8_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W8 bdk_tns_se_ldei_sta_req_dbg_w8_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W8 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W8 "TNS_SE_LDEI_STA_REQ_DBG_W8"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W8 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W8 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W8 -1,-1,-1,-1
 
@@ -28143,6 +28819,7 @@ static inline uint64_t BDK_TNS_SE_LDEI_STA_REQ_DBG_W9_FUNC(void)
 #define typedef_BDK_TNS_SE_LDEI_STA_REQ_DBG_W9 bdk_tns_se_ldei_sta_req_dbg_w9_t
 #define bustype_BDK_TNS_SE_LDEI_STA_REQ_DBG_W9 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LDEI_STA_REQ_DBG_W9 "TNS_SE_LDEI_STA_REQ_DBG_W9"
+#define device_bar_BDK_TNS_SE_LDEI_STA_REQ_DBG_W9 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LDEI_STA_REQ_DBG_W9 0
 #define arguments_BDK_TNS_SE_LDEI_STA_REQ_DBG_W9 -1,-1,-1,-1
 
@@ -28178,6 +28855,7 @@ static inline uint64_t BDK_TNS_SE_LPM_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SE_LPM_LOCK bdk_tns_se_lpm_lock_t
 #define bustype_BDK_TNS_SE_LPM_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LPM_LOCK "TNS_SE_LPM_LOCK"
+#define device_bar_BDK_TNS_SE_LPM_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LPM_LOCK 0
 #define arguments_BDK_TNS_SE_LPM_LOCK -1,-1,-1,-1
 
@@ -28215,6 +28893,7 @@ static inline uint64_t BDK_TNS_SE_LPM_LPM_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SE_LPM_LPM_DBG_SEL bdk_tns_se_lpm_lpm_dbg_sel_t
 #define bustype_BDK_TNS_SE_LPM_LPM_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LPM_LPM_DBG_SEL "TNS_SE_LPM_LPM_DBG_SEL"
+#define device_bar_BDK_TNS_SE_LPM_LPM_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LPM_LPM_DBG_SEL 0
 #define arguments_BDK_TNS_SE_LPM_LPM_DBG_SEL -1,-1,-1,-1
 
@@ -28250,6 +28929,7 @@ static inline uint64_t BDK_TNS_SE_LPM_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SE_LPM_SPAD bdk_tns_se_lpm_spad_t
 #define bustype_BDK_TNS_SE_LPM_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LPM_SPAD "TNS_SE_LPM_SPAD"
+#define device_bar_BDK_TNS_SE_LPM_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LPM_SPAD 0
 #define arguments_BDK_TNS_SE_LPM_SPAD -1,-1,-1,-1
 
@@ -28288,6 +28968,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_LPMX(unsigned long a)
 #define typedef_BDK_TNS_SE_LPM_TBL_LPMX(a) bdk_tns_se_lpm_tbl_lpmx_t
 #define bustype_BDK_TNS_SE_LPM_TBL_LPMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LPM_TBL_LPMX(a) "TNS_SE_LPM_TBL_LPMX"
+#define device_bar_BDK_TNS_SE_LPM_TBL_LPMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LPM_TBL_LPMX(a) (a)
 #define arguments_BDK_TNS_SE_LPM_TBL_LPMX(a) (a),-1,-1,-1
 
@@ -28336,6 +29017,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W0(unsigned long a)
 #define typedef_BDK_TNS_SE_LPM_TBL_NHX_W0(a) bdk_tns_se_lpm_tbl_nhx_w0_t
 #define bustype_BDK_TNS_SE_LPM_TBL_NHX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LPM_TBL_NHX_W0(a) "TNS_SE_LPM_TBL_NHX_W0"
+#define device_bar_BDK_TNS_SE_LPM_TBL_NHX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LPM_TBL_NHX_W0(a) (a)
 #define arguments_BDK_TNS_SE_LPM_TBL_NHX_W0(a) (a),-1,-1,-1
 
@@ -28386,6 +29068,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W1(unsigned long a)
 #define typedef_BDK_TNS_SE_LPM_TBL_NHX_W1(a) bdk_tns_se_lpm_tbl_nhx_w1_t
 #define bustype_BDK_TNS_SE_LPM_TBL_NHX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LPM_TBL_NHX_W1(a) "TNS_SE_LPM_TBL_NHX_W1"
+#define device_bar_BDK_TNS_SE_LPM_TBL_NHX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LPM_TBL_NHX_W1(a) (a)
 #define arguments_BDK_TNS_SE_LPM_TBL_NHX_W1(a) (a),-1,-1,-1
 
@@ -28422,6 +29105,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHX_W2(unsigned long a)
 #define typedef_BDK_TNS_SE_LPM_TBL_NHX_W2(a) bdk_tns_se_lpm_tbl_nhx_w2_t
 #define bustype_BDK_TNS_SE_LPM_TBL_NHX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LPM_TBL_NHX_W2(a) "TNS_SE_LPM_TBL_NHX_W2"
+#define device_bar_BDK_TNS_SE_LPM_TBL_NHX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LPM_TBL_NHX_W2(a) (a)
 #define arguments_BDK_TNS_SE_LPM_TBL_NHX_W2(a) (a),-1,-1,-1
 
@@ -28466,6 +29150,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W0(unsigned long a)
 #define typedef_BDK_TNS_SE_LPM_TBL_NHIX_W0(a) bdk_tns_se_lpm_tbl_nhix_w0_t
 #define bustype_BDK_TNS_SE_LPM_TBL_NHIX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LPM_TBL_NHIX_W0(a) "TNS_SE_LPM_TBL_NHIX_W0"
+#define device_bar_BDK_TNS_SE_LPM_TBL_NHIX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LPM_TBL_NHIX_W0(a) (a)
 #define arguments_BDK_TNS_SE_LPM_TBL_NHIX_W0(a) (a),-1,-1,-1
 
@@ -28516,6 +29201,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W1(unsigned long a)
 #define typedef_BDK_TNS_SE_LPM_TBL_NHIX_W1(a) bdk_tns_se_lpm_tbl_nhix_w1_t
 #define bustype_BDK_TNS_SE_LPM_TBL_NHIX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LPM_TBL_NHIX_W1(a) "TNS_SE_LPM_TBL_NHIX_W1"
+#define device_bar_BDK_TNS_SE_LPM_TBL_NHIX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LPM_TBL_NHIX_W1(a) (a)
 #define arguments_BDK_TNS_SE_LPM_TBL_NHIX_W1(a) (a),-1,-1,-1
 
@@ -28564,6 +29250,7 @@ static inline uint64_t BDK_TNS_SE_LPM_TBL_NHIX_W2(unsigned long a)
 #define typedef_BDK_TNS_SE_LPM_TBL_NHIX_W2(a) bdk_tns_se_lpm_tbl_nhix_w2_t
 #define bustype_BDK_TNS_SE_LPM_TBL_NHIX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_LPM_TBL_NHIX_W2(a) "TNS_SE_LPM_TBL_NHIX_W2"
+#define device_bar_BDK_TNS_SE_LPM_TBL_NHIX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_LPM_TBL_NHIX_W2(a) (a)
 #define arguments_BDK_TNS_SE_LPM_TBL_NHIX_W2(a) (a),-1,-1,-1
 
@@ -28599,6 +29286,7 @@ static inline uint64_t BDK_TNS_SE_PRFX_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SE_PRFX_LOCK bdk_tns_se_prfx_lock_t
 #define bustype_BDK_TNS_SE_PRFX_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_PRFX_LOCK "TNS_SE_PRFX_LOCK"
+#define device_bar_BDK_TNS_SE_PRFX_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_PRFX_LOCK 0
 #define arguments_BDK_TNS_SE_PRFX_LOCK -1,-1,-1,-1
 
@@ -28634,6 +29322,7 @@ static inline uint64_t BDK_TNS_SE_PRFX_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SE_PRFX_SPAD bdk_tns_se_prfx_spad_t
 #define bustype_BDK_TNS_SE_PRFX_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_PRFX_SPAD "TNS_SE_PRFX_SPAD"
+#define device_bar_BDK_TNS_SE_PRFX_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_PRFX_SPAD 0
 #define arguments_BDK_TNS_SE_PRFX_SPAD -1,-1,-1,-1
 
@@ -28687,6 +29376,7 @@ static inline uint64_t BDK_TNS_SE_PRFX_TBL_PREFIXX(unsigned long a)
 #define typedef_BDK_TNS_SE_PRFX_TBL_PREFIXX(a) bdk_tns_se_prfx_tbl_prefixx_t
 #define bustype_BDK_TNS_SE_PRFX_TBL_PREFIXX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_PRFX_TBL_PREFIXX(a) "TNS_SE_PRFX_TBL_PREFIXX"
+#define device_bar_BDK_TNS_SE_PRFX_TBL_PREFIXX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_PRFX_TBL_PREFIXX(a) (a)
 #define arguments_BDK_TNS_SE_PRFX_TBL_PREFIXX(a) (a),-1,-1,-1
 
@@ -28725,6 +29415,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_BIST_STDN(unsigned long a)
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_BIST_STDN(a) bdk_tns_se_sram_pairx_bist_stdn_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_BIST_STDN(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_BIST_STDN(a) "TNS_SE_SRAM_PAIRX_BIST_STDN"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_BIST_STDN(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_BIST_STDN(a) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_BIST_STDN(a) (a),-1,-1,-1
 
@@ -28761,6 +29452,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DBG_SEL(unsigned long a)
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_DBG_SEL(a) bdk_tns_se_sram_pairx_dbg_sel_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_DBG_SEL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_DBG_SEL(a) "TNS_SE_SRAM_PAIRX_DBG_SEL"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_DBG_SEL(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_DBG_SEL(a) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_DBG_SEL(a) (a),-1,-1,-1
 
@@ -28805,6 +29497,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W0(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W0(a,b) bdk_tns_se_sram_pairx_dhshx_w0_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W0(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W0(a,b) "TNS_SE_SRAM_PAIRX_DHSHX_W0"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W0(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W0(a,b) (a),(b),-1,-1
 
@@ -28851,6 +29544,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W1(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W1(a,b) bdk_tns_se_sram_pairx_dhshx_w1_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W1(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W1(a,b) "TNS_SE_SRAM_PAIRX_DHSHX_W1"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W1(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W1(a,b) (a),(b),-1,-1
 
@@ -28889,6 +29583,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DHSHX_W2(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W2(a,b) bdk_tns_se_sram_pairx_dhshx_w2_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W2(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W2(a,b) "TNS_SE_SRAM_PAIRX_DHSHX_W2"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W2(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_DHSHX_W2(a,b) (a),(b),-1,-1
 
@@ -28929,6 +29624,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DONE(unsigned long a)
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_DONE(a) bdk_tns_se_sram_pairx_done_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_DONE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_DONE(a) "TNS_SE_SRAM_PAIRX_DONE"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_DONE(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_DONE(a) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_DONE(a) (a),-1,-1,-1
 
@@ -28964,6 +29660,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_DYN_DBG_WX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_DYN_DBG_WX(a,b) bdk_tns_se_sram_pairx_dyn_dbg_wx_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_DYN_DBG_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_DYN_DBG_WX(a,b) "TNS_SE_SRAM_PAIRX_DYN_DBG_WX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_DYN_DBG_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_DYN_DBG_WX(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_DYN_DBG_WX(a,b) (a),(b),-1,-1
 
@@ -29008,6 +29705,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_ECC_CTLX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_ECC_CTLX(a,b) bdk_tns_se_sram_pairx_ecc_ctlx_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_ECC_CTLX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_ECC_CTLX(a,b) "TNS_SE_SRAM_PAIRX_ECC_CTLX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_ECC_CTLX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_ECC_CTLX(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_ECC_CTLX(a,b) (a),(b),-1,-1
 
@@ -29050,6 +29748,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_ECC_ERRX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_ECC_ERRX(a,b) bdk_tns_se_sram_pairx_ecc_errx_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_ECC_ERRX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_ECC_ERRX(a,b) "TNS_SE_SRAM_PAIRX_ECC_ERRX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_ECC_ERRX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_ECC_ERRX(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_ECC_ERRX(a,b) (a),(b),-1,-1
 
@@ -29086,6 +29785,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_MM_WX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_FLSH_MM_WX(a,b) bdk_tns_se_sram_pairx_flsh_mm_wx_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_FLSH_MM_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_FLSH_MM_WX(a,b) "TNS_SE_SRAM_PAIRX_FLSH_MM_WX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_FLSH_MM_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_FLSH_MM_WX(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_FLSH_MM_WX(a,b) (a),(b),-1,-1
 
@@ -29120,6 +29820,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_MP_WX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_FLSH_MP_WX(a,b) bdk_tns_se_sram_pairx_flsh_mp_wx_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_FLSH_MP_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_FLSH_MP_WX(a,b) "TNS_SE_SRAM_PAIRX_FLSH_MP_WX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_FLSH_MP_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_FLSH_MP_WX(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_FLSH_MP_WX(a,b) (a),(b),-1,-1
 
@@ -29154,6 +29855,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_SM_WX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_FLSH_SM_WX(a,b) bdk_tns_se_sram_pairx_flsh_sm_wx_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_FLSH_SM_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_FLSH_SM_WX(a,b) "TNS_SE_SRAM_PAIRX_FLSH_SM_WX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_FLSH_SM_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_FLSH_SM_WX(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_FLSH_SM_WX(a,b) (a),(b),-1,-1
 
@@ -29188,6 +29890,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_SP_WX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_FLSH_SP_WX(a,b) bdk_tns_se_sram_pairx_flsh_sp_wx_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_FLSH_SP_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_FLSH_SP_WX(a,b) "TNS_SE_SRAM_PAIRX_FLSH_SP_WX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_FLSH_SP_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_FLSH_SP_WX(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_FLSH_SP_WX(a,b) (a),(b),-1,-1
 
@@ -29260,6 +29963,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_W0(unsigned long a)
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_FLSH_W0(a) bdk_tns_se_sram_pairx_flsh_w0_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_FLSH_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_FLSH_W0(a) "TNS_SE_SRAM_PAIRX_FLSH_W0"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_FLSH_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_FLSH_W0(a) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_FLSH_W0(a) (a),-1,-1,-1
 
@@ -29296,6 +30000,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_FLSH_W1(unsigned long a)
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_FLSH_W1(a) bdk_tns_se_sram_pairx_flsh_w1_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_FLSH_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_FLSH_W1(a) "TNS_SE_SRAM_PAIRX_FLSH_W1"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_FLSH_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_FLSH_W1(a) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_FLSH_W1(a) (a),-1,-1,-1
 
@@ -29338,6 +30043,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INF_FRC(unsigned long a)
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_INF_FRC(a) bdk_tns_se_sram_pairx_inf_frc_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_INF_FRC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_INF_FRC(a) "TNS_SE_SRAM_PAIRX_INF_FRC"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_INF_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_INF_FRC(a) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_INF_FRC(a) (a),-1,-1,-1
 
@@ -29394,6 +30100,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_EN_HIX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_INT_EN_HIX(a,b) bdk_tns_se_sram_pairx_int_en_hix_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_INT_EN_HIX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_INT_EN_HIX(a,b) "TNS_SE_SRAM_PAIRX_INT_EN_HIX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_INT_EN_HIX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_INT_EN_HIX(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_INT_EN_HIX(a,b) (a),(b),-1,-1
 
@@ -29450,6 +30157,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_EN_LOX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_INT_EN_LOX(a,b) bdk_tns_se_sram_pairx_int_en_lox_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_INT_EN_LOX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_INT_EN_LOX(a,b) "TNS_SE_SRAM_PAIRX_INT_EN_LOX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_INT_EN_LOX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_INT_EN_LOX(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_INT_EN_LOX(a,b) (a),(b),-1,-1
 
@@ -29506,6 +30214,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_FRCX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_INT_FRCX(a,b) bdk_tns_se_sram_pairx_int_frcx_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_INT_FRCX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_INT_FRCX(a,b) "TNS_SE_SRAM_PAIRX_INT_FRCX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_INT_FRCX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_INT_FRCX(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_INT_FRCX(a,b) (a),(b),-1,-1
 
@@ -29562,6 +30271,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_INT_W1CX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_INT_W1CX(a,b) bdk_tns_se_sram_pairx_int_w1cx_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_INT_W1CX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_INT_W1CX(a,b) "TNS_SE_SRAM_PAIRX_INT_W1CX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_INT_W1CX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_INT_W1CX(a,b) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_INT_W1CX(a,b) (a),(b),-1,-1
 
@@ -29596,6 +30306,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_LOCK(a) bdk_tns_se_sram_pairx_lock_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_LOCK(a) "TNS_SE_SRAM_PAIRX_LOCK"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_LOCK(a) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_LOCK(a) (a),-1,-1,-1
 
@@ -29630,6 +30341,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_SPAD(a) bdk_tns_se_sram_pairx_spad_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_SPAD(a) "TNS_SE_SRAM_PAIRX_SPAD"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_SPAD(a) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_SPAD(a) (a),-1,-1,-1
 
@@ -29676,6 +30388,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_SRAM_DBG(unsigned long a)
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_SRAM_DBG(a) bdk_tns_se_sram_pairx_sram_dbg_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_SRAM_DBG(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_SRAM_DBG(a) "TNS_SE_SRAM_PAIRX_SRAM_DBG"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_SRAM_DBG(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_SRAM_DBG(a) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_SRAM_DBG(a) (a),-1,-1,-1
 
@@ -29712,6 +30425,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRX_TILE_RST(unsigned long a)
 #define typedef_BDK_TNS_SE_SRAM_PAIRX_TILE_RST(a) bdk_tns_se_sram_pairx_tile_rst_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRX_TILE_RST(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_SRAM_PAIRX_TILE_RST(a) "TNS_SE_SRAM_PAIRX_TILE_RST"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRX_TILE_RST(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRX_TILE_RST(a) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRX_TILE_RST(a) (a),-1,-1,-1
 
@@ -29749,6 +30463,7 @@ static inline uint64_t BDK_TNS_SE_SRAM_PAIRXTILEXDX_WX(unsigned long a, unsigned
 #define typedef_BDK_TNS_SE_SRAM_PAIRXTILEXDX_WX(a,b,c,d) bdk_tns_se_sram_pairxtilexdx_wx_t
 #define bustype_BDK_TNS_SE_SRAM_PAIRXTILEXDX_WX(a,b,c,d) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SE_SRAM_PAIRXTILEXDX_WX(a,b,c,d) "TNS_SE_SRAM_PAIRXTILEXDX_WX"
+#define device_bar_BDK_TNS_SE_SRAM_PAIRXTILEXDX_WX(a,b,c,d) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_SRAM_PAIRXTILEXDX_WX(a,b,c,d) (a)
 #define arguments_BDK_TNS_SE_SRAM_PAIRXTILEXDX_WX(a,b,c,d) (a),(b),(c),(d)
 
@@ -29785,6 +30500,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_DBG_SEL(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAMX_DBG_SEL(a) bdk_tns_se_tcamx_dbg_sel_t
 #define bustype_BDK_TNS_SE_TCAMX_DBG_SEL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAMX_DBG_SEL(a) "TNS_SE_TCAMX_DBG_SEL"
+#define device_bar_BDK_TNS_SE_TCAMX_DBG_SEL(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAMX_DBG_SEL(a) (a)
 #define arguments_BDK_TNS_SE_TCAMX_DBG_SEL(a) (a),-1,-1,-1
 
@@ -29829,6 +30545,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_ECC_CTL(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAMX_ECC_CTL(a) bdk_tns_se_tcamx_ecc_ctl_t
 #define bustype_BDK_TNS_SE_TCAMX_ECC_CTL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAMX_ECC_CTL(a) "TNS_SE_TCAMX_ECC_CTL"
+#define device_bar_BDK_TNS_SE_TCAMX_ECC_CTL(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAMX_ECC_CTL(a) (a)
 #define arguments_BDK_TNS_SE_TCAMX_ECC_CTL(a) (a),-1,-1,-1
 
@@ -29866,6 +30583,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAMX_WX(unsigned long a, unsigned long 
 #define typedef_BDK_TNS_SE_TCAMX_SRAMX_WX(a,b,c) bdk_tns_se_tcamx_sramx_wx_t
 #define bustype_BDK_TNS_SE_TCAMX_SRAMX_WX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_SE_TCAMX_SRAMX_WX(a,b,c) "TNS_SE_TCAMX_SRAMX_WX"
+#define device_bar_BDK_TNS_SE_TCAMX_SRAMX_WX(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAMX_SRAMX_WX(a,b,c) (a)
 #define arguments_BDK_TNS_SE_TCAMX_SRAMX_WX(a,b,c) (a),(b),(c),-1
 
@@ -29902,6 +30620,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_ECC_LOG(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAMX_SRAM_ECC_LOG(a) bdk_tns_se_tcamx_sram_ecc_log_t
 #define bustype_BDK_TNS_SE_TCAMX_SRAM_ECC_LOG(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAMX_SRAM_ECC_LOG(a) "TNS_SE_TCAMX_SRAM_ECC_LOG"
+#define device_bar_BDK_TNS_SE_TCAMX_SRAM_ECC_LOG(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAMX_SRAM_ECC_LOG(a) (a)
 #define arguments_BDK_TNS_SE_TCAMX_SRAM_ECC_LOG(a) (a),-1,-1,-1
 
@@ -29944,6 +30663,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_EN_HI(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAMX_SRAM_INT_EN_HI(a) bdk_tns_se_tcamx_sram_int_en_hi_t
 #define bustype_BDK_TNS_SE_TCAMX_SRAM_INT_EN_HI(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAMX_SRAM_INT_EN_HI(a) "TNS_SE_TCAMX_SRAM_INT_EN_HI"
+#define device_bar_BDK_TNS_SE_TCAMX_SRAM_INT_EN_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAMX_SRAM_INT_EN_HI(a) (a)
 #define arguments_BDK_TNS_SE_TCAMX_SRAM_INT_EN_HI(a) (a),-1,-1,-1
 
@@ -29986,6 +30706,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_EN_LO(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAMX_SRAM_INT_EN_LO(a) bdk_tns_se_tcamx_sram_int_en_lo_t
 #define bustype_BDK_TNS_SE_TCAMX_SRAM_INT_EN_LO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAMX_SRAM_INT_EN_LO(a) "TNS_SE_TCAMX_SRAM_INT_EN_LO"
+#define device_bar_BDK_TNS_SE_TCAMX_SRAM_INT_EN_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAMX_SRAM_INT_EN_LO(a) (a)
 #define arguments_BDK_TNS_SE_TCAMX_SRAM_INT_EN_LO(a) (a),-1,-1,-1
 
@@ -30028,6 +30749,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_FRC(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAMX_SRAM_INT_FRC(a) bdk_tns_se_tcamx_sram_int_frc_t
 #define bustype_BDK_TNS_SE_TCAMX_SRAM_INT_FRC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAMX_SRAM_INT_FRC(a) "TNS_SE_TCAMX_SRAM_INT_FRC"
+#define device_bar_BDK_TNS_SE_TCAMX_SRAM_INT_FRC(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAMX_SRAM_INT_FRC(a) (a)
 #define arguments_BDK_TNS_SE_TCAMX_SRAM_INT_FRC(a) (a),-1,-1,-1
 
@@ -30070,6 +30792,7 @@ static inline uint64_t BDK_TNS_SE_TCAMX_SRAM_INT_W1C(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAMX_SRAM_INT_W1C(a) bdk_tns_se_tcamx_sram_int_w1c_t
 #define bustype_BDK_TNS_SE_TCAMX_SRAM_INT_W1C(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAMX_SRAM_INT_W1C(a) "TNS_SE_TCAMX_SRAM_INT_W1C"
+#define device_bar_BDK_TNS_SE_TCAMX_SRAM_INT_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAMX_SRAM_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SE_TCAMX_SRAM_INT_W1C(a) (a),-1,-1,-1
 
@@ -30112,6 +30835,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_BIST_STDN(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_DBX_BIST_STDN(a) bdk_tns_se_tcam_dbx_bist_stdn_t
 #define bustype_BDK_TNS_SE_TCAM_DBX_BIST_STDN(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_DBX_BIST_STDN(a) "TNS_SE_TCAM_DBX_BIST_STDN"
+#define device_bar_BDK_TNS_SE_TCAM_DBX_BIST_STDN(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_DBX_BIST_STDN(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_DBX_BIST_STDN(a) (a),-1,-1,-1
 
@@ -30148,6 +30872,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_CLK_EN_BMAP(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_DBX_CLK_EN_BMAP(a) bdk_tns_se_tcam_dbx_clk_en_bmap_t
 #define bustype_BDK_TNS_SE_TCAM_DBX_CLK_EN_BMAP(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_DBX_CLK_EN_BMAP(a) "TNS_SE_TCAM_DBX_CLK_EN_BMAP"
+#define device_bar_BDK_TNS_SE_TCAM_DBX_CLK_EN_BMAP(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_DBX_CLK_EN_BMAP(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_DBX_CLK_EN_BMAP(a) (a),-1,-1,-1
 
@@ -30184,6 +30909,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_DB_DBG_SEL(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_DBX_DB_DBG_SEL(a) bdk_tns_se_tcam_dbx_db_dbg_sel_t
 #define bustype_BDK_TNS_SE_TCAM_DBX_DB_DBG_SEL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_DBX_DB_DBG_SEL(a) "TNS_SE_TCAM_DBX_DB_DBG_SEL"
+#define device_bar_BDK_TNS_SE_TCAM_DBX_DB_DBG_SEL(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_DBX_DB_DBG_SEL(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_DBX_DB_DBG_SEL(a) (a),-1,-1,-1
 
@@ -30218,6 +30944,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_DBX_LOCK(a) bdk_tns_se_tcam_dbx_lock_t
 #define bustype_BDK_TNS_SE_TCAM_DBX_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_DBX_LOCK(a) "TNS_SE_TCAM_DBX_LOCK"
+#define device_bar_BDK_TNS_SE_TCAM_DBX_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_DBX_LOCK(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_DBX_LOCK(a) (a),-1,-1,-1
 
@@ -30252,6 +30979,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_DBX_SPAD(a) bdk_tns_se_tcam_dbx_spad_t
 #define bustype_BDK_TNS_SE_TCAM_DBX_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_DBX_SPAD(a) "TNS_SE_TCAM_DBX_SPAD"
+#define device_bar_BDK_TNS_SE_TCAM_DBX_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_DBX_SPAD(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_DBX_SPAD(a) (a),-1,-1,-1
 
@@ -30287,6 +31015,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_TDB_RVLD_WX(unsigned long a, unsigned
 #define typedef_BDK_TNS_SE_TCAM_DBX_TDB_RVLD_WX(a,b) bdk_tns_se_tcam_dbx_tdb_rvld_wx_t
 #define bustype_BDK_TNS_SE_TCAM_DBX_TDB_RVLD_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_DBX_TDB_RVLD_WX(a,b) "TNS_SE_TCAM_DBX_TDB_RVLD_WX"
+#define device_bar_BDK_TNS_SE_TCAM_DBX_TDB_RVLD_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_DBX_TDB_RVLD_WX(a,b) (a)
 #define arguments_BDK_TNS_SE_TCAM_DBX_TDB_RVLD_WX(a,b) (a),(b),-1,-1
 
@@ -30323,6 +31052,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_TILE_RST(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_DBX_TILE_RST(a) bdk_tns_se_tcam_dbx_tile_rst_t
 #define bustype_BDK_TNS_SE_TCAM_DBX_TILE_RST(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_DBX_TILE_RST(a) "TNS_SE_TCAM_DBX_TILE_RST"
+#define device_bar_BDK_TNS_SE_TCAM_DBX_TILE_RST(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_DBX_TILE_RST(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_DBX_TILE_RST(a) (a),-1,-1,-1
 
@@ -30368,6 +31098,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_TPOOL_DB(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_DBX_TPOOL_DB(a) bdk_tns_se_tcam_dbx_tpool_db_t
 #define bustype_BDK_TNS_SE_TCAM_DBX_TPOOL_DB(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_DBX_TPOOL_DB(a) "TNS_SE_TCAM_DBX_TPOOL_DB"
+#define device_bar_BDK_TNS_SE_TCAM_DBX_TPOOL_DB(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_DBX_TPOOL_DB(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_DBX_TPOOL_DB(a) (a),-1,-1,-1
 
@@ -30406,6 +31137,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(unsigned long a, unsigned
 #define typedef_BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(a,b,c,d) bdk_tns_se_tcam_dbxcn_vdmxdx_wx_t
 #define bustype_BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(a,b,c,d) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(a,b,c,d) "TNS_SE_TCAM_DBXCN_VDMXDX_WX"
+#define device_bar_BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(a,b,c,d) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(a,b,c,d) (a)
 #define arguments_BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(a,b,c,d) (a),(b),(c),(d)
 
@@ -30443,6 +31175,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SE_TCAM_ENG_DBG_SEL bdk_tns_se_tcam_eng_dbg_sel_t
 #define bustype_BDK_TNS_SE_TCAM_ENG_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_ENG_DBG_SEL "TNS_SE_TCAM_ENG_DBG_SEL"
+#define device_bar_BDK_TNS_SE_TCAM_ENG_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_ENG_DBG_SEL 0
 #define arguments_BDK_TNS_SE_TCAM_ENG_DBG_SEL -1,-1,-1,-1
 
@@ -30478,6 +31211,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SE_TCAM_ENG_LOCK bdk_tns_se_tcam_eng_lock_t
 #define bustype_BDK_TNS_SE_TCAM_ENG_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_ENG_LOCK "TNS_SE_TCAM_ENG_LOCK"
+#define device_bar_BDK_TNS_SE_TCAM_ENG_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_ENG_LOCK 0
 #define arguments_BDK_TNS_SE_TCAM_ENG_LOCK -1,-1,-1,-1
 
@@ -30515,6 +31249,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_RSLT_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SE_TCAM_ENG_RSLT_DBG_SEL bdk_tns_se_tcam_eng_rslt_dbg_sel_t
 #define bustype_BDK_TNS_SE_TCAM_ENG_RSLT_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_ENG_RSLT_DBG_SEL "TNS_SE_TCAM_ENG_RSLT_DBG_SEL"
+#define device_bar_BDK_TNS_SE_TCAM_ENG_RSLT_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_ENG_RSLT_DBG_SEL 0
 #define arguments_BDK_TNS_SE_TCAM_ENG_RSLT_DBG_SEL -1,-1,-1,-1
 
@@ -30550,6 +31285,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SE_TCAM_ENG_SPAD bdk_tns_se_tcam_eng_spad_t
 #define bustype_BDK_TNS_SE_TCAM_ENG_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_ENG_SPAD "TNS_SE_TCAM_ENG_SPAD"
+#define device_bar_BDK_TNS_SE_TCAM_ENG_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_ENG_SPAD 0
 #define arguments_BDK_TNS_SE_TCAM_ENG_SPAD -1,-1,-1,-1
 
@@ -30586,6 +31322,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_TCAM_DBBUFX(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_ENG_TCAM_DBBUFX(a) bdk_tns_se_tcam_eng_tcam_dbbufx_t
 #define bustype_BDK_TNS_SE_TCAM_ENG_TCAM_DBBUFX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_ENG_TCAM_DBBUFX(a) "TNS_SE_TCAM_ENG_TCAM_DBBUFX"
+#define device_bar_BDK_TNS_SE_TCAM_ENG_TCAM_DBBUFX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_ENG_TCAM_DBBUFX(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_ENG_TCAM_DBBUFX(a) (a),-1,-1,-1
 
@@ -30629,6 +31366,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_ENG_TPOOL_VCODX(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_ENG_TPOOL_VCODX(a) bdk_tns_se_tcam_eng_tpool_vcodx_t
 #define bustype_BDK_TNS_SE_TCAM_ENG_TPOOL_VCODX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_ENG_TPOOL_VCODX(a) "TNS_SE_TCAM_ENG_TPOOL_VCODX"
+#define device_bar_BDK_TNS_SE_TCAM_ENG_TPOOL_VCODX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_ENG_TPOOL_VCODX(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_ENG_TPOOL_VCODX(a) (a),-1,-1,-1
 
@@ -30665,6 +31403,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_ECCXDX(unsigned long a, unsigned lo
 #define typedef_BDK_TNS_SE_TCAM_SCRBX_ECCXDX(a,b,c) bdk_tns_se_tcam_scrbx_eccxdx_t
 #define bustype_BDK_TNS_SE_TCAM_SCRBX_ECCXDX(a,b,c) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SCRBX_ECCXDX(a,b,c) "TNS_SE_TCAM_SCRBX_ECCXDX"
+#define device_bar_BDK_TNS_SE_TCAM_SCRBX_ECCXDX(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SCRBX_ECCXDX(a,b,c) (a)
 #define arguments_BDK_TNS_SE_TCAM_SCRBX_ECCXDX(a,b,c) (a),(b),(c),-1
 
@@ -30701,6 +31440,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_ECC_LOGX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SE_TCAM_SCRBX_ECC_LOGX(a,b) bdk_tns_se_tcam_scrbx_ecc_logx_t
 #define bustype_BDK_TNS_SE_TCAM_SCRBX_ECC_LOGX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SCRBX_ECC_LOGX(a,b) "TNS_SE_TCAM_SCRBX_ECC_LOGX"
+#define device_bar_BDK_TNS_SE_TCAM_SCRBX_ECC_LOGX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SCRBX_ECC_LOGX(a,b) (a)
 #define arguments_BDK_TNS_SE_TCAM_SCRBX_ECC_LOGX(a,b) (a),(b),-1,-1
 
@@ -30739,6 +31479,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_EN_HIX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SE_TCAM_SCRBX_INT_EN_HIX(a,b) bdk_tns_se_tcam_scrbx_int_en_hix_t
 #define bustype_BDK_TNS_SE_TCAM_SCRBX_INT_EN_HIX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SCRBX_INT_EN_HIX(a,b) "TNS_SE_TCAM_SCRBX_INT_EN_HIX"
+#define device_bar_BDK_TNS_SE_TCAM_SCRBX_INT_EN_HIX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SCRBX_INT_EN_HIX(a,b) (a)
 #define arguments_BDK_TNS_SE_TCAM_SCRBX_INT_EN_HIX(a,b) (a),(b),-1,-1
 
@@ -30777,6 +31518,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_EN_LOX(unsigned long a, unsigne
 #define typedef_BDK_TNS_SE_TCAM_SCRBX_INT_EN_LOX(a,b) bdk_tns_se_tcam_scrbx_int_en_lox_t
 #define bustype_BDK_TNS_SE_TCAM_SCRBX_INT_EN_LOX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SCRBX_INT_EN_LOX(a,b) "TNS_SE_TCAM_SCRBX_INT_EN_LOX"
+#define device_bar_BDK_TNS_SE_TCAM_SCRBX_INT_EN_LOX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SCRBX_INT_EN_LOX(a,b) (a)
 #define arguments_BDK_TNS_SE_TCAM_SCRBX_INT_EN_LOX(a,b) (a),(b),-1,-1
 
@@ -30815,6 +31557,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) bdk_tns_se_tcam_scrbx_int_frcx_t
 #define bustype_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) "TNS_SE_TCAM_SCRBX_INT_FRCX"
+#define device_bar_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) (a)
 #define arguments_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) (a),(b),-1,-1
 
@@ -30853,6 +31596,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_W1CX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_SE_TCAM_SCRBX_INT_W1CX(a,b) bdk_tns_se_tcam_scrbx_int_w1cx_t
 #define bustype_BDK_TNS_SE_TCAM_SCRBX_INT_W1CX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SCRBX_INT_W1CX(a,b) "TNS_SE_TCAM_SCRBX_INT_W1CX"
+#define device_bar_BDK_TNS_SE_TCAM_SCRBX_INT_W1CX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SCRBX_INT_W1CX(a,b) (a)
 #define arguments_BDK_TNS_SE_TCAM_SCRBX_INT_W1CX(a,b) (a),(b),-1,-1
 
@@ -30887,6 +31631,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_SCRBX_LOCK(a) bdk_tns_se_tcam_scrbx_lock_t
 #define bustype_BDK_TNS_SE_TCAM_SCRBX_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SCRBX_LOCK(a) "TNS_SE_TCAM_SCRBX_LOCK"
+#define device_bar_BDK_TNS_SE_TCAM_SCRBX_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SCRBX_LOCK(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_SCRBX_LOCK(a) (a),-1,-1,-1
 
@@ -30955,6 +31700,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_SCRBX(unsigned long a, unsigned lon
 #define typedef_BDK_TNS_SE_TCAM_SCRBX_SCRBX(a,b) bdk_tns_se_tcam_scrbx_scrbx_t
 #define bustype_BDK_TNS_SE_TCAM_SCRBX_SCRBX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SCRBX_SCRBX(a,b) "TNS_SE_TCAM_SCRBX_SCRBX"
+#define device_bar_BDK_TNS_SE_TCAM_SCRBX_SCRBX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SCRBX_SCRBX(a,b) (a)
 #define arguments_BDK_TNS_SE_TCAM_SCRBX_SCRBX(a,b) (a),(b),-1,-1
 
@@ -30989,6 +31735,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_SCRBX_SPAD(a) bdk_tns_se_tcam_scrbx_spad_t
 #define bustype_BDK_TNS_SE_TCAM_SCRBX_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SCRBX_SPAD(a) "TNS_SE_TCAM_SCRBX_SPAD"
+#define device_bar_BDK_TNS_SE_TCAM_SCRBX_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SCRBX_SPAD(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_SCRBX_SPAD(a) (a),-1,-1,-1
 
@@ -31027,6 +31774,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_BIST_STDN(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_SRAMX_BIST_STDN(a) bdk_tns_se_tcam_sramx_bist_stdn_t
 #define bustype_BDK_TNS_SE_TCAM_SRAMX_BIST_STDN(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SRAMX_BIST_STDN(a) "TNS_SE_TCAM_SRAMX_BIST_STDN"
+#define device_bar_BDK_TNS_SE_TCAM_SRAMX_BIST_STDN(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SRAMX_BIST_STDN(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_SRAMX_BIST_STDN(a) (a),-1,-1,-1
 
@@ -31061,6 +31809,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_SRAMX_LOCK(a) bdk_tns_se_tcam_sramx_lock_t
 #define bustype_BDK_TNS_SE_TCAM_SRAMX_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SRAMX_LOCK(a) "TNS_SE_TCAM_SRAMX_LOCK"
+#define device_bar_BDK_TNS_SE_TCAM_SRAMX_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SRAMX_LOCK(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_SRAMX_LOCK(a) (a),-1,-1,-1
 
@@ -31095,6 +31844,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_SRAMX_SPAD(a) bdk_tns_se_tcam_sramx_spad_t
 #define bustype_BDK_TNS_SE_TCAM_SRAMX_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SRAMX_SPAD(a) "TNS_SE_TCAM_SRAMX_SPAD"
+#define device_bar_BDK_TNS_SE_TCAM_SRAMX_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SRAMX_SPAD(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_SRAMX_SPAD(a) (a),-1,-1,-1
 
@@ -31131,6 +31881,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_SRAMX_TCAM_RDBUF(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_SRAMX_TCAM_RDBUF(a) bdk_tns_se_tcam_sramx_tcam_rdbuf_t
 #define bustype_BDK_TNS_SE_TCAM_SRAMX_TCAM_RDBUF(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_SRAMX_TCAM_RDBUF(a) "TNS_SE_TCAM_SRAMX_TCAM_RDBUF"
+#define device_bar_BDK_TNS_SE_TCAM_SRAMX_TCAM_RDBUF(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_SRAMX_TCAM_RDBUF(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_SRAMX_TCAM_RDBUF(a) (a),-1,-1,-1
 
@@ -31175,6 +31926,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_TBLX(unsigned long a)
 #define typedef_BDK_TNS_SE_TCAM_TBLX(a) bdk_tns_se_tcam_tblx_t
 #define bustype_BDK_TNS_SE_TCAM_TBLX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_TBLX(a) "TNS_SE_TCAM_TBLX"
+#define device_bar_BDK_TNS_SE_TCAM_TBLX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_TBLX(a) (a)
 #define arguments_BDK_TNS_SE_TCAM_TBLX(a) (a),-1,-1,-1
 
@@ -31210,6 +31962,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_TBL_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SE_TCAM_TBL_LOCK bdk_tns_se_tcam_tbl_lock_t
 #define bustype_BDK_TNS_SE_TCAM_TBL_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_TBL_LOCK "TNS_SE_TCAM_TBL_LOCK"
+#define device_bar_BDK_TNS_SE_TCAM_TBL_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_TBL_LOCK 0
 #define arguments_BDK_TNS_SE_TCAM_TBL_LOCK -1,-1,-1,-1
 
@@ -31245,6 +31998,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_TBL_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SE_TCAM_TBL_SPAD bdk_tns_se_tcam_tbl_spad_t
 #define bustype_BDK_TNS_SE_TCAM_TBL_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_TBL_SPAD "TNS_SE_TCAM_TBL_SPAD"
+#define device_bar_BDK_TNS_SE_TCAM_TBL_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_TBL_SPAD 0
 #define arguments_BDK_TNS_SE_TCAM_TBL_SPAD -1,-1,-1,-1
 
@@ -31280,6 +32034,7 @@ static inline uint64_t BDK_TNS_SE_URW_TBL_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SE_URW_TBL_LOCK bdk_tns_se_urw_tbl_lock_t
 #define bustype_BDK_TNS_SE_URW_TBL_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URW_TBL_LOCK "TNS_SE_URW_TBL_LOCK"
+#define device_bar_BDK_TNS_SE_URW_TBL_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URW_TBL_LOCK 0
 #define arguments_BDK_TNS_SE_URW_TBL_LOCK -1,-1,-1,-1
 
@@ -31315,6 +32070,7 @@ static inline uint64_t BDK_TNS_SE_URW_TBL_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SE_URW_TBL_SPAD bdk_tns_se_urw_tbl_spad_t
 #define bustype_BDK_TNS_SE_URW_TBL_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URW_TBL_SPAD "TNS_SE_URW_TBL_SPAD"
+#define device_bar_BDK_TNS_SE_URW_TBL_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URW_TBL_SPAD 0
 #define arguments_BDK_TNS_SE_URW_TBL_SPAD -1,-1,-1,-1
 
@@ -31369,6 +32125,7 @@ static inline uint64_t BDK_TNS_SE_URW_TBL_URWX(unsigned long a)
 #define typedef_BDK_TNS_SE_URW_TBL_URWX(a) bdk_tns_se_urw_tbl_urwx_t
 #define bustype_BDK_TNS_SE_URW_TBL_URWX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URW_TBL_URWX(a) "TNS_SE_URW_TBL_URWX"
+#define device_bar_BDK_TNS_SE_URW_TBL_URWX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URW_TBL_URWX(a) (a)
 #define arguments_BDK_TNS_SE_URW_TBL_URWX(a) (a),-1,-1,-1
 
@@ -31403,6 +32160,7 @@ static inline uint64_t BDK_TNS_SE_URWCMDX_LOCK(unsigned long a)
 #define typedef_BDK_TNS_SE_URWCMDX_LOCK(a) bdk_tns_se_urwcmdx_lock_t
 #define bustype_BDK_TNS_SE_URWCMDX_LOCK(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWCMDX_LOCK(a) "TNS_SE_URWCMDX_LOCK"
+#define device_bar_BDK_TNS_SE_URWCMDX_LOCK(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWCMDX_LOCK(a) (a)
 #define arguments_BDK_TNS_SE_URWCMDX_LOCK(a) (a),-1,-1,-1
 
@@ -31437,6 +32195,7 @@ static inline uint64_t BDK_TNS_SE_URWCMDX_SPAD(unsigned long a)
 #define typedef_BDK_TNS_SE_URWCMDX_SPAD(a) bdk_tns_se_urwcmdx_spad_t
 #define bustype_BDK_TNS_SE_URWCMDX_SPAD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWCMDX_SPAD(a) "TNS_SE_URWCMDX_SPAD"
+#define device_bar_BDK_TNS_SE_URWCMDX_SPAD(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWCMDX_SPAD(a) (a)
 #define arguments_BDK_TNS_SE_URWCMDX_SPAD(a) (a),-1,-1,-1
 
@@ -31509,6 +32268,7 @@ static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W0(unsigned long a, unsigned
 #define typedef_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W0(a,b) bdk_tns_se_urwcmdx_srch_cmdx_w0_t
 #define bustype_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W0(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W0(a,b) "TNS_SE_URWCMDX_SRCH_CMDX_W0"
+#define device_bar_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W0(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W0(a,b) (a)
 #define arguments_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W0(a,b) (a),(b),-1,-1
 
@@ -31543,6 +32303,7 @@ static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W1(unsigned long a, unsigned
 #define typedef_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W1(a,b) bdk_tns_se_urwcmdx_srch_cmdx_w1_t
 #define bustype_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W1(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W1(a,b) "TNS_SE_URWCMDX_SRCH_CMDX_W1"
+#define device_bar_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W1(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W1(a,b) (a)
 #define arguments_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W1(a,b) (a),(b),-1,-1
 
@@ -31621,6 +32382,7 @@ static inline uint64_t BDK_TNS_SE_URWCMDX_SRCH_CMDX_W2(unsigned long a, unsigned
 #define typedef_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W2(a,b) bdk_tns_se_urwcmdx_srch_cmdx_w2_t
 #define bustype_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W2(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W2(a,b) "TNS_SE_URWCMDX_SRCH_CMDX_W2"
+#define device_bar_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W2(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W2(a,b) (a)
 #define arguments_BDK_TNS_SE_URWCMDX_SRCH_CMDX_W2(a,b) (a),(b),-1,-1
 
@@ -31678,6 +32440,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_DBG_FUNC(void)
 #define typedef_BDK_TNS_SE_URWIF_DBG bdk_tns_se_urwif_dbg_t
 #define bustype_BDK_TNS_SE_URWIF_DBG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWIF_DBG "TNS_SE_URWIF_DBG"
+#define device_bar_BDK_TNS_SE_URWIF_DBG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWIF_DBG 0
 #define arguments_BDK_TNS_SE_URWIF_DBG -1,-1,-1,-1
 
@@ -31715,6 +32478,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_DBG_SEL_FUNC(void)
 #define typedef_BDK_TNS_SE_URWIF_DBG_SEL bdk_tns_se_urwif_dbg_sel_t
 #define bustype_BDK_TNS_SE_URWIF_DBG_SEL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWIF_DBG_SEL "TNS_SE_URWIF_DBG_SEL"
+#define device_bar_BDK_TNS_SE_URWIF_DBG_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWIF_DBG_SEL 0
 #define arguments_BDK_TNS_SE_URWIF_DBG_SEL -1,-1,-1,-1
 
@@ -31750,6 +32514,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_LOCK_FUNC(void)
 #define typedef_BDK_TNS_SE_URWIF_LOCK bdk_tns_se_urwif_lock_t
 #define bustype_BDK_TNS_SE_URWIF_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWIF_LOCK "TNS_SE_URWIF_LOCK"
+#define device_bar_BDK_TNS_SE_URWIF_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWIF_LOCK 0
 #define arguments_BDK_TNS_SE_URWIF_LOCK -1,-1,-1,-1
 
@@ -31789,6 +32554,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W0_FUNC(void)
 #define typedef_BDK_TNS_SE_URWIF_REQ_DBG_W0 bdk_tns_se_urwif_req_dbg_w0_t
 #define bustype_BDK_TNS_SE_URWIF_REQ_DBG_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWIF_REQ_DBG_W0 "TNS_SE_URWIF_REQ_DBG_W0"
+#define device_bar_BDK_TNS_SE_URWIF_REQ_DBG_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWIF_REQ_DBG_W0 0
 #define arguments_BDK_TNS_SE_URWIF_REQ_DBG_W0 -1,-1,-1,-1
 
@@ -31824,6 +32590,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W1_FUNC(void)
 #define typedef_BDK_TNS_SE_URWIF_REQ_DBG_W1 bdk_tns_se_urwif_req_dbg_w1_t
 #define bustype_BDK_TNS_SE_URWIF_REQ_DBG_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWIF_REQ_DBG_W1 "TNS_SE_URWIF_REQ_DBG_W1"
+#define device_bar_BDK_TNS_SE_URWIF_REQ_DBG_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWIF_REQ_DBG_W1 0
 #define arguments_BDK_TNS_SE_URWIF_REQ_DBG_W1 -1,-1,-1,-1
 
@@ -31859,6 +32626,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W2_FUNC(void)
 #define typedef_BDK_TNS_SE_URWIF_REQ_DBG_W2 bdk_tns_se_urwif_req_dbg_w2_t
 #define bustype_BDK_TNS_SE_URWIF_REQ_DBG_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWIF_REQ_DBG_W2 "TNS_SE_URWIF_REQ_DBG_W2"
+#define device_bar_BDK_TNS_SE_URWIF_REQ_DBG_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWIF_REQ_DBG_W2 0
 #define arguments_BDK_TNS_SE_URWIF_REQ_DBG_W2 -1,-1,-1,-1
 
@@ -31896,6 +32664,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_REQ_DBG_W3_FUNC(void)
 #define typedef_BDK_TNS_SE_URWIF_REQ_DBG_W3 bdk_tns_se_urwif_req_dbg_w3_t
 #define bustype_BDK_TNS_SE_URWIF_REQ_DBG_W3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWIF_REQ_DBG_W3 "TNS_SE_URWIF_REQ_DBG_W3"
+#define device_bar_BDK_TNS_SE_URWIF_REQ_DBG_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWIF_REQ_DBG_W3 0
 #define arguments_BDK_TNS_SE_URWIF_REQ_DBG_W3 -1,-1,-1,-1
 
@@ -31930,6 +32699,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W0(unsigned long a)
 #define typedef_BDK_TNS_SE_URWIF_RSLT_DBGX_W0(a) bdk_tns_se_urwif_rslt_dbgx_w0_t
 #define bustype_BDK_TNS_SE_URWIF_RSLT_DBGX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWIF_RSLT_DBGX_W0(a) "TNS_SE_URWIF_RSLT_DBGX_W0"
+#define device_bar_BDK_TNS_SE_URWIF_RSLT_DBGX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWIF_RSLT_DBGX_W0(a) (a)
 #define arguments_BDK_TNS_SE_URWIF_RSLT_DBGX_W0(a) (a),-1,-1,-1
 
@@ -31964,6 +32734,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W1(unsigned long a)
 #define typedef_BDK_TNS_SE_URWIF_RSLT_DBGX_W1(a) bdk_tns_se_urwif_rslt_dbgx_w1_t
 #define bustype_BDK_TNS_SE_URWIF_RSLT_DBGX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWIF_RSLT_DBGX_W1(a) "TNS_SE_URWIF_RSLT_DBGX_W1"
+#define device_bar_BDK_TNS_SE_URWIF_RSLT_DBGX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWIF_RSLT_DBGX_W1(a) (a)
 #define arguments_BDK_TNS_SE_URWIF_RSLT_DBGX_W1(a) (a),-1,-1,-1
 
@@ -32004,6 +32775,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_RSLT_DBGX_W2(unsigned long a)
 #define typedef_BDK_TNS_SE_URWIF_RSLT_DBGX_W2(a) bdk_tns_se_urwif_rslt_dbgx_w2_t
 #define bustype_BDK_TNS_SE_URWIF_RSLT_DBGX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWIF_RSLT_DBGX_W2(a) "TNS_SE_URWIF_RSLT_DBGX_W2"
+#define device_bar_BDK_TNS_SE_URWIF_RSLT_DBGX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWIF_RSLT_DBGX_W2(a) (a)
 #define arguments_BDK_TNS_SE_URWIF_RSLT_DBGX_W2(a) (a),-1,-1,-1
 
@@ -32039,6 +32811,7 @@ static inline uint64_t BDK_TNS_SE_URWIF_SPAD_FUNC(void)
 #define typedef_BDK_TNS_SE_URWIF_SPAD bdk_tns_se_urwif_spad_t
 #define bustype_BDK_TNS_SE_URWIF_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_URWIF_SPAD "TNS_SE_URWIF_SPAD"
+#define device_bar_BDK_TNS_SE_URWIF_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_URWIF_SPAD 0
 #define arguments_BDK_TNS_SE_URWIF_SPAD -1,-1,-1,-1
 
@@ -32074,6 +32847,7 @@ static inline uint64_t BDK_TNS_TXQ_CFG_SPARE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CFG_SPARE bdk_tns_txq_cfg_spare_t
 #define bustype_BDK_TNS_TXQ_CFG_SPARE BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CFG_SPARE "TNS_TXQ_CFG_SPARE"
+#define device_bar_BDK_TNS_TXQ_CFG_SPARE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CFG_SPARE 0
 #define arguments_BDK_TNS_TXQ_CFG_SPARE -1,-1,-1,-1
 
@@ -32124,6 +32898,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_CT_GO_NEG_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_CT_GO_NEG_CFG bdk_tns_txq_cnt_ct_go_neg_cfg_t
 #define bustype_BDK_TNS_TXQ_CNT_CT_GO_NEG_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_CT_GO_NEG_CFG "TNS_TXQ_CNT_CT_GO_NEG_CFG"
+#define device_bar_BDK_TNS_TXQ_CNT_CT_GO_NEG_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_CT_GO_NEG_CFG 0
 #define arguments_BDK_TNS_TXQ_CNT_CT_GO_NEG_CFG -1,-1,-1,-1
 
@@ -32219,6 +32994,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_ECC_CTL bdk_tns_txq_cnt_ecc_ctl_t
 #define bustype_BDK_TNS_TXQ_CNT_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_ECC_CTL "TNS_TXQ_CNT_ECC_CTL"
+#define device_bar_BDK_TNS_TXQ_CNT_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_ECC_CTL 0
 #define arguments_BDK_TNS_TXQ_CNT_ECC_CTL -1,-1,-1,-1
 
@@ -32256,6 +33032,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_OFF_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_OFF bdk_tns_txq_cnt_frc_gbl_mcfc_off_t
 #define bustype_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_OFF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_OFF "TNS_TXQ_CNT_FRC_GBL_MCFC_OFF"
+#define device_bar_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_OFF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_OFF 0
 #define arguments_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_OFF -1,-1,-1,-1
 
@@ -32293,6 +33070,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_ON_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_ON bdk_tns_txq_cnt_frc_gbl_mcfc_on_t
 #define bustype_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_ON BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_ON "TNS_TXQ_CNT_FRC_GBL_MCFC_ON"
+#define device_bar_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_ON 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_ON 0
 #define arguments_BDK_TNS_TXQ_CNT_FRC_GBL_MCFC_ON -1,-1,-1,-1
 
@@ -32330,6 +33108,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PC_PFC_OFF_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_FRC_PC_PFC_OFF bdk_tns_txq_cnt_frc_pc_pfc_off_t
 #define bustype_BDK_TNS_TXQ_CNT_FRC_PC_PFC_OFF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_FRC_PC_PFC_OFF "TNS_TXQ_CNT_FRC_PC_PFC_OFF"
+#define device_bar_BDK_TNS_TXQ_CNT_FRC_PC_PFC_OFF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_FRC_PC_PFC_OFF 0
 #define arguments_BDK_TNS_TXQ_CNT_FRC_PC_PFC_OFF -1,-1,-1,-1
 
@@ -32367,6 +33146,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PC_PFC_ON_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_FRC_PC_PFC_ON bdk_tns_txq_cnt_frc_pc_pfc_on_t
 #define bustype_BDK_TNS_TXQ_CNT_FRC_PC_PFC_ON BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_FRC_PC_PFC_ON "TNS_TXQ_CNT_FRC_PC_PFC_ON"
+#define device_bar_BDK_TNS_TXQ_CNT_FRC_PC_PFC_ON 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_FRC_PC_PFC_ON 0
 #define arguments_BDK_TNS_TXQ_CNT_FRC_PC_PFC_ON -1,-1,-1,-1
 
@@ -32402,6 +33182,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PFC_OFF_WX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_FRC_PFC_OFF_WX(a) bdk_tns_txq_cnt_frc_pfc_off_wx_t
 #define bustype_BDK_TNS_TXQ_CNT_FRC_PFC_OFF_WX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_FRC_PFC_OFF_WX(a) "TNS_TXQ_CNT_FRC_PFC_OFF_WX"
+#define device_bar_BDK_TNS_TXQ_CNT_FRC_PFC_OFF_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_FRC_PFC_OFF_WX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_FRC_PFC_OFF_WX(a) (a),-1,-1,-1
 
@@ -32437,6 +33218,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_PFC_ON_WX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_FRC_PFC_ON_WX(a) bdk_tns_txq_cnt_frc_pfc_on_wx_t
 #define bustype_BDK_TNS_TXQ_CNT_FRC_PFC_ON_WX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_FRC_PFC_ON_WX(a) "TNS_TXQ_CNT_FRC_PFC_ON_WX"
+#define device_bar_BDK_TNS_TXQ_CNT_FRC_PFC_ON_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_FRC_PFC_ON_WX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_FRC_PFC_ON_WX(a) (a),-1,-1,-1
 
@@ -32474,6 +33256,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_TC_PFC_OFF_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_FRC_TC_PFC_OFF bdk_tns_txq_cnt_frc_tc_pfc_off_t
 #define bustype_BDK_TNS_TXQ_CNT_FRC_TC_PFC_OFF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_FRC_TC_PFC_OFF "TNS_TXQ_CNT_FRC_TC_PFC_OFF"
+#define device_bar_BDK_TNS_TXQ_CNT_FRC_TC_PFC_OFF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_FRC_TC_PFC_OFF 0
 #define arguments_BDK_TNS_TXQ_CNT_FRC_TC_PFC_OFF -1,-1,-1,-1
 
@@ -32511,6 +33294,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FRC_TC_PFC_ON_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_FRC_TC_PFC_ON bdk_tns_txq_cnt_frc_tc_pfc_on_t
 #define bustype_BDK_TNS_TXQ_CNT_FRC_TC_PFC_ON BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_FRC_TC_PFC_ON "TNS_TXQ_CNT_FRC_TC_PFC_ON"
+#define device_bar_BDK_TNS_TXQ_CNT_FRC_TC_PFC_ON 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_FRC_TC_PFC_ON 0
 #define arguments_BDK_TNS_TXQ_CNT_FRC_TC_PFC_ON -1,-1,-1,-1
 
@@ -32555,6 +33339,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_FW_DRP_RDCLR_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_FW_DRP_RDCLR_CFG bdk_tns_txq_cnt_fw_drp_rdclr_cfg_t
 #define bustype_BDK_TNS_TXQ_CNT_FW_DRP_RDCLR_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_FW_DRP_RDCLR_CFG "TNS_TXQ_CNT_FW_DRP_RDCLR_CFG"
+#define device_bar_BDK_TNS_TXQ_CNT_FW_DRP_RDCLR_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_FW_DRP_RDCLR_CFG 0
 #define arguments_BDK_TNS_TXQ_CNT_FW_DRP_RDCLR_CFG -1,-1,-1,-1
 
@@ -32592,6 +33377,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_GBL_MC_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_GBL_MC_CT bdk_tns_txq_cnt_gbl_mc_ct_t
 #define bustype_BDK_TNS_TXQ_CNT_GBL_MC_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_GBL_MC_CT "TNS_TXQ_CNT_GBL_MC_CT"
+#define device_bar_BDK_TNS_TXQ_CNT_GBL_MC_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_GBL_MC_CT 0
 #define arguments_BDK_TNS_TXQ_CNT_GBL_MC_CT -1,-1,-1,-1
 
@@ -32631,6 +33417,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_GBL_MC_THR_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_GBL_MC_THR bdk_tns_txq_cnt_gbl_mc_thr_t
 #define bustype_BDK_TNS_TXQ_CNT_GBL_MC_THR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_GBL_MC_THR "TNS_TXQ_CNT_GBL_MC_THR"
+#define device_bar_BDK_TNS_TXQ_CNT_GBL_MC_THR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_GBL_MC_THR 0
 #define arguments_BDK_TNS_TXQ_CNT_GBL_MC_THR -1,-1,-1,-1
 
@@ -32669,6 +33456,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_DLCM_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_H1_DLCM_ECC_LOG bdk_tns_txq_cnt_h1_dlcm_ecc_log_t
 #define bustype_BDK_TNS_TXQ_CNT_H1_DLCM_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_H1_DLCM_ECC_LOG "TNS_TXQ_CNT_H1_DLCM_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_CNT_H1_DLCM_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_H1_DLCM_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_CNT_H1_DLCM_ECC_LOG -1,-1,-1,-1
 
@@ -32707,6 +33495,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_DPCM_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_H1_DPCM_ECC_LOG bdk_tns_txq_cnt_h1_dpcm_ecc_log_t
 #define bustype_BDK_TNS_TXQ_CNT_H1_DPCM_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_H1_DPCM_ECC_LOG "TNS_TXQ_CNT_H1_DPCM_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_CNT_H1_DPCM_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_H1_DPCM_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_CNT_H1_DPCM_ECC_LOG -1,-1,-1,-1
 
@@ -32745,6 +33534,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_DRP_LEN_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_H1_DRP_LEN_CTX(a) bdk_tns_txq_cnt_h1_drp_len_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_H1_DRP_LEN_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_H1_DRP_LEN_CTX(a) "TNS_TXQ_CNT_H1_DRP_LEN_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_H1_DRP_LEN_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_H1_DRP_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_H1_DRP_LEN_CTX(a) (a),-1,-1,-1
 
@@ -32783,6 +33573,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_DRP_PKT_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_H1_DRP_PKT_CTX(a) bdk_tns_txq_cnt_h1_drp_pkt_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_H1_DRP_PKT_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_H1_DRP_PKT_CTX(a) "TNS_TXQ_CNT_H1_DRP_PKT_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_H1_DRP_PKT_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_H1_DRP_PKT_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_H1_DRP_PKT_CTX(a) (a),-1,-1,-1
 
@@ -32821,6 +33612,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_FLCM_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_H1_FLCM_ECC_LOG bdk_tns_txq_cnt_h1_flcm_ecc_log_t
 #define bustype_BDK_TNS_TXQ_CNT_H1_FLCM_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_H1_FLCM_ECC_LOG "TNS_TXQ_CNT_H1_FLCM_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_CNT_H1_FLCM_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_H1_FLCM_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_CNT_H1_FLCM_ECC_LOG -1,-1,-1,-1
 
@@ -32859,6 +33651,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_FPCM_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_H1_FPCM_ECC_LOG bdk_tns_txq_cnt_h1_fpcm_ecc_log_t
 #define bustype_BDK_TNS_TXQ_CNT_H1_FPCM_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_H1_FPCM_ECC_LOG "TNS_TXQ_CNT_H1_FPCM_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_CNT_H1_FPCM_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_H1_FPCM_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_CNT_H1_FPCM_ECC_LOG -1,-1,-1,-1
 
@@ -32897,6 +33690,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) bdk_tns_txq_cnt_h1_fw_len_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) "TNS_TXQ_CNT_H1_FW_LEN_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) (a),-1,-1,-1
 
@@ -32935,6 +33729,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_PKT_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_H1_FW_PKT_CTX(a) bdk_tns_txq_cnt_h1_fw_pkt_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_H1_FW_PKT_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_H1_FW_PKT_CTX(a) "TNS_TXQ_CNT_H1_FW_PKT_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_H1_FW_PKT_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_H1_FW_PKT_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_H1_FW_PKT_CTX(a) (a),-1,-1,-1
 
@@ -32971,6 +33766,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_H1_LEN_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_H1_LEN_CTX(a) bdk_tns_txq_cnt_h1_len_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_H1_LEN_CTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_H1_LEN_CTX(a) "TNS_TXQ_CNT_H1_LEN_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_H1_LEN_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_H1_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_H1_LEN_CTX(a) (a),-1,-1,-1
 
@@ -33078,6 +33874,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_INT_EN_HI bdk_tns_txq_cnt_int_en_hi_t
 #define bustype_BDK_TNS_TXQ_CNT_INT_EN_HI BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_INT_EN_HI "TNS_TXQ_CNT_INT_EN_HI"
+#define device_bar_BDK_TNS_TXQ_CNT_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_INT_EN_HI 0
 #define arguments_BDK_TNS_TXQ_CNT_INT_EN_HI -1,-1,-1,-1
 
@@ -33185,6 +33982,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_INT_EN_LO bdk_tns_txq_cnt_int_en_lo_t
 #define bustype_BDK_TNS_TXQ_CNT_INT_EN_LO BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_INT_EN_LO "TNS_TXQ_CNT_INT_EN_LO"
+#define device_bar_BDK_TNS_TXQ_CNT_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_INT_EN_LO 0
 #define arguments_BDK_TNS_TXQ_CNT_INT_EN_LO -1,-1,-1,-1
 
@@ -33292,6 +34090,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_INT_FRC bdk_tns_txq_cnt_int_frc_t
 #define bustype_BDK_TNS_TXQ_CNT_INT_FRC BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_INT_FRC "TNS_TXQ_CNT_INT_FRC"
+#define device_bar_BDK_TNS_TXQ_CNT_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_INT_FRC 0
 #define arguments_BDK_TNS_TXQ_CNT_INT_FRC -1,-1,-1,-1
 
@@ -33399,6 +34198,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_INT_W1C bdk_tns_txq_cnt_int_w1c_t
 #define bustype_BDK_TNS_TXQ_CNT_INT_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_INT_W1C "TNS_TXQ_CNT_INT_W1C"
+#define device_bar_BDK_TNS_TXQ_CNT_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_INT_W1C 0
 #define arguments_BDK_TNS_TXQ_CNT_INT_W1C -1,-1,-1,-1
 
@@ -33434,6 +34234,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_LOCK_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_LOCK bdk_tns_txq_cnt_lock_t
 #define bustype_BDK_TNS_TXQ_CNT_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_LOCK "TNS_TXQ_CNT_LOCK"
+#define device_bar_BDK_TNS_TXQ_CNT_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_LOCK 0
 #define arguments_BDK_TNS_TXQ_CNT_LOCK -1,-1,-1,-1
 
@@ -33472,6 +34273,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_NIC_CRD_OV_THR_WX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_NIC_CRD_OV_THR_WX(a) bdk_tns_txq_cnt_nic_crd_ov_thr_wx_t
 #define bustype_BDK_TNS_TXQ_CNT_NIC_CRD_OV_THR_WX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_NIC_CRD_OV_THR_WX(a) "TNS_TXQ_CNT_NIC_CRD_OV_THR_WX"
+#define device_bar_BDK_TNS_TXQ_CNT_NIC_CRD_OV_THR_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_NIC_CRD_OV_THR_WX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_NIC_CRD_OV_THR_WX(a) (a),-1,-1,-1
 
@@ -33510,6 +34312,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_ONTHEFLY_PKT_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_ONTHEFLY_PKT_CT bdk_tns_txq_cnt_onthefly_pkt_ct_t
 #define bustype_BDK_TNS_TXQ_CNT_ONTHEFLY_PKT_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_ONTHEFLY_PKT_CT "TNS_TXQ_CNT_ONTHEFLY_PKT_CT"
+#define device_bar_BDK_TNS_TXQ_CNT_ONTHEFLY_PKT_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_ONTHEFLY_PKT_CT 0
 #define arguments_BDK_TNS_TXQ_CNT_ONTHEFLY_PKT_CT -1,-1,-1,-1
 
@@ -33546,6 +34349,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PC_CNT_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_PC_CNT_MEMX(a) bdk_tns_txq_cnt_pc_cnt_memx_t
 #define bustype_BDK_TNS_TXQ_CNT_PC_CNT_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_PC_CNT_MEMX(a) "TNS_TXQ_CNT_PC_CNT_MEMX"
+#define device_bar_BDK_TNS_TXQ_CNT_PC_CNT_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PC_CNT_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_PC_CNT_MEMX(a) (a),-1,-1,-1
 
@@ -33585,6 +34389,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PC_PFL_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_PC_PFL_MEMX(a) bdk_tns_txq_cnt_pc_pfl_memx_t
 #define bustype_BDK_TNS_TXQ_CNT_PC_PFL_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_PC_PFL_MEMX(a) "TNS_TXQ_CNT_PC_PFL_MEMX"
+#define device_bar_BDK_TNS_TXQ_CNT_PC_PFL_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PC_PFL_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_PC_PFL_MEMX(a) (a),-1,-1,-1
 
@@ -33624,6 +34429,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_PFC_CFG bdk_tns_txq_cnt_pfc_cfg_t
 #define bustype_BDK_TNS_TXQ_CNT_PFC_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_PFC_CFG "TNS_TXQ_CNT_PFC_CFG"
+#define device_bar_BDK_TNS_TXQ_CNT_PFC_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PFC_CFG 0
 #define arguments_BDK_TNS_TXQ_CNT_PFC_CFG -1,-1,-1,-1
 
@@ -33660,6 +34466,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_CNT_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_PFC_CNT_MEMX(a) bdk_tns_txq_cnt_pfc_cnt_memx_t
 #define bustype_BDK_TNS_TXQ_CNT_PFC_CNT_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_PFC_CNT_MEMX(a) "TNS_TXQ_CNT_PFC_CNT_MEMX"
+#define device_bar_BDK_TNS_TXQ_CNT_PFC_CNT_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PFC_CNT_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_PFC_CNT_MEMX(a) (a),-1,-1,-1
 
@@ -33701,6 +34508,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_HW_INIT_STA_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_PFC_HW_INIT_STA bdk_tns_txq_cnt_pfc_hw_init_sta_t
 #define bustype_BDK_TNS_TXQ_CNT_PFC_HW_INIT_STA BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_PFC_HW_INIT_STA "TNS_TXQ_CNT_PFC_HW_INIT_STA"
+#define device_bar_BDK_TNS_TXQ_CNT_PFC_HW_INIT_STA 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PFC_HW_INIT_STA 0
 #define arguments_BDK_TNS_TXQ_CNT_PFC_HW_INIT_STA -1,-1,-1,-1
 
@@ -33738,6 +34546,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PFL_MAP_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_PFC_PFL_MAP_MEMX(a) bdk_tns_txq_cnt_pfc_pfl_map_memx_t
 #define bustype_BDK_TNS_TXQ_CNT_PFC_PFL_MAP_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_PFC_PFL_MAP_MEMX(a) "TNS_TXQ_CNT_PFC_PFL_MAP_MEMX"
+#define device_bar_BDK_TNS_TXQ_CNT_PFC_PFL_MAP_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PFC_PFL_MAP_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_PFC_PFL_MAP_MEMX(a) (a),-1,-1,-1
 
@@ -33778,6 +34587,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PFL_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_PFC_PFL_MEMX(a) bdk_tns_txq_cnt_pfc_pfl_memx_t
 #define bustype_BDK_TNS_TXQ_CNT_PFC_PFL_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_PFC_PFL_MEMX(a) "TNS_TXQ_CNT_PFC_PFL_MEMX"
+#define device_bar_BDK_TNS_TXQ_CNT_PFC_PFL_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PFC_PFL_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_PFC_PFL_MEMX(a) (a),-1,-1,-1
 
@@ -33815,6 +34625,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_PT_CLUS_CFGX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_PFC_PT_CLUS_CFGX(a) bdk_tns_txq_cnt_pfc_pt_clus_cfgx_t
 #define bustype_BDK_TNS_TXQ_CNT_PFC_PT_CLUS_CFGX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_PFC_PT_CLUS_CFGX(a) "TNS_TXQ_CNT_PFC_PT_CLUS_CFGX"
+#define device_bar_BDK_TNS_TXQ_CNT_PFC_PT_CLUS_CFGX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PFC_PT_CLUS_CFGX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_PFC_PT_CLUS_CFGX(a) (a),-1,-1,-1
 
@@ -33857,6 +34668,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PFC_RST_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_PFC_RST_CFG bdk_tns_txq_cnt_pfc_rst_cfg_t
 #define bustype_BDK_TNS_TXQ_CNT_PFC_RST_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_PFC_RST_CFG "TNS_TXQ_CNT_PFC_RST_CFG"
+#define device_bar_BDK_TNS_TXQ_CNT_PFC_RST_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PFC_RST_CFG 0
 #define arguments_BDK_TNS_TXQ_CNT_PFC_RST_CFG -1,-1,-1,-1
 
@@ -33895,6 +34707,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PT_DRP_LEN_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_PT_DRP_LEN_CTX(a) bdk_tns_txq_cnt_pt_drp_len_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_PT_DRP_LEN_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_PT_DRP_LEN_CTX(a) "TNS_TXQ_CNT_PT_DRP_LEN_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_PT_DRP_LEN_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PT_DRP_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_PT_DRP_LEN_CTX(a) (a),-1,-1,-1
 
@@ -33933,6 +34746,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PT_DRP_PKT_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_PT_DRP_PKT_CTX(a) bdk_tns_txq_cnt_pt_drp_pkt_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_PT_DRP_PKT_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_PT_DRP_PKT_CTX(a) "TNS_TXQ_CNT_PT_DRP_PKT_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_PT_DRP_PKT_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PT_DRP_PKT_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_PT_DRP_PKT_CTX(a) (a),-1,-1,-1
 
@@ -33971,6 +34785,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PT_FW_LEN_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_PT_FW_LEN_CTX(a) bdk_tns_txq_cnt_pt_fw_len_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_PT_FW_LEN_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_PT_FW_LEN_CTX(a) "TNS_TXQ_CNT_PT_FW_LEN_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_PT_FW_LEN_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PT_FW_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_PT_FW_LEN_CTX(a) (a),-1,-1,-1
 
@@ -34009,6 +34824,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PT_FW_PKT_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_PT_FW_PKT_CTX(a) bdk_tns_txq_cnt_pt_fw_pkt_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_PT_FW_PKT_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_PT_FW_PKT_CTX(a) "TNS_TXQ_CNT_PT_FW_PKT_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_PT_FW_PKT_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PT_FW_PKT_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_PT_FW_PKT_CTX(a) (a),-1,-1,-1
 
@@ -34045,6 +34861,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_PT_LEN_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_PT_LEN_CTX(a) bdk_tns_txq_cnt_pt_len_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_PT_LEN_CTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_PT_LEN_CTX(a) "TNS_TXQ_CNT_PT_LEN_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_PT_LEN_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_PT_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_PT_LEN_CTX(a) (a),-1,-1,-1
 
@@ -34083,6 +34900,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_ALCM_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_Q_ALCM_ECC_LOG bdk_tns_txq_cnt_q_alcm_ecc_log_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_ALCM_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_Q_ALCM_ECC_LOG "TNS_TXQ_CNT_Q_ALCM_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_ALCM_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_ALCM_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_CNT_Q_ALCM_ECC_LOG -1,-1,-1,-1
 
@@ -34119,6 +34937,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_AVG_LEN_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_Q_AVG_LEN_CTX(a) bdk_tns_txq_cnt_q_avg_len_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_AVG_LEN_CTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_Q_AVG_LEN_CTX(a) "TNS_TXQ_CNT_Q_AVG_LEN_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_AVG_LEN_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_AVG_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_Q_AVG_LEN_CTX(a) (a),-1,-1,-1
 
@@ -34157,6 +34976,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_DLCM_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_Q_DLCM_ECC_LOG bdk_tns_txq_cnt_q_dlcm_ecc_log_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_DLCM_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_Q_DLCM_ECC_LOG "TNS_TXQ_CNT_Q_DLCM_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_DLCM_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_DLCM_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_CNT_Q_DLCM_ECC_LOG -1,-1,-1,-1
 
@@ -34195,6 +35015,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_DPCM_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_Q_DPCM_ECC_LOG bdk_tns_txq_cnt_q_dpcm_ecc_log_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_DPCM_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_Q_DPCM_ECC_LOG "TNS_TXQ_CNT_Q_DPCM_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_DPCM_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_DPCM_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_CNT_Q_DPCM_ECC_LOG -1,-1,-1,-1
 
@@ -34233,6 +35054,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_DRP_LEN_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_Q_DRP_LEN_CTX(a) bdk_tns_txq_cnt_q_drp_len_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_DRP_LEN_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_Q_DRP_LEN_CTX(a) "TNS_TXQ_CNT_Q_DRP_LEN_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_DRP_LEN_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_DRP_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_Q_DRP_LEN_CTX(a) (a),-1,-1,-1
 
@@ -34271,6 +35093,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_DRP_PKT_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_Q_DRP_PKT_CTX(a) bdk_tns_txq_cnt_q_drp_pkt_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_DRP_PKT_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_Q_DRP_PKT_CTX(a) "TNS_TXQ_CNT_Q_DRP_PKT_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_DRP_PKT_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_DRP_PKT_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_Q_DRP_PKT_CTX(a) (a),-1,-1,-1
 
@@ -34309,6 +35132,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_FLCM_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_Q_FLCM_ECC_LOG bdk_tns_txq_cnt_q_flcm_ecc_log_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_FLCM_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_Q_FLCM_ECC_LOG "TNS_TXQ_CNT_Q_FLCM_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_FLCM_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_FLCM_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_CNT_Q_FLCM_ECC_LOG -1,-1,-1,-1
 
@@ -34347,6 +35171,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_FPCM_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_Q_FPCM_ECC_LOG bdk_tns_txq_cnt_q_fpcm_ecc_log_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_FPCM_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_Q_FPCM_ECC_LOG "TNS_TXQ_CNT_Q_FPCM_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_FPCM_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_FPCM_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_CNT_Q_FPCM_ECC_LOG -1,-1,-1,-1
 
@@ -34385,6 +35210,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(a) bdk_tns_txq_cnt_q_fw_len_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(a) "TNS_TXQ_CNT_Q_FW_LEN_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(a) (a),-1,-1,-1
 
@@ -34423,6 +35249,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_FW_PKT_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_Q_FW_PKT_CTX(a) bdk_tns_txq_cnt_q_fw_pkt_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_FW_PKT_CTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_CNT_Q_FW_PKT_CTX(a) "TNS_TXQ_CNT_Q_FW_PKT_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_FW_PKT_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_FW_PKT_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_Q_FW_PKT_CTX(a) (a),-1,-1,-1
 
@@ -34459,6 +35286,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_LEN_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_Q_LEN_CTX(a) bdk_tns_txq_cnt_q_len_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_LEN_CTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_Q_LEN_CTX(a) "TNS_TXQ_CNT_Q_LEN_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_LEN_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_Q_LEN_CTX(a) (a),-1,-1,-1
 
@@ -34497,6 +35325,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_OLCM_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_Q_OLCM_ECC_LOG bdk_tns_txq_cnt_q_olcm_ecc_log_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_OLCM_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_Q_OLCM_ECC_LOG "TNS_TXQ_CNT_Q_OLCM_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_OLCM_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_OLCM_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_CNT_Q_OLCM_ECC_LOG -1,-1,-1,-1
 
@@ -34533,6 +35362,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_OLD_LEN_CTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_Q_OLD_LEN_CTX(a) bdk_tns_txq_cnt_q_old_len_ctx_t
 #define bustype_BDK_TNS_TXQ_CNT_Q_OLD_LEN_CTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_Q_OLD_LEN_CTX(a) "TNS_TXQ_CNT_Q_OLD_LEN_CTX"
+#define device_bar_BDK_TNS_TXQ_CNT_Q_OLD_LEN_CTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_Q_OLD_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_Q_OLD_LEN_CTX(a) (a),-1,-1,-1
 
@@ -34616,6 +35446,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_QAC_BIST_STDN_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_QAC_BIST_STDN bdk_tns_txq_cnt_qac_bist_stdn_t
 #define bustype_BDK_TNS_TXQ_CNT_QAC_BIST_STDN BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_QAC_BIST_STDN "TNS_TXQ_CNT_QAC_BIST_STDN"
+#define device_bar_BDK_TNS_TXQ_CNT_QAC_BIST_STDN 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_QAC_BIST_STDN 0
 #define arguments_BDK_TNS_TXQ_CNT_QAC_BIST_STDN -1,-1,-1,-1
 
@@ -34653,6 +35484,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_SHRD_PKT_LENX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_SHRD_PKT_LENX(a) bdk_tns_txq_cnt_shrd_pkt_lenx_t
 #define bustype_BDK_TNS_TXQ_CNT_SHRD_PKT_LENX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_SHRD_PKT_LENX(a) "TNS_TXQ_CNT_SHRD_PKT_LENX"
+#define device_bar_BDK_TNS_TXQ_CNT_SHRD_PKT_LENX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_SHRD_PKT_LENX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_SHRD_PKT_LENX(a) (a),-1,-1,-1
 
@@ -34690,6 +35522,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_SHRD_PKT_LEN_MAXX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_SHRD_PKT_LEN_MAXX(a) bdk_tns_txq_cnt_shrd_pkt_len_maxx_t
 #define bustype_BDK_TNS_TXQ_CNT_SHRD_PKT_LEN_MAXX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_SHRD_PKT_LEN_MAXX(a) "TNS_TXQ_CNT_SHRD_PKT_LEN_MAXX"
+#define device_bar_BDK_TNS_TXQ_CNT_SHRD_PKT_LEN_MAXX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_SHRD_PKT_LEN_MAXX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_SHRD_PKT_LEN_MAXX(a) (a),-1,-1,-1
 
@@ -34725,6 +35558,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_SPAD_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_SPAD bdk_tns_txq_cnt_spad_t
 #define bustype_BDK_TNS_TXQ_CNT_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_SPAD "TNS_TXQ_CNT_SPAD"
+#define device_bar_BDK_TNS_TXQ_CNT_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_SPAD 0
 #define arguments_BDK_TNS_TXQ_CNT_SPAD -1,-1,-1,-1
 
@@ -34761,6 +35595,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TC_CNT_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_TC_CNT_MEMX(a) bdk_tns_txq_cnt_tc_cnt_memx_t
 #define bustype_BDK_TNS_TXQ_CNT_TC_CNT_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_TC_CNT_MEMX(a) "TNS_TXQ_CNT_TC_CNT_MEMX"
+#define device_bar_BDK_TNS_TXQ_CNT_TC_CNT_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_TC_CNT_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_TC_CNT_MEMX(a) (a),-1,-1,-1
 
@@ -34800,6 +35635,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TC_PFL_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_CNT_TC_PFL_MEMX(a) bdk_tns_txq_cnt_tc_pfl_memx_t
 #define bustype_BDK_TNS_TXQ_CNT_TC_PFL_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_TC_PFL_MEMX(a) "TNS_TXQ_CNT_TC_PFL_MEMX"
+#define device_bar_BDK_TNS_TXQ_CNT_TC_PFL_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_TC_PFL_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_TC_PFL_MEMX(a) (a),-1,-1,-1
 
@@ -34837,6 +35673,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_MC_PKT_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_TL_MC_PKT_CT bdk_tns_txq_cnt_tl_mc_pkt_ct_t
 #define bustype_BDK_TNS_TXQ_CNT_TL_MC_PKT_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_TL_MC_PKT_CT "TNS_TXQ_CNT_TL_MC_PKT_CT"
+#define device_bar_BDK_TNS_TXQ_CNT_TL_MC_PKT_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_TL_MC_PKT_CT 0
 #define arguments_BDK_TNS_TXQ_CNT_TL_MC_PKT_CT -1,-1,-1,-1
 
@@ -34874,6 +35711,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_MC_PKT_LEN_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_TL_MC_PKT_LEN bdk_tns_txq_cnt_tl_mc_pkt_len_t
 #define bustype_BDK_TNS_TXQ_CNT_TL_MC_PKT_LEN BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_TL_MC_PKT_LEN "TNS_TXQ_CNT_TL_MC_PKT_LEN"
+#define device_bar_BDK_TNS_TXQ_CNT_TL_MC_PKT_LEN 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_TL_MC_PKT_LEN 0
 #define arguments_BDK_TNS_TXQ_CNT_TL_MC_PKT_LEN -1,-1,-1,-1
 
@@ -34911,6 +35749,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_MCPKT_CT_MAX_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_TL_MCPKT_CT_MAX bdk_tns_txq_cnt_tl_mcpkt_ct_max_t
 #define bustype_BDK_TNS_TXQ_CNT_TL_MCPKT_CT_MAX BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_TL_MCPKT_CT_MAX "TNS_TXQ_CNT_TL_MCPKT_CT_MAX"
+#define device_bar_BDK_TNS_TXQ_CNT_TL_MCPKT_CT_MAX 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_TL_MCPKT_CT_MAX 0
 #define arguments_BDK_TNS_TXQ_CNT_TL_MCPKT_CT_MAX -1,-1,-1,-1
 
@@ -34949,6 +35788,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_MCPKT_LEN_MAX_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_TL_MCPKT_LEN_MAX bdk_tns_txq_cnt_tl_mcpkt_len_max_t
 #define bustype_BDK_TNS_TXQ_CNT_TL_MCPKT_LEN_MAX BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_TL_MCPKT_LEN_MAX "TNS_TXQ_CNT_TL_MCPKT_LEN_MAX"
+#define device_bar_BDK_TNS_TXQ_CNT_TL_MCPKT_LEN_MAX 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_TL_MCPKT_LEN_MAX 0
 #define arguments_BDK_TNS_TXQ_CNT_TL_MCPKT_LEN_MAX -1,-1,-1,-1
 
@@ -34986,6 +35826,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_TL_PKT_CT bdk_tns_txq_cnt_tl_pkt_ct_t
 #define bustype_BDK_TNS_TXQ_CNT_TL_PKT_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_TL_PKT_CT "TNS_TXQ_CNT_TL_PKT_CT"
+#define device_bar_BDK_TNS_TXQ_CNT_TL_PKT_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_TL_PKT_CT 0
 #define arguments_BDK_TNS_TXQ_CNT_TL_PKT_CT -1,-1,-1,-1
 
@@ -35023,6 +35864,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_CT_MAX_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_TL_PKT_CT_MAX bdk_tns_txq_cnt_tl_pkt_ct_max_t
 #define bustype_BDK_TNS_TXQ_CNT_TL_PKT_CT_MAX BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_TL_PKT_CT_MAX "TNS_TXQ_CNT_TL_PKT_CT_MAX"
+#define device_bar_BDK_TNS_TXQ_CNT_TL_PKT_CT_MAX 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_TL_PKT_CT_MAX 0
 #define arguments_BDK_TNS_TXQ_CNT_TL_PKT_CT_MAX -1,-1,-1,-1
 
@@ -35060,6 +35902,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_LEN_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_TL_PKT_LEN bdk_tns_txq_cnt_tl_pkt_len_t
 #define bustype_BDK_TNS_TXQ_CNT_TL_PKT_LEN BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_TL_PKT_LEN "TNS_TXQ_CNT_TL_PKT_LEN"
+#define device_bar_BDK_TNS_TXQ_CNT_TL_PKT_LEN 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_TL_PKT_LEN 0
 #define arguments_BDK_TNS_TXQ_CNT_TL_PKT_LEN -1,-1,-1,-1
 
@@ -35098,6 +35941,7 @@ static inline uint64_t BDK_TNS_TXQ_CNT_TL_PKT_LEN_MAX_FUNC(void)
 #define typedef_BDK_TNS_TXQ_CNT_TL_PKT_LEN_MAX bdk_tns_txq_cnt_tl_pkt_len_max_t
 #define bustype_BDK_TNS_TXQ_CNT_TL_PKT_LEN_MAX BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_CNT_TL_PKT_LEN_MAX "TNS_TXQ_CNT_TL_PKT_LEN_MAX"
+#define device_bar_BDK_TNS_TXQ_CNT_TL_PKT_LEN_MAX 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_CNT_TL_PKT_LEN_MAX 0
 #define arguments_BDK_TNS_TXQ_CNT_TL_PKT_LEN_MAX -1,-1,-1,-1
 
@@ -35165,6 +36009,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BIST_STDN_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_BIST_STDN bdk_tns_txq_dq_bist_stdn_t
 #define bustype_BDK_TNS_TXQ_DQ_BIST_STDN BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_BIST_STDN "TNS_TXQ_DQ_BIST_STDN"
+#define device_bar_BDK_TNS_TXQ_DQ_BIST_STDN 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_BIST_STDN 0
 #define arguments_BDK_TNS_TXQ_DQ_BIST_STDN -1,-1,-1,-1
 
@@ -35210,6 +36055,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W0_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W0 bdk_tns_txq_dq_byte_ct_off_w0_t
 #define bustype_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W0 "TNS_TXQ_DQ_BYTE_CT_OFF_W0"
+#define device_bar_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W0 0
 #define arguments_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W0 -1,-1,-1,-1
 
@@ -35253,6 +36099,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W1_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W1 bdk_tns_txq_dq_byte_ct_off_w1_t
 #define bustype_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W1 "TNS_TXQ_DQ_BYTE_CT_OFF_W1"
+#define device_bar_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W1 0
 #define arguments_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W1 -1,-1,-1,-1
 
@@ -35294,6 +36141,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W2_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W2 bdk_tns_txq_dq_byte_ct_off_w2_t
 #define bustype_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W2 "TNS_TXQ_DQ_BYTE_CT_OFF_W2"
+#define device_bar_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W2 0
 #define arguments_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W2 -1,-1,-1,-1
 
@@ -35337,6 +36185,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W3_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W3 bdk_tns_txq_dq_byte_ct_off_w3_t
 #define bustype_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W3 "TNS_TXQ_DQ_BYTE_CT_OFF_W3"
+#define device_bar_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W3 0
 #define arguments_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W3 -1,-1,-1,-1
 
@@ -35376,6 +36225,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W4_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W4 bdk_tns_txq_dq_byte_ct_off_w4_t
 #define bustype_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W4 "TNS_TXQ_DQ_BYTE_CT_OFF_W4"
+#define device_bar_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W4 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W4 0
 #define arguments_BDK_TNS_TXQ_DQ_BYTE_CT_OFF_W4 -1,-1,-1,-1
 
@@ -35419,6 +36269,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_HI bdk_tns_txq_dq_drtbaf_int_en_hi_t
 #define bustype_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_HI "TNS_TXQ_DQ_DRTBAF_INT_EN_HI"
+#define device_bar_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_HI 0
 #define arguments_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_HI -1,-1,-1,-1
 
@@ -35462,6 +36313,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_LO bdk_tns_txq_dq_drtbaf_int_en_lo_t
 #define bustype_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_LO "TNS_TXQ_DQ_DRTBAF_INT_EN_LO"
+#define device_bar_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_LO 0
 #define arguments_BDK_TNS_TXQ_DQ_DRTBAF_INT_EN_LO -1,-1,-1,-1
 
@@ -35505,6 +36357,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_DRTBAF_INT_FRC bdk_tns_txq_dq_drtbaf_int_frc_t
 #define bustype_BDK_TNS_TXQ_DQ_DRTBAF_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_DRTBAF_INT_FRC "TNS_TXQ_DQ_DRTBAF_INT_FRC"
+#define device_bar_BDK_TNS_TXQ_DQ_DRTBAF_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_DRTBAF_INT_FRC 0
 #define arguments_BDK_TNS_TXQ_DQ_DRTBAF_INT_FRC -1,-1,-1,-1
 
@@ -35548,6 +36401,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_DRTBAF_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_DRTBAF_INT_W1C bdk_tns_txq_dq_drtbaf_int_w1c_t
 #define bustype_BDK_TNS_TXQ_DQ_DRTBAF_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_DRTBAF_INT_W1C "TNS_TXQ_DQ_DRTBAF_INT_W1C"
+#define device_bar_BDK_TNS_TXQ_DQ_DRTBAF_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_DRTBAF_INT_W1C 0
 #define arguments_BDK_TNS_TXQ_DQ_DRTBAF_INT_W1C -1,-1,-1,-1
 
@@ -35589,6 +36443,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_ECC_CTL bdk_tns_txq_dq_ecc_ctl_t
 #define bustype_BDK_TNS_TXQ_DQ_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_ECC_CTL "TNS_TXQ_DQ_ECC_CTL"
+#define device_bar_BDK_TNS_TXQ_DQ_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_ECC_CTL 0
 #define arguments_BDK_TNS_TXQ_DQ_ECC_CTL -1,-1,-1,-1
 
@@ -35625,6 +36480,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_DWRR_CST_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_DWRR_CST_MEMX(a) bdk_tns_txq_dq_h1s_dwrr_cst_memx_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_DWRR_CST_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_DWRR_CST_MEMX(a) "TNS_TXQ_DQ_H1S_DWRR_CST_MEMX"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_DWRR_CST_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_DWRR_CST_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_DWRR_CST_MEMX(a) (a),-1,-1,-1
 
@@ -35663,6 +36519,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_DWRR_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_DWRR_ECC_LOG bdk_tns_txq_dq_h1s_dwrr_ecc_log_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_DWRR_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_DWRR_ECC_LOG "TNS_TXQ_DQ_H1S_DWRR_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_DWRR_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_DWRR_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_DWRR_ECC_LOG -1,-1,-1,-1
 
@@ -35738,6 +36595,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_ECC_CTL bdk_tns_txq_dq_h1s_ecc_ctl_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_ECC_CTL "TNS_TXQ_DQ_H1S_ECC_CTL"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_ECC_CTL 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_ECC_CTL -1,-1,-1,-1
 
@@ -35775,6 +36633,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_I2QX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_FSHP_I2QX(a) bdk_tns_txq_dq_h1s_fshp_i2qx_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_FSHP_I2QX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_FSHP_I2QX(a) "TNS_TXQ_DQ_H1S_FSHP_I2QX"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_FSHP_I2QX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_FSHP_I2QX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_FSHP_I2QX(a) (a),-1,-1,-1
 
@@ -35815,6 +36674,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(a) bdk_tns_txq_dq_h1s_fshp_memx_w0_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(a) "TNS_TXQ_DQ_H1S_FSHP_MEMX_W0"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(a) (a),-1,-1,-1
 
@@ -35859,6 +36719,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(a) bdk_tns_txq_dq_h1s_fshp_memx_w1_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(a) "TNS_TXQ_DQ_H1S_FSHP_MEMX_W1"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(a) (a),-1,-1,-1
 
@@ -35895,6 +36756,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(a) bdk_tns_txq_dq_h1s_fshp_memx_w2_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(a) "TNS_TXQ_DQ_H1S_FSHP_MEMX_W2"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(a) (a),-1,-1,-1
 
@@ -35962,6 +36824,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_INT_EN_HI bdk_tns_txq_dq_h1s_int_en_hi_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_INT_EN_HI "TNS_TXQ_DQ_H1S_INT_EN_HI"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_INT_EN_HI 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_INT_EN_HI -1,-1,-1,-1
 
@@ -36029,6 +36892,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_INT_EN_LO bdk_tns_txq_dq_h1s_int_en_lo_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_INT_EN_LO "TNS_TXQ_DQ_H1S_INT_EN_LO"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_INT_EN_LO 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_INT_EN_LO -1,-1,-1,-1
 
@@ -36096,6 +36960,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_INT_FRC bdk_tns_txq_dq_h1s_int_frc_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_INT_FRC "TNS_TXQ_DQ_H1S_INT_FRC"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_INT_FRC 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_INT_FRC -1,-1,-1,-1
 
@@ -36163,6 +37028,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_INT_W1C bdk_tns_txq_dq_h1s_int_w1c_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_INT_W1C "TNS_TXQ_DQ_H1S_INT_W1C"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_INT_W1C 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_INT_W1C -1,-1,-1,-1
 
@@ -36198,6 +37064,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_LOCK_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_LOCK bdk_tns_txq_dq_h1s_lock_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_LOCK "TNS_TXQ_DQ_H1S_LOCK"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_LOCK 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_LOCK -1,-1,-1,-1
 
@@ -36241,6 +37108,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_Q_GEN_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_Q_GEN_CFG bdk_tns_txq_dq_h1s_q_gen_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_Q_GEN_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_Q_GEN_CFG "TNS_TXQ_DQ_H1S_Q_GEN_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_Q_GEN_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_Q_GEN_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_Q_GEN_CFG -1,-1,-1,-1
 
@@ -36278,6 +37146,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG bdk_tns_txq_dq_h1s_qdwrr_mtu_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG "TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_QDWRR_MTU_CFG -1,-1,-1,-1
 
@@ -36327,6 +37196,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP bdk_tns_txq_dq_h1s_qfshp_adr_map_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP "TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_QFSHP_ADR_MAP -1,-1,-1,-1
 
@@ -36364,6 +37234,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG bdk_tns_txq_dq_h1s_qfshp_chk_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG "TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_QFSHP_CHK_CFG -1,-1,-1,-1
 
@@ -36405,6 +37276,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG bdk_tns_txq_dq_h1s_qfshp_map_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG "TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_QFSHP_MAP_CFG -1,-1,-1,-1
 
@@ -36441,6 +37313,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_LMTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_LMTX(a) bdk_tns_txq_dq_h1s_qpkt_ct_lmtx_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_LMTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_LMTX(a) "TNS_TXQ_DQ_H1S_QPKT_CT_LMTX"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_LMTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_LMTX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_LMTX(a) (a),-1,-1,-1
 
@@ -36477,6 +37350,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_MEMX(a) bdk_tns_txq_dq_h1s_qpkt_ct_memx_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_MEMX(a) "TNS_TXQ_DQ_H1S_QPKT_CT_MEMX"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_MEMX(a) (a),-1,-1,-1
 
@@ -36514,6 +37388,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_CT_NZX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_NZX(a) bdk_tns_txq_dq_h1s_qpkt_ct_nzx_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_NZX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_NZX(a) "TNS_TXQ_DQ_H1S_QPKT_CT_NZX"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_NZX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_NZX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_QPKT_CT_NZX(a) (a),-1,-1,-1
 
@@ -36563,6 +37438,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP bdk_tns_txq_dq_h1s_qpkt_fprf_map_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP "TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_QPKT_FPRF_MAP -1,-1,-1,-1
 
@@ -36600,6 +37476,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QSHP_MTU_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_QSHP_MTU_CFG bdk_tns_txq_dq_h1s_qshp_mtu_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_QSHP_MTU_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_QSHP_MTU_CFG "TNS_TXQ_DQ_H1S_QSHP_MTU_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_QSHP_MTU_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_QSHP_MTU_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_QSHP_MTU_CFG -1,-1,-1,-1
 
@@ -36638,6 +37515,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG bdk_tns_txq_dq_h1s_qsshp_ecc_log_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG "TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_QSSHP_ECC_LOG -1,-1,-1,-1
 
@@ -36673,6 +37551,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SPAD_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_SPAD bdk_tns_txq_dq_h1s_spad_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_SPAD "TNS_TXQ_DQ_H1S_SPAD"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_SPAD 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_SPAD -1,-1,-1,-1
 
@@ -36713,6 +37592,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(a) bdk_tns_txq_dq_h1s_sshp_memx_w0_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(a) "TNS_TXQ_DQ_H1S_SSHP_MEMX_W0"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(a) (a),-1,-1,-1
 
@@ -36757,6 +37637,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(a) bdk_tns_txq_dq_h1s_sshp_memx_w1_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(a) "TNS_TXQ_DQ_H1S_SSHP_MEMX_W1"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(a) (a),-1,-1,-1
 
@@ -36793,6 +37674,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(a) bdk_tns_txq_dq_h1s_sshp_memx_w2_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(a) "TNS_TXQ_DQ_H1S_SSHP_MEMX_W2"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(a) (a),-1,-1,-1
 
@@ -36831,6 +37713,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(a) bdk_tns_txq_dq_h1s_tm_cstx_w0_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W0"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(a) (a),-1,-1,-1
 
@@ -36865,6 +37748,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(a) bdk_tns_txq_dq_h1s_tm_cstx_w1_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W1"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(a) (a),-1,-1,-1
 
@@ -36899,6 +37783,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(a) bdk_tns_txq_dq_h1s_tm_cstx_w10_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W10"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(a) (a),-1,-1,-1
 
@@ -36933,6 +37818,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(a) bdk_tns_txq_dq_h1s_tm_cstx_w11_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W11"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(a) (a),-1,-1,-1
 
@@ -36967,6 +37853,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(a) bdk_tns_txq_dq_h1s_tm_cstx_w12_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W12"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(a) (a),-1,-1,-1
 
@@ -37001,6 +37888,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(a) bdk_tns_txq_dq_h1s_tm_cstx_w13_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W13"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(a) (a),-1,-1,-1
 
@@ -37035,6 +37923,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(a) bdk_tns_txq_dq_h1s_tm_cstx_w14_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W14"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(a) (a),-1,-1,-1
 
@@ -37069,6 +37958,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(a) bdk_tns_txq_dq_h1s_tm_cstx_w15_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W15"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(a) (a),-1,-1,-1
 
@@ -37105,6 +37995,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(a) bdk_tns_txq_dq_h1s_tm_cstx_w16_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W16"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(a) (a),-1,-1,-1
 
@@ -37139,6 +38030,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(a) bdk_tns_txq_dq_h1s_tm_cstx_w17_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W17"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(a) (a),-1,-1,-1
 
@@ -37173,6 +38065,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(a) bdk_tns_txq_dq_h1s_tm_cstx_w18_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W18"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(a) (a),-1,-1,-1
 
@@ -37207,6 +38100,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(a) bdk_tns_txq_dq_h1s_tm_cstx_w19_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W19"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(a) (a),-1,-1,-1
 
@@ -37243,6 +38137,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(a) bdk_tns_txq_dq_h1s_tm_cstx_w2_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W2"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(a) (a),-1,-1,-1
 
@@ -37277,6 +38172,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(a) bdk_tns_txq_dq_h1s_tm_cstx_w20_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W20"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(a) (a),-1,-1,-1
 
@@ -37311,6 +38207,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(a) bdk_tns_txq_dq_h1s_tm_cstx_w21_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W21"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(a) (a),-1,-1,-1
 
@@ -37345,6 +38242,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(a) bdk_tns_txq_dq_h1s_tm_cstx_w22_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W22"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(a) (a),-1,-1,-1
 
@@ -37379,6 +38277,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(a) bdk_tns_txq_dq_h1s_tm_cstx_w23_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W23"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(a) (a),-1,-1,-1
 
@@ -37413,6 +38312,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(a) bdk_tns_txq_dq_h1s_tm_cstx_w24_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W24"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(a) (a),-1,-1,-1
 
@@ -37447,6 +38347,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(a) bdk_tns_txq_dq_h1s_tm_cstx_w25_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W25"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(a) (a),-1,-1,-1
 
@@ -37487,6 +38388,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(a) bdk_tns_txq_dq_h1s_tm_cstx_w26_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W26"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(a) (a),-1,-1,-1
 
@@ -37527,6 +38429,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(a) bdk_tns_txq_dq_h1s_tm_cstx_w27_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W27"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(a) (a),-1,-1,-1
 
@@ -37565,6 +38468,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(a) bdk_tns_txq_dq_h1s_tm_cstx_w28_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W28"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(a) (a),-1,-1,-1
 
@@ -37599,6 +38503,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(a) bdk_tns_txq_dq_h1s_tm_cstx_w3_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W3"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(a) (a),-1,-1,-1
 
@@ -37633,6 +38538,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(a) bdk_tns_txq_dq_h1s_tm_cstx_w4_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W4"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(a) (a),-1,-1,-1
 
@@ -37667,6 +38573,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(a) bdk_tns_txq_dq_h1s_tm_cstx_w5_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W5"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(a) (a),-1,-1,-1
 
@@ -37701,6 +38608,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(a) bdk_tns_txq_dq_h1s_tm_cstx_w6_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W6"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(a) (a),-1,-1,-1
 
@@ -37735,6 +38643,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(a) bdk_tns_txq_dq_h1s_tm_cstx_w7_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W7"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(a) (a),-1,-1,-1
 
@@ -37769,6 +38678,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(a) bdk_tns_txq_dq_h1s_tm_cstx_w8_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W8"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(a) (a),-1,-1,-1
 
@@ -37803,6 +38713,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(a) bdk_tns_txq_dq_h1s_tm_cstx_w9_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(a) "TNS_TXQ_DQ_H1S_TM_CSTX_W9"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(a) (a),-1,-1,-1
 
@@ -37841,6 +38752,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_ECC_LOG bdk_tns_txq_dq_h1s_tm_ecc_log_t
 #define bustype_BDK_TNS_TXQ_DQ_H1S_TM_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_H1S_TM_ECC_LOG "TNS_TXQ_DQ_H1S_TM_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_DQ_H1S_TM_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_H1S_TM_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_DQ_H1S_TM_ECC_LOG -1,-1,-1,-1
 
@@ -37884,6 +38796,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_INT_RO_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_INT_RO bdk_tns_txq_dq_int_ro_t
 #define bustype_BDK_TNS_TXQ_DQ_INT_RO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_INT_RO "TNS_TXQ_DQ_INT_RO"
+#define device_bar_BDK_TNS_TXQ_DQ_INT_RO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_INT_RO 0
 #define arguments_BDK_TNS_TXQ_DQ_INT_RO -1,-1,-1,-1
 
@@ -37919,6 +38832,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_LOCK_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_LOCK bdk_tns_txq_dq_lock_t
 #define bustype_BDK_TNS_TXQ_DQ_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_LOCK "TNS_TXQ_DQ_LOCK"
+#define device_bar_BDK_TNS_TXQ_DQ_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_LOCK 0
 #define arguments_BDK_TNS_TXQ_DQ_LOCK -1,-1,-1,-1
 
@@ -37955,6 +38869,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_DWRR_CST_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_DWRR_CST_MEMX(a) bdk_tns_txq_dq_pps_dwrr_cst_memx_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_DWRR_CST_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_DWRR_CST_MEMX(a) "TNS_TXQ_DQ_PPS_DWRR_CST_MEMX"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_DWRR_CST_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_DWRR_CST_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PPS_DWRR_CST_MEMX(a) (a),-1,-1,-1
 
@@ -38022,6 +38937,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF bdk_tns_txq_dq_pps_frc_ptp_mskof_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF "TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKOF -1,-1,-1,-1
 
@@ -38089,6 +39005,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKON_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKON bdk_tns_txq_dq_pps_frc_ptp_mskon_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKON BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKON "TNS_TXQ_DQ_PPS_FRC_PTP_MSKON"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKON 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKON 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_FRC_PTP_MSKON -1,-1,-1,-1
 
@@ -38135,6 +39052,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_FSHP_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_FSHP_MEMX(a) bdk_tns_txq_dq_pps_fshp_memx_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_FSHP_MEMX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_PPS_FSHP_MEMX(a) "TNS_TXQ_DQ_PPS_FSHP_MEMX"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_FSHP_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_FSHP_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PPS_FSHP_MEMX(a) (a),-1,-1,-1
 
@@ -38176,6 +39094,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_INT_EN_HI bdk_tns_txq_dq_pps_int_en_hi_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_INT_EN_HI "TNS_TXQ_DQ_PPS_INT_EN_HI"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_INT_EN_HI 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_INT_EN_HI -1,-1,-1,-1
 
@@ -38217,6 +39136,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_INT_EN_LO bdk_tns_txq_dq_pps_int_en_lo_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_INT_EN_LO "TNS_TXQ_DQ_PPS_INT_EN_LO"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_INT_EN_LO 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_INT_EN_LO -1,-1,-1,-1
 
@@ -38258,6 +39178,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_INT_FRC bdk_tns_txq_dq_pps_int_frc_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_INT_FRC "TNS_TXQ_DQ_PPS_INT_FRC"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_INT_FRC 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_INT_FRC -1,-1,-1,-1
 
@@ -38299,6 +39220,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_INT_W1C bdk_tns_txq_dq_pps_int_w1c_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_INT_W1C "TNS_TXQ_DQ_PPS_INT_W1C"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_INT_W1C 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_INT_W1C -1,-1,-1,-1
 
@@ -38334,6 +39256,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_LOCK_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_LOCK bdk_tns_txq_dq_pps_lock_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_LOCK "TNS_TXQ_DQ_PPS_LOCK"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_LOCK 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_LOCK -1,-1,-1,-1
 
@@ -38371,6 +39294,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG bdk_tns_txq_dq_pps_pdwrr_mtu_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG "TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PDWRR_MTU_CFG -1,-1,-1,-1
 
@@ -38409,6 +39333,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PORT_SPD_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PORT_SPD_MEMX(a) bdk_tns_txq_dq_pps_port_spd_memx_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PORT_SPD_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PORT_SPD_MEMX(a) "TNS_TXQ_DQ_PPS_PORT_SPD_MEMX"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PORT_SPD_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PORT_SPD_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PORT_SPD_MEMX(a) (a),-1,-1,-1
 
@@ -38445,6 +39370,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_LMTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_LMTX(a) bdk_tns_txq_dq_pps_ppkt_ct_lmtx_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_LMTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_LMTX(a) "TNS_TXQ_DQ_PPS_PPKT_CT_LMTX"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_LMTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_LMTX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_LMTX(a) (a),-1,-1,-1
 
@@ -38481,6 +39407,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_MEMX(a) bdk_tns_txq_dq_pps_ppkt_ct_memx_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_MEMX(a) "TNS_TXQ_DQ_PPS_PPKT_CT_MEMX"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_MEMX(a) (a),-1,-1,-1
 
@@ -38519,6 +39446,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PPKT_CT_NZX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_NZX(a) bdk_tns_txq_dq_pps_ppkt_ct_nzx_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_NZX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_NZX(a) "TNS_TXQ_DQ_PPS_PPKT_CT_NZX"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_NZX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_NZX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PPKT_CT_NZX(a) (a),-1,-1,-1
 
@@ -38556,6 +39484,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PSHP_MTU_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PSHP_MTU_CFG bdk_tns_txq_dq_pps_pshp_mtu_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PSHP_MTU_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PSHP_MTU_CFG "TNS_TXQ_DQ_PPS_PSHP_MTU_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PSHP_MTU_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PSHP_MTU_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PSHP_MTU_CFG -1,-1,-1,-1
 
@@ -38597,6 +39526,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PT_GEN_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PT_GEN_CFG bdk_tns_txq_dq_pps_pt_gen_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PT_GEN_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PT_GEN_CFG "TNS_TXQ_DQ_PPS_PT_GEN_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PT_GEN_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PT_GEN_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PT_GEN_CFG -1,-1,-1,-1
 
@@ -38637,6 +39567,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W0_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W0 bdk_tns_txq_dq_pps_ptp_mskcy_w0_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W0 "TNS_TXQ_DQ_PPS_PTP_MSKCY_W0"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W0 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W0 -1,-1,-1,-1
 
@@ -38674,6 +39605,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W1_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W1 bdk_tns_txq_dq_pps_ptp_mskcy_w1_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W1 "TNS_TXQ_DQ_PPS_PTP_MSKCY_W1"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W1 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W1 -1,-1,-1,-1
 
@@ -38711,6 +39643,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W2_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W2 bdk_tns_txq_dq_pps_ptp_mskcy_w2_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W2 "TNS_TXQ_DQ_PPS_PTP_MSKCY_W2"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W2 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W2 -1,-1,-1,-1
 
@@ -38748,6 +39681,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W3_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W3 bdk_tns_txq_dq_pps_ptp_mskcy_w3_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W3 "TNS_TXQ_DQ_PPS_PTP_MSKCY_W3"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W3 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PTP_MSKCY_W3 -1,-1,-1,-1
 
@@ -38786,6 +39720,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS bdk_tns_txq_dq_pps_pus_4_cpu_acs_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS "TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_PUS_4_CPU_ACS -1,-1,-1,-1
 
@@ -38821,6 +39756,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_SPAD_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_SPAD bdk_tns_txq_dq_pps_spad_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PPS_SPAD "TNS_TXQ_DQ_PPS_SPAD"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_SPAD 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_SPAD -1,-1,-1,-1
 
@@ -38864,6 +39800,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PPS_TM_CFG_DAT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PPS_TM_CFG_DAT bdk_tns_txq_dq_pps_tm_cfg_dat_t
 #define bustype_BDK_TNS_TXQ_DQ_PPS_TM_CFG_DAT BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_PPS_TM_CFG_DAT "TNS_TXQ_DQ_PPS_TM_CFG_DAT"
+#define device_bar_BDK_TNS_TXQ_DQ_PPS_TM_CFG_DAT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PPS_TM_CFG_DAT 0
 #define arguments_BDK_TNS_TXQ_DQ_PPS_TM_CFG_DAT -1,-1,-1,-1
 
@@ -38900,6 +39837,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_DWRR_CST_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_DWRR_CST_MEMX(a) bdk_tns_txq_dq_pts_dwrr_cst_memx_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_DWRR_CST_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_DWRR_CST_MEMX(a) "TNS_TXQ_DQ_PTS_DWRR_CST_MEMX"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_DWRR_CST_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_DWRR_CST_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_DWRR_CST_MEMX(a) (a),-1,-1,-1
 
@@ -38938,6 +39876,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_DWRR_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_DWRR_ECC_LOG bdk_tns_txq_dq_pts_dwrr_ecc_log_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_DWRR_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_DWRR_ECC_LOG "TNS_TXQ_DQ_PTS_DWRR_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_DWRR_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_DWRR_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_DWRR_ECC_LOG -1,-1,-1,-1
 
@@ -38985,6 +39924,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_ECC_CTL bdk_tns_txq_dq_pts_ecc_ctl_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_ECC_CTL "TNS_TXQ_DQ_PTS_ECC_CTL"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_ECC_CTL 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_ECC_CTL -1,-1,-1,-1
 
@@ -39022,6 +39962,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_I2HX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_FSHP_I2HX(a) bdk_tns_txq_dq_pts_fshp_i2hx_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_FSHP_I2HX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_FSHP_I2HX(a) "TNS_TXQ_DQ_PTS_FSHP_I2HX"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_FSHP_I2HX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_FSHP_I2HX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_FSHP_I2HX(a) (a),-1,-1,-1
 
@@ -39062,6 +40003,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(a) bdk_tns_txq_dq_pts_fshp_memx_w0_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(a) "TNS_TXQ_DQ_PTS_FSHP_MEMX_W0"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(a) (a),-1,-1,-1
 
@@ -39106,6 +40048,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(a) bdk_tns_txq_dq_pts_fshp_memx_w1_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(a) "TNS_TXQ_DQ_PTS_FSHP_MEMX_W1"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(a) (a),-1,-1,-1
 
@@ -39142,6 +40085,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(a) bdk_tns_txq_dq_pts_fshp_memx_w2_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(a) "TNS_TXQ_DQ_PTS_FSHP_MEMX_W2"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(a) (a),-1,-1,-1
 
@@ -39189,6 +40133,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_H1_GEN_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_H1_GEN_CFG bdk_tns_txq_dq_pts_h1_gen_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_H1_GEN_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_H1_GEN_CFG "TNS_TXQ_DQ_PTS_H1_GEN_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_H1_GEN_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_H1_GEN_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_H1_GEN_CFG -1,-1,-1,-1
 
@@ -39226,6 +40171,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG bdk_tns_txq_dq_pts_hdwrr_mtu_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG "TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_HDWRR_MTU_CFG -1,-1,-1,-1
 
@@ -39273,6 +40219,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP bdk_tns_txq_dq_pts_hfshp_adr_map_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP "TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_HFSHP_ADR_MAP -1,-1,-1,-1
 
@@ -39310,6 +40257,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG bdk_tns_txq_dq_pts_hfshp_chk_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG "TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_HFSHP_CHK_CFG -1,-1,-1,-1
 
@@ -39349,6 +40297,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG bdk_tns_txq_dq_pts_hfshp_map_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG "TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_HFSHP_MAP_CFG -1,-1,-1,-1
 
@@ -39385,6 +40334,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_LMTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_LMTX(a) bdk_tns_txq_dq_pts_hpkt_ct_lmtx_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_LMTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_LMTX(a) "TNS_TXQ_DQ_PTS_HPKT_CT_LMTX"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_LMTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_LMTX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_LMTX(a) (a),-1,-1,-1
 
@@ -39421,6 +40371,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_MEMX(a) bdk_tns_txq_dq_pts_hpkt_ct_memx_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_MEMX(a) "TNS_TXQ_DQ_PTS_HPKT_CT_MEMX"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_MEMX(a) (a),-1,-1,-1
 
@@ -39458,6 +40409,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_CT_NZX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_NZX(a) bdk_tns_txq_dq_pts_hpkt_ct_nzx_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_NZX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_NZX(a) "TNS_TXQ_DQ_PTS_HPKT_CT_NZX"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_NZX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_NZX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_HPKT_CT_NZX(a) (a),-1,-1,-1
 
@@ -39507,6 +40459,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP bdk_tns_txq_dq_pts_hpkt_fprf_map_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP "TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_HPKT_FPRF_MAP -1,-1,-1,-1
 
@@ -39544,6 +40497,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HSHP_MTU_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_HSHP_MTU_CFG bdk_tns_txq_dq_pts_hshp_mtu_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_HSHP_MTU_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_HSHP_MTU_CFG "TNS_TXQ_DQ_PTS_HSHP_MTU_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_HSHP_MTU_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_HSHP_MTU_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_HSHP_MTU_CFG -1,-1,-1,-1
 
@@ -39582,6 +40536,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG bdk_tns_txq_dq_pts_hsshp_ecc_log_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG "TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_HSSHP_ECC_LOG -1,-1,-1,-1
 
@@ -39633,6 +40588,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_INT_EN_HI bdk_tns_txq_dq_pts_int_en_hi_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_INT_EN_HI "TNS_TXQ_DQ_PTS_INT_EN_HI"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_INT_EN_HI 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_INT_EN_HI -1,-1,-1,-1
 
@@ -39684,6 +40640,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_INT_EN_LO bdk_tns_txq_dq_pts_int_en_lo_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_INT_EN_LO "TNS_TXQ_DQ_PTS_INT_EN_LO"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_INT_EN_LO 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_INT_EN_LO -1,-1,-1,-1
 
@@ -39735,6 +40692,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_INT_FRC bdk_tns_txq_dq_pts_int_frc_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_INT_FRC "TNS_TXQ_DQ_PTS_INT_FRC"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_INT_FRC 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_INT_FRC -1,-1,-1,-1
 
@@ -39786,6 +40744,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_INT_W1C bdk_tns_txq_dq_pts_int_w1c_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_INT_W1C "TNS_TXQ_DQ_PTS_INT_W1C"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_INT_W1C 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_INT_W1C -1,-1,-1,-1
 
@@ -39821,6 +40780,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_LOCK_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_LOCK bdk_tns_txq_dq_pts_lock_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_LOCK "TNS_TXQ_DQ_PTS_LOCK"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_LOCK 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_LOCK -1,-1,-1,-1
 
@@ -39856,6 +40816,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SPAD_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_SPAD bdk_tns_txq_dq_pts_spad_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_SPAD "TNS_TXQ_DQ_PTS_SPAD"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_SPAD 0
 #define arguments_BDK_TNS_TXQ_DQ_PTS_SPAD -1,-1,-1,-1
 
@@ -39896,6 +40857,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(a) bdk_tns_txq_dq_pts_sshp_memx_w0_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(a) "TNS_TXQ_DQ_PTS_SSHP_MEMX_W0"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(a) (a),-1,-1,-1
 
@@ -39940,6 +40902,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(a) bdk_tns_txq_dq_pts_sshp_memx_w1_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(a) "TNS_TXQ_DQ_PTS_SSHP_MEMX_W1"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(a) (a),-1,-1,-1
 
@@ -39976,6 +40939,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(a) bdk_tns_txq_dq_pts_sshp_memx_w2_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(a) "TNS_TXQ_DQ_PTS_SSHP_MEMX_W2"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(a) (a),-1,-1,-1
 
@@ -40014,6 +40978,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(a) bdk_tns_txq_dq_pts_tm_cfgx_w0_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(a) "TNS_TXQ_DQ_PTS_TM_CFGX_W0"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(a) (a),-1,-1,-1
 
@@ -40048,6 +41013,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(a) bdk_tns_txq_dq_pts_tm_cfgx_w1_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(a) "TNS_TXQ_DQ_PTS_TM_CFGX_W1"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(a) (a),-1,-1,-1
 
@@ -40082,6 +41048,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(a) bdk_tns_txq_dq_pts_tm_cfgx_w2_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(a) "TNS_TXQ_DQ_PTS_TM_CFGX_W2"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(a) (a),-1,-1,-1
 
@@ -40116,6 +41083,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(a) bdk_tns_txq_dq_pts_tm_cfgx_w3_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(a) "TNS_TXQ_DQ_PTS_TM_CFGX_W3"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(a) (a),-1,-1,-1
 
@@ -40150,6 +41118,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(a) bdk_tns_txq_dq_pts_tm_cfgx_w4_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(a) "TNS_TXQ_DQ_PTS_TM_CFGX_W4"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(a) (a),-1,-1,-1
 
@@ -40184,6 +41153,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(a) bdk_tns_txq_dq_pts_tm_cfgx_w5_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(a) "TNS_TXQ_DQ_PTS_TM_CFGX_W5"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(a) (a),-1,-1,-1
 
@@ -40236,6 +41206,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(a) bdk_tns_txq_dq_pts_tm_cfgx_w6_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(a) "TNS_TXQ_DQ_PTS_TM_CFGX_W6"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(a) (a),-1,-1,-1
 
@@ -40272,6 +41243,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_STTX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_STTX(a) bdk_tns_txq_dq_pts_tm_sttx_t
 #define bustype_BDK_TNS_TXQ_DQ_PTS_TM_STTX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_PTS_TM_STTX(a) "TNS_TXQ_DQ_PTS_TM_STTX"
+#define device_bar_BDK_TNS_TXQ_DQ_PTS_TM_STTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_PTS_TM_STTX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_PTS_TM_STTX(a) (a),-1,-1,-1
 
@@ -40320,6 +41292,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_CHANGE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_CHANGE bdk_tns_txq_dq_qcn_change_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_CHANGE BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_QCN_CHANGE "TNS_TXQ_DQ_QCN_CHANGE"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_CHANGE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_CHANGE 0
 #define arguments_BDK_TNS_TXQ_DQ_QCN_CHANGE -1,-1,-1,-1
 
@@ -40359,6 +41332,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_ECC_LOG bdk_tns_txq_dq_qcn_ecc_log_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_QCN_ECC_LOG "TNS_TXQ_DQ_QCN_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_DQ_QCN_ECC_LOG -1,-1,-1,-1
 
@@ -40465,6 +41439,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W0_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W0 bdk_tns_txq_dq_qcn_gbl_cfg_w0_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W0 "TNS_TXQ_DQ_QCN_GBL_CFG_W0"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W0 0
 #define arguments_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W0 -1,-1,-1,-1
 
@@ -40561,6 +41536,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1 bdk_tns_txq_dq_qcn_gbl_cfg_w1_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1 "TNS_TXQ_DQ_QCN_GBL_CFG_W1"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1 0
 #define arguments_BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1 -1,-1,-1,-1
 
@@ -40623,6 +41599,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_MEMX_W0(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_MEMX_W0(a) bdk_tns_txq_dq_qcn_memx_w0_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_MEMX_W0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_QCN_MEMX_W0(a) "TNS_TXQ_DQ_QCN_MEMX_W0"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_MEMX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_MEMX_W0(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_QCN_MEMX_W0(a) (a),-1,-1,-1
 
@@ -40674,6 +41651,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_MEMX_W1(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_MEMX_W1(a) bdk_tns_txq_dq_qcn_memx_w1_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_MEMX_W1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_QCN_MEMX_W1(a) "TNS_TXQ_DQ_QCN_MEMX_W1"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_MEMX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_MEMX_W1(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_QCN_MEMX_W1(a) (a),-1,-1,-1
 
@@ -40713,6 +41691,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG bdk_tns_txq_dq_qcn_qmap_ecc_log_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG "TNS_TXQ_DQ_QCN_QMAP_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG -1,-1,-1,-1
 
@@ -40768,6 +41747,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(a) bdk_tns_txq_dq_qcn_qmap_memx_w0_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(a) "TNS_TXQ_DQ_QCN_QMAP_MEMX_W0"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(a) (a),-1,-1,-1
 
@@ -40815,6 +41795,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(a) bdk_tns_txq_dq_qcn_qmap_memx_w1_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(a) "TNS_TXQ_DQ_QCN_QMAP_MEMX_W1"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(a) (a),-1,-1,-1
 
@@ -40856,6 +41837,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(a) bdk_tns_txq_dq_qcn_qmap_memx_w2_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(a) "TNS_TXQ_DQ_QCN_QMAP_MEMX_W2"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(a) (a),-1,-1,-1
 
@@ -40894,6 +41876,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_RNG_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_RNG_CFG bdk_tns_txq_dq_qcn_rng_cfg_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_RNG_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_QCN_RNG_CFG "TNS_TXQ_DQ_QCN_RNG_CFG"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_RNG_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_RNG_CFG 0
 #define arguments_BDK_TNS_TXQ_DQ_QCN_RNG_CFG -1,-1,-1,-1
 
@@ -40933,6 +41916,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_SUPD_FIFX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_SUPD_FIFX(a) bdk_tns_txq_dq_qcn_supd_fifx_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_SUPD_FIFX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_QCN_SUPD_FIFX(a) "TNS_TXQ_DQ_QCN_SUPD_FIFX"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_SUPD_FIFX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_SUPD_FIFX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_QCN_SUPD_FIFX(a) (a),-1,-1,-1
 
@@ -40979,6 +41963,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_TIME_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_QCN_TIME bdk_tns_txq_dq_qcn_time_t
 #define bustype_BDK_TNS_TXQ_DQ_QCN_TIME BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_DQ_QCN_TIME "TNS_TXQ_DQ_QCN_TIME"
+#define device_bar_BDK_TNS_TXQ_DQ_QCN_TIME 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_QCN_TIME 0
 #define arguments_BDK_TNS_TXQ_DQ_QCN_TIME -1,-1,-1,-1
 
@@ -41014,6 +41999,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_SPAD_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_SPAD bdk_tns_txq_dq_spad_t
 #define bustype_BDK_TNS_TXQ_DQ_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_SPAD "TNS_TXQ_DQ_SPAD"
+#define device_bar_BDK_TNS_TXQ_DQ_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_SPAD 0
 #define arguments_BDK_TNS_TXQ_DQ_SPAD -1,-1,-1,-1
 
@@ -41050,6 +42036,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIFX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_DQ_TB_AFIFX(a) bdk_tns_txq_dq_tb_afifx_t
 #define bustype_BDK_TNS_TXQ_DQ_TB_AFIFX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_TB_AFIFX(a) "TNS_TXQ_DQ_TB_AFIFX"
+#define device_bar_BDK_TNS_TXQ_DQ_TB_AFIFX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_TB_AFIFX(a) (a)
 #define arguments_BDK_TNS_TXQ_DQ_TB_AFIFX(a) (a),-1,-1,-1
 
@@ -41088,6 +42075,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_TB_AFIF_ECC_LOG bdk_tns_txq_dq_tb_afif_ecc_log_t
 #define bustype_BDK_TNS_TXQ_DQ_TB_AFIF_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_TB_AFIF_ECC_LOG "TNS_TXQ_DQ_TB_AFIF_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_DQ_TB_AFIF_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_TB_AFIF_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_DQ_TB_AFIF_ECC_LOG -1,-1,-1,-1
 
@@ -41125,6 +42113,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_FC_THR_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_TB_AFIF_FC_THR bdk_tns_txq_dq_tb_afif_fc_thr_t
 #define bustype_BDK_TNS_TXQ_DQ_TB_AFIF_FC_THR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_TB_AFIF_FC_THR "TNS_TXQ_DQ_TB_AFIF_FC_THR"
+#define device_bar_BDK_TNS_TXQ_DQ_TB_AFIF_FC_THR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_TB_AFIF_FC_THR 0
 #define arguments_BDK_TNS_TXQ_DQ_TB_AFIF_FC_THR -1,-1,-1,-1
 
@@ -41162,6 +42151,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_PTR_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_TB_AFIF_PTR bdk_tns_txq_dq_tb_afif_ptr_t
 #define bustype_BDK_TNS_TXQ_DQ_TB_AFIF_PTR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_TB_AFIF_PTR "TNS_TXQ_DQ_TB_AFIF_PTR"
+#define device_bar_BDK_TNS_TXQ_DQ_TB_AFIF_PTR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_TB_AFIF_PTR 0
 #define arguments_BDK_TNS_TXQ_DQ_TB_AFIF_PTR -1,-1,-1,-1
 
@@ -41199,6 +42189,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_TB_AFIF_USAGE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_DQ_TB_AFIF_USAGE bdk_tns_txq_dq_tb_afif_usage_t
 #define bustype_BDK_TNS_TXQ_DQ_TB_AFIF_USAGE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_DQ_TB_AFIF_USAGE "TNS_TXQ_DQ_TB_AFIF_USAGE"
+#define device_bar_BDK_TNS_TXQ_DQ_TB_AFIF_USAGE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_DQ_TB_AFIF_USAGE 0
 #define arguments_BDK_TNS_TXQ_DQ_TB_AFIF_USAGE -1,-1,-1,-1
 
@@ -41236,6 +42227,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_3SPD_WSARB_MODE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_3SPD_WSARB_MODE bdk_tns_txq_eq_3spd_wsarb_mode_t
 #define bustype_BDK_TNS_TXQ_EQ_3SPD_WSARB_MODE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_3SPD_WSARB_MODE "TNS_TXQ_EQ_3SPD_WSARB_MODE"
+#define device_bar_BDK_TNS_TXQ_EQ_3SPD_WSARB_MODE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_3SPD_WSARB_MODE 0
 #define arguments_BDK_TNS_TXQ_EQ_3SPD_WSARB_MODE -1,-1,-1,-1
 
@@ -41277,6 +42269,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_3SPD_WSARB_WGT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_3SPD_WSARB_WGT bdk_tns_txq_eq_3spd_wsarb_wgt_t
 #define bustype_BDK_TNS_TXQ_EQ_3SPD_WSARB_WGT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_3SPD_WSARB_WGT "TNS_TXQ_EQ_3SPD_WSARB_WGT"
+#define device_bar_BDK_TNS_TXQ_EQ_3SPD_WSARB_WGT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_3SPD_WSARB_WGT 0
 #define arguments_BDK_TNS_TXQ_EQ_3SPD_WSARB_WGT -1,-1,-1,-1
 
@@ -41315,6 +42308,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(unsigned long a, unsigned lon
 #define typedef_BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(a,b) bdk_tns_txq_eq_aqm_lfifx_wx_t
 #define bustype_BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(a,b) "TNS_TXQ_EQ_AQM_LFIFX_WX"
+#define device_bar_BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(a,b) (a),(b),-1,-1
 
@@ -41352,6 +42346,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE bdk_tns_txq_eq_aqmq_wsarb_mode_t
 #define bustype_BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE "TNS_TXQ_EQ_AQMQ_WSARB_MODE"
+#define device_bar_BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE 0
 #define arguments_BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE -1,-1,-1,-1
 
@@ -41391,6 +42386,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_AQMQ_WSARB_WGT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_AQMQ_WSARB_WGT bdk_tns_txq_eq_aqmq_wsarb_wgt_t
 #define bustype_BDK_TNS_TXQ_EQ_AQMQ_WSARB_WGT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_AQMQ_WSARB_WGT "TNS_TXQ_EQ_AQMQ_WSARB_WGT"
+#define device_bar_BDK_TNS_TXQ_EQ_AQMQ_WSARB_WGT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_AQMQ_WSARB_WGT 0
 #define arguments_BDK_TNS_TXQ_EQ_AQMQ_WSARB_WGT -1,-1,-1,-1
 
@@ -41430,6 +42426,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_BIST_STDN_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_BIST_STDN bdk_tns_txq_eq_bist_stdn_t
 #define bustype_BDK_TNS_TXQ_EQ_BIST_STDN BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_BIST_STDN "TNS_TXQ_EQ_BIST_STDN"
+#define device_bar_BDK_TNS_TXQ_EQ_BIST_STDN 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_BIST_STDN 0
 #define arguments_BDK_TNS_TXQ_EQ_BIST_STDN -1,-1,-1,-1
 
@@ -41498,6 +42495,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_CLR_PT_WAIT_EOP_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_CLR_PT_WAIT_EOP bdk_tns_txq_eq_clr_pt_wait_eop_t
 #define bustype_BDK_TNS_TXQ_EQ_CLR_PT_WAIT_EOP BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_CLR_PT_WAIT_EOP "TNS_TXQ_EQ_CLR_PT_WAIT_EOP"
+#define device_bar_BDK_TNS_TXQ_EQ_CLR_PT_WAIT_EOP 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_CLR_PT_WAIT_EOP 0
 #define arguments_BDK_TNS_TXQ_EQ_CLR_PT_WAIT_EOP -1,-1,-1,-1
 
@@ -41535,6 +42533,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_CUT_THRU_BCNT_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_CUT_THRU_BCNT_CFG bdk_tns_txq_eq_cut_thru_bcnt_cfg_t
 #define bustype_BDK_TNS_TXQ_EQ_CUT_THRU_BCNT_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_CUT_THRU_BCNT_CFG "TNS_TXQ_EQ_CUT_THRU_BCNT_CFG"
+#define device_bar_BDK_TNS_TXQ_EQ_CUT_THRU_BCNT_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_CUT_THRU_BCNT_CFG 0
 #define arguments_BDK_TNS_TXQ_EQ_CUT_THRU_BCNT_CFG -1,-1,-1,-1
 
@@ -41572,6 +42571,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_CUT_THRU_NPGS_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_CUT_THRU_NPGS_CFG bdk_tns_txq_eq_cut_thru_npgs_cfg_t
 #define bustype_BDK_TNS_TXQ_EQ_CUT_THRU_NPGS_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_CUT_THRU_NPGS_CFG "TNS_TXQ_EQ_CUT_THRU_NPGS_CFG"
+#define device_bar_BDK_TNS_TXQ_EQ_CUT_THRU_NPGS_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_CUT_THRU_NPGS_CFG 0
 #define arguments_BDK_TNS_TXQ_EQ_CUT_THRU_NPGS_CFG -1,-1,-1,-1
 
@@ -41625,6 +42625,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DIST_FIF_USAGE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_DIST_FIF_USAGE bdk_tns_txq_eq_dist_fif_usage_t
 #define bustype_BDK_TNS_TXQ_EQ_DIST_FIF_USAGE BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_EQ_DIST_FIF_USAGE "TNS_TXQ_EQ_DIST_FIF_USAGE"
+#define device_bar_BDK_TNS_TXQ_EQ_DIST_FIF_USAGE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_DIST_FIF_USAGE 0
 #define arguments_BDK_TNS_TXQ_EQ_DIST_FIF_USAGE -1,-1,-1,-1
 
@@ -41662,6 +42663,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE bdk_tns_txq_eq_disto_wsarb_mode_t
 #define bustype_BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE "TNS_TXQ_EQ_DISTO_WSARB_MODE"
+#define device_bar_BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE 0
 #define arguments_BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE -1,-1,-1,-1
 
@@ -41705,6 +42707,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT bdk_tns_txq_eq_disto_wsarb_wgt_t
 #define bustype_BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT "TNS_TXQ_EQ_DISTO_WSARB_WGT"
+#define device_bar_BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT 0
 #define arguments_BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT -1,-1,-1,-1
 
@@ -41743,6 +42746,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DISTS_EM_DRP_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_DISTS_EM_DRP_CT bdk_tns_txq_eq_dists_em_drp_ct_t
 #define bustype_BDK_TNS_TXQ_EQ_DISTS_EM_DRP_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_DISTS_EM_DRP_CT "TNS_TXQ_EQ_DISTS_EM_DRP_CT"
+#define device_bar_BDK_TNS_TXQ_EQ_DISTS_EM_DRP_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_DISTS_EM_DRP_CT 0
 #define arguments_BDK_TNS_TXQ_EQ_DISTS_EM_DRP_CT -1,-1,-1,-1
 
@@ -41779,6 +42783,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DISTS_MC_DRP_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_DISTS_MC_DRP_CT bdk_tns_txq_eq_dists_mc_drp_ct_t
 #define bustype_BDK_TNS_TXQ_EQ_DISTS_MC_DRP_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_DISTS_MC_DRP_CT "TNS_TXQ_EQ_DISTS_MC_DRP_CT"
+#define device_bar_BDK_TNS_TXQ_EQ_DISTS_MC_DRP_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_DISTS_MC_DRP_CT 0
 #define arguments_BDK_TNS_TXQ_EQ_DISTS_MC_DRP_CT -1,-1,-1,-1
 
@@ -41820,6 +42825,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_ECC_CTL bdk_tns_txq_eq_ecc_ctl_t
 #define bustype_BDK_TNS_TXQ_EQ_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_ECC_CTL "TNS_TXQ_EQ_ECC_CTL"
+#define device_bar_BDK_TNS_TXQ_EQ_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_ECC_CTL 0
 #define arguments_BDK_TNS_TXQ_EQ_ECC_CTL -1,-1,-1,-1
 
@@ -41862,6 +42868,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_COPY_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_EM_COPY_CFG bdk_tns_txq_eq_em_copy_cfg_t
 #define bustype_BDK_TNS_TXQ_EQ_EM_COPY_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_EM_COPY_CFG "TNS_TXQ_EQ_EM_COPY_CFG"
+#define device_bar_BDK_TNS_TXQ_EQ_EM_COPY_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_EM_COPY_CFG 0
 #define arguments_BDK_TNS_TXQ_EQ_EM_COPY_CFG -1,-1,-1,-1
 
@@ -41901,6 +42908,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_FIFX_WX(unsigned long a, unsigned long 
 #define typedef_BDK_TNS_TXQ_EQ_EM_FIFX_WX(a,b) bdk_tns_txq_eq_em_fifx_wx_t
 #define bustype_BDK_TNS_TXQ_EQ_EM_FIFX_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_EM_FIFX_WX(a,b) "TNS_TXQ_EQ_EM_FIFX_WX"
+#define device_bar_BDK_TNS_TXQ_EQ_EM_FIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_EM_FIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_EQ_EM_FIFX_WX(a,b) (a),(b),-1,-1
 
@@ -41939,6 +42947,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_FIF_FC_THR_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_EM_FIF_FC_THR bdk_tns_txq_eq_em_fif_fc_thr_t
 #define bustype_BDK_TNS_TXQ_EQ_EM_FIF_FC_THR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_EM_FIF_FC_THR "TNS_TXQ_EQ_EM_FIF_FC_THR"
+#define device_bar_BDK_TNS_TXQ_EQ_EM_FIF_FC_THR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_EM_FIF_FC_THR 0
 #define arguments_BDK_TNS_TXQ_EQ_EM_FIF_FC_THR -1,-1,-1,-1
 
@@ -41976,6 +42985,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT bdk_tns_txq_eq_em_pkt_drp_ct_t
 #define bustype_BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT "TNS_TXQ_EQ_EM_PKT_DRP_CT"
+#define device_bar_BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT 0
 #define arguments_BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT -1,-1,-1,-1
 
@@ -42014,6 +43024,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE bdk_tns_txq_eq_emsd_wsarb_mode_t
 #define bustype_BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE "TNS_TXQ_EQ_EMSD_WSARB_MODE"
+#define device_bar_BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE 0
 #define arguments_BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE -1,-1,-1,-1
 
@@ -42053,6 +43064,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EMSD_WSARB_WGT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_EMSD_WSARB_WGT bdk_tns_txq_eq_emsd_wsarb_wgt_t
 #define bustype_BDK_TNS_TXQ_EQ_EMSD_WSARB_WGT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_EMSD_WSARB_WGT "TNS_TXQ_EQ_EMSD_WSARB_WGT"
+#define device_bar_BDK_TNS_TXQ_EQ_EMSD_WSARB_WGT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_EMSD_WSARB_WGT 0
 #define arguments_BDK_TNS_TXQ_EQ_EMSD_WSARB_WGT -1,-1,-1,-1
 
@@ -42089,6 +43101,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EOP_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_EQ_EOP_MEMX(a) bdk_tns_txq_eq_eop_memx_t
 #define bustype_BDK_TNS_TXQ_EQ_EOP_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_EOP_MEMX(a) "TNS_TXQ_EQ_EOP_MEMX"
+#define device_bar_BDK_TNS_TXQ_EQ_EOP_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_EOP_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_EQ_EOP_MEMX(a) (a),-1,-1,-1
 
@@ -42128,6 +43141,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(unsigned long a, unsigned lon
 #define typedef_BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(a,b) bdk_tns_txq_eq_eqem_fifx_wx_t
 #define bustype_BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(a,b) "TNS_TXQ_EQ_EQEM_FIFX_WX"
+#define device_bar_BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(a,b) (a),(b),-1,-1
 
@@ -42171,6 +43185,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_FIF_USAGE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_FIF_USAGE bdk_tns_txq_eq_fif_usage_t
 #define bustype_BDK_TNS_TXQ_EQ_FIF_USAGE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_FIF_USAGE "TNS_TXQ_EQ_FIF_USAGE"
+#define device_bar_BDK_TNS_TXQ_EQ_FIF_USAGE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_FIF_USAGE 0
 #define arguments_BDK_TNS_TXQ_EQ_FIF_USAGE -1,-1,-1,-1
 
@@ -42228,6 +43243,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_INT_EN_HI bdk_tns_txq_eq_int_en_hi_t
 #define bustype_BDK_TNS_TXQ_EQ_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_INT_EN_HI "TNS_TXQ_EQ_INT_EN_HI"
+#define device_bar_BDK_TNS_TXQ_EQ_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_INT_EN_HI 0
 #define arguments_BDK_TNS_TXQ_EQ_INT_EN_HI -1,-1,-1,-1
 
@@ -42285,6 +43301,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_INT_EN_LO bdk_tns_txq_eq_int_en_lo_t
 #define bustype_BDK_TNS_TXQ_EQ_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_INT_EN_LO "TNS_TXQ_EQ_INT_EN_LO"
+#define device_bar_BDK_TNS_TXQ_EQ_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_INT_EN_LO 0
 #define arguments_BDK_TNS_TXQ_EQ_INT_EN_LO -1,-1,-1,-1
 
@@ -42342,6 +43359,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_INT_FRC bdk_tns_txq_eq_int_frc_t
 #define bustype_BDK_TNS_TXQ_EQ_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_INT_FRC "TNS_TXQ_EQ_INT_FRC"
+#define device_bar_BDK_TNS_TXQ_EQ_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_INT_FRC 0
 #define arguments_BDK_TNS_TXQ_EQ_INT_FRC -1,-1,-1,-1
 
@@ -42399,6 +43417,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_INT_W1C bdk_tns_txq_eq_int_w1c_t
 #define bustype_BDK_TNS_TXQ_EQ_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_INT_W1C "TNS_TXQ_EQ_INT_W1C"
+#define device_bar_BDK_TNS_TXQ_EQ_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_INT_W1C 0
 #define arguments_BDK_TNS_TXQ_EQ_INT_W1C -1,-1,-1,-1
 
@@ -42434,6 +43453,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_LOCK_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_LOCK bdk_tns_txq_eq_lock_t
 #define bustype_BDK_TNS_TXQ_EQ_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_LOCK "TNS_TXQ_EQ_LOCK"
+#define device_bar_BDK_TNS_TXQ_EQ_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_LOCK 0
 #define arguments_BDK_TNS_TXQ_EQ_LOCK -1,-1,-1,-1
 
@@ -42470,6 +43490,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_LP2PP_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_EQ_LP2PP_MEMX(a) bdk_tns_txq_eq_lp2pp_memx_t
 #define bustype_BDK_TNS_TXQ_EQ_LP2PP_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_LP2PP_MEMX(a) "TNS_TXQ_EQ_LP2PP_MEMX"
+#define device_bar_BDK_TNS_TXQ_EQ_LP2PP_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_LP2PP_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_EQ_LP2PP_MEMX(a) (a),-1,-1,-1
 
@@ -42506,6 +43527,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC2DROP_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_MC2DROP_CT bdk_tns_txq_eq_mc2drop_ct_t
 #define bustype_BDK_TNS_TXQ_EQ_MC2DROP_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_MC2DROP_CT "TNS_TXQ_EQ_MC2DROP_CT"
+#define device_bar_BDK_TNS_TXQ_EQ_MC2DROP_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_MC2DROP_CT 0
 #define arguments_BDK_TNS_TXQ_EQ_MC2DROP_CT -1,-1,-1,-1
 
@@ -42544,6 +43566,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(unsigned long a, unsigned 
 #define typedef_BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(a,b) bdk_tns_txq_eq_mc2drop_fifx_wx_t
 #define bustype_BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(a,b) "TNS_TXQ_EQ_MC2DROP_FIFX_WX"
+#define device_bar_BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(a,b) (a),(b),-1,-1
 
@@ -42582,6 +43605,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(unsigned long a, unsign
 #define typedef_BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(a,b) bdk_tns_txq_eq_mc_10g_rep_fifx_wx_t
 #define bustype_BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(a,b) "TNS_TXQ_EQ_MC_10G_REP_FIFX_WX"
+#define device_bar_BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(a,b) (a),(b),-1,-1
 
@@ -42619,6 +43643,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_10G_SPD_MAP_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_MC_10G_SPD_MAP bdk_tns_txq_eq_mc_10g_spd_map_t
 #define bustype_BDK_TNS_TXQ_EQ_MC_10G_SPD_MAP BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_MC_10G_SPD_MAP "TNS_TXQ_EQ_MC_10G_SPD_MAP"
+#define device_bar_BDK_TNS_TXQ_EQ_MC_10G_SPD_MAP 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_MC_10G_SPD_MAP 0
 #define arguments_BDK_TNS_TXQ_EQ_MC_10G_SPD_MAP -1,-1,-1,-1
 
@@ -42657,6 +43682,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(unsigned long a, unsign
 #define typedef_BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(a,b) bdk_tns_txq_eq_mc_40g_rep_fifx_wx_t
 #define bustype_BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(a,b) "TNS_TXQ_EQ_MC_40G_REP_FIFX_WX"
+#define device_bar_BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(a,b) (a),(b),-1,-1
 
@@ -42694,6 +43720,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_40G_SPD_MAP_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_MC_40G_SPD_MAP bdk_tns_txq_eq_mc_40g_spd_map_t
 #define bustype_BDK_TNS_TXQ_EQ_MC_40G_SPD_MAP BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_MC_40G_SPD_MAP "TNS_TXQ_EQ_MC_40G_SPD_MAP"
+#define device_bar_BDK_TNS_TXQ_EQ_MC_40G_SPD_MAP 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_MC_40G_SPD_MAP 0
 #define arguments_BDK_TNS_TXQ_EQ_MC_40G_SPD_MAP -1,-1,-1,-1
 
@@ -42732,6 +43759,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_FIFX_WX(unsigned long a, unsigned long 
 #define typedef_BDK_TNS_TXQ_EQ_MC_FIFX_WX(a,b) bdk_tns_txq_eq_mc_fifx_wx_t
 #define bustype_BDK_TNS_TXQ_EQ_MC_FIFX_WX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_EQ_MC_FIFX_WX(a,b) "TNS_TXQ_EQ_MC_FIFX_WX"
+#define device_bar_BDK_TNS_TXQ_EQ_MC_FIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_MC_FIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_EQ_MC_FIFX_WX(a,b) (a),(b),-1,-1
 
@@ -42770,6 +43798,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(unsigned long a, unsig
 #define typedef_BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(a,b) bdk_tns_txq_eq_mc_misc_rep_fifx_wx_t
 #define bustype_BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(a,b) "TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX"
+#define device_bar_BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(a,b) (a),(b),-1,-1
 
@@ -42807,6 +43836,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_MISC_SPD_MAP_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_MC_MISC_SPD_MAP bdk_tns_txq_eq_mc_misc_spd_map_t
 #define bustype_BDK_TNS_TXQ_EQ_MC_MISC_SPD_MAP BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_MC_MISC_SPD_MAP "TNS_TXQ_EQ_MC_MISC_SPD_MAP"
+#define device_bar_BDK_TNS_TXQ_EQ_MC_MISC_SPD_MAP 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_MC_MISC_SPD_MAP 0
 #define arguments_BDK_TNS_TXQ_EQ_MC_MISC_SPD_MAP -1,-1,-1,-1
 
@@ -42845,6 +43875,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_SRC_FIF_FC_THR_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_MC_SRC_FIF_FC_THR bdk_tns_txq_eq_mc_src_fif_fc_thr_t
 #define bustype_BDK_TNS_TXQ_EQ_MC_SRC_FIF_FC_THR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_MC_SRC_FIF_FC_THR "TNS_TXQ_EQ_MC_SRC_FIF_FC_THR"
+#define device_bar_BDK_TNS_TXQ_EQ_MC_SRC_FIF_FC_THR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_MC_SRC_FIF_FC_THR 0
 #define arguments_BDK_TNS_TXQ_EQ_MC_SRC_FIF_FC_THR -1,-1,-1,-1
 
@@ -42883,6 +43914,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_PFC_MAP_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_PFC_MAP_ECC_LOG bdk_tns_txq_eq_pfc_map_ecc_log_t
 #define bustype_BDK_TNS_TXQ_EQ_PFC_MAP_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_PFC_MAP_ECC_LOG "TNS_TXQ_EQ_PFC_MAP_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_EQ_PFC_MAP_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_PFC_MAP_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_EQ_PFC_MAP_ECC_LOG -1,-1,-1,-1
 
@@ -42924,6 +43956,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_PFC_MAP_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_EQ_PFC_MAP_MEMX(a) bdk_tns_txq_eq_pfc_map_memx_t
 #define bustype_BDK_TNS_TXQ_EQ_PFC_MAP_MEMX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_EQ_PFC_MAP_MEMX(a) "TNS_TXQ_EQ_PFC_MAP_MEMX"
+#define device_bar_BDK_TNS_TXQ_EQ_PFC_MAP_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_PFC_MAP_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_EQ_PFC_MAP_MEMX(a) (a),-1,-1,-1
 
@@ -42960,6 +43993,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_PG_CLR_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_PG_CLR_CT bdk_tns_txq_eq_pg_clr_ct_t
 #define bustype_BDK_TNS_TXQ_EQ_PG_CLR_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_PG_CLR_CT "TNS_TXQ_EQ_PG_CLR_CT"
+#define device_bar_BDK_TNS_TXQ_EQ_PG_CLR_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_PG_CLR_CT 0
 #define arguments_BDK_TNS_TXQ_EQ_PG_CLR_CT -1,-1,-1,-1
 
@@ -42996,6 +44030,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_PT_SPD_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_EQ_PT_SPD_MEMX(a) bdk_tns_txq_eq_pt_spd_memx_t
 #define bustype_BDK_TNS_TXQ_EQ_PT_SPD_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_PT_SPD_MEMX(a) "TNS_TXQ_EQ_PT_SPD_MEMX"
+#define device_bar_BDK_TNS_TXQ_EQ_PT_SPD_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_PT_SPD_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_EQ_PT_SPD_MEMX(a) (a),-1,-1,-1
 
@@ -43035,6 +44070,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(unsigned long a, unsigned l
 #define typedef_BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(a,b) bdk_tns_txq_eq_query_ofifx_wx_t
 #define bustype_BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(a,b) "TNS_TXQ_EQ_QUERY_OFIFX_WX"
+#define device_bar_BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(a,b) (a),(b),-1,-1
 
@@ -43075,6 +44111,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_QUERY_OFIF_MAXCRD_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_QUERY_OFIF_MAXCRD bdk_tns_txq_eq_query_ofif_maxcrd_t
 #define bustype_BDK_TNS_TXQ_EQ_QUERY_OFIF_MAXCRD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_QUERY_OFIF_MAXCRD "TNS_TXQ_EQ_QUERY_OFIF_MAXCRD"
+#define device_bar_BDK_TNS_TXQ_EQ_QUERY_OFIF_MAXCRD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_QUERY_OFIF_MAXCRD 0
 #define arguments_BDK_TNS_TXQ_EQ_QUERY_OFIF_MAXCRD -1,-1,-1,-1
 
@@ -43110,6 +44147,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_SPAD_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_SPAD bdk_tns_txq_eq_spad_t
 #define bustype_BDK_TNS_TXQ_EQ_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_SPAD "TNS_TXQ_EQ_SPAD"
+#define device_bar_BDK_TNS_TXQ_EQ_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_SPAD 0
 #define arguments_BDK_TNS_TXQ_EQ_SPAD -1,-1,-1,-1
 
@@ -43146,6 +44184,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_TAIL_REQ_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_TAIL_REQ_CT bdk_tns_txq_eq_tail_req_ct_t
 #define bustype_BDK_TNS_TXQ_EQ_TAIL_REQ_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_TAIL_REQ_CT "TNS_TXQ_EQ_TAIL_REQ_CT"
+#define device_bar_BDK_TNS_TXQ_EQ_TAIL_REQ_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_TAIL_REQ_CT 0
 #define arguments_BDK_TNS_TXQ_EQ_TAIL_REQ_CT -1,-1,-1,-1
 
@@ -43182,6 +44221,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_TB_WR_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_TB_WR_CT bdk_tns_txq_eq_tb_wr_ct_t
 #define bustype_BDK_TNS_TXQ_EQ_TB_WR_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_TB_WR_CT "TNS_TXQ_EQ_TB_WR_CT"
+#define device_bar_BDK_TNS_TXQ_EQ_TB_WR_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_TB_WR_CT 0
 #define arguments_BDK_TNS_TXQ_EQ_TB_WR_CT -1,-1,-1,-1
 
@@ -43220,6 +44260,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(unsigned long a, unsigned lo
 #define typedef_BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(a,b) bdk_tns_txq_eq_token_memx_wx_t
 #define bustype_BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(a,b) "TNS_TXQ_EQ_TOKEN_MEMX_WX"
+#define device_bar_BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(a,b) (a),(b),-1,-1
 
@@ -43258,6 +44299,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_UC_FIFX_WX(unsigned long a, unsigned long 
 #define typedef_BDK_TNS_TXQ_EQ_UC_FIFX_WX(a,b) bdk_tns_txq_eq_uc_fifx_wx_t
 #define bustype_BDK_TNS_TXQ_EQ_UC_FIFX_WX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_UC_FIFX_WX(a,b) "TNS_TXQ_EQ_UC_FIFX_WX"
+#define device_bar_BDK_TNS_TXQ_EQ_UC_FIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_UC_FIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_EQ_UC_FIFX_WX(a,b) (a),(b),-1,-1
 
@@ -43295,6 +44337,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_WR_TOKEN_LFIF_THR_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_WR_TOKEN_LFIF_THR bdk_tns_txq_eq_wr_token_lfif_thr_t
 #define bustype_BDK_TNS_TXQ_EQ_WR_TOKEN_LFIF_THR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_EQ_WR_TOKEN_LFIF_THR "TNS_TXQ_EQ_WR_TOKEN_LFIF_THR"
+#define device_bar_BDK_TNS_TXQ_EQ_WR_TOKEN_LFIF_THR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_WR_TOKEN_LFIF_THR 0
 #define arguments_BDK_TNS_TXQ_EQ_WR_TOKEN_LFIF_THR -1,-1,-1,-1
 
@@ -43343,6 +44386,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(a) bdk_tns_txq_qmap_aqm_pfl_memx_w0_t
 #define bustype_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(a) "TNS_TXQ_QMAP_AQM_PFL_MEMX_W0"
+#define device_bar_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(a) (a),-1,-1,-1
 
@@ -43383,6 +44427,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(a) bdk_tns_txq_qmap_aqm_pfl_memx_w1_t
 #define bustype_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(a) "TNS_TXQ_QMAP_AQM_PFL_MEMX_W1"
+#define device_bar_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(a) (a),-1,-1,-1
 
@@ -43425,6 +44470,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(a) bdk_tns_txq_qmap_aqm_pfl_memx_w2_t
 #define bustype_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(a) "TNS_TXQ_QMAP_AQM_PFL_MEMX_W2"
+#define device_bar_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(a) (a),-1,-1,-1
 
@@ -43469,6 +44515,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(a) bdk_tns_txq_qmap_aqm_pfl_memx_w3_t
 #define bustype_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(a) "TNS_TXQ_QMAP_AQM_PFL_MEMX_W3"
+#define device_bar_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(a) (a),-1,-1,-1
 
@@ -43511,6 +44558,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(a) bdk_tns_txq_qmap_aqm_pfl_memx_w4_t
 #define bustype_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(a) "TNS_TXQ_QMAP_AQM_PFL_MEMX_W4"
+#define device_bar_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(a) (a),-1,-1,-1
 
@@ -43549,6 +44597,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(a) bdk_tns_txq_qmap_aqm_pfl_memx_w5_t
 #define bustype_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(a) "TNS_TXQ_QMAP_AQM_PFL_MEMX_W5"
+#define device_bar_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(a) (a),-1,-1,-1
 
@@ -43589,6 +44638,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(a) bdk_tns_txq_qmap_aqm_pfl_memx_w6_t
 #define bustype_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(a) "TNS_TXQ_QMAP_AQM_PFL_MEMX_W6"
+#define device_bar_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(a) (a),-1,-1,-1
 
@@ -43636,6 +44686,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_ECC_CTL bdk_tns_txq_qmap_ecc_ctl_t
 #define bustype_BDK_TNS_TXQ_QMAP_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_ECC_CTL "TNS_TXQ_QMAP_ECC_CTL"
+#define device_bar_BDK_TNS_TXQ_QMAP_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_ECC_CTL 0
 #define arguments_BDK_TNS_TXQ_QMAP_ECC_CTL -1,-1,-1,-1
 
@@ -43673,6 +44724,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_EN_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_EN_CFG bdk_tns_txq_qmap_en_cfg_t
 #define bustype_BDK_TNS_TXQ_QMAP_EN_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_EN_CFG "TNS_TXQ_QMAP_EN_CFG"
+#define device_bar_BDK_TNS_TXQ_QMAP_EN_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_EN_CFG 0
 #define arguments_BDK_TNS_TXQ_QMAP_EN_CFG -1,-1,-1,-1
 
@@ -43711,6 +44763,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_CFG_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_EQ_CFG_ECC_LOG bdk_tns_txq_qmap_eq_cfg_ecc_log_t
 #define bustype_BDK_TNS_TXQ_QMAP_EQ_CFG_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_EQ_CFG_ECC_LOG "TNS_TXQ_QMAP_EQ_CFG_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_QMAP_EQ_CFG_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_EQ_CFG_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_QMAP_EQ_CFG_ECC_LOG -1,-1,-1,-1
 
@@ -43767,6 +44820,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_CFG_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_EQ_CFG_MEMX(a) bdk_tns_txq_qmap_eq_cfg_memx_t
 #define bustype_BDK_TNS_TXQ_QMAP_EQ_CFG_MEMX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_QMAP_EQ_CFG_MEMX(a) "TNS_TXQ_QMAP_EQ_CFG_MEMX"
+#define device_bar_BDK_TNS_TXQ_QMAP_EQ_CFG_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_EQ_CFG_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_EQ_CFG_MEMX(a) (a),-1,-1,-1
 
@@ -43802,6 +44856,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_QUERY_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_EQ_QUERY_CT bdk_tns_txq_qmap_eq_query_ct_t
 #define bustype_BDK_TNS_TXQ_QMAP_EQ_QUERY_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_EQ_QUERY_CT "TNS_TXQ_QMAP_EQ_QUERY_CT"
+#define device_bar_BDK_TNS_TXQ_QMAP_EQ_QUERY_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_EQ_QUERY_CT 0
 #define arguments_BDK_TNS_TXQ_QMAP_EQ_QUERY_CT -1,-1,-1,-1
 
@@ -43837,6 +44892,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_EQ_REPLY_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_EQ_REPLY_CT bdk_tns_txq_qmap_eq_reply_ct_t
 #define bustype_BDK_TNS_TXQ_QMAP_EQ_REPLY_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_EQ_REPLY_CT "TNS_TXQ_QMAP_EQ_REPLY_CT"
+#define device_bar_BDK_TNS_TXQ_QMAP_EQ_REPLY_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_EQ_REPLY_CT 0
 #define arguments_BDK_TNS_TXQ_QMAP_EQ_REPLY_CT -1,-1,-1,-1
 
@@ -43873,6 +44929,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_H1_FULL_CFG_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_H1_FULL_CFG_MEMX(a) bdk_tns_txq_qmap_h1_full_cfg_memx_t
 #define bustype_BDK_TNS_TXQ_QMAP_H1_FULL_CFG_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_H1_FULL_CFG_MEMX(a) "TNS_TXQ_QMAP_H1_FULL_CFG_MEMX"
+#define device_bar_BDK_TNS_TXQ_QMAP_H1_FULL_CFG_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_H1_FULL_CFG_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_H1_FULL_CFG_MEMX(a) (a),-1,-1,-1
 
@@ -43926,6 +44983,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_INT_EN_HI bdk_tns_txq_qmap_int_en_hi_t
 #define bustype_BDK_TNS_TXQ_QMAP_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_INT_EN_HI "TNS_TXQ_QMAP_INT_EN_HI"
+#define device_bar_BDK_TNS_TXQ_QMAP_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_INT_EN_HI 0
 #define arguments_BDK_TNS_TXQ_QMAP_INT_EN_HI -1,-1,-1,-1
 
@@ -43979,6 +45037,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_INT_EN_LO bdk_tns_txq_qmap_int_en_lo_t
 #define bustype_BDK_TNS_TXQ_QMAP_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_INT_EN_LO "TNS_TXQ_QMAP_INT_EN_LO"
+#define device_bar_BDK_TNS_TXQ_QMAP_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_INT_EN_LO 0
 #define arguments_BDK_TNS_TXQ_QMAP_INT_EN_LO -1,-1,-1,-1
 
@@ -44032,6 +45091,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_INT_FRC bdk_tns_txq_qmap_int_frc_t
 #define bustype_BDK_TNS_TXQ_QMAP_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_INT_FRC "TNS_TXQ_QMAP_INT_FRC"
+#define device_bar_BDK_TNS_TXQ_QMAP_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_INT_FRC 0
 #define arguments_BDK_TNS_TXQ_QMAP_INT_FRC -1,-1,-1,-1
 
@@ -44085,6 +45145,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_INT_W1C bdk_tns_txq_qmap_int_w1c_t
 #define bustype_BDK_TNS_TXQ_QMAP_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_INT_W1C "TNS_TXQ_QMAP_INT_W1C"
+#define device_bar_BDK_TNS_TXQ_QMAP_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_INT_W1C 0
 #define arguments_BDK_TNS_TXQ_QMAP_INT_W1C -1,-1,-1,-1
 
@@ -44120,6 +45181,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_LOCK_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_LOCK bdk_tns_txq_qmap_lock_t
 #define bustype_BDK_TNS_TXQ_QMAP_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_LOCK "TNS_TXQ_QMAP_LOCK"
+#define device_bar_BDK_TNS_TXQ_QMAP_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_LOCK 0
 #define arguments_BDK_TNS_TXQ_QMAP_LOCK -1,-1,-1,-1
 
@@ -44156,6 +45218,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_PTF_CFG_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_PTF_CFG_MEMX(a) bdk_tns_txq_qmap_ptf_cfg_memx_t
 #define bustype_BDK_TNS_TXQ_QMAP_PTF_CFG_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_PTF_CFG_MEMX(a) "TNS_TXQ_QMAP_PTF_CFG_MEMX"
+#define device_bar_BDK_TNS_TXQ_QMAP_PTF_CFG_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_PTF_CFG_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_PTF_CFG_MEMX(a) (a),-1,-1,-1
 
@@ -44192,6 +45255,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_Q_FULL_CFG_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_Q_FULL_CFG_MEMX(a) bdk_tns_txq_qmap_q_full_cfg_memx_t
 #define bustype_BDK_TNS_TXQ_QMAP_Q_FULL_CFG_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_Q_FULL_CFG_MEMX(a) "TNS_TXQ_QMAP_Q_FULL_CFG_MEMX"
+#define device_bar_BDK_TNS_TXQ_QMAP_Q_FULL_CFG_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_Q_FULL_CFG_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_Q_FULL_CFG_MEMX(a) (a),-1,-1,-1
 
@@ -44232,6 +45296,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_QCN_CP_RNG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_QCN_CP_RNG bdk_tns_txq_qmap_qcn_cp_rng_t
 #define bustype_BDK_TNS_TXQ_QMAP_QCN_CP_RNG BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_QMAP_QCN_CP_RNG "TNS_TXQ_QMAP_QCN_CP_RNG"
+#define device_bar_BDK_TNS_TXQ_QMAP_QCN_CP_RNG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_QCN_CP_RNG 0
 #define arguments_BDK_TNS_TXQ_QMAP_QCN_CP_RNG -1,-1,-1,-1
 
@@ -44267,6 +45332,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_SDE_QUERY_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_SDE_QUERY_CT bdk_tns_txq_qmap_sde_query_ct_t
 #define bustype_BDK_TNS_TXQ_QMAP_SDE_QUERY_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_SDE_QUERY_CT "TNS_TXQ_QMAP_SDE_QUERY_CT"
+#define device_bar_BDK_TNS_TXQ_QMAP_SDE_QUERY_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_SDE_QUERY_CT 0
 #define arguments_BDK_TNS_TXQ_QMAP_SDE_QUERY_CT -1,-1,-1,-1
 
@@ -44302,6 +45368,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_SDE_REPLY_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_SDE_REPLY_CT bdk_tns_txq_qmap_sde_reply_ct_t
 #define bustype_BDK_TNS_TXQ_QMAP_SDE_REPLY_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_SDE_REPLY_CT "TNS_TXQ_QMAP_SDE_REPLY_CT"
+#define device_bar_BDK_TNS_TXQ_QMAP_SDE_REPLY_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_SDE_REPLY_CT 0
 #define arguments_BDK_TNS_TXQ_QMAP_SDE_REPLY_CT -1,-1,-1,-1
 
@@ -44337,6 +45404,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_SPAD_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_SPAD bdk_tns_txq_qmap_spad_t
 #define bustype_BDK_TNS_TXQ_QMAP_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_SPAD "TNS_TXQ_QMAP_SPAD"
+#define device_bar_BDK_TNS_TXQ_QMAP_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_SPAD 0
 #define arguments_BDK_TNS_TXQ_QMAP_SPAD -1,-1,-1,-1
 
@@ -44375,6 +45443,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_TBL_ECC_LOG bdk_tns_txq_qmap_tbl_ecc_log_t
 #define bustype_BDK_TNS_TXQ_QMAP_TBL_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_TBL_ECC_LOG "TNS_TXQ_QMAP_TBL_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_QMAP_TBL_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_TBL_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_QMAP_TBL_ECC_LOG -1,-1,-1,-1
 
@@ -44419,6 +45488,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W0(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W0(a) bdk_tns_txq_qmap_tbl_idx_cfgx_w0_t
 #define bustype_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W0(a) "TNS_TXQ_QMAP_TBL_IDX_CFGX_W0"
+#define device_bar_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W0(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W0(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W0(a) (a),-1,-1,-1
 
@@ -44463,6 +45533,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W1(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W1(a) bdk_tns_txq_qmap_tbl_idx_cfgx_w1_t
 #define bustype_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W1(a) "TNS_TXQ_QMAP_TBL_IDX_CFGX_W1"
+#define device_bar_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W1(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W1(a) (a),-1,-1,-1
 
@@ -44501,6 +45572,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W2(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W2(a) bdk_tns_txq_qmap_tbl_idx_cfgx_w2_t
 #define bustype_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W2(a) "TNS_TXQ_QMAP_TBL_IDX_CFGX_W2"
+#define device_bar_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W2(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W2(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_TBL_IDX_CFGX_W2(a) (a),-1,-1,-1
 
@@ -44543,6 +45615,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_TBL_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_QMAP_TBL_MEMX(a) bdk_tns_txq_qmap_tbl_memx_t
 #define bustype_BDK_TNS_TXQ_QMAP_TBL_MEMX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_QMAP_TBL_MEMX(a) "TNS_TXQ_QMAP_TBL_MEMX"
+#define device_bar_BDK_TNS_TXQ_QMAP_TBL_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_TBL_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_QMAP_TBL_MEMX(a) (a),-1,-1,-1
 
@@ -44582,6 +45655,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_WRED_RNG_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_WRED_RNG_CFG bdk_tns_txq_qmap_wred_rng_cfg_t
 #define bustype_BDK_TNS_TXQ_QMAP_WRED_RNG_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_QMAP_WRED_RNG_CFG "TNS_TXQ_QMAP_WRED_RNG_CFG"
+#define device_bar_BDK_TNS_TXQ_QMAP_WRED_RNG_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_WRED_RNG_CFG 0
 #define arguments_BDK_TNS_TXQ_QMAP_WRED_RNG_CFG -1,-1,-1,-1
 
@@ -44619,6 +45693,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_WSARB_MODE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_WSARB_MODE bdk_tns_txq_qmap_wsarb_mode_t
 #define bustype_BDK_TNS_TXQ_QMAP_WSARB_MODE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_WSARB_MODE "TNS_TXQ_QMAP_WSARB_MODE"
+#define device_bar_BDK_TNS_TXQ_QMAP_WSARB_MODE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_WSARB_MODE 0
 #define arguments_BDK_TNS_TXQ_QMAP_WSARB_MODE -1,-1,-1,-1
 
@@ -44658,6 +45733,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_WSARB_WGT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_QMAP_WSARB_WGT bdk_tns_txq_qmap_wsarb_wgt_t
 #define bustype_BDK_TNS_TXQ_QMAP_WSARB_WGT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_QMAP_WSARB_WGT "TNS_TXQ_QMAP_WSARB_WGT"
+#define device_bar_BDK_TNS_TXQ_QMAP_WSARB_WGT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_QMAP_WSARB_WGT 0
 #define arguments_BDK_TNS_TXQ_QMAP_WSARB_WGT -1,-1,-1,-1
 
@@ -44692,6 +45768,7 @@ static inline uint64_t BDK_TNS_TXQ_SPT_QMAP_TBL_CFG_WX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_SPT_QMAP_TBL_CFG_WX(a) bdk_tns_txq_spt_qmap_tbl_cfg_wx_t
 #define bustype_BDK_TNS_TXQ_SPT_QMAP_TBL_CFG_WX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_SPT_QMAP_TBL_CFG_WX(a) "TNS_TXQ_SPT_QMAP_TBL_CFG_WX"
+#define device_bar_BDK_TNS_TXQ_SPT_QMAP_TBL_CFG_WX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_SPT_QMAP_TBL_CFG_WX(a) (a)
 #define arguments_BDK_TNS_TXQ_SPT_QMAP_TBL_CFG_WX(a) (a),-1,-1,-1
 
@@ -44730,6 +45807,7 @@ static inline uint64_t BDK_TNS_TXQ_TB0_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TB0_ECC_LOG bdk_tns_txq_tb0_ecc_log_t
 #define bustype_BDK_TNS_TXQ_TB0_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TB0_ECC_LOG "TNS_TXQ_TB0_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_TB0_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB0_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_TB0_ECC_LOG -1,-1,-1,-1
 
@@ -44768,6 +45846,7 @@ static inline uint64_t BDK_TNS_TXQ_TB1_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TB1_ECC_LOG bdk_tns_txq_tb1_ecc_log_t
 #define bustype_BDK_TNS_TXQ_TB1_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TB1_ECC_LOG "TNS_TXQ_TB1_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_TB1_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB1_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_TB1_ECC_LOG -1,-1,-1,-1
 
@@ -44806,6 +45885,7 @@ static inline uint64_t BDK_TNS_TXQ_TB2_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TB2_ECC_LOG bdk_tns_txq_tb2_ecc_log_t
 #define bustype_BDK_TNS_TXQ_TB2_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TB2_ECC_LOG "TNS_TXQ_TB2_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_TB2_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB2_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_TB2_ECC_LOG -1,-1,-1,-1
 
@@ -44844,6 +45924,7 @@ static inline uint64_t BDK_TNS_TXQ_TB3_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TB3_ECC_LOG bdk_tns_txq_tb3_ecc_log_t
 #define bustype_BDK_TNS_TXQ_TB3_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TB3_ECC_LOG "TNS_TXQ_TB3_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_TB3_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB3_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_TB3_ECC_LOG -1,-1,-1,-1
 
@@ -44897,6 +45978,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TB_ECC_CTL bdk_tns_txq_tb_ecc_ctl_t
 #define bustype_BDK_TNS_TXQ_TB_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TB_ECC_CTL "TNS_TXQ_TB_ECC_CTL"
+#define device_bar_BDK_TNS_TXQ_TB_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB_ECC_CTL 0
 #define arguments_BDK_TNS_TXQ_TB_ECC_CTL -1,-1,-1,-1
 
@@ -44958,6 +46040,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TB_INT_EN_HI bdk_tns_txq_tb_int_en_hi_t
 #define bustype_BDK_TNS_TXQ_TB_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TB_INT_EN_HI "TNS_TXQ_TB_INT_EN_HI"
+#define device_bar_BDK_TNS_TXQ_TB_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB_INT_EN_HI 0
 #define arguments_BDK_TNS_TXQ_TB_INT_EN_HI -1,-1,-1,-1
 
@@ -45019,6 +46102,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TB_INT_EN_LO bdk_tns_txq_tb_int_en_lo_t
 #define bustype_BDK_TNS_TXQ_TB_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TB_INT_EN_LO "TNS_TXQ_TB_INT_EN_LO"
+#define device_bar_BDK_TNS_TXQ_TB_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB_INT_EN_LO 0
 #define arguments_BDK_TNS_TXQ_TB_INT_EN_LO -1,-1,-1,-1
 
@@ -45080,6 +46164,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TB_INT_FRC bdk_tns_txq_tb_int_frc_t
 #define bustype_BDK_TNS_TXQ_TB_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TB_INT_FRC "TNS_TXQ_TB_INT_FRC"
+#define device_bar_BDK_TNS_TXQ_TB_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB_INT_FRC 0
 #define arguments_BDK_TNS_TXQ_TB_INT_FRC -1,-1,-1,-1
 
@@ -45141,6 +46226,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TB_INT_W1C bdk_tns_txq_tb_int_w1c_t
 #define bustype_BDK_TNS_TXQ_TB_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TB_INT_W1C "TNS_TXQ_TB_INT_W1C"
+#define device_bar_BDK_TNS_TXQ_TB_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB_INT_W1C 0
 #define arguments_BDK_TNS_TXQ_TB_INT_W1C -1,-1,-1,-1
 
@@ -45176,6 +46262,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_LOCK_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TB_LOCK bdk_tns_txq_tb_lock_t
 #define bustype_BDK_TNS_TXQ_TB_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TB_LOCK "TNS_TXQ_TB_LOCK"
+#define device_bar_BDK_TNS_TXQ_TB_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB_LOCK 0
 #define arguments_BDK_TNS_TXQ_TB_LOCK -1,-1,-1,-1
 
@@ -45214,6 +46301,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_MEMX_WX(unsigned long a, unsigned long b)
 #define typedef_BDK_TNS_TXQ_TB_MEMX_WX(a,b) bdk_tns_txq_tb_memx_wx_t
 #define bustype_BDK_TNS_TXQ_TB_MEMX_WX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_TB_MEMX_WX(a,b) "TNS_TXQ_TB_MEMX_WX"
+#define device_bar_BDK_TNS_TXQ_TB_MEMX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB_MEMX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_TB_MEMX_WX(a,b) (a),(b),-1,-1
 
@@ -45249,6 +46337,7 @@ static inline uint64_t BDK_TNS_TXQ_TB_SPAD_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TB_SPAD bdk_tns_txq_tb_spad_t
 #define bustype_BDK_TNS_TXQ_TB_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TB_SPAD "TNS_TXQ_TB_SPAD"
+#define device_bar_BDK_TNS_TXQ_TB_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TB_SPAD 0
 #define arguments_BDK_TNS_TXQ_TB_SPAD -1,-1,-1,-1
 
@@ -45300,6 +46389,7 @@ static inline uint64_t BDK_TNS_TXQ_TBC_BIST_STDN_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBC_BIST_STDN bdk_tns_txq_tbc_bist_stdn_t
 #define bustype_BDK_TNS_TXQ_TBC_BIST_STDN BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBC_BIST_STDN "TNS_TXQ_TBC_BIST_STDN"
+#define device_bar_BDK_TNS_TXQ_TBC_BIST_STDN 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBC_BIST_STDN 0
 #define arguments_BDK_TNS_TXQ_TBC_BIST_STDN -1,-1,-1,-1
 
@@ -45353,6 +46443,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_ECC_CTL bdk_tns_txq_tbm_ecc_ctl_t
 #define bustype_BDK_TNS_TXQ_TBM_ECC_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_ECC_CTL "TNS_TXQ_TBM_ECC_CTL"
+#define device_bar_BDK_TNS_TXQ_TBM_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_ECC_CTL 0
 #define arguments_BDK_TNS_TXQ_TBM_ECC_CTL -1,-1,-1,-1
 
@@ -45390,6 +46481,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_CNT_DAT_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_CNT_DAT_CFG bdk_tns_txq_tbm_ft_cnt_dat_cfg_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_CNT_DAT_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_CNT_DAT_CFG "TNS_TXQ_TBM_FT_CNT_DAT_CFG"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_CNT_DAT_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_CNT_DAT_CFG 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_CNT_DAT_CFG -1,-1,-1,-1
 
@@ -45429,6 +46521,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_CNT_INIT_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_CNT_INIT_CFG bdk_tns_txq_tbm_ft_cnt_init_cfg_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_CNT_INIT_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_CNT_INIT_CFG "TNS_TXQ_TBM_FT_CNT_INIT_CFG"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_CNT_INIT_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_CNT_INIT_CFG 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_CNT_INIT_CFG -1,-1,-1,-1
 
@@ -45466,6 +46559,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_CNT_THR_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_CNT_THR bdk_tns_txq_tbm_ft_cnt_thr_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_CNT_THR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_CNT_THR "TNS_TXQ_TBM_FT_CNT_THR"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_CNT_THR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_CNT_THR 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_CNT_THR -1,-1,-1,-1
 
@@ -45504,6 +46598,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIFX_WX(unsigned long a, unsigned long
 #define typedef_BDK_TNS_TXQ_TBM_FT_FIFX_WX(a,b) bdk_tns_txq_tbm_ft_fifx_wx_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_FIFX_WX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_TBM_FT_FIFX_WX(a,b) "TNS_TXQ_TBM_FT_FIFX_WX"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_FIFX_WX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_FIFX_WX(a,b) (a)
 #define arguments_BDK_TNS_TXQ_TBM_FT_FIFX_WX(a,b) (a),(b),-1,-1
 
@@ -45541,6 +46636,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIF_DBG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_FIF_DBG bdk_tns_txq_tbm_ft_fif_dbg_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_FIF_DBG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_FIF_DBG "TNS_TXQ_TBM_FT_FIF_DBG"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_FIF_DBG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_FIF_DBG 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_FIF_DBG -1,-1,-1,-1
 
@@ -45579,6 +46675,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIF_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_FIF_ECC_LOG bdk_tns_txq_tbm_ft_fif_ecc_log_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_FIF_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_FIF_ECC_LOG "TNS_TXQ_TBM_FT_FIF_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_FIF_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_FIF_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_FIF_ECC_LOG -1,-1,-1,-1
 
@@ -45616,6 +46713,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_FIF_USAGE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_FIF_USAGE bdk_tns_txq_tbm_ft_fif_usage_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_FIF_USAGE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_FIF_USAGE "TNS_TXQ_TBM_FT_FIF_USAGE"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_FIF_USAGE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_FIF_USAGE 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_FIF_USAGE -1,-1,-1,-1
 
@@ -45653,6 +46751,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_PREFETCH_CT bdk_tns_txq_tbm_ft_prefetch_ct_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_PREFETCH_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_PREFETCH_CT "TNS_TXQ_TBM_FT_PREFETCH_CT"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_PREFETCH_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_PREFETCH_CT 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_PREFETCH_CT -1,-1,-1,-1
 
@@ -45692,6 +46791,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W0_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_PREFETCH_W0 bdk_tns_txq_tbm_ft_prefetch_w0_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_PREFETCH_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_PREFETCH_W0 "TNS_TXQ_TBM_FT_PREFETCH_W0"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_PREFETCH_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_PREFETCH_W0 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_PREFETCH_W0 -1,-1,-1,-1
 
@@ -45731,6 +46831,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W1_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_PREFETCH_W1 bdk_tns_txq_tbm_ft_prefetch_w1_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_PREFETCH_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_PREFETCH_W1 "TNS_TXQ_TBM_FT_PREFETCH_W1"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_PREFETCH_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_PREFETCH_W1 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_PREFETCH_W1 -1,-1,-1,-1
 
@@ -45770,6 +46871,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W2_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_PREFETCH_W2 bdk_tns_txq_tbm_ft_prefetch_w2_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_PREFETCH_W2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_PREFETCH_W2 "TNS_TXQ_TBM_FT_PREFETCH_W2"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_PREFETCH_W2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_PREFETCH_W2 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_PREFETCH_W2 -1,-1,-1,-1
 
@@ -45811,6 +46913,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W3_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_PREFETCH_W3 bdk_tns_txq_tbm_ft_prefetch_w3_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_PREFETCH_W3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_PREFETCH_W3 "TNS_TXQ_TBM_FT_PREFETCH_W3"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_PREFETCH_W3 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_PREFETCH_W3 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_PREFETCH_W3 -1,-1,-1,-1
 
@@ -45850,6 +46953,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W4_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_PREFETCH_W4 bdk_tns_txq_tbm_ft_prefetch_w4_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_PREFETCH_W4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_PREFETCH_W4 "TNS_TXQ_TBM_FT_PREFETCH_W4"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_PREFETCH_W4 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_PREFETCH_W4 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_PREFETCH_W4 -1,-1,-1,-1
 
@@ -45889,6 +46993,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W5_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_PREFETCH_W5 bdk_tns_txq_tbm_ft_prefetch_w5_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_PREFETCH_W5 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_PREFETCH_W5 "TNS_TXQ_TBM_FT_PREFETCH_W5"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_PREFETCH_W5 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_PREFETCH_W5 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_PREFETCH_W5 -1,-1,-1,-1
 
@@ -45928,6 +47033,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_FT_PREFETCH_W6_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_FT_PREFETCH_W6 bdk_tns_txq_tbm_ft_prefetch_w6_t
 #define bustype_BDK_TNS_TXQ_TBM_FT_PREFETCH_W6 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_FT_PREFETCH_W6 "TNS_TXQ_TBM_FT_PREFETCH_W6"
+#define device_bar_BDK_TNS_TXQ_TBM_FT_PREFETCH_W6 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_FT_PREFETCH_W6 0
 #define arguments_BDK_TNS_TXQ_TBM_FT_PREFETCH_W6 -1,-1,-1,-1
 
@@ -45966,6 +47072,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_HEAD_PTR_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_HEAD_PTR_ECC_LOG bdk_tns_txq_tbm_head_ptr_ecc_log_t
 #define bustype_BDK_TNS_TXQ_TBM_HEAD_PTR_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_HEAD_PTR_ECC_LOG "TNS_TXQ_TBM_HEAD_PTR_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_TBM_HEAD_PTR_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_HEAD_PTR_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_TBM_HEAD_PTR_ECC_LOG -1,-1,-1,-1
 
@@ -46002,6 +47109,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_HEAD_PTR_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_TBM_HEAD_PTR_MEMX(a) bdk_tns_txq_tbm_head_ptr_memx_t
 #define bustype_BDK_TNS_TXQ_TBM_HEAD_PTR_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_HEAD_PTR_MEMX(a) "TNS_TXQ_TBM_HEAD_PTR_MEMX"
+#define device_bar_BDK_TNS_TXQ_TBM_HEAD_PTR_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_HEAD_PTR_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_TBM_HEAD_PTR_MEMX(a) (a),-1,-1,-1
 
@@ -46044,6 +47152,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_HW_INIT_STA_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_HW_INIT_STA bdk_tns_txq_tbm_hw_init_sta_t
 #define bustype_BDK_TNS_TXQ_TBM_HW_INIT_STA BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_HW_INIT_STA "TNS_TXQ_TBM_HW_INIT_STA"
+#define device_bar_BDK_TNS_TXQ_TBM_HW_INIT_STA 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_HW_INIT_STA 0
 #define arguments_BDK_TNS_TXQ_TBM_HW_INIT_STA -1,-1,-1,-1
 
@@ -46093,6 +47202,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_INT_EN_HI_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_INT_EN_HI bdk_tns_txq_tbm_int_en_hi_t
 #define bustype_BDK_TNS_TXQ_TBM_INT_EN_HI BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_INT_EN_HI "TNS_TXQ_TBM_INT_EN_HI"
+#define device_bar_BDK_TNS_TXQ_TBM_INT_EN_HI 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_INT_EN_HI 0
 #define arguments_BDK_TNS_TXQ_TBM_INT_EN_HI -1,-1,-1,-1
 
@@ -46142,6 +47252,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_INT_EN_LO_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_INT_EN_LO bdk_tns_txq_tbm_int_en_lo_t
 #define bustype_BDK_TNS_TXQ_TBM_INT_EN_LO BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_INT_EN_LO "TNS_TXQ_TBM_INT_EN_LO"
+#define device_bar_BDK_TNS_TXQ_TBM_INT_EN_LO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_INT_EN_LO 0
 #define arguments_BDK_TNS_TXQ_TBM_INT_EN_LO -1,-1,-1,-1
 
@@ -46191,6 +47302,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_INT_FRC_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_INT_FRC bdk_tns_txq_tbm_int_frc_t
 #define bustype_BDK_TNS_TXQ_TBM_INT_FRC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_INT_FRC "TNS_TXQ_TBM_INT_FRC"
+#define device_bar_BDK_TNS_TXQ_TBM_INT_FRC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_INT_FRC 0
 #define arguments_BDK_TNS_TXQ_TBM_INT_FRC -1,-1,-1,-1
 
@@ -46240,6 +47352,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_INT_W1C_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_INT_W1C bdk_tns_txq_tbm_int_w1c_t
 #define bustype_BDK_TNS_TXQ_TBM_INT_W1C BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_INT_W1C "TNS_TXQ_TBM_INT_W1C"
+#define device_bar_BDK_TNS_TXQ_TBM_INT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_INT_W1C 0
 #define arguments_BDK_TNS_TXQ_TBM_INT_W1C -1,-1,-1,-1
 
@@ -46275,6 +47388,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_LOCK_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_LOCK bdk_tns_txq_tbm_lock_t
 #define bustype_BDK_TNS_TXQ_TBM_LOCK BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_LOCK "TNS_TXQ_TBM_LOCK"
+#define device_bar_BDK_TNS_TXQ_TBM_LOCK 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_LOCK 0
 #define arguments_BDK_TNS_TXQ_TBM_LOCK -1,-1,-1,-1
 
@@ -46314,6 +47428,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_RST_CFG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_RST_CFG bdk_tns_txq_tbm_rst_cfg_t
 #define bustype_BDK_TNS_TXQ_TBM_RST_CFG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_RST_CFG "TNS_TXQ_TBM_RST_CFG"
+#define device_bar_BDK_TNS_TXQ_TBM_RST_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_RST_CFG 0
 #define arguments_BDK_TNS_TXQ_TBM_RST_CFG -1,-1,-1,-1
 
@@ -46349,6 +47464,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_SPAD_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_SPAD bdk_tns_txq_tbm_spad_t
 #define bustype_BDK_TNS_TXQ_TBM_SPAD BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_SPAD "TNS_TXQ_TBM_SPAD"
+#define device_bar_BDK_TNS_TXQ_TBM_SPAD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_SPAD 0
 #define arguments_BDK_TNS_TXQ_TBM_SPAD -1,-1,-1,-1
 
@@ -46387,6 +47503,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_TAIL_PTR_ECC_LOG_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_TAIL_PTR_ECC_LOG bdk_tns_txq_tbm_tail_ptr_ecc_log_t
 #define bustype_BDK_TNS_TXQ_TBM_TAIL_PTR_ECC_LOG BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_TAIL_PTR_ECC_LOG "TNS_TXQ_TBM_TAIL_PTR_ECC_LOG"
+#define device_bar_BDK_TNS_TXQ_TBM_TAIL_PTR_ECC_LOG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_TAIL_PTR_ECC_LOG 0
 #define arguments_BDK_TNS_TXQ_TBM_TAIL_PTR_ECC_LOG -1,-1,-1,-1
 
@@ -46423,6 +47540,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_TAIL_PTR_MEMX(unsigned long a)
 #define typedef_BDK_TNS_TXQ_TBM_TAIL_PTR_MEMX(a) bdk_tns_txq_tbm_tail_ptr_memx_t
 #define bustype_BDK_TNS_TXQ_TBM_TAIL_PTR_MEMX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_TAIL_PTR_MEMX(a) "TNS_TXQ_TBM_TAIL_PTR_MEMX"
+#define device_bar_BDK_TNS_TXQ_TBM_TAIL_PTR_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_TAIL_PTR_MEMX(a) (a)
 #define arguments_BDK_TNS_TXQ_TBM_TAIL_PTR_MEMX(a) (a),-1,-1,-1
 
@@ -46459,6 +47577,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_TOKEN_ALLOC_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_TOKEN_ALLOC_CT bdk_tns_txq_tbm_token_alloc_ct_t
 #define bustype_BDK_TNS_TXQ_TBM_TOKEN_ALLOC_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_TOKEN_ALLOC_CT "TNS_TXQ_TBM_TOKEN_ALLOC_CT"
+#define device_bar_BDK_TNS_TXQ_TBM_TOKEN_ALLOC_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_TOKEN_ALLOC_CT 0
 #define arguments_BDK_TNS_TXQ_TBM_TOKEN_ALLOC_CT -1,-1,-1,-1
 
@@ -46495,6 +47614,7 @@ static inline uint64_t BDK_TNS_TXQ_TBM_TOKEN_FREE_CT_FUNC(void)
 #define typedef_BDK_TNS_TXQ_TBM_TOKEN_FREE_CT bdk_tns_txq_tbm_token_free_ct_t
 #define bustype_BDK_TNS_TXQ_TBM_TOKEN_FREE_CT BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_TXQ_TBM_TOKEN_FREE_CT "TNS_TXQ_TBM_TOKEN_FREE_CT"
+#define device_bar_BDK_TNS_TXQ_TBM_TOKEN_FREE_CT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_TBM_TOKEN_FREE_CT 0
 #define arguments_BDK_TNS_TXQ_TBM_TOKEN_FREE_CT -1,-1,-1,-1
 

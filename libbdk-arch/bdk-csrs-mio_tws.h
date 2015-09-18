@@ -126,6 +126,7 @@ static inline uint64_t BDK_MIO_TWSX_INT(unsigned long a)
 #define typedef_BDK_MIO_TWSX_INT(a) bdk_mio_twsx_int_t
 #define bustype_BDK_MIO_TWSX_INT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_TWSX_INT(a) "MIO_TWSX_INT"
+#define device_bar_BDK_MIO_TWSX_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_TWSX_INT(a) (a)
 #define arguments_BDK_MIO_TWSX_INT(a) (a),-1,-1,-1
 
@@ -165,6 +166,7 @@ static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_MIO_TWSX_INT_ENA_W1C(a) bdk_mio_twsx_int_ena_w1c_t
 #define bustype_BDK_MIO_TWSX_INT_ENA_W1C(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_TWSX_INT_ENA_W1C(a) "MIO_TWSX_INT_ENA_W1C"
+#define device_bar_BDK_MIO_TWSX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_TWSX_INT_ENA_W1C(a) (a)
 #define arguments_BDK_MIO_TWSX_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -204,6 +206,7 @@ static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_MIO_TWSX_INT_ENA_W1S(a) bdk_mio_twsx_int_ena_w1s_t
 #define bustype_BDK_MIO_TWSX_INT_ENA_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_TWSX_INT_ENA_W1S(a) "MIO_TWSX_INT_ENA_W1S"
+#define device_bar_BDK_MIO_TWSX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_TWSX_INT_ENA_W1S(a) (a)
 #define arguments_BDK_MIO_TWSX_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -243,6 +246,7 @@ static inline uint64_t BDK_MIO_TWSX_INT_W1S(unsigned long a)
 #define typedef_BDK_MIO_TWSX_INT_W1S(a) bdk_mio_twsx_int_w1s_t
 #define bustype_BDK_MIO_TWSX_INT_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_TWSX_INT_W1S(a) "MIO_TWSX_INT_W1S"
+#define device_bar_BDK_MIO_TWSX_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_TWSX_INT_W1S(a) (a)
 #define arguments_BDK_MIO_TWSX_INT_W1S(a) (a),-1,-1,-1
 
@@ -304,6 +308,7 @@ static inline uint64_t BDK_MIO_TWSX_MODE(unsigned long a)
 #define typedef_BDK_MIO_TWSX_MODE(a) bdk_mio_twsx_mode_t
 #define bustype_BDK_MIO_TWSX_MODE(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_TWSX_MODE(a) "MIO_TWSX_MODE"
+#define device_bar_BDK_MIO_TWSX_MODE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_TWSX_MODE(a) (a)
 #define arguments_BDK_MIO_TWSX_MODE(a) (a),-1,-1,-1
 
@@ -341,6 +346,7 @@ static inline uint64_t BDK_MIO_TWSX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_MIO_TWSX_MSIX_PBAX(a,b) bdk_mio_twsx_msix_pbax_t
 #define bustype_BDK_MIO_TWSX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_TWSX_MSIX_PBAX(a,b) "MIO_TWSX_MSIX_PBAX"
+#define device_bar_BDK_MIO_TWSX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MIO_TWSX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_MIO_TWSX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -397,6 +403,7 @@ static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
 #define typedef_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) bdk_mio_twsx_msix_vecx_addr_t
 #define bustype_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) "MIO_TWSX_MSIX_VECX_ADDR"
+#define device_bar_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -437,13 +444,14 @@ static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_CTL(unsigned long a, unsigned long
 #define typedef_BDK_MIO_TWSX_MSIX_VECX_CTL(a,b) bdk_mio_twsx_msix_vecx_ctl_t
 #define bustype_BDK_MIO_TWSX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_TWSX_MSIX_VECX_CTL(a,b) "MIO_TWSX_MSIX_VECX_CTL"
+#define device_bar_BDK_MIO_TWSX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MIO_TWSX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_MIO_TWSX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) mio_tws#_sw_twsi
  *
- * Software to TWSI Register
+ * TWSI Software to TWSI Register
  * This register allows software to:
  * * Initiate master-mode operations with a write operation, and read the result with a
  * read operation.
@@ -611,13 +619,14 @@ static inline uint64_t BDK_MIO_TWSX_SW_TWSI(unsigned long a)
 #define typedef_BDK_MIO_TWSX_SW_TWSI(a) bdk_mio_twsx_sw_twsi_t
 #define bustype_BDK_MIO_TWSX_SW_TWSI(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_TWSX_SW_TWSI(a) "MIO_TWSX_SW_TWSI"
+#define device_bar_BDK_MIO_TWSX_SW_TWSI(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_TWSX_SW_TWSI(a) (a)
 #define arguments_BDK_MIO_TWSX_SW_TWSI(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mio_tws#_sw_twsi_ext
  *
- * Software to TWSI Extension Register
+ * TWSI Software to TWSI Extension Register
  * This register contains an additional byte of internal address and four additional bytes of
  * data to be used with TWSI master-mode operations.
  *
@@ -661,6 +670,7 @@ static inline uint64_t BDK_MIO_TWSX_SW_TWSI_EXT(unsigned long a)
 #define typedef_BDK_MIO_TWSX_SW_TWSI_EXT(a) bdk_mio_twsx_sw_twsi_ext_t
 #define bustype_BDK_MIO_TWSX_SW_TWSI_EXT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_TWSX_SW_TWSI_EXT(a) "MIO_TWSX_SW_TWSI_EXT"
+#define device_bar_BDK_MIO_TWSX_SW_TWSI_EXT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_TWSX_SW_TWSI_EXT(a) (a)
 #define arguments_BDK_MIO_TWSX_SW_TWSI_EXT(a) (a),-1,-1,-1
 
@@ -706,6 +716,7 @@ static inline uint64_t BDK_MIO_TWSX_TWSI_SW(unsigned long a)
 #define typedef_BDK_MIO_TWSX_TWSI_SW(a) bdk_mio_twsx_twsi_sw_t
 #define bustype_BDK_MIO_TWSX_TWSI_SW(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_TWSX_TWSI_SW(a) "MIO_TWSX_TWSI_SW"
+#define device_bar_BDK_MIO_TWSX_TWSI_SW(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_TWSX_TWSI_SW(a) (a)
 #define arguments_BDK_MIO_TWSX_TWSI_SW(a) (a),-1,-1,-1
 

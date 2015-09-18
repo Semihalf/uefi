@@ -116,6 +116,7 @@ static inline uint64_t BDK_LBKX_BIST_RESULT(unsigned long a)
 #define typedef_BDK_LBKX_BIST_RESULT(a) bdk_lbkx_bist_result_t
 #define bustype_BDK_LBKX_BIST_RESULT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_BIST_RESULT(a) "LBKX_BIST_RESULT"
+#define device_bar_BDK_LBKX_BIST_RESULT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LBKX_BIST_RESULT(a) (a)
 #define arguments_BDK_LBKX_BIST_RESULT(a) (a),-1,-1,-1
 
@@ -153,6 +154,7 @@ static inline uint64_t BDK_LBKX_CHX_PKIND(unsigned long a, unsigned long b)
 #define typedef_BDK_LBKX_CHX_PKIND(a,b) bdk_lbkx_chx_pkind_t
 #define bustype_BDK_LBKX_CHX_PKIND(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_CHX_PKIND(a,b) "LBKX_CHX_PKIND"
+#define device_bar_BDK_LBKX_CHX_PKIND(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LBKX_CHX_PKIND(a,b) (a)
 #define arguments_BDK_LBKX_CHX_PKIND(a,b) (a),(b),-1,-1
 
@@ -191,6 +193,7 @@ static inline uint64_t BDK_LBKX_CLK_GATE_CTL(unsigned long a)
 #define typedef_BDK_LBKX_CLK_GATE_CTL(a) bdk_lbkx_clk_gate_ctl_t
 #define bustype_BDK_LBKX_CLK_GATE_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_CLK_GATE_CTL(a) "LBKX_CLK_GATE_CTL"
+#define device_bar_BDK_LBKX_CLK_GATE_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LBKX_CLK_GATE_CTL(a) (a)
 #define arguments_BDK_LBKX_CLK_GATE_CTL(a) (a),-1,-1,-1
 
@@ -279,6 +282,7 @@ static inline uint64_t BDK_LBKX_CONST(unsigned long a)
 #define typedef_BDK_LBKX_CONST(a) bdk_lbkx_const_t
 #define bustype_BDK_LBKX_CONST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_CONST(a) "LBKX_CONST"
+#define device_bar_BDK_LBKX_CONST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LBKX_CONST(a) (a)
 #define arguments_BDK_LBKX_CONST(a) (a),-1,-1,-1
 
@@ -315,6 +319,7 @@ static inline uint64_t BDK_LBKX_CONST1(unsigned long a)
 #define typedef_BDK_LBKX_CONST1(a) bdk_lbkx_const1_t
 #define bustype_BDK_LBKX_CONST1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_CONST1(a) "LBKX_CONST1"
+#define device_bar_BDK_LBKX_CONST1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LBKX_CONST1(a) (a)
 #define arguments_BDK_LBKX_CONST1(a) (a),-1,-1,-1
 
@@ -356,6 +361,7 @@ static inline uint64_t BDK_LBKX_ECC_CFG(unsigned long a)
 #define typedef_BDK_LBKX_ECC_CFG(a) bdk_lbkx_ecc_cfg_t
 #define bustype_BDK_LBKX_ECC_CFG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_ECC_CFG(a) "LBKX_ECC_CFG"
+#define device_bar_BDK_LBKX_ECC_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LBKX_ECC_CFG(a) (a)
 #define arguments_BDK_LBKX_ECC_CFG(a) (a),-1,-1,-1
 
@@ -403,6 +409,7 @@ static inline uint64_t BDK_LBKX_ERR_INT(unsigned long a)
 #define typedef_BDK_LBKX_ERR_INT(a) bdk_lbkx_err_int_t
 #define bustype_BDK_LBKX_ERR_INT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_ERR_INT(a) "LBKX_ERR_INT"
+#define device_bar_BDK_LBKX_ERR_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LBKX_ERR_INT(a) (a)
 #define arguments_BDK_LBKX_ERR_INT(a) (a),-1,-1,-1
 
@@ -451,6 +458,7 @@ static inline uint64_t BDK_LBKX_ERR_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_LBKX_ERR_INT_ENA_W1C(a) bdk_lbkx_err_int_ena_w1c_t
 #define bustype_BDK_LBKX_ERR_INT_ENA_W1C(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_ERR_INT_ENA_W1C(a) "LBKX_ERR_INT_ENA_W1C"
+#define device_bar_BDK_LBKX_ERR_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LBKX_ERR_INT_ENA_W1C(a) (a)
 #define arguments_BDK_LBKX_ERR_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -499,6 +507,7 @@ static inline uint64_t BDK_LBKX_ERR_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_LBKX_ERR_INT_ENA_W1S(a) bdk_lbkx_err_int_ena_w1s_t
 #define bustype_BDK_LBKX_ERR_INT_ENA_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_ERR_INT_ENA_W1S(a) "LBKX_ERR_INT_ENA_W1S"
+#define device_bar_BDK_LBKX_ERR_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LBKX_ERR_INT_ENA_W1S(a) (a)
 #define arguments_BDK_LBKX_ERR_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -547,6 +556,7 @@ static inline uint64_t BDK_LBKX_ERR_INT_W1S(unsigned long a)
 #define typedef_BDK_LBKX_ERR_INT_W1S(a) bdk_lbkx_err_int_w1s_t
 #define bustype_BDK_LBKX_ERR_INT_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_ERR_INT_W1S(a) "LBKX_ERR_INT_W1S"
+#define device_bar_BDK_LBKX_ERR_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LBKX_ERR_INT_W1S(a) (a)
 #define arguments_BDK_LBKX_ERR_INT_W1S(a) (a),-1,-1,-1
 
@@ -585,6 +595,7 @@ static inline uint64_t BDK_LBKX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_LBKX_MSIX_PBAX(a,b) bdk_lbkx_msix_pbax_t
 #define bustype_BDK_LBKX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_MSIX_PBAX(a,b) "LBKX_MSIX_PBAX"
+#define device_bar_BDK_LBKX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_LBKX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_LBKX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -643,6 +654,7 @@ static inline uint64_t BDK_LBKX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 #define typedef_BDK_LBKX_MSIX_VECX_ADDR(a,b) bdk_lbkx_msix_vecx_addr_t
 #define bustype_BDK_LBKX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_MSIX_VECX_ADDR(a,b) "LBKX_MSIX_VECX_ADDR"
+#define device_bar_BDK_LBKX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_LBKX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_LBKX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -685,6 +697,7 @@ static inline uint64_t BDK_LBKX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_LBKX_MSIX_VECX_CTL(a,b) bdk_lbkx_msix_vecx_ctl_t
 #define bustype_BDK_LBKX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_MSIX_VECX_CTL(a,b) "LBKX_MSIX_VECX_CTL"
+#define device_bar_BDK_LBKX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_LBKX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_LBKX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -722,6 +735,7 @@ static inline uint64_t BDK_LBKX_SFT_RST(unsigned long a)
 #define typedef_BDK_LBKX_SFT_RST(a) bdk_lbkx_sft_rst_t
 #define bustype_BDK_LBKX_SFT_RST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LBKX_SFT_RST(a) "LBKX_SFT_RST"
+#define device_bar_BDK_LBKX_SFT_RST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LBKX_SFT_RST(a) (a)
 #define arguments_BDK_LBKX_SFT_RST(a) (a),-1,-1,-1
 

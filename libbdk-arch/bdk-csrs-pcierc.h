@@ -55,7 +55,7 @@
 /**
  * Register (PCICONFIGRC) pcierc#_cfg000
  *
- * Device ID and Vendor ID Register
+ * PCIe RC Device ID and Vendor ID Register
  * This register contains the first 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -91,7 +91,7 @@ static inline uint64_t BDK_PCIERCX_CFG000(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg001
  *
- * Command/Status Register
+ * PCIe RC Command/Status Register
  * This register contains the second 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -171,7 +171,7 @@ static inline uint64_t BDK_PCIERCX_CFG001(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg002
  *
- * Class Code/Revision ID Register
+ * PCIe RC Class Code/Revision ID Register
  * This register contains the third 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -227,7 +227,7 @@ static inline uint64_t BDK_PCIERCX_CFG002(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg003
  *
- * BIST, Header Type, Master Latency Timer, Cache Line Size Register
+ * PCIe RC BIST, Header Type, Master Latency Timer, Cache Line Size Register
  * This register contains the fourth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -275,7 +275,7 @@ static inline uint64_t BDK_PCIERCX_CFG003(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg004
  *
- * Base Address 0 Low Register
+ * PCIe RC Base Address 0 Low Register
  * This register contains the fifth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -309,7 +309,7 @@ static inline uint64_t BDK_PCIERCX_CFG004(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg005
  *
- * Base Address 0 High Register
+ * PCIe RC Base Address 0 High Register
  * This register contains the sixth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -343,7 +343,7 @@ static inline uint64_t BDK_PCIERCX_CFG005(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg006
  *
- * Bus Number Register
+ * PCIe RC Bus Number Register
  * This register contains the seventh 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -391,7 +391,7 @@ static inline uint64_t BDK_PCIERCX_CFG006(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg007
  *
- * I/O Base and I/O Limit/Secondary Status Register
+ * PCIe RC I/O Base and I/O Limit/Secondary Status Register
  * This register contains the eighth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -465,7 +465,7 @@ static inline uint64_t BDK_PCIERCX_CFG007(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg008
  *
- * Memory Base and Memory Limit Register
+ * PCIe RC Memory Base and Memory Limit Register
  * This register contains the ninth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -505,7 +505,7 @@ static inline uint64_t BDK_PCIERCX_CFG008(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg009
  *
- * Prefetchable Memory and Limit Register
+ * PCIe RC Prefetchable Memory and Limit Register
  * This register contains the tenth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -563,7 +563,7 @@ static inline uint64_t BDK_PCIERCX_CFG009(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg010
  *
- * Prefetchable Base Upper 32 Bits Register
+ * PCIe RC Prefetchable Base Upper 32 Bits Register
  * This register contains the eleventh 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -599,7 +599,7 @@ static inline uint64_t BDK_PCIERCX_CFG010(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg011
  *
- * Prefetchable Limit Upper 32 Bits Register
+ * PCIe RC Prefetchable Limit Upper 32 Bits Register
  * This register contains the twelfth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -635,7 +635,7 @@ static inline uint64_t BDK_PCIERCX_CFG011(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg012
  *
- * I/O Base and Limit Upper 16 Bits Register
+ * PCIe RC I/O Base and Limit Upper 16 Bits Register
  * This register contains the thirteenth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -671,7 +671,7 @@ static inline uint64_t BDK_PCIERCX_CFG012(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg013
  *
- * Capability Pointer Register
+ * PCIe RC Capability Pointer Register
  * This register contains the fourteenth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -709,7 +709,7 @@ static inline uint64_t BDK_PCIERCX_CFG013(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg014
  *
- * Expansion ROM Base Address Register
+ * PCIe RC Expansion ROM Base Address Register
  * This register contains the fifteenth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -743,7 +743,7 @@ static inline uint64_t BDK_PCIERCX_CFG014(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg015
  *
- * Interrupt Line Register/Interrupt Pin/Bridge Control Register
+ * PCIe RC Interrupt Line Register/Interrupt Pin/Bridge Control Register
  * This register contains the sixteenth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -905,7 +905,7 @@ static inline uint64_t BDK_PCIERCX_CFG016(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg017
  *
- * Power Management Control and Status Register
+ * PCIe RC Power Management Control and Status Register
  * This register contains the eighteenth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -975,7 +975,7 @@ static inline uint64_t BDK_PCIERCX_CFG017(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg020
  *
- * MSI Capability ID/MSI Next Item Pointer/MSI Control Register
+ * PCIe RC MSI Capability ID/MSI Next Item Pointer/MSI Control Register
  * This register contains the twenty-first 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1037,7 +1037,7 @@ static inline uint64_t BDK_PCIERCX_CFG020(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg021
  *
- * MSI Lower 32 Bits Address Register
+ * PCIe RC MSI Lower 32 Bits Address Register
  * This register contains the twenty-second 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1073,7 +1073,7 @@ static inline uint64_t BDK_PCIERCX_CFG021(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg022
  *
- * MSI Upper 32 Bits Address Register
+ * PCIe RC MSI Upper 32 Bits Address Register
  * This register contains the twenty-third 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1107,7 +1107,7 @@ static inline uint64_t BDK_PCIERCX_CFG022(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg023
  *
- * MSI Data Register
+ * PCIe RC MSI Data Register
  * This register contains the twenty-fourth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1145,7 +1145,7 @@ static inline uint64_t BDK_PCIERCX_CFG023(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg028
  *
- * PCIe Capabilities/PCIe Capabilities List Register
+ * PCIe RC PCIe Capabilities/PCIe Capabilities List Register
  * This register contains the twenty-ninth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1197,7 +1197,7 @@ static inline uint64_t BDK_PCIERCX_CFG028(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg029
  *
- * Device Capabilities Register
+ * PCIe RC Device Capabilities Register
  * This register contains the thirtieth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1310,7 +1310,7 @@ static inline uint64_t BDK_PCIERCX_CFG029(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg030
  *
- * Device Control/Device Status Register
+ * PCIe RC Device Control/Device Status Register
  * This register contains the thirty-first 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1424,7 +1424,7 @@ static inline uint64_t BDK_PCIERCX_CFG030(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg031
  *
- * Link Capabilities Register
+ * PCIe RC Link Capabilities Register
  * This register contains the thirty-second 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1532,7 +1532,7 @@ static inline uint64_t BDK_PCIERCX_CFG031(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg032
  *
- * Link Control/Link Status Register
+ * PCIe RC Link Control/Link Status Register
  * This register contains the thirty-third 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1652,7 +1652,7 @@ static inline uint64_t BDK_PCIERCX_CFG032(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg033
  *
- * Slot Capabilities Register
+ * PCIe RC Slot Capabilities Register
  * This register contains the thirty-fourth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1780,7 +1780,7 @@ static inline uint64_t BDK_PCIERCX_CFG033(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg034
  *
- * Slot Control/Slot Status Register
+ * PCIe RC Slot Control/Slot Status Register
  * This register contains the thirty-fifth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1856,7 +1856,7 @@ static inline uint64_t BDK_PCIERCX_CFG034(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg035
  *
- * Root Control/Root Capabilities Register
+ * PCIe RC Root Control/Root Capabilities Register
  * This register contains the thirty-sixth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1904,7 +1904,7 @@ static inline uint64_t BDK_PCIERCX_CFG035(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg036
  *
- * Root Status Register
+ * PCIe RC Root Status Register
  * This register contains the thirty-seventh 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -1944,7 +1944,7 @@ static inline uint64_t BDK_PCIERCX_CFG036(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg037
  *
- * Device Capabilities 2 Register
+ * PCIe RC Device Capabilities 2 Register
  * This register contains the thirty-eighth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -2119,7 +2119,7 @@ static inline uint64_t BDK_PCIERCX_CFG037(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg038
  *
- * Device Control 2 Register/Device Status 2 Register
+ * PCIe RC Device Control 2 Register/Device Status 2 Register
  * This register contains the thirty-ninth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -2197,7 +2197,7 @@ static inline uint64_t BDK_PCIERCX_CFG038(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg039
  *
- * Link Capabilities 2 Register
+ * PCIe RC Link Capabilities 2 Register
  * This register contains the fortieth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -2275,7 +2275,7 @@ static inline uint64_t BDK_PCIERCX_CFG039(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg040
  *
- * Link Control 2 Register/Link Status 2 Register
+ * PCIe RC Link Control 2 Register/Link Status 2 Register
  * This register contains the forty-first 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -2443,7 +2443,7 @@ static inline uint64_t BDK_PCIERCX_CFG040(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg041
  *
- * Slot Capabilities 2 Register
+ * PCIe RC Slot Capabilities 2 Register
  * This register contains the forty-second 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -2477,7 +2477,7 @@ static inline uint64_t BDK_PCIERCX_CFG041(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg042
  *
- * Slot Control 2 Register/Slot Status 2 Register
+ * PCIe RC Slot Control 2 Register/Slot Status 2 Register
  * This register contains the forty-third 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -2511,7 +2511,7 @@ static inline uint64_t BDK_PCIERCX_CFG042(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg044
  *
- * PCI Express MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
+ * PCIe RC PCI Express MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
  * This register contains the forty-fifth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -2563,7 +2563,7 @@ static inline uint64_t BDK_PCIERCX_CFG044(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg045
  *
- * PCI Express MSI-X Table Offset and BIR Register
+ * PCIe RC PCI Express MSI-X Table Offset and BIR Register
  * This register contains the forty-sixth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -2607,7 +2607,7 @@ static inline uint64_t BDK_PCIERCX_CFG045(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg046
  *
- * PCI Express MSI-X PBA Offset and BIR Register
+ * PCIe RC PCI Express MSI-X PBA Offset and BIR Register
  * This register contains the forty-seventh 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -2651,7 +2651,7 @@ static inline uint64_t BDK_PCIERCX_CFG046(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg064
  *
- * PCI Express Extended Capability Header Register
+ * PCIe RC PCI Express Extended Capability Header Register
  * This register contains the sixty-fifth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -2695,7 +2695,7 @@ static inline uint64_t BDK_PCIERCX_CFG064(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg065
  *
- * Uncorrectable Error Status Register
+ * PCIe RC Uncorrectable Error Status Register
  * This register contains the sixty-sixth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -2810,7 +2810,7 @@ static inline uint64_t BDK_PCIERCX_CFG065(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg066
  *
- * Uncorrectable Error Mask Register
+ * PCIe RC Uncorrectable Error Mask Register
  * This register contains the sixty-seventh 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -3018,7 +3018,7 @@ static inline uint64_t BDK_PCIERCX_CFG066(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg067
  *
- * Uncorrectable Error Severity Register
+ * PCIe RC Uncorrectable Error Severity Register
  * This register contains the sixty-eighth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -3210,7 +3210,7 @@ static inline uint64_t BDK_PCIERCX_CFG067(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg068
  *
- * Correctable Error Status Register
+ * PCIe RC Correctable Error Status Register
  * This register contains the sixty-ninth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -3262,7 +3262,7 @@ static inline uint64_t BDK_PCIERCX_CFG068(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg069
  *
- * Correctable Error Mask Register
+ * PCIe RC Correctable Error Mask Register
  * This register contains the seventieth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -3314,7 +3314,7 @@ static inline uint64_t BDK_PCIERCX_CFG069(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg070
  *
- * Advanced Capabilities and Control Register
+ * PCIe RC Advanced Capabilities and Control Register
  * This register contains the seventy-first 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -3362,7 +3362,7 @@ static inline uint64_t BDK_PCIERCX_CFG070(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg071
  *
- * Header Log Register 1
+ * PCIe RC Header Log Register 1
  * This register contains the seventy-second 32-bits of PCIe type 1 configuration space.  The
  * header log registers collect the header for the TLP corresponding to a detected error.
  */
@@ -3397,7 +3397,7 @@ static inline uint64_t BDK_PCIERCX_CFG071(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg072
  *
- * Header Log Register 2
+ * PCIe RC Header Log Register 2
  * This register contains the seventy-third 32-bits of PCIe type 1 configuration space.  The
  * header log registers collect the header for the TLP corresponding to a detected error.
  */
@@ -3432,7 +3432,7 @@ static inline uint64_t BDK_PCIERCX_CFG072(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg073
  *
- * Header Log Register 3
+ * PCIe RC Header Log Register 3
  * This register contains the seventy-fourth 32-bits of PCIe type 1 configuration space.  The
  * header log registers collect the header for the TLP corresponding to a detected error.
  */
@@ -3467,7 +3467,7 @@ static inline uint64_t BDK_PCIERCX_CFG073(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg074
  *
- * Header Log Register 4
+ * PCIe RC Header Log Register 4
  * This register contains the seventy-fifth 32-bits of PCIe type 1 configuration space.  The
  * header log registers collect the header for the TLP corresponding to a detected error.
  */
@@ -3502,7 +3502,7 @@ static inline uint64_t BDK_PCIERCX_CFG074(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg075
  *
- * Root Error Command Register
+ * PCIe RC Root Error Command Register
  * This register contains the seventy-sixth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -3542,7 +3542,7 @@ static inline uint64_t BDK_PCIERCX_CFG075(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg076
  *
- * Root Error Status Register
+ * PCIe RC Root Error Status Register
  * This register contains the seventy-seventh 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -3594,7 +3594,7 @@ static inline uint64_t BDK_PCIERCX_CFG076(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg077
  *
- * Error Source Identification Register
+ * PCIe RC Error Source Identification Register
  * This register contains the seventy-eighth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -3630,7 +3630,7 @@ static inline uint64_t BDK_PCIERCX_CFG077(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg086
  *
- * PCI Express Secondary Capability (Gen3) Header Register
+ * PCIe RC PCI Express Secondary Capability (Gen3) Header Register
  * This register contains the eighty-ninth 32-bits of type 0 PCIe configuration space.
  */
 typedef union
@@ -3674,7 +3674,7 @@ static inline uint64_t BDK_PCIERCX_CFG086(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg087
  *
- * Link Control 3 Register
+ * PCIe RC Link Control 3 Register
  * This register contains the eighty-eighth 32-bits of type 0 PCIe configuration space.
  */
 typedef union
@@ -3712,7 +3712,7 @@ static inline uint64_t BDK_PCIERCX_CFG087(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg088
  *
- * Link Control 4 Register
+ * PCIe RC Link Control 4 Register
  * This register contains the eighty-ninth 32-bits of type 0 PCIe configuration space.
  */
 typedef union
@@ -3748,7 +3748,7 @@ static inline uint64_t BDK_PCIERCX_CFG088(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg089
  *
- * Equalization Control Lane 0/1 Register
+ * PCIe RC Equalization Control Lane 0/1 Register
  * This register contains the ninetieth 32-bits of type 0 PCIe configuration space.
  */
 typedef union
@@ -3820,7 +3820,7 @@ static inline uint64_t BDK_PCIERCX_CFG089(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg090
  *
- * Equalization Control Lane 2/3 Register
+ * PCIe RC Equalization Control Lane 2/3 Register
  * This register contains the ninety-first 32-bits of type 0 PCIe configuration space.
  */
 typedef union
@@ -3892,7 +3892,7 @@ static inline uint64_t BDK_PCIERCX_CFG090(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg091
  *
- * Equalization Control Lane 4/5 Register
+ * PCIe RC Equalization Control Lane 4/5 Register
  * This register contains the ninety-second 32-bits of type 0 PCIe configuration space.
  */
 typedef union
@@ -3964,7 +3964,7 @@ static inline uint64_t BDK_PCIERCX_CFG091(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg092
  *
- * Equalization Control Lane 6/7 Register
+ * PCIe RC Equalization Control Lane 6/7 Register
  * This register contains the ninety-third 32-bits of type 0 PCIe configuration space.
  */
 typedef union
@@ -4036,7 +4036,7 @@ static inline uint64_t BDK_PCIERCX_CFG092(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg448
  *
- * Ack Latency Timer/Replay Timer Register
+ * PCIe RC Ack Latency Timer/Replay Timer Register
  * This register contains the four hundred forty-ninth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4086,7 +4086,7 @@ static inline uint64_t BDK_PCIERCX_CFG448(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg449
  *
- * Other Message Register
+ * PCIe RC Other Message Register
  * This register contains the four hundred fiftieth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4134,7 +4134,7 @@ static inline uint64_t BDK_PCIERCX_CFG449(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg450
  *
- * Port Force Link Register
+ * PCIe RC Port Force Link Register
  * This register contains the four hundred fifty-first 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4262,7 +4262,7 @@ static inline uint64_t BDK_PCIERCX_CFG450(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg451
  *
- * Ack Frequency Register
+ * PCIe RC Ack Frequency Register
  * This register contains the four hundred fifty-second 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4358,7 +4358,7 @@ static inline uint64_t BDK_PCIERCX_CFG451(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg452
  *
- * Port Link Control Register
+ * PCIe RC Port Link Control Register
  * This register contains the four hundred fifty-third 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4535,7 +4535,7 @@ static inline uint64_t BDK_PCIERCX_CFG452(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg453
  *
- * Lane Skew Register
+ * PCIe RC Lane Skew Register
  * This register contains the four hundred fifty-fourth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4583,7 +4583,7 @@ static inline uint64_t BDK_PCIERCX_CFG453(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg454
  *
- * Symbol Number Register
+ * PCIe RC Symbol Number Register
  * This register contains the four hundred fifty-fifth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4635,7 +4635,7 @@ static inline uint64_t BDK_PCIERCX_CFG454(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg455
  *
- * Symbol Timer/Filter Mask Register 1
+ * PCIe RC Symbol Timer/Filter Mask Register 1
  * This register contains the four hundred fifty-sixth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4705,7 +4705,7 @@ static inline uint64_t BDK_PCIERCX_CFG455(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg456
  *
- * Filter Mask Register 2
+ * PCIe RC Filter Mask Register 2
  * This register contains the four hundred fifty-seventh 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4747,7 +4747,7 @@ static inline uint64_t BDK_PCIERCX_CFG456(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg458
  *
- * Debug Register 0
+ * PCIe RC Debug Register 0
  * This register contains the four hundred fifty-ninth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4781,7 +4781,7 @@ static inline uint64_t BDK_PCIERCX_CFG458(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg459
  *
- * Debug Register 1
+ * PCIe RC Debug Register 1
  * This register contains the four hundred sixtieth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4815,7 +4815,7 @@ static inline uint64_t BDK_PCIERCX_CFG459(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg460
  *
- * Transmit Posted FC Credit Status Register
+ * PCIe RC Transmit Posted FC Credit Status Register
  * This register contains the four hundred sixty-first 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4857,7 +4857,7 @@ static inline uint64_t BDK_PCIERCX_CFG460(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg461
  *
- * Transmit Nonposted FC Credit Status Register
+ * PCIe RC Transmit Nonposted FC Credit Status Register
  * This register contains the four hundred sixty-second 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4899,7 +4899,7 @@ static inline uint64_t BDK_PCIERCX_CFG461(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg462
  *
- * Transmit Completion FC Credit Status Register
+ * PCIe RC Transmit Completion FC Credit Status Register
  * This register contains the four hundred sixty-third 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4941,7 +4941,7 @@ static inline uint64_t BDK_PCIERCX_CFG462(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg463
  *
- * Queue Status Register
+ * PCIe RC Queue Status Register
  * This register contains the four hundred sixty-fourth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -4999,7 +4999,7 @@ static inline uint64_t BDK_PCIERCX_CFG463(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg464
  *
- * VC Transmit Arbitration Register 1
+ * PCIe RC VC Transmit Arbitration Register 1
  * This register contains the four hundred sixty-fifth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -5039,7 +5039,7 @@ static inline uint64_t BDK_PCIERCX_CFG464(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg465
  *
- * VC Transmit Arbitration Register 2
+ * PCIe RC VC Transmit Arbitration Register 2
  * This register contains the four hundred sixty-sixth 32-bits of configuration space.
  */
 typedef union
@@ -5079,7 +5079,7 @@ static inline uint64_t BDK_PCIERCX_CFG465(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg466
  *
- * VC0 Posted Receive Queue Control Register
+ * PCIe RC VC0 Posted Receive Queue Control Register
  * This register contains the four hundred sixty-seventh 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -5173,7 +5173,7 @@ static inline uint64_t BDK_PCIERCX_CFG466(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg467
  *
- * VC0 Nonposted Receive Queue Control Register
+ * PCIe RC VC0 Nonposted Receive Queue Control Register
  * This register contains the four hundred sixty-eighth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -5243,7 +5243,7 @@ static inline uint64_t BDK_PCIERCX_CFG467(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg468
  *
- * VC0 Completion Receive Queue Control Register
+ * PCIe RC VC0 Completion Receive Queue Control Register
  * This register contains the four hundred sixty-ninth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -5315,7 +5315,7 @@ static inline uint64_t BDK_PCIERCX_CFG468(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg515
  *
- * Gen2 Port Logic Register
+ * PCIe RC Gen2 Port Logic Register
  * This register contains the five hundred sixteenth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -5422,7 +5422,7 @@ static inline uint64_t BDK_PCIERCX_CFG515(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg516
  *
- * PHY Status Register
+ * PCIe RC PHY Status Register
  * This register contains the five hundred seventeenth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -5456,7 +5456,7 @@ static inline uint64_t BDK_PCIERCX_CFG516(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg517
  *
- * PHY Control Register
+ * PCIe RC PHY Control Register
  * This register contains the five hundred eighteenth 32-bits of PCIe type 1 configuration space.
  */
 typedef union
@@ -5490,7 +5490,7 @@ static inline uint64_t BDK_PCIERCX_CFG517(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg548
  *
- * Gen3 Control Register
+ * PCIe RC Gen3 Control Register
  * This register contains the five hundred forty-ninth 32-bits of type 0 PCIe configuration space.
  */
 typedef union
@@ -5585,7 +5585,7 @@ static inline uint64_t BDK_PCIERCX_CFG548(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg554
  *
- * Gen3 EQ Control Register
+ * PCIe RC Gen3 EQ Control Register
  * This register contains the five hundred fifty-fifth 32-bits of type 0 PCIe configuration space.
  */
 typedef union
@@ -6121,7 +6121,7 @@ static inline uint64_t BDK_PCIERCX_CFG554(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg558
  *
- * Gen3 PIPE Loopback Register
+ * PCIe RC Gen3 PIPE Loopback Register
  * This register contains the five hundred fifty-ninth 32-bits of type 0 PCIe configuration space.
  */
 typedef union

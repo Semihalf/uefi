@@ -203,6 +203,7 @@ static inline uint64_t BDK_NCSI_BMC2CPU_MSG_FUNC(void)
 #define typedef_BDK_NCSI_BMC2CPU_MSG bdk_ncsi_bmc2cpu_msg_t
 #define bustype_BDK_NCSI_BMC2CPU_MSG BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_BMC2CPU_MSG "NCSI_BMC2CPU_MSG"
+#define device_bar_BDK_NCSI_BMC2CPU_MSG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_BMC2CPU_MSG 0
 #define arguments_BDK_NCSI_BMC2CPU_MSG -1,-1,-1,-1
 
@@ -319,6 +320,7 @@ static inline uint64_t BDK_NCSI_CONFIG_FUNC(void)
 #define typedef_BDK_NCSI_CONFIG bdk_ncsi_config_t
 #define bustype_BDK_NCSI_CONFIG BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_CONFIG "NCSI_CONFIG"
+#define device_bar_BDK_NCSI_CONFIG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_CONFIG 0
 #define arguments_BDK_NCSI_CONFIG -1,-1,-1,-1
 
@@ -359,6 +361,7 @@ static inline uint64_t BDK_NCSI_CPU2BMC_MSG_FUNC(void)
 #define typedef_BDK_NCSI_CPU2BMC_MSG bdk_ncsi_cpu2bmc_msg_t
 #define bustype_BDK_NCSI_CPU2BMC_MSG BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_CPU2BMC_MSG "NCSI_CPU2BMC_MSG"
+#define device_bar_BDK_NCSI_CPU2BMC_MSG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_CPU2BMC_MSG 0
 #define arguments_BDK_NCSI_CPU2BMC_MSG -1,-1,-1,-1
 
@@ -531,6 +534,7 @@ static inline uint64_t BDK_NCSI_INT_FUNC(void)
 #define typedef_BDK_NCSI_INT bdk_ncsi_int_t
 #define bustype_BDK_NCSI_INT BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_INT "NCSI_INT"
+#define device_bar_BDK_NCSI_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_INT 0
 #define arguments_BDK_NCSI_INT -1,-1,-1,-1
 
@@ -641,6 +645,7 @@ static inline uint64_t BDK_NCSI_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_NCSI_INT_ENA_W1C bdk_ncsi_int_ena_w1c_t
 #define bustype_BDK_NCSI_INT_ENA_W1C BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_INT_ENA_W1C "NCSI_INT_ENA_W1C"
+#define device_bar_BDK_NCSI_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_INT_ENA_W1C 0
 #define arguments_BDK_NCSI_INT_ENA_W1C -1,-1,-1,-1
 
@@ -751,6 +756,7 @@ static inline uint64_t BDK_NCSI_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_NCSI_INT_ENA_W1S bdk_ncsi_int_ena_w1s_t
 #define bustype_BDK_NCSI_INT_ENA_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_INT_ENA_W1S "NCSI_INT_ENA_W1S"
+#define device_bar_BDK_NCSI_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_INT_ENA_W1S 0
 #define arguments_BDK_NCSI_INT_ENA_W1S -1,-1,-1,-1
 
@@ -861,6 +867,7 @@ static inline uint64_t BDK_NCSI_INT_W1S_FUNC(void)
 #define typedef_BDK_NCSI_INT_W1S bdk_ncsi_int_w1s_t
 #define bustype_BDK_NCSI_INT_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_INT_W1S "NCSI_INT_W1S"
+#define device_bar_BDK_NCSI_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_INT_W1S 0
 #define arguments_BDK_NCSI_INT_W1S -1,-1,-1,-1
 
@@ -909,6 +916,7 @@ static inline uint64_t BDK_NCSI_MEM_CTRL_FUNC(void)
 #define typedef_BDK_NCSI_MEM_CTRL bdk_ncsi_mem_ctrl_t
 #define bustype_BDK_NCSI_MEM_CTRL BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_MEM_CTRL "NCSI_MEM_CTRL"
+#define device_bar_BDK_NCSI_MEM_CTRL 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_MEM_CTRL 0
 #define arguments_BDK_NCSI_MEM_CTRL -1,-1,-1,-1
 
@@ -947,6 +955,7 @@ static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_NCSI_MSIX_PBAX(a) bdk_ncsi_msix_pbax_t
 #define bustype_BDK_NCSI_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_MSIX_PBAX(a) "NCSI_MSIX_PBAX"
+#define device_bar_BDK_NCSI_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_NCSI_MSIX_PBAX(a) (a)
 #define arguments_BDK_NCSI_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -1003,6 +1012,7 @@ static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_NCSI_MSIX_VECX_ADDR(a) bdk_ncsi_msix_vecx_addr_t
 #define bustype_BDK_NCSI_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_MSIX_VECX_ADDR(a) "NCSI_MSIX_VECX_ADDR"
+#define device_bar_BDK_NCSI_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_NCSI_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_NCSI_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -1045,6 +1055,7 @@ static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_NCSI_MSIX_VECX_CTL(a) bdk_ncsi_msix_vecx_ctl_t
 #define bustype_BDK_NCSI_MSIX_VECX_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_MSIX_VECX_CTL(a) "NCSI_MSIX_VECX_CTL"
+#define device_bar_BDK_NCSI_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_NCSI_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_NCSI_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -1096,6 +1107,7 @@ static inline uint64_t BDK_NCSI_RX_FRM_CTL_FUNC(void)
 #define typedef_BDK_NCSI_RX_FRM_CTL bdk_ncsi_rx_frm_ctl_t
 #define bustype_BDK_NCSI_RX_FRM_CTL BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_RX_FRM_CTL "NCSI_RX_FRM_CTL"
+#define device_bar_BDK_NCSI_RX_FRM_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_RX_FRM_CTL 0
 #define arguments_BDK_NCSI_RX_FRM_CTL -1,-1,-1,-1
 
@@ -1145,6 +1157,7 @@ static inline uint64_t BDK_NCSI_RX_IFG_FUNC(void)
 #define typedef_BDK_NCSI_RX_IFG bdk_ncsi_rx_ifg_t
 #define bustype_BDK_NCSI_RX_IFG BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_RX_IFG "NCSI_RX_IFG"
+#define device_bar_BDK_NCSI_RX_IFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_RX_IFG 0
 #define arguments_BDK_NCSI_RX_IFG -1,-1,-1,-1
 
@@ -1192,6 +1205,7 @@ static inline uint64_t BDK_NCSI_RX_MFG_FUNC(void)
 #define typedef_BDK_NCSI_RX_MFG bdk_ncsi_rx_mfg_t
 #define bustype_BDK_NCSI_RX_MFG BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_RX_MFG "NCSI_RX_MFG"
+#define device_bar_BDK_NCSI_RX_MFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_RX_MFG 0
 #define arguments_BDK_NCSI_RX_MFG -1,-1,-1,-1
 
@@ -1236,6 +1250,7 @@ static inline uint64_t BDK_NCSI_RX_MIN_PKT_FUNC(void)
 #define typedef_BDK_NCSI_RX_MIN_PKT bdk_ncsi_rx_min_pkt_t
 #define bustype_BDK_NCSI_RX_MIN_PKT BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_RX_MIN_PKT "NCSI_RX_MIN_PKT"
+#define device_bar_BDK_NCSI_RX_MIN_PKT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_RX_MIN_PKT 0
 #define arguments_BDK_NCSI_RX_MIN_PKT -1,-1,-1,-1
 
@@ -1282,6 +1297,7 @@ static inline uint64_t BDK_NCSI_RX_STAT0_FUNC(void)
 #define typedef_BDK_NCSI_RX_STAT0 bdk_ncsi_rx_stat0_t
 #define bustype_BDK_NCSI_RX_STAT0 BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_RX_STAT0 "NCSI_RX_STAT0"
+#define device_bar_BDK_NCSI_RX_STAT0 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_RX_STAT0 0
 #define arguments_BDK_NCSI_RX_STAT0 -1,-1,-1,-1
 
@@ -1330,6 +1346,7 @@ static inline uint64_t BDK_NCSI_RX_STAT1_FUNC(void)
 #define typedef_BDK_NCSI_RX_STAT1 bdk_ncsi_rx_stat1_t
 #define bustype_BDK_NCSI_RX_STAT1 BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_RX_STAT1 "NCSI_RX_STAT1"
+#define device_bar_BDK_NCSI_RX_STAT1 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_RX_STAT1 0
 #define arguments_BDK_NCSI_RX_STAT1 -1,-1,-1,-1
 
@@ -1372,6 +1389,7 @@ static inline uint64_t BDK_NCSI_RX_THRESH_FUNC(void)
 #define typedef_BDK_NCSI_RX_THRESH bdk_ncsi_rx_thresh_t
 #define bustype_BDK_NCSI_RX_THRESH BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_RX_THRESH "NCSI_RX_THRESH"
+#define device_bar_BDK_NCSI_RX_THRESH 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_RX_THRESH 0
 #define arguments_BDK_NCSI_RX_THRESH -1,-1,-1,-1
 
@@ -1422,6 +1440,7 @@ static inline uint64_t BDK_NCSI_SECURE_CONFIG_FUNC(void)
 #define typedef_BDK_NCSI_SECURE_CONFIG bdk_ncsi_secure_config_t
 #define bustype_BDK_NCSI_SECURE_CONFIG BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_SECURE_CONFIG "NCSI_SECURE_CONFIG"
+#define device_bar_BDK_NCSI_SECURE_CONFIG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_SECURE_CONFIG 0
 #define arguments_BDK_NCSI_SECURE_CONFIG -1,-1,-1,-1
 
@@ -1595,6 +1614,7 @@ static inline uint64_t BDK_NCSI_TX_FRM_CTL_FUNC(void)
 #define typedef_BDK_NCSI_TX_FRM_CTL bdk_ncsi_tx_frm_ctl_t
 #define bustype_BDK_NCSI_TX_FRM_CTL BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_TX_FRM_CTL "NCSI_TX_FRM_CTL"
+#define device_bar_BDK_NCSI_TX_FRM_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_TX_FRM_CTL 0
 #define arguments_BDK_NCSI_TX_FRM_CTL -1,-1,-1,-1
 
@@ -1640,6 +1660,7 @@ static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a)
 #define typedef_BDK_NCSI_TX_FRM_SMACX_CAM(a) bdk_ncsi_tx_frm_smacx_cam_t
 #define bustype_BDK_NCSI_TX_FRM_SMACX_CAM(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_TX_FRM_SMACX_CAM(a) "NCSI_TX_FRM_SMACX_CAM"
+#define device_bar_BDK_NCSI_TX_FRM_SMACX_CAM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_TX_FRM_SMACX_CAM(a) (a)
 #define arguments_BDK_NCSI_TX_FRM_SMACX_CAM(a) (a),-1,-1,-1
 
@@ -1688,6 +1709,7 @@ static inline uint64_t BDK_NCSI_TX_IFG_FUNC(void)
 #define typedef_BDK_NCSI_TX_IFG bdk_ncsi_tx_ifg_t
 #define bustype_BDK_NCSI_TX_IFG BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_TX_IFG "NCSI_TX_IFG"
+#define device_bar_BDK_NCSI_TX_IFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_TX_IFG 0
 #define arguments_BDK_NCSI_TX_IFG -1,-1,-1,-1
 
@@ -1732,6 +1754,7 @@ static inline uint64_t BDK_NCSI_TX_JABBER_FUNC(void)
 #define typedef_BDK_NCSI_TX_JABBER bdk_ncsi_tx_jabber_t
 #define bustype_BDK_NCSI_TX_JABBER BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_TX_JABBER "NCSI_TX_JABBER"
+#define device_bar_BDK_NCSI_TX_JABBER 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_TX_JABBER 0
 #define arguments_BDK_NCSI_TX_JABBER -1,-1,-1,-1
 
@@ -1771,6 +1794,7 @@ static inline uint64_t BDK_NCSI_TX_MIX_FUNC(void)
 #define typedef_BDK_NCSI_TX_MIX bdk_ncsi_tx_mix_t
 #define bustype_BDK_NCSI_TX_MIX BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_TX_MIX "NCSI_TX_MIX"
+#define device_bar_BDK_NCSI_TX_MIX 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_TX_MIX 0
 #define arguments_BDK_NCSI_TX_MIX -1,-1,-1,-1
 
@@ -1812,6 +1836,7 @@ static inline uint64_t BDK_NCSI_TX_NCP_CH_ST_FUNC(void)
 #define typedef_BDK_NCSI_TX_NCP_CH_ST bdk_ncsi_tx_ncp_ch_st_t
 #define bustype_BDK_NCSI_TX_NCP_CH_ST BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_TX_NCP_CH_ST "NCSI_TX_NCP_CH_ST"
+#define device_bar_BDK_NCSI_TX_NCP_CH_ST 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_TX_NCP_CH_ST 0
 #define arguments_BDK_NCSI_TX_NCP_CH_ST -1,-1,-1,-1
 
@@ -1892,6 +1917,7 @@ static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_HI(unsigned long a)
 #define typedef_BDK_NCSI_TX_NCP_PERMX_TABLE_HI(a) bdk_ncsi_tx_ncp_permx_table_hi_t
 #define bustype_BDK_NCSI_TX_NCP_PERMX_TABLE_HI(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_TX_NCP_PERMX_TABLE_HI(a) "NCSI_TX_NCP_PERMX_TABLE_HI"
+#define device_bar_BDK_NCSI_TX_NCP_PERMX_TABLE_HI(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_TX_NCP_PERMX_TABLE_HI(a) (a)
 #define arguments_BDK_NCSI_TX_NCP_PERMX_TABLE_HI(a) (a),-1,-1,-1
 
@@ -1930,6 +1956,7 @@ static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a)
 #define typedef_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) bdk_ncsi_tx_ncp_permx_table_low_t
 #define bustype_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) "NCSI_TX_NCP_PERMX_TABLE_LOW"
+#define device_bar_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) (a)
 #define arguments_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) (a),-1,-1,-1
 
@@ -1969,6 +1996,7 @@ static inline uint64_t BDK_NCSI_TX_NCP_PKG_ST_FUNC(void)
 #define typedef_BDK_NCSI_TX_NCP_PKG_ST bdk_ncsi_tx_ncp_pkg_st_t
 #define bustype_BDK_NCSI_TX_NCP_PKG_ST BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_TX_NCP_PKG_ST "NCSI_TX_NCP_PKG_ST"
+#define device_bar_BDK_NCSI_TX_NCP_PKG_ST 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_TX_NCP_PKG_ST 0
 #define arguments_BDK_NCSI_TX_NCP_PKG_ST -1,-1,-1,-1
 
@@ -2013,6 +2041,7 @@ static inline uint64_t BDK_NCSI_TX_STAT0_FUNC(void)
 #define typedef_BDK_NCSI_TX_STAT0 bdk_ncsi_tx_stat0_t
 #define bustype_BDK_NCSI_TX_STAT0 BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_TX_STAT0 "NCSI_TX_STAT0"
+#define device_bar_BDK_NCSI_TX_STAT0 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_TX_STAT0 0
 #define arguments_BDK_NCSI_TX_STAT0 -1,-1,-1,-1
 
@@ -2057,6 +2086,7 @@ static inline uint64_t BDK_NCSI_TX_STAT1_FUNC(void)
 #define typedef_BDK_NCSI_TX_STAT1 bdk_ncsi_tx_stat1_t
 #define bustype_BDK_NCSI_TX_STAT1 BDK_CSR_TYPE_RSL
 #define basename_BDK_NCSI_TX_STAT1 "NCSI_TX_STAT1"
+#define device_bar_BDK_NCSI_TX_STAT1 0x0 /* PF_BAR0 */
 #define busnum_BDK_NCSI_TX_STAT1 0
 #define arguments_BDK_NCSI_TX_STAT1 -1,-1,-1,-1
 

@@ -138,6 +138,7 @@
  * Register (RSL) lmc#_bank_conflict1
  *
  * LMC Bank Conflict1 Counter Register
+ * Added in pass 2.0.
  */
 typedef union
 {
@@ -174,6 +175,7 @@ static inline uint64_t BDK_LMCX_BANK_CONFLICT1(unsigned long a)
 #define typedef_BDK_LMCX_BANK_CONFLICT1(a) bdk_lmcx_bank_conflict1_t
 #define bustype_BDK_LMCX_BANK_CONFLICT1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_BANK_CONFLICT1(a) "LMCX_BANK_CONFLICT1"
+#define device_bar_BDK_LMCX_BANK_CONFLICT1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_BANK_CONFLICT1(a) (a)
 #define arguments_BDK_LMCX_BANK_CONFLICT1(a) (a),-1,-1,-1
 
@@ -181,6 +183,7 @@ static inline uint64_t BDK_LMCX_BANK_CONFLICT1(unsigned long a)
  * Register (RSL) lmc#_bank_conflict2
  *
  * LMC Bank Conflict2 Counter Register
+ * Added in pass 2.0.
  */
 typedef union
 {
@@ -217,6 +220,7 @@ static inline uint64_t BDK_LMCX_BANK_CONFLICT2(unsigned long a)
 #define typedef_BDK_LMCX_BANK_CONFLICT2(a) bdk_lmcx_bank_conflict2_t
 #define bustype_BDK_LMCX_BANK_CONFLICT2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_BANK_CONFLICT2(a) "LMCX_BANK_CONFLICT2"
+#define device_bar_BDK_LMCX_BANK_CONFLICT2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_BANK_CONFLICT2(a) (a)
 #define arguments_BDK_LMCX_BANK_CONFLICT2(a) (a),-1,-1,-1
 
@@ -269,6 +273,7 @@ static inline uint64_t BDK_LMCX_BIST_CTL(unsigned long a)
 #define typedef_BDK_LMCX_BIST_CTL(a) bdk_lmcx_bist_ctl_t
 #define bustype_BDK_LMCX_BIST_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_BIST_CTL(a) "LMCX_BIST_CTL"
+#define device_bar_BDK_LMCX_BIST_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_BIST_CTL(a) (a)
 #define arguments_BDK_LMCX_BIST_CTL(a) (a),-1,-1,-1
 
@@ -418,6 +423,7 @@ static inline uint64_t BDK_LMCX_CHAR_CTL(unsigned long a)
 #define typedef_BDK_LMCX_CHAR_CTL(a) bdk_lmcx_char_ctl_t
 #define bustype_BDK_LMCX_CHAR_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_CHAR_CTL(a) "LMCX_CHAR_CTL"
+#define device_bar_BDK_LMCX_CHAR_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_CHAR_CTL(a) (a)
 #define arguments_BDK_LMCX_CHAR_CTL(a) (a),-1,-1,-1
 
@@ -459,6 +465,7 @@ static inline uint64_t BDK_LMCX_CHAR_DQ_ERR_COUNT(unsigned long a)
 #define typedef_BDK_LMCX_CHAR_DQ_ERR_COUNT(a) bdk_lmcx_char_dq_err_count_t
 #define bustype_BDK_LMCX_CHAR_DQ_ERR_COUNT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_CHAR_DQ_ERR_COUNT(a) "LMCX_CHAR_DQ_ERR_COUNT"
+#define device_bar_BDK_LMCX_CHAR_DQ_ERR_COUNT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_CHAR_DQ_ERR_COUNT(a) (a)
 #define arguments_BDK_LMCX_CHAR_DQ_ERR_COUNT(a) (a),-1,-1,-1
 
@@ -499,6 +506,7 @@ static inline uint64_t BDK_LMCX_CHAR_MASK0(unsigned long a)
 #define typedef_BDK_LMCX_CHAR_MASK0(a) bdk_lmcx_char_mask0_t
 #define bustype_BDK_LMCX_CHAR_MASK0(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_CHAR_MASK0(a) "LMCX_CHAR_MASK0"
+#define device_bar_BDK_LMCX_CHAR_MASK0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_CHAR_MASK0(a) (a)
 #define arguments_BDK_LMCX_CHAR_MASK0(a) (a),-1,-1,-1
 
@@ -541,6 +549,7 @@ static inline uint64_t BDK_LMCX_CHAR_MASK1(unsigned long a)
 #define typedef_BDK_LMCX_CHAR_MASK1(a) bdk_lmcx_char_mask1_t
 #define bustype_BDK_LMCX_CHAR_MASK1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_CHAR_MASK1(a) "LMCX_CHAR_MASK1"
+#define device_bar_BDK_LMCX_CHAR_MASK1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_CHAR_MASK1(a) (a)
 #define arguments_BDK_LMCX_CHAR_MASK1(a) (a),-1,-1,-1
 
@@ -581,6 +590,7 @@ static inline uint64_t BDK_LMCX_CHAR_MASK2(unsigned long a)
 #define typedef_BDK_LMCX_CHAR_MASK2(a) bdk_lmcx_char_mask2_t
 #define bustype_BDK_LMCX_CHAR_MASK2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_CHAR_MASK2(a) "LMCX_CHAR_MASK2"
+#define device_bar_BDK_LMCX_CHAR_MASK2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_CHAR_MASK2(a) (a)
 #define arguments_BDK_LMCX_CHAR_MASK2(a) (a),-1,-1,-1
 
@@ -623,6 +633,7 @@ static inline uint64_t BDK_LMCX_CHAR_MASK3(unsigned long a)
 #define typedef_BDK_LMCX_CHAR_MASK3(a) bdk_lmcx_char_mask3_t
 #define bustype_BDK_LMCX_CHAR_MASK3(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_CHAR_MASK3(a) "LMCX_CHAR_MASK3"
+#define device_bar_BDK_LMCX_CHAR_MASK3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_CHAR_MASK3(a) (a)
 #define arguments_BDK_LMCX_CHAR_MASK3(a) (a),-1,-1,-1
 
@@ -712,6 +723,7 @@ static inline uint64_t BDK_LMCX_CHAR_MASK4(unsigned long a)
 #define typedef_BDK_LMCX_CHAR_MASK4(a) bdk_lmcx_char_mask4_t
 #define bustype_BDK_LMCX_CHAR_MASK4(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_CHAR_MASK4(a) "LMCX_CHAR_MASK4"
+#define device_bar_BDK_LMCX_CHAR_MASK4(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_CHAR_MASK4(a) (a)
 #define arguments_BDK_LMCX_CHAR_MASK4(a) (a),-1,-1,-1
 
@@ -961,6 +973,7 @@ static inline uint64_t BDK_LMCX_COMP_CTL2(unsigned long a)
 #define typedef_BDK_LMCX_COMP_CTL2(a) bdk_lmcx_comp_ctl2_t
 #define bustype_BDK_LMCX_COMP_CTL2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_COMP_CTL2(a) "LMCX_COMP_CTL2"
+#define device_bar_BDK_LMCX_COMP_CTL2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_COMP_CTL2(a) (a)
 #define arguments_BDK_LMCX_COMP_CTL2(a) (a),-1,-1,-1
 
@@ -1400,6 +1413,7 @@ static inline uint64_t BDK_LMCX_CONFIG(unsigned long a)
 #define typedef_BDK_LMCX_CONFIG(a) bdk_lmcx_config_t
 #define bustype_BDK_LMCX_CONFIG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_CONFIG(a) "LMCX_CONFIG"
+#define device_bar_BDK_LMCX_CONFIG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_CONFIG(a) (a)
 #define arguments_BDK_LMCX_CONFIG(a) (a),-1,-1,-1
 
@@ -1820,6 +1834,7 @@ static inline uint64_t BDK_LMCX_CONTROL(unsigned long a)
 #define typedef_BDK_LMCX_CONTROL(a) bdk_lmcx_control_t
 #define bustype_BDK_LMCX_CONTROL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_CONTROL(a) "LMCX_CONTROL"
+#define device_bar_BDK_LMCX_CONTROL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_CONTROL(a) (a)
 #define arguments_BDK_LMCX_CONTROL(a) (a),-1,-1,-1
 
@@ -2230,6 +2245,7 @@ static inline uint64_t BDK_LMCX_DBTRAIN_CTL(unsigned long a)
 #define typedef_BDK_LMCX_DBTRAIN_CTL(a) bdk_lmcx_dbtrain_ctl_t
 #define bustype_BDK_LMCX_DBTRAIN_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_DBTRAIN_CTL(a) "LMCX_DBTRAIN_CTL"
+#define device_bar_BDK_LMCX_DBTRAIN_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_DBTRAIN_CTL(a) (a)
 #define arguments_BDK_LMCX_DBTRAIN_CTL(a) (a),-1,-1,-1
 
@@ -2267,6 +2283,7 @@ static inline uint64_t BDK_LMCX_DCLK_CNT(unsigned long a)
 #define typedef_BDK_LMCX_DCLK_CNT(a) bdk_lmcx_dclk_cnt_t
 #define bustype_BDK_LMCX_DCLK_CNT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_DCLK_CNT(a) "LMCX_DCLK_CNT"
+#define device_bar_BDK_LMCX_DCLK_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_DCLK_CNT(a) (a)
 #define arguments_BDK_LMCX_DCLK_CNT(a) (a),-1,-1,-1
 
@@ -2366,6 +2383,7 @@ static inline uint64_t BDK_LMCX_DDR4_DIMM_CTL(unsigned long a)
 #define typedef_BDK_LMCX_DDR4_DIMM_CTL(a) bdk_lmcx_ddr4_dimm_ctl_t
 #define bustype_BDK_LMCX_DDR4_DIMM_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_DDR4_DIMM_CTL(a) "LMCX_DDR4_DIMM_CTL"
+#define device_bar_BDK_LMCX_DDR4_DIMM_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_DDR4_DIMM_CTL(a) (a)
 #define arguments_BDK_LMCX_DDR4_DIMM_CTL(a) (a),-1,-1,-1
 
@@ -2505,6 +2523,7 @@ static inline uint64_t BDK_LMCX_DDR_PLL_CTL(unsigned long a)
 #define typedef_BDK_LMCX_DDR_PLL_CTL(a) bdk_lmcx_ddr_pll_ctl_t
 #define bustype_BDK_LMCX_DDR_PLL_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_DDR_PLL_CTL(a) "LMCX_DDR_PLL_CTL"
+#define device_bar_BDK_LMCX_DDR_PLL_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_DDR_PLL_CTL(a) (a)
 #define arguments_BDK_LMCX_DDR_PLL_CTL(a) (a),-1,-1,-1
 
@@ -2558,6 +2577,7 @@ static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS0(unsigned long a, unsigned lon
 #define typedef_BDK_LMCX_DIMMX_DDR4_PARAMS0(a,b) bdk_lmcx_dimmx_ddr4_params0_t
 #define bustype_BDK_LMCX_DIMMX_DDR4_PARAMS0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_DIMMX_DDR4_PARAMS0(a,b) "LMCX_DIMMX_DDR4_PARAMS0"
+#define device_bar_BDK_LMCX_DIMMX_DDR4_PARAMS0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_DIMMX_DDR4_PARAMS0(a,b) (a)
 #define arguments_BDK_LMCX_DIMMX_DDR4_PARAMS0(a,b) (a),(b),-1,-1
 
@@ -2603,6 +2623,7 @@ static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS1(unsigned long a, unsigned lon
 #define typedef_BDK_LMCX_DIMMX_DDR4_PARAMS1(a,b) bdk_lmcx_dimmx_ddr4_params1_t
 #define bustype_BDK_LMCX_DIMMX_DDR4_PARAMS1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_DIMMX_DDR4_PARAMS1(a,b) "LMCX_DIMMX_DDR4_PARAMS1"
+#define device_bar_BDK_LMCX_DIMMX_DDR4_PARAMS1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_DIMMX_DDR4_PARAMS1(a,b) (a)
 #define arguments_BDK_LMCX_DIMMX_DDR4_PARAMS1(a,b) (a),(b),-1,-1
 
@@ -2677,6 +2698,7 @@ static inline uint64_t BDK_LMCX_DIMMX_PARAMS(unsigned long a, unsigned long b)
 #define typedef_BDK_LMCX_DIMMX_PARAMS(a,b) bdk_lmcx_dimmx_params_t
 #define bustype_BDK_LMCX_DIMMX_PARAMS(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_DIMMX_PARAMS(a,b) "LMCX_DIMMX_PARAMS"
+#define device_bar_BDK_LMCX_DIMMX_PARAMS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_DIMMX_PARAMS(a,b) (a)
 #define arguments_BDK_LMCX_DIMMX_PARAMS(a,b) (a),(b),-1,-1
 
@@ -2745,6 +2767,7 @@ static inline uint64_t BDK_LMCX_DIMM_CTL(unsigned long a)
 #define typedef_BDK_LMCX_DIMM_CTL(a) bdk_lmcx_dimm_ctl_t
 #define bustype_BDK_LMCX_DIMM_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_DIMM_CTL(a) "LMCX_DIMM_CTL"
+#define device_bar_BDK_LMCX_DIMM_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_DIMM_CTL(a) (a)
 #define arguments_BDK_LMCX_DIMM_CTL(a) (a),-1,-1,-1
 
@@ -2850,6 +2873,7 @@ static inline uint64_t BDK_LMCX_DLL_CTL2(unsigned long a)
 #define typedef_BDK_LMCX_DLL_CTL2(a) bdk_lmcx_dll_ctl2_t
 #define bustype_BDK_LMCX_DLL_CTL2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_DLL_CTL2(a) "LMCX_DLL_CTL2"
+#define device_bar_BDK_LMCX_DLL_CTL2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_DLL_CTL2(a) (a)
 #define arguments_BDK_LMCX_DLL_CTL2(a) (a),-1,-1,-1
 
@@ -3168,6 +3192,7 @@ static inline uint64_t BDK_LMCX_DLL_CTL3(unsigned long a)
 #define typedef_BDK_LMCX_DLL_CTL3(a) bdk_lmcx_dll_ctl3_t
 #define bustype_BDK_LMCX_DLL_CTL3(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_DLL_CTL3(a) "LMCX_DLL_CTL3"
+#define device_bar_BDK_LMCX_DLL_CTL3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_DLL_CTL3(a) (a)
 #define arguments_BDK_LMCX_DLL_CTL3(a) (a),-1,-1,-1
 
@@ -3235,6 +3260,7 @@ static inline uint64_t BDK_LMCX_DUAL_MEMCFG(unsigned long a)
 #define typedef_BDK_LMCX_DUAL_MEMCFG(a) bdk_lmcx_dual_memcfg_t
 #define bustype_BDK_LMCX_DUAL_MEMCFG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_DUAL_MEMCFG(a) "LMCX_DUAL_MEMCFG"
+#define device_bar_BDK_LMCX_DUAL_MEMCFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_DUAL_MEMCFG(a) (a)
 #define arguments_BDK_LMCX_DUAL_MEMCFG(a) (a),-1,-1,-1
 
@@ -3291,6 +3317,7 @@ static inline uint64_t BDK_LMCX_ECC_PARITY_TEST(unsigned long a)
 #define typedef_BDK_LMCX_ECC_PARITY_TEST(a) bdk_lmcx_ecc_parity_test_t
 #define bustype_BDK_LMCX_ECC_PARITY_TEST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_ECC_PARITY_TEST(a) "LMCX_ECC_PARITY_TEST"
+#define device_bar_BDK_LMCX_ECC_PARITY_TEST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_ECC_PARITY_TEST(a) (a)
 #define arguments_BDK_LMCX_ECC_PARITY_TEST(a) (a),-1,-1,-1
 
@@ -3344,6 +3371,7 @@ static inline uint64_t BDK_LMCX_ECC_SYND(unsigned long a)
 #define typedef_BDK_LMCX_ECC_SYND(a) bdk_lmcx_ecc_synd_t
 #define bustype_BDK_LMCX_ECC_SYND(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_ECC_SYND(a) "LMCX_ECC_SYND"
+#define device_bar_BDK_LMCX_ECC_SYND(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_ECC_SYND(a) (a)
 #define arguments_BDK_LMCX_ECC_SYND(a) (a),-1,-1,-1
 
@@ -3624,6 +3652,7 @@ static inline uint64_t BDK_LMCX_EXT_CONFIG(unsigned long a)
 #define typedef_BDK_LMCX_EXT_CONFIG(a) bdk_lmcx_ext_config_t
 #define bustype_BDK_LMCX_EXT_CONFIG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_EXT_CONFIG(a) "LMCX_EXT_CONFIG"
+#define device_bar_BDK_LMCX_EXT_CONFIG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_EXT_CONFIG(a) (a)
 #define arguments_BDK_LMCX_EXT_CONFIG(a) (a),-1,-1,-1
 
@@ -3999,6 +4028,7 @@ static inline uint64_t BDK_LMCX_EXT_CONFIG2(unsigned long a)
 #define typedef_BDK_LMCX_EXT_CONFIG2(a) bdk_lmcx_ext_config2_t
 #define bustype_BDK_LMCX_EXT_CONFIG2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_EXT_CONFIG2(a) "LMCX_EXT_CONFIG2"
+#define device_bar_BDK_LMCX_EXT_CONFIG2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_EXT_CONFIG2(a) (a)
 #define arguments_BDK_LMCX_EXT_CONFIG2(a) (a),-1,-1,-1
 
@@ -4078,6 +4108,7 @@ static inline uint64_t BDK_LMCX_FADR(unsigned long a)
 #define typedef_BDK_LMCX_FADR(a) bdk_lmcx_fadr_t
 #define bustype_BDK_LMCX_FADR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_FADR(a) "LMCX_FADR"
+#define device_bar_BDK_LMCX_FADR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_FADR(a) (a)
 #define arguments_BDK_LMCX_FADR(a) (a),-1,-1,-1
 
@@ -4115,6 +4146,7 @@ static inline uint64_t BDK_LMCX_GENERAL_PURPOSE0(unsigned long a)
 #define typedef_BDK_LMCX_GENERAL_PURPOSE0(a) bdk_lmcx_general_purpose0_t
 #define bustype_BDK_LMCX_GENERAL_PURPOSE0(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_GENERAL_PURPOSE0(a) "LMCX_GENERAL_PURPOSE0"
+#define device_bar_BDK_LMCX_GENERAL_PURPOSE0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_GENERAL_PURPOSE0(a) (a)
 #define arguments_BDK_LMCX_GENERAL_PURPOSE0(a) (a),-1,-1,-1
 
@@ -4152,6 +4184,7 @@ static inline uint64_t BDK_LMCX_GENERAL_PURPOSE1(unsigned long a)
 #define typedef_BDK_LMCX_GENERAL_PURPOSE1(a) bdk_lmcx_general_purpose1_t
 #define bustype_BDK_LMCX_GENERAL_PURPOSE1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_GENERAL_PURPOSE1(a) "LMCX_GENERAL_PURPOSE1"
+#define device_bar_BDK_LMCX_GENERAL_PURPOSE1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_GENERAL_PURPOSE1(a) (a)
 #define arguments_BDK_LMCX_GENERAL_PURPOSE1(a) (a),-1,-1,-1
 
@@ -4191,6 +4224,7 @@ static inline uint64_t BDK_LMCX_GENERAL_PURPOSE2(unsigned long a)
 #define typedef_BDK_LMCX_GENERAL_PURPOSE2(a) bdk_lmcx_general_purpose2_t
 #define bustype_BDK_LMCX_GENERAL_PURPOSE2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_GENERAL_PURPOSE2(a) "LMCX_GENERAL_PURPOSE2"
+#define device_bar_BDK_LMCX_GENERAL_PURPOSE2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_GENERAL_PURPOSE2(a) (a)
 #define arguments_BDK_LMCX_GENERAL_PURPOSE2(a) (a),-1,-1,-1
 
@@ -4230,6 +4264,7 @@ static inline uint64_t BDK_LMCX_IFB_CNT(unsigned long a)
 #define typedef_BDK_LMCX_IFB_CNT(a) bdk_lmcx_ifb_cnt_t
 #define bustype_BDK_LMCX_IFB_CNT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_IFB_CNT(a) "LMCX_IFB_CNT"
+#define device_bar_BDK_LMCX_IFB_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_IFB_CNT(a) (a)
 #define arguments_BDK_LMCX_IFB_CNT(a) (a),-1,-1,-1
 
@@ -4332,14 +4367,16 @@ static inline uint64_t BDK_LMCX_INT(unsigned long a)
 #define typedef_BDK_LMCX_INT(a) bdk_lmcx_int_t
 #define bustype_BDK_LMCX_INT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_INT(a) "LMCX_INT"
+#define device_bar_BDK_LMCX_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_INT(a) (a)
 #define arguments_BDK_LMCX_INT(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) lmc#_int_en
  *
- * LMC Interrupt Enable Register
- * Unused CSR in O75.
+ * INTERNAL: LMC Legacy Interrupt Enable Register
+ *
+ * INTERNAL: Deprecated and unused CSR.
  */
 typedef union
 {
@@ -4388,6 +4425,7 @@ static inline uint64_t BDK_LMCX_INT_EN(unsigned long a)
 #define typedef_BDK_LMCX_INT_EN(a) bdk_lmcx_int_en_t
 #define bustype_BDK_LMCX_INT_EN(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_INT_EN(a) "LMCX_INT_EN"
+#define device_bar_BDK_LMCX_INT_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_INT_EN(a) (a)
 #define arguments_BDK_LMCX_INT_EN(a) (a),-1,-1,-1
 
@@ -4467,6 +4505,7 @@ static inline uint64_t BDK_LMCX_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_LMCX_INT_ENA_W1C(a) bdk_lmcx_int_ena_w1c_t
 #define bustype_BDK_LMCX_INT_ENA_W1C(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_INT_ENA_W1C(a) "LMCX_INT_ENA_W1C"
+#define device_bar_BDK_LMCX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_INT_ENA_W1C(a) (a)
 #define arguments_BDK_LMCX_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -4546,6 +4585,7 @@ static inline uint64_t BDK_LMCX_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_LMCX_INT_ENA_W1S(a) bdk_lmcx_int_ena_w1s_t
 #define bustype_BDK_LMCX_INT_ENA_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_INT_ENA_W1S(a) "LMCX_INT_ENA_W1S"
+#define device_bar_BDK_LMCX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_INT_ENA_W1S(a) (a)
 #define arguments_BDK_LMCX_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -4625,6 +4665,7 @@ static inline uint64_t BDK_LMCX_INT_W1S(unsigned long a)
 #define typedef_BDK_LMCX_INT_W1S(a) bdk_lmcx_int_w1s_t
 #define bustype_BDK_LMCX_INT_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_INT_W1S(a) "LMCX_INT_W1S"
+#define device_bar_BDK_LMCX_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_INT_W1S(a) (a)
 #define arguments_BDK_LMCX_INT_W1S(a) (a),-1,-1,-1
 
@@ -4697,6 +4738,7 @@ static inline uint64_t BDK_LMCX_LANEX_CRC_SWIZ(unsigned long a, unsigned long b)
 #define typedef_BDK_LMCX_LANEX_CRC_SWIZ(a,b) bdk_lmcx_lanex_crc_swiz_t
 #define bustype_BDK_LMCX_LANEX_CRC_SWIZ(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_LANEX_CRC_SWIZ(a,b) "LMCX_LANEX_CRC_SWIZ"
+#define device_bar_BDK_LMCX_LANEX_CRC_SWIZ(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_LANEX_CRC_SWIZ(a,b) (a)
 #define arguments_BDK_LMCX_LANEX_CRC_SWIZ(a,b) (a),(b),-1,-1
 
@@ -5926,6 +5968,7 @@ static inline uint64_t BDK_LMCX_MODEREG_PARAMS0(unsigned long a)
 #define typedef_BDK_LMCX_MODEREG_PARAMS0(a) bdk_lmcx_modereg_params0_t
 #define bustype_BDK_LMCX_MODEREG_PARAMS0(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_MODEREG_PARAMS0(a) "LMCX_MODEREG_PARAMS0"
+#define device_bar_BDK_LMCX_MODEREG_PARAMS0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_MODEREG_PARAMS0(a) (a)
 #define arguments_BDK_LMCX_MODEREG_PARAMS0(a) (a),-1,-1,-1
 
@@ -6867,6 +6910,7 @@ static inline uint64_t BDK_LMCX_MODEREG_PARAMS1(unsigned long a)
 #define typedef_BDK_LMCX_MODEREG_PARAMS1(a) bdk_lmcx_modereg_params1_t
 #define bustype_BDK_LMCX_MODEREG_PARAMS1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_MODEREG_PARAMS1(a) "LMCX_MODEREG_PARAMS1"
+#define device_bar_BDK_LMCX_MODEREG_PARAMS1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_MODEREG_PARAMS1(a) (a)
 #define arguments_BDK_LMCX_MODEREG_PARAMS1(a) (a),-1,-1,-1
 
@@ -6931,6 +6975,7 @@ static inline uint64_t BDK_LMCX_MODEREG_PARAMS2(unsigned long a)
 #define typedef_BDK_LMCX_MODEREG_PARAMS2(a) bdk_lmcx_modereg_params2_t
 #define bustype_BDK_LMCX_MODEREG_PARAMS2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_MODEREG_PARAMS2(a) "LMCX_MODEREG_PARAMS2"
+#define device_bar_BDK_LMCX_MODEREG_PARAMS2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_MODEREG_PARAMS2(a) (a)
 #define arguments_BDK_LMCX_MODEREG_PARAMS2(a) (a),-1,-1,-1
 
@@ -7041,6 +7086,7 @@ static inline uint64_t BDK_LMCX_MODEREG_PARAMS3(unsigned long a)
 #define typedef_BDK_LMCX_MODEREG_PARAMS3(a) bdk_lmcx_modereg_params3_t
 #define bustype_BDK_LMCX_MODEREG_PARAMS3(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_MODEREG_PARAMS3(a) "LMCX_MODEREG_PARAMS3"
+#define device_bar_BDK_LMCX_MODEREG_PARAMS3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_MODEREG_PARAMS3(a) (a)
 #define arguments_BDK_LMCX_MODEREG_PARAMS3(a) (a),-1,-1,-1
 
@@ -7097,6 +7143,7 @@ static inline uint64_t BDK_LMCX_MPR_DATA0(unsigned long a)
 #define typedef_BDK_LMCX_MPR_DATA0(a) bdk_lmcx_mpr_data0_t
 #define bustype_BDK_LMCX_MPR_DATA0(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_MPR_DATA0(a) "LMCX_MPR_DATA0"
+#define device_bar_BDK_LMCX_MPR_DATA0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_MPR_DATA0(a) (a)
 #define arguments_BDK_LMCX_MPR_DATA0(a) (a),-1,-1,-1
 
@@ -7155,6 +7202,7 @@ static inline uint64_t BDK_LMCX_MPR_DATA1(unsigned long a)
 #define typedef_BDK_LMCX_MPR_DATA1(a) bdk_lmcx_mpr_data1_t
 #define bustype_BDK_LMCX_MPR_DATA1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_MPR_DATA1(a) "LMCX_MPR_DATA1"
+#define device_bar_BDK_LMCX_MPR_DATA1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_MPR_DATA1(a) (a)
 #define arguments_BDK_LMCX_MPR_DATA1(a) (a),-1,-1,-1
 
@@ -7211,6 +7259,7 @@ static inline uint64_t BDK_LMCX_MPR_DATA2(unsigned long a)
 #define typedef_BDK_LMCX_MPR_DATA2(a) bdk_lmcx_mpr_data2_t
 #define bustype_BDK_LMCX_MPR_DATA2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_MPR_DATA2(a) "LMCX_MPR_DATA2"
+#define device_bar_BDK_LMCX_MPR_DATA2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_MPR_DATA2(a) (a)
 #define arguments_BDK_LMCX_MPR_DATA2(a) (a),-1,-1,-1
 
@@ -7335,6 +7384,7 @@ static inline uint64_t BDK_LMCX_MR_MPR_CTL(unsigned long a)
 #define typedef_BDK_LMCX_MR_MPR_CTL(a) bdk_lmcx_mr_mpr_ctl_t
 #define bustype_BDK_LMCX_MR_MPR_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_MR_MPR_CTL(a) "LMCX_MR_MPR_CTL"
+#define device_bar_BDK_LMCX_MR_MPR_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_MR_MPR_CTL(a) (a)
 #define arguments_BDK_LMCX_MR_MPR_CTL(a) (a),-1,-1,-1
 
@@ -7375,6 +7425,7 @@ static inline uint64_t BDK_LMCX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_LMCX_MSIX_PBAX(a,b) bdk_lmcx_msix_pbax_t
 #define bustype_BDK_LMCX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_MSIX_PBAX(a,b) "LMCX_MSIX_PBAX"
+#define device_bar_BDK_LMCX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_LMCX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_LMCX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -7427,6 +7478,7 @@ static inline uint64_t BDK_LMCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 #define typedef_BDK_LMCX_MSIX_VECX_ADDR(a,b) bdk_lmcx_msix_vecx_addr_t
 #define bustype_BDK_LMCX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_MSIX_VECX_ADDR(a,b) "LMCX_MSIX_VECX_ADDR"
+#define device_bar_BDK_LMCX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_LMCX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_LMCX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -7471,6 +7523,7 @@ static inline uint64_t BDK_LMCX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_LMCX_MSIX_VECX_CTL(a,b) bdk_lmcx_msix_vecx_ctl_t
 #define bustype_BDK_LMCX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_MSIX_VECX_CTL(a,b) "LMCX_MSIX_VECX_CTL"
+#define device_bar_BDK_LMCX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_LMCX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_LMCX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -7600,6 +7653,7 @@ static inline uint64_t BDK_LMCX_NS_CTL(unsigned long a)
 #define typedef_BDK_LMCX_NS_CTL(a) bdk_lmcx_ns_ctl_t
 #define bustype_BDK_LMCX_NS_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_NS_CTL(a) "LMCX_NS_CTL"
+#define device_bar_BDK_LMCX_NS_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_NS_CTL(a) (a)
 #define arguments_BDK_LMCX_NS_CTL(a) (a),-1,-1,-1
 
@@ -7702,6 +7756,7 @@ static inline uint64_t BDK_LMCX_NXM(unsigned long a)
 #define typedef_BDK_LMCX_NXM(a) bdk_lmcx_nxm_t
 #define bustype_BDK_LMCX_NXM(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_NXM(a) "LMCX_NXM"
+#define device_bar_BDK_LMCX_NXM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_NXM(a) (a)
 #define arguments_BDK_LMCX_NXM(a) (a),-1,-1,-1
 
@@ -7760,6 +7815,7 @@ static inline uint64_t BDK_LMCX_NXM_FADR(unsigned long a)
 #define typedef_BDK_LMCX_NXM_FADR(a) bdk_lmcx_nxm_fadr_t
 #define bustype_BDK_LMCX_NXM_FADR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_NXM_FADR(a) "LMCX_NXM_FADR"
+#define device_bar_BDK_LMCX_NXM_FADR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_NXM_FADR(a) (a)
 #define arguments_BDK_LMCX_NXM_FADR(a) (a),-1,-1,-1
 
@@ -7801,6 +7857,7 @@ static inline uint64_t BDK_LMCX_OPS_CNT(unsigned long a)
 #define typedef_BDK_LMCX_OPS_CNT(a) bdk_lmcx_ops_cnt_t
 #define bustype_BDK_LMCX_OPS_CNT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_OPS_CNT(a) "LMCX_OPS_CNT"
+#define device_bar_BDK_LMCX_OPS_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_OPS_CNT(a) (a)
 #define arguments_BDK_LMCX_OPS_CNT(a) (a),-1,-1,-1
 
@@ -8760,6 +8817,7 @@ static inline uint64_t BDK_LMCX_PHY_CTL(unsigned long a)
 #define typedef_BDK_LMCX_PHY_CTL(a) bdk_lmcx_phy_ctl_t
 #define bustype_BDK_LMCX_PHY_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_PHY_CTL(a) "LMCX_PHY_CTL"
+#define device_bar_BDK_LMCX_PHY_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_PHY_CTL(a) (a)
 #define arguments_BDK_LMCX_PHY_CTL(a) (a),-1,-1,-1
 
@@ -8767,6 +8825,7 @@ static inline uint64_t BDK_LMCX_PHY_CTL(unsigned long a)
  * Register (RSL) lmc#_phy_ctl2
  *
  * LMC PHY Control Register
+ * Added in pass 2.0.
  */
 typedef union
 {
@@ -8815,6 +8874,7 @@ static inline uint64_t BDK_LMCX_PHY_CTL2(unsigned long a)
 #define typedef_BDK_LMCX_PHY_CTL2(a) bdk_lmcx_phy_ctl2_t
 #define bustype_BDK_LMCX_PHY_CTL2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_PHY_CTL2(a) "LMCX_PHY_CTL2"
+#define device_bar_BDK_LMCX_PHY_CTL2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_PHY_CTL2(a) (a)
 #define arguments_BDK_LMCX_PHY_CTL2(a) (a),-1,-1,-1
 
@@ -8921,6 +8981,7 @@ static inline uint64_t BDK_LMCX_PPR_CTL(unsigned long a)
 #define typedef_BDK_LMCX_PPR_CTL(a) bdk_lmcx_ppr_ctl_t
 #define bustype_BDK_LMCX_PPR_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_PPR_CTL(a) "LMCX_PPR_CTL"
+#define device_bar_BDK_LMCX_PPR_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_PPR_CTL(a) (a)
 #define arguments_BDK_LMCX_PPR_CTL(a) (a),-1,-1,-1
 
@@ -8965,6 +9026,7 @@ static inline uint64_t BDK_LMCX_REF_STATUS(unsigned long a)
 #define typedef_BDK_LMCX_REF_STATUS(a) bdk_lmcx_ref_status_t
 #define bustype_BDK_LMCX_REF_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_REF_STATUS(a) "LMCX_REF_STATUS"
+#define device_bar_BDK_LMCX_REF_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_REF_STATUS(a) (a)
 #define arguments_BDK_LMCX_REF_STATUS(a) (a),-1,-1,-1
 
@@ -9118,6 +9180,7 @@ static inline uint64_t BDK_LMCX_RESET_CTL(unsigned long a)
 #define typedef_BDK_LMCX_RESET_CTL(a) bdk_lmcx_reset_ctl_t
 #define bustype_BDK_LMCX_RESET_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_RESET_CTL(a) "LMCX_RESET_CTL"
+#define device_bar_BDK_LMCX_RESET_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_RESET_CTL(a) (a)
 #define arguments_BDK_LMCX_RESET_CTL(a) (a),-1,-1,-1
 
@@ -9188,6 +9251,7 @@ static inline uint64_t BDK_LMCX_RETRY_CONFIG(unsigned long a)
 #define typedef_BDK_LMCX_RETRY_CONFIG(a) bdk_lmcx_retry_config_t
 #define bustype_BDK_LMCX_RETRY_CONFIG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_RETRY_CONFIG(a) "LMCX_RETRY_CONFIG"
+#define device_bar_BDK_LMCX_RETRY_CONFIG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_RETRY_CONFIG(a) (a)
 #define arguments_BDK_LMCX_RETRY_CONFIG(a) (a),-1,-1,-1
 
@@ -9268,6 +9332,7 @@ static inline uint64_t BDK_LMCX_RETRY_STATUS(unsigned long a)
 #define typedef_BDK_LMCX_RETRY_STATUS(a) bdk_lmcx_retry_status_t
 #define bustype_BDK_LMCX_RETRY_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_RETRY_STATUS(a) "LMCX_RETRY_STATUS"
+#define device_bar_BDK_LMCX_RETRY_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_RETRY_STATUS(a) (a)
 #define arguments_BDK_LMCX_RETRY_STATUS(a) (a),-1,-1,-1
 
@@ -9484,6 +9549,7 @@ static inline uint64_t BDK_LMCX_RLEVEL_CTL(unsigned long a)
 #define typedef_BDK_LMCX_RLEVEL_CTL(a) bdk_lmcx_rlevel_ctl_t
 #define bustype_BDK_LMCX_RLEVEL_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_RLEVEL_CTL(a) "LMCX_RLEVEL_CTL"
+#define device_bar_BDK_LMCX_RLEVEL_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_RLEVEL_CTL(a) (a)
 #define arguments_BDK_LMCX_RLEVEL_CTL(a) (a),-1,-1,-1
 
@@ -9530,6 +9596,7 @@ static inline uint64_t BDK_LMCX_RLEVEL_DBG(unsigned long a)
 #define typedef_BDK_LMCX_RLEVEL_DBG(a) bdk_lmcx_rlevel_dbg_t
 #define bustype_BDK_LMCX_RLEVEL_DBG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_RLEVEL_DBG(a) "LMCX_RLEVEL_DBG"
+#define device_bar_BDK_LMCX_RLEVEL_DBG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_RLEVEL_DBG(a) (a)
 #define arguments_BDK_LMCX_RLEVEL_DBG(a) (a),-1,-1,-1
 
@@ -9625,6 +9692,7 @@ static inline uint64_t BDK_LMCX_RLEVEL_RANKX(unsigned long a, unsigned long b)
 #define typedef_BDK_LMCX_RLEVEL_RANKX(a,b) bdk_lmcx_rlevel_rankx_t
 #define bustype_BDK_LMCX_RLEVEL_RANKX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_RLEVEL_RANKX(a,b) "LMCX_RLEVEL_RANKX"
+#define device_bar_BDK_LMCX_RLEVEL_RANKX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_RLEVEL_RANKX(a,b) (a)
 #define arguments_BDK_LMCX_RLEVEL_RANKX(a,b) (a),(b),-1,-1
 
@@ -9701,6 +9769,7 @@ static inline uint64_t BDK_LMCX_RODT_MASK(unsigned long a)
 #define typedef_BDK_LMCX_RODT_MASK(a) bdk_lmcx_rodt_mask_t
 #define bustype_BDK_LMCX_RODT_MASK(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_RODT_MASK(a) "LMCX_RODT_MASK"
+#define device_bar_BDK_LMCX_RODT_MASK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_RODT_MASK(a) (a)
 #define arguments_BDK_LMCX_RODT_MASK(a) (a),-1,-1,-1
 
@@ -9740,6 +9809,7 @@ static inline uint64_t BDK_LMCX_SCRAMBLE_CFG0(unsigned long a)
 #define typedef_BDK_LMCX_SCRAMBLE_CFG0(a) bdk_lmcx_scramble_cfg0_t
 #define bustype_BDK_LMCX_SCRAMBLE_CFG0(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_SCRAMBLE_CFG0(a) "LMCX_SCRAMBLE_CFG0"
+#define device_bar_BDK_LMCX_SCRAMBLE_CFG0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_SCRAMBLE_CFG0(a) (a)
 #define arguments_BDK_LMCX_SCRAMBLE_CFG0(a) (a),-1,-1,-1
 
@@ -9780,6 +9850,7 @@ static inline uint64_t BDK_LMCX_SCRAMBLE_CFG1(unsigned long a)
 #define typedef_BDK_LMCX_SCRAMBLE_CFG1(a) bdk_lmcx_scramble_cfg1_t
 #define bustype_BDK_LMCX_SCRAMBLE_CFG1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_SCRAMBLE_CFG1(a) "LMCX_SCRAMBLE_CFG1"
+#define device_bar_BDK_LMCX_SCRAMBLE_CFG1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_SCRAMBLE_CFG1(a) (a)
 #define arguments_BDK_LMCX_SCRAMBLE_CFG1(a) (a),-1,-1,-1
 
@@ -9817,6 +9888,7 @@ static inline uint64_t BDK_LMCX_SCRAMBLE_CFG2(unsigned long a)
 #define typedef_BDK_LMCX_SCRAMBLE_CFG2(a) bdk_lmcx_scramble_cfg2_t
 #define bustype_BDK_LMCX_SCRAMBLE_CFG2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_SCRAMBLE_CFG2(a) "LMCX_SCRAMBLE_CFG2"
+#define device_bar_BDK_LMCX_SCRAMBLE_CFG2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_SCRAMBLE_CFG2(a) (a)
 #define arguments_BDK_LMCX_SCRAMBLE_CFG2(a) (a),-1,-1,-1
 
@@ -9899,6 +9971,7 @@ static inline uint64_t BDK_LMCX_SCRAMBLED_FADR(unsigned long a)
 #define typedef_BDK_LMCX_SCRAMBLED_FADR(a) bdk_lmcx_scrambled_fadr_t
 #define bustype_BDK_LMCX_SCRAMBLED_FADR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_SCRAMBLED_FADR(a) "LMCX_SCRAMBLED_FADR"
+#define device_bar_BDK_LMCX_SCRAMBLED_FADR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_SCRAMBLED_FADR(a) (a)
 #define arguments_BDK_LMCX_SCRAMBLED_FADR(a) (a),-1,-1,-1
 
@@ -9963,6 +10036,7 @@ static inline uint64_t BDK_LMCX_SEQ_CTL(unsigned long a)
 #define typedef_BDK_LMCX_SEQ_CTL(a) bdk_lmcx_seq_ctl_t
 #define bustype_BDK_LMCX_SEQ_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_SEQ_CTL(a) "LMCX_SEQ_CTL"
+#define device_bar_BDK_LMCX_SEQ_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_SEQ_CTL(a) (a)
 #define arguments_BDK_LMCX_SEQ_CTL(a) (a),-1,-1,-1
 
@@ -9977,7 +10051,7 @@ static inline uint64_t BDK_LMCX_SEQ_CTL(unsigned long a)
  * change. Ideally, only read this register after LMC has been initialized and
  * LMC()_RLEVEL_RANK(), LMC()_WLEVEL_RANK() have valid data.
  *
- * The interpretation of the fields in this register depends on LMC(0)_CONFIG[DDR2T]:
+ * The interpretation of the fields in this register depends on LMC()_CONFIG[DDR2T]:
  *
  * * If LMC()_CONFIG[DDR2T]=1, (FieldValue + 4) is the minimum CK cycles between when
  * the DRAM part registers CAS commands of the first and second types from different cache
@@ -9986,7 +10060,7 @@ static inline uint64_t BDK_LMCX_SEQ_CTL(unsigned long a)
  * If LMC()_CONFIG[DDR2T]=0, (FieldValue + 3) is the minimum CK cycles between when the DRAM
  * part registers CAS commands of the first and second types from different cache blocks.
  * FieldValue = 0 is always illegal in this case.
- * The hardware-calculated minimums for these fields are shown in LMC(0)_SLOT_CTL0 Hardware-
+ * The hardware-calculated minimums for these fields are shown in LMC()_SLOT_CTL0 Hardware-
  * Calculated Minimums.
  */
 typedef union
@@ -10151,6 +10225,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL0(unsigned long a)
 #define typedef_BDK_LMCX_SLOT_CTL0(a) bdk_lmcx_slot_ctl0_t
 #define bustype_BDK_LMCX_SLOT_CTL0(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_SLOT_CTL0(a) "LMCX_SLOT_CTL0"
+#define device_bar_BDK_LMCX_SLOT_CTL0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_SLOT_CTL0(a) (a)
 #define arguments_BDK_LMCX_SLOT_CTL0(a) (a),-1,-1,-1
 
@@ -10165,7 +10240,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL0(unsigned long a)
  * Ideally, only read this register after LMC has been initialized and
  * LMC()_RLEVEL_RANK(), LMC()_WLEVEL_RANK() have valid data.
  *
- * The interpretation of the fields in this CSR depends on LMC(0)_CONFIG[DDR2T]:
+ * The interpretation of the fields in this CSR depends on LMC()_CONFIG[DDR2T]:
  *
  * * If LMC()_CONFIG[DDR2T]=1, (FieldValue + 4) is the minimum CK cycles between when the
  * DRAM part registers CAS commands of the first and second types from different cache blocks.
@@ -10174,7 +10249,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL0(unsigned long a)
  * part registers CAS commands of the first and second types from different cache blocks.
  * FieldValue = 0 is always illegal in this case.
  *
- * The hardware-calculated minimums for these fields are shown in LMC(0)_SLOT_CTL1 Hardware-
+ * The hardware-calculated minimums for these fields are shown in LMC()_SLOT_CTL1 Hardware-
  * Calculated Minimums.
  */
 typedef union
@@ -10222,6 +10297,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL1(unsigned long a)
 #define typedef_BDK_LMCX_SLOT_CTL1(a) bdk_lmcx_slot_ctl1_t
 #define bustype_BDK_LMCX_SLOT_CTL1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_SLOT_CTL1(a) "LMCX_SLOT_CTL1"
+#define device_bar_BDK_LMCX_SLOT_CTL1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_SLOT_CTL1(a) (a)
 #define arguments_BDK_LMCX_SLOT_CTL1(a) (a),-1,-1,-1
 
@@ -10236,7 +10312,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL1(unsigned long a)
  * Ideally, only read this register after LMC has been initialized and
  * LMC()_RLEVEL_RANK(), LMC()_WLEVEL_RANK() have valid data.
  *
- * The interpretation of the fields in this CSR depends on LMC(0)_CONFIG[DDR2T]:
+ * The interpretation of the fields in this CSR depends on LMC()_CONFIG[DDR2T]:
  *
  * * If LMC()_CONFIG[DDR2T] = 1, (FieldValue + 4) is the minimum CK cycles between when the
  * DRAM part registers CAS commands of the first and second types from different cache blocks.
@@ -10292,6 +10368,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL2(unsigned long a)
 #define typedef_BDK_LMCX_SLOT_CTL2(a) bdk_lmcx_slot_ctl2_t
 #define bustype_BDK_LMCX_SLOT_CTL2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_SLOT_CTL2(a) "LMCX_SLOT_CTL2"
+#define device_bar_BDK_LMCX_SLOT_CTL2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_SLOT_CTL2(a) (a)
 #define arguments_BDK_LMCX_SLOT_CTL2(a) (a),-1,-1,-1
 
@@ -10306,7 +10383,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL2(unsigned long a)
  * Ideally, only read this register after LMC has been initialized and
  * LMC()_RLEVEL_RANK(), LMC()_WLEVEL_RANK() have valid data.
  *
- * The interpretation of the fields in this CSR depends on LMC(0)_CONFIG[DDR2T]:
+ * The interpretation of the fields in this CSR depends on LMC()_CONFIG[DDR2T]:
  *
  * * If LMC()_CONFIG[DDR2T] = 1, (FieldValue + 4) is the minimum CK cycles between when the
  * DRAM part registers CAS commands of the first and second types from different cache blocks.
@@ -10479,6 +10556,7 @@ static inline uint64_t BDK_LMCX_SLOT_CTL3(unsigned long a)
 #define typedef_BDK_LMCX_SLOT_CTL3(a) bdk_lmcx_slot_ctl3_t
 #define bustype_BDK_LMCX_SLOT_CTL3(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_SLOT_CTL3(a) "LMCX_SLOT_CTL3"
+#define device_bar_BDK_LMCX_SLOT_CTL3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_SLOT_CTL3(a) (a)
 #define arguments_BDK_LMCX_SLOT_CTL3(a) (a),-1,-1,-1
 
@@ -11077,6 +11155,7 @@ static inline uint64_t BDK_LMCX_TIMING_PARAMS0(unsigned long a)
 #define typedef_BDK_LMCX_TIMING_PARAMS0(a) bdk_lmcx_timing_params0_t
 #define bustype_BDK_LMCX_TIMING_PARAMS0(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_TIMING_PARAMS0(a) "LMCX_TIMING_PARAMS0"
+#define device_bar_BDK_LMCX_TIMING_PARAMS0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_TIMING_PARAMS0(a) (a)
 #define arguments_BDK_LMCX_TIMING_PARAMS0(a) (a),-1,-1,-1
 
@@ -12097,6 +12176,7 @@ static inline uint64_t BDK_LMCX_TIMING_PARAMS1(unsigned long a)
 #define typedef_BDK_LMCX_TIMING_PARAMS1(a) bdk_lmcx_timing_params1_t
 #define bustype_BDK_LMCX_TIMING_PARAMS1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_TIMING_PARAMS1(a) "LMCX_TIMING_PARAMS1"
+#define device_bar_BDK_LMCX_TIMING_PARAMS1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_TIMING_PARAMS1(a) (a)
 #define arguments_BDK_LMCX_TIMING_PARAMS1(a) (a),-1,-1,-1
 
@@ -12217,6 +12297,7 @@ static inline uint64_t BDK_LMCX_TIMING_PARAMS2(unsigned long a)
 #define typedef_BDK_LMCX_TIMING_PARAMS2(a) bdk_lmcx_timing_params2_t
 #define bustype_BDK_LMCX_TIMING_PARAMS2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_TIMING_PARAMS2(a) "LMCX_TIMING_PARAMS2"
+#define device_bar_BDK_LMCX_TIMING_PARAMS2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_TIMING_PARAMS2(a) (a)
 #define arguments_BDK_LMCX_TIMING_PARAMS2(a) (a),-1,-1,-1
 
@@ -12316,6 +12397,7 @@ static inline uint64_t BDK_LMCX_WLEVEL_CTL(unsigned long a)
 #define typedef_BDK_LMCX_WLEVEL_CTL(a) bdk_lmcx_wlevel_ctl_t
 #define bustype_BDK_LMCX_WLEVEL_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_WLEVEL_CTL(a) "LMCX_WLEVEL_CTL"
+#define device_bar_BDK_LMCX_WLEVEL_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_WLEVEL_CTL(a) (a)
 #define arguments_BDK_LMCX_WLEVEL_CTL(a) (a),-1,-1,-1
 
@@ -12378,6 +12460,7 @@ static inline uint64_t BDK_LMCX_WLEVEL_DBG(unsigned long a)
 #define typedef_BDK_LMCX_WLEVEL_DBG(a) bdk_lmcx_wlevel_dbg_t
 #define bustype_BDK_LMCX_WLEVEL_DBG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_WLEVEL_DBG(a) "LMCX_WLEVEL_DBG"
+#define device_bar_BDK_LMCX_WLEVEL_DBG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_WLEVEL_DBG(a) (a)
 #define arguments_BDK_LMCX_WLEVEL_DBG(a) (a),-1,-1,-1
 
@@ -12483,6 +12566,7 @@ static inline uint64_t BDK_LMCX_WLEVEL_RANKX(unsigned long a, unsigned long b)
 #define typedef_BDK_LMCX_WLEVEL_RANKX(a,b) bdk_lmcx_wlevel_rankx_t
 #define bustype_BDK_LMCX_WLEVEL_RANKX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_WLEVEL_RANKX(a,b) "LMCX_WLEVEL_RANKX"
+#define device_bar_BDK_LMCX_WLEVEL_RANKX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_WLEVEL_RANKX(a,b) (a)
 #define arguments_BDK_LMCX_WLEVEL_RANKX(a,b) (a),(b),-1,-1
 
@@ -12552,6 +12636,7 @@ static inline uint64_t BDK_LMCX_WODT_MASK(unsigned long a)
 #define typedef_BDK_LMCX_WODT_MASK(a) bdk_lmcx_wodt_mask_t
 #define bustype_BDK_LMCX_WODT_MASK(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_LMCX_WODT_MASK(a) "LMCX_WODT_MASK"
+#define device_bar_BDK_LMCX_WODT_MASK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_LMCX_WODT_MASK(a) (a)
 #define arguments_BDK_LMCX_WODT_MASK(a) (a),-1,-1,-1
 

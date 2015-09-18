@@ -84,8 +84,8 @@
 /**
  * Enumeration gser_qlm_e
  *
- * GSER QLM Enumeration
- * Enumerates the GSER to QLM or DLM.
+ * GSER QLM/CCPI Enumeration
+ * Enumerates the GSER to QLM.
  */
 #define BDK_GSER_QLM_E_GSER0 (0) /**< GSER0 corresponds to QLM0. */
 #define BDK_GSER_QLM_E_GSER1 (1) /**< GSER1 corresponds to QLM1. */
@@ -148,6 +148,7 @@ static inline uint64_t BDK_GSERX_ANA_ATEST(unsigned long a)
 #define typedef_BDK_GSERX_ANA_ATEST(a) bdk_gserx_ana_atest_t
 #define bustype_BDK_GSERX_ANA_ATEST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_ANA_ATEST(a) "GSERX_ANA_ATEST"
+#define device_bar_BDK_GSERX_ANA_ATEST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_ANA_ATEST(a) (a)
 #define arguments_BDK_GSERX_ANA_ATEST(a) (a),-1,-1,-1
 
@@ -282,6 +283,7 @@ static inline uint64_t BDK_GSERX_ANA_SEL(unsigned long a)
 #define typedef_BDK_GSERX_ANA_SEL(a) bdk_gserx_ana_sel_t
 #define bustype_BDK_GSERX_ANA_SEL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_ANA_SEL(a) "GSERX_ANA_SEL"
+#define device_bar_BDK_GSERX_ANA_SEL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_ANA_SEL(a) (a)
 #define arguments_BDK_GSERX_ANA_SEL(a) (a),-1,-1,-1
 
@@ -480,6 +482,7 @@ static inline uint64_t BDK_GSERX_BR_RXX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_GSERX_BR_RXX_CTL(a,b) bdk_gserx_br_rxx_ctl_t
 #define bustype_BDK_GSERX_BR_RXX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_BR_RXX_CTL(a,b) "GSERX_BR_RXX_CTL"
+#define device_bar_BDK_GSERX_BR_RXX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_BR_RXX_CTL(a,b) (a)
 #define arguments_BDK_GSERX_BR_RXX_CTL(a,b) (a),(b),-1,-1
 
@@ -591,6 +594,7 @@ static inline uint64_t BDK_GSERX_BR_RXX_EER(unsigned long a, unsigned long b)
 #define typedef_BDK_GSERX_BR_RXX_EER(a,b) bdk_gserx_br_rxx_eer_t
 #define bustype_BDK_GSERX_BR_RXX_EER(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_BR_RXX_EER(a,b) "GSERX_BR_RXX_EER"
+#define device_bar_BDK_GSERX_BR_RXX_EER(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_BR_RXX_EER(a,b) (a)
 #define arguments_BDK_GSERX_BR_RXX_EER(a,b) (a),(b),-1,-1
 
@@ -628,6 +632,7 @@ static inline uint64_t BDK_GSERX_BR_TXX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_GSERX_BR_TXX_CTL(a,b) bdk_gserx_br_txx_ctl_t
 #define bustype_BDK_GSERX_BR_TXX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_BR_TXX_CTL(a,b) "GSERX_BR_TXX_CTL"
+#define device_bar_BDK_GSERX_BR_TXX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_BR_TXX_CTL(a,b) (a)
 #define arguments_BDK_GSERX_BR_TXX_CTL(a,b) (a),(b),-1,-1
 
@@ -675,6 +680,7 @@ static inline uint64_t BDK_GSERX_BR_TXX_CUR(unsigned long a, unsigned long b)
 #define typedef_BDK_GSERX_BR_TXX_CUR(a,b) bdk_gserx_br_txx_cur_t
 #define bustype_BDK_GSERX_BR_TXX_CUR(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_BR_TXX_CUR(a,b) "GSERX_BR_TXX_CUR"
+#define device_bar_BDK_GSERX_BR_TXX_CUR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_BR_TXX_CUR(a,b) (a)
 #define arguments_BDK_GSERX_BR_TXX_CUR(a,b) (a),(b),-1,-1
 
@@ -732,6 +738,7 @@ static inline uint64_t BDK_GSERX_BR_TXX_TAP(unsigned long a, unsigned long b)
 #define typedef_BDK_GSERX_BR_TXX_TAP(a,b) bdk_gserx_br_txx_tap_t
 #define bustype_BDK_GSERX_BR_TXX_TAP(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_BR_TXX_TAP(a,b) "GSERX_BR_TXX_TAP"
+#define device_bar_BDK_GSERX_BR_TXX_TAP(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_BR_TXX_TAP(a,b) (a)
 #define arguments_BDK_GSERX_BR_TXX_TAP(a,b) (a),(b),-1,-1
 
@@ -823,6 +830,7 @@ static inline uint64_t BDK_GSERX_CFG(unsigned long a)
 #define typedef_BDK_GSERX_CFG(a) bdk_gserx_cfg_t
 #define bustype_BDK_GSERX_CFG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_CFG(a) "GSERX_CFG"
+#define device_bar_BDK_GSERX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_CFG(a) (a)
 #define arguments_BDK_GSERX_CFG(a) (a),-1,-1,-1
 
@@ -860,6 +868,7 @@ static inline uint64_t BDK_GSERX_DBG(unsigned long a)
 #define typedef_BDK_GSERX_DBG(a) bdk_gserx_dbg_t
 #define bustype_BDK_GSERX_DBG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_DBG(a) "GSERX_DBG"
+#define device_bar_BDK_GSERX_DBG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_DBG(a) (a)
 #define arguments_BDK_GSERX_DBG(a) (a),-1,-1,-1
 
@@ -904,6 +913,7 @@ static inline uint64_t BDK_GSERX_EQ_WAIT_TIME(unsigned long a)
 #define typedef_BDK_GSERX_EQ_WAIT_TIME(a) bdk_gserx_eq_wait_time_t
 #define bustype_BDK_GSERX_EQ_WAIT_TIME(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_EQ_WAIT_TIME(a) "GSERX_EQ_WAIT_TIME"
+#define device_bar_BDK_GSERX_EQ_WAIT_TIME(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_EQ_WAIT_TIME(a) (a)
 #define arguments_BDK_GSERX_EQ_WAIT_TIME(a) (a),-1,-1,-1
 
@@ -996,6 +1006,7 @@ static inline uint64_t BDK_GSERX_GLBL_MISC_CONFIG_1(unsigned long a)
 #define typedef_BDK_GSERX_GLBL_MISC_CONFIG_1(a) bdk_gserx_glbl_misc_config_1_t
 #define bustype_BDK_GSERX_GLBL_MISC_CONFIG_1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_GLBL_MISC_CONFIG_1(a) "GSERX_GLBL_MISC_CONFIG_1"
+#define device_bar_BDK_GSERX_GLBL_MISC_CONFIG_1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_GLBL_MISC_CONFIG_1(a) (a)
 #define arguments_BDK_GSERX_GLBL_MISC_CONFIG_1(a) (a),-1,-1,-1
 
@@ -1052,6 +1063,7 @@ static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_0(unsigned long a)
 #define typedef_BDK_GSERX_GLBL_PLL_CFG_0(a) bdk_gserx_glbl_pll_cfg_0_t
 #define bustype_BDK_GSERX_GLBL_PLL_CFG_0(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_GLBL_PLL_CFG_0(a) "GSERX_GLBL_PLL_CFG_0"
+#define device_bar_BDK_GSERX_GLBL_PLL_CFG_0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_GLBL_PLL_CFG_0(a) (a)
 #define arguments_BDK_GSERX_GLBL_PLL_CFG_0(a) (a),-1,-1,-1
 
@@ -1116,6 +1128,7 @@ static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_1(unsigned long a)
 #define typedef_BDK_GSERX_GLBL_PLL_CFG_1(a) bdk_gserx_glbl_pll_cfg_1_t
 #define bustype_BDK_GSERX_GLBL_PLL_CFG_1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_GLBL_PLL_CFG_1(a) "GSERX_GLBL_PLL_CFG_1"
+#define device_bar_BDK_GSERX_GLBL_PLL_CFG_1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_GLBL_PLL_CFG_1(a) (a)
 #define arguments_BDK_GSERX_GLBL_PLL_CFG_1(a) (a),-1,-1,-1
 
@@ -1216,6 +1229,7 @@ static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_2(unsigned long a)
 #define typedef_BDK_GSERX_GLBL_PLL_CFG_2(a) bdk_gserx_glbl_pll_cfg_2_t
 #define bustype_BDK_GSERX_GLBL_PLL_CFG_2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_GLBL_PLL_CFG_2(a) "GSERX_GLBL_PLL_CFG_2"
+#define device_bar_BDK_GSERX_GLBL_PLL_CFG_2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_GLBL_PLL_CFG_2(a) (a)
 #define arguments_BDK_GSERX_GLBL_PLL_CFG_2(a) (a),-1,-1,-1
 
@@ -1332,6 +1346,7 @@ static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_3(unsigned long a)
 #define typedef_BDK_GSERX_GLBL_PLL_CFG_3(a) bdk_gserx_glbl_pll_cfg_3_t
 #define bustype_BDK_GSERX_GLBL_PLL_CFG_3(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_GLBL_PLL_CFG_3(a) "GSERX_GLBL_PLL_CFG_3"
+#define device_bar_BDK_GSERX_GLBL_PLL_CFG_3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_GLBL_PLL_CFG_3(a) (a)
 #define arguments_BDK_GSERX_GLBL_PLL_CFG_3(a) (a),-1,-1,-1
 
@@ -1409,6 +1424,7 @@ static inline uint64_t BDK_GSERX_GLBL_PLL_MONITOR(unsigned long a)
 #define typedef_BDK_GSERX_GLBL_PLL_MONITOR(a) bdk_gserx_glbl_pll_monitor_t
 #define bustype_BDK_GSERX_GLBL_PLL_MONITOR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_GLBL_PLL_MONITOR(a) "GSERX_GLBL_PLL_MONITOR"
+#define device_bar_BDK_GSERX_GLBL_PLL_MONITOR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_GLBL_PLL_MONITOR(a) (a)
 #define arguments_BDK_GSERX_GLBL_PLL_MONITOR(a) (a),-1,-1,-1
 
@@ -1543,6 +1559,7 @@ static inline uint64_t BDK_GSERX_GLBL_TAD(unsigned long a)
 #define typedef_BDK_GSERX_GLBL_TAD(a) bdk_gserx_glbl_tad_t
 #define bustype_BDK_GSERX_GLBL_TAD(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_GLBL_TAD(a) "GSERX_GLBL_TAD"
+#define device_bar_BDK_GSERX_GLBL_TAD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_GLBL_TAD(a) (a)
 #define arguments_BDK_GSERX_GLBL_TAD(a) (a),-1,-1,-1
 
@@ -1597,6 +1614,7 @@ static inline uint64_t BDK_GSERX_GLBL_TM_ADMON(unsigned long a)
 #define typedef_BDK_GSERX_GLBL_TM_ADMON(a) bdk_gserx_glbl_tm_admon_t
 #define bustype_BDK_GSERX_GLBL_TM_ADMON(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_GLBL_TM_ADMON(a) "GSERX_GLBL_TM_ADMON"
+#define device_bar_BDK_GSERX_GLBL_TM_ADMON(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_GLBL_TM_ADMON(a) (a)
 #define arguments_BDK_GSERX_GLBL_TM_ADMON(a) (a),-1,-1,-1
 
@@ -1634,6 +1652,7 @@ static inline uint64_t BDK_GSERX_IDDQ_MODE(unsigned long a)
 #define typedef_BDK_GSERX_IDDQ_MODE(a) bdk_gserx_iddq_mode_t
 #define bustype_BDK_GSERX_IDDQ_MODE(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_IDDQ_MODE(a) "GSERX_IDDQ_MODE"
+#define device_bar_BDK_GSERX_IDDQ_MODE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_IDDQ_MODE(a) (a)
 #define arguments_BDK_GSERX_IDDQ_MODE(a) (a),-1,-1,-1
 
@@ -1763,6 +1782,7 @@ static inline uint64_t BDK_GSERX_LANEX_LBERT_CFG(unsigned long a, unsigned long 
 #define typedef_BDK_GSERX_LANEX_LBERT_CFG(a,b) bdk_gserx_lanex_lbert_cfg_t
 #define bustype_BDK_GSERX_LANEX_LBERT_CFG(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_LBERT_CFG(a,b) "GSERX_LANEX_LBERT_CFG"
+#define device_bar_BDK_GSERX_LANEX_LBERT_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_LBERT_CFG(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_LBERT_CFG(a,b) (a),(b),-1,-1
 
@@ -1813,6 +1833,7 @@ static inline uint64_t BDK_GSERX_LANEX_LBERT_ECNT(unsigned long a, unsigned long
 #define typedef_BDK_GSERX_LANEX_LBERT_ECNT(a,b) bdk_gserx_lanex_lbert_ecnt_t
 #define bustype_BDK_GSERX_LANEX_LBERT_ECNT(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_LBERT_ECNT(a,b) "GSERX_LANEX_LBERT_ECNT"
+#define device_bar_BDK_GSERX_LANEX_LBERT_ECNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_LBERT_ECNT(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_LBERT_ECNT(a,b) (a),(b),-1,-1
 
@@ -1854,6 +1875,7 @@ static inline uint64_t BDK_GSERX_LANEX_LBERT_PAT_CFG(unsigned long a, unsigned l
 #define typedef_BDK_GSERX_LANEX_LBERT_PAT_CFG(a,b) bdk_gserx_lanex_lbert_pat_cfg_t
 #define bustype_BDK_GSERX_LANEX_LBERT_PAT_CFG(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_LBERT_PAT_CFG(a,b) "GSERX_LANEX_LBERT_PAT_CFG"
+#define device_bar_BDK_GSERX_LANEX_LBERT_PAT_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_LBERT_PAT_CFG(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_LBERT_PAT_CFG(a,b) (a),(b),-1,-1
 
@@ -1862,8 +1884,8 @@ static inline uint64_t BDK_GSERX_LANEX_LBERT_PAT_CFG(unsigned long a, unsigned l
  *
  * GSER Lane Miscellaneous Configuration 0 Register
  * These registers are for diagnostic use only.
- * These registers are reset by hardware only during chip cold reset.
- * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ * They are reset by hardware only during chip cold reset.
+ * The values of the fields in these registers do not change during chip warm or soft resets.
  */
 typedef union
 {
@@ -1930,6 +1952,7 @@ static inline uint64_t BDK_GSERX_LANEX_MISC_CFG_0(unsigned long a, unsigned long
 #define typedef_BDK_GSERX_LANEX_MISC_CFG_0(a,b) bdk_gserx_lanex_misc_cfg_0_t
 #define bustype_BDK_GSERX_LANEX_MISC_CFG_0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_MISC_CFG_0(a,b) "GSERX_LANEX_MISC_CFG_0"
+#define device_bar_BDK_GSERX_LANEX_MISC_CFG_0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_MISC_CFG_0(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_MISC_CFG_0(a,b) (a),(b),-1,-1
 
@@ -1990,6 +2013,7 @@ static inline uint64_t BDK_GSERX_LANEX_MISC_CFG_1(unsigned long a, unsigned long
 #define typedef_BDK_GSERX_LANEX_MISC_CFG_1(a,b) bdk_gserx_lanex_misc_cfg_1_t
 #define bustype_BDK_GSERX_LANEX_MISC_CFG_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_MISC_CFG_1(a,b) "GSERX_LANEX_MISC_CFG_1"
+#define device_bar_BDK_GSERX_LANEX_MISC_CFG_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_MISC_CFG_1(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_MISC_CFG_1(a,b) (a),(b),-1,-1
 
@@ -2072,6 +2096,7 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_0(unsigned long a, unsigned lo
 #define typedef_BDK_GSERX_LANEX_PCS_CTLIFC_0(a,b) bdk_gserx_lanex_pcs_ctlifc_0_t
 #define bustype_BDK_GSERX_LANEX_PCS_CTLIFC_0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_PCS_CTLIFC_0(a,b) "GSERX_LANEX_PCS_CTLIFC_0"
+#define device_bar_BDK_GSERX_LANEX_PCS_CTLIFC_0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_PCS_CTLIFC_0(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_PCS_CTLIFC_0(a,b) (a),(b),-1,-1
 
@@ -2126,6 +2151,7 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_1(unsigned long a, unsigned lo
 #define typedef_BDK_GSERX_LANEX_PCS_CTLIFC_1(a,b) bdk_gserx_lanex_pcs_ctlifc_1_t
 #define bustype_BDK_GSERX_LANEX_PCS_CTLIFC_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_PCS_CTLIFC_1(a,b) "GSERX_LANEX_PCS_CTLIFC_1"
+#define device_bar_BDK_GSERX_LANEX_PCS_CTLIFC_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_PCS_CTLIFC_1(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_PCS_CTLIFC_1(a,b) (a),(b),-1,-1
 
@@ -2238,6 +2264,7 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_2(unsigned long a, unsigned lo
 #define typedef_BDK_GSERX_LANEX_PCS_CTLIFC_2(a,b) bdk_gserx_lanex_pcs_ctlifc_2_t
 #define bustype_BDK_GSERX_LANEX_PCS_CTLIFC_2(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_PCS_CTLIFC_2(a,b) "GSERX_LANEX_PCS_CTLIFC_2"
+#define device_bar_BDK_GSERX_LANEX_PCS_CTLIFC_2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_PCS_CTLIFC_2(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_PCS_CTLIFC_2(a,b) (a),(b),-1,-1
 
@@ -2248,6 +2275,7 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_2(unsigned long a, unsigned lo
  * These registers are for diagnostic use only.
  * These registers are reset by hardware only during chip cold reset.
  * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ * Added pass 2.
  */
 typedef union
 {
@@ -2294,6 +2322,7 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_MACIFC_MON_2(unsigned long a, unsigne
 #define typedef_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(a,b) bdk_gserx_lanex_pcs_macifc_mon_2_t
 #define bustype_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(a,b) "GSERX_LANEX_PCS_MACIFC_MON_2"
+#define device_bar_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(a,b) (a),(b),-1,-1
 
@@ -2334,6 +2363,7 @@ static inline uint64_t BDK_GSERX_LANEX_PMA_LOOPBACK_CTRL(unsigned long a, unsign
 #define typedef_BDK_GSERX_LANEX_PMA_LOOPBACK_CTRL(a,b) bdk_gserx_lanex_pma_loopback_ctrl_t
 #define bustype_BDK_GSERX_LANEX_PMA_LOOPBACK_CTRL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_PMA_LOOPBACK_CTRL(a,b) "GSERX_LANEX_PMA_LOOPBACK_CTRL"
+#define device_bar_BDK_GSERX_LANEX_PMA_LOOPBACK_CTRL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_PMA_LOOPBACK_CTRL(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_PMA_LOOPBACK_CTRL(a,b) (a),(b),-1,-1
 
@@ -2456,6 +2486,7 @@ static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANEX_PWR_CTRL(a,b) bdk_gserx_lanex_pwr_ctrl_t
 #define bustype_BDK_GSERX_LANEX_PWR_CTRL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_PWR_CTRL(a,b) "GSERX_LANEX_PWR_CTRL"
+#define device_bar_BDK_GSERX_LANEX_PWR_CTRL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_PWR_CTRL(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_PWR_CTRL(a,b) (a),(b),-1,-1
 
@@ -2496,6 +2527,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_0(unsigned long a, unsigned lo
 #define typedef_BDK_GSERX_LANEX_RX_AEQ_OUT_0(a,b) bdk_gserx_lanex_rx_aeq_out_0_t
 #define bustype_BDK_GSERX_LANEX_RX_AEQ_OUT_0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_AEQ_OUT_0(a,b) "GSERX_LANEX_RX_AEQ_OUT_0"
+#define device_bar_BDK_GSERX_LANEX_RX_AEQ_OUT_0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_AEQ_OUT_0(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_AEQ_OUT_0(a,b) (a),(b),-1,-1
 
@@ -2538,6 +2570,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_1(unsigned long a, unsigned lo
 #define typedef_BDK_GSERX_LANEX_RX_AEQ_OUT_1(a,b) bdk_gserx_lanex_rx_aeq_out_1_t
 #define bustype_BDK_GSERX_LANEX_RX_AEQ_OUT_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_AEQ_OUT_1(a,b) "GSERX_LANEX_RX_AEQ_OUT_1"
+#define device_bar_BDK_GSERX_LANEX_RX_AEQ_OUT_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_AEQ_OUT_1(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_AEQ_OUT_1(a,b) (a),(b),-1,-1
 
@@ -2580,6 +2613,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_2(unsigned long a, unsigned lo
 #define typedef_BDK_GSERX_LANEX_RX_AEQ_OUT_2(a,b) bdk_gserx_lanex_rx_aeq_out_2_t
 #define bustype_BDK_GSERX_LANEX_RX_AEQ_OUT_2(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_AEQ_OUT_2(a,b) "GSERX_LANEX_RX_AEQ_OUT_2"
+#define device_bar_BDK_GSERX_LANEX_RX_AEQ_OUT_2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_AEQ_OUT_2(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_AEQ_OUT_2(a,b) (a),(b),-1,-1
 
@@ -2630,6 +2664,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_1(unsigned long a, unsigned l
 #define typedef_BDK_GSERX_LANEX_RX_CDR_CTRL_1(a,b) bdk_gserx_lanex_rx_cdr_ctrl_1_t
 #define bustype_BDK_GSERX_LANEX_RX_CDR_CTRL_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CDR_CTRL_1(a,b) "GSERX_LANEX_RX_CDR_CTRL_1"
+#define device_bar_BDK_GSERX_LANEX_RX_CDR_CTRL_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CDR_CTRL_1(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CDR_CTRL_1(a,b) (a),(b),-1,-1
 
@@ -2678,6 +2713,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_2(unsigned long a, unsigned l
 #define typedef_BDK_GSERX_LANEX_RX_CDR_CTRL_2(a,b) bdk_gserx_lanex_rx_cdr_ctrl_2_t
 #define bustype_BDK_GSERX_LANEX_RX_CDR_CTRL_2(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CDR_CTRL_2(a,b) "GSERX_LANEX_RX_CDR_CTRL_2"
+#define device_bar_BDK_GSERX_LANEX_RX_CDR_CTRL_2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CDR_CTRL_2(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CDR_CTRL_2(a,b) (a),(b),-1,-1
 
@@ -2747,6 +2783,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(unsigned long a, unsig
 #define typedef_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(a,b) bdk_gserx_lanex_rx_cdr_misc_ctrl_0_t
 #define bustype_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(a,b) "GSERX_LANEX_RX_CDR_MISC_CTRL_0"
+#define device_bar_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(a,b) (a),(b),-1,-1
 
@@ -2808,6 +2845,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_1(unsigned long a, unsigned
 #define typedef_BDK_GSERX_LANEX_RX_CDR_STATUS_1(a,b) bdk_gserx_lanex_rx_cdr_status_1_t
 #define bustype_BDK_GSERX_LANEX_RX_CDR_STATUS_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CDR_STATUS_1(a,b) "GSERX_LANEX_RX_CDR_STATUS_1"
+#define device_bar_BDK_GSERX_LANEX_RX_CDR_STATUS_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CDR_STATUS_1(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CDR_STATUS_1(a,b) (a),(b),-1,-1
 
@@ -2850,6 +2888,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_2(unsigned long a, unsigned
 #define typedef_BDK_GSERX_LANEX_RX_CDR_STATUS_2(a,b) bdk_gserx_lanex_rx_cdr_status_2_t
 #define bustype_BDK_GSERX_LANEX_RX_CDR_STATUS_2(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CDR_STATUS_2(a,b) "GSERX_LANEX_RX_CDR_STATUS_2"
+#define device_bar_BDK_GSERX_LANEX_RX_CDR_STATUS_2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CDR_STATUS_2(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CDR_STATUS_2(a,b) (a),(b),-1,-1
 
@@ -2926,6 +2965,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_0(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANEX_RX_CFG_0(a,b) bdk_gserx_lanex_rx_cfg_0_t
 #define bustype_BDK_GSERX_LANEX_RX_CFG_0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CFG_0(a,b) "GSERX_LANEX_RX_CFG_0"
+#define device_bar_BDK_GSERX_LANEX_RX_CFG_0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CFG_0(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CFG_0(a,b) (a),(b),-1,-1
 
@@ -2996,6 +3036,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_1(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANEX_RX_CFG_1(a,b) bdk_gserx_lanex_rx_cfg_1_t
 #define bustype_BDK_GSERX_LANEX_RX_CFG_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CFG_1(a,b) "GSERX_LANEX_RX_CFG_1"
+#define device_bar_BDK_GSERX_LANEX_RX_CFG_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CFG_1(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CFG_1(a,b) (a),(b),-1,-1
 
@@ -3104,6 +3145,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_2(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANEX_RX_CFG_2(a,b) bdk_gserx_lanex_rx_cfg_2_t
 #define bustype_BDK_GSERX_LANEX_RX_CFG_2(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CFG_2(a,b) "GSERX_LANEX_RX_CFG_2"
+#define device_bar_BDK_GSERX_LANEX_RX_CFG_2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CFG_2(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CFG_2(a,b) (a),(b),-1,-1
 
@@ -3180,6 +3222,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_3(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANEX_RX_CFG_3(a,b) bdk_gserx_lanex_rx_cfg_3_t
 #define bustype_BDK_GSERX_LANEX_RX_CFG_3(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CFG_3(a,b) "GSERX_LANEX_RX_CFG_3"
+#define device_bar_BDK_GSERX_LANEX_RX_CFG_3(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CFG_3(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CFG_3(a,b) (a),(b),-1,-1
 
@@ -3312,6 +3355,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_4(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANEX_RX_CFG_4(a,b) bdk_gserx_lanex_rx_cfg_4_t
 #define bustype_BDK_GSERX_LANEX_RX_CFG_4(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CFG_4(a,b) "GSERX_LANEX_RX_CFG_4"
+#define device_bar_BDK_GSERX_LANEX_RX_CFG_4(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CFG_4(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CFG_4(a,b) (a),(b),-1,-1
 
@@ -3400,6 +3444,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_5(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANEX_RX_CFG_5(a,b) bdk_gserx_lanex_rx_cfg_5_t
 #define bustype_BDK_GSERX_LANEX_RX_CFG_5(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CFG_5(a,b) "GSERX_LANEX_RX_CFG_5"
+#define device_bar_BDK_GSERX_LANEX_RX_CFG_5(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CFG_5(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CFG_5(a,b) (a),(b),-1,-1
 
@@ -3580,6 +3625,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CTLE_CTRL(unsigned long a, unsigned lo
 #define typedef_BDK_GSERX_LANEX_RX_CTLE_CTRL(a,b) bdk_gserx_lanex_rx_ctle_ctrl_t
 #define bustype_BDK_GSERX_LANEX_RX_CTLE_CTRL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_CTLE_CTRL(a,b) "GSERX_LANEX_RX_CTLE_CTRL"
+#define device_bar_BDK_GSERX_LANEX_RX_CTLE_CTRL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_CTLE_CTRL(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_CTLE_CTRL(a,b) (a),(b),-1,-1
 
@@ -3672,6 +3718,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_LOOP_CTRL(unsigned long a, unsigned lo
 #define typedef_BDK_GSERX_LANEX_RX_LOOP_CTRL(a,b) bdk_gserx_lanex_rx_loop_ctrl_t
 #define bustype_BDK_GSERX_LANEX_RX_LOOP_CTRL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_LOOP_CTRL(a,b) "GSERX_LANEX_RX_LOOP_CTRL"
+#define device_bar_BDK_GSERX_LANEX_RX_LOOP_CTRL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_LOOP_CTRL(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_LOOP_CTRL(a,b) (a),(b),-1,-1
 
@@ -3855,6 +3902,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_MISC_OVRRD(unsigned long a, unsigned l
 #define typedef_BDK_GSERX_LANEX_RX_MISC_OVRRD(a,b) bdk_gserx_lanex_rx_misc_ovrrd_t
 #define bustype_BDK_GSERX_LANEX_RX_MISC_OVRRD(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_MISC_OVRRD(a,b) "GSERX_LANEX_RX_MISC_OVRRD"
+#define device_bar_BDK_GSERX_LANEX_RX_MISC_OVRRD(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_MISC_OVRRD(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_MISC_OVRRD(a,b) (a),(b),-1,-1
 
@@ -3908,6 +3956,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_CTRL(unsigned long a, unsigned
 #define typedef_BDK_GSERX_LANEX_RX_PRECORR_CTRL(a,b) bdk_gserx_lanex_rx_precorr_ctrl_t
 #define bustype_BDK_GSERX_LANEX_RX_PRECORR_CTRL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_PRECORR_CTRL(a,b) "GSERX_LANEX_RX_PRECORR_CTRL"
+#define device_bar_BDK_GSERX_LANEX_RX_PRECORR_CTRL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_PRECORR_CTRL(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_PRECORR_CTRL(a,b) (a),(b),-1,-1
 
@@ -3949,6 +3998,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_VAL(unsigned long a, unsigned 
 #define typedef_BDK_GSERX_LANEX_RX_PRECORR_VAL(a,b) bdk_gserx_lanex_rx_precorr_val_t
 #define bustype_BDK_GSERX_LANEX_RX_PRECORR_VAL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_PRECORR_VAL(a,b) "GSERX_LANEX_RX_PRECORR_VAL"
+#define device_bar_BDK_GSERX_LANEX_RX_PRECORR_VAL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_PRECORR_VAL(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_PRECORR_VAL(a,b) (a),(b),-1,-1
 
@@ -4100,6 +4150,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(unsigned long a, unsigne
 #define typedef_BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(a,b) bdk_gserx_lanex_rx_valbbd_ctrl_0_t
 #define bustype_BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(a,b) "GSERX_LANEX_RX_VALBBD_CTRL_0"
+#define device_bar_BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(a,b) (a),(b),-1,-1
 
@@ -4303,6 +4354,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(unsigned long a, unsigne
 #define typedef_BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(a,b) bdk_gserx_lanex_rx_valbbd_ctrl_1_t
 #define bustype_BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(a,b) "GSERX_LANEX_RX_VALBBD_CTRL_1"
+#define device_bar_BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(a,b) (a),(b),-1,-1
 
@@ -4512,6 +4564,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(unsigned long a, unsigne
 #define typedef_BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(a,b) bdk_gserx_lanex_rx_valbbd_ctrl_2_t
 #define bustype_BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(a,b) "GSERX_LANEX_RX_VALBBD_CTRL_2"
+#define device_bar_BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(a,b) (a),(b),-1,-1
 
@@ -4577,6 +4630,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VMA_CTRL(unsigned long a, unsigned lon
 #define typedef_BDK_GSERX_LANEX_RX_VMA_CTRL(a,b) bdk_gserx_lanex_rx_vma_ctrl_t
 #define bustype_BDK_GSERX_LANEX_RX_VMA_CTRL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_VMA_CTRL(a,b) "GSERX_LANEX_RX_VMA_CTRL"
+#define device_bar_BDK_GSERX_LANEX_RX_VMA_CTRL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_VMA_CTRL(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_VMA_CTRL(a,b) (a),(b),-1,-1
 
@@ -4621,6 +4675,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VMA_STATUS_0(unsigned long a, unsigned
 #define typedef_BDK_GSERX_LANEX_RX_VMA_STATUS_0(a,b) bdk_gserx_lanex_rx_vma_status_0_t
 #define bustype_BDK_GSERX_LANEX_RX_VMA_STATUS_0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_VMA_STATUS_0(a,b) "GSERX_LANEX_RX_VMA_STATUS_0"
+#define device_bar_BDK_GSERX_LANEX_RX_VMA_STATUS_0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_VMA_STATUS_0(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_VMA_STATUS_0(a,b) (a),(b),-1,-1
 
@@ -4683,6 +4738,7 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VMA_STATUS_1(unsigned long a, unsigned
 #define typedef_BDK_GSERX_LANEX_RX_VMA_STATUS_1(a,b) bdk_gserx_lanex_rx_vma_status_1_t
 #define bustype_BDK_GSERX_LANEX_RX_VMA_STATUS_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_RX_VMA_STATUS_1(a,b) "GSERX_LANEX_RX_VMA_STATUS_1"
+#define device_bar_BDK_GSERX_LANEX_RX_VMA_STATUS_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_RX_VMA_STATUS_1(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_RX_VMA_STATUS_1(a,b) (a),(b),-1,-1
 
@@ -4755,6 +4811,7 @@ static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_0(unsigned long a, unsigned l
 #define typedef_BDK_GSERX_LANEX_SDS_PIN_MON_0(a,b) bdk_gserx_lanex_sds_pin_mon_0_t
 #define bustype_BDK_GSERX_LANEX_SDS_PIN_MON_0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_SDS_PIN_MON_0(a,b) "GSERX_LANEX_SDS_PIN_MON_0"
+#define device_bar_BDK_GSERX_LANEX_SDS_PIN_MON_0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_SDS_PIN_MON_0(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_SDS_PIN_MON_0(a,b) (a),(b),-1,-1
 
@@ -4823,6 +4880,7 @@ static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_1(unsigned long a, unsigned l
 #define typedef_BDK_GSERX_LANEX_SDS_PIN_MON_1(a,b) bdk_gserx_lanex_sds_pin_mon_1_t
 #define bustype_BDK_GSERX_LANEX_SDS_PIN_MON_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_SDS_PIN_MON_1(a,b) "GSERX_LANEX_SDS_PIN_MON_1"
+#define device_bar_BDK_GSERX_LANEX_SDS_PIN_MON_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_SDS_PIN_MON_1(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_SDS_PIN_MON_1(a,b) (a),(b),-1,-1
 
@@ -4871,6 +4929,7 @@ static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_2(unsigned long a, unsigned l
 #define typedef_BDK_GSERX_LANEX_SDS_PIN_MON_2(a,b) bdk_gserx_lanex_sds_pin_mon_2_t
 #define bustype_BDK_GSERX_LANEX_SDS_PIN_MON_2(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_SDS_PIN_MON_2(a,b) "GSERX_LANEX_SDS_PIN_MON_2"
+#define device_bar_BDK_GSERX_LANEX_SDS_PIN_MON_2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_SDS_PIN_MON_2(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_SDS_PIN_MON_2(a,b) (a),(b),-1,-1
 
@@ -4977,6 +5036,7 @@ static inline uint64_t BDK_GSERX_LANEX_TX_CFG_0(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANEX_TX_CFG_0(a,b) bdk_gserx_lanex_tx_cfg_0_t
 #define bustype_BDK_GSERX_LANEX_TX_CFG_0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_TX_CFG_0(a,b) "GSERX_LANEX_TX_CFG_0"
+#define device_bar_BDK_GSERX_LANEX_TX_CFG_0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_TX_CFG_0(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_TX_CFG_0(a,b) (a),(b),-1,-1
 
@@ -5111,6 +5171,7 @@ static inline uint64_t BDK_GSERX_LANEX_TX_CFG_1(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANEX_TX_CFG_1(a,b) bdk_gserx_lanex_tx_cfg_1_t
 #define bustype_BDK_GSERX_LANEX_TX_CFG_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_TX_CFG_1(a,b) "GSERX_LANEX_TX_CFG_1"
+#define device_bar_BDK_GSERX_LANEX_TX_CFG_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_TX_CFG_1(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_TX_CFG_1(a,b) (a),(b),-1,-1
 
@@ -5159,6 +5220,7 @@ static inline uint64_t BDK_GSERX_LANEX_TX_CFG_2(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANEX_TX_CFG_2(a,b) bdk_gserx_lanex_tx_cfg_2_t
 #define bustype_BDK_GSERX_LANEX_TX_CFG_2(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_TX_CFG_2(a,b) "GSERX_LANEX_TX_CFG_2"
+#define device_bar_BDK_GSERX_LANEX_TX_CFG_2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_TX_CFG_2(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_TX_CFG_2(a,b) (a),(b),-1,-1
 
@@ -5207,6 +5269,7 @@ static inline uint64_t BDK_GSERX_LANEX_TX_CFG_3(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANEX_TX_CFG_3(a,b) bdk_gserx_lanex_tx_cfg_3_t
 #define bustype_BDK_GSERX_LANEX_TX_CFG_3(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_TX_CFG_3(a,b) "GSERX_LANEX_TX_CFG_3"
+#define device_bar_BDK_GSERX_LANEX_TX_CFG_3(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_TX_CFG_3(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_TX_CFG_3(a,b) (a),(b),-1,-1
 
@@ -5297,6 +5360,7 @@ static inline uint64_t BDK_GSERX_LANEX_TX_PRE_EMPHASIS(unsigned long a, unsigned
 #define typedef_BDK_GSERX_LANEX_TX_PRE_EMPHASIS(a,b) bdk_gserx_lanex_tx_pre_emphasis_t
 #define bustype_BDK_GSERX_LANEX_TX_PRE_EMPHASIS(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANEX_TX_PRE_EMPHASIS(a,b) "GSERX_LANEX_TX_PRE_EMPHASIS"
+#define device_bar_BDK_GSERX_LANEX_TX_PRE_EMPHASIS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANEX_TX_PRE_EMPHASIS(a,b) (a)
 #define arguments_BDK_GSERX_LANEX_TX_PRE_EMPHASIS(a,b) (a),(b),-1,-1
 
@@ -5348,6 +5412,7 @@ static inline uint64_t BDK_GSERX_LANE_LPBKEN(unsigned long a)
 #define typedef_BDK_GSERX_LANE_LPBKEN(a) bdk_gserx_lane_lpbken_t
 #define bustype_BDK_GSERX_LANE_LPBKEN(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_LPBKEN(a) "GSERX_LANE_LPBKEN"
+#define device_bar_BDK_GSERX_LANE_LPBKEN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_LPBKEN(a) (a)
 #define arguments_BDK_GSERX_LANE_LPBKEN(a) (a),-1,-1,-1
 
@@ -5461,6 +5526,7 @@ static inline uint64_t BDK_GSERX_LANE_MODE(unsigned long a)
 #define typedef_BDK_GSERX_LANE_MODE(a) bdk_gserx_lane_mode_t
 #define bustype_BDK_GSERX_LANE_MODE(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_MODE(a) "GSERX_LANE_MODE"
+#define device_bar_BDK_GSERX_LANE_MODE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_MODE(a) (a)
 #define arguments_BDK_GSERX_LANE_MODE(a) (a),-1,-1,-1
 
@@ -5735,6 +5801,7 @@ static inline uint64_t BDK_GSERX_LANE_PX_MODE_0(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANE_PX_MODE_0(a,b) bdk_gserx_lane_px_mode_0_t
 #define bustype_BDK_GSERX_LANE_PX_MODE_0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_PX_MODE_0(a,b) "GSERX_LANE_PX_MODE_0"
+#define device_bar_BDK_GSERX_LANE_PX_MODE_0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_PX_MODE_0(a,b) (a)
 #define arguments_BDK_GSERX_LANE_PX_MODE_0(a,b) (a),(b),-1,-1
 
@@ -5882,6 +5949,7 @@ static inline uint64_t BDK_GSERX_LANE_PX_MODE_1(unsigned long a, unsigned long b
 #define typedef_BDK_GSERX_LANE_PX_MODE_1(a,b) bdk_gserx_lane_px_mode_1_t
 #define bustype_BDK_GSERX_LANE_PX_MODE_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_PX_MODE_1(a,b) "GSERX_LANE_PX_MODE_1"
+#define device_bar_BDK_GSERX_LANE_PX_MODE_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_PX_MODE_1(a,b) (a)
 #define arguments_BDK_GSERX_LANE_PX_MODE_1(a,b) (a),(b),-1,-1
 
@@ -5929,6 +5997,7 @@ static inline uint64_t BDK_GSERX_LANE_POFF(unsigned long a)
 #define typedef_BDK_GSERX_LANE_POFF(a) bdk_gserx_lane_poff_t
 #define bustype_BDK_GSERX_LANE_POFF(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_POFF(a) "GSERX_LANE_POFF"
+#define device_bar_BDK_GSERX_LANE_POFF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_POFF(a) (a)
 #define arguments_BDK_GSERX_LANE_POFF(a) (a),-1,-1,-1
 
@@ -5974,6 +6043,7 @@ static inline uint64_t BDK_GSERX_LANE_SRST(unsigned long a)
 #define typedef_BDK_GSERX_LANE_SRST(a) bdk_gserx_lane_srst_t
 #define bustype_BDK_GSERX_LANE_SRST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_SRST(a) "GSERX_LANE_SRST"
+#define device_bar_BDK_GSERX_LANE_SRST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_SRST(a) (a)
 #define arguments_BDK_GSERX_LANE_SRST(a) (a),-1,-1,-1
 
@@ -6022,6 +6092,7 @@ static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_0(unsigned long a)
 #define typedef_BDK_GSERX_LANE_VMA_COARSE_CTRL_0(a) bdk_gserx_lane_vma_coarse_ctrl_0_t
 #define bustype_BDK_GSERX_LANE_VMA_COARSE_CTRL_0(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_VMA_COARSE_CTRL_0(a) "GSERX_LANE_VMA_COARSE_CTRL_0"
+#define device_bar_BDK_GSERX_LANE_VMA_COARSE_CTRL_0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_VMA_COARSE_CTRL_0(a) (a)
 #define arguments_BDK_GSERX_LANE_VMA_COARSE_CTRL_0(a) (a),-1,-1,-1
 
@@ -6064,6 +6135,7 @@ static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_1(unsigned long a)
 #define typedef_BDK_GSERX_LANE_VMA_COARSE_CTRL_1(a) bdk_gserx_lane_vma_coarse_ctrl_1_t
 #define bustype_BDK_GSERX_LANE_VMA_COARSE_CTRL_1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_VMA_COARSE_CTRL_1(a) "GSERX_LANE_VMA_COARSE_CTRL_1"
+#define device_bar_BDK_GSERX_LANE_VMA_COARSE_CTRL_1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_VMA_COARSE_CTRL_1(a) (a)
 #define arguments_BDK_GSERX_LANE_VMA_COARSE_CTRL_1(a) (a),-1,-1,-1
 
@@ -6106,6 +6178,7 @@ static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_2(unsigned long a)
 #define typedef_BDK_GSERX_LANE_VMA_COARSE_CTRL_2(a) bdk_gserx_lane_vma_coarse_ctrl_2_t
 #define bustype_BDK_GSERX_LANE_VMA_COARSE_CTRL_2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_VMA_COARSE_CTRL_2(a) "GSERX_LANE_VMA_COARSE_CTRL_2"
+#define device_bar_BDK_GSERX_LANE_VMA_COARSE_CTRL_2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_VMA_COARSE_CTRL_2(a) (a)
 #define arguments_BDK_GSERX_LANE_VMA_COARSE_CTRL_2(a) (a),-1,-1,-1
 
@@ -6172,6 +6245,7 @@ static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_0(unsigned long a)
 #define typedef_BDK_GSERX_LANE_VMA_FINE_CTRL_0(a) bdk_gserx_lane_vma_fine_ctrl_0_t
 #define bustype_BDK_GSERX_LANE_VMA_FINE_CTRL_0(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_VMA_FINE_CTRL_0(a) "GSERX_LANE_VMA_FINE_CTRL_0"
+#define device_bar_BDK_GSERX_LANE_VMA_FINE_CTRL_0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_VMA_FINE_CTRL_0(a) (a)
 #define arguments_BDK_GSERX_LANE_VMA_FINE_CTRL_0(a) (a),-1,-1,-1
 
@@ -6220,6 +6294,7 @@ static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_1(unsigned long a)
 #define typedef_BDK_GSERX_LANE_VMA_FINE_CTRL_1(a) bdk_gserx_lane_vma_fine_ctrl_1_t
 #define bustype_BDK_GSERX_LANE_VMA_FINE_CTRL_1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_VMA_FINE_CTRL_1(a) "GSERX_LANE_VMA_FINE_CTRL_1"
+#define device_bar_BDK_GSERX_LANE_VMA_FINE_CTRL_1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_VMA_FINE_CTRL_1(a) (a)
 #define arguments_BDK_GSERX_LANE_VMA_FINE_CTRL_1(a) (a),-1,-1,-1
 
@@ -6268,6 +6343,7 @@ static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_2(unsigned long a)
 #define typedef_BDK_GSERX_LANE_VMA_FINE_CTRL_2(a) bdk_gserx_lane_vma_fine_ctrl_2_t
 #define bustype_BDK_GSERX_LANE_VMA_FINE_CTRL_2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_LANE_VMA_FINE_CTRL_2(a) "GSERX_LANE_VMA_FINE_CTRL_2"
+#define device_bar_BDK_GSERX_LANE_VMA_FINE_CTRL_2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_LANE_VMA_FINE_CTRL_2(a) (a)
 #define arguments_BDK_GSERX_LANE_VMA_FINE_CTRL_2(a) (a),-1,-1,-1
 
@@ -6316,6 +6392,7 @@ static inline uint64_t BDK_GSERX_PHY_CTL(unsigned long a)
 #define typedef_BDK_GSERX_PHY_CTL(a) bdk_gserx_phy_ctl_t
 #define bustype_BDK_GSERX_PHY_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_PHY_CTL(a) "GSERX_PHY_CTL"
+#define device_bar_BDK_GSERX_PHY_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_PHY_CTL(a) (a)
 #define arguments_BDK_GSERX_PHY_CTL(a) (a),-1,-1,-1
 
@@ -6357,6 +6434,7 @@ static inline uint64_t BDK_GSERX_PIPE_LPBK(unsigned long a)
 #define typedef_BDK_GSERX_PIPE_LPBK(a) bdk_gserx_pipe_lpbk_t
 #define bustype_BDK_GSERX_PIPE_LPBK(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_PIPE_LPBK(a) "GSERX_PIPE_LPBK"
+#define device_bar_BDK_GSERX_PIPE_LPBK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_PIPE_LPBK(a) (a)
 #define arguments_BDK_GSERX_PIPE_LPBK(a) (a),-1,-1,-1
 
@@ -6500,6 +6578,7 @@ static inline uint64_t BDK_GSERX_PLL_PX_MODE_0(unsigned long a, unsigned long b)
 #define typedef_BDK_GSERX_PLL_PX_MODE_0(a,b) bdk_gserx_pll_px_mode_0_t
 #define bustype_BDK_GSERX_PLL_PX_MODE_0(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_PLL_PX_MODE_0(a,b) "GSERX_PLL_PX_MODE_0"
+#define device_bar_BDK_GSERX_PLL_PX_MODE_0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_PLL_PX_MODE_0(a,b) (a)
 #define arguments_BDK_GSERX_PLL_PX_MODE_0(a,b) (a),(b),-1,-1
 
@@ -6671,6 +6750,7 @@ static inline uint64_t BDK_GSERX_PLL_PX_MODE_1(unsigned long a, unsigned long b)
 #define typedef_BDK_GSERX_PLL_PX_MODE_1(a,b) bdk_gserx_pll_px_mode_1_t
 #define bustype_BDK_GSERX_PLL_PX_MODE_1(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_PLL_PX_MODE_1(a,b) "GSERX_PLL_PX_MODE_1"
+#define device_bar_BDK_GSERX_PLL_PX_MODE_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_PLL_PX_MODE_1(a,b) (a)
 #define arguments_BDK_GSERX_PLL_PX_MODE_1(a,b) (a),(b),-1,-1
 
@@ -6706,6 +6786,7 @@ static inline uint64_t BDK_GSERX_PLL_STAT(unsigned long a)
 #define typedef_BDK_GSERX_PLL_STAT(a) bdk_gserx_pll_stat_t
 #define bustype_BDK_GSERX_PLL_STAT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_PLL_STAT(a) "GSERX_PLL_STAT"
+#define device_bar_BDK_GSERX_PLL_STAT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_PLL_STAT(a) (a)
 #define arguments_BDK_GSERX_PLL_STAT(a) (a),-1,-1,-1
 
@@ -6745,6 +6826,7 @@ static inline uint64_t BDK_GSERX_QLM_STAT(unsigned long a)
 #define typedef_BDK_GSERX_QLM_STAT(a) bdk_gserx_qlm_stat_t
 #define bustype_BDK_GSERX_QLM_STAT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_QLM_STAT(a) "GSERX_QLM_STAT"
+#define device_bar_BDK_GSERX_QLM_STAT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_QLM_STAT(a) (a)
 #define arguments_BDK_GSERX_QLM_STAT(a) (a),-1,-1,-1
 
@@ -6791,6 +6873,7 @@ static inline uint64_t BDK_GSERX_RDET_TIME(unsigned long a)
 #define typedef_BDK_GSERX_RDET_TIME(a) bdk_gserx_rdet_time_t
 #define bustype_BDK_GSERX_RDET_TIME(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_RDET_TIME(a) "GSERX_RDET_TIME"
+#define device_bar_BDK_GSERX_RDET_TIME(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_RDET_TIME(a) (a)
 #define arguments_BDK_GSERX_RDET_TIME(a) (a),-1,-1,-1
 
@@ -6844,6 +6927,7 @@ static inline uint64_t BDK_GSERX_REFCLK_EVT_CNTR(unsigned long a)
 #define typedef_BDK_GSERX_REFCLK_EVT_CNTR(a) bdk_gserx_refclk_evt_cntr_t
 #define bustype_BDK_GSERX_REFCLK_EVT_CNTR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_REFCLK_EVT_CNTR(a) "GSERX_REFCLK_EVT_CNTR"
+#define device_bar_BDK_GSERX_REFCLK_EVT_CNTR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_REFCLK_EVT_CNTR(a) (a)
 #define arguments_BDK_GSERX_REFCLK_EVT_CNTR(a) (a),-1,-1,-1
 
@@ -6883,6 +6967,7 @@ static inline uint64_t BDK_GSERX_REFCLK_EVT_CTRL(unsigned long a)
 #define typedef_BDK_GSERX_REFCLK_EVT_CTRL(a) bdk_gserx_refclk_evt_ctrl_t
 #define bustype_BDK_GSERX_REFCLK_EVT_CTRL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_REFCLK_EVT_CTRL(a) "GSERX_REFCLK_EVT_CTRL"
+#define device_bar_BDK_GSERX_REFCLK_EVT_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_REFCLK_EVT_CTRL(a) (a)
 #define arguments_BDK_GSERX_REFCLK_EVT_CTRL(a) (a),-1,-1,-1
 
@@ -6937,6 +7022,7 @@ static inline uint64_t BDK_GSERX_REFCLK_SEL(unsigned long a)
 #define typedef_BDK_GSERX_REFCLK_SEL(a) bdk_gserx_refclk_sel_t
 #define bustype_BDK_GSERX_REFCLK_SEL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_REFCLK_SEL(a) "GSERX_REFCLK_SEL"
+#define device_bar_BDK_GSERX_REFCLK_SEL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_REFCLK_SEL(a) (a)
 #define arguments_BDK_GSERX_REFCLK_SEL(a) (a),-1,-1,-1
 
@@ -6994,6 +7080,7 @@ static inline uint64_t BDK_GSERX_RX_COAST(unsigned long a)
 #define typedef_BDK_GSERX_RX_COAST(a) bdk_gserx_rx_coast_t
 #define bustype_BDK_GSERX_RX_COAST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_RX_COAST(a) "GSERX_RX_COAST"
+#define device_bar_BDK_GSERX_RX_COAST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_RX_COAST(a) (a)
 #define arguments_BDK_GSERX_RX_COAST(a) (a),-1,-1,-1
 
@@ -7049,6 +7136,7 @@ static inline uint64_t BDK_GSERX_RX_EIE_DETEN(unsigned long a)
 #define typedef_BDK_GSERX_RX_EIE_DETEN(a) bdk_gserx_rx_eie_deten_t
 #define bustype_BDK_GSERX_RX_EIE_DETEN(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_RX_EIE_DETEN(a) "GSERX_RX_EIE_DETEN"
+#define device_bar_BDK_GSERX_RX_EIE_DETEN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_RX_EIE_DETEN(a) (a)
 #define arguments_BDK_GSERX_RX_EIE_DETEN(a) (a),-1,-1,-1
 
@@ -7138,6 +7226,7 @@ static inline uint64_t BDK_GSERX_RX_EIE_DETSTS(unsigned long a)
 #define typedef_BDK_GSERX_RX_EIE_DETSTS(a) bdk_gserx_rx_eie_detsts_t
 #define bustype_BDK_GSERX_RX_EIE_DETSTS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_RX_EIE_DETSTS(a) "GSERX_RX_EIE_DETSTS"
+#define device_bar_BDK_GSERX_RX_EIE_DETSTS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_RX_EIE_DETSTS(a) (a)
 #define arguments_BDK_GSERX_RX_EIE_DETSTS(a) (a),-1,-1,-1
 
@@ -7209,6 +7298,7 @@ static inline uint64_t BDK_GSERX_RX_EIE_FILTER(unsigned long a)
 #define typedef_BDK_GSERX_RX_EIE_FILTER(a) bdk_gserx_rx_eie_filter_t
 #define bustype_BDK_GSERX_RX_EIE_FILTER(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_RX_EIE_FILTER(a) "GSERX_RX_EIE_FILTER"
+#define device_bar_BDK_GSERX_RX_EIE_FILTER(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_RX_EIE_FILTER(a) (a)
 #define arguments_BDK_GSERX_RX_EIE_FILTER(a) (a),-1,-1,-1
 
@@ -7258,6 +7348,7 @@ static inline uint64_t BDK_GSERX_RX_POLARITY(unsigned long a)
 #define typedef_BDK_GSERX_RX_POLARITY(a) bdk_gserx_rx_polarity_t
 #define bustype_BDK_GSERX_RX_POLARITY(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_RX_POLARITY(a) "GSERX_RX_POLARITY"
+#define device_bar_BDK_GSERX_RX_POLARITY(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_RX_POLARITY(a) (a)
 #define arguments_BDK_GSERX_RX_POLARITY(a) (a),-1,-1,-1
 
@@ -7328,6 +7419,7 @@ static inline uint64_t BDK_GSERX_RX_PWR_CTRL_P1(unsigned long a)
 #define typedef_BDK_GSERX_RX_PWR_CTRL_P1(a) bdk_gserx_rx_pwr_ctrl_p1_t
 #define bustype_BDK_GSERX_RX_PWR_CTRL_P1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_RX_PWR_CTRL_P1(a) "GSERX_RX_PWR_CTRL_P1"
+#define device_bar_BDK_GSERX_RX_PWR_CTRL_P1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_RX_PWR_CTRL_P1(a) (a)
 #define arguments_BDK_GSERX_RX_PWR_CTRL_P1(a) (a),-1,-1,-1
 
@@ -7404,6 +7496,7 @@ static inline uint64_t BDK_GSERX_RX_PWR_CTRL_P2(unsigned long a)
 #define typedef_BDK_GSERX_RX_PWR_CTRL_P2(a) bdk_gserx_rx_pwr_ctrl_p2_t
 #define bustype_BDK_GSERX_RX_PWR_CTRL_P2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_RX_PWR_CTRL_P2(a) "GSERX_RX_PWR_CTRL_P2"
+#define device_bar_BDK_GSERX_RX_PWR_CTRL_P2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_RX_PWR_CTRL_P2(a) (a)
 #define arguments_BDK_GSERX_RX_PWR_CTRL_P2(a) (a),-1,-1,-1
 
@@ -7468,6 +7561,7 @@ static inline uint64_t BDK_GSERX_RX_TXDIR_CTRL_1(unsigned long a)
 #define typedef_BDK_GSERX_RX_TXDIR_CTRL_1(a) bdk_gserx_rx_txdir_ctrl_1_t
 #define bustype_BDK_GSERX_RX_TXDIR_CTRL_1(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_RX_TXDIR_CTRL_1(a) "GSERX_RX_TXDIR_CTRL_1"
+#define device_bar_BDK_GSERX_RX_TXDIR_CTRL_1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_RX_TXDIR_CTRL_1(a) (a)
 #define arguments_BDK_GSERX_RX_TXDIR_CTRL_1(a) (a),-1,-1,-1
 
@@ -7511,6 +7605,7 @@ static inline uint64_t BDK_GSERX_SATA_LANEX_TX_AMPX(unsigned long a, unsigned lo
 #define typedef_BDK_GSERX_SATA_LANEX_TX_AMPX(a,b,c) bdk_gserx_sata_lanex_tx_ampx_t
 #define bustype_BDK_GSERX_SATA_LANEX_TX_AMPX(a,b,c) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_SATA_LANEX_TX_AMPX(a,b,c) "GSERX_SATA_LANEX_TX_AMPX"
+#define device_bar_BDK_GSERX_SATA_LANEX_TX_AMPX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_SATA_LANEX_TX_AMPX(a,b,c) (a)
 #define arguments_BDK_GSERX_SATA_LANEX_TX_AMPX(a,b,c) (a),(b),(c),-1
 
@@ -7555,6 +7650,7 @@ static inline uint64_t BDK_GSERX_SATA_LANEX_TX_PREEMPHX(unsigned long a, unsigne
 #define typedef_BDK_GSERX_SATA_LANEX_TX_PREEMPHX(a,b,c) bdk_gserx_sata_lanex_tx_preemphx_t
 #define bustype_BDK_GSERX_SATA_LANEX_TX_PREEMPHX(a,b,c) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_SATA_LANEX_TX_PREEMPHX(a,b,c) "GSERX_SATA_LANEX_TX_PREEMPHX"
+#define device_bar_BDK_GSERX_SATA_LANEX_TX_PREEMPHX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_SATA_LANEX_TX_PREEMPHX(a,b,c) (a)
 #define arguments_BDK_GSERX_SATA_LANEX_TX_PREEMPHX(a,b,c) (a),(b),(c),-1
 
@@ -7597,6 +7693,7 @@ static inline uint64_t BDK_GSERX_SATA_LANE_RST(unsigned long a)
 #define typedef_BDK_GSERX_SATA_LANE_RST(a) bdk_gserx_sata_lane_rst_t
 #define bustype_BDK_GSERX_SATA_LANE_RST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_SATA_LANE_RST(a) "GSERX_SATA_LANE_RST"
+#define device_bar_BDK_GSERX_SATA_LANE_RST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_SATA_LANE_RST(a) (a)
 #define arguments_BDK_GSERX_SATA_LANE_RST(a) (a),-1,-1,-1
 
@@ -7639,6 +7736,7 @@ static inline uint64_t BDK_GSERX_SATA_STATUS(unsigned long a)
 #define typedef_BDK_GSERX_SATA_STATUS(a) bdk_gserx_sata_status_t
 #define bustype_BDK_GSERX_SATA_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_SATA_STATUS(a) "GSERX_SATA_STATUS"
+#define device_bar_BDK_GSERX_SATA_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_SATA_STATUS(a) (a)
 #define arguments_BDK_GSERX_SATA_STATUS(a) (a),-1,-1,-1
 
@@ -7646,7 +7744,7 @@ static inline uint64_t BDK_GSERX_SATA_STATUS(unsigned long a)
  * Register (RSL) gser#_sata_tx_invert
  *
  * GSER SATA Tx Invert Register
- * TX Lane Data Invert Control.
+ * Lane Reset Control.
  */
 typedef union
 {
@@ -7689,6 +7787,7 @@ static inline uint64_t BDK_GSERX_SATA_TX_INVERT(unsigned long a)
 #define typedef_BDK_GSERX_SATA_TX_INVERT(a) bdk_gserx_sata_tx_invert_t
 #define bustype_BDK_GSERX_SATA_TX_INVERT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_SATA_TX_INVERT(a) "GSERX_SATA_TX_INVERT"
+#define device_bar_BDK_GSERX_SATA_TX_INVERT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_SATA_TX_INVERT(a) (a)
 #define arguments_BDK_GSERX_SATA_TX_INVERT(a) (a),-1,-1,-1
 
@@ -7726,6 +7825,7 @@ static inline uint64_t BDK_GSERX_SCRATCH(unsigned long a)
 #define typedef_BDK_GSERX_SCRATCH(a) bdk_gserx_scratch_t
 #define bustype_BDK_GSERX_SCRATCH(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_SCRATCH(a) "GSERX_SCRATCH"
+#define device_bar_BDK_GSERX_SCRATCH(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_SCRATCH(a) (a)
 #define arguments_BDK_GSERX_SCRATCH(a) (a),-1,-1,-1
 
@@ -7802,6 +7902,7 @@ static inline uint64_t BDK_GSERX_SLICEX_RX_SDLL_CTRL(unsigned long a, unsigned l
 #define typedef_BDK_GSERX_SLICEX_RX_SDLL_CTRL(a,b) bdk_gserx_slicex_rx_sdll_ctrl_t
 #define bustype_BDK_GSERX_SLICEX_RX_SDLL_CTRL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_SLICEX_RX_SDLL_CTRL(a,b) "GSERX_SLICEX_RX_SDLL_CTRL"
+#define device_bar_BDK_GSERX_SLICEX_RX_SDLL_CTRL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_SLICEX_RX_SDLL_CTRL(a,b) (a)
 #define arguments_BDK_GSERX_SLICEX_RX_SDLL_CTRL(a,b) (a),(b),-1,-1
 
@@ -7852,6 +7953,7 @@ static inline uint64_t BDK_GSERX_SLICE_CFG(unsigned long a)
 #define typedef_BDK_GSERX_SLICE_CFG(a) bdk_gserx_slice_cfg_t
 #define bustype_BDK_GSERX_SLICE_CFG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_SLICE_CFG(a) "GSERX_SLICE_CFG"
+#define device_bar_BDK_GSERX_SLICE_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_SLICE_CFG(a) (a)
 #define arguments_BDK_GSERX_SLICE_CFG(a) (a),-1,-1,-1
 
@@ -7859,6 +7961,8 @@ static inline uint64_t BDK_GSERX_SLICE_CFG(unsigned long a)
  * Register (RSL) gser#_spd
  *
  * GSER Speed Bits Register
+ * These registers are reset by hardware only during chip cold reset. The values of the CSR
+ * fields in these registers do not change during chip warm or soft resets.
  */
 typedef union
 {
@@ -8150,6 +8254,7 @@ static inline uint64_t BDK_GSERX_SPD(unsigned long a)
 #define typedef_BDK_GSERX_SPD(a) bdk_gserx_spd_t
 #define bustype_BDK_GSERX_SPD(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_SPD(a) "GSERX_SPD"
+#define device_bar_BDK_GSERX_SPD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_SPD(a) (a)
 #define arguments_BDK_GSERX_SPD(a) (a),-1,-1,-1
 
@@ -8189,6 +8294,7 @@ static inline uint64_t BDK_GSERX_SRST(unsigned long a)
 #define typedef_BDK_GSERX_SRST(a) bdk_gserx_srst_t
 #define bustype_BDK_GSERX_SRST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_SRST(a) "GSERX_SRST"
+#define device_bar_BDK_GSERX_SRST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_SRST(a) (a)
 #define arguments_BDK_GSERX_SRST(a) (a),-1,-1,-1
 
@@ -8236,6 +8342,7 @@ static inline uint64_t BDK_GSERX_TX_VBOOST(unsigned long a)
 #define typedef_BDK_GSERX_TX_VBOOST(a) bdk_gserx_tx_vboost_t
 #define bustype_BDK_GSERX_TX_VBOOST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_TX_VBOOST(a) "GSERX_TX_VBOOST"
+#define device_bar_BDK_GSERX_TX_VBOOST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_TX_VBOOST(a) (a)
 #define arguments_BDK_GSERX_TX_VBOOST(a) (a),-1,-1,-1
 
@@ -8289,6 +8396,7 @@ static inline uint64_t BDK_GSERX_TXCLK_EVT_CNTR(unsigned long a)
 #define typedef_BDK_GSERX_TXCLK_EVT_CNTR(a) bdk_gserx_txclk_evt_cntr_t
 #define bustype_BDK_GSERX_TXCLK_EVT_CNTR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_TXCLK_EVT_CNTR(a) "GSERX_TXCLK_EVT_CNTR"
+#define device_bar_BDK_GSERX_TXCLK_EVT_CNTR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_TXCLK_EVT_CNTR(a) (a)
 #define arguments_BDK_GSERX_TXCLK_EVT_CNTR(a) (a),-1,-1,-1
 
@@ -8328,6 +8436,7 @@ static inline uint64_t BDK_GSERX_TXCLK_EVT_CTRL(unsigned long a)
 #define typedef_BDK_GSERX_TXCLK_EVT_CTRL(a) bdk_gserx_txclk_evt_ctrl_t
 #define bustype_BDK_GSERX_TXCLK_EVT_CTRL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_GSERX_TXCLK_EVT_CTRL(a) "GSERX_TXCLK_EVT_CTRL"
+#define device_bar_BDK_GSERX_TXCLK_EVT_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GSERX_TXCLK_EVT_CTRL(a) (a)
 #define arguments_BDK_GSERX_TXCLK_EVT_CTRL(a) (a),-1,-1,-1
 

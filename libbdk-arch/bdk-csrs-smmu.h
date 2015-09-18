@@ -168,6 +168,7 @@ static inline uint64_t BDK_SMMUX_ACTIVE_PC(unsigned long a)
 #define typedef_BDK_SMMUX_ACTIVE_PC(a) bdk_smmux_active_pc_t
 #define bustype_BDK_SMMUX_ACTIVE_PC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_ACTIVE_PC(a) "SMMUX_ACTIVE_PC"
+#define device_bar_BDK_SMMUX_ACTIVE_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_ACTIVE_PC(a) (a)
 #define arguments_BDK_SMMUX_ACTIVE_PC(a) (a),-1,-1,-1
 
@@ -256,6 +257,7 @@ static inline uint64_t BDK_SMMUX_BIST_STATUS(unsigned long a)
 #define typedef_BDK_SMMUX_BIST_STATUS(a) bdk_smmux_bist_status_t
 #define bustype_BDK_SMMUX_BIST_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_BIST_STATUS(a) "SMMUX_BIST_STATUS"
+#define device_bar_BDK_SMMUX_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_BIST_STATUS(a) (a)
 #define arguments_BDK_SMMUX_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -304,6 +306,7 @@ static inline uint64_t BDK_SMMUX_CBX_ACTLR(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_ACTLR(a,b) bdk_smmux_cbx_actlr_t
 #define bustype_BDK_SMMUX_CBX_ACTLR(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_ACTLR(a,b) "SMMUX_CBX_ACTLR"
+#define device_bar_BDK_SMMUX_CBX_ACTLR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_ACTLR(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_ACTLR(a,b) (a),(b),-1,-1
 
@@ -343,6 +346,7 @@ static inline uint64_t BDK_SMMUX_CBX_CONTEXTIDR(unsigned long a, unsigned long b
 #define typedef_BDK_SMMUX_CBX_CONTEXTIDR(a,b) bdk_smmux_cbx_contextidr_t
 #define bustype_BDK_SMMUX_CBX_CONTEXTIDR(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_CONTEXTIDR(a,b) "SMMUX_CBX_CONTEXTIDR"
+#define device_bar_BDK_SMMUX_CBX_CONTEXTIDR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_CONTEXTIDR(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_CONTEXTIDR(a,b) (a),(b),-1,-1
 
@@ -402,6 +406,7 @@ static inline uint64_t BDK_SMMUX_CBX_FAR(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_FAR(a,b) bdk_smmux_cbx_far_t
 #define bustype_BDK_SMMUX_CBX_FAR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_CBX_FAR(a,b) "SMMUX_CBX_FAR"
+#define device_bar_BDK_SMMUX_CBX_FAR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_FAR(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_FAR(a,b) (a),(b),-1,-1
 
@@ -501,6 +506,7 @@ static inline uint64_t BDK_SMMUX_CBX_FSR(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_FSR(a,b) bdk_smmux_cbx_fsr_t
 #define bustype_BDK_SMMUX_CBX_FSR(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_FSR(a,b) "SMMUX_CBX_FSR"
+#define device_bar_BDK_SMMUX_CBX_FSR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_FSR(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_FSR(a,b) (a),(b),-1,-1
 
@@ -540,6 +546,7 @@ static inline uint64_t BDK_SMMUX_CBX_FSRRESTORE(unsigned long a, unsigned long b
 #define typedef_BDK_SMMUX_CBX_FSRRESTORE(a,b) bdk_smmux_cbx_fsrrestore_t
 #define bustype_BDK_SMMUX_CBX_FSRRESTORE(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_FSRRESTORE(a,b) "SMMUX_CBX_FSRRESTORE"
+#define device_bar_BDK_SMMUX_CBX_FSRRESTORE(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_FSRRESTORE(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_FSRRESTORE(a,b) (a),(b),-1,-1
 
@@ -671,6 +678,7 @@ static inline uint64_t BDK_SMMUX_CBX_FSYNR0(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_FSYNR0(a,b) bdk_smmux_cbx_fsynr0_t
 #define bustype_BDK_SMMUX_CBX_FSYNR0(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_FSYNR0(a,b) "SMMUX_CBX_FSYNR0"
+#define device_bar_BDK_SMMUX_CBX_FSYNR0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_FSYNR0(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_FSYNR0(a,b) (a),(b),-1,-1
 
@@ -709,6 +717,7 @@ static inline uint64_t BDK_SMMUX_CBX_FSYNR1(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_FSYNR1(a,b) bdk_smmux_cbx_fsynr1_t
 #define bustype_BDK_SMMUX_CBX_FSYNR1(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_FSYNR1(a,b) "SMMUX_CBX_FSYNR1"
+#define device_bar_BDK_SMMUX_CBX_FSYNR1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_FSYNR1(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_FSYNR1(a,b) (a),(b),-1,-1
 
@@ -757,6 +766,7 @@ static inline uint64_t BDK_SMMUX_CBX_IPAFAR(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_IPAFAR(a,b) bdk_smmux_cbx_ipafar_t
 #define bustype_BDK_SMMUX_CBX_IPAFAR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_CBX_IPAFAR(a,b) "SMMUX_CBX_IPAFAR"
+#define device_bar_BDK_SMMUX_CBX_IPAFAR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_IPAFAR(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_IPAFAR(a,b) (a),(b),-1,-1
 
@@ -803,6 +813,7 @@ static inline uint64_t BDK_SMMUX_CBX_MAIR0(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_MAIR0(a,b) bdk_smmux_cbx_mair0_t
 #define bustype_BDK_SMMUX_CBX_MAIR0(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_MAIR0(a,b) "SMMUX_CBX_MAIR0"
+#define device_bar_BDK_SMMUX_CBX_MAIR0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_MAIR0(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_MAIR0(a,b) (a),(b),-1,-1
 
@@ -849,6 +860,7 @@ static inline uint64_t BDK_SMMUX_CBX_MAIR1(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_MAIR1(a,b) bdk_smmux_cbx_mair1_t
 #define bustype_BDK_SMMUX_CBX_MAIR1(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_MAIR1(a,b) "SMMUX_CBX_MAIR1"
+#define device_bar_BDK_SMMUX_CBX_MAIR1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_MAIR1(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_MAIR1(a,b) (a),(b),-1,-1
 
@@ -887,6 +899,7 @@ static inline uint64_t BDK_SMMUX_CBX_RESUME(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_RESUME(a,b) bdk_smmux_cbx_resume_t
 #define bustype_BDK_SMMUX_CBX_RESUME(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_RESUME(a,b) "SMMUX_CBX_RESUME"
+#define device_bar_BDK_SMMUX_CBX_RESUME(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_RESUME(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_RESUME(a,b) (a),(b),-1,-1
 
@@ -1178,6 +1191,7 @@ static inline uint64_t BDK_SMMUX_CBX_SCTLR(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_SCTLR(a,b) bdk_smmux_cbx_sctlr_t
 #define bustype_BDK_SMMUX_CBX_SCTLR(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_SCTLR(a,b) "SMMUX_CBX_SCTLR"
+#define device_bar_BDK_SMMUX_CBX_SCTLR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_SCTLR(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_SCTLR(a,b) (a),(b),-1,-1
 
@@ -1365,6 +1379,7 @@ static inline uint64_t BDK_SMMUX_CBX_TCR(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TCR(a,b) bdk_smmux_cbx_tcr_t
 #define bustype_BDK_SMMUX_CBX_TCR(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_TCR(a,b) "SMMUX_CBX_TCR"
+#define device_bar_BDK_SMMUX_CBX_TCR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TCR(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TCR(a,b) (a),(b),-1,-1
 
@@ -1510,6 +1525,7 @@ static inline uint64_t BDK_SMMUX_CBX_TCR2(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TCR2(a,b) bdk_smmux_cbx_tcr2_t
 #define bustype_BDK_SMMUX_CBX_TCR2(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_TCR2(a,b) "SMMUX_CBX_TCR2"
+#define device_bar_BDK_SMMUX_CBX_TCR2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TCR2(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TCR2(a,b) (a),(b),-1,-1
 
@@ -1555,6 +1571,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIALL(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TLBIALL(a,b) bdk_smmux_cbx_tlbiall_t
 #define bustype_BDK_SMMUX_CBX_TLBIALL(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_TLBIALL(a,b) "SMMUX_CBX_TLBIALL"
+#define device_bar_BDK_SMMUX_CBX_TLBIALL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TLBIALL(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBIALL(a,b) (a),(b),-1,-1
 
@@ -1600,6 +1617,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIASID(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TLBIASID(a,b) bdk_smmux_cbx_tlbiasid_t
 #define bustype_BDK_SMMUX_CBX_TLBIASID(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_TLBIASID(a,b) "SMMUX_CBX_TLBIASID"
+#define device_bar_BDK_SMMUX_CBX_TLBIASID(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TLBIASID(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBIASID(a,b) (a),(b),-1,-1
 
@@ -1655,6 +1673,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TLBIIPAS2(a,b) bdk_smmux_cbx_tlbiipas2_t
 #define bustype_BDK_SMMUX_CBX_TLBIIPAS2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_CBX_TLBIIPAS2(a,b) "SMMUX_CBX_TLBIIPAS2"
+#define device_bar_BDK_SMMUX_CBX_TLBIIPAS2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TLBIIPAS2(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBIIPAS2(a,b) (a),(b),-1,-1
 
@@ -1700,6 +1719,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2L(unsigned long a, unsigned long b
 #define typedef_BDK_SMMUX_CBX_TLBIIPAS2L(a,b) bdk_smmux_cbx_tlbiipas2l_t
 #define bustype_BDK_SMMUX_CBX_TLBIIPAS2L(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_CBX_TLBIIPAS2L(a,b) "SMMUX_CBX_TLBIIPAS2L"
+#define device_bar_BDK_SMMUX_CBX_TLBIIPAS2L(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TLBIIPAS2L(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBIIPAS2L(a,b) (a),(b),-1,-1
 
@@ -1754,6 +1774,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIVA(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TLBIVA(a,b) bdk_smmux_cbx_tlbiva_t
 #define bustype_BDK_SMMUX_CBX_TLBIVA(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_CBX_TLBIVA(a,b) "SMMUX_CBX_TLBIVA"
+#define device_bar_BDK_SMMUX_CBX_TLBIVA(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TLBIVA(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBIVA(a,b) (a),(b),-1,-1
 
@@ -1805,6 +1826,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIVAA(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TLBIVAA(a,b) bdk_smmux_cbx_tlbivaa_t
 #define bustype_BDK_SMMUX_CBX_TLBIVAA(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_CBX_TLBIVAA(a,b) "SMMUX_CBX_TLBIVAA"
+#define device_bar_BDK_SMMUX_CBX_TLBIVAA(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TLBIVAA(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBIVAA(a,b) (a),(b),-1,-1
 
@@ -1852,6 +1874,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIVAAL(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TLBIVAAL(a,b) bdk_smmux_cbx_tlbivaal_t
 #define bustype_BDK_SMMUX_CBX_TLBIVAAL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_CBX_TLBIVAAL(a,b) "SMMUX_CBX_TLBIVAAL"
+#define device_bar_BDK_SMMUX_CBX_TLBIVAAL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TLBIVAAL(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBIVAAL(a,b) (a),(b),-1,-1
 
@@ -1901,6 +1924,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIVAL(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TLBIVAL(a,b) bdk_smmux_cbx_tlbival_t
 #define bustype_BDK_SMMUX_CBX_TLBIVAL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_CBX_TLBIVAL(a,b) "SMMUX_CBX_TLBIVAL"
+#define device_bar_BDK_SMMUX_CBX_TLBIVAL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TLBIVAL(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBIVAL(a,b) (a),(b),-1,-1
 
@@ -1946,6 +1970,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBSTATUS(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TLBSTATUS(a,b) bdk_smmux_cbx_tlbstatus_t
 #define bustype_BDK_SMMUX_CBX_TLBSTATUS(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_TLBSTATUS(a,b) "SMMUX_CBX_TLBSTATUS"
+#define device_bar_BDK_SMMUX_CBX_TLBSTATUS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TLBSTATUS(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBSTATUS(a,b) (a),(b),-1,-1
 
@@ -1986,6 +2011,7 @@ static inline uint64_t BDK_SMMUX_CBX_TLBSYNC(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TLBSYNC(a,b) bdk_smmux_cbx_tlbsync_t
 #define bustype_BDK_SMMUX_CBX_TLBSYNC(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBX_TLBSYNC(a,b) "SMMUX_CBX_TLBSYNC"
+#define device_bar_BDK_SMMUX_CBX_TLBSYNC(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TLBSYNC(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBSYNC(a,b) (a),(b),-1,-1
 
@@ -2035,6 +2061,7 @@ static inline uint64_t BDK_SMMUX_CBX_TTBR0(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TTBR0(a,b) bdk_smmux_cbx_ttbr0_t
 #define bustype_BDK_SMMUX_CBX_TTBR0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_CBX_TTBR0(a,b) "SMMUX_CBX_TTBR0"
+#define device_bar_BDK_SMMUX_CBX_TTBR0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TTBR0(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TTBR0(a,b) (a),(b),-1,-1
 
@@ -2084,6 +2111,7 @@ static inline uint64_t BDK_SMMUX_CBX_TTBR1(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBX_TTBR1(a,b) bdk_smmux_cbx_ttbr1_t
 #define bustype_BDK_SMMUX_CBX_TTBR1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_CBX_TTBR1(a,b) "SMMUX_CBX_TTBR1"
+#define device_bar_BDK_SMMUX_CBX_TTBR1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBX_TTBR1(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TTBR1(a,b) (a),(b),-1,-1
 
@@ -2192,6 +2220,7 @@ static inline uint64_t BDK_SMMUX_CBA2RX(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBA2RX(a,b) bdk_smmux_cba2rx_t
 #define bustype_BDK_SMMUX_CBA2RX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBA2RX(a,b) "SMMUX_CBA2RX"
+#define device_bar_BDK_SMMUX_CBA2RX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBA2RX(a,b) (a)
 #define arguments_BDK_SMMUX_CBA2RX(a,b) (a),(b),-1,-1
 
@@ -2361,6 +2390,7 @@ static inline uint64_t BDK_SMMUX_CBARX(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBARX(a,b) bdk_smmux_cbarx_t
 #define bustype_BDK_SMMUX_CBARX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBARX(a,b) "SMMUX_CBARX"
+#define device_bar_BDK_SMMUX_CBARX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBARX(a,b) (a)
 #define arguments_BDK_SMMUX_CBARX(a,b) (a),(b),-1,-1
 
@@ -2406,6 +2436,7 @@ static inline uint64_t BDK_SMMUX_CBFRSYNRAX(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_CBFRSYNRAX(a,b) bdk_smmux_cbfrsynrax_t
 #define bustype_BDK_SMMUX_CBFRSYNRAX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CBFRSYNRAX(a,b) "SMMUX_CBFRSYNRAX"
+#define device_bar_BDK_SMMUX_CBFRSYNRAX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CBFRSYNRAX(a,b) (a)
 #define arguments_BDK_SMMUX_CBFRSYNRAX(a,b) (a),(b),-1,-1
 
@@ -2446,6 +2477,7 @@ static inline uint64_t BDK_SMMUX_CIDR0(unsigned long a)
 #define typedef_BDK_SMMUX_CIDR0(a) bdk_smmux_cidr0_t
 #define bustype_BDK_SMMUX_CIDR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CIDR0(a) "SMMUX_CIDR0"
+#define device_bar_BDK_SMMUX_CIDR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CIDR0(a) (a)
 #define arguments_BDK_SMMUX_CIDR0(a) (a),-1,-1,-1
 
@@ -2486,6 +2518,7 @@ static inline uint64_t BDK_SMMUX_CIDR1(unsigned long a)
 #define typedef_BDK_SMMUX_CIDR1(a) bdk_smmux_cidr1_t
 #define bustype_BDK_SMMUX_CIDR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CIDR1(a) "SMMUX_CIDR1"
+#define device_bar_BDK_SMMUX_CIDR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CIDR1(a) (a)
 #define arguments_BDK_SMMUX_CIDR1(a) (a),-1,-1,-1
 
@@ -2526,6 +2559,7 @@ static inline uint64_t BDK_SMMUX_CIDR2(unsigned long a)
 #define typedef_BDK_SMMUX_CIDR2(a) bdk_smmux_cidr2_t
 #define bustype_BDK_SMMUX_CIDR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CIDR2(a) "SMMUX_CIDR2"
+#define device_bar_BDK_SMMUX_CIDR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CIDR2(a) (a)
 #define arguments_BDK_SMMUX_CIDR2(a) (a),-1,-1,-1
 
@@ -2566,6 +2600,7 @@ static inline uint64_t BDK_SMMUX_CIDR3(unsigned long a)
 #define typedef_BDK_SMMUX_CIDR3(a) bdk_smmux_cidr3_t
 #define bustype_BDK_SMMUX_CIDR3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_CIDR3(a) "SMMUX_CIDR3"
+#define device_bar_BDK_SMMUX_CIDR3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_CIDR3(a) (a)
 #define arguments_BDK_SMMUX_CIDR3(a) (a),-1,-1,-1
 
@@ -2612,6 +2647,7 @@ static inline uint64_t BDK_SMMUX_DEBUG(unsigned long a)
 #define typedef_BDK_SMMUX_DEBUG(a) bdk_smmux_debug_t
 #define bustype_BDK_SMMUX_DEBUG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_DEBUG(a) "SMMUX_DEBUG"
+#define device_bar_BDK_SMMUX_DEBUG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_DEBUG(a) (a)
 #define arguments_BDK_SMMUX_DEBUG(a) (a),-1,-1,-1
 
@@ -2838,6 +2874,7 @@ static inline uint64_t BDK_SMMUX_DIAG_CTL(unsigned long a)
 #define typedef_BDK_SMMUX_DIAG_CTL(a) bdk_smmux_diag_ctl_t
 #define bustype_BDK_SMMUX_DIAG_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_DIAG_CTL(a) "SMMUX_DIAG_CTL"
+#define device_bar_BDK_SMMUX_DIAG_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_DIAG_CTL(a) (a)
 #define arguments_BDK_SMMUX_DIAG_CTL(a) (a),-1,-1,-1
 
@@ -2921,6 +2958,7 @@ static inline uint64_t BDK_SMMUX_ECC_CTL_0(unsigned long a)
 #define typedef_BDK_SMMUX_ECC_CTL_0(a) bdk_smmux_ecc_ctl_0_t
 #define bustype_BDK_SMMUX_ECC_CTL_0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_ECC_CTL_0(a) "SMMUX_ECC_CTL_0"
+#define device_bar_BDK_SMMUX_ECC_CTL_0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_ECC_CTL_0(a) (a)
 #define arguments_BDK_SMMUX_ECC_CTL_0(a) (a),-1,-1,-1
 
@@ -2972,6 +3010,7 @@ static inline uint64_t BDK_SMMUX_ECC_CTL_1(unsigned long a)
 #define typedef_BDK_SMMUX_ECC_CTL_1(a) bdk_smmux_ecc_ctl_1_t
 #define bustype_BDK_SMMUX_ECC_CTL_1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_ECC_CTL_1(a) "SMMUX_ECC_CTL_1"
+#define device_bar_BDK_SMMUX_ECC_CTL_1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_ECC_CTL_1(a) (a)
 #define arguments_BDK_SMMUX_ECC_CTL_1(a) (a),-1,-1,-1
 
@@ -3031,6 +3070,7 @@ static inline uint64_t BDK_SMMUX_ERR_ENA_W1C(unsigned long a)
 #define typedef_BDK_SMMUX_ERR_ENA_W1C(a) bdk_smmux_err_ena_w1c_t
 #define bustype_BDK_SMMUX_ERR_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_ERR_ENA_W1C(a) "SMMUX_ERR_ENA_W1C"
+#define device_bar_BDK_SMMUX_ERR_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_ERR_ENA_W1C(a) (a)
 #define arguments_BDK_SMMUX_ERR_ENA_W1C(a) (a),-1,-1,-1
 
@@ -3090,6 +3130,7 @@ static inline uint64_t BDK_SMMUX_ERR_ENA_W1S(unsigned long a)
 #define typedef_BDK_SMMUX_ERR_ENA_W1S(a) bdk_smmux_err_ena_w1s_t
 #define bustype_BDK_SMMUX_ERR_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_ERR_ENA_W1S(a) "SMMUX_ERR_ENA_W1S"
+#define device_bar_BDK_SMMUX_ERR_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_ERR_ENA_W1S(a) (a)
 #define arguments_BDK_SMMUX_ERR_ENA_W1S(a) (a),-1,-1,-1
 
@@ -3178,6 +3219,7 @@ static inline uint64_t BDK_SMMUX_ERR_INT(unsigned long a)
 #define typedef_BDK_SMMUX_ERR_INT(a) bdk_smmux_err_int_t
 #define bustype_BDK_SMMUX_ERR_INT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_ERR_INT(a) "SMMUX_ERR_INT"
+#define device_bar_BDK_SMMUX_ERR_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_ERR_INT(a) (a)
 #define arguments_BDK_SMMUX_ERR_INT(a) (a),-1,-1,-1
 
@@ -3239,6 +3281,7 @@ static inline uint64_t BDK_SMMUX_ERR_INT_W1S(unsigned long a)
 #define typedef_BDK_SMMUX_ERR_INT_W1S(a) bdk_smmux_err_int_w1s_t
 #define bustype_BDK_SMMUX_ERR_INT_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_ERR_INT_W1S(a) "SMMUX_ERR_INT_W1S"
+#define device_bar_BDK_SMMUX_ERR_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_ERR_INT_W1S(a) (a)
 #define arguments_BDK_SMMUX_ERR_INT_W1S(a) (a),-1,-1,-1
 
@@ -3339,6 +3382,7 @@ static inline uint64_t BDK_SMMUX_IDR0(unsigned long a)
 #define typedef_BDK_SMMUX_IDR0(a) bdk_smmux_idr0_t
 #define bustype_BDK_SMMUX_IDR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_IDR0(a) "SMMUX_IDR0"
+#define device_bar_BDK_SMMUX_IDR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_IDR0(a) (a)
 #define arguments_BDK_SMMUX_IDR0(a) (a),-1,-1,-1
 
@@ -3449,6 +3493,7 @@ static inline uint64_t BDK_SMMUX_IDR1(unsigned long a)
 #define typedef_BDK_SMMUX_IDR1(a) bdk_smmux_idr1_t
 #define bustype_BDK_SMMUX_IDR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_IDR1(a) "SMMUX_IDR1"
+#define device_bar_BDK_SMMUX_IDR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_IDR1(a) (a)
 #define arguments_BDK_SMMUX_IDR1(a) (a),-1,-1,-1
 
@@ -3544,6 +3589,7 @@ static inline uint64_t BDK_SMMUX_IDR2(unsigned long a)
 #define typedef_BDK_SMMUX_IDR2(a) bdk_smmux_idr2_t
 #define bustype_BDK_SMMUX_IDR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_IDR2(a) "SMMUX_IDR2"
+#define device_bar_BDK_SMMUX_IDR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_IDR2(a) (a)
 #define arguments_BDK_SMMUX_IDR2(a) (a),-1,-1,-1
 
@@ -3582,6 +3628,7 @@ static inline uint64_t BDK_SMMUX_IDR3(unsigned long a)
 #define typedef_BDK_SMMUX_IDR3(a) bdk_smmux_idr3_t
 #define bustype_BDK_SMMUX_IDR3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_IDR3(a) "SMMUX_IDR3"
+#define device_bar_BDK_SMMUX_IDR3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_IDR3(a) (a)
 #define arguments_BDK_SMMUX_IDR3(a) (a),-1,-1,-1
 
@@ -3620,6 +3667,7 @@ static inline uint64_t BDK_SMMUX_IDR4(unsigned long a)
 #define typedef_BDK_SMMUX_IDR4(a) bdk_smmux_idr4_t
 #define bustype_BDK_SMMUX_IDR4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_IDR4(a) "SMMUX_IDR4"
+#define device_bar_BDK_SMMUX_IDR4(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_IDR4(a) (a)
 #define arguments_BDK_SMMUX_IDR4(a) (a),-1,-1,-1
 
@@ -3658,6 +3706,7 @@ static inline uint64_t BDK_SMMUX_IDR5(unsigned long a)
 #define typedef_BDK_SMMUX_IDR5(a) bdk_smmux_idr5_t
 #define bustype_BDK_SMMUX_IDR5(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_IDR5(a) "SMMUX_IDR5"
+#define device_bar_BDK_SMMUX_IDR5(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_IDR5(a) (a)
 #define arguments_BDK_SMMUX_IDR5(a) (a),-1,-1,-1
 
@@ -3696,6 +3745,7 @@ static inline uint64_t BDK_SMMUX_IDR6(unsigned long a)
 #define typedef_BDK_SMMUX_IDR6(a) bdk_smmux_idr6_t
 #define bustype_BDK_SMMUX_IDR6(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_IDR6(a) "SMMUX_IDR6"
+#define device_bar_BDK_SMMUX_IDR6(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_IDR6(a) (a)
 #define arguments_BDK_SMMUX_IDR6(a) (a),-1,-1,-1
 
@@ -3741,6 +3791,7 @@ static inline uint64_t BDK_SMMUX_IDR7(unsigned long a)
 #define typedef_BDK_SMMUX_IDR7(a) bdk_smmux_idr7_t
 #define bustype_BDK_SMMUX_IDR7(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_IDR7(a) "SMMUX_IDR7"
+#define device_bar_BDK_SMMUX_IDR7(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_IDR7(a) (a)
 #define arguments_BDK_SMMUX_IDR7(a) (a),-1,-1,-1
 
@@ -3795,6 +3846,7 @@ static inline uint64_t BDK_SMMUX_LOOK_PAR(unsigned long a)
 #define typedef_BDK_SMMUX_LOOK_PAR(a) bdk_smmux_look_par_t
 #define bustype_BDK_SMMUX_LOOK_PAR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_LOOK_PAR(a) "SMMUX_LOOK_PAR"
+#define device_bar_BDK_SMMUX_LOOK_PAR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_LOOK_PAR(a) (a)
 #define arguments_BDK_SMMUX_LOOK_PAR(a) (a),-1,-1,-1
 
@@ -3845,6 +3897,7 @@ static inline uint64_t BDK_SMMUX_LOOK_REQ(unsigned long a)
 #define typedef_BDK_SMMUX_LOOK_REQ(a) bdk_smmux_look_req_t
 #define bustype_BDK_SMMUX_LOOK_REQ(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_LOOK_REQ(a) "SMMUX_LOOK_REQ"
+#define device_bar_BDK_SMMUX_LOOK_REQ(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_LOOK_REQ(a) (a)
 #define arguments_BDK_SMMUX_LOOK_REQ(a) (a),-1,-1,-1
 
@@ -3886,6 +3939,7 @@ static inline uint64_t BDK_SMMUX_LOOK_STRM(unsigned long a)
 #define typedef_BDK_SMMUX_LOOK_STRM(a) bdk_smmux_look_strm_t
 #define bustype_BDK_SMMUX_LOOK_STRM(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_LOOK_STRM(a) "SMMUX_LOOK_STRM"
+#define device_bar_BDK_SMMUX_LOOK_STRM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_LOOK_STRM(a) (a)
 #define arguments_BDK_SMMUX_LOOK_STRM(a) (a),-1,-1,-1
 
@@ -3926,6 +3980,7 @@ static inline uint64_t BDK_SMMUX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_MSIX_PBAX(a,b) bdk_smmux_msix_pbax_t
 #define bustype_BDK_SMMUX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_MSIX_PBAX(a,b) "SMMUX_MSIX_PBAX"
+#define device_bar_BDK_SMMUX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SMMUX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_SMMUX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -4017,6 +4072,7 @@ static inline uint64_t BDK_SMMUX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
 #define typedef_BDK_SMMUX_MSIX_VECX_ADDR(a,b) bdk_smmux_msix_vecx_addr_t
 #define bustype_BDK_SMMUX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_MSIX_VECX_ADDR(a,b) "SMMUX_MSIX_VECX_ADDR"
+#define device_bar_BDK_SMMUX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SMMUX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_SMMUX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -4061,6 +4117,7 @@ static inline uint64_t BDK_SMMUX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_MSIX_VECX_CTL(a,b) bdk_smmux_msix_vecx_ctl_t
 #define bustype_BDK_SMMUX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_MSIX_VECX_CTL(a,b) "SMMUX_MSIX_VECX_CTL"
+#define device_bar_BDK_SMMUX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SMMUX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_SMMUX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -4098,6 +4155,7 @@ static inline uint64_t BDK_SMMUX_NS_HIT_PERF(unsigned long a)
 #define typedef_BDK_SMMUX_NS_HIT_PERF(a) bdk_smmux_ns_hit_perf_t
 #define bustype_BDK_SMMUX_NS_HIT_PERF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_NS_HIT_PERF(a) "SMMUX_NS_HIT_PERF"
+#define device_bar_BDK_SMMUX_NS_HIT_PERF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NS_HIT_PERF(a) (a)
 #define arguments_BDK_SMMUX_NS_HIT_PERF(a) (a),-1,-1,-1
 
@@ -4144,6 +4202,7 @@ static inline uint64_t BDK_SMMUX_NSACR(unsigned long a)
 #define typedef_BDK_SMMUX_NSACR(a) bdk_smmux_nsacr_t
 #define bustype_BDK_SMMUX_NSACR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_NSACR(a) "SMMUX_NSACR"
+#define device_bar_BDK_SMMUX_NSACR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSACR(a) (a)
 #define arguments_BDK_SMMUX_NSACR(a) (a),-1,-1,-1
 
@@ -4458,6 +4517,7 @@ static inline uint64_t BDK_SMMUX_NSCR0(unsigned long a)
 #define typedef_BDK_SMMUX_NSCR0(a) bdk_smmux_nscr0_t
 #define bustype_BDK_SMMUX_NSCR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_NSCR0(a) "SMMUX_NSCR0"
+#define device_bar_BDK_SMMUX_NSCR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSCR0(a) (a)
 #define arguments_BDK_SMMUX_NSCR0(a) (a),-1,-1,-1
 
@@ -4520,6 +4580,7 @@ static inline uint64_t BDK_SMMUX_NSCR2(unsigned long a)
 #define typedef_BDK_SMMUX_NSCR2(a) bdk_smmux_nscr2_t
 #define bustype_BDK_SMMUX_NSCR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_NSCR2(a) "SMMUX_NSCR2"
+#define device_bar_BDK_SMMUX_NSCR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSCR2(a) (a)
 #define arguments_BDK_SMMUX_NSCR2(a) (a),-1,-1,-1
 
@@ -4572,6 +4633,7 @@ static inline uint64_t BDK_SMMUX_NSGFAR(unsigned long a)
 #define typedef_BDK_SMMUX_NSGFAR(a) bdk_smmux_nsgfar_t
 #define bustype_BDK_SMMUX_NSGFAR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_NSGFAR(a) "SMMUX_NSGFAR"
+#define device_bar_BDK_SMMUX_NSGFAR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSGFAR(a) (a)
 #define arguments_BDK_SMMUX_NSGFAR(a) (a),-1,-1,-1
 
@@ -4648,6 +4710,7 @@ static inline uint64_t BDK_SMMUX_NSGFSR(unsigned long a)
 #define typedef_BDK_SMMUX_NSGFSR(a) bdk_smmux_nsgfsr_t
 #define bustype_BDK_SMMUX_NSGFSR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_NSGFSR(a) "SMMUX_NSGFSR"
+#define device_bar_BDK_SMMUX_NSGFSR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSGFSR(a) (a)
 #define arguments_BDK_SMMUX_NSGFSR(a) (a),-1,-1,-1
 
@@ -4686,6 +4749,7 @@ static inline uint64_t BDK_SMMUX_NSGFSRRESTORE(unsigned long a)
 #define typedef_BDK_SMMUX_NSGFSRRESTORE(a) bdk_smmux_nsgfsrrestore_t
 #define bustype_BDK_SMMUX_NSGFSRRESTORE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_NSGFSRRESTORE(a) "SMMUX_NSGFSRRESTORE"
+#define device_bar_BDK_SMMUX_NSGFSRRESTORE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSGFSRRESTORE(a) (a)
 #define arguments_BDK_SMMUX_NSGFSRRESTORE(a) (a),-1,-1,-1
 
@@ -4780,6 +4844,7 @@ static inline uint64_t BDK_SMMUX_NSGFSYNR0(unsigned long a)
 #define typedef_BDK_SMMUX_NSGFSYNR0(a) bdk_smmux_nsgfsynr0_t
 #define bustype_BDK_SMMUX_NSGFSYNR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_NSGFSYNR0(a) "SMMUX_NSGFSYNR0"
+#define device_bar_BDK_SMMUX_NSGFSYNR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSGFSYNR0(a) (a)
 #define arguments_BDK_SMMUX_NSGFSYNR0(a) (a),-1,-1,-1
 
@@ -4828,6 +4893,7 @@ static inline uint64_t BDK_SMMUX_NSGFSYNR1(unsigned long a)
 #define typedef_BDK_SMMUX_NSGFSYNR1(a) bdk_smmux_nsgfsynr1_t
 #define bustype_BDK_SMMUX_NSGFSYNR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_NSGFSYNR1(a) "SMMUX_NSGFSYNR1"
+#define device_bar_BDK_SMMUX_NSGFSYNR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSGFSYNR1(a) (a)
 #define arguments_BDK_SMMUX_NSGFSYNR1(a) (a),-1,-1,-1
 
@@ -4866,6 +4932,7 @@ static inline uint64_t BDK_SMMUX_NSGFSYNR2(unsigned long a)
 #define typedef_BDK_SMMUX_NSGFSYNR2(a) bdk_smmux_nsgfsynr2_t
 #define bustype_BDK_SMMUX_NSGFSYNR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_NSGFSYNR2(a) "SMMUX_NSGFSYNR2"
+#define device_bar_BDK_SMMUX_NSGFSYNR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSGFSYNR2(a) (a)
 #define arguments_BDK_SMMUX_NSGFSYNR2(a) (a),-1,-1,-1
 
@@ -4905,6 +4972,7 @@ static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a)
 #define typedef_BDK_SMMUX_NSMISS_PERF(a) bdk_smmux_nsmiss_perf_t
 #define bustype_BDK_SMMUX_NSMISS_PERF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_NSMISS_PERF(a) "SMMUX_NSMISS_PERF"
+#define device_bar_BDK_SMMUX_NSMISS_PERF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSMISS_PERF(a) (a)
 #define arguments_BDK_SMMUX_NSMISS_PERF(a) (a),-1,-1,-1
 
@@ -4942,6 +5010,7 @@ static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a)
 #define typedef_BDK_SMMUX_NSPTREAD_PERF(a) bdk_smmux_nsptread_perf_t
 #define bustype_BDK_SMMUX_NSPTREAD_PERF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_NSPTREAD_PERF(a) "SMMUX_NSPTREAD_PERF"
+#define device_bar_BDK_SMMUX_NSPTREAD_PERF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSPTREAD_PERF(a) (a)
 #define arguments_BDK_SMMUX_NSPTREAD_PERF(a) (a),-1,-1,-1
 
@@ -4986,6 +5055,7 @@ static inline uint64_t BDK_SMMUX_NSTLBGSTATUS(unsigned long a)
 #define typedef_BDK_SMMUX_NSTLBGSTATUS(a) bdk_smmux_nstlbgstatus_t
 #define bustype_BDK_SMMUX_NSTLBGSTATUS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_NSTLBGSTATUS(a) "SMMUX_NSTLBGSTATUS"
+#define device_bar_BDK_SMMUX_NSTLBGSTATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSTLBGSTATUS(a) (a)
 #define arguments_BDK_SMMUX_NSTLBGSTATUS(a) (a),-1,-1,-1
 
@@ -5025,6 +5095,7 @@ static inline uint64_t BDK_SMMUX_NSTLBGSYNC(unsigned long a)
 #define typedef_BDK_SMMUX_NSTLBGSYNC(a) bdk_smmux_nstlbgsync_t
 #define bustype_BDK_SMMUX_NSTLBGSYNC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_NSTLBGSYNC(a) "SMMUX_NSTLBGSYNC"
+#define device_bar_BDK_SMMUX_NSTLBGSYNC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_NSTLBGSYNC(a) (a)
 #define arguments_BDK_SMMUX_NSTLBGSYNC(a) (a),-1,-1,-1
 
@@ -5065,6 +5136,7 @@ static inline uint64_t BDK_SMMUX_PIDR0(unsigned long a)
 #define typedef_BDK_SMMUX_PIDR0(a) bdk_smmux_pidr0_t
 #define bustype_BDK_SMMUX_PIDR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_PIDR0(a) "SMMUX_PIDR0"
+#define device_bar_BDK_SMMUX_PIDR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_PIDR0(a) (a)
 #define arguments_BDK_SMMUX_PIDR0(a) (a),-1,-1,-1
 
@@ -5107,6 +5179,7 @@ static inline uint64_t BDK_SMMUX_PIDR1(unsigned long a)
 #define typedef_BDK_SMMUX_PIDR1(a) bdk_smmux_pidr1_t
 #define bustype_BDK_SMMUX_PIDR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_PIDR1(a) "SMMUX_PIDR1"
+#define device_bar_BDK_SMMUX_PIDR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_PIDR1(a) (a)
 #define arguments_BDK_SMMUX_PIDR1(a) (a),-1,-1,-1
 
@@ -5155,6 +5228,7 @@ static inline uint64_t BDK_SMMUX_PIDR2(unsigned long a)
 #define typedef_BDK_SMMUX_PIDR2(a) bdk_smmux_pidr2_t
 #define bustype_BDK_SMMUX_PIDR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_PIDR2(a) "SMMUX_PIDR2"
+#define device_bar_BDK_SMMUX_PIDR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_PIDR2(a) (a)
 #define arguments_BDK_SMMUX_PIDR2(a) (a),-1,-1,-1
 
@@ -5199,6 +5273,7 @@ static inline uint64_t BDK_SMMUX_PIDR3(unsigned long a)
 #define typedef_BDK_SMMUX_PIDR3(a) bdk_smmux_pidr3_t
 #define bustype_BDK_SMMUX_PIDR3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_PIDR3(a) "SMMUX_PIDR3"
+#define device_bar_BDK_SMMUX_PIDR3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_PIDR3(a) (a)
 #define arguments_BDK_SMMUX_PIDR3(a) (a),-1,-1,-1
 
@@ -5241,6 +5316,7 @@ static inline uint64_t BDK_SMMUX_PIDR4(unsigned long a)
 #define typedef_BDK_SMMUX_PIDR4(a) bdk_smmux_pidr4_t
 #define bustype_BDK_SMMUX_PIDR4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_PIDR4(a) "SMMUX_PIDR4"
+#define device_bar_BDK_SMMUX_PIDR4(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_PIDR4(a) (a)
 #define arguments_BDK_SMMUX_PIDR4(a) (a),-1,-1,-1
 
@@ -5279,6 +5355,7 @@ static inline uint64_t BDK_SMMUX_PIDR5(unsigned long a)
 #define typedef_BDK_SMMUX_PIDR5(a) bdk_smmux_pidr5_t
 #define bustype_BDK_SMMUX_PIDR5(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_PIDR5(a) "SMMUX_PIDR5"
+#define device_bar_BDK_SMMUX_PIDR5(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_PIDR5(a) (a)
 #define arguments_BDK_SMMUX_PIDR5(a) (a),-1,-1,-1
 
@@ -5317,6 +5394,7 @@ static inline uint64_t BDK_SMMUX_PIDR6(unsigned long a)
 #define typedef_BDK_SMMUX_PIDR6(a) bdk_smmux_pidr6_t
 #define bustype_BDK_SMMUX_PIDR6(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_PIDR6(a) "SMMUX_PIDR6"
+#define device_bar_BDK_SMMUX_PIDR6(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_PIDR6(a) (a)
 #define arguments_BDK_SMMUX_PIDR6(a) (a),-1,-1,-1
 
@@ -5355,6 +5433,7 @@ static inline uint64_t BDK_SMMUX_PIDR7(unsigned long a)
 #define typedef_BDK_SMMUX_PIDR7(a) bdk_smmux_pidr7_t
 #define bustype_BDK_SMMUX_PIDR7(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_PIDR7(a) "SMMUX_PIDR7"
+#define device_bar_BDK_SMMUX_PIDR7(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_PIDR7(a) (a)
 #define arguments_BDK_SMMUX_PIDR7(a) (a),-1,-1,-1
 
@@ -5628,6 +5707,7 @@ static inline uint64_t BDK_SMMUX_S2CRX(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_S2CRX(a,b) bdk_smmux_s2crx_t
 #define bustype_BDK_SMMUX_S2CRX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_S2CRX(a,b) "SMMUX_S2CRX"
+#define device_bar_BDK_SMMUX_S2CRX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_S2CRX(a,b) (a)
 #define arguments_BDK_SMMUX_S2CRX(a,b) (a),(b),-1,-1
 
@@ -5665,6 +5745,7 @@ static inline uint64_t BDK_SMMUX_S_HIT_PERF(unsigned long a)
 #define typedef_BDK_SMMUX_S_HIT_PERF(a) bdk_smmux_s_hit_perf_t
 #define bustype_BDK_SMMUX_S_HIT_PERF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_S_HIT_PERF(a) "SMMUX_S_HIT_PERF"
+#define device_bar_BDK_SMMUX_S_HIT_PERF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_S_HIT_PERF(a) (a)
 #define arguments_BDK_SMMUX_S_HIT_PERF(a) (a),-1,-1,-1
 
@@ -5711,6 +5792,7 @@ static inline uint64_t BDK_SMMUX_SACR(unsigned long a)
 #define typedef_BDK_SMMUX_SACR(a) bdk_smmux_sacr_t
 #define bustype_BDK_SMMUX_SACR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_SACR(a) "SMMUX_SACR"
+#define device_bar_BDK_SMMUX_SACR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SACR(a) (a)
 #define arguments_BDK_SMMUX_SACR(a) (a),-1,-1,-1
 
@@ -6026,6 +6108,7 @@ static inline uint64_t BDK_SMMUX_SCR0(unsigned long a)
 #define typedef_BDK_SMMUX_SCR0(a) bdk_smmux_scr0_t
 #define bustype_BDK_SMMUX_SCR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_SCR0(a) "SMMUX_SCR0"
+#define device_bar_BDK_SMMUX_SCR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SCR0(a) (a)
 #define arguments_BDK_SMMUX_SCR0(a) (a),-1,-1,-1
 
@@ -6366,6 +6449,7 @@ static inline uint64_t BDK_SMMUX_SCR1(unsigned long a)
 #define typedef_BDK_SMMUX_SCR1(a) bdk_smmux_scr1_t
 #define bustype_BDK_SMMUX_SCR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_SCR1(a) "SMMUX_SCR1"
+#define device_bar_BDK_SMMUX_SCR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SCR1(a) (a)
 #define arguments_BDK_SMMUX_SCR1(a) (a),-1,-1,-1
 
@@ -6428,6 +6512,7 @@ static inline uint64_t BDK_SMMUX_SCR2(unsigned long a)
 #define typedef_BDK_SMMUX_SCR2(a) bdk_smmux_scr2_t
 #define bustype_BDK_SMMUX_SCR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_SCR2(a) "SMMUX_SCR2"
+#define device_bar_BDK_SMMUX_SCR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SCR2(a) (a)
 #define arguments_BDK_SMMUX_SCR2(a) (a),-1,-1,-1
 
@@ -6480,6 +6565,7 @@ static inline uint64_t BDK_SMMUX_SGFAR(unsigned long a)
 #define typedef_BDK_SMMUX_SGFAR(a) bdk_smmux_sgfar_t
 #define bustype_BDK_SMMUX_SGFAR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_SGFAR(a) "SMMUX_SGFAR"
+#define device_bar_BDK_SMMUX_SGFAR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SGFAR(a) (a)
 #define arguments_BDK_SMMUX_SGFAR(a) (a),-1,-1,-1
 
@@ -6555,6 +6641,7 @@ static inline uint64_t BDK_SMMUX_SGFSR(unsigned long a)
 #define typedef_BDK_SMMUX_SGFSR(a) bdk_smmux_sgfsr_t
 #define bustype_BDK_SMMUX_SGFSR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_SGFSR(a) "SMMUX_SGFSR"
+#define device_bar_BDK_SMMUX_SGFSR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SGFSR(a) (a)
 #define arguments_BDK_SMMUX_SGFSR(a) (a),-1,-1,-1
 
@@ -6593,6 +6680,7 @@ static inline uint64_t BDK_SMMUX_SGFSRRESTORE(unsigned long a)
 #define typedef_BDK_SMMUX_SGFSRRESTORE(a) bdk_smmux_sgfsrrestore_t
 #define bustype_BDK_SMMUX_SGFSRRESTORE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_SGFSRRESTORE(a) "SMMUX_SGFSRRESTORE"
+#define device_bar_BDK_SMMUX_SGFSRRESTORE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SGFSRRESTORE(a) (a)
 #define arguments_BDK_SMMUX_SGFSRRESTORE(a) (a),-1,-1,-1
 
@@ -6687,6 +6775,7 @@ static inline uint64_t BDK_SMMUX_SGFSYNR0(unsigned long a)
 #define typedef_BDK_SMMUX_SGFSYNR0(a) bdk_smmux_sgfsynr0_t
 #define bustype_BDK_SMMUX_SGFSYNR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_SGFSYNR0(a) "SMMUX_SGFSYNR0"
+#define device_bar_BDK_SMMUX_SGFSYNR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SGFSYNR0(a) (a)
 #define arguments_BDK_SMMUX_SGFSYNR0(a) (a),-1,-1,-1
 
@@ -6735,6 +6824,7 @@ static inline uint64_t BDK_SMMUX_SGFSYNR1(unsigned long a)
 #define typedef_BDK_SMMUX_SGFSYNR1(a) bdk_smmux_sgfsynr1_t
 #define bustype_BDK_SMMUX_SGFSYNR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_SGFSYNR1(a) "SMMUX_SGFSYNR1"
+#define device_bar_BDK_SMMUX_SGFSYNR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SGFSYNR1(a) (a)
 #define arguments_BDK_SMMUX_SGFSYNR1(a) (a),-1,-1,-1
 
@@ -6773,6 +6863,7 @@ static inline uint64_t BDK_SMMUX_SGFSYNR2(unsigned long a)
 #define typedef_BDK_SMMUX_SGFSYNR2(a) bdk_smmux_sgfsynr2_t
 #define bustype_BDK_SMMUX_SGFSYNR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_SGFSYNR2(a) "SMMUX_SGFSYNR2"
+#define device_bar_BDK_SMMUX_SGFSYNR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SGFSYNR2(a) (a)
 #define arguments_BDK_SMMUX_SGFSYNR2(a) (a),-1,-1,-1
 
@@ -6812,6 +6903,7 @@ static inline uint64_t BDK_SMMUX_SMISS_PERF(unsigned long a)
 #define typedef_BDK_SMMUX_SMISS_PERF(a) bdk_smmux_smiss_perf_t
 #define bustype_BDK_SMMUX_SMISS_PERF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_SMISS_PERF(a) "SMMUX_SMISS_PERF"
+#define device_bar_BDK_SMMUX_SMISS_PERF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SMISS_PERF(a) (a)
 #define arguments_BDK_SMMUX_SMISS_PERF(a) (a),-1,-1,-1
 
@@ -6872,6 +6964,7 @@ static inline uint64_t BDK_SMMUX_SMRX(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_SMRX(a,b) bdk_smmux_smrx_t
 #define bustype_BDK_SMMUX_SMRX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_SMRX(a,b) "SMMUX_SMRX"
+#define device_bar_BDK_SMMUX_SMRX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SMRX(a,b) (a)
 #define arguments_BDK_SMMUX_SMRX(a,b) (a),(b),-1,-1
 
@@ -6909,6 +7002,7 @@ static inline uint64_t BDK_SMMUX_SPTREAD_PERF(unsigned long a)
 #define typedef_BDK_SMMUX_SPTREAD_PERF(a) bdk_smmux_sptread_perf_t
 #define bustype_BDK_SMMUX_SPTREAD_PERF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_SPTREAD_PERF(a) "SMMUX_SPTREAD_PERF"
+#define device_bar_BDK_SMMUX_SPTREAD_PERF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SPTREAD_PERF(a) (a)
 #define arguments_BDK_SMMUX_SPTREAD_PERF(a) (a),-1,-1,-1
 
@@ -6960,6 +7054,7 @@ static inline uint64_t BDK_SMMUX_SSDRX(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_SSDRX(a,b) bdk_smmux_ssdrx_t
 #define bustype_BDK_SMMUX_SSDRX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_SSDRX(a,b) "SMMUX_SSDRX"
+#define device_bar_BDK_SMMUX_SSDRX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_SSDRX(a,b) (a)
 #define arguments_BDK_SMMUX_SSDRX(a,b) (a),(b),-1,-1
 
@@ -7005,6 +7100,7 @@ static inline uint64_t BDK_SMMUX_STLBGSTATUS(unsigned long a)
 #define typedef_BDK_SMMUX_STLBGSTATUS(a) bdk_smmux_stlbgstatus_t
 #define bustype_BDK_SMMUX_STLBGSTATUS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_STLBGSTATUS(a) "SMMUX_STLBGSTATUS"
+#define device_bar_BDK_SMMUX_STLBGSTATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_STLBGSTATUS(a) (a)
 #define arguments_BDK_SMMUX_STLBGSTATUS(a) (a),-1,-1,-1
 
@@ -7045,6 +7141,7 @@ static inline uint64_t BDK_SMMUX_STLBGSYNC(unsigned long a)
 #define typedef_BDK_SMMUX_STLBGSYNC(a) bdk_smmux_stlbgsync_t
 #define bustype_BDK_SMMUX_STLBGSYNC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_STLBGSYNC(a) "SMMUX_STLBGSYNC"
+#define device_bar_BDK_SMMUX_STLBGSYNC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_STLBGSYNC(a) (a)
 #define arguments_BDK_SMMUX_STLBGSYNC(a) (a),-1,-1,-1
 
@@ -7084,6 +7181,7 @@ static inline uint64_t BDK_SMMUX_STLBIALL(unsigned long a)
 #define typedef_BDK_SMMUX_STLBIALL(a) bdk_smmux_stlbiall_t
 #define bustype_BDK_SMMUX_STLBIALL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_STLBIALL(a) "SMMUX_STLBIALL"
+#define device_bar_BDK_SMMUX_STLBIALL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_STLBIALL(a) (a)
 #define arguments_BDK_SMMUX_STLBIALL(a) (a),-1,-1,-1
 
@@ -7123,6 +7221,7 @@ static inline uint64_t BDK_SMMUX_STLBIALLM(unsigned long a)
 #define typedef_BDK_SMMUX_STLBIALLM(a) bdk_smmux_stlbiallm_t
 #define bustype_BDK_SMMUX_STLBIALLM(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_STLBIALLM(a) "SMMUX_STLBIALLM"
+#define device_bar_BDK_SMMUX_STLBIALLM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_STLBIALLM(a) (a)
 #define arguments_BDK_SMMUX_STLBIALLM(a) (a),-1,-1,-1
 
@@ -7171,6 +7270,7 @@ static inline uint64_t BDK_SMMUX_STLBIVALM(unsigned long a)
 #define typedef_BDK_SMMUX_STLBIVALM(a) bdk_smmux_stlbivalm_t
 #define bustype_BDK_SMMUX_STLBIVALM(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_STLBIVALM(a) "SMMUX_STLBIVALM"
+#define device_bar_BDK_SMMUX_STLBIVALM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_STLBIVALM(a) (a)
 #define arguments_BDK_SMMUX_STLBIVALM(a) (a),-1,-1,-1
 
@@ -7220,6 +7320,7 @@ static inline uint64_t BDK_SMMUX_STLBIVAM(unsigned long a)
 #define typedef_BDK_SMMUX_STLBIVAM(a) bdk_smmux_stlbivam_t
 #define bustype_BDK_SMMUX_STLBIVAM(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_STLBIVAM(a) "SMMUX_STLBIVAM"
+#define device_bar_BDK_SMMUX_STLBIVAM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_STLBIVAM(a) (a)
 #define arguments_BDK_SMMUX_STLBIVAM(a) (a),-1,-1,-1
 
@@ -7257,6 +7358,7 @@ static inline uint64_t BDK_SMMUX_TLBX_DAT(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_TLBX_DAT(a,b) bdk_smmux_tlbx_dat_t
 #define bustype_BDK_SMMUX_TLBX_DAT(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_TLBX_DAT(a,b) "SMMUX_TLBX_DAT"
+#define device_bar_BDK_SMMUX_TLBX_DAT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_TLBX_DAT(a,b) (a)
 #define arguments_BDK_SMMUX_TLBX_DAT(a,b) (a),(b),-1,-1
 
@@ -7296,6 +7398,7 @@ static inline uint64_t BDK_SMMUX_TLBIALLH(unsigned long a)
 #define typedef_BDK_SMMUX_TLBIALLH(a) bdk_smmux_tlbiallh_t
 #define bustype_BDK_SMMUX_TLBIALLH(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_TLBIALLH(a) "SMMUX_TLBIALLH"
+#define device_bar_BDK_SMMUX_TLBIALLH(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_TLBIALLH(a) (a)
 #define arguments_BDK_SMMUX_TLBIALLH(a) (a),-1,-1,-1
 
@@ -7335,6 +7438,7 @@ static inline uint64_t BDK_SMMUX_TLBIALLNSNH(unsigned long a)
 #define typedef_BDK_SMMUX_TLBIALLNSNH(a) bdk_smmux_tlbiallnsnh_t
 #define bustype_BDK_SMMUX_TLBIALLNSNH(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_TLBIALLNSNH(a) "SMMUX_TLBIALLNSNH"
+#define device_bar_BDK_SMMUX_TLBIALLNSNH(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_TLBIALLNSNH(a) (a)
 #define arguments_BDK_SMMUX_TLBIALLNSNH(a) (a),-1,-1,-1
 
@@ -7373,6 +7477,7 @@ static inline uint64_t BDK_SMMUX_TLBIVAH(unsigned long a)
 #define typedef_BDK_SMMUX_TLBIVAH(a) bdk_smmux_tlbivah_t
 #define bustype_BDK_SMMUX_TLBIVAH(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_TLBIVAH(a) "SMMUX_TLBIVAH"
+#define device_bar_BDK_SMMUX_TLBIVAH(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_TLBIVAH(a) (a)
 #define arguments_BDK_SMMUX_TLBIVAH(a) (a),-1,-1,-1
 
@@ -7420,6 +7525,7 @@ static inline uint64_t BDK_SMMUX_TLBIVAH64(unsigned long a)
 #define typedef_BDK_SMMUX_TLBIVAH64(a) bdk_smmux_tlbivah64_t
 #define bustype_BDK_SMMUX_TLBIVAH64(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_TLBIVAH64(a) "SMMUX_TLBIVAH64"
+#define device_bar_BDK_SMMUX_TLBIVAH64(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_TLBIVAH64(a) (a)
 #define arguments_BDK_SMMUX_TLBIVAH64(a) (a),-1,-1,-1
 
@@ -7469,6 +7575,7 @@ static inline uint64_t BDK_SMMUX_TLBIVALH64(unsigned long a)
 #define typedef_BDK_SMMUX_TLBIVALH64(a) bdk_smmux_tlbivalh64_t
 #define bustype_BDK_SMMUX_TLBIVALH64(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_TLBIVALH64(a) "SMMUX_TLBIVALH64"
+#define device_bar_BDK_SMMUX_TLBIVALH64(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_TLBIVALH64(a) (a)
 #define arguments_BDK_SMMUX_TLBIVALH64(a) (a),-1,-1,-1
 
@@ -7512,6 +7619,7 @@ static inline uint64_t BDK_SMMUX_TLBIVMID(unsigned long a)
 #define typedef_BDK_SMMUX_TLBIVMID(a) bdk_smmux_tlbivmid_t
 #define bustype_BDK_SMMUX_TLBIVMID(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_TLBIVMID(a) "SMMUX_TLBIVMID"
+#define device_bar_BDK_SMMUX_TLBIVMID(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_TLBIVMID(a) (a)
 #define arguments_BDK_SMMUX_TLBIVMID(a) (a),-1,-1,-1
 
@@ -7557,6 +7665,7 @@ static inline uint64_t BDK_SMMUX_TLBIVMIDS1(unsigned long a)
 #define typedef_BDK_SMMUX_TLBIVMIDS1(a) bdk_smmux_tlbivmids1_t
 #define bustype_BDK_SMMUX_TLBIVMIDS1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_SMMUX_TLBIVMIDS1(a) "SMMUX_TLBIVMIDS1"
+#define device_bar_BDK_SMMUX_TLBIVMIDS1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_TLBIVMIDS1(a) (a)
 #define arguments_BDK_SMMUX_TLBIVMIDS1(a) (a),-1,-1,-1
 
@@ -7594,6 +7703,7 @@ static inline uint64_t BDK_SMMUX_WCUX_DAT(unsigned long a, unsigned long b)
 #define typedef_BDK_SMMUX_WCUX_DAT(a,b) bdk_smmux_wcux_dat_t
 #define bustype_BDK_SMMUX_WCUX_DAT(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SMMUX_WCUX_DAT(a,b) "SMMUX_WCUX_DAT"
+#define device_bar_BDK_SMMUX_WCUX_DAT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMMUX_WCUX_DAT(a,b) (a)
 #define arguments_BDK_SMMUX_WCUX_DAT(a,b) (a),(b),-1,-1
 

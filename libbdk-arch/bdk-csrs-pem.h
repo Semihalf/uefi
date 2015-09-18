@@ -99,7 +99,7 @@
  *
  * PEM BAR1 Index 0-15 Register
  * This register contains the address index and control bits for access to memory ranges of BAR1.
- * The index is built from supplied address [25:22].
+ * The index is selected from the PCIe address depending on the programmed BAR-1 size.
  */
 typedef union
 {
@@ -134,6 +134,7 @@ static inline uint64_t BDK_PEMX_BAR1_INDEXX(unsigned long a, unsigned long b)
 #define typedef_BDK_PEMX_BAR1_INDEXX(a,b) bdk_pemx_bar1_indexx_t
 #define bustype_BDK_PEMX_BAR1_INDEXX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_BAR1_INDEXX(a,b) "PEMX_BAR1_INDEXX"
+#define device_bar_BDK_PEMX_BAR1_INDEXX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_BAR1_INDEXX(a,b) (a)
 #define arguments_BDK_PEMX_BAR1_INDEXX(a,b) (a),(b),-1,-1
 
@@ -142,8 +143,7 @@ static inline uint64_t BDK_PEMX_BAR1_INDEXX(unsigned long a, unsigned long b)
  *
  * PEM BAR2 Mask Register
  * This register contains the mask pattern that is ANDed with the address from the PCIe core for
- * BAR2 hits. This allows the effective size of RC BAR2 to be shrunk. Must not be changed
- * from its reset value in EP mode.
+ * BAR2 hits.
  */
 typedef union
 {
@@ -174,6 +174,7 @@ static inline uint64_t BDK_PEMX_BAR2_MASK(unsigned long a)
 #define typedef_BDK_PEMX_BAR2_MASK(a) bdk_pemx_bar2_mask_t
 #define bustype_BDK_PEMX_BAR2_MASK(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_BAR2_MASK(a) "PEMX_BAR2_MASK"
+#define device_bar_BDK_PEMX_BAR2_MASK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_BAR2_MASK(a) (a)
 #define arguments_BDK_PEMX_BAR2_MASK(a) (a),-1,-1,-1
 
@@ -234,6 +235,7 @@ static inline uint64_t BDK_PEMX_BAR_CTL(unsigned long a)
 #define typedef_BDK_PEMX_BAR_CTL(a) bdk_pemx_bar_ctl_t
 #define bustype_BDK_PEMX_BAR_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_BAR_CTL(a) "PEMX_BAR_CTL"
+#define device_bar_BDK_PEMX_BAR_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_BAR_CTL(a) (a)
 #define arguments_BDK_PEMX_BAR_CTL(a) (a),-1,-1,-1
 
@@ -382,6 +384,7 @@ static inline uint64_t BDK_PEMX_BIST_STATUS(unsigned long a)
 #define typedef_BDK_PEMX_BIST_STATUS(a) bdk_pemx_bist_status_t
 #define bustype_BDK_PEMX_BIST_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_BIST_STATUS(a) "PEMX_BIST_STATUS"
+#define device_bar_BDK_PEMX_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_BIST_STATUS(a) (a)
 #define arguments_BDK_PEMX_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -444,6 +447,7 @@ static inline uint64_t BDK_PEMX_CFG(unsigned long a)
 #define typedef_BDK_PEMX_CFG(a) bdk_pemx_cfg_t
 #define bustype_BDK_PEMX_CFG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_CFG(a) "PEMX_CFG"
+#define device_bar_BDK_PEMX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_CFG(a) (a)
 #define arguments_BDK_PEMX_CFG(a) (a),-1,-1,-1
 
@@ -486,6 +490,7 @@ static inline uint64_t BDK_PEMX_CFG_RD(unsigned long a)
 #define typedef_BDK_PEMX_CFG_RD(a) bdk_pemx_cfg_rd_t
 #define bustype_BDK_PEMX_CFG_RD(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_CFG_RD(a) "PEMX_CFG_RD"
+#define device_bar_BDK_PEMX_CFG_RD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_CFG_RD(a) (a)
 #define arguments_BDK_PEMX_CFG_RD(a) (a),-1,-1,-1
 
@@ -530,14 +535,15 @@ static inline uint64_t BDK_PEMX_CFG_WR(unsigned long a)
 #define typedef_BDK_PEMX_CFG_WR(a) bdk_pemx_cfg_wr_t
 #define bustype_BDK_PEMX_CFG_WR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_CFG_WR(a) "PEMX_CFG_WR"
+#define device_bar_BDK_PEMX_CFG_WR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_CFG_WR(a) (a)
 #define arguments_BDK_PEMX_CFG_WR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) pem#_clk_en
  *
- * PEM3 Clock Enable Register
- * This register contains the clock enable for ECLK and PCE_CLK.
+ * PEM Clock Enable Register
+ * This register contains the clock enable for CSCLK and PCE_CLK.
  */
 typedef union
 {
@@ -576,6 +582,7 @@ static inline uint64_t BDK_PEMX_CLK_EN(unsigned long a)
 #define typedef_BDK_PEMX_CLK_EN(a) bdk_pemx_clk_en_t
 #define bustype_BDK_PEMX_CLK_EN(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_CLK_EN(a) "PEMX_CLK_EN"
+#define device_bar_BDK_PEMX_CLK_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_CLK_EN(a) (a)
 #define arguments_BDK_PEMX_CLK_EN(a) (a),-1,-1,-1
 
@@ -610,6 +617,7 @@ static inline uint64_t BDK_PEMX_CPL_LUT_VALID(unsigned long a)
 #define typedef_BDK_PEMX_CPL_LUT_VALID(a) bdk_pemx_cpl_lut_valid_t
 #define bustype_BDK_PEMX_CPL_LUT_VALID(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_CPL_LUT_VALID(a) "PEMX_CPL_LUT_VALID"
+#define device_bar_BDK_PEMX_CPL_LUT_VALID(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_CPL_LUT_VALID(a) (a)
 #define arguments_BDK_PEMX_CPL_LUT_VALID(a) (a),-1,-1,-1
 
@@ -940,13 +948,14 @@ static inline uint64_t BDK_PEMX_CTL_STATUS(unsigned long a)
 #define typedef_BDK_PEMX_CTL_STATUS(a) bdk_pemx_ctl_status_t
 #define bustype_BDK_PEMX_CTL_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_CTL_STATUS(a) "PEMX_CTL_STATUS"
+#define device_bar_BDK_PEMX_CTL_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_CTL_STATUS(a) (a)
 #define arguments_BDK_PEMX_CTL_STATUS(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) pem#_ctl_status2
  *
- * PEM Diagnostic Status Register
+ * PEM Control Status 2 Register
  * This register contains additional general control and status of the PEM.
  */
 typedef union
@@ -986,6 +995,7 @@ static inline uint64_t BDK_PEMX_CTL_STATUS2(unsigned long a)
 #define typedef_BDK_PEMX_CTL_STATUS2(a) bdk_pemx_ctl_status2_t
 #define bustype_BDK_PEMX_CTL_STATUS2(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_CTL_STATUS2(a) "PEMX_CTL_STATUS2"
+#define device_bar_BDK_PEMX_CTL_STATUS2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_CTL_STATUS2(a) (a)
 #define arguments_BDK_PEMX_CTL_STATUS2(a) (a),-1,-1,-1
 
@@ -1383,6 +1393,7 @@ static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long a)
 #define typedef_BDK_PEMX_DBG_ENA_W1C(a) bdk_pemx_dbg_ena_w1c_t
 #define bustype_BDK_PEMX_DBG_ENA_W1C(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_DBG_ENA_W1C(a) "PEMX_DBG_ENA_W1C"
+#define device_bar_BDK_PEMX_DBG_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_DBG_ENA_W1C(a) (a)
 #define arguments_BDK_PEMX_DBG_ENA_W1C(a) (a),-1,-1,-1
 
@@ -1780,6 +1791,7 @@ static inline uint64_t BDK_PEMX_DBG_ENA_W1S(unsigned long a)
 #define typedef_BDK_PEMX_DBG_ENA_W1S(a) bdk_pemx_dbg_ena_w1s_t
 #define bustype_BDK_PEMX_DBG_ENA_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_DBG_ENA_W1S(a) "PEMX_DBG_ENA_W1S"
+#define device_bar_BDK_PEMX_DBG_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_DBG_ENA_W1S(a) (a)
 #define arguments_BDK_PEMX_DBG_ENA_W1S(a) (a),-1,-1,-1
 
@@ -2237,6 +2249,7 @@ static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long a)
 #define typedef_BDK_PEMX_DBG_INFO(a) bdk_pemx_dbg_info_t
 #define bustype_BDK_PEMX_DBG_INFO(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_DBG_INFO(a) "PEMX_DBG_INFO"
+#define device_bar_BDK_PEMX_DBG_INFO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_DBG_INFO(a) (a)
 #define arguments_BDK_PEMX_DBG_INFO(a) (a),-1,-1,-1
 
@@ -2634,6 +2647,7 @@ static inline uint64_t BDK_PEMX_DBG_INFO_W1S(unsigned long a)
 #define typedef_BDK_PEMX_DBG_INFO_W1S(a) bdk_pemx_dbg_info_w1s_t
 #define bustype_BDK_PEMX_DBG_INFO_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_DBG_INFO_W1S(a) "PEMX_DBG_INFO_W1S"
+#define device_bar_BDK_PEMX_DBG_INFO_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_DBG_INFO_W1S(a) (a)
 #define arguments_BDK_PEMX_DBG_INFO_W1S(a) (a),-1,-1,-1
 
@@ -2699,6 +2713,7 @@ static inline uint64_t BDK_PEMX_DEBUG(unsigned long a)
 #define typedef_BDK_PEMX_DEBUG(a) bdk_pemx_debug_t
 #define bustype_BDK_PEMX_DEBUG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_DEBUG(a) "PEMX_DEBUG"
+#define device_bar_BDK_PEMX_DEBUG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_DEBUG(a) (a)
 #define arguments_BDK_PEMX_DEBUG(a) (a),-1,-1,-1
 
@@ -2743,6 +2758,7 @@ static inline uint64_t BDK_PEMX_DIAG_STATUS(unsigned long a)
 #define typedef_BDK_PEMX_DIAG_STATUS(a) bdk_pemx_diag_status_t
 #define bustype_BDK_PEMX_DIAG_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_DIAG_STATUS(a) "PEMX_DIAG_STATUS"
+#define device_bar_BDK_PEMX_DIAG_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_DIAG_STATUS(a) (a)
 #define arguments_BDK_PEMX_DIAG_STATUS(a) (a),-1,-1,-1
 
@@ -2803,6 +2819,7 @@ static inline uint64_t BDK_PEMX_ECC_ENA(unsigned long a)
 #define typedef_BDK_PEMX_ECC_ENA(a) bdk_pemx_ecc_ena_t
 #define bustype_BDK_PEMX_ECC_ENA(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_ECC_ENA(a) "PEMX_ECC_ENA"
+#define device_bar_BDK_PEMX_ECC_ENA(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_ECC_ENA(a) (a)
 #define arguments_BDK_PEMX_ECC_ENA(a) (a),-1,-1,-1
 
@@ -2863,6 +2880,7 @@ static inline uint64_t BDK_PEMX_ECC_SYND_CTRL(unsigned long a)
 #define typedef_BDK_PEMX_ECC_SYND_CTRL(a) bdk_pemx_ecc_synd_ctrl_t
 #define bustype_BDK_PEMX_ECC_SYND_CTRL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_ECC_SYND_CTRL(a) "PEMX_ECC_SYND_CTRL"
+#define device_bar_BDK_PEMX_ECC_SYND_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_ECC_SYND_CTRL(a) (a)
 #define arguments_BDK_PEMX_ECC_SYND_CTRL(a) (a),-1,-1,-1
 
@@ -2926,6 +2944,7 @@ static inline uint64_t BDK_PEMX_INB_READ_CREDITS(unsigned long a)
 #define typedef_BDK_PEMX_INB_READ_CREDITS(a) bdk_pemx_inb_read_credits_t
 #define bustype_BDK_PEMX_INB_READ_CREDITS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_INB_READ_CREDITS(a) "PEMX_INB_READ_CREDITS"
+#define device_bar_BDK_PEMX_INB_READ_CREDITS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_INB_READ_CREDITS(a) (a)
 #define arguments_BDK_PEMX_INB_READ_CREDITS(a) (a),-1,-1,-1
 
@@ -2986,6 +3005,7 @@ static inline uint64_t BDK_PEMX_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_PEMX_INT_ENA_W1C(a) bdk_pemx_int_ena_w1c_t
 #define bustype_BDK_PEMX_INT_ENA_W1C(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_INT_ENA_W1C(a) "PEMX_INT_ENA_W1C"
+#define device_bar_BDK_PEMX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_INT_ENA_W1C(a) (a)
 #define arguments_BDK_PEMX_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -3046,6 +3066,7 @@ static inline uint64_t BDK_PEMX_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_PEMX_INT_ENA_W1S(a) bdk_pemx_int_ena_w1s_t
 #define bustype_BDK_PEMX_INT_ENA_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_INT_ENA_W1S(a) "PEMX_INT_ENA_W1S"
+#define device_bar_BDK_PEMX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_INT_ENA_W1S(a) (a)
 #define arguments_BDK_PEMX_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -3106,6 +3127,7 @@ static inline uint64_t BDK_PEMX_INT_SUM(unsigned long a)
 #define typedef_BDK_PEMX_INT_SUM(a) bdk_pemx_int_sum_t
 #define bustype_BDK_PEMX_INT_SUM(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_INT_SUM(a) "PEMX_INT_SUM"
+#define device_bar_BDK_PEMX_INT_SUM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_INT_SUM(a) (a)
 #define arguments_BDK_PEMX_INT_SUM(a) (a),-1,-1,-1
 
@@ -3166,6 +3188,7 @@ static inline uint64_t BDK_PEMX_INT_SUM_W1S(unsigned long a)
 #define typedef_BDK_PEMX_INT_SUM_W1S(a) bdk_pemx_int_sum_w1s_t
 #define bustype_BDK_PEMX_INT_SUM_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_INT_SUM_W1S(a) "PEMX_INT_SUM_W1S"
+#define device_bar_BDK_PEMX_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_INT_SUM_W1S(a) (a)
 #define arguments_BDK_PEMX_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -3202,6 +3225,7 @@ static inline uint64_t BDK_PEMX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_PEMX_MSIX_PBAX(a,b) bdk_pemx_msix_pbax_t
 #define bustype_BDK_PEMX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_MSIX_PBAX(a,b) "PEMX_MSIX_PBAX"
+#define device_bar_BDK_PEMX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PEMX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_PEMX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -3265,6 +3289,7 @@ static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 #define typedef_BDK_PEMX_MSIX_VECX_ADDR(a,b) bdk_pemx_msix_vecx_addr_t
 #define bustype_BDK_PEMX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_MSIX_VECX_ADDR(a,b) "PEMX_MSIX_VECX_ADDR"
+#define device_bar_BDK_PEMX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PEMX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_PEMX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -3312,13 +3337,14 @@ static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_PEMX_MSIX_VECX_CTL(a,b) bdk_pemx_msix_vecx_ctl_t
 #define bustype_BDK_PEMX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_MSIX_VECX_CTL(a,b) "PEMX_MSIX_VECX_CTL"
+#define device_bar_BDK_PEMX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PEMX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_PEMX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) pem#_on
  *
- * PEM3 On Status Register
+ * PEM On Status Register
  * This register indicates that PEM is configured and ready.
  */
 typedef union
@@ -3354,6 +3380,7 @@ static inline uint64_t BDK_PEMX_ON(unsigned long a)
 #define typedef_BDK_PEMX_ON(a) bdk_pemx_on_t
 #define bustype_BDK_PEMX_ON(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_ON(a) "PEMX_ON"
+#define device_bar_BDK_PEMX_ON(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_ON(a) (a)
 #define arguments_BDK_PEMX_ON(a) (a),-1,-1,-1
 
@@ -3391,6 +3418,7 @@ static inline uint64_t BDK_PEMX_P2N_BAR0_START(unsigned long a)
 #define typedef_BDK_PEMX_P2N_BAR0_START(a) bdk_pemx_p2n_bar0_start_t
 #define bustype_BDK_PEMX_P2N_BAR0_START(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_P2N_BAR0_START(a) "PEMX_P2N_BAR0_START"
+#define device_bar_BDK_PEMX_P2N_BAR0_START(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_P2N_BAR0_START(a) (a)
 #define arguments_BDK_PEMX_P2N_BAR0_START(a) (a),-1,-1,-1
 
@@ -3428,6 +3456,7 @@ static inline uint64_t BDK_PEMX_P2N_BAR1_START(unsigned long a)
 #define typedef_BDK_PEMX_P2N_BAR1_START(a) bdk_pemx_p2n_bar1_start_t
 #define bustype_BDK_PEMX_P2N_BAR1_START(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_P2N_BAR1_START(a) "PEMX_P2N_BAR1_START"
+#define device_bar_BDK_PEMX_P2N_BAR1_START(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_P2N_BAR1_START(a) (a)
 #define arguments_BDK_PEMX_P2N_BAR1_START(a) (a),-1,-1,-1
 
@@ -3469,6 +3498,7 @@ static inline uint64_t BDK_PEMX_P2N_BAR2_START(unsigned long a)
 #define typedef_BDK_PEMX_P2N_BAR2_START(a) bdk_pemx_p2n_bar2_start_t
 #define bustype_BDK_PEMX_P2N_BAR2_START(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_P2N_BAR2_START(a) "PEMX_P2N_BAR2_START"
+#define device_bar_BDK_PEMX_P2N_BAR2_START(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_P2N_BAR2_START(a) (a)
 #define arguments_BDK_PEMX_P2N_BAR2_START(a) (a),-1,-1,-1
 
@@ -3576,6 +3606,7 @@ static inline uint64_t BDK_PEMX_TLP_CREDITS(unsigned long a)
 #define typedef_BDK_PEMX_TLP_CREDITS(a) bdk_pemx_tlp_credits_t
 #define bustype_BDK_PEMX_TLP_CREDITS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PEMX_TLP_CREDITS(a) "PEMX_TLP_CREDITS"
+#define device_bar_BDK_PEMX_TLP_CREDITS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PEMX_TLP_CREDITS(a) (a)
 #define arguments_BDK_PEMX_TLP_CREDITS(a) (a),-1,-1,-1
 

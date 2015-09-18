@@ -94,6 +94,7 @@ static inline uint64_t BDK_FUSF_BNK_DATX(unsigned long a)
 #define typedef_BDK_FUSF_BNK_DATX(a) bdk_fusf_bnk_datx_t
 #define bustype_BDK_FUSF_BNK_DATX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_FUSF_BNK_DATX(a) "FUSF_BNK_DATX"
+#define device_bar_BDK_FUSF_BNK_DATX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FUSF_BNK_DATX(a) (a)
 #define arguments_BDK_FUSF_BNK_DATX(a) (a),-1,-1,-1
 
@@ -228,6 +229,7 @@ static inline uint64_t BDK_FUSF_CTL_FUNC(void)
 #define typedef_BDK_FUSF_CTL bdk_fusf_ctl_t
 #define bustype_BDK_FUSF_CTL BDK_CSR_TYPE_RSL
 #define basename_BDK_FUSF_CTL "FUSF_CTL"
+#define device_bar_BDK_FUSF_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_FUSF_CTL 0
 #define arguments_BDK_FUSF_CTL -1,-1,-1,-1
 
@@ -283,6 +285,7 @@ static inline uint64_t BDK_FUSF_EKX(unsigned long a)
 #define typedef_BDK_FUSF_EKX(a) bdk_fusf_ekx_t
 #define bustype_BDK_FUSF_EKX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_FUSF_EKX(a) "FUSF_EKX"
+#define device_bar_BDK_FUSF_EKX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FUSF_EKX(a) (a)
 #define arguments_BDK_FUSF_EKX(a) (a),-1,-1,-1
 
@@ -344,6 +347,7 @@ static inline uint64_t BDK_FUSF_HUKX(unsigned long a)
 #define typedef_BDK_FUSF_HUKX(a) bdk_fusf_hukx_t
 #define bustype_BDK_FUSF_HUKX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_FUSF_HUKX(a) "FUSF_HUKX"
+#define device_bar_BDK_FUSF_HUKX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FUSF_HUKX(a) (a)
 #define arguments_BDK_FUSF_HUKX(a) (a),-1,-1,-1
 
@@ -491,6 +495,7 @@ static inline uint64_t BDK_FUSF_PROG_FUNC(void)
 #define typedef_BDK_FUSF_PROG bdk_fusf_prog_t
 #define bustype_BDK_FUSF_PROG BDK_CSR_TYPE_RSL
 #define basename_BDK_FUSF_PROG "FUSF_PROG"
+#define device_bar_BDK_FUSF_PROG 0x0 /* PF_BAR0 */
 #define busnum_BDK_FUSF_PROG 0
 #define arguments_BDK_FUSF_PROG -1,-1,-1,-1
 
@@ -563,6 +568,7 @@ static inline uint64_t BDK_FUSF_RCMD_FUNC(void)
 #define typedef_BDK_FUSF_RCMD bdk_fusf_rcmd_t
 #define bustype_BDK_FUSF_RCMD BDK_CSR_TYPE_RSL
 #define basename_BDK_FUSF_RCMD "FUSF_RCMD"
+#define device_bar_BDK_FUSF_RCMD 0x0 /* PF_BAR0 */
 #define busnum_BDK_FUSF_RCMD 0
 #define arguments_BDK_FUSF_RCMD -1,-1,-1,-1
 
@@ -622,6 +628,7 @@ static inline uint64_t BDK_FUSF_ROTPKX(unsigned long a)
 #define typedef_BDK_FUSF_ROTPKX(a) bdk_fusf_rotpkx_t
 #define bustype_BDK_FUSF_ROTPKX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_FUSF_ROTPKX(a) "FUSF_ROTPKX"
+#define device_bar_BDK_FUSF_ROTPKX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FUSF_ROTPKX(a) (a)
 #define arguments_BDK_FUSF_ROTPKX(a) (a),-1,-1,-1
 
@@ -669,6 +676,7 @@ static inline uint64_t BDK_FUSF_SSKX(unsigned long a)
 #define typedef_BDK_FUSF_SSKX(a) bdk_fusf_sskx_t
 #define bustype_BDK_FUSF_SSKX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_FUSF_SSKX(a) "FUSF_SSKX"
+#define device_bar_BDK_FUSF_SSKX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FUSF_SSKX(a) (a)
 #define arguments_BDK_FUSF_SSKX(a) (a),-1,-1,-1
 
@@ -724,6 +732,7 @@ static inline uint64_t BDK_FUSF_SWX(unsigned long a)
 #define typedef_BDK_FUSF_SWX(a) bdk_fusf_swx_t
 #define bustype_BDK_FUSF_SWX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_FUSF_SWX(a) "FUSF_SWX"
+#define device_bar_BDK_FUSF_SWX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FUSF_SWX(a) (a)
 #define arguments_BDK_FUSF_SWX(a) (a),-1,-1,-1
 
@@ -758,6 +767,7 @@ static inline uint64_t BDK_FUSF_WADR_FUNC(void)
 #define typedef_BDK_FUSF_WADR bdk_fusf_wadr_t
 #define bustype_BDK_FUSF_WADR BDK_CSR_TYPE_RSL
 #define basename_BDK_FUSF_WADR "FUSF_WADR"
+#define device_bar_BDK_FUSF_WADR 0x0 /* PF_BAR0 */
 #define busnum_BDK_FUSF_WADR 0
 #define arguments_BDK_FUSF_WADR -1,-1,-1,-1
 

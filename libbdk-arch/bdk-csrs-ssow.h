@@ -201,6 +201,7 @@ static inline uint64_t BDK_SSOW_VHWSX_GRPMSK_CHGX(unsigned long a, unsigned long
 #define typedef_BDK_SSOW_VHWSX_GRPMSK_CHGX(a,b) bdk_ssow_vhwsx_grpmsk_chgx_t
 #define bustype_BDK_SSOW_VHWSX_GRPMSK_CHGX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_GRPMSK_CHGX(a,b) "SSOW_VHWSX_GRPMSK_CHGX"
+#define device_bar_BDK_SSOW_VHWSX_GRPMSK_CHGX(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_GRPMSK_CHGX(a,b) (a)
 #define arguments_BDK_SSOW_VHWSX_GRPMSK_CHGX(a,b) (a),(b),-1,-1
 
@@ -265,6 +266,7 @@ static inline uint64_t BDK_SSOW_VHWSX_LINKS(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_LINKS(a) bdk_ssow_vhwsx_links_t
 #define bustype_BDK_SSOW_VHWSX_LINKS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_LINKS(a) "SSOW_VHWSX_LINKS"
+#define device_bar_BDK_SSOW_VHWSX_LINKS(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_LINKS(a) (a)
 #define arguments_BDK_SSOW_VHWSX_LINKS(a) (a),-1,-1,-1
 
@@ -301,6 +303,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_ALLOC_WE(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_ALLOC_WE(a) bdk_ssow_vhwsx_op_alloc_we_t
 #define bustype_BDK_SSOW_VHWSX_OP_ALLOC_WE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_ALLOC_WE(a) "SSOW_VHWSX_OP_ALLOC_WE"
+#define device_bar_BDK_SSOW_VHWSX_OP_ALLOC_WE(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_ALLOC_WE(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_ALLOC_WE(a) (a),-1,-1,-1
 
@@ -339,6 +342,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_CLR_NSCHED(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_CLR_NSCHED(a) bdk_ssow_vhwsx_op_clr_nsched_t
 #define bustype_BDK_SSOW_VHWSX_OP_CLR_NSCHED(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_CLR_NSCHED(a) "SSOW_VHWSX_OP_CLR_NSCHED"
+#define device_bar_BDK_SSOW_VHWSX_OP_CLR_NSCHED(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_CLR_NSCHED(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_CLR_NSCHED(a) (a),-1,-1,-1
 
@@ -373,6 +377,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_DESCHED(a) bdk_ssow_vhwsx_op_desched_t
 #define bustype_BDK_SSOW_VHWSX_OP_DESCHED(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_DESCHED(a) "SSOW_VHWSX_OP_DESCHED"
+#define device_bar_BDK_SSOW_VHWSX_OP_DESCHED(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_DESCHED(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_DESCHED(a) (a),-1,-1,-1
 
@@ -407,6 +412,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(a) bdk_ssow_vhwsx_op_desched_nosch_t
 #define bustype_BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(a) "SSOW_VHWSX_OP_DESCHED_NOSCH"
+#define device_bar_BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(a) (a),-1,-1,-1
 
@@ -459,6 +465,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK0(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_GET_WORK0(a) bdk_ssow_vhwsx_op_get_work0_t
 #define bustype_BDK_SSOW_VHWSX_OP_GET_WORK0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_GET_WORK0(a) "SSOW_VHWSX_OP_GET_WORK0"
+#define device_bar_BDK_SSOW_VHWSX_OP_GET_WORK0(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_GET_WORK0(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_GET_WORK0(a) (a),-1,-1,-1
 
@@ -507,6 +514,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK1(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_GET_WORK1(a) bdk_ssow_vhwsx_op_get_work1_t
 #define bustype_BDK_SSOW_VHWSX_OP_GET_WORK1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_GET_WORK1(a) "SSOW_VHWSX_OP_GET_WORK1"
+#define device_bar_BDK_SSOW_VHWSX_OP_GET_WORK1(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_GET_WORK1(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_GET_WORK1(a) (a),-1,-1,-1
 
@@ -547,6 +555,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(a) bdk_ssow_vhwsx_op_swtag_desched_t
 #define bustype_BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(a) "SSOW_VHWSX_OP_SWTAG_DESCHED"
+#define device_bar_BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(a) (a),-1,-1,-1
 
@@ -590,6 +599,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_FULL0(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_SWTAG_FULL0(a) bdk_ssow_vhwsx_op_swtag_full0_t
 #define bustype_BDK_SSOW_VHWSX_OP_SWTAG_FULL0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_SWTAG_FULL0(a) "SSOW_VHWSX_OP_SWTAG_FULL0"
+#define device_bar_BDK_SSOW_VHWSX_OP_SWTAG_FULL0(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_SWTAG_FULL0(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_SWTAG_FULL0(a) (a),-1,-1,-1
 
@@ -629,6 +639,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_FULL1(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_SWTAG_FULL1(a) bdk_ssow_vhwsx_op_swtag_full1_t
 #define bustype_BDK_SSOW_VHWSX_OP_SWTAG_FULL1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_SWTAG_FULL1(a) "SSOW_VHWSX_OP_SWTAG_FULL1"
+#define device_bar_BDK_SSOW_VHWSX_OP_SWTAG_FULL1(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_SWTAG_FULL1(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_SWTAG_FULL1(a) (a),-1,-1,-1
 
@@ -667,6 +678,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_NORM(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_SWTAG_NORM(a) bdk_ssow_vhwsx_op_swtag_norm_t
 #define bustype_BDK_SSOW_VHWSX_OP_SWTAG_NORM(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_SWTAG_NORM(a) "SSOW_VHWSX_OP_SWTAG_NORM"
+#define device_bar_BDK_SSOW_VHWSX_OP_SWTAG_NORM(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_SWTAG_NORM(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_SWTAG_NORM(a) (a),-1,-1,-1
 
@@ -707,6 +719,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_NOSCHED(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_SWTAG_NOSCHED(a) bdk_ssow_vhwsx_op_swtag_nosched_t
 #define bustype_BDK_SSOW_VHWSX_OP_SWTAG_NOSCHED(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_SWTAG_NOSCHED(a) "SSOW_VHWSX_OP_SWTAG_NOSCHED"
+#define device_bar_BDK_SSOW_VHWSX_OP_SWTAG_NOSCHED(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_SWTAG_NOSCHED(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_SWTAG_NOSCHED(a) (a),-1,-1,-1
 
@@ -741,6 +754,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(a) bdk_ssow_vhwsx_op_swtag_untag_t
 #define bustype_BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(a) "SSOW_VHWSX_OP_SWTAG_UNTAG"
+#define device_bar_BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(a) (a),-1,-1,-1
 
@@ -775,6 +789,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_CLR(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_SWTP_CLR(a) bdk_ssow_vhwsx_op_swtp_clr_t
 #define bustype_BDK_SSOW_VHWSX_OP_SWTP_CLR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_SWTP_CLR(a) "SSOW_VHWSX_OP_SWTP_CLR"
+#define device_bar_BDK_SSOW_VHWSX_OP_SWTP_CLR(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_SWTP_CLR(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_SWTP_CLR(a) (a),-1,-1,-1
 
@@ -809,6 +824,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_SET(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_SWTP_SET(a) bdk_ssow_vhwsx_op_swtp_set_t
 #define bustype_BDK_SSOW_VHWSX_OP_SWTP_SET(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_SWTP_SET(a) "SSOW_VHWSX_OP_SWTP_SET"
+#define device_bar_BDK_SSOW_VHWSX_OP_SWTP_SET(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_SWTP_SET(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_SWTP_SET(a) (a),-1,-1,-1
 
@@ -850,6 +866,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(a) bdk_ssow_vhwsx_op_upd_wqp_grp0_t
 #define bustype_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(a) "SSOW_VHWSX_OP_UPD_WQP_GRP0"
+#define device_bar_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(a) (a),-1,-1,-1
 
@@ -889,6 +906,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(a) bdk_ssow_vhwsx_op_upd_wqp_grp1_t
 #define bustype_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(a) "SSOW_VHWSX_OP_UPD_WQP_GRP1"
+#define device_bar_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(a) (a)
 #define arguments_BDK_SSOW_VHWSX_OP_UPD_WQP_GRP1(a) (a),-1,-1,-1
 
@@ -951,6 +969,7 @@ static inline uint64_t BDK_SSOW_VHWSX_PENDTAG(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_PENDTAG(a) bdk_ssow_vhwsx_pendtag_t
 #define bustype_BDK_SSOW_VHWSX_PENDTAG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_PENDTAG(a) "SSOW_VHWSX_PENDTAG"
+#define device_bar_BDK_SSOW_VHWSX_PENDTAG(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_PENDTAG(a) (a)
 #define arguments_BDK_SSOW_VHWSX_PENDTAG(a) (a),-1,-1,-1
 
@@ -987,6 +1006,7 @@ static inline uint64_t BDK_SSOW_VHWSX_PENDWQP(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_PENDWQP(a) bdk_ssow_vhwsx_pendwqp_t
 #define bustype_BDK_SSOW_VHWSX_PENDWQP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_PENDWQP(a) "SSOW_VHWSX_PENDWQP"
+#define device_bar_BDK_SSOW_VHWSX_PENDWQP(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_PENDWQP(a) (a)
 #define arguments_BDK_SSOW_VHWSX_PENDWQP(a) (a),-1,-1,-1
 
@@ -1029,6 +1049,7 @@ static inline uint64_t BDK_SSOW_VHWSX_SWTP(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_SWTP(a) bdk_ssow_vhwsx_swtp_t
 #define bustype_BDK_SSOW_VHWSX_SWTP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_SWTP(a) "SSOW_VHWSX_SWTP"
+#define device_bar_BDK_SSOW_VHWSX_SWTP(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_SWTP(a) (a)
 #define arguments_BDK_SSOW_VHWSX_SWTP(a) (a),-1,-1,-1
 
@@ -1087,6 +1108,7 @@ static inline uint64_t BDK_SSOW_VHWSX_TAG(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_TAG(a) bdk_ssow_vhwsx_tag_t
 #define bustype_BDK_SSOW_VHWSX_TAG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_TAG(a) "SSOW_VHWSX_TAG"
+#define device_bar_BDK_SSOW_VHWSX_TAG(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_TAG(a) (a)
 #define arguments_BDK_SSOW_VHWSX_TAG(a) (a),-1,-1,-1
 
@@ -1123,6 +1145,7 @@ static inline uint64_t BDK_SSOW_VHWSX_WQP(unsigned long a)
 #define typedef_BDK_SSOW_VHWSX_WQP(a) bdk_ssow_vhwsx_wqp_t
 #define bustype_BDK_SSOW_VHWSX_WQP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSOW_VHWSX_WQP(a) "SSOW_VHWSX_WQP"
+#define device_bar_BDK_SSOW_VHWSX_WQP(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSOW_VHWSX_WQP(a) (a)
 #define arguments_BDK_SSOW_VHWSX_WQP(a) (a),-1,-1,-1
 

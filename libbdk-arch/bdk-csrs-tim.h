@@ -169,7 +169,7 @@ union bdk_tim_mem_entry_s
 };
 
 /**
- * Register (RSL) tim_bist_result
+ * Register (NCB) tim_bist_result
  *
  * TIM BIST Result Register
  * This register provides access to the internal timer BIST results. Each bit is the BIST result
@@ -207,8 +207,9 @@ static inline uint64_t BDK_TIM_BIST_RESULT_FUNC(void)
 }
 
 #define typedef_BDK_TIM_BIST_RESULT bdk_tim_bist_result_t
-#define bustype_BDK_TIM_BIST_RESULT BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_BIST_RESULT BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_BIST_RESULT "TIM_BIST_RESULT"
+#define device_bar_BDK_TIM_BIST_RESULT 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_BIST_RESULT 0
 #define arguments_BDK_TIM_BIST_RESULT -1,-1,-1,-1
 
@@ -277,11 +278,12 @@ static inline uint64_t BDK_TIM_BP_TEST_FUNC(void)
 #define typedef_BDK_TIM_BP_TEST bdk_tim_bp_test_t
 #define bustype_BDK_TIM_BP_TEST BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_BP_TEST "TIM_BP_TEST"
+#define device_bar_BDK_TIM_BP_TEST 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_BP_TEST 0
 #define arguments_BDK_TIM_BP_TEST -1,-1,-1,-1
 
 /**
- * Register (RSL) tim_dbg2
+ * Register (NCB) tim_dbg2
  *
  * TIM Debug 2 Register
  */
@@ -329,13 +331,14 @@ static inline uint64_t BDK_TIM_DBG2_FUNC(void)
 }
 
 #define typedef_BDK_TIM_DBG2 bdk_tim_dbg2_t
-#define bustype_BDK_TIM_DBG2 BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_DBG2 BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_DBG2 "TIM_DBG2"
+#define device_bar_BDK_TIM_DBG2 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_DBG2 0
 #define arguments_BDK_TIM_DBG2 -1,-1,-1,-1
 
 /**
- * Register (RSL) tim_dbg3
+ * Register (NCB) tim_dbg3
  *
  * TIM Debug 3 Register
  */
@@ -365,13 +368,14 @@ static inline uint64_t BDK_TIM_DBG3_FUNC(void)
 }
 
 #define typedef_BDK_TIM_DBG3 bdk_tim_dbg3_t
-#define bustype_BDK_TIM_DBG3 BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_DBG3 BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_DBG3 "TIM_DBG3"
+#define device_bar_BDK_TIM_DBG3 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_DBG3 0
 #define arguments_BDK_TIM_DBG3 -1,-1,-1,-1
 
 /**
- * Register (RSL) tim_ecc_cfg
+ * Register (NCB) tim_ecc_cfg
  *
  * TIM ECC Configuration Register
  */
@@ -405,8 +409,9 @@ static inline uint64_t BDK_TIM_ECC_CFG_FUNC(void)
 }
 
 #define typedef_BDK_TIM_ECC_CFG bdk_tim_ecc_cfg_t
-#define bustype_BDK_TIM_ECC_CFG BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_ECC_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_ECC_CFG "TIM_ECC_CFG"
+#define device_bar_BDK_TIM_ECC_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_ECC_CFG 0
 #define arguments_BDK_TIM_ECC_CFG -1,-1,-1,-1
 
@@ -443,11 +448,12 @@ static inline uint64_t BDK_TIM_ECO_FUNC(void)
 #define typedef_BDK_TIM_ECO bdk_tim_eco_t
 #define bustype_BDK_TIM_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_ECO "TIM_ECO"
+#define device_bar_BDK_TIM_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_ECO 0
 #define arguments_BDK_TIM_ECO -1,-1,-1,-1
 
 /**
- * Register (RSL) tim_eng#_active
+ * Register (NCB) tim_eng#_active
  *
  * TIM Engine Active Registers
  */
@@ -480,13 +486,14 @@ static inline uint64_t BDK_TIM_ENGX_ACTIVE(unsigned long a)
 }
 
 #define typedef_BDK_TIM_ENGX_ACTIVE(a) bdk_tim_engx_active_t
-#define bustype_BDK_TIM_ENGX_ACTIVE(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_ENGX_ACTIVE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_ENGX_ACTIVE(a) "TIM_ENGX_ACTIVE"
+#define device_bar_BDK_TIM_ENGX_ACTIVE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_ENGX_ACTIVE(a) (a)
 #define arguments_BDK_TIM_ENGX_ACTIVE(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tim_fr_rn_cycles
+ * Register (NCB) tim_fr_rn_cycles
  *
  * TIM Free Running Cycle Count Register
  */
@@ -516,13 +523,14 @@ static inline uint64_t BDK_TIM_FR_RN_CYCLES_FUNC(void)
 }
 
 #define typedef_BDK_TIM_FR_RN_CYCLES bdk_tim_fr_rn_cycles_t
-#define bustype_BDK_TIM_FR_RN_CYCLES BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_FR_RN_CYCLES BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_FR_RN_CYCLES "TIM_FR_RN_CYCLES"
+#define device_bar_BDK_TIM_FR_RN_CYCLES 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_FR_RN_CYCLES 0
 #define arguments_BDK_TIM_FR_RN_CYCLES -1,-1,-1,-1
 
 /**
- * Register (RSL) tim_fr_rn_gpios
+ * Register (NCB) tim_fr_rn_gpios
  *
  * TIM Free Running GPIO Count Register
  */
@@ -550,8 +558,9 @@ static inline uint64_t BDK_TIM_FR_RN_GPIOS_FUNC(void)
 }
 
 #define typedef_BDK_TIM_FR_RN_GPIOS bdk_tim_fr_rn_gpios_t
-#define bustype_BDK_TIM_FR_RN_GPIOS BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_FR_RN_GPIOS BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_FR_RN_GPIOS "TIM_FR_RN_GPIOS"
+#define device_bar_BDK_TIM_FR_RN_GPIOS 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_FR_RN_GPIOS 0
 #define arguments_BDK_TIM_FR_RN_GPIOS -1,-1,-1,-1
 
@@ -586,6 +595,7 @@ static inline uint64_t BDK_TIM_FR_RN_GTI_FUNC(void)
 #define typedef_BDK_TIM_FR_RN_GTI bdk_tim_fr_rn_gti_t
 #define bustype_BDK_TIM_FR_RN_GTI BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_FR_RN_GTI "TIM_FR_RN_GTI"
+#define device_bar_BDK_TIM_FR_RN_GTI 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_FR_RN_GTI 0
 #define arguments_BDK_TIM_FR_RN_GTI -1,-1,-1,-1
 
@@ -620,11 +630,12 @@ static inline uint64_t BDK_TIM_FR_RN_PTP_FUNC(void)
 #define typedef_BDK_TIM_FR_RN_PTP bdk_tim_fr_rn_ptp_t
 #define bustype_BDK_TIM_FR_RN_PTP BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_FR_RN_PTP "TIM_FR_RN_PTP"
+#define device_bar_BDK_TIM_FR_RN_PTP 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_FR_RN_PTP 0
 #define arguments_BDK_TIM_FR_RN_PTP -1,-1,-1,-1
 
 /**
- * Register (RSL) tim_gpio_en
+ * Register (NCB) tim_gpio_en
  *
  * TIM GPIO Enable Register
  */
@@ -654,13 +665,14 @@ static inline uint64_t BDK_TIM_GPIO_EN_FUNC(void)
 }
 
 #define typedef_BDK_TIM_GPIO_EN bdk_tim_gpio_en_t
-#define bustype_BDK_TIM_GPIO_EN BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_GPIO_EN BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_GPIO_EN "TIM_GPIO_EN"
+#define device_bar_BDK_TIM_GPIO_EN 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_GPIO_EN 0
 #define arguments_BDK_TIM_GPIO_EN -1,-1,-1,-1
 
 /**
- * Register (RSL) tim_int0
+ * Register (NCB) tim_int0
  *
  * TIM Ring Error Interrupt Register
  * A ring is in error if its interval has elapsed more than once without having been serviced,
@@ -694,8 +706,9 @@ static inline uint64_t BDK_TIM_INT0_FUNC(void)
 }
 
 #define typedef_BDK_TIM_INT0 bdk_tim_int0_t
-#define bustype_BDK_TIM_INT0 BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_INT0 BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_INT0 "TIM_INT0"
+#define device_bar_BDK_TIM_INT0 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_INT0 0
 #define arguments_BDK_TIM_INT0 -1,-1,-1,-1
 
@@ -731,6 +744,7 @@ static inline uint64_t BDK_TIM_INT0_ENA_W1C_FUNC(void)
 #define typedef_BDK_TIM_INT0_ENA_W1C bdk_tim_int0_ena_w1c_t
 #define bustype_BDK_TIM_INT0_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_INT0_ENA_W1C "TIM_INT0_ENA_W1C"
+#define device_bar_BDK_TIM_INT0_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_INT0_ENA_W1C 0
 #define arguments_BDK_TIM_INT0_ENA_W1C -1,-1,-1,-1
 
@@ -766,6 +780,7 @@ static inline uint64_t BDK_TIM_INT0_ENA_W1S_FUNC(void)
 #define typedef_BDK_TIM_INT0_ENA_W1S bdk_tim_int0_ena_w1s_t
 #define bustype_BDK_TIM_INT0_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_INT0_ENA_W1S "TIM_INT0_ENA_W1S"
+#define device_bar_BDK_TIM_INT0_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_INT0_ENA_W1S 0
 #define arguments_BDK_TIM_INT0_ENA_W1S -1,-1,-1,-1
 
@@ -801,11 +816,12 @@ static inline uint64_t BDK_TIM_INT0_W1S_FUNC(void)
 #define typedef_BDK_TIM_INT0_W1S bdk_tim_int0_w1s_t
 #define bustype_BDK_TIM_INT0_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_INT0_W1S "TIM_INT0_W1S"
+#define device_bar_BDK_TIM_INT0_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_INT0_W1S 0
 #define arguments_BDK_TIM_INT0_W1S -1,-1,-1,-1
 
 /**
- * Register (RSL) tim_int_eccerr
+ * Register (NCB) tim_int_eccerr
  *
  * TIM ECC Error Interrupt Register
  */
@@ -841,8 +857,9 @@ static inline uint64_t BDK_TIM_INT_ECCERR_FUNC(void)
 }
 
 #define typedef_BDK_TIM_INT_ECCERR bdk_tim_int_eccerr_t
-#define bustype_BDK_TIM_INT_ECCERR BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_INT_ECCERR BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_INT_ECCERR "TIM_INT_ECCERR"
+#define device_bar_BDK_TIM_INT_ECCERR 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_INT_ECCERR 0
 #define arguments_BDK_TIM_INT_ECCERR -1,-1,-1,-1
 
@@ -886,6 +903,7 @@ static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1C_FUNC(void)
 #define typedef_BDK_TIM_INT_ECCERR_ENA_W1C bdk_tim_int_eccerr_ena_w1c_t
 #define bustype_BDK_TIM_INT_ECCERR_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_INT_ECCERR_ENA_W1C "TIM_INT_ECCERR_ENA_W1C"
+#define device_bar_BDK_TIM_INT_ECCERR_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_INT_ECCERR_ENA_W1C 0
 #define arguments_BDK_TIM_INT_ECCERR_ENA_W1C -1,-1,-1,-1
 
@@ -929,6 +947,7 @@ static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1S_FUNC(void)
 #define typedef_BDK_TIM_INT_ECCERR_ENA_W1S bdk_tim_int_eccerr_ena_w1s_t
 #define bustype_BDK_TIM_INT_ECCERR_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_INT_ECCERR_ENA_W1S "TIM_INT_ECCERR_ENA_W1S"
+#define device_bar_BDK_TIM_INT_ECCERR_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_INT_ECCERR_ENA_W1S 0
 #define arguments_BDK_TIM_INT_ECCERR_ENA_W1S -1,-1,-1,-1
 
@@ -972,6 +991,7 @@ static inline uint64_t BDK_TIM_INT_ECCERR_W1S_FUNC(void)
 #define typedef_BDK_TIM_INT_ECCERR_W1S bdk_tim_int_eccerr_w1s_t
 #define bustype_BDK_TIM_INT_ECCERR_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_INT_ECCERR_W1S "TIM_INT_ECCERR_W1S"
+#define device_bar_BDK_TIM_INT_ECCERR_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_INT_ECCERR_W1S 0
 #define arguments_BDK_TIM_INT_ECCERR_W1S -1,-1,-1,-1
 
@@ -1009,6 +1029,7 @@ static inline uint64_t BDK_TIM_PF_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_TIM_PF_MSIX_PBAX(a) bdk_tim_pf_msix_pbax_t
 #define bustype_BDK_TIM_PF_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_PF_MSIX_PBAX(a) "TIM_PF_MSIX_PBAX"
+#define device_bar_BDK_TIM_PF_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_TIM_PF_MSIX_PBAX(a) (a)
 #define arguments_BDK_TIM_PF_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -1065,6 +1086,7 @@ static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_TIM_PF_MSIX_VECX_ADDR(a) bdk_tim_pf_msix_vecx_addr_t
 #define bustype_BDK_TIM_PF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_PF_MSIX_VECX_ADDR(a) "TIM_PF_MSIX_VECX_ADDR"
+#define device_bar_BDK_TIM_PF_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_TIM_PF_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_TIM_PF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -1105,11 +1127,12 @@ static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_TIM_PF_MSIX_VECX_CTL(a) bdk_tim_pf_msix_vecx_ctl_t
 #define bustype_BDK_TIM_PF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_PF_MSIX_VECX_CTL(a) "TIM_PF_MSIX_VECX_CTL"
+#define device_bar_BDK_TIM_PF_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_TIM_PF_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_TIM_PF_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tim_reg_flags
+ * Register (NCB) tim_reg_flags
  *
  * TIM Flags Register
  * This register provides flags for TIM.
@@ -1178,13 +1201,14 @@ static inline uint64_t BDK_TIM_REG_FLAGS_FUNC(void)
 }
 
 #define typedef_BDK_TIM_REG_FLAGS bdk_tim_reg_flags_t
-#define bustype_BDK_TIM_REG_FLAGS BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_REG_FLAGS BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_REG_FLAGS "TIM_REG_FLAGS"
+#define device_bar_BDK_TIM_REG_FLAGS 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_REG_FLAGS 0
 #define arguments_BDK_TIM_REG_FLAGS -1,-1,-1,-1
 
 /**
- * Register (RSL) tim_ring#_ctl0
+ * Register (NCB) tim_ring#_ctl0
  *
  * TIM Ring Control 0 Registers
  */
@@ -1251,13 +1275,14 @@ static inline uint64_t BDK_TIM_RINGX_CTL0(unsigned long a)
 }
 
 #define typedef_BDK_TIM_RINGX_CTL0(a) bdk_tim_ringx_ctl0_t
-#define bustype_BDK_TIM_RINGX_CTL0(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_RINGX_CTL0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_RINGX_CTL0(a) "TIM_RINGX_CTL0"
+#define device_bar_BDK_TIM_RINGX_CTL0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_RINGX_CTL0(a) (a)
 #define arguments_BDK_TIM_RINGX_CTL0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tim_ring#_ctl1
+ * Register (NCB) tim_ring#_ctl1
  *
  * TIM Ring Control 1 Registers
  */
@@ -1344,13 +1369,14 @@ static inline uint64_t BDK_TIM_RINGX_CTL1(unsigned long a)
 }
 
 #define typedef_BDK_TIM_RINGX_CTL1(a) bdk_tim_ringx_ctl1_t
-#define bustype_BDK_TIM_RINGX_CTL1(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_RINGX_CTL1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_RINGX_CTL1(a) "TIM_RINGX_CTL1"
+#define device_bar_BDK_TIM_RINGX_CTL1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_RINGX_CTL1(a) (a)
 #define arguments_BDK_TIM_RINGX_CTL1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tim_ring#_ctl2
+ * Register (NCB) tim_ring#_ctl2
  *
  * TIM Ring Control 2 Registers
  */
@@ -1381,8 +1407,9 @@ static inline uint64_t BDK_TIM_RINGX_CTL2(unsigned long a)
 }
 
 #define typedef_BDK_TIM_RINGX_CTL2(a) bdk_tim_ringx_ctl2_t
-#define bustype_BDK_TIM_RINGX_CTL2(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_TIM_RINGX_CTL2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_RINGX_CTL2(a) "TIM_RINGX_CTL2"
+#define device_bar_BDK_TIM_RINGX_CTL2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_RINGX_CTL2(a) (a)
 #define arguments_BDK_TIM_RINGX_CTL2(a) (a),-1,-1,-1
 
@@ -1432,6 +1459,7 @@ static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a)
 #define typedef_BDK_TIM_RINGX_GMCTL(a) bdk_tim_ringx_gmctl_t
 #define bustype_BDK_TIM_RINGX_GMCTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_RINGX_GMCTL(a) "TIM_RINGX_GMCTL"
+#define device_bar_BDK_TIM_RINGX_GMCTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TIM_RINGX_GMCTL(a) (a)
 #define arguments_BDK_TIM_RINGX_GMCTL(a) (a),-1,-1,-1
 
@@ -1467,6 +1495,7 @@ static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a)
 #define typedef_BDK_TIM_VRINGX_AURA(a) bdk_tim_vringx_aura_t
 #define bustype_BDK_TIM_VRINGX_AURA(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_VRINGX_AURA(a) "TIM_VRINGX_AURA"
+#define device_bar_BDK_TIM_VRINGX_AURA(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_TIM_VRINGX_AURA(a) (a)
 #define arguments_BDK_TIM_VRINGX_AURA(a) (a),-1,-1,-1
 
@@ -1504,6 +1533,7 @@ static inline uint64_t BDK_TIM_VRINGX_BASE(unsigned long a)
 #define typedef_BDK_TIM_VRINGX_BASE(a) bdk_tim_vringx_base_t
 #define bustype_BDK_TIM_VRINGX_BASE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_VRINGX_BASE(a) "TIM_VRINGX_BASE"
+#define device_bar_BDK_TIM_VRINGX_BASE(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_TIM_VRINGX_BASE(a) (a)
 #define arguments_BDK_TIM_VRINGX_BASE(a) (a),-1,-1,-1
 
@@ -1540,6 +1570,7 @@ static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a)
 #define typedef_BDK_TIM_VRINGX_CTL0(a) bdk_tim_vringx_ctl0_t
 #define bustype_BDK_TIM_VRINGX_CTL0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_VRINGX_CTL0(a) "TIM_VRINGX_CTL0"
+#define device_bar_BDK_TIM_VRINGX_CTL0(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_TIM_VRINGX_CTL0(a) (a)
 #define arguments_BDK_TIM_VRINGX_CTL0(a) (a),-1,-1,-1
 
@@ -1598,6 +1629,7 @@ static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a)
 #define typedef_BDK_TIM_VRINGX_CTL1(a) bdk_tim_vringx_ctl1_t
 #define bustype_BDK_TIM_VRINGX_CTL1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_VRINGX_CTL1(a) "TIM_VRINGX_CTL1"
+#define device_bar_BDK_TIM_VRINGX_CTL1(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_TIM_VRINGX_CTL1(a) (a)
 #define arguments_BDK_TIM_VRINGX_CTL1(a) (a),-1,-1,-1
 
@@ -1636,6 +1668,7 @@ static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a)
 #define typedef_BDK_TIM_VRINGX_CTL2(a) bdk_tim_vringx_ctl2_t
 #define bustype_BDK_TIM_VRINGX_CTL2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_VRINGX_CTL2(a) "TIM_VRINGX_CTL2"
+#define device_bar_BDK_TIM_VRINGX_CTL2(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_TIM_VRINGX_CTL2(a) (a)
 #define arguments_BDK_TIM_VRINGX_CTL2(a) (a),-1,-1,-1
 
@@ -1670,6 +1703,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a)
 #define typedef_BDK_TIM_VRINGX_FR_RN_CYCLES(a) bdk_tim_vringx_fr_rn_cycles_t
 #define bustype_BDK_TIM_VRINGX_FR_RN_CYCLES(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_VRINGX_FR_RN_CYCLES(a) "TIM_VRINGX_FR_RN_CYCLES"
+#define device_bar_BDK_TIM_VRINGX_FR_RN_CYCLES(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_TIM_VRINGX_FR_RN_CYCLES(a) (a)
 #define arguments_BDK_TIM_VRINGX_FR_RN_CYCLES(a) (a),-1,-1,-1
 
@@ -1704,6 +1738,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_GPIOS(unsigned long a)
 #define typedef_BDK_TIM_VRINGX_FR_RN_GPIOS(a) bdk_tim_vringx_fr_rn_gpios_t
 #define bustype_BDK_TIM_VRINGX_FR_RN_GPIOS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_VRINGX_FR_RN_GPIOS(a) "TIM_VRINGX_FR_RN_GPIOS"
+#define device_bar_BDK_TIM_VRINGX_FR_RN_GPIOS(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_TIM_VRINGX_FR_RN_GPIOS(a) (a)
 #define arguments_BDK_TIM_VRINGX_FR_RN_GPIOS(a) (a),-1,-1,-1
 
@@ -1738,6 +1773,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a)
 #define typedef_BDK_TIM_VRINGX_FR_RN_GTI(a) bdk_tim_vringx_fr_rn_gti_t
 #define bustype_BDK_TIM_VRINGX_FR_RN_GTI(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_VRINGX_FR_RN_GTI(a) "TIM_VRINGX_FR_RN_GTI"
+#define device_bar_BDK_TIM_VRINGX_FR_RN_GTI(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_TIM_VRINGX_FR_RN_GTI(a) (a)
 #define arguments_BDK_TIM_VRINGX_FR_RN_GTI(a) (a),-1,-1,-1
 
@@ -1772,6 +1808,7 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a)
 #define typedef_BDK_TIM_VRINGX_FR_RN_PTP(a) bdk_tim_vringx_fr_rn_ptp_t
 #define bustype_BDK_TIM_VRINGX_FR_RN_PTP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_VRINGX_FR_RN_PTP(a) "TIM_VRINGX_FR_RN_PTP"
+#define device_bar_BDK_TIM_VRINGX_FR_RN_PTP(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_TIM_VRINGX_FR_RN_PTP(a) (a)
 #define arguments_BDK_TIM_VRINGX_FR_RN_PTP(a) (a),-1,-1,-1
 
@@ -1856,6 +1893,7 @@ static inline uint64_t BDK_TIM_VRINGX_REL(unsigned long a)
 #define typedef_BDK_TIM_VRINGX_REL(a) bdk_tim_vringx_rel_t
 #define bustype_BDK_TIM_VRINGX_REL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TIM_VRINGX_REL(a) "TIM_VRINGX_REL"
+#define device_bar_BDK_TIM_VRINGX_REL(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_TIM_VRINGX_REL(a) (a)
 #define arguments_BDK_TIM_VRINGX_REL(a) (a),-1,-1,-1
 

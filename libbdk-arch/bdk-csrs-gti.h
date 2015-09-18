@@ -128,6 +128,7 @@ static inline uint64_t BDK_GTI_BZ_CIDR0_FUNC(void)
 #define typedef_BDK_GTI_BZ_CIDR0 bdk_gti_bz_cidr0_t
 #define bustype_BDK_GTI_BZ_CIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_CIDR0 "GTI_BZ_CIDR0"
+#define device_bar_BDK_GTI_BZ_CIDR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_CIDR0 0
 #define arguments_BDK_GTI_BZ_CIDR0 -1,-1,-1,-1
 
@@ -164,6 +165,7 @@ static inline uint64_t BDK_GTI_BZ_CIDR1_FUNC(void)
 #define typedef_BDK_GTI_BZ_CIDR1 bdk_gti_bz_cidr1_t
 #define bustype_BDK_GTI_BZ_CIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_CIDR1 "GTI_BZ_CIDR1"
+#define device_bar_BDK_GTI_BZ_CIDR1 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_CIDR1 0
 #define arguments_BDK_GTI_BZ_CIDR1 -1,-1,-1,-1
 
@@ -198,6 +200,7 @@ static inline uint64_t BDK_GTI_BZ_CIDR2_FUNC(void)
 #define typedef_BDK_GTI_BZ_CIDR2 bdk_gti_bz_cidr2_t
 #define bustype_BDK_GTI_BZ_CIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_CIDR2 "GTI_BZ_CIDR2"
+#define device_bar_BDK_GTI_BZ_CIDR2 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_CIDR2 0
 #define arguments_BDK_GTI_BZ_CIDR2 -1,-1,-1,-1
 
@@ -232,6 +235,7 @@ static inline uint64_t BDK_GTI_BZ_CIDR3_FUNC(void)
 #define typedef_BDK_GTI_BZ_CIDR3 bdk_gti_bz_cidr3_t
 #define bustype_BDK_GTI_BZ_CIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_CIDR3 "GTI_BZ_CIDR3"
+#define device_bar_BDK_GTI_BZ_CIDR3 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_CIDR3 0
 #define arguments_BDK_GTI_BZ_CIDR3 -1,-1,-1,-1
 
@@ -270,6 +274,7 @@ static inline uint64_t BDK_GTI_BZ_CNTP_CTL_FUNC(void)
 #define typedef_BDK_GTI_BZ_CNTP_CTL bdk_gti_bz_cntp_ctl_t
 #define bustype_BDK_GTI_BZ_CNTP_CTL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_CNTP_CTL "GTI_BZ_CNTP_CTL"
+#define device_bar_BDK_GTI_BZ_CNTP_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_CNTP_CTL 0
 #define arguments_BDK_GTI_BZ_CNTP_CTL -1,-1,-1,-1
 
@@ -302,6 +307,7 @@ static inline uint64_t BDK_GTI_BZ_CNTP_CVAL_FUNC(void)
 #define typedef_BDK_GTI_BZ_CNTP_CVAL bdk_gti_bz_cntp_cval_t
 #define bustype_BDK_GTI_BZ_CNTP_CVAL BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_BZ_CNTP_CVAL "GTI_BZ_CNTP_CVAL"
+#define device_bar_BDK_GTI_BZ_CNTP_CVAL 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_CNTP_CVAL 0
 #define arguments_BDK_GTI_BZ_CNTP_CVAL -1,-1,-1,-1
 
@@ -334,6 +340,7 @@ static inline uint64_t BDK_GTI_BZ_CNTP_TVAL_FUNC(void)
 #define typedef_BDK_GTI_BZ_CNTP_TVAL bdk_gti_bz_cntp_tval_t
 #define bustype_BDK_GTI_BZ_CNTP_TVAL BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_CNTP_TVAL "GTI_BZ_CNTP_TVAL"
+#define device_bar_BDK_GTI_BZ_CNTP_TVAL 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_CNTP_TVAL 0
 #define arguments_BDK_GTI_BZ_CNTP_TVAL -1,-1,-1,-1
 
@@ -368,6 +375,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR0_FUNC(void)
 #define typedef_BDK_GTI_BZ_PIDR0 bdk_gti_bz_pidr0_t
 #define bustype_BDK_GTI_BZ_PIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_PIDR0 "GTI_BZ_PIDR0"
+#define device_bar_BDK_GTI_BZ_PIDR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_PIDR0 0
 #define arguments_BDK_GTI_BZ_PIDR0 -1,-1,-1,-1
 
@@ -404,6 +412,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR1_FUNC(void)
 #define typedef_BDK_GTI_BZ_PIDR1 bdk_gti_bz_pidr1_t
 #define bustype_BDK_GTI_BZ_PIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_PIDR1 "GTI_BZ_PIDR1"
+#define device_bar_BDK_GTI_BZ_PIDR1 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_PIDR1 0
 #define arguments_BDK_GTI_BZ_PIDR1 -1,-1,-1,-1
 
@@ -442,6 +451,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR2_FUNC(void)
 #define typedef_BDK_GTI_BZ_PIDR2 bdk_gti_bz_pidr2_t
 #define bustype_BDK_GTI_BZ_PIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_PIDR2 "GTI_BZ_PIDR2"
+#define device_bar_BDK_GTI_BZ_PIDR2 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_PIDR2 0
 #define arguments_BDK_GTI_BZ_PIDR2 -1,-1,-1,-1
 
@@ -480,6 +490,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR3_FUNC(void)
 #define typedef_BDK_GTI_BZ_PIDR3 bdk_gti_bz_pidr3_t
 #define bustype_BDK_GTI_BZ_PIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_PIDR3 "GTI_BZ_PIDR3"
+#define device_bar_BDK_GTI_BZ_PIDR3 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_PIDR3 0
 #define arguments_BDK_GTI_BZ_PIDR3 -1,-1,-1,-1
 
@@ -516,6 +527,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR4_FUNC(void)
 #define typedef_BDK_GTI_BZ_PIDR4 bdk_gti_bz_pidr4_t
 #define bustype_BDK_GTI_BZ_PIDR4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_PIDR4 "GTI_BZ_PIDR4"
+#define device_bar_BDK_GTI_BZ_PIDR4 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_PIDR4 0
 #define arguments_BDK_GTI_BZ_PIDR4 -1,-1,-1,-1
 
@@ -548,6 +560,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR5_FUNC(void)
 #define typedef_BDK_GTI_BZ_PIDR5 bdk_gti_bz_pidr5_t
 #define bustype_BDK_GTI_BZ_PIDR5 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_PIDR5 "GTI_BZ_PIDR5"
+#define device_bar_BDK_GTI_BZ_PIDR5 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_PIDR5 0
 #define arguments_BDK_GTI_BZ_PIDR5 -1,-1,-1,-1
 
@@ -580,6 +593,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR6_FUNC(void)
 #define typedef_BDK_GTI_BZ_PIDR6 bdk_gti_bz_pidr6_t
 #define bustype_BDK_GTI_BZ_PIDR6 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_PIDR6 "GTI_BZ_PIDR6"
+#define device_bar_BDK_GTI_BZ_PIDR6 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_PIDR6 0
 #define arguments_BDK_GTI_BZ_PIDR6 -1,-1,-1,-1
 
@@ -612,6 +626,7 @@ static inline uint64_t BDK_GTI_BZ_PIDR7_FUNC(void)
 #define typedef_BDK_GTI_BZ_PIDR7 bdk_gti_bz_pidr7_t
 #define bustype_BDK_GTI_BZ_PIDR7 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_BZ_PIDR7 "GTI_BZ_PIDR7"
+#define device_bar_BDK_GTI_BZ_PIDR7 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_BZ_PIDR7 0
 #define arguments_BDK_GTI_BZ_PIDR7 -1,-1,-1,-1
 
@@ -646,6 +661,7 @@ static inline uint64_t BDK_GTI_CC_CIDR0_FUNC(void)
 #define typedef_BDK_GTI_CC_CIDR0 bdk_gti_cc_cidr0_t
 #define bustype_BDK_GTI_CC_CIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_CIDR0 "GTI_CC_CIDR0"
+#define device_bar_BDK_GTI_CC_CIDR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CIDR0 0
 #define arguments_BDK_GTI_CC_CIDR0 -1,-1,-1,-1
 
@@ -682,6 +698,7 @@ static inline uint64_t BDK_GTI_CC_CIDR1_FUNC(void)
 #define typedef_BDK_GTI_CC_CIDR1 bdk_gti_cc_cidr1_t
 #define bustype_BDK_GTI_CC_CIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_CIDR1 "GTI_CC_CIDR1"
+#define device_bar_BDK_GTI_CC_CIDR1 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CIDR1 0
 #define arguments_BDK_GTI_CC_CIDR1 -1,-1,-1,-1
 
@@ -716,6 +733,7 @@ static inline uint64_t BDK_GTI_CC_CIDR2_FUNC(void)
 #define typedef_BDK_GTI_CC_CIDR2 bdk_gti_cc_cidr2_t
 #define bustype_BDK_GTI_CC_CIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_CIDR2 "GTI_CC_CIDR2"
+#define device_bar_BDK_GTI_CC_CIDR2 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CIDR2 0
 #define arguments_BDK_GTI_CC_CIDR2 -1,-1,-1,-1
 
@@ -750,6 +768,7 @@ static inline uint64_t BDK_GTI_CC_CIDR3_FUNC(void)
 #define typedef_BDK_GTI_CC_CIDR3 bdk_gti_cc_cidr3_t
 #define bustype_BDK_GTI_CC_CIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_CIDR3 "GTI_CC_CIDR3"
+#define device_bar_BDK_GTI_CC_CIDR3 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CIDR3 0
 #define arguments_BDK_GTI_CC_CIDR3 -1,-1,-1,-1
 
@@ -783,6 +802,7 @@ static inline uint64_t BDK_GTI_CC_CNTADD_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTADD bdk_gti_cc_cntadd_t
 #define bustype_BDK_GTI_CC_CNTADD BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CC_CNTADD "GTI_CC_CNTADD"
+#define device_bar_BDK_GTI_CC_CNTADD 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTADD 0
 #define arguments_BDK_GTI_CC_CNTADD -1,-1,-1,-1
 
@@ -835,6 +855,7 @@ static inline uint64_t BDK_GTI_CC_CNTCR_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTCR bdk_gti_cc_cntcr_t
 #define bustype_BDK_GTI_CC_CNTCR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_CNTCR "GTI_CC_CNTCR"
+#define device_bar_BDK_GTI_CC_CNTCR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTCR 0
 #define arguments_BDK_GTI_CC_CNTCR -1,-1,-1,-1
 
@@ -869,6 +890,7 @@ static inline uint64_t BDK_GTI_CC_CNTCV_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTCV bdk_gti_cc_cntcv_t
 #define bustype_BDK_GTI_CC_CNTCV BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CC_CNTCV "GTI_CC_CNTCV"
+#define device_bar_BDK_GTI_CC_CNTCV 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTCV 0
 #define arguments_BDK_GTI_CC_CNTCV -1,-1,-1,-1
 
@@ -905,6 +927,7 @@ static inline uint64_t BDK_GTI_CC_CNTFID0_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTFID0 bdk_gti_cc_cntfid0_t
 #define bustype_BDK_GTI_CC_CNTFID0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_CNTFID0 "GTI_CC_CNTFID0"
+#define device_bar_BDK_GTI_CC_CNTFID0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTFID0 0
 #define arguments_BDK_GTI_CC_CNTFID0 -1,-1,-1,-1
 
@@ -937,6 +960,7 @@ static inline uint64_t BDK_GTI_CC_CNTFID1_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTFID1 bdk_gti_cc_cntfid1_t
 #define bustype_BDK_GTI_CC_CNTFID1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_CNTFID1 "GTI_CC_CNTFID1"
+#define device_bar_BDK_GTI_CC_CNTFID1 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTFID1 0
 #define arguments_BDK_GTI_CC_CNTFID1 -1,-1,-1,-1
 
@@ -970,6 +994,7 @@ static inline uint64_t BDK_GTI_CC_CNTMB_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTMB bdk_gti_cc_cntmb_t
 #define bustype_BDK_GTI_CC_CNTMB BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CC_CNTMB "GTI_CC_CNTMB"
+#define device_bar_BDK_GTI_CC_CNTMB 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTMB 0
 #define arguments_BDK_GTI_CC_CNTMB -1,-1,-1,-1
 
@@ -1007,6 +1032,7 @@ static inline uint64_t BDK_GTI_CC_CNTMB_INT_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTMB_INT bdk_gti_cc_cntmb_int_t
 #define bustype_BDK_GTI_CC_CNTMB_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CC_CNTMB_INT "GTI_CC_CNTMB_INT"
+#define device_bar_BDK_GTI_CC_CNTMB_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTMB_INT 0
 #define arguments_BDK_GTI_CC_CNTMB_INT -1,-1,-1,-1
 
@@ -1044,6 +1070,7 @@ static inline uint64_t BDK_GTI_CC_CNTMB_INT_ENA_CLR_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTMB_INT_ENA_CLR bdk_gti_cc_cntmb_int_ena_clr_t
 #define bustype_BDK_GTI_CC_CNTMB_INT_ENA_CLR BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CC_CNTMB_INT_ENA_CLR "GTI_CC_CNTMB_INT_ENA_CLR"
+#define device_bar_BDK_GTI_CC_CNTMB_INT_ENA_CLR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTMB_INT_ENA_CLR 0
 #define arguments_BDK_GTI_CC_CNTMB_INT_ENA_CLR -1,-1,-1,-1
 
@@ -1081,6 +1108,7 @@ static inline uint64_t BDK_GTI_CC_CNTMB_INT_ENA_SET_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTMB_INT_ENA_SET bdk_gti_cc_cntmb_int_ena_set_t
 #define bustype_BDK_GTI_CC_CNTMB_INT_ENA_SET BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CC_CNTMB_INT_ENA_SET "GTI_CC_CNTMB_INT_ENA_SET"
+#define device_bar_BDK_GTI_CC_CNTMB_INT_ENA_SET 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTMB_INT_ENA_SET 0
 #define arguments_BDK_GTI_CC_CNTMB_INT_ENA_SET -1,-1,-1,-1
 
@@ -1118,6 +1146,7 @@ static inline uint64_t BDK_GTI_CC_CNTMB_INT_SET_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTMB_INT_SET bdk_gti_cc_cntmb_int_set_t
 #define bustype_BDK_GTI_CC_CNTMB_INT_SET BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CC_CNTMB_INT_SET "GTI_CC_CNTMB_INT_SET"
+#define device_bar_BDK_GTI_CC_CNTMB_INT_SET 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTMB_INT_SET 0
 #define arguments_BDK_GTI_CC_CNTMB_INT_SET -1,-1,-1,-1
 
@@ -1151,6 +1180,7 @@ static inline uint64_t BDK_GTI_CC_CNTMBTS_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTMBTS bdk_gti_cc_cntmbts_t
 #define bustype_BDK_GTI_CC_CNTMBTS BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CC_CNTMBTS "GTI_CC_CNTMBTS"
+#define device_bar_BDK_GTI_CC_CNTMBTS 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTMBTS 0
 #define arguments_BDK_GTI_CC_CNTMBTS -1,-1,-1,-1
 
@@ -1184,6 +1214,7 @@ static inline uint64_t BDK_GTI_CC_CNTRACC_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTRACC bdk_gti_cc_cntracc_t
 #define bustype_BDK_GTI_CC_CNTRACC BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_CNTRACC "GTI_CC_CNTRACC"
+#define device_bar_BDK_GTI_CC_CNTRACC 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTRACC 0
 #define arguments_BDK_GTI_CC_CNTRACC -1,-1,-1,-1
 
@@ -1221,6 +1252,7 @@ static inline uint64_t BDK_GTI_CC_CNTRATE_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTRATE bdk_gti_cc_cntrate_t
 #define bustype_BDK_GTI_CC_CNTRATE BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_CNTRATE "GTI_CC_CNTRATE"
+#define device_bar_BDK_GTI_CC_CNTRATE 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTRATE 0
 #define arguments_BDK_GTI_CC_CNTRATE -1,-1,-1,-1
 
@@ -1271,6 +1303,7 @@ static inline uint64_t BDK_GTI_CC_CNTSR_FUNC(void)
 #define typedef_BDK_GTI_CC_CNTSR bdk_gti_cc_cntsr_t
 #define bustype_BDK_GTI_CC_CNTSR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_CNTSR "GTI_CC_CNTSR"
+#define device_bar_BDK_GTI_CC_CNTSR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_CNTSR 0
 #define arguments_BDK_GTI_CC_CNTSR -1,-1,-1,-1
 
@@ -1310,6 +1343,7 @@ static inline uint64_t BDK_GTI_CC_IMP_CTL_FUNC(void)
 #define typedef_BDK_GTI_CC_IMP_CTL bdk_gti_cc_imp_ctl_t
 #define bustype_BDK_GTI_CC_IMP_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CC_IMP_CTL "GTI_CC_IMP_CTL"
+#define device_bar_BDK_GTI_CC_IMP_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_IMP_CTL 0
 #define arguments_BDK_GTI_CC_IMP_CTL -1,-1,-1,-1
 
@@ -1344,6 +1378,7 @@ static inline uint64_t BDK_GTI_CC_PIDR0_FUNC(void)
 #define typedef_BDK_GTI_CC_PIDR0 bdk_gti_cc_pidr0_t
 #define bustype_BDK_GTI_CC_PIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_PIDR0 "GTI_CC_PIDR0"
+#define device_bar_BDK_GTI_CC_PIDR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_PIDR0 0
 #define arguments_BDK_GTI_CC_PIDR0 -1,-1,-1,-1
 
@@ -1380,6 +1415,7 @@ static inline uint64_t BDK_GTI_CC_PIDR1_FUNC(void)
 #define typedef_BDK_GTI_CC_PIDR1 bdk_gti_cc_pidr1_t
 #define bustype_BDK_GTI_CC_PIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_PIDR1 "GTI_CC_PIDR1"
+#define device_bar_BDK_GTI_CC_PIDR1 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_PIDR1 0
 #define arguments_BDK_GTI_CC_PIDR1 -1,-1,-1,-1
 
@@ -1418,6 +1454,7 @@ static inline uint64_t BDK_GTI_CC_PIDR2_FUNC(void)
 #define typedef_BDK_GTI_CC_PIDR2 bdk_gti_cc_pidr2_t
 #define bustype_BDK_GTI_CC_PIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_PIDR2 "GTI_CC_PIDR2"
+#define device_bar_BDK_GTI_CC_PIDR2 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_PIDR2 0
 #define arguments_BDK_GTI_CC_PIDR2 -1,-1,-1,-1
 
@@ -1456,6 +1493,7 @@ static inline uint64_t BDK_GTI_CC_PIDR3_FUNC(void)
 #define typedef_BDK_GTI_CC_PIDR3 bdk_gti_cc_pidr3_t
 #define bustype_BDK_GTI_CC_PIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_PIDR3 "GTI_CC_PIDR3"
+#define device_bar_BDK_GTI_CC_PIDR3 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_PIDR3 0
 #define arguments_BDK_GTI_CC_PIDR3 -1,-1,-1,-1
 
@@ -1492,6 +1530,7 @@ static inline uint64_t BDK_GTI_CC_PIDR4_FUNC(void)
 #define typedef_BDK_GTI_CC_PIDR4 bdk_gti_cc_pidr4_t
 #define bustype_BDK_GTI_CC_PIDR4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_PIDR4 "GTI_CC_PIDR4"
+#define device_bar_BDK_GTI_CC_PIDR4 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_PIDR4 0
 #define arguments_BDK_GTI_CC_PIDR4 -1,-1,-1,-1
 
@@ -1524,6 +1563,7 @@ static inline uint64_t BDK_GTI_CC_PIDR5_FUNC(void)
 #define typedef_BDK_GTI_CC_PIDR5 bdk_gti_cc_pidr5_t
 #define bustype_BDK_GTI_CC_PIDR5 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_PIDR5 "GTI_CC_PIDR5"
+#define device_bar_BDK_GTI_CC_PIDR5 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_PIDR5 0
 #define arguments_BDK_GTI_CC_PIDR5 -1,-1,-1,-1
 
@@ -1556,6 +1596,7 @@ static inline uint64_t BDK_GTI_CC_PIDR6_FUNC(void)
 #define typedef_BDK_GTI_CC_PIDR6 bdk_gti_cc_pidr6_t
 #define bustype_BDK_GTI_CC_PIDR6 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_PIDR6 "GTI_CC_PIDR6"
+#define device_bar_BDK_GTI_CC_PIDR6 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_PIDR6 0
 #define arguments_BDK_GTI_CC_PIDR6 -1,-1,-1,-1
 
@@ -1588,6 +1629,7 @@ static inline uint64_t BDK_GTI_CC_PIDR7_FUNC(void)
 #define typedef_BDK_GTI_CC_PIDR7 bdk_gti_cc_pidr7_t
 #define bustype_BDK_GTI_CC_PIDR7 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CC_PIDR7 "GTI_CC_PIDR7"
+#define device_bar_BDK_GTI_CC_PIDR7 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CC_PIDR7 0
 #define arguments_BDK_GTI_CC_PIDR7 -1,-1,-1,-1
 
@@ -1622,6 +1664,7 @@ static inline uint64_t BDK_GTI_CTL_CIDR0_FUNC(void)
 #define typedef_BDK_GTI_CTL_CIDR0 bdk_gti_ctl_cidr0_t
 #define bustype_BDK_GTI_CTL_CIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_CIDR0 "GTI_CTL_CIDR0"
+#define device_bar_BDK_GTI_CTL_CIDR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_CIDR0 0
 #define arguments_BDK_GTI_CTL_CIDR0 -1,-1,-1,-1
 
@@ -1658,6 +1701,7 @@ static inline uint64_t BDK_GTI_CTL_CIDR1_FUNC(void)
 #define typedef_BDK_GTI_CTL_CIDR1 bdk_gti_ctl_cidr1_t
 #define bustype_BDK_GTI_CTL_CIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_CIDR1 "GTI_CTL_CIDR1"
+#define device_bar_BDK_GTI_CTL_CIDR1 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_CIDR1 0
 #define arguments_BDK_GTI_CTL_CIDR1 -1,-1,-1,-1
 
@@ -1692,6 +1736,7 @@ static inline uint64_t BDK_GTI_CTL_CIDR2_FUNC(void)
 #define typedef_BDK_GTI_CTL_CIDR2 bdk_gti_ctl_cidr2_t
 #define bustype_BDK_GTI_CTL_CIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_CIDR2 "GTI_CTL_CIDR2"
+#define device_bar_BDK_GTI_CTL_CIDR2 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_CIDR2 0
 #define arguments_BDK_GTI_CTL_CIDR2 -1,-1,-1,-1
 
@@ -1726,6 +1771,7 @@ static inline uint64_t BDK_GTI_CTL_CIDR3_FUNC(void)
 #define typedef_BDK_GTI_CTL_CIDR3 bdk_gti_ctl_cidr3_t
 #define bustype_BDK_GTI_CTL_CIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_CIDR3 "GTI_CTL_CIDR3"
+#define device_bar_BDK_GTI_CTL_CIDR3 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_CIDR3 0
 #define arguments_BDK_GTI_CTL_CIDR3 -1,-1,-1,-1
 
@@ -1758,6 +1804,7 @@ static inline uint64_t BDK_GTI_CTL_CNTACR0_FUNC(void)
 #define typedef_BDK_GTI_CTL_CNTACR0 bdk_gti_ctl_cntacr0_t
 #define bustype_BDK_GTI_CTL_CNTACR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_CNTACR0 "GTI_CTL_CNTACR0"
+#define device_bar_BDK_GTI_CTL_CNTACR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_CNTACR0 0
 #define arguments_BDK_GTI_CTL_CNTACR0 -1,-1,-1,-1
 
@@ -1792,6 +1839,7 @@ static inline uint64_t BDK_GTI_CTL_CNTFRQ_FUNC(void)
 #define typedef_BDK_GTI_CTL_CNTFRQ bdk_gti_ctl_cntfrq_t
 #define bustype_BDK_GTI_CTL_CNTFRQ BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_CNTFRQ "GTI_CTL_CNTFRQ"
+#define device_bar_BDK_GTI_CTL_CNTFRQ 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_CNTFRQ 0
 #define arguments_BDK_GTI_CTL_CNTFRQ -1,-1,-1,-1
 
@@ -1824,6 +1872,7 @@ static inline uint64_t BDK_GTI_CTL_CNTNSAR_FUNC(void)
 #define typedef_BDK_GTI_CTL_CNTNSAR bdk_gti_ctl_cntnsar_t
 #define bustype_BDK_GTI_CTL_CNTNSAR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_CNTNSAR "GTI_CTL_CNTNSAR"
+#define device_bar_BDK_GTI_CTL_CNTNSAR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_CNTNSAR 0
 #define arguments_BDK_GTI_CTL_CNTNSAR -1,-1,-1,-1
 
@@ -1856,6 +1905,7 @@ static inline uint64_t BDK_GTI_CTL_CNTTIDR_FUNC(void)
 #define typedef_BDK_GTI_CTL_CNTTIDR bdk_gti_ctl_cnttidr_t
 #define bustype_BDK_GTI_CTL_CNTTIDR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_CNTTIDR "GTI_CTL_CNTTIDR"
+#define device_bar_BDK_GTI_CTL_CNTTIDR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_CNTTIDR 0
 #define arguments_BDK_GTI_CTL_CNTTIDR -1,-1,-1,-1
 
@@ -1890,6 +1940,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR0_FUNC(void)
 #define typedef_BDK_GTI_CTL_PIDR0 bdk_gti_ctl_pidr0_t
 #define bustype_BDK_GTI_CTL_PIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_PIDR0 "GTI_CTL_PIDR0"
+#define device_bar_BDK_GTI_CTL_PIDR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_PIDR0 0
 #define arguments_BDK_GTI_CTL_PIDR0 -1,-1,-1,-1
 
@@ -1926,6 +1977,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR1_FUNC(void)
 #define typedef_BDK_GTI_CTL_PIDR1 bdk_gti_ctl_pidr1_t
 #define bustype_BDK_GTI_CTL_PIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_PIDR1 "GTI_CTL_PIDR1"
+#define device_bar_BDK_GTI_CTL_PIDR1 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_PIDR1 0
 #define arguments_BDK_GTI_CTL_PIDR1 -1,-1,-1,-1
 
@@ -1964,6 +2016,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR2_FUNC(void)
 #define typedef_BDK_GTI_CTL_PIDR2 bdk_gti_ctl_pidr2_t
 #define bustype_BDK_GTI_CTL_PIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_PIDR2 "GTI_CTL_PIDR2"
+#define device_bar_BDK_GTI_CTL_PIDR2 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_PIDR2 0
 #define arguments_BDK_GTI_CTL_PIDR2 -1,-1,-1,-1
 
@@ -2002,6 +2055,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR3_FUNC(void)
 #define typedef_BDK_GTI_CTL_PIDR3 bdk_gti_ctl_pidr3_t
 #define bustype_BDK_GTI_CTL_PIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_PIDR3 "GTI_CTL_PIDR3"
+#define device_bar_BDK_GTI_CTL_PIDR3 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_PIDR3 0
 #define arguments_BDK_GTI_CTL_PIDR3 -1,-1,-1,-1
 
@@ -2038,6 +2092,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR4_FUNC(void)
 #define typedef_BDK_GTI_CTL_PIDR4 bdk_gti_ctl_pidr4_t
 #define bustype_BDK_GTI_CTL_PIDR4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_PIDR4 "GTI_CTL_PIDR4"
+#define device_bar_BDK_GTI_CTL_PIDR4 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_PIDR4 0
 #define arguments_BDK_GTI_CTL_PIDR4 -1,-1,-1,-1
 
@@ -2070,6 +2125,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR5_FUNC(void)
 #define typedef_BDK_GTI_CTL_PIDR5 bdk_gti_ctl_pidr5_t
 #define bustype_BDK_GTI_CTL_PIDR5 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_PIDR5 "GTI_CTL_PIDR5"
+#define device_bar_BDK_GTI_CTL_PIDR5 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_PIDR5 0
 #define arguments_BDK_GTI_CTL_PIDR5 -1,-1,-1,-1
 
@@ -2102,6 +2158,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR6_FUNC(void)
 #define typedef_BDK_GTI_CTL_PIDR6 bdk_gti_ctl_pidr6_t
 #define bustype_BDK_GTI_CTL_PIDR6 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_PIDR6 "GTI_CTL_PIDR6"
+#define device_bar_BDK_GTI_CTL_PIDR6 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_PIDR6 0
 #define arguments_BDK_GTI_CTL_PIDR6 -1,-1,-1,-1
 
@@ -2134,6 +2191,7 @@ static inline uint64_t BDK_GTI_CTL_PIDR7_FUNC(void)
 #define typedef_BDK_GTI_CTL_PIDR7 bdk_gti_ctl_pidr7_t
 #define bustype_BDK_GTI_CTL_PIDR7 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_CTL_PIDR7 "GTI_CTL_PIDR7"
+#define device_bar_BDK_GTI_CTL_PIDR7 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CTL_PIDR7 0
 #define arguments_BDK_GTI_CTL_PIDR7 -1,-1,-1,-1
 
@@ -2169,6 +2227,7 @@ static inline uint64_t BDK_GTI_CWD_DEL3T_FUNC(void)
 #define typedef_BDK_GTI_CWD_DEL3T bdk_gti_cwd_del3t_t
 #define bustype_BDK_GTI_CWD_DEL3T BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CWD_DEL3T "GTI_CWD_DEL3T"
+#define device_bar_BDK_GTI_CWD_DEL3T 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CWD_DEL3T 0
 #define arguments_BDK_GTI_CWD_DEL3T -1,-1,-1,-1
 
@@ -2204,6 +2263,7 @@ static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_CLR_FUNC(void)
 #define typedef_BDK_GTI_CWD_DEL3T_ENA_CLR bdk_gti_cwd_del3t_ena_clr_t
 #define bustype_BDK_GTI_CWD_DEL3T_ENA_CLR BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CWD_DEL3T_ENA_CLR "GTI_CWD_DEL3T_ENA_CLR"
+#define device_bar_BDK_GTI_CWD_DEL3T_ENA_CLR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CWD_DEL3T_ENA_CLR 0
 #define arguments_BDK_GTI_CWD_DEL3T_ENA_CLR -1,-1,-1,-1
 
@@ -2239,6 +2299,7 @@ static inline uint64_t BDK_GTI_CWD_DEL3T_ENA_SET_FUNC(void)
 #define typedef_BDK_GTI_CWD_DEL3T_ENA_SET bdk_gti_cwd_del3t_ena_set_t
 #define bustype_BDK_GTI_CWD_DEL3T_ENA_SET BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CWD_DEL3T_ENA_SET "GTI_CWD_DEL3T_ENA_SET"
+#define device_bar_BDK_GTI_CWD_DEL3T_ENA_SET 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CWD_DEL3T_ENA_SET 0
 #define arguments_BDK_GTI_CWD_DEL3T_ENA_SET -1,-1,-1,-1
 
@@ -2274,6 +2335,7 @@ static inline uint64_t BDK_GTI_CWD_DEL3T_SET_FUNC(void)
 #define typedef_BDK_GTI_CWD_DEL3T_SET bdk_gti_cwd_del3t_set_t
 #define bustype_BDK_GTI_CWD_DEL3T_SET BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CWD_DEL3T_SET "GTI_CWD_DEL3T_SET"
+#define device_bar_BDK_GTI_CWD_DEL3T_SET 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CWD_DEL3T_SET 0
 #define arguments_BDK_GTI_CWD_DEL3T_SET -1,-1,-1,-1
 
@@ -2309,6 +2371,7 @@ static inline uint64_t BDK_GTI_CWD_INT_FUNC(void)
 #define typedef_BDK_GTI_CWD_INT bdk_gti_cwd_int_t
 #define bustype_BDK_GTI_CWD_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CWD_INT "GTI_CWD_INT"
+#define device_bar_BDK_GTI_CWD_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CWD_INT 0
 #define arguments_BDK_GTI_CWD_INT -1,-1,-1,-1
 
@@ -2344,6 +2407,7 @@ static inline uint64_t BDK_GTI_CWD_INT_ENA_CLR_FUNC(void)
 #define typedef_BDK_GTI_CWD_INT_ENA_CLR bdk_gti_cwd_int_ena_clr_t
 #define bustype_BDK_GTI_CWD_INT_ENA_CLR BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CWD_INT_ENA_CLR "GTI_CWD_INT_ENA_CLR"
+#define device_bar_BDK_GTI_CWD_INT_ENA_CLR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CWD_INT_ENA_CLR 0
 #define arguments_BDK_GTI_CWD_INT_ENA_CLR -1,-1,-1,-1
 
@@ -2379,6 +2443,7 @@ static inline uint64_t BDK_GTI_CWD_INT_ENA_SET_FUNC(void)
 #define typedef_BDK_GTI_CWD_INT_ENA_SET bdk_gti_cwd_int_ena_set_t
 #define bustype_BDK_GTI_CWD_INT_ENA_SET BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CWD_INT_ENA_SET "GTI_CWD_INT_ENA_SET"
+#define device_bar_BDK_GTI_CWD_INT_ENA_SET 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CWD_INT_ENA_SET 0
 #define arguments_BDK_GTI_CWD_INT_ENA_SET -1,-1,-1,-1
 
@@ -2414,6 +2479,7 @@ static inline uint64_t BDK_GTI_CWD_INT_SET_FUNC(void)
 #define typedef_BDK_GTI_CWD_INT_SET bdk_gti_cwd_int_set_t
 #define bustype_BDK_GTI_CWD_INT_SET BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CWD_INT_SET "GTI_CWD_INT_SET"
+#define device_bar_BDK_GTI_CWD_INT_SET 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CWD_INT_SET 0
 #define arguments_BDK_GTI_CWD_INT_SET -1,-1,-1,-1
 
@@ -2479,6 +2545,7 @@ static inline uint64_t BDK_GTI_CWD_POKEX(unsigned long a)
 #define typedef_BDK_GTI_CWD_POKEX(a) bdk_gti_cwd_pokex_t
 #define bustype_BDK_GTI_CWD_POKEX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CWD_POKEX(a) "GTI_CWD_POKEX"
+#define device_bar_BDK_GTI_CWD_POKEX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CWD_POKEX(a) (a)
 #define arguments_BDK_GTI_CWD_POKEX(a) (a),-1,-1,-1
 
@@ -2542,6 +2609,7 @@ static inline uint64_t BDK_GTI_CWD_WDOGX(unsigned long a)
 #define typedef_BDK_GTI_CWD_WDOGX(a) bdk_gti_cwd_wdogx_t
 #define bustype_BDK_GTI_CWD_WDOGX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_CWD_WDOGX(a) "GTI_CWD_WDOGX"
+#define device_bar_BDK_GTI_CWD_WDOGX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_CWD_WDOGX(a) (a)
 #define arguments_BDK_GTI_CWD_WDOGX(a) (a),-1,-1,-1
 
@@ -2576,6 +2644,7 @@ static inline uint64_t BDK_GTI_ERR_BIST_STATUS_FUNC(void)
 #define typedef_BDK_GTI_ERR_BIST_STATUS bdk_gti_err_bist_status_t
 #define bustype_BDK_GTI_ERR_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_ERR_BIST_STATUS "GTI_ERR_BIST_STATUS"
+#define device_bar_BDK_GTI_ERR_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_ERR_BIST_STATUS 0
 #define arguments_BDK_GTI_ERR_BIST_STATUS -1,-1,-1,-1
 
@@ -2610,6 +2679,7 @@ static inline uint64_t BDK_GTI_ERR_ECC_DISABLE_FUNC(void)
 #define typedef_BDK_GTI_ERR_ECC_DISABLE bdk_gti_err_ecc_disable_t
 #define bustype_BDK_GTI_ERR_ECC_DISABLE BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_ERR_ECC_DISABLE "GTI_ERR_ECC_DISABLE"
+#define device_bar_BDK_GTI_ERR_ECC_DISABLE 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_ERR_ECC_DISABLE 0
 #define arguments_BDK_GTI_ERR_ECC_DISABLE -1,-1,-1,-1
 
@@ -2648,6 +2718,7 @@ static inline uint64_t BDK_GTI_ERR_ECC_FLIP_FUNC(void)
 #define typedef_BDK_GTI_ERR_ECC_FLIP bdk_gti_err_ecc_flip_t
 #define bustype_BDK_GTI_ERR_ECC_FLIP BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_ERR_ECC_FLIP "GTI_ERR_ECC_FLIP"
+#define device_bar_BDK_GTI_ERR_ECC_FLIP 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_ERR_ECC_FLIP 0
 #define arguments_BDK_GTI_ERR_ECC_FLIP -1,-1,-1,-1
 
@@ -2686,6 +2757,7 @@ static inline uint64_t BDK_GTI_ERR_INT_FUNC(void)
 #define typedef_BDK_GTI_ERR_INT bdk_gti_err_int_t
 #define bustype_BDK_GTI_ERR_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_ERR_INT "GTI_ERR_INT"
+#define device_bar_BDK_GTI_ERR_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_ERR_INT 0
 #define arguments_BDK_GTI_ERR_INT -1,-1,-1,-1
 
@@ -2725,6 +2797,7 @@ static inline uint64_t BDK_GTI_ERR_INT_ENA_CLR_FUNC(void)
 #define typedef_BDK_GTI_ERR_INT_ENA_CLR bdk_gti_err_int_ena_clr_t
 #define bustype_BDK_GTI_ERR_INT_ENA_CLR BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_ERR_INT_ENA_CLR "GTI_ERR_INT_ENA_CLR"
+#define device_bar_BDK_GTI_ERR_INT_ENA_CLR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_ERR_INT_ENA_CLR 0
 #define arguments_BDK_GTI_ERR_INT_ENA_CLR -1,-1,-1,-1
 
@@ -2764,6 +2837,7 @@ static inline uint64_t BDK_GTI_ERR_INT_ENA_SET_FUNC(void)
 #define typedef_BDK_GTI_ERR_INT_ENA_SET bdk_gti_err_int_ena_set_t
 #define bustype_BDK_GTI_ERR_INT_ENA_SET BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_ERR_INT_ENA_SET "GTI_ERR_INT_ENA_SET"
+#define device_bar_BDK_GTI_ERR_INT_ENA_SET 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_ERR_INT_ENA_SET 0
 #define arguments_BDK_GTI_ERR_INT_ENA_SET -1,-1,-1,-1
 
@@ -2803,6 +2877,7 @@ static inline uint64_t BDK_GTI_ERR_INT_SET_FUNC(void)
 #define typedef_BDK_GTI_ERR_INT_SET bdk_gti_err_int_set_t
 #define bustype_BDK_GTI_ERR_INT_SET BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_ERR_INT_SET "GTI_ERR_INT_SET"
+#define device_bar_BDK_GTI_ERR_INT_SET 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_ERR_INT_SET 0
 #define arguments_BDK_GTI_ERR_INT_SET -1,-1,-1,-1
 
@@ -2839,6 +2914,7 @@ static inline uint64_t BDK_GTI_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_GTI_MSIX_PBAX(a) bdk_gti_msix_pbax_t
 #define bustype_BDK_GTI_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_MSIX_PBAX(a) "GTI_MSIX_PBAX"
+#define device_bar_BDK_GTI_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GTI_MSIX_PBAX(a) (a)
 #define arguments_BDK_GTI_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -2893,6 +2969,7 @@ static inline uint64_t BDK_GTI_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_GTI_MSIX_VECX_ADDR(a) bdk_gti_msix_vecx_addr_t
 #define bustype_BDK_GTI_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_MSIX_VECX_ADDR(a) "GTI_MSIX_VECX_ADDR"
+#define device_bar_BDK_GTI_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GTI_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_GTI_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -2933,6 +3010,7 @@ static inline uint64_t BDK_GTI_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_GTI_MSIX_VECX_CTL(a) bdk_gti_msix_vecx_ctl_t
 #define bustype_BDK_GTI_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_MSIX_VECX_CTL(a) "GTI_MSIX_VECX_CTL"
+#define device_bar_BDK_GTI_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GTI_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_GTI_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -2967,6 +3045,7 @@ static inline uint64_t BDK_GTI_RD_CIDR0_FUNC(void)
 #define typedef_BDK_GTI_RD_CIDR0 bdk_gti_rd_cidr0_t
 #define bustype_BDK_GTI_RD_CIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_CIDR0 "GTI_RD_CIDR0"
+#define device_bar_BDK_GTI_RD_CIDR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_CIDR0 0
 #define arguments_BDK_GTI_RD_CIDR0 -1,-1,-1,-1
 
@@ -3003,6 +3082,7 @@ static inline uint64_t BDK_GTI_RD_CIDR1_FUNC(void)
 #define typedef_BDK_GTI_RD_CIDR1 bdk_gti_rd_cidr1_t
 #define bustype_BDK_GTI_RD_CIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_CIDR1 "GTI_RD_CIDR1"
+#define device_bar_BDK_GTI_RD_CIDR1 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_CIDR1 0
 #define arguments_BDK_GTI_RD_CIDR1 -1,-1,-1,-1
 
@@ -3037,6 +3117,7 @@ static inline uint64_t BDK_GTI_RD_CIDR2_FUNC(void)
 #define typedef_BDK_GTI_RD_CIDR2 bdk_gti_rd_cidr2_t
 #define bustype_BDK_GTI_RD_CIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_CIDR2 "GTI_RD_CIDR2"
+#define device_bar_BDK_GTI_RD_CIDR2 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_CIDR2 0
 #define arguments_BDK_GTI_RD_CIDR2 -1,-1,-1,-1
 
@@ -3071,6 +3152,7 @@ static inline uint64_t BDK_GTI_RD_CIDR3_FUNC(void)
 #define typedef_BDK_GTI_RD_CIDR3 bdk_gti_rd_cidr3_t
 #define bustype_BDK_GTI_RD_CIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_CIDR3 "GTI_RD_CIDR3"
+#define device_bar_BDK_GTI_RD_CIDR3 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_CIDR3 0
 #define arguments_BDK_GTI_RD_CIDR3 -1,-1,-1,-1
 
@@ -3103,6 +3185,7 @@ static inline uint64_t BDK_GTI_RD_CNTCV_FUNC(void)
 #define typedef_BDK_GTI_RD_CNTCV bdk_gti_rd_cntcv_t
 #define bustype_BDK_GTI_RD_CNTCV BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_RD_CNTCV "GTI_RD_CNTCV"
+#define device_bar_BDK_GTI_RD_CNTCV 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_CNTCV 0
 #define arguments_BDK_GTI_RD_CNTCV -1,-1,-1,-1
 
@@ -3137,6 +3220,7 @@ static inline uint64_t BDK_GTI_RD_PIDR0_FUNC(void)
 #define typedef_BDK_GTI_RD_PIDR0 bdk_gti_rd_pidr0_t
 #define bustype_BDK_GTI_RD_PIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_PIDR0 "GTI_RD_PIDR0"
+#define device_bar_BDK_GTI_RD_PIDR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_PIDR0 0
 #define arguments_BDK_GTI_RD_PIDR0 -1,-1,-1,-1
 
@@ -3173,6 +3257,7 @@ static inline uint64_t BDK_GTI_RD_PIDR1_FUNC(void)
 #define typedef_BDK_GTI_RD_PIDR1 bdk_gti_rd_pidr1_t
 #define bustype_BDK_GTI_RD_PIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_PIDR1 "GTI_RD_PIDR1"
+#define device_bar_BDK_GTI_RD_PIDR1 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_PIDR1 0
 #define arguments_BDK_GTI_RD_PIDR1 -1,-1,-1,-1
 
@@ -3211,6 +3296,7 @@ static inline uint64_t BDK_GTI_RD_PIDR2_FUNC(void)
 #define typedef_BDK_GTI_RD_PIDR2 bdk_gti_rd_pidr2_t
 #define bustype_BDK_GTI_RD_PIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_PIDR2 "GTI_RD_PIDR2"
+#define device_bar_BDK_GTI_RD_PIDR2 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_PIDR2 0
 #define arguments_BDK_GTI_RD_PIDR2 -1,-1,-1,-1
 
@@ -3249,6 +3335,7 @@ static inline uint64_t BDK_GTI_RD_PIDR3_FUNC(void)
 #define typedef_BDK_GTI_RD_PIDR3 bdk_gti_rd_pidr3_t
 #define bustype_BDK_GTI_RD_PIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_PIDR3 "GTI_RD_PIDR3"
+#define device_bar_BDK_GTI_RD_PIDR3 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_PIDR3 0
 #define arguments_BDK_GTI_RD_PIDR3 -1,-1,-1,-1
 
@@ -3285,6 +3372,7 @@ static inline uint64_t BDK_GTI_RD_PIDR4_FUNC(void)
 #define typedef_BDK_GTI_RD_PIDR4 bdk_gti_rd_pidr4_t
 #define bustype_BDK_GTI_RD_PIDR4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_PIDR4 "GTI_RD_PIDR4"
+#define device_bar_BDK_GTI_RD_PIDR4 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_PIDR4 0
 #define arguments_BDK_GTI_RD_PIDR4 -1,-1,-1,-1
 
@@ -3317,6 +3405,7 @@ static inline uint64_t BDK_GTI_RD_PIDR5_FUNC(void)
 #define typedef_BDK_GTI_RD_PIDR5 bdk_gti_rd_pidr5_t
 #define bustype_BDK_GTI_RD_PIDR5 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_PIDR5 "GTI_RD_PIDR5"
+#define device_bar_BDK_GTI_RD_PIDR5 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_PIDR5 0
 #define arguments_BDK_GTI_RD_PIDR5 -1,-1,-1,-1
 
@@ -3349,6 +3438,7 @@ static inline uint64_t BDK_GTI_RD_PIDR6_FUNC(void)
 #define typedef_BDK_GTI_RD_PIDR6 bdk_gti_rd_pidr6_t
 #define bustype_BDK_GTI_RD_PIDR6 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_PIDR6 "GTI_RD_PIDR6"
+#define device_bar_BDK_GTI_RD_PIDR6 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_PIDR6 0
 #define arguments_BDK_GTI_RD_PIDR6 -1,-1,-1,-1
 
@@ -3381,6 +3471,7 @@ static inline uint64_t BDK_GTI_RD_PIDR7_FUNC(void)
 #define typedef_BDK_GTI_RD_PIDR7 bdk_gti_rd_pidr7_t
 #define bustype_BDK_GTI_RD_PIDR7 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_RD_PIDR7 "GTI_RD_PIDR7"
+#define device_bar_BDK_GTI_RD_PIDR7 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_RD_PIDR7 0
 #define arguments_BDK_GTI_RD_PIDR7 -1,-1,-1,-1
 
@@ -3416,6 +3507,7 @@ static inline uint64_t BDK_GTI_WCX_CIDR0(unsigned long a)
 #define typedef_BDK_GTI_WCX_CIDR0(a) bdk_gti_wcx_cidr0_t
 #define bustype_BDK_GTI_WCX_CIDR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_CIDR0(a) "GTI_WCX_CIDR0"
+#define device_bar_BDK_GTI_WCX_CIDR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_CIDR0(a) (a)
 #define arguments_BDK_GTI_WCX_CIDR0(a) (a),-1,-1,-1
 
@@ -3453,6 +3545,7 @@ static inline uint64_t BDK_GTI_WCX_CIDR1(unsigned long a)
 #define typedef_BDK_GTI_WCX_CIDR1(a) bdk_gti_wcx_cidr1_t
 #define bustype_BDK_GTI_WCX_CIDR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_CIDR1(a) "GTI_WCX_CIDR1"
+#define device_bar_BDK_GTI_WCX_CIDR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_CIDR1(a) (a)
 #define arguments_BDK_GTI_WCX_CIDR1(a) (a),-1,-1,-1
 
@@ -3488,6 +3581,7 @@ static inline uint64_t BDK_GTI_WCX_CIDR2(unsigned long a)
 #define typedef_BDK_GTI_WCX_CIDR2(a) bdk_gti_wcx_cidr2_t
 #define bustype_BDK_GTI_WCX_CIDR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_CIDR2(a) "GTI_WCX_CIDR2"
+#define device_bar_BDK_GTI_WCX_CIDR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_CIDR2(a) (a)
 #define arguments_BDK_GTI_WCX_CIDR2(a) (a),-1,-1,-1
 
@@ -3523,6 +3617,7 @@ static inline uint64_t BDK_GTI_WCX_CIDR3(unsigned long a)
 #define typedef_BDK_GTI_WCX_CIDR3(a) bdk_gti_wcx_cidr3_t
 #define bustype_BDK_GTI_WCX_CIDR3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_CIDR3(a) "GTI_WCX_CIDR3"
+#define device_bar_BDK_GTI_WCX_CIDR3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_CIDR3(a) (a)
 #define arguments_BDK_GTI_WCX_CIDR3(a) (a),-1,-1,-1
 
@@ -3560,6 +3655,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR0(unsigned long a)
 #define typedef_BDK_GTI_WCX_PIDR0(a) bdk_gti_wcx_pidr0_t
 #define bustype_BDK_GTI_WCX_PIDR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_PIDR0(a) "GTI_WCX_PIDR0"
+#define device_bar_BDK_GTI_WCX_PIDR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_PIDR0(a) (a)
 #define arguments_BDK_GTI_WCX_PIDR0(a) (a),-1,-1,-1
 
@@ -3599,6 +3695,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR1(unsigned long a)
 #define typedef_BDK_GTI_WCX_PIDR1(a) bdk_gti_wcx_pidr1_t
 #define bustype_BDK_GTI_WCX_PIDR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_PIDR1(a) "GTI_WCX_PIDR1"
+#define device_bar_BDK_GTI_WCX_PIDR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_PIDR1(a) (a)
 #define arguments_BDK_GTI_WCX_PIDR1(a) (a),-1,-1,-1
 
@@ -3640,6 +3737,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a)
 #define typedef_BDK_GTI_WCX_PIDR2(a) bdk_gti_wcx_pidr2_t
 #define bustype_BDK_GTI_WCX_PIDR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_PIDR2(a) "GTI_WCX_PIDR2"
+#define device_bar_BDK_GTI_WCX_PIDR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_PIDR2(a) (a)
 #define arguments_BDK_GTI_WCX_PIDR2(a) (a),-1,-1,-1
 
@@ -3681,6 +3779,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a)
 #define typedef_BDK_GTI_WCX_PIDR3(a) bdk_gti_wcx_pidr3_t
 #define bustype_BDK_GTI_WCX_PIDR3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_PIDR3(a) "GTI_WCX_PIDR3"
+#define device_bar_BDK_GTI_WCX_PIDR3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_PIDR3(a) (a)
 #define arguments_BDK_GTI_WCX_PIDR3(a) (a),-1,-1,-1
 
@@ -3720,6 +3819,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR4(unsigned long a)
 #define typedef_BDK_GTI_WCX_PIDR4(a) bdk_gti_wcx_pidr4_t
 #define bustype_BDK_GTI_WCX_PIDR4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_PIDR4(a) "GTI_WCX_PIDR4"
+#define device_bar_BDK_GTI_WCX_PIDR4(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_PIDR4(a) (a)
 #define arguments_BDK_GTI_WCX_PIDR4(a) (a),-1,-1,-1
 
@@ -3753,6 +3853,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR5(unsigned long a)
 #define typedef_BDK_GTI_WCX_PIDR5(a) bdk_gti_wcx_pidr5_t
 #define bustype_BDK_GTI_WCX_PIDR5(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_PIDR5(a) "GTI_WCX_PIDR5"
+#define device_bar_BDK_GTI_WCX_PIDR5(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_PIDR5(a) (a)
 #define arguments_BDK_GTI_WCX_PIDR5(a) (a),-1,-1,-1
 
@@ -3786,6 +3887,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR6(unsigned long a)
 #define typedef_BDK_GTI_WCX_PIDR6(a) bdk_gti_wcx_pidr6_t
 #define bustype_BDK_GTI_WCX_PIDR6(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_PIDR6(a) "GTI_WCX_PIDR6"
+#define device_bar_BDK_GTI_WCX_PIDR6(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_PIDR6(a) (a)
 #define arguments_BDK_GTI_WCX_PIDR6(a) (a),-1,-1,-1
 
@@ -3819,6 +3921,7 @@ static inline uint64_t BDK_GTI_WCX_PIDR7(unsigned long a)
 #define typedef_BDK_GTI_WCX_PIDR7(a) bdk_gti_wcx_pidr7_t
 #define bustype_BDK_GTI_WCX_PIDR7(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_PIDR7(a) "GTI_WCX_PIDR7"
+#define device_bar_BDK_GTI_WCX_PIDR7(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_PIDR7(a) (a)
 #define arguments_BDK_GTI_WCX_PIDR7(a) (a),-1,-1,-1
 
@@ -3895,6 +3998,7 @@ static inline uint64_t BDK_GTI_WCX_W_IIDR(unsigned long a)
 #define typedef_BDK_GTI_WCX_W_IIDR(a) bdk_gti_wcx_w_iidr_t
 #define bustype_BDK_GTI_WCX_W_IIDR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_W_IIDR(a) "GTI_WCX_W_IIDR"
+#define device_bar_BDK_GTI_WCX_W_IIDR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_W_IIDR(a) (a)
 #define arguments_BDK_GTI_WCX_W_IIDR(a) (a),-1,-1,-1
 
@@ -3936,6 +4040,7 @@ static inline uint64_t BDK_GTI_WCX_WCS(unsigned long a)
 #define typedef_BDK_GTI_WCX_WCS(a) bdk_gti_wcx_wcs_t
 #define bustype_BDK_GTI_WCX_WCS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_WCS(a) "GTI_WCX_WCS"
+#define device_bar_BDK_GTI_WCX_WCS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_WCS(a) (a)
 #define arguments_BDK_GTI_WCX_WCS(a) (a),-1,-1,-1
 
@@ -3971,6 +4076,7 @@ static inline uint64_t BDK_GTI_WCX_WCV(unsigned long a)
 #define typedef_BDK_GTI_WCX_WCV(a) bdk_gti_wcx_wcv_t
 #define bustype_BDK_GTI_WCX_WCV(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GTI_WCX_WCV(a) "GTI_WCX_WCV"
+#define device_bar_BDK_GTI_WCX_WCV(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_WCV(a) (a)
 #define arguments_BDK_GTI_WCX_WCV(a) (a),-1,-1,-1
 
@@ -4006,6 +4112,7 @@ static inline uint64_t BDK_GTI_WCX_WOR(unsigned long a)
 #define typedef_BDK_GTI_WCX_WOR(a) bdk_gti_wcx_wor_t
 #define bustype_BDK_GTI_WCX_WOR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WCX_WOR(a) "GTI_WCX_WOR"
+#define device_bar_BDK_GTI_WCX_WOR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WCX_WOR(a) (a)
 #define arguments_BDK_GTI_WCX_WOR(a) (a),-1,-1,-1
 
@@ -4041,6 +4148,7 @@ static inline uint64_t BDK_GTI_WRX_CIDR0(unsigned long a)
 #define typedef_BDK_GTI_WRX_CIDR0(a) bdk_gti_wrx_cidr0_t
 #define bustype_BDK_GTI_WRX_CIDR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_CIDR0(a) "GTI_WRX_CIDR0"
+#define device_bar_BDK_GTI_WRX_CIDR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_CIDR0(a) (a)
 #define arguments_BDK_GTI_WRX_CIDR0(a) (a),-1,-1,-1
 
@@ -4078,6 +4186,7 @@ static inline uint64_t BDK_GTI_WRX_CIDR1(unsigned long a)
 #define typedef_BDK_GTI_WRX_CIDR1(a) bdk_gti_wrx_cidr1_t
 #define bustype_BDK_GTI_WRX_CIDR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_CIDR1(a) "GTI_WRX_CIDR1"
+#define device_bar_BDK_GTI_WRX_CIDR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_CIDR1(a) (a)
 #define arguments_BDK_GTI_WRX_CIDR1(a) (a),-1,-1,-1
 
@@ -4113,6 +4222,7 @@ static inline uint64_t BDK_GTI_WRX_CIDR2(unsigned long a)
 #define typedef_BDK_GTI_WRX_CIDR2(a) bdk_gti_wrx_cidr2_t
 #define bustype_BDK_GTI_WRX_CIDR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_CIDR2(a) "GTI_WRX_CIDR2"
+#define device_bar_BDK_GTI_WRX_CIDR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_CIDR2(a) (a)
 #define arguments_BDK_GTI_WRX_CIDR2(a) (a),-1,-1,-1
 
@@ -4148,6 +4258,7 @@ static inline uint64_t BDK_GTI_WRX_CIDR3(unsigned long a)
 #define typedef_BDK_GTI_WRX_CIDR3(a) bdk_gti_wrx_cidr3_t
 #define bustype_BDK_GTI_WRX_CIDR3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_CIDR3(a) "GTI_WRX_CIDR3"
+#define device_bar_BDK_GTI_WRX_CIDR3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_CIDR3(a) (a)
 #define arguments_BDK_GTI_WRX_CIDR3(a) (a),-1,-1,-1
 
@@ -4183,6 +4294,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR0(unsigned long a)
 #define typedef_BDK_GTI_WRX_PIDR0(a) bdk_gti_wrx_pidr0_t
 #define bustype_BDK_GTI_WRX_PIDR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_PIDR0(a) "GTI_WRX_PIDR0"
+#define device_bar_BDK_GTI_WRX_PIDR0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_PIDR0(a) (a)
 #define arguments_BDK_GTI_WRX_PIDR0(a) (a),-1,-1,-1
 
@@ -4220,6 +4332,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR1(unsigned long a)
 #define typedef_BDK_GTI_WRX_PIDR1(a) bdk_gti_wrx_pidr1_t
 #define bustype_BDK_GTI_WRX_PIDR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_PIDR1(a) "GTI_WRX_PIDR1"
+#define device_bar_BDK_GTI_WRX_PIDR1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_PIDR1(a) (a)
 #define arguments_BDK_GTI_WRX_PIDR1(a) (a),-1,-1,-1
 
@@ -4259,6 +4372,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR2(unsigned long a)
 #define typedef_BDK_GTI_WRX_PIDR2(a) bdk_gti_wrx_pidr2_t
 #define bustype_BDK_GTI_WRX_PIDR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_PIDR2(a) "GTI_WRX_PIDR2"
+#define device_bar_BDK_GTI_WRX_PIDR2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_PIDR2(a) (a)
 #define arguments_BDK_GTI_WRX_PIDR2(a) (a),-1,-1,-1
 
@@ -4298,6 +4412,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR3(unsigned long a)
 #define typedef_BDK_GTI_WRX_PIDR3(a) bdk_gti_wrx_pidr3_t
 #define bustype_BDK_GTI_WRX_PIDR3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_PIDR3(a) "GTI_WRX_PIDR3"
+#define device_bar_BDK_GTI_WRX_PIDR3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_PIDR3(a) (a)
 #define arguments_BDK_GTI_WRX_PIDR3(a) (a),-1,-1,-1
 
@@ -4335,6 +4450,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR4(unsigned long a)
 #define typedef_BDK_GTI_WRX_PIDR4(a) bdk_gti_wrx_pidr4_t
 #define bustype_BDK_GTI_WRX_PIDR4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_PIDR4(a) "GTI_WRX_PIDR4"
+#define device_bar_BDK_GTI_WRX_PIDR4(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_PIDR4(a) (a)
 #define arguments_BDK_GTI_WRX_PIDR4(a) (a),-1,-1,-1
 
@@ -4368,6 +4484,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR5(unsigned long a)
 #define typedef_BDK_GTI_WRX_PIDR5(a) bdk_gti_wrx_pidr5_t
 #define bustype_BDK_GTI_WRX_PIDR5(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_PIDR5(a) "GTI_WRX_PIDR5"
+#define device_bar_BDK_GTI_WRX_PIDR5(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_PIDR5(a) (a)
 #define arguments_BDK_GTI_WRX_PIDR5(a) (a),-1,-1,-1
 
@@ -4401,6 +4518,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR6(unsigned long a)
 #define typedef_BDK_GTI_WRX_PIDR6(a) bdk_gti_wrx_pidr6_t
 #define bustype_BDK_GTI_WRX_PIDR6(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_PIDR6(a) "GTI_WRX_PIDR6"
+#define device_bar_BDK_GTI_WRX_PIDR6(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_PIDR6(a) (a)
 #define arguments_BDK_GTI_WRX_PIDR6(a) (a),-1,-1,-1
 
@@ -4434,6 +4552,7 @@ static inline uint64_t BDK_GTI_WRX_PIDR7(unsigned long a)
 #define typedef_BDK_GTI_WRX_PIDR7(a) bdk_gti_wrx_pidr7_t
 #define bustype_BDK_GTI_WRX_PIDR7(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_PIDR7(a) "GTI_WRX_PIDR7"
+#define device_bar_BDK_GTI_WRX_PIDR7(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_PIDR7(a) (a)
 #define arguments_BDK_GTI_WRX_PIDR7(a) (a),-1,-1,-1
 
@@ -4510,6 +4629,7 @@ static inline uint64_t BDK_GTI_WRX_W_IIDR(unsigned long a)
 #define typedef_BDK_GTI_WRX_W_IIDR(a) bdk_gti_wrx_w_iidr_t
 #define bustype_BDK_GTI_WRX_W_IIDR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_W_IIDR(a) "GTI_WRX_W_IIDR"
+#define device_bar_BDK_GTI_WRX_W_IIDR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_W_IIDR(a) (a)
 #define arguments_BDK_GTI_WRX_W_IIDR(a) (a),-1,-1,-1
 
@@ -4545,6 +4665,7 @@ static inline uint64_t BDK_GTI_WRX_WRR(unsigned long a)
 #define typedef_BDK_GTI_WRX_WRR(a) bdk_gti_wrx_wrr_t
 #define bustype_BDK_GTI_WRX_WRR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GTI_WRX_WRR(a) "GTI_WRX_WRR"
+#define device_bar_BDK_GTI_WRX_WRR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GTI_WRX_WRR(a) (a)
 #define arguments_BDK_GTI_WRX_WRR(a) (a),-1,-1,-1
 

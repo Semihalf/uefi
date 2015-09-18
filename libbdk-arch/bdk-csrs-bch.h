@@ -235,9 +235,9 @@ union bdk_bch_rword_s
 };
 
 /**
- * Register (RSL) bch_bist_result
+ * Register (NCB) bch_bist_result
  *
- * BCH BIST Result Register
+ * BCH PF BIST Result Register
  * This register provides access to internal BIST results. Each bit is the BIST result of an
  * individual memory (per bit, 0 = pass, 1 = fail).
  */
@@ -273,8 +273,9 @@ static inline uint64_t BDK_BCH_BIST_RESULT_FUNC(void)
 }
 
 #define typedef_BDK_BCH_BIST_RESULT bdk_bch_bist_result_t
-#define bustype_BDK_BCH_BIST_RESULT BDK_CSR_TYPE_RSL
+#define bustype_BDK_BCH_BIST_RESULT BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_BIST_RESULT "BCH_BIST_RESULT"
+#define device_bar_BDK_BCH_BIST_RESULT 0x0 /* PF_BAR0 */
 #define busnum_BDK_BCH_BIST_RESULT 0
 #define arguments_BDK_BCH_BIST_RESULT -1,-1,-1,-1
 
@@ -345,13 +346,14 @@ static inline uint64_t BDK_BCH_BP_TEST_FUNC(void)
 #define typedef_BDK_BCH_BP_TEST bdk_bch_bp_test_t
 #define bustype_BDK_BCH_BP_TEST BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_BP_TEST "BCH_BP_TEST"
+#define device_bar_BDK_BCH_BP_TEST 0x0 /* PF_BAR0 */
 #define busnum_BDK_BCH_BP_TEST 0
 #define arguments_BDK_BCH_BP_TEST -1,-1,-1,-1
 
 /**
- * Register (RSL) bch_ctl
+ * Register (NCB) bch_ctl
  *
- * BCH Control Register
+ * BCH PF Control Register
  */
 typedef union
 {
@@ -381,15 +383,16 @@ static inline uint64_t BDK_BCH_CTL_FUNC(void)
 }
 
 #define typedef_BDK_BCH_CTL bdk_bch_ctl_t
-#define bustype_BDK_BCH_CTL BDK_CSR_TYPE_RSL
+#define bustype_BDK_BCH_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_CTL "BCH_CTL"
+#define device_bar_BDK_BCH_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_BCH_CTL 0
 #define arguments_BDK_BCH_CTL -1,-1,-1,-1
 
 /**
- * Register (RSL) bch_eco
+ * Register (NCB) bch_eco
  *
- * INTERNAL: BCH ECO Register
+ * INTERNAL: BCH PF ECO Register
  */
 typedef union
 {
@@ -419,15 +422,16 @@ static inline uint64_t BDK_BCH_ECO_FUNC(void)
 }
 
 #define typedef_BDK_BCH_ECO bdk_bch_eco_t
-#define bustype_BDK_BCH_ECO BDK_CSR_TYPE_RSL
+#define bustype_BDK_BCH_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_ECO "BCH_ECO"
+#define device_bar_BDK_BCH_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_BCH_ECO 0
 #define arguments_BDK_BCH_ECO -1,-1,-1,-1
 
 /**
- * Register (RSL) bch_err_cfg
+ * Register (NCB) bch_err_cfg
  *
- * BCH Error Configuration Register
+ * BCH PF Error Configuration Register
  */
 typedef union
 {
@@ -463,8 +467,9 @@ static inline uint64_t BDK_BCH_ERR_CFG_FUNC(void)
 }
 
 #define typedef_BDK_BCH_ERR_CFG bdk_bch_err_cfg_t
-#define bustype_BDK_BCH_ERR_CFG BDK_CSR_TYPE_RSL
+#define bustype_BDK_BCH_ERR_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_ERR_CFG "BCH_ERR_CFG"
+#define device_bar_BDK_BCH_ERR_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_BCH_ERR_CFG 0
 #define arguments_BDK_BCH_ERR_CFG -1,-1,-1,-1
 
@@ -507,6 +512,7 @@ static inline uint64_t BDK_BCH_ERR_INT_FUNC(void)
 #define typedef_BDK_BCH_ERR_INT bdk_bch_err_int_t
 #define bustype_BDK_BCH_ERR_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_ERR_INT "BCH_ERR_INT"
+#define device_bar_BDK_BCH_ERR_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_BCH_ERR_INT 0
 #define arguments_BDK_BCH_ERR_INT -1,-1,-1,-1
 
@@ -550,6 +556,7 @@ static inline uint64_t BDK_BCH_ERR_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_BCH_ERR_INT_ENA_W1C bdk_bch_err_int_ena_w1c_t
 #define bustype_BDK_BCH_ERR_INT_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_ERR_INT_ENA_W1C "BCH_ERR_INT_ENA_W1C"
+#define device_bar_BDK_BCH_ERR_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_BCH_ERR_INT_ENA_W1C 0
 #define arguments_BDK_BCH_ERR_INT_ENA_W1C -1,-1,-1,-1
 
@@ -593,6 +600,7 @@ static inline uint64_t BDK_BCH_ERR_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_BCH_ERR_INT_ENA_W1S bdk_bch_err_int_ena_w1s_t
 #define bustype_BDK_BCH_ERR_INT_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_ERR_INT_ENA_W1S "BCH_ERR_INT_ENA_W1S"
+#define device_bar_BDK_BCH_ERR_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_BCH_ERR_INT_ENA_W1S 0
 #define arguments_BDK_BCH_ERR_INT_ENA_W1S -1,-1,-1,-1
 
@@ -636,6 +644,7 @@ static inline uint64_t BDK_BCH_ERR_INT_W1S_FUNC(void)
 #define typedef_BDK_BCH_ERR_INT_W1S bdk_bch_err_int_w1s_t
 #define bustype_BDK_BCH_ERR_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_ERR_INT_W1S "BCH_ERR_INT_W1S"
+#define device_bar_BDK_BCH_ERR_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_BCH_ERR_INT_W1S 0
 #define arguments_BDK_BCH_ERR_INT_W1S -1,-1,-1,-1
 
@@ -674,6 +683,7 @@ static inline uint64_t BDK_BCH_PF_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_BCH_PF_MSIX_PBAX(a) bdk_bch_pf_msix_pbax_t
 #define bustype_BDK_BCH_PF_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_PF_MSIX_PBAX(a) "BCH_PF_MSIX_PBAX"
+#define device_bar_BDK_BCH_PF_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_BCH_PF_MSIX_PBAX(a) (a)
 #define arguments_BDK_BCH_PF_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -732,6 +742,7 @@ static inline uint64_t BDK_BCH_PF_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_BCH_PF_MSIX_VECX_ADDR(a) bdk_bch_pf_msix_vecx_addr_t
 #define bustype_BDK_BCH_PF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_PF_MSIX_VECX_ADDR(a) "BCH_PF_MSIX_VECX_ADDR"
+#define device_bar_BDK_BCH_PF_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_BCH_PF_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_BCH_PF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -774,6 +785,7 @@ static inline uint64_t BDK_BCH_PF_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_BCH_PF_MSIX_VECX_CTL(a) bdk_bch_pf_msix_vecx_ctl_t
 #define bustype_BDK_BCH_PF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_PF_MSIX_VECX_CTL(a) "BCH_PF_MSIX_VECX_CTL"
+#define device_bar_BDK_BCH_PF_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_BCH_PF_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_BCH_PF_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -816,6 +828,7 @@ static inline uint64_t BDK_BCH_PF_QX_GMCTL(unsigned long a)
 #define typedef_BDK_BCH_PF_QX_GMCTL(a) bdk_bch_pf_qx_gmctl_t
 #define bustype_BDK_BCH_PF_QX_GMCTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_PF_QX_GMCTL(a) "BCH_PF_QX_GMCTL"
+#define device_bar_BDK_BCH_PF_QX_GMCTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_BCH_PF_QX_GMCTL(a) (a)
 #define arguments_BDK_BCH_PF_QX_GMCTL(a) (a),-1,-1,-1
 
@@ -866,6 +879,7 @@ static inline uint64_t BDK_BCH_VQX_CMD_BUF(unsigned long a)
 #define typedef_BDK_BCH_VQX_CMD_BUF(a) bdk_bch_vqx_cmd_buf_t
 #define bustype_BDK_BCH_VQX_CMD_BUF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_VQX_CMD_BUF(a) "BCH_VQX_CMD_BUF"
+#define device_bar_BDK_BCH_VQX_CMD_BUF(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_BCH_VQX_CMD_BUF(a) (a)
 #define arguments_BDK_BCH_VQX_CMD_BUF(a) (a),-1,-1,-1
 
@@ -908,6 +922,7 @@ static inline uint64_t BDK_BCH_VQX_CMD_PTR(unsigned long a)
 #define typedef_BDK_BCH_VQX_CMD_PTR(a) bdk_bch_vqx_cmd_ptr_t
 #define bustype_BDK_BCH_VQX_CMD_PTR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_VQX_CMD_PTR(a) "BCH_VQX_CMD_PTR"
+#define device_bar_BDK_BCH_VQX_CMD_PTR(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_BCH_VQX_CMD_PTR(a) (a)
 #define arguments_BDK_BCH_VQX_CMD_PTR(a) (a),-1,-1,-1
 
@@ -971,6 +986,7 @@ static inline uint64_t BDK_BCH_VQX_CTL(unsigned long a)
 #define typedef_BDK_BCH_VQX_CTL(a) bdk_bch_vqx_ctl_t
 #define bustype_BDK_BCH_VQX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_VQX_CTL(a) "BCH_VQX_CTL"
+#define device_bar_BDK_BCH_VQX_CTL(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_BCH_VQX_CTL(a) (a)
 #define arguments_BDK_BCH_VQX_CTL(a) (a),-1,-1,-1
 
@@ -1010,6 +1026,7 @@ static inline uint64_t BDK_BCH_VQX_DOORBELL(unsigned long a)
 #define typedef_BDK_BCH_VQX_DOORBELL(a) bdk_bch_vqx_doorbell_t
 #define bustype_BDK_BCH_VQX_DOORBELL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_BCH_VQX_DOORBELL(a) "BCH_VQX_DOORBELL"
+#define device_bar_BDK_BCH_VQX_DOORBELL(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_BCH_VQX_DOORBELL(a) (a)
 #define arguments_BDK_BCH_VQX_DOORBELL(a) (a),-1,-1,-1
 

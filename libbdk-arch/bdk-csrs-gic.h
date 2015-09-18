@@ -670,6 +670,7 @@ static inline uint64_t BDK_GIC_BIST_STATUSR_FUNC(void)
 #define typedef_BDK_GIC_BIST_STATUSR bdk_gic_bist_statusr_t
 #define bustype_BDK_GIC_BIST_STATUSR BDK_CSR_TYPE_NCB
 #define basename_BDK_GIC_BIST_STATUSR "GIC_BIST_STATUSR"
+#define device_bar_BDK_GIC_BIST_STATUSR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GIC_BIST_STATUSR 0
 #define arguments_BDK_GIC_BIST_STATUSR -1,-1,-1,-1
 
@@ -793,6 +794,7 @@ static inline uint64_t BDK_GIC_CFG_CTLR_FUNC(void)
 #define typedef_BDK_GIC_CFG_CTLR bdk_gic_cfg_ctlr_t
 #define bustype_BDK_GIC_CFG_CTLR BDK_CSR_TYPE_NCB
 #define basename_BDK_GIC_CFG_CTLR "GIC_CFG_CTLR"
+#define device_bar_BDK_GIC_CFG_CTLR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GIC_CFG_CTLR 0
 #define arguments_BDK_GIC_CFG_CTLR -1,-1,-1,-1
 
@@ -844,6 +846,7 @@ static inline uint64_t BDK_GIC_DEL3T_CTLR_FUNC(void)
 #define typedef_BDK_GIC_DEL3T_CTLR bdk_gic_del3t_ctlr_t
 #define bustype_BDK_GIC_DEL3T_CTLR BDK_CSR_TYPE_NCB
 #define basename_BDK_GIC_DEL3T_CTLR "GIC_DEL3T_CTLR"
+#define device_bar_BDK_GIC_DEL3T_CTLR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GIC_DEL3T_CTLR 0
 #define arguments_BDK_GIC_DEL3T_CTLR -1,-1,-1,-1
 
@@ -922,6 +925,7 @@ static inline uint64_t BDK_GIC_ECC_CTLR_FUNC(void)
 #define typedef_BDK_GIC_ECC_CTLR bdk_gic_ecc_ctlr_t
 #define bustype_BDK_GIC_ECC_CTLR BDK_CSR_TYPE_NCB
 #define basename_BDK_GIC_ECC_CTLR "GIC_ECC_CTLR"
+#define device_bar_BDK_GIC_ECC_CTLR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GIC_ECC_CTLR 0
 #define arguments_BDK_GIC_ECC_CTLR -1,-1,-1,-1
 
@@ -969,6 +973,7 @@ static inline uint64_t BDK_GIC_ECC_INT_STATUSR_FUNC(void)
 #define typedef_BDK_GIC_ECC_INT_STATUSR bdk_gic_ecc_int_statusr_t
 #define bustype_BDK_GIC_ECC_INT_STATUSR BDK_CSR_TYPE_NCB
 #define basename_BDK_GIC_ECC_INT_STATUSR "GIC_ECC_INT_STATUSR"
+#define device_bar_BDK_GIC_ECC_INT_STATUSR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GIC_ECC_INT_STATUSR 0
 #define arguments_BDK_GIC_ECC_INT_STATUSR -1,-1,-1,-1
 
@@ -1006,6 +1011,7 @@ static inline uint64_t BDK_GIC_RIB_ERR_ADRR_FUNC(void)
 #define typedef_BDK_GIC_RIB_ERR_ADRR bdk_gic_rib_err_adrr_t
 #define bustype_BDK_GIC_RIB_ERR_ADRR BDK_CSR_TYPE_NCB
 #define basename_BDK_GIC_RIB_ERR_ADRR "GIC_RIB_ERR_ADRR"
+#define device_bar_BDK_GIC_RIB_ERR_ADRR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GIC_RIB_ERR_ADRR 0
 #define arguments_BDK_GIC_RIB_ERR_ADRR -1,-1,-1,-1
 
@@ -1055,6 +1061,7 @@ static inline uint64_t BDK_GIC_RIB_ERR_STATUSR_FUNC(void)
 #define typedef_BDK_GIC_RIB_ERR_STATUSR bdk_gic_rib_err_statusr_t
 #define bustype_BDK_GIC_RIB_ERR_STATUSR BDK_CSR_TYPE_NCB
 #define basename_BDK_GIC_RIB_ERR_STATUSR "GIC_RIB_ERR_STATUSR"
+#define device_bar_BDK_GIC_RIB_ERR_STATUSR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GIC_RIB_ERR_STATUSR 0
 #define arguments_BDK_GIC_RIB_ERR_STATUSR -1,-1,-1,-1
 
@@ -1088,6 +1095,7 @@ static inline uint64_t BDK_GIC_SCRATCH_FUNC(void)
 #define typedef_BDK_GIC_SCRATCH bdk_gic_scratch_t
 #define bustype_BDK_GIC_SCRATCH BDK_CSR_TYPE_NCB
 #define basename_BDK_GIC_SCRATCH "GIC_SCRATCH"
+#define device_bar_BDK_GIC_SCRATCH 0x0 /* PF_BAR0 */
 #define busnum_BDK_GIC_SCRATCH 0
 #define arguments_BDK_GIC_SCRATCH -1,-1,-1,-1
 
@@ -1143,6 +1151,7 @@ static inline uint64_t BDK_GIC_SYNC_CFG_FUNC(void)
 #define typedef_BDK_GIC_SYNC_CFG bdk_gic_sync_cfg_t
 #define bustype_BDK_GIC_SYNC_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_GIC_SYNC_CFG "GIC_SYNC_CFG"
+#define device_bar_BDK_GIC_SYNC_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_GIC_SYNC_CFG 0
 #define arguments_BDK_GIC_SYNC_CFG -1,-1,-1,-1
 
@@ -1177,6 +1186,7 @@ static inline uint64_t BDK_GICD_CIDR0_FUNC(void)
 #define typedef_BDK_GICD_CIDR0 bdk_gicd_cidr0_t
 #define bustype_BDK_GICD_CIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_CIDR0 "GICD_CIDR0"
+#define device_bar_BDK_GICD_CIDR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_CIDR0 0
 #define arguments_BDK_GICD_CIDR0 -1,-1,-1,-1
 
@@ -1211,6 +1221,7 @@ static inline uint64_t BDK_GICD_CIDR1_FUNC(void)
 #define typedef_BDK_GICD_CIDR1 bdk_gicd_cidr1_t
 #define bustype_BDK_GICD_CIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_CIDR1 "GICD_CIDR1"
+#define device_bar_BDK_GICD_CIDR1 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_CIDR1 0
 #define arguments_BDK_GICD_CIDR1 -1,-1,-1,-1
 
@@ -1245,6 +1256,7 @@ static inline uint64_t BDK_GICD_CIDR2_FUNC(void)
 #define typedef_BDK_GICD_CIDR2 bdk_gicd_cidr2_t
 #define bustype_BDK_GICD_CIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_CIDR2 "GICD_CIDR2"
+#define device_bar_BDK_GICD_CIDR2 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_CIDR2 0
 #define arguments_BDK_GICD_CIDR2 -1,-1,-1,-1
 
@@ -1279,6 +1291,7 @@ static inline uint64_t BDK_GICD_CIDR3_FUNC(void)
 #define typedef_BDK_GICD_CIDR3 bdk_gicd_cidr3_t
 #define bustype_BDK_GICD_CIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_CIDR3 "GICD_CIDR3"
+#define device_bar_BDK_GICD_CIDR3 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_CIDR3 0
 #define arguments_BDK_GICD_CIDR3 -1,-1,-1,-1
 
@@ -1327,6 +1340,7 @@ static inline uint64_t BDK_GICD_CLRSPI_NSR_FUNC(void)
 #define typedef_BDK_GICD_CLRSPI_NSR bdk_gicd_clrspi_nsr_t
 #define bustype_BDK_GICD_CLRSPI_NSR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_CLRSPI_NSR "GICD_CLRSPI_NSR"
+#define device_bar_BDK_GICD_CLRSPI_NSR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_CLRSPI_NSR 0
 #define arguments_BDK_GICD_CLRSPI_NSR -1,-1,-1,-1
 
@@ -1371,6 +1385,7 @@ static inline uint64_t BDK_GICD_CLRSPI_SR_FUNC(void)
 #define typedef_BDK_GICD_CLRSPI_SR bdk_gicd_clrspi_sr_t
 #define bustype_BDK_GICD_CLRSPI_SR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_CLRSPI_SR "GICD_CLRSPI_SR"
+#define device_bar_BDK_GICD_CLRSPI_SR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_CLRSPI_SR 0
 #define arguments_BDK_GICD_CLRSPI_SR -1,-1,-1,-1
 
@@ -1420,6 +1435,7 @@ static inline uint64_t BDK_GICD_ICACTIVERX(unsigned long a)
 #define typedef_BDK_GICD_ICACTIVERX(a) bdk_gicd_icactiverx_t
 #define bustype_BDK_GICD_ICACTIVERX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_ICACTIVERX(a) "GICD_ICACTIVERX"
+#define device_bar_BDK_GICD_ICACTIVERX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_ICACTIVERX(a) (a)
 #define arguments_BDK_GICD_ICACTIVERX(a) (a),-1,-1,-1
 
@@ -1474,6 +1490,7 @@ static inline uint64_t BDK_GICD_ICENABLERX(unsigned long a)
 #define typedef_BDK_GICD_ICENABLERX(a) bdk_gicd_icenablerx_t
 #define bustype_BDK_GICD_ICENABLERX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_ICENABLERX(a) "GICD_ICENABLERX"
+#define device_bar_BDK_GICD_ICENABLERX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_ICENABLERX(a) (a)
 #define arguments_BDK_GICD_ICENABLERX(a) (a),-1,-1,-1
 
@@ -1519,6 +1536,7 @@ static inline uint64_t BDK_GICD_ICFGRX(unsigned long a)
 #define typedef_BDK_GICD_ICFGRX(a) bdk_gicd_icfgrx_t
 #define bustype_BDK_GICD_ICFGRX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_ICFGRX(a) "GICD_ICFGRX"
+#define device_bar_BDK_GICD_ICFGRX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_ICFGRX(a) (a)
 #define arguments_BDK_GICD_ICFGRX(a) (a),-1,-1,-1
 
@@ -1568,6 +1586,7 @@ static inline uint64_t BDK_GICD_ICPENDRX(unsigned long a)
 #define typedef_BDK_GICD_ICPENDRX(a) bdk_gicd_icpendrx_t
 #define bustype_BDK_GICD_ICPENDRX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_ICPENDRX(a) "GICD_ICPENDRX"
+#define device_bar_BDK_GICD_ICPENDRX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_ICPENDRX(a) (a)
 #define arguments_BDK_GICD_ICPENDRX(a) (a),-1,-1,-1
 
@@ -1606,6 +1625,7 @@ static inline uint64_t BDK_GICD_IGROUPRX(unsigned long a)
 #define typedef_BDK_GICD_IGROUPRX(a) bdk_gicd_igrouprx_t
 #define bustype_BDK_GICD_IGROUPRX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_IGROUPRX(a) "GICD_IGROUPRX"
+#define device_bar_BDK_GICD_IGROUPRX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_IGROUPRX(a) (a)
 #define arguments_BDK_GICD_IGROUPRX(a) (a),-1,-1,-1
 
@@ -1644,6 +1664,7 @@ static inline uint64_t BDK_GICD_IGRPMODRX(unsigned long a)
 #define typedef_BDK_GICD_IGRPMODRX(a) bdk_gicd_igrpmodrx_t
 #define bustype_BDK_GICD_IGRPMODRX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_IGRPMODRX(a) "GICD_IGRPMODRX"
+#define device_bar_BDK_GICD_IGRPMODRX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_IGRPMODRX(a) (a)
 #define arguments_BDK_GICD_IGRPMODRX(a) (a),-1,-1,-1
 
@@ -1694,6 +1715,7 @@ static inline uint64_t BDK_GICD_IIDR_FUNC(void)
 #define typedef_BDK_GICD_IIDR bdk_gicd_iidr_t
 #define bustype_BDK_GICD_IIDR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_IIDR "GICD_IIDR"
+#define device_bar_BDK_GICD_IIDR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_IIDR 0
 #define arguments_BDK_GICD_IIDR -1,-1,-1,-1
 
@@ -1742,6 +1764,7 @@ static inline uint64_t BDK_GICD_IPRIORITYRX(unsigned long a)
 #define typedef_BDK_GICD_IPRIORITYRX(a) bdk_gicd_ipriorityrx_t
 #define bustype_BDK_GICD_IPRIORITYRX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_IPRIORITYRX(a) "GICD_IPRIORITYRX"
+#define device_bar_BDK_GICD_IPRIORITYRX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_IPRIORITYRX(a) (a)
 #define arguments_BDK_GICD_IPRIORITYRX(a) (a),-1,-1,-1
 
@@ -1793,6 +1816,7 @@ static inline uint64_t BDK_GICD_IROUTERX(unsigned long a)
 #define typedef_BDK_GICD_IROUTERX(a) bdk_gicd_irouterx_t
 #define bustype_BDK_GICD_IROUTERX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GICD_IROUTERX(a) "GICD_IROUTERX"
+#define device_bar_BDK_GICD_IROUTERX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_IROUTERX(a) (a)
 #define arguments_BDK_GICD_IROUTERX(a) (a),-1,-1,-1
 
@@ -1842,6 +1866,7 @@ static inline uint64_t BDK_GICD_ISACTIVERX(unsigned long a)
 #define typedef_BDK_GICD_ISACTIVERX(a) bdk_gicd_isactiverx_t
 #define bustype_BDK_GICD_ISACTIVERX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_ISACTIVERX(a) "GICD_ISACTIVERX"
+#define device_bar_BDK_GICD_ISACTIVERX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_ISACTIVERX(a) (a)
 #define arguments_BDK_GICD_ISACTIVERX(a) (a),-1,-1,-1
 
@@ -1884,6 +1909,7 @@ static inline uint64_t BDK_GICD_ISENABLERX(unsigned long a)
 #define typedef_BDK_GICD_ISENABLERX(a) bdk_gicd_isenablerx_t
 #define bustype_BDK_GICD_ISENABLERX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_ISENABLERX(a) "GICD_ISENABLERX"
+#define device_bar_BDK_GICD_ISENABLERX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_ISENABLERX(a) (a)
 #define arguments_BDK_GICD_ISENABLERX(a) (a),-1,-1,-1
 
@@ -1933,6 +1959,7 @@ static inline uint64_t BDK_GICD_ISPENDRX(unsigned long a)
 #define typedef_BDK_GICD_ISPENDRX(a) bdk_gicd_ispendrx_t
 #define bustype_BDK_GICD_ISPENDRX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_ISPENDRX(a) "GICD_ISPENDRX"
+#define device_bar_BDK_GICD_ISPENDRX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_ISPENDRX(a) (a)
 #define arguments_BDK_GICD_ISPENDRX(a) (a),-1,-1,-1
 
@@ -1996,6 +2023,7 @@ static inline uint64_t BDK_GICD_NSACRX(unsigned long a)
 #define typedef_BDK_GICD_NSACRX(a) bdk_gicd_nsacrx_t
 #define bustype_BDK_GICD_NSACRX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_NSACRX(a) "GICD_NSACRX"
+#define device_bar_BDK_GICD_NSACRX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_NSACRX(a) (a)
 #define arguments_BDK_GICD_NSACRX(a) (a),-1,-1,-1
 
@@ -2030,6 +2058,7 @@ static inline uint64_t BDK_GICD_PIDR0_FUNC(void)
 #define typedef_BDK_GICD_PIDR0 bdk_gicd_pidr0_t
 #define bustype_BDK_GICD_PIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_PIDR0 "GICD_PIDR0"
+#define device_bar_BDK_GICD_PIDR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_PIDR0 0
 #define arguments_BDK_GICD_PIDR0 -1,-1,-1,-1
 
@@ -2066,6 +2095,7 @@ static inline uint64_t BDK_GICD_PIDR1_FUNC(void)
 #define typedef_BDK_GICD_PIDR1 bdk_gicd_pidr1_t
 #define bustype_BDK_GICD_PIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_PIDR1 "GICD_PIDR1"
+#define device_bar_BDK_GICD_PIDR1 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_PIDR1 0
 #define arguments_BDK_GICD_PIDR1 -1,-1,-1,-1
 
@@ -2114,6 +2144,7 @@ static inline uint64_t BDK_GICD_PIDR2_FUNC(void)
 #define typedef_BDK_GICD_PIDR2 bdk_gicd_pidr2_t
 #define bustype_BDK_GICD_PIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_PIDR2 "GICD_PIDR2"
+#define device_bar_BDK_GICD_PIDR2 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_PIDR2 0
 #define arguments_BDK_GICD_PIDR2 -1,-1,-1,-1
 
@@ -2152,6 +2183,7 @@ static inline uint64_t BDK_GICD_PIDR3_FUNC(void)
 #define typedef_BDK_GICD_PIDR3 bdk_gicd_pidr3_t
 #define bustype_BDK_GICD_PIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_PIDR3 "GICD_PIDR3"
+#define device_bar_BDK_GICD_PIDR3 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_PIDR3 0
 #define arguments_BDK_GICD_PIDR3 -1,-1,-1,-1
 
@@ -2188,6 +2220,7 @@ static inline uint64_t BDK_GICD_PIDR4_FUNC(void)
 #define typedef_BDK_GICD_PIDR4 bdk_gicd_pidr4_t
 #define bustype_BDK_GICD_PIDR4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_PIDR4 "GICD_PIDR4"
+#define device_bar_BDK_GICD_PIDR4 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_PIDR4 0
 #define arguments_BDK_GICD_PIDR4 -1,-1,-1,-1
 
@@ -2220,6 +2253,7 @@ static inline uint64_t BDK_GICD_PIDR5_FUNC(void)
 #define typedef_BDK_GICD_PIDR5 bdk_gicd_pidr5_t
 #define bustype_BDK_GICD_PIDR5 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_PIDR5 "GICD_PIDR5"
+#define device_bar_BDK_GICD_PIDR5 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_PIDR5 0
 #define arguments_BDK_GICD_PIDR5 -1,-1,-1,-1
 
@@ -2252,6 +2286,7 @@ static inline uint64_t BDK_GICD_PIDR6_FUNC(void)
 #define typedef_BDK_GICD_PIDR6 bdk_gicd_pidr6_t
 #define bustype_BDK_GICD_PIDR6 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_PIDR6 "GICD_PIDR6"
+#define device_bar_BDK_GICD_PIDR6 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_PIDR6 0
 #define arguments_BDK_GICD_PIDR6 -1,-1,-1,-1
 
@@ -2284,6 +2319,7 @@ static inline uint64_t BDK_GICD_PIDR7_FUNC(void)
 #define typedef_BDK_GICD_PIDR7 bdk_gicd_pidr7_t
 #define bustype_BDK_GICD_PIDR7 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_PIDR7 "GICD_PIDR7"
+#define device_bar_BDK_GICD_PIDR7 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_PIDR7 0
 #define arguments_BDK_GICD_PIDR7 -1,-1,-1,-1
 
@@ -2405,6 +2441,7 @@ static inline uint64_t BDK_GICD_SCTLR_FUNC(void)
 #define typedef_BDK_GICD_SCTLR bdk_gicd_sctlr_t
 #define bustype_BDK_GICD_SCTLR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_SCTLR "GICD_SCTLR"
+#define device_bar_BDK_GICD_SCTLR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_SCTLR 0
 #define arguments_BDK_GICD_SCTLR -1,-1,-1,-1
 
@@ -2453,6 +2490,7 @@ static inline uint64_t BDK_GICD_SETSPI_NSR_FUNC(void)
 #define typedef_BDK_GICD_SETSPI_NSR bdk_gicd_setspi_nsr_t
 #define bustype_BDK_GICD_SETSPI_NSR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_SETSPI_NSR "GICD_SETSPI_NSR"
+#define device_bar_BDK_GICD_SETSPI_NSR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_SETSPI_NSR 0
 #define arguments_BDK_GICD_SETSPI_NSR -1,-1,-1,-1
 
@@ -2497,6 +2535,7 @@ static inline uint64_t BDK_GICD_SETSPI_SR_FUNC(void)
 #define typedef_BDK_GICD_SETSPI_SR bdk_gicd_setspi_sr_t
 #define bustype_BDK_GICD_SETSPI_SR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_SETSPI_SR "GICD_SETSPI_SR"
+#define device_bar_BDK_GICD_SETSPI_SR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_SETSPI_SR 0
 #define arguments_BDK_GICD_SETSPI_SR -1,-1,-1,-1
 
@@ -2545,6 +2584,7 @@ static inline uint64_t BDK_GICD_SSTATUSR_FUNC(void)
 #define typedef_BDK_GICD_SSTATUSR bdk_gicd_sstatusr_t
 #define bustype_BDK_GICD_SSTATUSR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_SSTATUSR "GICD_SSTATUSR"
+#define device_bar_BDK_GICD_SSTATUSR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_SSTATUSR 0
 #define arguments_BDK_GICD_SSTATUSR -1,-1,-1,-1
 
@@ -2600,6 +2640,7 @@ static inline uint64_t BDK_GICD_TYPER_FUNC(void)
 #define typedef_BDK_GICD_TYPER bdk_gicd_typer_t
 #define bustype_BDK_GICD_TYPER BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICD_TYPER "GICD_TYPER"
+#define device_bar_BDK_GICD_TYPER 0x0 /* PF_BAR0 */
 #define busnum_BDK_GICD_TYPER 0
 #define arguments_BDK_GICD_TYPER -1,-1,-1,-1
 
@@ -2635,6 +2676,7 @@ static inline uint64_t BDK_GICRX_CIDR0(unsigned long a)
 #define typedef_BDK_GICRX_CIDR0(a) bdk_gicrx_cidr0_t
 #define bustype_BDK_GICRX_CIDR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_CIDR0(a) "GICRX_CIDR0"
+#define device_bar_BDK_GICRX_CIDR0(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_CIDR0(a) (a)
 #define arguments_BDK_GICRX_CIDR0(a) (a),-1,-1,-1
 
@@ -2670,6 +2712,7 @@ static inline uint64_t BDK_GICRX_CIDR1(unsigned long a)
 #define typedef_BDK_GICRX_CIDR1(a) bdk_gicrx_cidr1_t
 #define bustype_BDK_GICRX_CIDR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_CIDR1(a) "GICRX_CIDR1"
+#define device_bar_BDK_GICRX_CIDR1(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_CIDR1(a) (a)
 #define arguments_BDK_GICRX_CIDR1(a) (a),-1,-1,-1
 
@@ -2705,6 +2748,7 @@ static inline uint64_t BDK_GICRX_CIDR2(unsigned long a)
 #define typedef_BDK_GICRX_CIDR2(a) bdk_gicrx_cidr2_t
 #define bustype_BDK_GICRX_CIDR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_CIDR2(a) "GICRX_CIDR2"
+#define device_bar_BDK_GICRX_CIDR2(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_CIDR2(a) (a)
 #define arguments_BDK_GICRX_CIDR2(a) (a),-1,-1,-1
 
@@ -2740,6 +2784,7 @@ static inline uint64_t BDK_GICRX_CIDR3(unsigned long a)
 #define typedef_BDK_GICRX_CIDR3(a) bdk_gicrx_cidr3_t
 #define bustype_BDK_GICRX_CIDR3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_CIDR3(a) "GICRX_CIDR3"
+#define device_bar_BDK_GICRX_CIDR3(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_CIDR3(a) (a)
 #define arguments_BDK_GICRX_CIDR3(a) (a),-1,-1,-1
 
@@ -2781,6 +2826,7 @@ static inline uint64_t BDK_GICRX_CLRLPIR(unsigned long a)
 #define typedef_BDK_GICRX_CLRLPIR(a) bdk_gicrx_clrlpir_t
 #define bustype_BDK_GICRX_CLRLPIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GICRX_CLRLPIR(a) "GICRX_CLRLPIR"
+#define device_bar_BDK_GICRX_CLRLPIR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_CLRLPIR(a) (a)
 #define arguments_BDK_GICRX_CLRLPIR(a) (a),-1,-1,-1
 
@@ -2828,6 +2874,7 @@ static inline uint64_t BDK_GICRX_ICACTIVER0(unsigned long a)
 #define typedef_BDK_GICRX_ICACTIVER0(a) bdk_gicrx_icactiver0_t
 #define bustype_BDK_GICRX_ICACTIVER0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_ICACTIVER0(a) "GICRX_ICACTIVER0"
+#define device_bar_BDK_GICRX_ICACTIVER0(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_ICACTIVER0(a) (a)
 #define arguments_BDK_GICRX_ICACTIVER0(a) (a),-1,-1,-1
 
@@ -2884,6 +2931,7 @@ static inline uint64_t BDK_GICRX_ICENABLER0(unsigned long a)
 #define typedef_BDK_GICRX_ICENABLER0(a) bdk_gicrx_icenabler0_t
 #define bustype_BDK_GICRX_ICENABLER0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_ICENABLER0(a) "GICRX_ICENABLER0"
+#define device_bar_BDK_GICRX_ICENABLER0(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_ICENABLER0(a) (a)
 #define arguments_BDK_GICRX_ICENABLER0(a) (a),-1,-1,-1
 
@@ -2935,6 +2983,7 @@ static inline uint64_t BDK_GICRX_ICFGR0(unsigned long a)
 #define typedef_BDK_GICRX_ICFGR0(a) bdk_gicrx_icfgr0_t
 #define bustype_BDK_GICRX_ICFGR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_ICFGR0(a) "GICRX_ICFGR0"
+#define device_bar_BDK_GICRX_ICFGR0(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_ICFGR0(a) (a)
 #define arguments_BDK_GICRX_ICFGR0(a) (a),-1,-1,-1
 
@@ -2985,6 +3034,7 @@ static inline uint64_t BDK_GICRX_ICFGR1(unsigned long a)
 #define typedef_BDK_GICRX_ICFGR1(a) bdk_gicrx_icfgr1_t
 #define bustype_BDK_GICRX_ICFGR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_ICFGR1(a) "GICRX_ICFGR1"
+#define device_bar_BDK_GICRX_ICFGR1(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_ICFGR1(a) (a)
 #define arguments_BDK_GICRX_ICFGR1(a) (a),-1,-1,-1
 
@@ -3032,6 +3082,7 @@ static inline uint64_t BDK_GICRX_ICPENDR0(unsigned long a)
 #define typedef_BDK_GICRX_ICPENDR0(a) bdk_gicrx_icpendr0_t
 #define bustype_BDK_GICRX_ICPENDR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_ICPENDR0(a) "GICRX_ICPENDR0"
+#define device_bar_BDK_GICRX_ICPENDR0(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_ICPENDR0(a) (a)
 #define arguments_BDK_GICRX_ICPENDR0(a) (a),-1,-1,-1
 
@@ -3075,6 +3126,7 @@ static inline uint64_t BDK_GICRX_IGROUPR0(unsigned long a)
 #define typedef_BDK_GICRX_IGROUPR0(a) bdk_gicrx_igroupr0_t
 #define bustype_BDK_GICRX_IGROUPR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_IGROUPR0(a) "GICRX_IGROUPR0"
+#define device_bar_BDK_GICRX_IGROUPR0(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_IGROUPR0(a) (a)
 #define arguments_BDK_GICRX_IGROUPR0(a) (a),-1,-1,-1
 
@@ -3119,6 +3171,7 @@ static inline uint64_t BDK_GICRX_IGRPMODR0(unsigned long a)
 #define typedef_BDK_GICRX_IGRPMODR0(a) bdk_gicrx_igrpmodr0_t
 #define bustype_BDK_GICRX_IGRPMODR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_IGRPMODR0(a) "GICRX_IGRPMODR0"
+#define device_bar_BDK_GICRX_IGRPMODR0(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_IGRPMODR0(a) (a)
 #define arguments_BDK_GICRX_IGRPMODR0(a) (a),-1,-1,-1
 
@@ -3170,6 +3223,7 @@ static inline uint64_t BDK_GICRX_IIDR(unsigned long a)
 #define typedef_BDK_GICRX_IIDR(a) bdk_gicrx_iidr_t
 #define bustype_BDK_GICRX_IIDR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_IIDR(a) "GICRX_IIDR"
+#define device_bar_BDK_GICRX_IIDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_IIDR(a) (a)
 #define arguments_BDK_GICRX_IIDR(a) (a),-1,-1,-1
 
@@ -3205,6 +3259,7 @@ static inline uint64_t BDK_GICRX_INVALLR(unsigned long a)
 #define typedef_BDK_GICRX_INVALLR(a) bdk_gicrx_invallr_t
 #define bustype_BDK_GICRX_INVALLR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GICRX_INVALLR(a) "GICRX_INVALLR"
+#define device_bar_BDK_GICRX_INVALLR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_INVALLR(a) (a)
 #define arguments_BDK_GICRX_INVALLR(a) (a),-1,-1,-1
 
@@ -3246,6 +3301,7 @@ static inline uint64_t BDK_GICRX_INVLPIR(unsigned long a)
 #define typedef_BDK_GICRX_INVLPIR(a) bdk_gicrx_invlpir_t
 #define bustype_BDK_GICRX_INVLPIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GICRX_INVLPIR(a) "GICRX_INVLPIR"
+#define device_bar_BDK_GICRX_INVLPIR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_INVLPIR(a) (a)
 #define arguments_BDK_GICRX_INVLPIR(a) (a),-1,-1,-1
 
@@ -3295,6 +3351,7 @@ static inline uint64_t BDK_GICRX_IPRIORITYRX(unsigned long a, unsigned long b)
 #define typedef_BDK_GICRX_IPRIORITYRX(a,b) bdk_gicrx_ipriorityrx_t
 #define bustype_BDK_GICRX_IPRIORITYRX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_IPRIORITYRX(a,b) "GICRX_IPRIORITYRX"
+#define device_bar_BDK_GICRX_IPRIORITYRX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_IPRIORITYRX(a,b) (a)
 #define arguments_BDK_GICRX_IPRIORITYRX(a,b) (a),(b),-1,-1
 
@@ -3342,6 +3399,7 @@ static inline uint64_t BDK_GICRX_ISACTIVER0(unsigned long a)
 #define typedef_BDK_GICRX_ISACTIVER0(a) bdk_gicrx_isactiver0_t
 #define bustype_BDK_GICRX_ISACTIVER0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_ISACTIVER0(a) "GICRX_ISACTIVER0"
+#define device_bar_BDK_GICRX_ISACTIVER0(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_ISACTIVER0(a) (a)
 #define arguments_BDK_GICRX_ISACTIVER0(a) (a),-1,-1,-1
 
@@ -3384,6 +3442,7 @@ static inline uint64_t BDK_GICRX_ISENABLER0(unsigned long a)
 #define typedef_BDK_GICRX_ISENABLER0(a) bdk_gicrx_isenabler0_t
 #define bustype_BDK_GICRX_ISENABLER0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_ISENABLER0(a) "GICRX_ISENABLER0"
+#define device_bar_BDK_GICRX_ISENABLER0(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_ISENABLER0(a) (a)
 #define arguments_BDK_GICRX_ISENABLER0(a) (a),-1,-1,-1
 
@@ -3431,6 +3490,7 @@ static inline uint64_t BDK_GICRX_ISPENDR0(unsigned long a)
 #define typedef_BDK_GICRX_ISPENDR0(a) bdk_gicrx_ispendr0_t
 #define bustype_BDK_GICRX_ISPENDR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_ISPENDR0(a) "GICRX_ISPENDR0"
+#define device_bar_BDK_GICRX_ISPENDR0(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_ISPENDR0(a) (a)
 #define arguments_BDK_GICRX_ISPENDR0(a) (a),-1,-1,-1
 
@@ -3472,6 +3532,7 @@ static inline uint64_t BDK_GICRX_MOVALLR(unsigned long a)
 #define typedef_BDK_GICRX_MOVALLR(a) bdk_gicrx_movallr_t
 #define bustype_BDK_GICRX_MOVALLR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GICRX_MOVALLR(a) "GICRX_MOVALLR"
+#define device_bar_BDK_GICRX_MOVALLR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_MOVALLR(a) (a)
 #define arguments_BDK_GICRX_MOVALLR(a) (a),-1,-1,-1
 
@@ -3513,6 +3574,7 @@ static inline uint64_t BDK_GICRX_MOVLPIR(unsigned long a)
 #define typedef_BDK_GICRX_MOVLPIR(a) bdk_gicrx_movlpir_t
 #define bustype_BDK_GICRX_MOVLPIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GICRX_MOVLPIR(a) "GICRX_MOVLPIR"
+#define device_bar_BDK_GICRX_MOVLPIR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_MOVLPIR(a) (a)
 #define arguments_BDK_GICRX_MOVLPIR(a) (a),-1,-1,-1
 
@@ -3566,6 +3628,7 @@ static inline uint64_t BDK_GICRX_NSACR(unsigned long a)
 #define typedef_BDK_GICRX_NSACR(a) bdk_gicrx_nsacr_t
 #define bustype_BDK_GICRX_NSACR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_NSACR(a) "GICRX_NSACR"
+#define device_bar_BDK_GICRX_NSACR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_NSACR(a) (a)
 #define arguments_BDK_GICRX_NSACR(a) (a),-1,-1,-1
 
@@ -3672,6 +3735,7 @@ static inline uint64_t BDK_GICRX_PENDBASER(unsigned long a)
 #define typedef_BDK_GICRX_PENDBASER(a) bdk_gicrx_pendbaser_t
 #define bustype_BDK_GICRX_PENDBASER(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GICRX_PENDBASER(a) "GICRX_PENDBASER"
+#define device_bar_BDK_GICRX_PENDBASER(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_PENDBASER(a) (a)
 #define arguments_BDK_GICRX_PENDBASER(a) (a),-1,-1,-1
 
@@ -3707,6 +3771,7 @@ static inline uint64_t BDK_GICRX_PIDR0(unsigned long a)
 #define typedef_BDK_GICRX_PIDR0(a) bdk_gicrx_pidr0_t
 #define bustype_BDK_GICRX_PIDR0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_PIDR0(a) "GICRX_PIDR0"
+#define device_bar_BDK_GICRX_PIDR0(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_PIDR0(a) (a)
 #define arguments_BDK_GICRX_PIDR0(a) (a),-1,-1,-1
 
@@ -3744,6 +3809,7 @@ static inline uint64_t BDK_GICRX_PIDR1(unsigned long a)
 #define typedef_BDK_GICRX_PIDR1(a) bdk_gicrx_pidr1_t
 #define bustype_BDK_GICRX_PIDR1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_PIDR1(a) "GICRX_PIDR1"
+#define device_bar_BDK_GICRX_PIDR1(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_PIDR1(a) (a)
 #define arguments_BDK_GICRX_PIDR1(a) (a),-1,-1,-1
 
@@ -3793,6 +3859,7 @@ static inline uint64_t BDK_GICRX_PIDR2(unsigned long a)
 #define typedef_BDK_GICRX_PIDR2(a) bdk_gicrx_pidr2_t
 #define bustype_BDK_GICRX_PIDR2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_PIDR2(a) "GICRX_PIDR2"
+#define device_bar_BDK_GICRX_PIDR2(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_PIDR2(a) (a)
 #define arguments_BDK_GICRX_PIDR2(a) (a),-1,-1,-1
 
@@ -3832,6 +3899,7 @@ static inline uint64_t BDK_GICRX_PIDR3(unsigned long a)
 #define typedef_BDK_GICRX_PIDR3(a) bdk_gicrx_pidr3_t
 #define bustype_BDK_GICRX_PIDR3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_PIDR3(a) "GICRX_PIDR3"
+#define device_bar_BDK_GICRX_PIDR3(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_PIDR3(a) (a)
 #define arguments_BDK_GICRX_PIDR3(a) (a),-1,-1,-1
 
@@ -3869,6 +3937,7 @@ static inline uint64_t BDK_GICRX_PIDR4(unsigned long a)
 #define typedef_BDK_GICRX_PIDR4(a) bdk_gicrx_pidr4_t
 #define bustype_BDK_GICRX_PIDR4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_PIDR4(a) "GICRX_PIDR4"
+#define device_bar_BDK_GICRX_PIDR4(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_PIDR4(a) (a)
 #define arguments_BDK_GICRX_PIDR4(a) (a),-1,-1,-1
 
@@ -3902,6 +3971,7 @@ static inline uint64_t BDK_GICRX_PIDR5(unsigned long a)
 #define typedef_BDK_GICRX_PIDR5(a) bdk_gicrx_pidr5_t
 #define bustype_BDK_GICRX_PIDR5(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_PIDR5(a) "GICRX_PIDR5"
+#define device_bar_BDK_GICRX_PIDR5(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_PIDR5(a) (a)
 #define arguments_BDK_GICRX_PIDR5(a) (a),-1,-1,-1
 
@@ -3935,6 +4005,7 @@ static inline uint64_t BDK_GICRX_PIDR6(unsigned long a)
 #define typedef_BDK_GICRX_PIDR6(a) bdk_gicrx_pidr6_t
 #define bustype_BDK_GICRX_PIDR6(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_PIDR6(a) "GICRX_PIDR6"
+#define device_bar_BDK_GICRX_PIDR6(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_PIDR6(a) (a)
 #define arguments_BDK_GICRX_PIDR6(a) (a),-1,-1,-1
 
@@ -3968,6 +4039,7 @@ static inline uint64_t BDK_GICRX_PIDR7(unsigned long a)
 #define typedef_BDK_GICRX_PIDR7(a) bdk_gicrx_pidr7_t
 #define bustype_BDK_GICRX_PIDR7(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_PIDR7(a) "GICRX_PIDR7"
+#define device_bar_BDK_GICRX_PIDR7(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_PIDR7(a) (a)
 #define arguments_BDK_GICRX_PIDR7(a) (a),-1,-1,-1
 
@@ -4064,6 +4136,7 @@ static inline uint64_t BDK_GICRX_PROPBASER(unsigned long a)
 #define typedef_BDK_GICRX_PROPBASER(a) bdk_gicrx_propbaser_t
 #define bustype_BDK_GICRX_PROPBASER(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GICRX_PROPBASER(a) "GICRX_PROPBASER"
+#define device_bar_BDK_GICRX_PROPBASER(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_PROPBASER(a) (a)
 #define arguments_BDK_GICRX_PROPBASER(a) (a),-1,-1,-1
 
@@ -4136,6 +4209,7 @@ static inline uint64_t BDK_GICRX_SCTLR(unsigned long a)
 #define typedef_BDK_GICRX_SCTLR(a) bdk_gicrx_sctlr_t
 #define bustype_BDK_GICRX_SCTLR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_SCTLR(a) "GICRX_SCTLR"
+#define device_bar_BDK_GICRX_SCTLR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_SCTLR(a) (a)
 #define arguments_BDK_GICRX_SCTLR(a) (a),-1,-1,-1
 
@@ -4177,6 +4251,7 @@ static inline uint64_t BDK_GICRX_SEIR(unsigned long a)
 #define typedef_BDK_GICRX_SEIR(a) bdk_gicrx_seir_t
 #define bustype_BDK_GICRX_SEIR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_SEIR(a) "GICRX_SEIR"
+#define device_bar_BDK_GICRX_SEIR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_SEIR(a) (a)
 #define arguments_BDK_GICRX_SEIR(a) (a),-1,-1,-1
 
@@ -4220,6 +4295,7 @@ static inline uint64_t BDK_GICRX_SETDEL3TR_EL1S(unsigned long a)
 #define typedef_BDK_GICRX_SETDEL3TR_EL1S(a) bdk_gicrx_setdel3tr_el1s_t
 #define bustype_BDK_GICRX_SETDEL3TR_EL1S(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_SETDEL3TR_EL1S(a) "GICRX_SETDEL3TR_EL1S"
+#define device_bar_BDK_GICRX_SETDEL3TR_EL1S(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_SETDEL3TR_EL1S(a) (a)
 #define arguments_BDK_GICRX_SETDEL3TR_EL1S(a) (a),-1,-1,-1
 
@@ -4261,6 +4337,7 @@ static inline uint64_t BDK_GICRX_SETLPIR(unsigned long a)
 #define typedef_BDK_GICRX_SETLPIR(a) bdk_gicrx_setlpir_t
 #define bustype_BDK_GICRX_SETLPIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GICRX_SETLPIR(a) "GICRX_SETLPIR"
+#define device_bar_BDK_GICRX_SETLPIR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_SETLPIR(a) (a)
 #define arguments_BDK_GICRX_SETLPIR(a) (a),-1,-1,-1
 
@@ -4310,6 +4387,7 @@ static inline uint64_t BDK_GICRX_SSTATUSR(unsigned long a)
 #define typedef_BDK_GICRX_SSTATUSR(a) bdk_gicrx_sstatusr_t
 #define bustype_BDK_GICRX_SSTATUSR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_SSTATUSR(a) "GICRX_SSTATUSR"
+#define device_bar_BDK_GICRX_SSTATUSR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_SSTATUSR(a) (a)
 #define arguments_BDK_GICRX_SSTATUSR(a) (a),-1,-1,-1
 
@@ -4363,6 +4441,7 @@ static inline uint64_t BDK_GICRX_SYNCR(unsigned long a)
 #define typedef_BDK_GICRX_SYNCR(a) bdk_gicrx_syncr_t
 #define bustype_BDK_GICRX_SYNCR(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_SYNCR(a) "GICRX_SYNCR"
+#define device_bar_BDK_GICRX_SYNCR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_SYNCR(a) (a)
 #define arguments_BDK_GICRX_SYNCR(a) (a),-1,-1,-1
 
@@ -4434,6 +4513,7 @@ static inline uint64_t BDK_GICRX_TYPER(unsigned long a)
 #define typedef_BDK_GICRX_TYPER(a) bdk_gicrx_typer_t
 #define bustype_BDK_GICRX_TYPER(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GICRX_TYPER(a) "GICRX_TYPER"
+#define device_bar_BDK_GICRX_TYPER(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_TYPER(a) (a)
 #define arguments_BDK_GICRX_TYPER(a) (a),-1,-1,-1
 
@@ -4489,6 +4569,7 @@ static inline uint64_t BDK_GICRX_WAKER(unsigned long a)
 #define typedef_BDK_GICRX_WAKER(a) bdk_gicrx_waker_t
 #define bustype_BDK_GICRX_WAKER(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GICRX_WAKER(a) "GICRX_WAKER"
+#define device_bar_BDK_GICRX_WAKER(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GICRX_WAKER(a) (a)
 #define arguments_BDK_GICRX_WAKER(a) (a),-1,-1,-1
 
@@ -5275,6 +5356,7 @@ static inline uint64_t BDK_GITS_BASERX(unsigned long a)
 #define typedef_BDK_GITS_BASERX(a) bdk_gits_baserx_t
 #define bustype_BDK_GITS_BASERX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GITS_BASERX(a) "GITS_BASERX"
+#define device_bar_BDK_GITS_BASERX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_BASERX(a) (a)
 #define arguments_BDK_GITS_BASERX(a) (a),-1,-1,-1
 
@@ -5312,6 +5394,7 @@ static inline uint64_t BDK_GITS_BASERX_ROWI(unsigned long a)
 #define typedef_BDK_GITS_BASERX_ROWI(a) bdk_gits_baserx_rowi_t
 #define bustype_BDK_GITS_BASERX_ROWI(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GITS_BASERX_ROWI(a) "GITS_BASERX_ROWI"
+#define device_bar_BDK_GITS_BASERX_ROWI(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_BASERX_ROWI(a) (a)
 #define arguments_BDK_GITS_BASERX_ROWI(a) (a),-1,-1,-1
 
@@ -5707,6 +5790,7 @@ static inline uint64_t BDK_GITS_CBASER_FUNC(void)
 #define typedef_BDK_GITS_CBASER bdk_gits_cbaser_t
 #define bustype_BDK_GITS_CBASER BDK_CSR_TYPE_NCB
 #define basename_BDK_GITS_CBASER "GITS_CBASER"
+#define device_bar_BDK_GITS_CBASER 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_CBASER 0
 #define arguments_BDK_GITS_CBASER -1,-1,-1,-1
 
@@ -5741,6 +5825,7 @@ static inline uint64_t BDK_GITS_CIDR0_FUNC(void)
 #define typedef_BDK_GITS_CIDR0 bdk_gits_cidr0_t
 #define bustype_BDK_GITS_CIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_CIDR0 "GITS_CIDR0"
+#define device_bar_BDK_GITS_CIDR0 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_CIDR0 0
 #define arguments_BDK_GITS_CIDR0 -1,-1,-1,-1
 
@@ -5775,6 +5860,7 @@ static inline uint64_t BDK_GITS_CIDR1_FUNC(void)
 #define typedef_BDK_GITS_CIDR1 bdk_gits_cidr1_t
 #define bustype_BDK_GITS_CIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_CIDR1 "GITS_CIDR1"
+#define device_bar_BDK_GITS_CIDR1 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_CIDR1 0
 #define arguments_BDK_GITS_CIDR1 -1,-1,-1,-1
 
@@ -5809,6 +5895,7 @@ static inline uint64_t BDK_GITS_CIDR2_FUNC(void)
 #define typedef_BDK_GITS_CIDR2 bdk_gits_cidr2_t
 #define bustype_BDK_GITS_CIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_CIDR2 "GITS_CIDR2"
+#define device_bar_BDK_GITS_CIDR2 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_CIDR2 0
 #define arguments_BDK_GITS_CIDR2 -1,-1,-1,-1
 
@@ -5843,6 +5930,7 @@ static inline uint64_t BDK_GITS_CIDR3_FUNC(void)
 #define typedef_BDK_GITS_CIDR3 bdk_gits_cidr3_t
 #define bustype_BDK_GITS_CIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_CIDR3 "GITS_CIDR3"
+#define device_bar_BDK_GITS_CIDR3 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_CIDR3 0
 #define arguments_BDK_GITS_CIDR3 -1,-1,-1,-1
 
@@ -5890,6 +5978,7 @@ static inline uint64_t BDK_GITS_CREADR_FUNC(void)
 #define typedef_BDK_GITS_CREADR bdk_gits_creadr_t
 #define bustype_BDK_GITS_CREADR BDK_CSR_TYPE_NCB
 #define basename_BDK_GITS_CREADR "GITS_CREADR"
+#define device_bar_BDK_GITS_CREADR 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_CREADR 0
 #define arguments_BDK_GITS_CREADR -1,-1,-1,-1
 
@@ -5959,6 +6048,7 @@ static inline uint64_t BDK_GITS_CTLR_FUNC(void)
 #define typedef_BDK_GITS_CTLR bdk_gits_ctlr_t
 #define bustype_BDK_GITS_CTLR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_CTLR "GITS_CTLR"
+#define device_bar_BDK_GITS_CTLR 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_CTLR 0
 #define arguments_BDK_GITS_CTLR -1,-1,-1,-1
 
@@ -6007,6 +6097,7 @@ static inline uint64_t BDK_GITS_CWRITER_FUNC(void)
 #define typedef_BDK_GITS_CWRITER bdk_gits_cwriter_t
 #define bustype_BDK_GITS_CWRITER BDK_CSR_TYPE_NCB
 #define basename_BDK_GITS_CWRITER "GITS_CWRITER"
+#define device_bar_BDK_GITS_CWRITER 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_CWRITER 0
 #define arguments_BDK_GITS_CWRITER -1,-1,-1,-1
 
@@ -6056,6 +6147,7 @@ static inline uint64_t BDK_GITS_IIDR_FUNC(void)
 #define typedef_BDK_GITS_IIDR bdk_gits_iidr_t
 #define bustype_BDK_GITS_IIDR BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_IIDR "GITS_IIDR"
+#define device_bar_BDK_GITS_IIDR 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_IIDR 0
 #define arguments_BDK_GITS_IIDR -1,-1,-1,-1
 
@@ -6109,6 +6201,7 @@ static inline uint64_t BDK_GITS_IMP_CSEIR_FUNC(void)
 #define typedef_BDK_GITS_IMP_CSEIR bdk_gits_imp_cseir_t
 #define bustype_BDK_GITS_IMP_CSEIR BDK_CSR_TYPE_NCB
 #define basename_BDK_GITS_IMP_CSEIR "GITS_IMP_CSEIR"
+#define device_bar_BDK_GITS_IMP_CSEIR 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_IMP_CSEIR 0
 #define arguments_BDK_GITS_IMP_CSEIR -1,-1,-1,-1
 
@@ -6160,6 +6253,7 @@ static inline uint64_t BDK_GITS_IMP_TSEIR_FUNC(void)
 #define typedef_BDK_GITS_IMP_TSEIR bdk_gits_imp_tseir_t
 #define bustype_BDK_GITS_IMP_TSEIR BDK_CSR_TYPE_NCB
 #define basename_BDK_GITS_IMP_TSEIR "GITS_IMP_TSEIR"
+#define device_bar_BDK_GITS_IMP_TSEIR 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_IMP_TSEIR 0
 #define arguments_BDK_GITS_IMP_TSEIR -1,-1,-1,-1
 
@@ -6194,6 +6288,7 @@ static inline uint64_t BDK_GITS_PIDR0_FUNC(void)
 #define typedef_BDK_GITS_PIDR0 bdk_gits_pidr0_t
 #define bustype_BDK_GITS_PIDR0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_PIDR0 "GITS_PIDR0"
+#define device_bar_BDK_GITS_PIDR0 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_PIDR0 0
 #define arguments_BDK_GITS_PIDR0 -1,-1,-1,-1
 
@@ -6230,6 +6325,7 @@ static inline uint64_t BDK_GITS_PIDR1_FUNC(void)
 #define typedef_BDK_GITS_PIDR1 bdk_gits_pidr1_t
 #define bustype_BDK_GITS_PIDR1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_PIDR1 "GITS_PIDR1"
+#define device_bar_BDK_GITS_PIDR1 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_PIDR1 0
 #define arguments_BDK_GITS_PIDR1 -1,-1,-1,-1
 
@@ -6278,6 +6374,7 @@ static inline uint64_t BDK_GITS_PIDR2_FUNC(void)
 #define typedef_BDK_GITS_PIDR2 bdk_gits_pidr2_t
 #define bustype_BDK_GITS_PIDR2 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_PIDR2 "GITS_PIDR2"
+#define device_bar_BDK_GITS_PIDR2 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_PIDR2 0
 #define arguments_BDK_GITS_PIDR2 -1,-1,-1,-1
 
@@ -6316,6 +6413,7 @@ static inline uint64_t BDK_GITS_PIDR3_FUNC(void)
 #define typedef_BDK_GITS_PIDR3 bdk_gits_pidr3_t
 #define bustype_BDK_GITS_PIDR3 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_PIDR3 "GITS_PIDR3"
+#define device_bar_BDK_GITS_PIDR3 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_PIDR3 0
 #define arguments_BDK_GITS_PIDR3 -1,-1,-1,-1
 
@@ -6352,6 +6450,7 @@ static inline uint64_t BDK_GITS_PIDR4_FUNC(void)
 #define typedef_BDK_GITS_PIDR4 bdk_gits_pidr4_t
 #define bustype_BDK_GITS_PIDR4 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_PIDR4 "GITS_PIDR4"
+#define device_bar_BDK_GITS_PIDR4 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_PIDR4 0
 #define arguments_BDK_GITS_PIDR4 -1,-1,-1,-1
 
@@ -6384,6 +6483,7 @@ static inline uint64_t BDK_GITS_PIDR5_FUNC(void)
 #define typedef_BDK_GITS_PIDR5 bdk_gits_pidr5_t
 #define bustype_BDK_GITS_PIDR5 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_PIDR5 "GITS_PIDR5"
+#define device_bar_BDK_GITS_PIDR5 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_PIDR5 0
 #define arguments_BDK_GITS_PIDR5 -1,-1,-1,-1
 
@@ -6416,6 +6516,7 @@ static inline uint64_t BDK_GITS_PIDR6_FUNC(void)
 #define typedef_BDK_GITS_PIDR6 bdk_gits_pidr6_t
 #define bustype_BDK_GITS_PIDR6 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_PIDR6 "GITS_PIDR6"
+#define device_bar_BDK_GITS_PIDR6 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_PIDR6 0
 #define arguments_BDK_GITS_PIDR6 -1,-1,-1,-1
 
@@ -6448,6 +6549,7 @@ static inline uint64_t BDK_GITS_PIDR7_FUNC(void)
 #define typedef_BDK_GITS_PIDR7 bdk_gits_pidr7_t
 #define bustype_BDK_GITS_PIDR7 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_PIDR7 "GITS_PIDR7"
+#define device_bar_BDK_GITS_PIDR7 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_PIDR7 0
 #define arguments_BDK_GITS_PIDR7 -1,-1,-1,-1
 
@@ -6514,6 +6616,7 @@ static inline uint64_t BDK_GITS_TRANSLATER_FUNC(void)
 #define typedef_BDK_GITS_TRANSLATER bdk_gits_translater_t
 #define bustype_BDK_GITS_TRANSLATER BDK_CSR_TYPE_NCB32b
 #define basename_BDK_GITS_TRANSLATER "GITS_TRANSLATER"
+#define device_bar_BDK_GITS_TRANSLATER 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_TRANSLATER 0
 #define arguments_BDK_GITS_TRANSLATER -1,-1,-1,-1
 
@@ -6799,6 +6902,7 @@ static inline uint64_t BDK_GITS_TYPER_FUNC(void)
 #define typedef_BDK_GITS_TYPER bdk_gits_typer_t
 #define bustype_BDK_GITS_TYPER BDK_CSR_TYPE_NCB
 #define basename_BDK_GITS_TYPER "GITS_TYPER"
+#define device_bar_BDK_GITS_TYPER 0x2 /* PF_BAR2 */
 #define busnum_BDK_GITS_TYPER 0
 #define arguments_BDK_GITS_TYPER -1,-1,-1,-1
 

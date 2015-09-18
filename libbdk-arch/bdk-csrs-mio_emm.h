@@ -98,7 +98,7 @@
 /**
  * Register (RSL) mio_emm_access_wdog
  *
- * MIO eMMC Access Watchdog Register
+ * eMMC Access Watchdog Register
  */
 typedef union
 {
@@ -132,13 +132,14 @@ static inline uint64_t BDK_MIO_EMM_ACCESS_WDOG_FUNC(void)
 #define typedef_BDK_MIO_EMM_ACCESS_WDOG bdk_mio_emm_access_wdog_t
 #define bustype_BDK_MIO_EMM_ACCESS_WDOG BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_ACCESS_WDOG "MIO_EMM_ACCESS_WDOG"
+#define device_bar_BDK_MIO_EMM_ACCESS_WDOG 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_ACCESS_WDOG 0
 #define arguments_BDK_MIO_EMM_ACCESS_WDOG -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_buf_dat
  *
- * MIO eMMC Data Buffer Access Register
+ * eMMC Data Buffer Access Register
  */
 typedef union
 {
@@ -164,13 +165,14 @@ static inline uint64_t BDK_MIO_EMM_BUF_DAT_FUNC(void)
 #define typedef_BDK_MIO_EMM_BUF_DAT bdk_mio_emm_buf_dat_t
 #define bustype_BDK_MIO_EMM_BUF_DAT BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_BUF_DAT "MIO_EMM_BUF_DAT"
+#define device_bar_BDK_MIO_EMM_BUF_DAT 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_BUF_DAT 0
 #define arguments_BDK_MIO_EMM_BUF_DAT -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_buf_idx
  *
- * MIO eMMC Data Buffer Address Register
+ * eMMC Data Buffer Address Register
  */
 typedef union
 {
@@ -206,13 +208,14 @@ static inline uint64_t BDK_MIO_EMM_BUF_IDX_FUNC(void)
 #define typedef_BDK_MIO_EMM_BUF_IDX bdk_mio_emm_buf_idx_t
 #define bustype_BDK_MIO_EMM_BUF_IDX BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_BUF_IDX "MIO_EMM_BUF_IDX"
+#define device_bar_BDK_MIO_EMM_BUF_IDX 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_BUF_IDX 0
 #define arguments_BDK_MIO_EMM_BUF_IDX -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_cfg
  *
- * MIO eMMC Configuration Register
+ * eMMC Configuration Register
  */
 typedef union
 {
@@ -274,13 +277,14 @@ static inline uint64_t BDK_MIO_EMM_CFG_FUNC(void)
 #define typedef_BDK_MIO_EMM_CFG bdk_mio_emm_cfg_t
 #define bustype_BDK_MIO_EMM_CFG BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_CFG "MIO_EMM_CFG"
+#define device_bar_BDK_MIO_EMM_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_CFG 0
 #define arguments_BDK_MIO_EMM_CFG -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_cmd
  *
- * MIO eMMC Command Register
+ * eMMC Command Register
  */
 typedef union
 {
@@ -364,13 +368,14 @@ static inline uint64_t BDK_MIO_EMM_CMD_FUNC(void)
 #define typedef_BDK_MIO_EMM_CMD bdk_mio_emm_cmd_t
 #define bustype_BDK_MIO_EMM_CMD BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_CMD "MIO_EMM_CMD"
+#define device_bar_BDK_MIO_EMM_CMD 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_CMD 0
 #define arguments_BDK_MIO_EMM_CMD -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_dma
  *
- * MIO eMMC External DMA Configuration Register
+ * eMMC External DMA Configuration Register
  */
 typedef union
 {
@@ -436,6 +441,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_FUNC(void)
 #define typedef_BDK_MIO_EMM_DMA bdk_mio_emm_dma_t
 #define bustype_BDK_MIO_EMM_DMA BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_DMA "MIO_EMM_DMA"
+#define device_bar_BDK_MIO_EMM_DMA 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_DMA 0
 #define arguments_BDK_MIO_EMM_DMA -1,-1,-1,-1
 
@@ -473,6 +479,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_ADR_FUNC(void)
 #define typedef_BDK_MIO_EMM_DMA_ADR bdk_mio_emm_dma_adr_t
 #define bustype_BDK_MIO_EMM_DMA_ADR BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_DMA_ADR "MIO_EMM_DMA_ADR"
+#define device_bar_BDK_MIO_EMM_DMA_ADR 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_DMA_ADR 0
 #define arguments_BDK_MIO_EMM_DMA_ADR -1,-1,-1,-1
 
@@ -528,6 +535,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_CFG_FUNC(void)
 #define typedef_BDK_MIO_EMM_DMA_CFG bdk_mio_emm_dma_cfg_t
 #define bustype_BDK_MIO_EMM_DMA_CFG BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_DMA_CFG "MIO_EMM_DMA_CFG"
+#define device_bar_BDK_MIO_EMM_DMA_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_DMA_CFG 0
 #define arguments_BDK_MIO_EMM_DMA_CFG -1,-1,-1,-1
 
@@ -567,6 +575,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_FIFO_ADR_FUNC(void)
 #define typedef_BDK_MIO_EMM_DMA_FIFO_ADR bdk_mio_emm_dma_fifo_adr_t
 #define bustype_BDK_MIO_EMM_DMA_FIFO_ADR BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_DMA_FIFO_ADR "MIO_EMM_DMA_FIFO_ADR"
+#define device_bar_BDK_MIO_EMM_DMA_FIFO_ADR 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_DMA_FIFO_ADR 0
 #define arguments_BDK_MIO_EMM_DMA_FIFO_ADR -1,-1,-1,-1
 
@@ -630,13 +639,14 @@ static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CFG_FUNC(void)
 #define typedef_BDK_MIO_EMM_DMA_FIFO_CFG bdk_mio_emm_dma_fifo_cfg_t
 #define bustype_BDK_MIO_EMM_DMA_FIFO_CFG BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_DMA_FIFO_CFG "MIO_EMM_DMA_FIFO_CFG"
+#define device_bar_BDK_MIO_EMM_DMA_FIFO_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_DMA_FIFO_CFG 0
 #define arguments_BDK_MIO_EMM_DMA_FIFO_CFG -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_dma_fifo_cmd
  *
- * eMMC Internal DMA FIFO Command Register
+ * eMMMC Internal DMA FIFO Command Register
  * This register specifies a command that is loaded into the eMMC internal DMA FIFO.  The FIFO is
  * used to queue up operations for the MIO_EMM_DMA_CFG/MIO_EMM_DMA_ADR when the DMA completes
  * successfully. Writes to this register store both the MIO_EMM_DMA_FIFO_CMD and the
@@ -783,6 +793,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CMD_FUNC(void)
 #define typedef_BDK_MIO_EMM_DMA_FIFO_CMD bdk_mio_emm_dma_fifo_cmd_t
 #define bustype_BDK_MIO_EMM_DMA_FIFO_CMD BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_DMA_FIFO_CMD "MIO_EMM_DMA_FIFO_CMD"
+#define device_bar_BDK_MIO_EMM_DMA_FIFO_CMD 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_DMA_FIFO_CMD 0
 #define arguments_BDK_MIO_EMM_DMA_FIFO_CMD -1,-1,-1,-1
 
@@ -820,6 +831,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_INT_FUNC(void)
 #define typedef_BDK_MIO_EMM_DMA_INT bdk_mio_emm_dma_int_t
 #define bustype_BDK_MIO_EMM_DMA_INT BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_DMA_INT "MIO_EMM_DMA_INT"
+#define device_bar_BDK_MIO_EMM_DMA_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_DMA_INT 0
 #define arguments_BDK_MIO_EMM_DMA_INT -1,-1,-1,-1
 
@@ -857,6 +869,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_MIO_EMM_DMA_INT_ENA_W1C bdk_mio_emm_dma_int_ena_w1c_t
 #define bustype_BDK_MIO_EMM_DMA_INT_ENA_W1C BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_DMA_INT_ENA_W1C "MIO_EMM_DMA_INT_ENA_W1C"
+#define device_bar_BDK_MIO_EMM_DMA_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_DMA_INT_ENA_W1C 0
 #define arguments_BDK_MIO_EMM_DMA_INT_ENA_W1C -1,-1,-1,-1
 
@@ -894,6 +907,7 @@ static inline uint64_t BDK_MIO_EMM_DMA_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_MIO_EMM_DMA_INT_ENA_W1S bdk_mio_emm_dma_int_ena_w1s_t
 #define bustype_BDK_MIO_EMM_DMA_INT_ENA_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_DMA_INT_ENA_W1S "MIO_EMM_DMA_INT_ENA_W1S"
+#define device_bar_BDK_MIO_EMM_DMA_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_DMA_INT_ENA_W1S 0
 #define arguments_BDK_MIO_EMM_DMA_INT_ENA_W1S -1,-1,-1,-1
 
@@ -931,13 +945,14 @@ static inline uint64_t BDK_MIO_EMM_DMA_INT_W1S_FUNC(void)
 #define typedef_BDK_MIO_EMM_DMA_INT_W1S bdk_mio_emm_dma_int_w1s_t
 #define bustype_BDK_MIO_EMM_DMA_INT_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_DMA_INT_W1S "MIO_EMM_DMA_INT_W1S"
+#define device_bar_BDK_MIO_EMM_DMA_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_DMA_INT_W1S 0
 #define arguments_BDK_MIO_EMM_DMA_INT_W1S -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_int
  *
- * MIO eMMC Interrupt Register
+ * eMMC Interrupt Register
  */
 typedef union
 {
@@ -977,6 +992,7 @@ static inline uint64_t BDK_MIO_EMM_INT_FUNC(void)
 #define typedef_BDK_MIO_EMM_INT bdk_mio_emm_int_t
 #define bustype_BDK_MIO_EMM_INT BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_INT "MIO_EMM_INT"
+#define device_bar_BDK_MIO_EMM_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_INT 0
 #define arguments_BDK_MIO_EMM_INT -1,-1,-1,-1
 
@@ -1024,6 +1040,7 @@ static inline uint64_t BDK_MIO_EMM_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_MIO_EMM_INT_ENA_W1C bdk_mio_emm_int_ena_w1c_t
 #define bustype_BDK_MIO_EMM_INT_ENA_W1C BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_INT_ENA_W1C "MIO_EMM_INT_ENA_W1C"
+#define device_bar_BDK_MIO_EMM_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_INT_ENA_W1C 0
 #define arguments_BDK_MIO_EMM_INT_ENA_W1C -1,-1,-1,-1
 
@@ -1071,13 +1088,14 @@ static inline uint64_t BDK_MIO_EMM_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_MIO_EMM_INT_ENA_W1S bdk_mio_emm_int_ena_w1s_t
 #define bustype_BDK_MIO_EMM_INT_ENA_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_INT_ENA_W1S "MIO_EMM_INT_ENA_W1S"
+#define device_bar_BDK_MIO_EMM_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_INT_ENA_W1S 0
 #define arguments_BDK_MIO_EMM_INT_ENA_W1S -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_int_w1s
  *
- * MIO eMMC Interrupt Set Register
+ * eMMC Interrupt Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -1118,13 +1136,14 @@ static inline uint64_t BDK_MIO_EMM_INT_W1S_FUNC(void)
 #define typedef_BDK_MIO_EMM_INT_W1S bdk_mio_emm_int_w1s_t
 #define bustype_BDK_MIO_EMM_INT_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_INT_W1S "MIO_EMM_INT_W1S"
+#define device_bar_BDK_MIO_EMM_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_INT_W1S 0
 #define arguments_BDK_MIO_EMM_INT_W1S -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_mode#
  *
- * MIO eMMC Operating Mode Register
+ * eMMC Operating Mode Register
  */
 typedef union
 {
@@ -1189,6 +1208,7 @@ static inline uint64_t BDK_MIO_EMM_MODEX(unsigned long a)
 #define typedef_BDK_MIO_EMM_MODEX(a) bdk_mio_emm_modex_t
 #define bustype_BDK_MIO_EMM_MODEX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_MODEX(a) "MIO_EMM_MODEX"
+#define device_bar_BDK_MIO_EMM_MODEX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_MODEX(a) (a)
 #define arguments_BDK_MIO_EMM_MODEX(a) (a),-1,-1,-1
 
@@ -1226,6 +1246,7 @@ static inline uint64_t BDK_MIO_EMM_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_MIO_EMM_MSIX_PBAX(a) bdk_mio_emm_msix_pbax_t
 #define bustype_BDK_MIO_EMM_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_MSIX_PBAX(a) "MIO_EMM_MSIX_PBAX"
+#define device_bar_BDK_MIO_EMM_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MIO_EMM_MSIX_PBAX(a) (a)
 #define arguments_BDK_MIO_EMM_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -1282,6 +1303,7 @@ static inline uint64_t BDK_MIO_EMM_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_MIO_EMM_MSIX_VECX_ADDR(a) bdk_mio_emm_msix_vecx_addr_t
 #define bustype_BDK_MIO_EMM_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_MSIX_VECX_ADDR(a) "MIO_EMM_MSIX_VECX_ADDR"
+#define device_bar_BDK_MIO_EMM_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MIO_EMM_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_MIO_EMM_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -1322,13 +1344,14 @@ static inline uint64_t BDK_MIO_EMM_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_MIO_EMM_MSIX_VECX_CTL(a) bdk_mio_emm_msix_vecx_ctl_t
 #define bustype_BDK_MIO_EMM_MSIX_VECX_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_MSIX_VECX_CTL(a) "MIO_EMM_MSIX_VECX_CTL"
+#define device_bar_BDK_MIO_EMM_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MIO_EMM_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_MIO_EMM_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_rca
  *
- * MIO eMMC Relative Card Address Register
+ * eMMC Relative Card Address Register
  */
 typedef union
 {
@@ -1358,13 +1381,14 @@ static inline uint64_t BDK_MIO_EMM_RCA_FUNC(void)
 #define typedef_BDK_MIO_EMM_RCA bdk_mio_emm_rca_t
 #define bustype_BDK_MIO_EMM_RCA BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_RCA "MIO_EMM_RCA"
+#define device_bar_BDK_MIO_EMM_RCA 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_RCA 0
 #define arguments_BDK_MIO_EMM_RCA -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_rsp_hi
  *
- * MIO eMMC Response Data High Register
+ * eMMC Response Data High Register
  */
 typedef union
 {
@@ -1400,13 +1424,14 @@ static inline uint64_t BDK_MIO_EMM_RSP_HI_FUNC(void)
 #define typedef_BDK_MIO_EMM_RSP_HI bdk_mio_emm_rsp_hi_t
 #define bustype_BDK_MIO_EMM_RSP_HI BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_RSP_HI "MIO_EMM_RSP_HI"
+#define device_bar_BDK_MIO_EMM_RSP_HI 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_RSP_HI 0
 #define arguments_BDK_MIO_EMM_RSP_HI -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_rsp_lo
  *
- * MIO eMMC Response Data Low Register
+ * eMMC Response Data Low Register
  */
 typedef union
 {
@@ -1512,13 +1537,14 @@ static inline uint64_t BDK_MIO_EMM_RSP_LO_FUNC(void)
 #define typedef_BDK_MIO_EMM_RSP_LO bdk_mio_emm_rsp_lo_t
 #define bustype_BDK_MIO_EMM_RSP_LO BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_RSP_LO "MIO_EMM_RSP_LO"
+#define device_bar_BDK_MIO_EMM_RSP_LO 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_RSP_LO 0
 #define arguments_BDK_MIO_EMM_RSP_LO -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_rsp_sts
  *
- * MIO eMMC Response Status Register
+ * eMMC Response Status Register
  */
 typedef union
 {
@@ -1636,13 +1662,14 @@ static inline uint64_t BDK_MIO_EMM_RSP_STS_FUNC(void)
 #define typedef_BDK_MIO_EMM_RSP_STS bdk_mio_emm_rsp_sts_t
 #define bustype_BDK_MIO_EMM_RSP_STS BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_RSP_STS "MIO_EMM_RSP_STS"
+#define device_bar_BDK_MIO_EMM_RSP_STS 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_RSP_STS 0
 #define arguments_BDK_MIO_EMM_RSP_STS -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_sample
  *
- * MIO eMMC Sampling Register
+ * eMMC Sampling Register
  */
 typedef union
 {
@@ -1674,13 +1701,14 @@ static inline uint64_t BDK_MIO_EMM_SAMPLE_FUNC(void)
 #define typedef_BDK_MIO_EMM_SAMPLE bdk_mio_emm_sample_t
 #define bustype_BDK_MIO_EMM_SAMPLE BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_SAMPLE "MIO_EMM_SAMPLE"
+#define device_bar_BDK_MIO_EMM_SAMPLE 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_SAMPLE 0
 #define arguments_BDK_MIO_EMM_SAMPLE -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_sts_mask
  *
- * MIO eMMC Status Mask Register
+ * eMMC Status Mask Register
  */
 typedef union
 {
@@ -1710,13 +1738,14 @@ static inline uint64_t BDK_MIO_EMM_STS_MASK_FUNC(void)
 #define typedef_BDK_MIO_EMM_STS_MASK bdk_mio_emm_sts_mask_t
 #define bustype_BDK_MIO_EMM_STS_MASK BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_STS_MASK "MIO_EMM_STS_MASK"
+#define device_bar_BDK_MIO_EMM_STS_MASK 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_STS_MASK 0
 #define arguments_BDK_MIO_EMM_STS_MASK -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_switch
  *
- * MIO eMMC Operating Mode Switch Register
+ * eMMC Operating Mode Switch Register
  */
 typedef union
 {
@@ -1804,13 +1833,14 @@ static inline uint64_t BDK_MIO_EMM_SWITCH_FUNC(void)
 #define typedef_BDK_MIO_EMM_SWITCH bdk_mio_emm_switch_t
 #define bustype_BDK_MIO_EMM_SWITCH BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_SWITCH "MIO_EMM_SWITCH"
+#define device_bar_BDK_MIO_EMM_SWITCH 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_SWITCH 0
 #define arguments_BDK_MIO_EMM_SWITCH -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_wdog
  *
- * MIO eMMC Watchdog Register
+ * eMMC Watchdog Register
  */
 typedef union
 {
@@ -1886,6 +1916,7 @@ static inline uint64_t BDK_MIO_EMM_WDOG_FUNC(void)
 #define typedef_BDK_MIO_EMM_WDOG bdk_mio_emm_wdog_t
 #define bustype_BDK_MIO_EMM_WDOG BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_EMM_WDOG "MIO_EMM_WDOG"
+#define device_bar_BDK_MIO_EMM_WDOG 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_EMM_WDOG 0
 #define arguments_BDK_MIO_EMM_WDOG -1,-1,-1,-1
 

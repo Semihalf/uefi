@@ -64,7 +64,7 @@
  * Register (RSL) mio_fus_bnk_dat#
  *
  * MIO Fuse Bank Store Register
- * The initial state of MIO_FUS_BNK_DAT0/1 is as if bank6 were just read,
+ * The initial state of MIO_FUS_BNK_DAT(0..1) is as if bank6 were just read,
  * i.e. DAT* = fus[895:768].
  */
 typedef union
@@ -94,13 +94,14 @@ static inline uint64_t BDK_MIO_FUS_BNK_DATX(unsigned long a)
 #define typedef_BDK_MIO_FUS_BNK_DATX(a) bdk_mio_fus_bnk_datx_t
 #define bustype_BDK_MIO_FUS_BNK_DATX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_BNK_DATX(a) "MIO_FUS_BNK_DATX"
+#define device_bar_BDK_MIO_FUS_BNK_DATX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_BNK_DATX(a) (a)
 #define arguments_BDK_MIO_FUS_BNK_DATX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mio_fus_dat0
  *
- * MIO Fuse Data 0 Register
+ * MIO Fuse Data Register 0
  */
 typedef union
 {
@@ -128,13 +129,14 @@ static inline uint64_t BDK_MIO_FUS_DAT0_FUNC(void)
 #define typedef_BDK_MIO_FUS_DAT0 bdk_mio_fus_dat0_t
 #define bustype_BDK_MIO_FUS_DAT0 BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_DAT0 "MIO_FUS_DAT0"
+#define device_bar_BDK_MIO_FUS_DAT0 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_DAT0 0
 #define arguments_BDK_MIO_FUS_DAT0 -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_fus_dat1
  *
- * MIO Fuse Data 1 Register
+ * MIO Fuse Data Register 1
  */
 typedef union
 {
@@ -162,13 +164,14 @@ static inline uint64_t BDK_MIO_FUS_DAT1_FUNC(void)
 #define typedef_BDK_MIO_FUS_DAT1 bdk_mio_fus_dat1_t
 #define bustype_BDK_MIO_FUS_DAT1 BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_DAT1 "MIO_FUS_DAT1"
+#define device_bar_BDK_MIO_FUS_DAT1 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_DAT1 0
 #define arguments_BDK_MIO_FUS_DAT1 -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_fus_dat2
  *
- * MIO Fuse Data 2 Register
+ * MIO Fuse Data Register 2
  */
 typedef union
 {
@@ -467,13 +470,14 @@ static inline uint64_t BDK_MIO_FUS_DAT2_FUNC(void)
 #define typedef_BDK_MIO_FUS_DAT2 bdk_mio_fus_dat2_t
 #define bustype_BDK_MIO_FUS_DAT2 BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_DAT2 "MIO_FUS_DAT2"
+#define device_bar_BDK_MIO_FUS_DAT2 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_DAT2 0
 #define arguments_BDK_MIO_FUS_DAT2 -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_fus_dat3
  *
- * MIO Fuse Data 3 Register
+ * MIO Fuse Data3 Register
  */
 typedef union
 {
@@ -743,13 +747,14 @@ static inline uint64_t BDK_MIO_FUS_DAT3_FUNC(void)
 #define typedef_BDK_MIO_FUS_DAT3 bdk_mio_fus_dat3_t
 #define bustype_BDK_MIO_FUS_DAT3 BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_DAT3 "MIO_FUS_DAT3"
+#define device_bar_BDK_MIO_FUS_DAT3 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_DAT3 0
 #define arguments_BDK_MIO_FUS_DAT3 -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_fus_dat4
  *
- * MIO Fuse Data 4 Register
+ * MIO Fuse Data4 Register
  */
 typedef union
 {
@@ -793,6 +798,7 @@ static inline uint64_t BDK_MIO_FUS_DAT4_FUNC(void)
 #define typedef_BDK_MIO_FUS_DAT4 bdk_mio_fus_dat4_t
 #define bustype_BDK_MIO_FUS_DAT4 BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_DAT4 "MIO_FUS_DAT4"
+#define device_bar_BDK_MIO_FUS_DAT4 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_DAT4 0
 #define arguments_BDK_MIO_FUS_DAT4 -1,-1,-1,-1
 
@@ -829,6 +835,7 @@ static inline uint64_t BDK_MIO_FUS_INT_FUNC(void)
 #define typedef_BDK_MIO_FUS_INT bdk_mio_fus_int_t
 #define bustype_BDK_MIO_FUS_INT BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_INT "MIO_FUS_INT"
+#define device_bar_BDK_MIO_FUS_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_INT 0
 #define arguments_BDK_MIO_FUS_INT -1,-1,-1,-1
 
@@ -861,6 +868,7 @@ static inline uint64_t BDK_MIO_FUS_PDF_FUNC(void)
 #define typedef_BDK_MIO_FUS_PDF bdk_mio_fus_pdf_t
 #define bustype_BDK_MIO_FUS_PDF BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_PDF "MIO_FUS_PDF"
+#define device_bar_BDK_MIO_FUS_PDF 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_PDF 0
 #define arguments_BDK_MIO_FUS_PDF -1,-1,-1,-1
 
@@ -937,6 +945,7 @@ static inline uint64_t BDK_MIO_FUS_PLL_FUNC(void)
 #define typedef_BDK_MIO_FUS_PLL bdk_mio_fus_pll_t
 #define bustype_BDK_MIO_FUS_PLL BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_PLL "MIO_FUS_PLL"
+#define device_bar_BDK_MIO_FUS_PLL 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_PLL 0
 #define arguments_BDK_MIO_FUS_PLL -1,-1,-1,-1
 
@@ -1010,6 +1019,7 @@ static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a)
 #define typedef_BDK_MIO_FUS_PNAMEX(a) bdk_mio_fus_pnamex_t
 #define bustype_BDK_MIO_FUS_PNAMEX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_PNAMEX(a) "MIO_FUS_PNAMEX"
+#define device_bar_BDK_MIO_FUS_PNAMEX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_PNAMEX(a) (a)
 #define arguments_BDK_MIO_FUS_PNAMEX(a) (a),-1,-1,-1
 
@@ -1062,6 +1072,7 @@ static inline uint64_t BDK_MIO_FUS_PROG_FUNC(void)
 #define typedef_BDK_MIO_FUS_PROG bdk_mio_fus_prog_t
 #define bustype_BDK_MIO_FUS_PROG BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_PROG "MIO_FUS_PROG"
+#define device_bar_BDK_MIO_FUS_PROG 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_PROG 0
 #define arguments_BDK_MIO_FUS_PROG -1,-1,-1,-1
 
@@ -1102,6 +1113,7 @@ static inline uint64_t BDK_MIO_FUS_PROG_TIMES_FUNC(void)
 #define typedef_BDK_MIO_FUS_PROG_TIMES bdk_mio_fus_prog_times_t
 #define bustype_BDK_MIO_FUS_PROG_TIMES BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_PROG_TIMES "MIO_FUS_PROG_TIMES"
+#define device_bar_BDK_MIO_FUS_PROG_TIMES 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_PROG_TIMES 0
 #define arguments_BDK_MIO_FUS_PROG_TIMES -1,-1,-1,-1
 
@@ -1110,11 +1122,11 @@ static inline uint64_t BDK_MIO_FUS_PROG_TIMES_FUNC(void)
  *
  * MIO Fuse Read Command Register
  * To read an efuse, software writes MIO_FUS_RCMD[ADDR,PEND] with the byte address of the fuse in
- * question, then software can poll MIO_FUS_RCMD[PEND]. When PEND is clear, then
- * MIO_FUS_RCMD[DAT] is valid. In addition, if the efuse read went to the efuse banks (e.g.
- * (ADDR/16) not {0,1,7} || EFUSE), software can read MIO_FUS_BNK_DAT() which contains all 128
- * fuses in the bank associated in ADDR.  Fuses 1023..960 are not accessable if
- * MIO_FUS_DAT2[DORM_CRYPTO] is enabled.
+ * question, then software can poll MIO_FUS_RCMD[PEND]. When [PEND] = 0, then
+ * MIO_FUS_RCMD[DAT] is valid. In addition, if the efuse read went to the efuse banks,
+ * software can read MIO_FUS_BNK_DAT() which contains all 128 fuses in the bank associated in
+ * ADDR.  Fuses 1023..960 are never accessable on pass 1 parts.
+ * In addition, fuses 1023..960 are not accessable if MIO_FUS_DAT2[DORM_CRYPTO] is enabled.
  */
 typedef union
 {
@@ -1160,6 +1172,7 @@ static inline uint64_t BDK_MIO_FUS_RCMD_FUNC(void)
 #define typedef_BDK_MIO_FUS_RCMD bdk_mio_fus_rcmd_t
 #define bustype_BDK_MIO_FUS_RCMD BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_RCMD "MIO_FUS_RCMD"
+#define device_bar_BDK_MIO_FUS_RCMD 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_RCMD 0
 #define arguments_BDK_MIO_FUS_RCMD -1,-1,-1,-1
 
@@ -1168,11 +1181,11 @@ static inline uint64_t BDK_MIO_FUS_RCMD_FUNC(void)
  *
  * MIO Fuse Read Times Register
  * IFB fuses are 0 to 1791. The reset values are for IFB fuses for PLL_REF_CLK up to 100MHz when
- * core PLL is engaged. If any of the formulas below result in a value less than zero, the
- * corresponding timing parameter should be set to zero.
+ * the core PLL is engaged. If any of the formulas below result in a value less than 0x0, the
+ * corresponding timing parameter should be set to 0.
  *
- * Prior to issuing a read to the fuse banks (via MIO_FUS_RCMD), this register should be written
- * with the timing parameters that will be read.
+ * Prior to issuing a read operation to the fuse banks (via MIO_FUS_RCMD), this register should
+ * be written with the timing parameters that will be read.
  * This register should not be written while MIO_FUS_RCMD[PEND] = 1.
  */
 typedef union
@@ -1231,6 +1244,7 @@ static inline uint64_t BDK_MIO_FUS_READ_TIMES_FUNC(void)
 #define typedef_BDK_MIO_FUS_READ_TIMES bdk_mio_fus_read_times_t
 #define bustype_BDK_MIO_FUS_READ_TIMES BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_READ_TIMES "MIO_FUS_READ_TIMES"
+#define device_bar_BDK_MIO_FUS_READ_TIMES 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_READ_TIMES 0
 #define arguments_BDK_MIO_FUS_READ_TIMES -1,-1,-1,-1
 
@@ -1266,6 +1280,7 @@ static inline uint64_t BDK_MIO_FUS_RPR_DATX(unsigned long a)
 #define typedef_BDK_MIO_FUS_RPR_DATX(a) bdk_mio_fus_rpr_datx_t
 #define bustype_BDK_MIO_FUS_RPR_DATX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_RPR_DATX(a) "MIO_FUS_RPR_DATX"
+#define device_bar_BDK_MIO_FUS_RPR_DATX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_RPR_DATX(a) (a)
 #define arguments_BDK_MIO_FUS_RPR_DATX(a) (a),-1,-1,-1
 
@@ -1323,6 +1338,7 @@ static inline uint64_t BDK_MIO_FUS_SOFT_REPAIR_FUNC(void)
 #define typedef_BDK_MIO_FUS_SOFT_REPAIR bdk_mio_fus_soft_repair_t
 #define bustype_BDK_MIO_FUS_SOFT_REPAIR BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_SOFT_REPAIR "MIO_FUS_SOFT_REPAIR"
+#define device_bar_BDK_MIO_FUS_SOFT_REPAIR 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_SOFT_REPAIR 0
 #define arguments_BDK_MIO_FUS_SOFT_REPAIR -1,-1,-1,-1
 
@@ -1333,6 +1349,7 @@ static inline uint64_t BDK_MIO_FUS_SOFT_REPAIR_FUNC(void)
  * This register exists to support Authentik. Authentik code should read this register, then
  * clear VAL to prevent other software from observing the value of the TGG fuses.
  *
+ * Internal:
  * INTERNAL: It is never possible to read the TGG fuses via MIO_FUS_RCMD. Whenever the fuse
  * corresponding to VAL (TGG<63>) is blown, it is not possible to blow any of TGG<62:0>. The fuse
  * corresponding to VAL must be the one and only lock down bit for TGG<62:0> - no other fuse
@@ -1374,6 +1391,7 @@ static inline uint64_t BDK_MIO_FUS_TGG_FUNC(void)
 #define typedef_BDK_MIO_FUS_TGG bdk_mio_fus_tgg_t
 #define bustype_BDK_MIO_FUS_TGG BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_TGG "MIO_FUS_TGG"
+#define device_bar_BDK_MIO_FUS_TGG 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_TGG 0
 #define arguments_BDK_MIO_FUS_TGG -1,-1,-1,-1
 
@@ -1408,6 +1426,7 @@ static inline uint64_t BDK_MIO_FUS_WADR_FUNC(void)
 #define typedef_BDK_MIO_FUS_WADR bdk_mio_fus_wadr_t
 #define bustype_BDK_MIO_FUS_WADR BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_FUS_WADR "MIO_FUS_WADR"
+#define device_bar_BDK_MIO_FUS_WADR 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_FUS_WADR 0
 #define arguments_BDK_MIO_FUS_WADR -1,-1,-1,-1
 

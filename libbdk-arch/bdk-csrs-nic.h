@@ -2529,6 +2529,7 @@ static inline uint64_t BDK_NIC_PF_BIST0_STATUS_FUNC(void)
 #define typedef_BDK_NIC_PF_BIST0_STATUS bdk_nic_pf_bist0_status_t
 #define bustype_BDK_NIC_PF_BIST0_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_BIST0_STATUS "NIC_PF_BIST0_STATUS"
+#define device_bar_BDK_NIC_PF_BIST0_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_BIST0_STATUS 0
 #define arguments_BDK_NIC_PF_BIST0_STATUS -1,-1,-1,-1
 
@@ -2566,6 +2567,7 @@ static inline uint64_t BDK_NIC_PF_BIST1_STATUS_FUNC(void)
 #define typedef_BDK_NIC_PF_BIST1_STATUS bdk_nic_pf_bist1_status_t
 #define bustype_BDK_NIC_PF_BIST1_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_BIST1_STATUS "NIC_PF_BIST1_STATUS"
+#define device_bar_BDK_NIC_PF_BIST1_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_BIST1_STATUS 0
 #define arguments_BDK_NIC_PF_BIST1_STATUS -1,-1,-1,-1
 
@@ -2601,6 +2603,7 @@ static inline uint64_t BDK_NIC_PF_BIST2_STATUS_FUNC(void)
 #define typedef_BDK_NIC_PF_BIST2_STATUS bdk_nic_pf_bist2_status_t
 #define bustype_BDK_NIC_PF_BIST2_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_BIST2_STATUS "NIC_PF_BIST2_STATUS"
+#define device_bar_BDK_NIC_PF_BIST2_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_BIST2_STATUS 0
 #define arguments_BDK_NIC_PF_BIST2_STATUS -1,-1,-1,-1
 
@@ -2638,6 +2641,7 @@ static inline uint64_t BDK_NIC_PF_BIST3_STATUS_FUNC(void)
 #define typedef_BDK_NIC_PF_BIST3_STATUS bdk_nic_pf_bist3_status_t
 #define bustype_BDK_NIC_PF_BIST3_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_BIST3_STATUS "NIC_PF_BIST3_STATUS"
+#define device_bar_BDK_NIC_PF_BIST3_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_BIST3_STATUS 0
 #define arguments_BDK_NIC_PF_BIST3_STATUS -1,-1,-1,-1
 
@@ -2679,6 +2683,7 @@ static inline uint64_t BDK_NIC_PF_BIST4_STATUS_FUNC(void)
 #define typedef_BDK_NIC_PF_BIST4_STATUS bdk_nic_pf_bist4_status_t
 #define bustype_BDK_NIC_PF_BIST4_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_BIST4_STATUS "NIC_PF_BIST4_STATUS"
+#define device_bar_BDK_NIC_PF_BIST4_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_BIST4_STATUS 0
 #define arguments_BDK_NIC_PF_BIST4_STATUS -1,-1,-1,-1
 
@@ -2719,6 +2724,7 @@ static inline uint64_t BDK_NIC_PF_BP_CFG_FUNC(void)
 #define typedef_BDK_NIC_PF_BP_CFG bdk_nic_pf_bp_cfg_t
 #define bustype_BDK_NIC_PF_BP_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_BP_CFG "NIC_PF_BP_CFG"
+#define device_bar_BDK_NIC_PF_BP_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_BP_CFG 0
 #define arguments_BDK_NIC_PF_BP_CFG -1,-1,-1,-1
 
@@ -2761,6 +2767,7 @@ static inline uint64_t BDK_NIC_PF_CFG_FUNC(void)
 #define typedef_BDK_NIC_PF_CFG bdk_nic_pf_cfg_t
 #define bustype_BDK_NIC_PF_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_CFG "NIC_PF_CFG"
+#define device_bar_BDK_NIC_PF_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CFG 0
 #define arguments_BDK_NIC_PF_CFG -1,-1,-1,-1
 
@@ -2910,6 +2917,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long a)
 #define typedef_BDK_NIC_PF_CHANX_CREDIT(a) bdk_nic_pf_chanx_credit_t
 #define bustype_BDK_NIC_PF_CHANX_CREDIT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_CHANX_CREDIT(a) "NIC_PF_CHANX_CREDIT"
+#define device_bar_BDK_NIC_PF_CHANX_CREDIT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CHANX_CREDIT(a) (a)
 #define arguments_BDK_NIC_PF_CHANX_CREDIT(a) (a),-1,-1,-1
 
@@ -2951,6 +2959,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_RX_BP_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_CHANX_RX_BP_CFG(a) bdk_nic_pf_chanx_rx_bp_cfg_t
 #define bustype_BDK_NIC_PF_CHANX_RX_BP_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_CHANX_RX_BP_CFG(a) "NIC_PF_CHANX_RX_BP_CFG"
+#define device_bar_BDK_NIC_PF_CHANX_RX_BP_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CHANX_RX_BP_CFG(a) (a)
 #define arguments_BDK_NIC_PF_CHANX_RX_BP_CFG(a) (a),-1,-1,-1
 
@@ -3011,6 +3020,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_RX_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_CHANX_RX_CFG(a) bdk_nic_pf_chanx_rx_cfg_t
 #define bustype_BDK_NIC_PF_CHANX_RX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_CHANX_RX_CFG(a) "NIC_PF_CHANX_RX_CFG"
+#define device_bar_BDK_NIC_PF_CHANX_RX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CHANX_RX_CFG(a) (a)
 #define arguments_BDK_NIC_PF_CHANX_RX_CFG(a) (a),-1,-1,-1
 
@@ -3056,6 +3066,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_SW_XOFF(unsigned long a)
 #define typedef_BDK_NIC_PF_CHANX_SW_XOFF(a) bdk_nic_pf_chanx_sw_xoff_t
 #define bustype_BDK_NIC_PF_CHANX_SW_XOFF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_CHANX_SW_XOFF(a) "NIC_PF_CHANX_SW_XOFF"
+#define device_bar_BDK_NIC_PF_CHANX_SW_XOFF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CHANX_SW_XOFF(a) (a)
 #define arguments_BDK_NIC_PF_CHANX_SW_XOFF(a) (a),-1,-1,-1
 
@@ -3097,6 +3108,7 @@ static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_CHANX_TX_CFG(a) bdk_nic_pf_chanx_tx_cfg_t
 #define bustype_BDK_NIC_PF_CHANX_TX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_CHANX_TX_CFG(a) "NIC_PF_CHANX_TX_CFG"
+#define device_bar_BDK_NIC_PF_CHANX_TX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CHANX_TX_CFG(a) (a)
 #define arguments_BDK_NIC_PF_CHANX_TX_CFG(a) (a),-1,-1,-1
 
@@ -3261,6 +3273,7 @@ static inline uint64_t BDK_NIC_PF_CPIX_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_CPIX_CFG(a) bdk_nic_pf_cpix_cfg_t
 #define bustype_BDK_NIC_PF_CPIX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_CPIX_CFG(a) "NIC_PF_CPIX_CFG"
+#define device_bar_BDK_NIC_PF_CPIX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CPIX_CFG(a) (a)
 #define arguments_BDK_NIC_PF_CPIX_CFG(a) (a),-1,-1,-1
 
@@ -3319,6 +3332,7 @@ static inline uint64_t BDK_NIC_PF_CQ_AVG_CFG_FUNC(void)
 #define typedef_BDK_NIC_PF_CQ_AVG_CFG bdk_nic_pf_cq_avg_cfg_t
 #define bustype_BDK_NIC_PF_CQ_AVG_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_CQ_AVG_CFG "NIC_PF_CQ_AVG_CFG"
+#define device_bar_BDK_NIC_PF_CQ_AVG_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CQ_AVG_CFG 0
 #define arguments_BDK_NIC_PF_CQ_AVG_CFG -1,-1,-1,-1
 
@@ -3377,6 +3391,7 @@ static inline uint64_t BDK_NIC_PF_CQM_CFG_FUNC(void)
 #define typedef_BDK_NIC_PF_CQM_CFG bdk_nic_pf_cqm_cfg_t
 #define bustype_BDK_NIC_PF_CQM_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_CQM_CFG "NIC_PF_CQM_CFG"
+#define device_bar_BDK_NIC_PF_CQM_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CQM_CFG 0
 #define arguments_BDK_NIC_PF_CQM_CFG -1,-1,-1,-1
 
@@ -3443,6 +3458,7 @@ static inline uint64_t BDK_NIC_PF_CQM_TEST_FUNC(void)
 #define typedef_BDK_NIC_PF_CQM_TEST bdk_nic_pf_cqm_test_t
 #define bustype_BDK_NIC_PF_CQM_TEST BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_CQM_TEST "NIC_PF_CQM_TEST"
+#define device_bar_BDK_NIC_PF_CQM_TEST 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CQM_TEST 0
 #define arguments_BDK_NIC_PF_CQM_TEST -1,-1,-1,-1
 
@@ -3509,6 +3525,7 @@ static inline uint64_t BDK_NIC_PF_CSI_TEST_FUNC(void)
 #define typedef_BDK_NIC_PF_CSI_TEST bdk_nic_pf_csi_test_t
 #define bustype_BDK_NIC_PF_CSI_TEST BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_CSI_TEST "NIC_PF_CSI_TEST"
+#define device_bar_BDK_NIC_PF_CSI_TEST 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CSI_TEST 0
 #define arguments_BDK_NIC_PF_CSI_TEST -1,-1,-1,-1
 
@@ -3930,6 +3947,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_CDIS_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC0_CDIS bdk_nic_pf_ecc0_cdis_t
 #define bustype_BDK_NIC_PF_ECC0_CDIS BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC0_CDIS "NIC_PF_ECC0_CDIS"
+#define device_bar_BDK_NIC_PF_ECC0_CDIS 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC0_CDIS 0
 #define arguments_BDK_NIC_PF_ECC0_CDIS -1,-1,-1,-1
 
@@ -3998,6 +4016,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_DBE_ENA_W1C_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC0_DBE_ENA_W1C bdk_nic_pf_ecc0_dbe_ena_w1c_t
 #define bustype_BDK_NIC_PF_ECC0_DBE_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC0_DBE_ENA_W1C "NIC_PF_ECC0_DBE_ENA_W1C"
+#define device_bar_BDK_NIC_PF_ECC0_DBE_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC0_DBE_ENA_W1C 0
 #define arguments_BDK_NIC_PF_ECC0_DBE_ENA_W1C -1,-1,-1,-1
 
@@ -4066,6 +4085,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_DBE_ENA_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC0_DBE_ENA_W1S bdk_nic_pf_ecc0_dbe_ena_w1s_t
 #define bustype_BDK_NIC_PF_ECC0_DBE_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC0_DBE_ENA_W1S "NIC_PF_ECC0_DBE_ENA_W1S"
+#define device_bar_BDK_NIC_PF_ECC0_DBE_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC0_DBE_ENA_W1S 0
 #define arguments_BDK_NIC_PF_ECC0_DBE_ENA_W1S -1,-1,-1,-1
 
@@ -4137,6 +4157,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_DBE_INT_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC0_DBE_INT bdk_nic_pf_ecc0_dbe_int_t
 #define bustype_BDK_NIC_PF_ECC0_DBE_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC0_DBE_INT "NIC_PF_ECC0_DBE_INT"
+#define device_bar_BDK_NIC_PF_ECC0_DBE_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC0_DBE_INT 0
 #define arguments_BDK_NIC_PF_ECC0_DBE_INT -1,-1,-1,-1
 
@@ -4205,6 +4226,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_DBE_INT_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC0_DBE_INT_W1S bdk_nic_pf_ecc0_dbe_int_w1s_t
 #define bustype_BDK_NIC_PF_ECC0_DBE_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC0_DBE_INT_W1S "NIC_PF_ECC0_DBE_INT_W1S"
+#define device_bar_BDK_NIC_PF_ECC0_DBE_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC0_DBE_INT_W1S 0
 #define arguments_BDK_NIC_PF_ECC0_DBE_INT_W1S -1,-1,-1,-1
 
@@ -4626,6 +4648,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_FLIP0_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC0_FLIP0 bdk_nic_pf_ecc0_flip0_t
 #define bustype_BDK_NIC_PF_ECC0_FLIP0 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC0_FLIP0 "NIC_PF_ECC0_FLIP0"
+#define device_bar_BDK_NIC_PF_ECC0_FLIP0 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC0_FLIP0 0
 #define arguments_BDK_NIC_PF_ECC0_FLIP0 -1,-1,-1,-1
 
@@ -5047,6 +5070,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_FLIP1_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC0_FLIP1 bdk_nic_pf_ecc0_flip1_t
 #define bustype_BDK_NIC_PF_ECC0_FLIP1 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC0_FLIP1 "NIC_PF_ECC0_FLIP1"
+#define device_bar_BDK_NIC_PF_ECC0_FLIP1 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC0_FLIP1 0
 #define arguments_BDK_NIC_PF_ECC0_FLIP1 -1,-1,-1,-1
 
@@ -5115,6 +5139,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_SBE_ENA_W1C_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC0_SBE_ENA_W1C bdk_nic_pf_ecc0_sbe_ena_w1c_t
 #define bustype_BDK_NIC_PF_ECC0_SBE_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC0_SBE_ENA_W1C "NIC_PF_ECC0_SBE_ENA_W1C"
+#define device_bar_BDK_NIC_PF_ECC0_SBE_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC0_SBE_ENA_W1C 0
 #define arguments_BDK_NIC_PF_ECC0_SBE_ENA_W1C -1,-1,-1,-1
 
@@ -5183,6 +5208,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_SBE_ENA_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC0_SBE_ENA_W1S bdk_nic_pf_ecc0_sbe_ena_w1s_t
 #define bustype_BDK_NIC_PF_ECC0_SBE_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC0_SBE_ENA_W1S "NIC_PF_ECC0_SBE_ENA_W1S"
+#define device_bar_BDK_NIC_PF_ECC0_SBE_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC0_SBE_ENA_W1S 0
 #define arguments_BDK_NIC_PF_ECC0_SBE_ENA_W1S -1,-1,-1,-1
 
@@ -5254,6 +5280,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_SBE_INT_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC0_SBE_INT bdk_nic_pf_ecc0_sbe_int_t
 #define bustype_BDK_NIC_PF_ECC0_SBE_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC0_SBE_INT "NIC_PF_ECC0_SBE_INT"
+#define device_bar_BDK_NIC_PF_ECC0_SBE_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC0_SBE_INT 0
 #define arguments_BDK_NIC_PF_ECC0_SBE_INT -1,-1,-1,-1
 
@@ -5322,6 +5349,7 @@ static inline uint64_t BDK_NIC_PF_ECC0_SBE_INT_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC0_SBE_INT_W1S bdk_nic_pf_ecc0_sbe_int_w1s_t
 #define bustype_BDK_NIC_PF_ECC0_SBE_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC0_SBE_INT_W1S "NIC_PF_ECC0_SBE_INT_W1S"
+#define device_bar_BDK_NIC_PF_ECC0_SBE_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC0_SBE_INT_W1S 0
 #define arguments_BDK_NIC_PF_ECC0_SBE_INT_W1S -1,-1,-1,-1
 
@@ -5577,6 +5605,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_CDIS_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC1_CDIS bdk_nic_pf_ecc1_cdis_t
 #define bustype_BDK_NIC_PF_ECC1_CDIS BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC1_CDIS "NIC_PF_ECC1_CDIS"
+#define device_bar_BDK_NIC_PF_ECC1_CDIS 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC1_CDIS 0
 #define arguments_BDK_NIC_PF_ECC1_CDIS -1,-1,-1,-1
 
@@ -5614,6 +5643,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_DBE_ENA_W1C_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC1_DBE_ENA_W1C bdk_nic_pf_ecc1_dbe_ena_w1c_t
 #define bustype_BDK_NIC_PF_ECC1_DBE_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC1_DBE_ENA_W1C "NIC_PF_ECC1_DBE_ENA_W1C"
+#define device_bar_BDK_NIC_PF_ECC1_DBE_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC1_DBE_ENA_W1C 0
 #define arguments_BDK_NIC_PF_ECC1_DBE_ENA_W1C -1,-1,-1,-1
 
@@ -5651,6 +5681,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_DBE_ENA_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC1_DBE_ENA_W1S bdk_nic_pf_ecc1_dbe_ena_w1s_t
 #define bustype_BDK_NIC_PF_ECC1_DBE_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC1_DBE_ENA_W1S "NIC_PF_ECC1_DBE_ENA_W1S"
+#define device_bar_BDK_NIC_PF_ECC1_DBE_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC1_DBE_ENA_W1S 0
 #define arguments_BDK_NIC_PF_ECC1_DBE_ENA_W1S -1,-1,-1,-1
 
@@ -5689,6 +5720,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_DBE_INT_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC1_DBE_INT bdk_nic_pf_ecc1_dbe_int_t
 #define bustype_BDK_NIC_PF_ECC1_DBE_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC1_DBE_INT "NIC_PF_ECC1_DBE_INT"
+#define device_bar_BDK_NIC_PF_ECC1_DBE_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC1_DBE_INT 0
 #define arguments_BDK_NIC_PF_ECC1_DBE_INT -1,-1,-1,-1
 
@@ -5726,6 +5758,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_DBE_INT_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC1_DBE_INT_W1S bdk_nic_pf_ecc1_dbe_int_w1s_t
 #define bustype_BDK_NIC_PF_ECC1_DBE_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC1_DBE_INT_W1S "NIC_PF_ECC1_DBE_INT_W1S"
+#define device_bar_BDK_NIC_PF_ECC1_DBE_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC1_DBE_INT_W1S 0
 #define arguments_BDK_NIC_PF_ECC1_DBE_INT_W1S -1,-1,-1,-1
 
@@ -5981,6 +6014,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_FLIP0_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC1_FLIP0 bdk_nic_pf_ecc1_flip0_t
 #define bustype_BDK_NIC_PF_ECC1_FLIP0 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC1_FLIP0 "NIC_PF_ECC1_FLIP0"
+#define device_bar_BDK_NIC_PF_ECC1_FLIP0 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC1_FLIP0 0
 #define arguments_BDK_NIC_PF_ECC1_FLIP0 -1,-1,-1,-1
 
@@ -6236,6 +6270,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_FLIP1_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC1_FLIP1 bdk_nic_pf_ecc1_flip1_t
 #define bustype_BDK_NIC_PF_ECC1_FLIP1 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC1_FLIP1 "NIC_PF_ECC1_FLIP1"
+#define device_bar_BDK_NIC_PF_ECC1_FLIP1 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC1_FLIP1 0
 #define arguments_BDK_NIC_PF_ECC1_FLIP1 -1,-1,-1,-1
 
@@ -6273,6 +6308,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_SBE_ENA_W1C_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC1_SBE_ENA_W1C bdk_nic_pf_ecc1_sbe_ena_w1c_t
 #define bustype_BDK_NIC_PF_ECC1_SBE_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC1_SBE_ENA_W1C "NIC_PF_ECC1_SBE_ENA_W1C"
+#define device_bar_BDK_NIC_PF_ECC1_SBE_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC1_SBE_ENA_W1C 0
 #define arguments_BDK_NIC_PF_ECC1_SBE_ENA_W1C -1,-1,-1,-1
 
@@ -6310,6 +6346,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_SBE_ENA_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC1_SBE_ENA_W1S bdk_nic_pf_ecc1_sbe_ena_w1s_t
 #define bustype_BDK_NIC_PF_ECC1_SBE_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC1_SBE_ENA_W1S "NIC_PF_ECC1_SBE_ENA_W1S"
+#define device_bar_BDK_NIC_PF_ECC1_SBE_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC1_SBE_ENA_W1S 0
 #define arguments_BDK_NIC_PF_ECC1_SBE_ENA_W1S -1,-1,-1,-1
 
@@ -6348,6 +6385,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_SBE_INT_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC1_SBE_INT bdk_nic_pf_ecc1_sbe_int_t
 #define bustype_BDK_NIC_PF_ECC1_SBE_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC1_SBE_INT "NIC_PF_ECC1_SBE_INT"
+#define device_bar_BDK_NIC_PF_ECC1_SBE_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC1_SBE_INT 0
 #define arguments_BDK_NIC_PF_ECC1_SBE_INT -1,-1,-1,-1
 
@@ -6385,6 +6423,7 @@ static inline uint64_t BDK_NIC_PF_ECC1_SBE_INT_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC1_SBE_INT_W1S bdk_nic_pf_ecc1_sbe_int_w1s_t
 #define bustype_BDK_NIC_PF_ECC1_SBE_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC1_SBE_INT_W1S "NIC_PF_ECC1_SBE_INT_W1S"
+#define device_bar_BDK_NIC_PF_ECC1_SBE_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC1_SBE_INT_W1S 0
 #define arguments_BDK_NIC_PF_ECC1_SBE_INT_W1S -1,-1,-1,-1
 
@@ -6472,6 +6511,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_CDIS_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC2_CDIS bdk_nic_pf_ecc2_cdis_t
 #define bustype_BDK_NIC_PF_ECC2_CDIS BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC2_CDIS "NIC_PF_ECC2_CDIS"
+#define device_bar_BDK_NIC_PF_ECC2_CDIS 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC2_CDIS 0
 #define arguments_BDK_NIC_PF_ECC2_CDIS -1,-1,-1,-1
 
@@ -6507,6 +6547,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_DBE_ENA_W1C_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC2_DBE_ENA_W1C bdk_nic_pf_ecc2_dbe_ena_w1c_t
 #define bustype_BDK_NIC_PF_ECC2_DBE_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC2_DBE_ENA_W1C "NIC_PF_ECC2_DBE_ENA_W1C"
+#define device_bar_BDK_NIC_PF_ECC2_DBE_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC2_DBE_ENA_W1C 0
 #define arguments_BDK_NIC_PF_ECC2_DBE_ENA_W1C -1,-1,-1,-1
 
@@ -6542,6 +6583,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_DBE_ENA_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC2_DBE_ENA_W1S bdk_nic_pf_ecc2_dbe_ena_w1s_t
 #define bustype_BDK_NIC_PF_ECC2_DBE_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC2_DBE_ENA_W1S "NIC_PF_ECC2_DBE_ENA_W1S"
+#define device_bar_BDK_NIC_PF_ECC2_DBE_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC2_DBE_ENA_W1S 0
 #define arguments_BDK_NIC_PF_ECC2_DBE_ENA_W1S -1,-1,-1,-1
 
@@ -6578,6 +6620,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_DBE_INT_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC2_DBE_INT bdk_nic_pf_ecc2_dbe_int_t
 #define bustype_BDK_NIC_PF_ECC2_DBE_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC2_DBE_INT "NIC_PF_ECC2_DBE_INT"
+#define device_bar_BDK_NIC_PF_ECC2_DBE_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC2_DBE_INT 0
 #define arguments_BDK_NIC_PF_ECC2_DBE_INT -1,-1,-1,-1
 
@@ -6613,6 +6656,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_DBE_INT_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC2_DBE_INT_W1S bdk_nic_pf_ecc2_dbe_int_w1s_t
 #define bustype_BDK_NIC_PF_ECC2_DBE_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC2_DBE_INT_W1S "NIC_PF_ECC2_DBE_INT_W1S"
+#define device_bar_BDK_NIC_PF_ECC2_DBE_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC2_DBE_INT_W1S 0
 #define arguments_BDK_NIC_PF_ECC2_DBE_INT_W1S -1,-1,-1,-1
 
@@ -6700,6 +6744,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_FLIP0_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC2_FLIP0 bdk_nic_pf_ecc2_flip0_t
 #define bustype_BDK_NIC_PF_ECC2_FLIP0 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC2_FLIP0 "NIC_PF_ECC2_FLIP0"
+#define device_bar_BDK_NIC_PF_ECC2_FLIP0 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC2_FLIP0 0
 #define arguments_BDK_NIC_PF_ECC2_FLIP0 -1,-1,-1,-1
 
@@ -6787,6 +6832,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_FLIP1_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC2_FLIP1 bdk_nic_pf_ecc2_flip1_t
 #define bustype_BDK_NIC_PF_ECC2_FLIP1 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC2_FLIP1 "NIC_PF_ECC2_FLIP1"
+#define device_bar_BDK_NIC_PF_ECC2_FLIP1 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC2_FLIP1 0
 #define arguments_BDK_NIC_PF_ECC2_FLIP1 -1,-1,-1,-1
 
@@ -6822,6 +6868,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_SBE_ENA_W1C_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC2_SBE_ENA_W1C bdk_nic_pf_ecc2_sbe_ena_w1c_t
 #define bustype_BDK_NIC_PF_ECC2_SBE_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC2_SBE_ENA_W1C "NIC_PF_ECC2_SBE_ENA_W1C"
+#define device_bar_BDK_NIC_PF_ECC2_SBE_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC2_SBE_ENA_W1C 0
 #define arguments_BDK_NIC_PF_ECC2_SBE_ENA_W1C -1,-1,-1,-1
 
@@ -6857,6 +6904,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_SBE_ENA_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC2_SBE_ENA_W1S bdk_nic_pf_ecc2_sbe_ena_w1s_t
 #define bustype_BDK_NIC_PF_ECC2_SBE_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC2_SBE_ENA_W1S "NIC_PF_ECC2_SBE_ENA_W1S"
+#define device_bar_BDK_NIC_PF_ECC2_SBE_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC2_SBE_ENA_W1S 0
 #define arguments_BDK_NIC_PF_ECC2_SBE_ENA_W1S -1,-1,-1,-1
 
@@ -6893,6 +6941,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_SBE_INT_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC2_SBE_INT bdk_nic_pf_ecc2_sbe_int_t
 #define bustype_BDK_NIC_PF_ECC2_SBE_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC2_SBE_INT "NIC_PF_ECC2_SBE_INT"
+#define device_bar_BDK_NIC_PF_ECC2_SBE_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC2_SBE_INT 0
 #define arguments_BDK_NIC_PF_ECC2_SBE_INT -1,-1,-1,-1
 
@@ -6928,6 +6977,7 @@ static inline uint64_t BDK_NIC_PF_ECC2_SBE_INT_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC2_SBE_INT_W1S bdk_nic_pf_ecc2_sbe_int_w1s_t
 #define bustype_BDK_NIC_PF_ECC2_SBE_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC2_SBE_INT_W1S "NIC_PF_ECC2_SBE_INT_W1S"
+#define device_bar_BDK_NIC_PF_ECC2_SBE_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC2_SBE_INT_W1S 0
 #define arguments_BDK_NIC_PF_ECC2_SBE_INT_W1S -1,-1,-1,-1
 
@@ -7203,6 +7253,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_CDIS_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC3_CDIS bdk_nic_pf_ecc3_cdis_t
 #define bustype_BDK_NIC_PF_ECC3_CDIS BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC3_CDIS "NIC_PF_ECC3_CDIS"
+#define device_bar_BDK_NIC_PF_ECC3_CDIS 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC3_CDIS 0
 #define arguments_BDK_NIC_PF_ECC3_CDIS -1,-1,-1,-1
 
@@ -7240,6 +7291,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_DBE_ENA_W1C_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC3_DBE_ENA_W1C bdk_nic_pf_ecc3_dbe_ena_w1c_t
 #define bustype_BDK_NIC_PF_ECC3_DBE_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC3_DBE_ENA_W1C "NIC_PF_ECC3_DBE_ENA_W1C"
+#define device_bar_BDK_NIC_PF_ECC3_DBE_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC3_DBE_ENA_W1C 0
 #define arguments_BDK_NIC_PF_ECC3_DBE_ENA_W1C -1,-1,-1,-1
 
@@ -7277,6 +7329,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_DBE_ENA_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC3_DBE_ENA_W1S bdk_nic_pf_ecc3_dbe_ena_w1s_t
 #define bustype_BDK_NIC_PF_ECC3_DBE_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC3_DBE_ENA_W1S "NIC_PF_ECC3_DBE_ENA_W1S"
+#define device_bar_BDK_NIC_PF_ECC3_DBE_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC3_DBE_ENA_W1S 0
 #define arguments_BDK_NIC_PF_ECC3_DBE_ENA_W1S -1,-1,-1,-1
 
@@ -7315,6 +7368,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_DBE_INT_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC3_DBE_INT bdk_nic_pf_ecc3_dbe_int_t
 #define bustype_BDK_NIC_PF_ECC3_DBE_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC3_DBE_INT "NIC_PF_ECC3_DBE_INT"
+#define device_bar_BDK_NIC_PF_ECC3_DBE_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC3_DBE_INT 0
 #define arguments_BDK_NIC_PF_ECC3_DBE_INT -1,-1,-1,-1
 
@@ -7352,6 +7406,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_DBE_INT_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC3_DBE_INT_W1S bdk_nic_pf_ecc3_dbe_int_w1s_t
 #define bustype_BDK_NIC_PF_ECC3_DBE_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC3_DBE_INT_W1S "NIC_PF_ECC3_DBE_INT_W1S"
+#define device_bar_BDK_NIC_PF_ECC3_DBE_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC3_DBE_INT_W1S 0
 #define arguments_BDK_NIC_PF_ECC3_DBE_INT_W1S -1,-1,-1,-1
 
@@ -7627,6 +7682,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_FLIP0_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC3_FLIP0 bdk_nic_pf_ecc3_flip0_t
 #define bustype_BDK_NIC_PF_ECC3_FLIP0 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC3_FLIP0 "NIC_PF_ECC3_FLIP0"
+#define device_bar_BDK_NIC_PF_ECC3_FLIP0 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC3_FLIP0 0
 #define arguments_BDK_NIC_PF_ECC3_FLIP0 -1,-1,-1,-1
 
@@ -7902,6 +7958,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_FLIP1_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC3_FLIP1 bdk_nic_pf_ecc3_flip1_t
 #define bustype_BDK_NIC_PF_ECC3_FLIP1 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC3_FLIP1 "NIC_PF_ECC3_FLIP1"
+#define device_bar_BDK_NIC_PF_ECC3_FLIP1 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC3_FLIP1 0
 #define arguments_BDK_NIC_PF_ECC3_FLIP1 -1,-1,-1,-1
 
@@ -7939,6 +7996,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_ENA_W1C_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC3_SBE_ENA_W1C bdk_nic_pf_ecc3_sbe_ena_w1c_t
 #define bustype_BDK_NIC_PF_ECC3_SBE_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC3_SBE_ENA_W1C "NIC_PF_ECC3_SBE_ENA_W1C"
+#define device_bar_BDK_NIC_PF_ECC3_SBE_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC3_SBE_ENA_W1C 0
 #define arguments_BDK_NIC_PF_ECC3_SBE_ENA_W1C -1,-1,-1,-1
 
@@ -7976,6 +8034,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_ENA_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC3_SBE_ENA_W1S bdk_nic_pf_ecc3_sbe_ena_w1s_t
 #define bustype_BDK_NIC_PF_ECC3_SBE_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC3_SBE_ENA_W1S "NIC_PF_ECC3_SBE_ENA_W1S"
+#define device_bar_BDK_NIC_PF_ECC3_SBE_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC3_SBE_ENA_W1S 0
 #define arguments_BDK_NIC_PF_ECC3_SBE_ENA_W1S -1,-1,-1,-1
 
@@ -8014,6 +8073,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_INT_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC3_SBE_INT bdk_nic_pf_ecc3_sbe_int_t
 #define bustype_BDK_NIC_PF_ECC3_SBE_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC3_SBE_INT "NIC_PF_ECC3_SBE_INT"
+#define device_bar_BDK_NIC_PF_ECC3_SBE_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC3_SBE_INT 0
 #define arguments_BDK_NIC_PF_ECC3_SBE_INT -1,-1,-1,-1
 
@@ -8051,6 +8111,7 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_INT_W1S_FUNC(void)
 #define typedef_BDK_NIC_PF_ECC3_SBE_INT_W1S bdk_nic_pf_ecc3_sbe_int_w1s_t
 #define bustype_BDK_NIC_PF_ECC3_SBE_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECC3_SBE_INT_W1S "NIC_PF_ECC3_SBE_INT_W1S"
+#define device_bar_BDK_NIC_PF_ECC3_SBE_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECC3_SBE_INT_W1S 0
 #define arguments_BDK_NIC_PF_ECC3_SBE_INT_W1S -1,-1,-1,-1
 
@@ -8093,6 +8154,7 @@ static inline uint64_t BDK_NIC_PF_ECO0_FUNC(void)
 #define typedef_BDK_NIC_PF_ECO0 bdk_nic_pf_eco0_t
 #define bustype_BDK_NIC_PF_ECO0 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECO0 "NIC_PF_ECO0"
+#define device_bar_BDK_NIC_PF_ECO0 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECO0 0
 #define arguments_BDK_NIC_PF_ECO0 -1,-1,-1,-1
 
@@ -8135,6 +8197,7 @@ static inline uint64_t BDK_NIC_PF_ECO1_FUNC(void)
 #define typedef_BDK_NIC_PF_ECO1 bdk_nic_pf_eco1_t
 #define bustype_BDK_NIC_PF_ECO1 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECO1 "NIC_PF_ECO1"
+#define device_bar_BDK_NIC_PF_ECO1 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECO1 0
 #define arguments_BDK_NIC_PF_ECO1 -1,-1,-1,-1
 
@@ -8177,6 +8240,7 @@ static inline uint64_t BDK_NIC_PF_ECO2_FUNC(void)
 #define typedef_BDK_NIC_PF_ECO2 bdk_nic_pf_eco2_t
 #define bustype_BDK_NIC_PF_ECO2 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECO2 "NIC_PF_ECO2"
+#define device_bar_BDK_NIC_PF_ECO2 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECO2 0
 #define arguments_BDK_NIC_PF_ECO2 -1,-1,-1,-1
 
@@ -8219,6 +8283,7 @@ static inline uint64_t BDK_NIC_PF_ECO3_FUNC(void)
 #define typedef_BDK_NIC_PF_ECO3 bdk_nic_pf_eco3_t
 #define bustype_BDK_NIC_PF_ECO3 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECO3 "NIC_PF_ECO3"
+#define device_bar_BDK_NIC_PF_ECO3 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECO3 0
 #define arguments_BDK_NIC_PF_ECO3 -1,-1,-1,-1
 
@@ -8261,6 +8326,7 @@ static inline uint64_t BDK_NIC_PF_ECO4_FUNC(void)
 #define typedef_BDK_NIC_PF_ECO4 bdk_nic_pf_eco4_t
 #define bustype_BDK_NIC_PF_ECO4 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECO4 "NIC_PF_ECO4"
+#define device_bar_BDK_NIC_PF_ECO4 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECO4 0
 #define arguments_BDK_NIC_PF_ECO4 -1,-1,-1,-1
 
@@ -8303,6 +8369,7 @@ static inline uint64_t BDK_NIC_PF_ECO5_FUNC(void)
 #define typedef_BDK_NIC_PF_ECO5 bdk_nic_pf_eco5_t
 #define bustype_BDK_NIC_PF_ECO5 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_ECO5 "NIC_PF_ECO5"
+#define device_bar_BDK_NIC_PF_ECO5 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_ECO5 0
 #define arguments_BDK_NIC_PF_ECO5 -1,-1,-1,-1
 
@@ -8339,6 +8406,7 @@ static inline uint64_t BDK_NIC_PF_INT_TIMER_CFG_FUNC(void)
 #define typedef_BDK_NIC_PF_INT_TIMER_CFG bdk_nic_pf_int_timer_cfg_t
 #define bustype_BDK_NIC_PF_INT_TIMER_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_INT_TIMER_CFG "NIC_PF_INT_TIMER_CFG"
+#define device_bar_BDK_NIC_PF_INT_TIMER_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_INT_TIMER_CFG 0
 #define arguments_BDK_NIC_PF_INT_TIMER_CFG -1,-1,-1,-1
 
@@ -8410,6 +8478,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_BP_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_INTFX_BP_CFG(a) bdk_nic_pf_intfx_bp_cfg_t
 #define bustype_BDK_NIC_PF_INTFX_BP_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_INTFX_BP_CFG(a) "NIC_PF_INTFX_BP_CFG"
+#define device_bar_BDK_NIC_PF_INTFX_BP_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_INTFX_BP_CFG(a) (a)
 #define arguments_BDK_NIC_PF_INTFX_BP_CFG(a) (a),-1,-1,-1
 
@@ -8447,6 +8516,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_BP_DISX(unsigned long a, unsigned long b
 #define typedef_BDK_NIC_PF_INTFX_BP_DISX(a,b) bdk_nic_pf_intfx_bp_disx_t
 #define bustype_BDK_NIC_PF_INTFX_BP_DISX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_INTFX_BP_DISX(a,b) "NIC_PF_INTFX_BP_DISX"
+#define device_bar_BDK_NIC_PF_INTFX_BP_DISX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_INTFX_BP_DISX(a,b) (a)
 #define arguments_BDK_NIC_PF_INTFX_BP_DISX(a,b) (a),(b),-1,-1
 
@@ -8484,6 +8554,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_BP_SWX(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_PF_INTFX_BP_SWX(a,b) bdk_nic_pf_intfx_bp_swx_t
 #define bustype_BDK_NIC_PF_INTFX_BP_SWX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_INTFX_BP_SWX(a,b) "NIC_PF_INTFX_BP_SWX"
+#define device_bar_BDK_NIC_PF_INTFX_BP_SWX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_INTFX_BP_SWX(a,b) (a)
 #define arguments_BDK_NIC_PF_INTFX_BP_SWX(a,b) (a),(b),-1,-1
 
@@ -8625,6 +8696,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_INTFX_SEND_CFG(a) bdk_nic_pf_intfx_send_cfg_t
 #define bustype_BDK_NIC_PF_INTFX_SEND_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_INTFX_SEND_CFG(a) "NIC_PF_INTFX_SEND_CFG"
+#define device_bar_BDK_NIC_PF_INTFX_SEND_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_INTFX_SEND_CFG(a) (a)
 #define arguments_BDK_NIC_PF_INTFX_SEND_CFG(a) (a),-1,-1,-1
 
@@ -8663,6 +8735,7 @@ static inline uint64_t BDK_NIC_PF_INTFX_TX_FIFO_STATUS(unsigned long a)
 #define typedef_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(a) bdk_nic_pf_intfx_tx_fifo_status_t
 #define bustype_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(a) "NIC_PF_INTFX_TX_FIFO_STATUS"
+#define device_bar_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(a) (a)
 #define arguments_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(a) (a),-1,-1,-1
 
@@ -8715,6 +8788,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_LMACX_CFG(a) bdk_nic_pf_lmacx_cfg_t
 #define bustype_BDK_NIC_PF_LMACX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_LMACX_CFG(a) "NIC_PF_LMACX_CFG"
+#define device_bar_BDK_NIC_PF_LMACX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_LMACX_CFG(a) (a)
 #define arguments_BDK_NIC_PF_LMACX_CFG(a) (a),-1,-1,-1
 
@@ -8763,6 +8837,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long a)
 #define typedef_BDK_NIC_PF_LMACX_CFG2(a) bdk_nic_pf_lmacx_cfg2_t
 #define bustype_BDK_NIC_PF_LMACX_CFG2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_LMACX_CFG2(a) "NIC_PF_LMACX_CFG2"
+#define device_bar_BDK_NIC_PF_LMACX_CFG2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_LMACX_CFG2(a) (a)
 #define arguments_BDK_NIC_PF_LMACX_CFG2(a) (a),-1,-1,-1
 
@@ -8910,6 +8985,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a)
 #define typedef_BDK_NIC_PF_LMACX_CREDIT(a) bdk_nic_pf_lmacx_credit_t
 #define bustype_BDK_NIC_PF_LMACX_CREDIT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_LMACX_CREDIT(a) "NIC_PF_LMACX_CREDIT"
+#define device_bar_BDK_NIC_PF_LMACX_CREDIT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_LMACX_CREDIT(a) (a)
 #define arguments_BDK_NIC_PF_LMACX_CREDIT(a) (a),-1,-1,-1
 
@@ -8950,6 +9026,7 @@ static inline uint64_t BDK_NIC_PF_LMACX_SW_XOFF(unsigned long a)
 #define typedef_BDK_NIC_PF_LMACX_SW_XOFF(a) bdk_nic_pf_lmacx_sw_xoff_t
 #define bustype_BDK_NIC_PF_LMACX_SW_XOFF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_LMACX_SW_XOFF(a) "NIC_PF_LMACX_SW_XOFF"
+#define device_bar_BDK_NIC_PF_LMACX_SW_XOFF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_LMACX_SW_XOFF(a) (a)
 #define arguments_BDK_NIC_PF_LMACX_SW_XOFF(a) (a),-1,-1,-1
 
@@ -8997,6 +9074,7 @@ static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1CX(unsigned long a)
 #define typedef_BDK_NIC_PF_MBOX_ENA_W1CX(a) bdk_nic_pf_mbox_ena_w1cx_t
 #define bustype_BDK_NIC_PF_MBOX_ENA_W1CX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_MBOX_ENA_W1CX(a) "NIC_PF_MBOX_ENA_W1CX"
+#define device_bar_BDK_NIC_PF_MBOX_ENA_W1CX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_MBOX_ENA_W1CX(a) (a)
 #define arguments_BDK_NIC_PF_MBOX_ENA_W1CX(a) (a),-1,-1,-1
 
@@ -9044,6 +9122,7 @@ static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1SX(unsigned long a)
 #define typedef_BDK_NIC_PF_MBOX_ENA_W1SX(a) bdk_nic_pf_mbox_ena_w1sx_t
 #define bustype_BDK_NIC_PF_MBOX_ENA_W1SX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_MBOX_ENA_W1SX(a) "NIC_PF_MBOX_ENA_W1SX"
+#define device_bar_BDK_NIC_PF_MBOX_ENA_W1SX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_MBOX_ENA_W1SX(a) (a)
 #define arguments_BDK_NIC_PF_MBOX_ENA_W1SX(a) (a),-1,-1,-1
 
@@ -9098,6 +9177,7 @@ static inline uint64_t BDK_NIC_PF_MBOX_INTX(unsigned long a)
 #define typedef_BDK_NIC_PF_MBOX_INTX(a) bdk_nic_pf_mbox_intx_t
 #define bustype_BDK_NIC_PF_MBOX_INTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_MBOX_INTX(a) "NIC_PF_MBOX_INTX"
+#define device_bar_BDK_NIC_PF_MBOX_INTX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_MBOX_INTX(a) (a)
 #define arguments_BDK_NIC_PF_MBOX_INTX(a) (a),-1,-1,-1
 
@@ -9145,6 +9225,7 @@ static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long a)
 #define typedef_BDK_NIC_PF_MBOX_INT_W1SX(a) bdk_nic_pf_mbox_int_w1sx_t
 #define bustype_BDK_NIC_PF_MBOX_INT_W1SX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_MBOX_INT_W1SX(a) "NIC_PF_MBOX_INT_W1SX"
+#define device_bar_BDK_NIC_PF_MBOX_INT_W1SX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_MBOX_INT_W1SX(a) (a)
 #define arguments_BDK_NIC_PF_MBOX_INT_W1SX(a) (a),-1,-1,-1
 
@@ -9186,6 +9267,7 @@ static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long a)
 #define typedef_BDK_NIC_PF_MCAMX_ENA(a) bdk_nic_pf_mcamx_ena_t
 #define bustype_BDK_NIC_PF_MCAMX_ENA(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_MCAMX_ENA(a) "NIC_PF_MCAMX_ENA"
+#define device_bar_BDK_NIC_PF_MCAMX_ENA(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_MCAMX_ENA(a) (a)
 #define arguments_BDK_NIC_PF_MCAMX_ENA(a) (a),-1,-1,-1
 
@@ -9264,6 +9346,7 @@ static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long a, unsigned long b
 #define typedef_BDK_NIC_PF_MCAMX_MX_DATA(a,b) bdk_nic_pf_mcamx_mx_data_t
 #define bustype_BDK_NIC_PF_MCAMX_MX_DATA(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_MCAMX_MX_DATA(a,b) "NIC_PF_MCAMX_MX_DATA"
+#define device_bar_BDK_NIC_PF_MCAMX_MX_DATA(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_MCAMX_MX_DATA(a,b) (a)
 #define arguments_BDK_NIC_PF_MCAMX_MX_DATA(a,b) (a),(b),-1,-1
 
@@ -9312,6 +9395,7 @@ static inline uint64_t BDK_NIC_PF_MCAM_CTRL_FUNC(void)
 #define typedef_BDK_NIC_PF_MCAM_CTRL bdk_nic_pf_mcam_ctrl_t
 #define bustype_BDK_NIC_PF_MCAM_CTRL BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_MCAM_CTRL "NIC_PF_MCAM_CTRL"
+#define device_bar_BDK_NIC_PF_MCAM_CTRL 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_MCAM_CTRL 0
 #define arguments_BDK_NIC_PF_MCAM_CTRL -1,-1,-1,-1
 
@@ -9476,6 +9560,7 @@ static inline uint64_t BDK_NIC_PF_MPIX_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_MPIX_CFG(a) bdk_nic_pf_mpix_cfg_t
 #define bustype_BDK_NIC_PF_MPIX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_MPIX_CFG(a) "NIC_PF_MPIX_CFG"
+#define device_bar_BDK_NIC_PF_MPIX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_MPIX_CFG(a) (a)
 #define arguments_BDK_NIC_PF_MPIX_CFG(a) (a),-1,-1,-1
 
@@ -9515,6 +9600,7 @@ static inline uint64_t BDK_NIC_PF_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_NIC_PF_MSIX_PBAX(a) bdk_nic_pf_msix_pbax_t
 #define bustype_BDK_NIC_PF_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_MSIX_PBAX(a) "NIC_PF_MSIX_PBAX"
+#define device_bar_BDK_NIC_PF_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_NIC_PF_MSIX_PBAX(a) (a)
 #define arguments_BDK_NIC_PF_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -9573,6 +9659,7 @@ static inline uint64_t BDK_NIC_PF_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_NIC_PF_MSIX_VECX_ADDR(a) bdk_nic_pf_msix_vecx_addr_t
 #define bustype_BDK_NIC_PF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_MSIX_VECX_ADDR(a) "NIC_PF_MSIX_VECX_ADDR"
+#define device_bar_BDK_NIC_PF_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_NIC_PF_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_NIC_PF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -9617,6 +9704,7 @@ static inline uint64_t BDK_NIC_PF_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_NIC_PF_MSIX_VECX_CTL(a) bdk_nic_pf_msix_vecx_ctl_t
 #define bustype_BDK_NIC_PF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_MSIX_VECX_CTL(a) "NIC_PF_MSIX_VECX_CTL"
+#define device_bar_BDK_NIC_PF_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_NIC_PF_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_NIC_PF_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -9655,6 +9743,7 @@ static inline uint64_t BDK_NIC_PF_PIR_CFG_FUNC(void)
 #define typedef_BDK_NIC_PF_PIR_CFG bdk_nic_pf_pir_cfg_t
 #define bustype_BDK_NIC_PF_PIR_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_PIR_CFG "NIC_PF_PIR_CFG"
+#define device_bar_BDK_NIC_PF_PIR_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_PIR_CFG 0
 #define arguments_BDK_NIC_PF_PIR_CFG -1,-1,-1,-1
 
@@ -9896,6 +9985,7 @@ static inline uint64_t BDK_NIC_PF_PKINDX_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_PKINDX_CFG(a) bdk_nic_pf_pkindx_cfg_t
 #define bustype_BDK_NIC_PF_PKINDX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_PKINDX_CFG(a) "NIC_PF_PKINDX_CFG"
+#define device_bar_BDK_NIC_PF_PKINDX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_PKINDX_CFG(a) (a)
 #define arguments_BDK_NIC_PF_PKINDX_CFG(a) (a),-1,-1,-1
 
@@ -10080,6 +10170,7 @@ static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_QSX_CFG(a) bdk_nic_pf_qsx_cfg_t
 #define bustype_BDK_NIC_PF_QSX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_QSX_CFG(a) "NIC_PF_QSX_CFG"
+#define device_bar_BDK_NIC_PF_QSX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_QSX_CFG(a) (a)
 #define arguments_BDK_NIC_PF_QSX_CFG(a) (a),-1,-1,-1
 
@@ -10240,6 +10331,7 @@ static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_PF_QSX_LOCKX(a,b) bdk_nic_pf_qsx_lockx_t
 #define bustype_BDK_NIC_PF_QSX_LOCKX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_QSX_LOCKX(a,b) "NIC_PF_QSX_LOCKX"
+#define device_bar_BDK_NIC_PF_QSX_LOCKX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_QSX_LOCKX(a,b) (a)
 #define arguments_BDK_NIC_PF_QSX_LOCKX(a,b) (a),(b),-1,-1
 
@@ -10287,6 +10379,7 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_BP_CFG(unsigned long a, unsigned long 
 #define typedef_BDK_NIC_PF_QSX_RQX_BP_CFG(a,b) bdk_nic_pf_qsx_rqx_bp_cfg_t
 #define bustype_BDK_NIC_PF_QSX_RQX_BP_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_QSX_RQX_BP_CFG(a,b) "NIC_PF_QSX_RQX_BP_CFG"
+#define device_bar_BDK_NIC_PF_QSX_RQX_BP_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_QSX_RQX_BP_CFG(a,b) (a)
 #define arguments_BDK_NIC_PF_QSX_RQX_BP_CFG(a,b) (a),(b),-1,-1
 
@@ -10402,6 +10495,7 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_CFG(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_PF_QSX_RQX_CFG(a,b) bdk_nic_pf_qsx_rqx_cfg_t
 #define bustype_BDK_NIC_PF_QSX_RQX_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_QSX_RQX_CFG(a,b) "NIC_PF_QSX_RQX_CFG"
+#define device_bar_BDK_NIC_PF_QSX_RQX_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_QSX_RQX_CFG(a,b) (a)
 #define arguments_BDK_NIC_PF_QSX_RQX_CFG(a,b) (a),(b),-1,-1
 
@@ -10479,6 +10573,7 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_DROP_CFG(unsigned long a, unsigned lon
 #define typedef_BDK_NIC_PF_QSX_RQX_DROP_CFG(a,b) bdk_nic_pf_qsx_rqx_drop_cfg_t
 #define bustype_BDK_NIC_PF_QSX_RQX_DROP_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_QSX_RQX_DROP_CFG(a,b) "NIC_PF_QSX_RQX_DROP_CFG"
+#define device_bar_BDK_NIC_PF_QSX_RQX_DROP_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_QSX_RQX_DROP_CFG(a,b) (a)
 #define arguments_BDK_NIC_PF_QSX_RQX_DROP_CFG(a,b) (a),(b),-1,-1
 
@@ -10519,6 +10614,7 @@ static inline uint64_t BDK_NIC_PF_QSX_RQX_STATX(unsigned long a, unsigned long b
 #define typedef_BDK_NIC_PF_QSX_RQX_STATX(a,b,c) bdk_nic_pf_qsx_rqx_statx_t
 #define bustype_BDK_NIC_PF_QSX_RQX_STATX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_QSX_RQX_STATX(a,b,c) "NIC_PF_QSX_RQX_STATX"
+#define device_bar_BDK_NIC_PF_QSX_RQX_STATX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_QSX_RQX_STATX(a,b,c) (a)
 #define arguments_BDK_NIC_PF_QSX_RQX_STATX(a,b,c) (a),(b),(c),-1
 
@@ -10595,6 +10691,7 @@ static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_PF_QSX_SQX_CFG(a,b) bdk_nic_pf_qsx_sqx_cfg_t
 #define bustype_BDK_NIC_PF_QSX_SQX_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_QSX_SQX_CFG(a,b) "NIC_PF_QSX_SQX_CFG"
+#define device_bar_BDK_NIC_PF_QSX_SQX_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_QSX_SQX_CFG(a,b) (a)
 #define arguments_BDK_NIC_PF_QSX_SQX_CFG(a,b) (a),(b),-1,-1
 
@@ -10655,6 +10752,7 @@ static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG2(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_PF_QSX_SQX_CFG2(a,b) bdk_nic_pf_qsx_sqx_cfg2_t
 #define bustype_BDK_NIC_PF_QSX_SQX_CFG2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_QSX_SQX_CFG2(a,b) "NIC_PF_QSX_SQX_CFG2"
+#define device_bar_BDK_NIC_PF_QSX_SQX_CFG2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_QSX_SQX_CFG2(a,b) (a)
 #define arguments_BDK_NIC_PF_QSX_SQX_CFG2(a,b) (a),(b),-1,-1
 
@@ -10695,6 +10793,7 @@ static inline uint64_t BDK_NIC_PF_QSX_SQX_STATX(unsigned long a, unsigned long b
 #define typedef_BDK_NIC_PF_QSX_SQX_STATX(a,b,c) bdk_nic_pf_qsx_sqx_statx_t
 #define bustype_BDK_NIC_PF_QSX_SQX_STATX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_QSX_SQX_STATX(a,b,c) "NIC_PF_QSX_SQX_STATX"
+#define device_bar_BDK_NIC_PF_QSX_SQX_STATX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_QSX_SQX_STATX(a,b,c) (a)
 #define arguments_BDK_NIC_PF_QSX_SQX_STATX(a,b,c) (a),(b),(c),-1
 
@@ -10732,6 +10831,7 @@ static inline uint64_t BDK_NIC_PF_RBDR_BP_STATEX(unsigned long a)
 #define typedef_BDK_NIC_PF_RBDR_BP_STATEX(a) bdk_nic_pf_rbdr_bp_statex_t
 #define bustype_BDK_NIC_PF_RBDR_BP_STATEX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RBDR_BP_STATEX(a) "NIC_PF_RBDR_BP_STATEX"
+#define device_bar_BDK_NIC_PF_RBDR_BP_STATEX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RBDR_BP_STATEX(a) (a)
 #define arguments_BDK_NIC_PF_RBDR_BP_STATEX(a) (a),-1,-1,-1
 
@@ -10798,6 +10898,7 @@ static inline uint64_t BDK_NIC_PF_RQM_TEST_FUNC(void)
 #define typedef_BDK_NIC_PF_RQM_TEST bdk_nic_pf_rqm_test_t
 #define bustype_BDK_NIC_PF_RQM_TEST BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RQM_TEST "NIC_PF_RQM_TEST"
+#define device_bar_BDK_NIC_PF_RQM_TEST 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RQM_TEST 0
 #define arguments_BDK_NIC_PF_RQM_TEST -1,-1,-1,-1
 
@@ -10856,6 +10957,7 @@ static inline uint64_t BDK_NIC_PF_RRM_AVG_CFG_FUNC(void)
 #define typedef_BDK_NIC_PF_RRM_AVG_CFG bdk_nic_pf_rrm_avg_cfg_t
 #define bustype_BDK_NIC_PF_RRM_AVG_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RRM_AVG_CFG "NIC_PF_RRM_AVG_CFG"
+#define device_bar_BDK_NIC_PF_RRM_AVG_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RRM_AVG_CFG 0
 #define arguments_BDK_NIC_PF_RRM_AVG_CFG -1,-1,-1,-1
 
@@ -10894,6 +10996,7 @@ static inline uint64_t BDK_NIC_PF_RRM_CFG_FUNC(void)
 #define typedef_BDK_NIC_PF_RRM_CFG bdk_nic_pf_rrm_cfg_t
 #define bustype_BDK_NIC_PF_RRM_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RRM_CFG "NIC_PF_RRM_CFG"
+#define device_bar_BDK_NIC_PF_RRM_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RRM_CFG 0
 #define arguments_BDK_NIC_PF_RRM_CFG -1,-1,-1,-1
 
@@ -10960,6 +11063,7 @@ static inline uint64_t BDK_NIC_PF_RRM_TEST_FUNC(void)
 #define typedef_BDK_NIC_PF_RRM_TEST bdk_nic_pf_rrm_test_t
 #define bustype_BDK_NIC_PF_RRM_TEST BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RRM_TEST "NIC_PF_RRM_TEST"
+#define device_bar_BDK_NIC_PF_RRM_TEST 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RRM_TEST 0
 #define arguments_BDK_NIC_PF_RRM_TEST -1,-1,-1,-1
 
@@ -11017,6 +11121,7 @@ static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long a)
 #define typedef_BDK_NIC_PF_RSSIX_RQ(a) bdk_nic_pf_rssix_rq_t
 #define bustype_BDK_NIC_PF_RSSIX_RQ(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RSSIX_RQ(a) "NIC_PF_RSSIX_RQ"
+#define device_bar_BDK_NIC_PF_RSSIX_RQ(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RSSIX_RQ(a) (a)
 #define arguments_BDK_NIC_PF_RSSIX_RQ(a) (a),-1,-1,-1
 
@@ -11053,6 +11158,7 @@ static inline uint64_t BDK_NIC_PF_RX_BP_STATEX(unsigned long a)
 #define typedef_BDK_NIC_PF_RX_BP_STATEX(a) bdk_nic_pf_rx_bp_statex_t
 #define bustype_BDK_NIC_PF_RX_BP_STATEX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RX_BP_STATEX(a) "NIC_PF_RX_BP_STATEX"
+#define device_bar_BDK_NIC_PF_RX_BP_STATEX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_BP_STATEX(a) (a)
 #define arguments_BDK_NIC_PF_RX_BP_STATEX(a) (a),-1,-1,-1
 
@@ -11107,6 +11213,7 @@ static inline uint64_t BDK_NIC_PF_RX_CFG_FUNC(void)
 #define typedef_BDK_NIC_PF_RX_CFG bdk_nic_pf_rx_cfg_t
 #define bustype_BDK_NIC_PF_RX_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RX_CFG "NIC_PF_RX_CFG"
+#define device_bar_BDK_NIC_PF_RX_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_CFG 0
 #define arguments_BDK_NIC_PF_RX_CFG -1,-1,-1,-1
 
@@ -11143,6 +11250,7 @@ static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_DISX(unsigned long a)
 #define typedef_BDK_NIC_PF_RX_CHAN_BP_DISX(a) bdk_nic_pf_rx_chan_bp_disx_t
 #define bustype_BDK_NIC_PF_RX_CHAN_BP_DISX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RX_CHAN_BP_DISX(a) "NIC_PF_RX_CHAN_BP_DISX"
+#define device_bar_BDK_NIC_PF_RX_CHAN_BP_DISX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_CHAN_BP_DISX(a) (a)
 #define arguments_BDK_NIC_PF_RX_CHAN_BP_DISX(a) (a),-1,-1,-1
 
@@ -11181,6 +11289,7 @@ static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_SWX(unsigned long a)
 #define typedef_BDK_NIC_PF_RX_CHAN_BP_SWX(a) bdk_nic_pf_rx_chan_bp_swx_t
 #define bustype_BDK_NIC_PF_RX_CHAN_BP_SWX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RX_CHAN_BP_SWX(a) "NIC_PF_RX_CHAN_BP_SWX"
+#define device_bar_BDK_NIC_PF_RX_CHAN_BP_SWX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_CHAN_BP_SWX(a) (a)
 #define arguments_BDK_NIC_PF_RX_CHAN_BP_SWX(a) (a),-1,-1,-1
 
@@ -11230,6 +11339,7 @@ static inline uint64_t BDK_NIC_PF_RX_ETYPEX(unsigned long a)
 #define typedef_BDK_NIC_PF_RX_ETYPEX(a) bdk_nic_pf_rx_etypex_t
 #define bustype_BDK_NIC_PF_RX_ETYPEX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RX_ETYPEX(a) "NIC_PF_RX_ETYPEX"
+#define device_bar_BDK_NIC_PF_RX_ETYPEX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_ETYPEX(a) (a)
 #define arguments_BDK_NIC_PF_RX_ETYPEX(a) (a),-1,-1,-1
 
@@ -11273,6 +11383,7 @@ static inline uint64_t BDK_NIC_PF_RX_GENEVE_DEF_FUNC(void)
 #define typedef_BDK_NIC_PF_RX_GENEVE_DEF bdk_nic_pf_rx_geneve_def_t
 #define bustype_BDK_NIC_PF_RX_GENEVE_DEF BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RX_GENEVE_DEF "NIC_PF_RX_GENEVE_DEF"
+#define device_bar_BDK_NIC_PF_RX_GENEVE_DEF 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_GENEVE_DEF 0
 #define arguments_BDK_NIC_PF_RX_GENEVE_DEF -1,-1,-1,-1
 
@@ -11324,6 +11435,7 @@ static inline uint64_t BDK_NIC_PF_RX_GENEVE_PROT_DEF_FUNC(void)
 #define typedef_BDK_NIC_PF_RX_GENEVE_PROT_DEF bdk_nic_pf_rx_geneve_prot_def_t
 #define bustype_BDK_NIC_PF_RX_GENEVE_PROT_DEF BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RX_GENEVE_PROT_DEF "NIC_PF_RX_GENEVE_PROT_DEF"
+#define device_bar_BDK_NIC_PF_RX_GENEVE_PROT_DEF 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_GENEVE_PROT_DEF 0
 #define arguments_BDK_NIC_PF_RX_GENEVE_PROT_DEF -1,-1,-1,-1
 
@@ -11375,6 +11487,7 @@ static inline uint64_t BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC(void)
 #define typedef_BDK_NIC_PF_RX_NVGRE_PROT_DEF bdk_nic_pf_rx_nvgre_prot_def_t
 #define bustype_BDK_NIC_PF_RX_NVGRE_PROT_DEF BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RX_NVGRE_PROT_DEF "NIC_PF_RX_NVGRE_PROT_DEF"
+#define device_bar_BDK_NIC_PF_RX_NVGRE_PROT_DEF 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_NVGRE_PROT_DEF 0
 #define arguments_BDK_NIC_PF_RX_NVGRE_PROT_DEF -1,-1,-1,-1
 
@@ -11419,6 +11532,7 @@ static inline uint64_t BDK_NIC_PF_RX_ROCEV2_DEF_FUNC(void)
 #define typedef_BDK_NIC_PF_RX_ROCEV2_DEF bdk_nic_pf_rx_rocev2_def_t
 #define bustype_BDK_NIC_PF_RX_ROCEV2_DEF BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RX_ROCEV2_DEF "NIC_PF_RX_ROCEV2_DEF"
+#define device_bar_BDK_NIC_PF_RX_ROCEV2_DEF 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_ROCEV2_DEF 0
 #define arguments_BDK_NIC_PF_RX_ROCEV2_DEF -1,-1,-1,-1
 
@@ -11465,6 +11579,7 @@ static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long a)
 #define typedef_BDK_NIC_PF_RX_VXLAN_DEFX(a) bdk_nic_pf_rx_vxlan_defx_t
 #define bustype_BDK_NIC_PF_RX_VXLAN_DEFX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RX_VXLAN_DEFX(a) "NIC_PF_RX_VXLAN_DEFX"
+#define device_bar_BDK_NIC_PF_RX_VXLAN_DEFX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_VXLAN_DEFX(a) (a)
 #define arguments_BDK_NIC_PF_RX_VXLAN_DEFX(a) (a),-1,-1,-1
 
@@ -11522,6 +11637,7 @@ static inline uint64_t BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC(void)
 #define typedef_BDK_NIC_PF_RX_VXLAN_PROT_DEF bdk_nic_pf_rx_vxlan_prot_def_t
 #define bustype_BDK_NIC_PF_RX_VXLAN_PROT_DEF BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_RX_VXLAN_PROT_DEF "NIC_PF_RX_VXLAN_PROT_DEF"
+#define device_bar_BDK_NIC_PF_RX_VXLAN_PROT_DEF 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_VXLAN_PROT_DEF 0
 #define arguments_BDK_NIC_PF_RX_VXLAN_PROT_DEF -1,-1,-1,-1
 
@@ -11689,6 +11805,7 @@ static inline uint64_t BDK_NIC_PF_SEB_TEST_FUNC(void)
 #define typedef_BDK_NIC_PF_SEB_TEST bdk_nic_pf_seb_test_t
 #define bustype_BDK_NIC_PF_SEB_TEST BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_SEB_TEST "NIC_PF_SEB_TEST"
+#define device_bar_BDK_NIC_PF_SEB_TEST 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_SEB_TEST 0
 #define arguments_BDK_NIC_PF_SEB_TEST -1,-1,-1,-1
 
@@ -11777,6 +11894,7 @@ static inline uint64_t BDK_NIC_PF_SOFT_RESET_FUNC(void)
 #define typedef_BDK_NIC_PF_SOFT_RESET bdk_nic_pf_soft_reset_t
 #define bustype_BDK_NIC_PF_SOFT_RESET BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_SOFT_RESET "NIC_PF_SOFT_RESET"
+#define device_bar_BDK_NIC_PF_SOFT_RESET 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_SOFT_RESET 0
 #define arguments_BDK_NIC_PF_SOFT_RESET -1,-1,-1,-1
 
@@ -11843,6 +11961,7 @@ static inline uint64_t BDK_NIC_PF_SQM_TEST1_FUNC(void)
 #define typedef_BDK_NIC_PF_SQM_TEST1 bdk_nic_pf_sqm_test1_t
 #define bustype_BDK_NIC_PF_SQM_TEST1 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_SQM_TEST1 "NIC_PF_SQM_TEST1"
+#define device_bar_BDK_NIC_PF_SQM_TEST1 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_SQM_TEST1 0
 #define arguments_BDK_NIC_PF_SQM_TEST1 -1,-1,-1,-1
 
@@ -11909,6 +12028,7 @@ static inline uint64_t BDK_NIC_PF_SQM_TEST2_FUNC(void)
 #define typedef_BDK_NIC_PF_SQM_TEST2 bdk_nic_pf_sqm_test2_t
 #define bustype_BDK_NIC_PF_SQM_TEST2 BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_SQM_TEST2 "NIC_PF_SQM_TEST2"
+#define device_bar_BDK_NIC_PF_SQM_TEST2 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_SQM_TEST2 0
 #define arguments_BDK_NIC_PF_SQM_TEST2 -1,-1,-1,-1
 
@@ -11965,6 +12085,7 @@ static inline uint64_t BDK_NIC_PF_STATUS_FUNC(void)
 #define typedef_BDK_NIC_PF_STATUS bdk_nic_pf_status_t
 #define bustype_BDK_NIC_PF_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_STATUS "NIC_PF_STATUS"
+#define device_bar_BDK_NIC_PF_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_STATUS 0
 #define arguments_BDK_NIC_PF_STATUS -1,-1,-1,-1
 
@@ -12007,6 +12128,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a)
 #define typedef_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(a) bdk_nic_pf_sw_sync_pipex_cq_cnts_t
 #define bustype_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(a) "NIC_PF_SW_SYNC_PIPEX_CQ_CNTS"
+#define device_bar_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(a) (a)
 #define arguments_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(a) (a),-1,-1,-1
 
@@ -12049,6 +12171,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long a)
 #define typedef_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(a) bdk_nic_pf_sw_sync_pipex_pkt_cnts_t
 #define bustype_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(a) "NIC_PF_SW_SYNC_PIPEX_PKT_CNTS"
+#define device_bar_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(a) (a)
 #define arguments_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(a) (a),-1,-1,-1
 
@@ -12087,6 +12210,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_FUNC(void)
 #define typedef_BDK_NIC_PF_SW_SYNC_RX bdk_nic_pf_sw_sync_rx_t
 #define bustype_BDK_NIC_PF_SW_SYNC_RX BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_SW_SYNC_RX "NIC_PF_SW_SYNC_RX"
+#define device_bar_BDK_NIC_PF_SW_SYNC_RX 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_SW_SYNC_RX 0
 #define arguments_BDK_NIC_PF_SW_SYNC_RX -1,-1,-1,-1
 
@@ -12126,6 +12250,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_CNTSX(unsigned long a)
 #define typedef_BDK_NIC_PF_SW_SYNC_RX_CNTSX(a) bdk_nic_pf_sw_sync_rx_cntsx_t
 #define bustype_BDK_NIC_PF_SW_SYNC_RX_CNTSX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_SW_SYNC_RX_CNTSX(a) "NIC_PF_SW_SYNC_RX_CNTSX"
+#define device_bar_BDK_NIC_PF_SW_SYNC_RX_CNTSX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_SW_SYNC_RX_CNTSX(a) (a)
 #define arguments_BDK_NIC_PF_SW_SYNC_RX_CNTSX(a) (a),-1,-1,-1
 
@@ -12162,6 +12287,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_DONE_FUNC(void)
 #define typedef_BDK_NIC_PF_SW_SYNC_RX_DONE bdk_nic_pf_sw_sync_rx_done_t
 #define bustype_BDK_NIC_PF_SW_SYNC_RX_DONE BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_SW_SYNC_RX_DONE "NIC_PF_SW_SYNC_RX_DONE"
+#define device_bar_BDK_NIC_PF_SW_SYNC_RX_DONE 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_SW_SYNC_RX_DONE 0
 #define arguments_BDK_NIC_PF_SW_SYNC_RX_DONE -1,-1,-1,-1
 
@@ -12210,6 +12336,7 @@ static inline uint64_t BDK_NIC_PF_TCP_TIMER_FUNC(void)
 #define typedef_BDK_NIC_PF_TCP_TIMER bdk_nic_pf_tcp_timer_t
 #define bustype_BDK_NIC_PF_TCP_TIMER BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TCP_TIMER "NIC_PF_TCP_TIMER"
+#define device_bar_BDK_NIC_PF_TCP_TIMER 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TCP_TIMER 0
 #define arguments_BDK_NIC_PF_TCP_TIMER -1,-1,-1,-1
 
@@ -12255,6 +12382,7 @@ static inline uint64_t BDK_NIC_PF_TL2X_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_TL2X_CFG(a) bdk_nic_pf_tl2x_cfg_t
 #define bustype_BDK_NIC_PF_TL2X_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL2X_CFG(a) "NIC_PF_TL2X_CFG"
+#define device_bar_BDK_NIC_PF_TL2X_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL2X_CFG(a) (a)
 #define arguments_BDK_NIC_PF_TL2X_CFG(a) (a),-1,-1,-1
 
@@ -12290,6 +12418,7 @@ static inline uint64_t BDK_NIC_PF_TL2X_LMAC(unsigned long a)
 #define typedef_BDK_NIC_PF_TL2X_LMAC(a) bdk_nic_pf_tl2x_lmac_t
 #define bustype_BDK_NIC_PF_TL2X_LMAC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL2X_LMAC(a) "NIC_PF_TL2X_LMAC"
+#define device_bar_BDK_NIC_PF_TL2X_LMAC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL2X_LMAC(a) (a)
 #define arguments_BDK_NIC_PF_TL2X_LMAC(a) (a),-1,-1,-1
 
@@ -12329,6 +12458,7 @@ static inline uint64_t BDK_NIC_PF_TL2X_PRI(unsigned long a)
 #define typedef_BDK_NIC_PF_TL2X_PRI(a) bdk_nic_pf_tl2x_pri_t
 #define bustype_BDK_NIC_PF_TL2X_PRI(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL2X_PRI(a) "NIC_PF_TL2X_PRI"
+#define device_bar_BDK_NIC_PF_TL2X_PRI(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL2X_PRI(a) (a)
 #define arguments_BDK_NIC_PF_TL2X_PRI(a) (a),-1,-1,-1
 
@@ -12368,6 +12498,7 @@ static inline uint64_t BDK_NIC_PF_TL2X_SH_STATUS(unsigned long a)
 #define typedef_BDK_NIC_PF_TL2X_SH_STATUS(a) bdk_nic_pf_tl2x_sh_status_t
 #define bustype_BDK_NIC_PF_TL2X_SH_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL2X_SH_STATUS(a) "NIC_PF_TL2X_SH_STATUS"
+#define device_bar_BDK_NIC_PF_TL2X_SH_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL2X_SH_STATUS(a) (a)
 #define arguments_BDK_NIC_PF_TL2X_SH_STATUS(a) (a),-1,-1,-1
 
@@ -12413,6 +12544,7 @@ static inline uint64_t BDK_NIC_PF_TL3X_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_TL3X_CFG(a) bdk_nic_pf_tl3x_cfg_t
 #define bustype_BDK_NIC_PF_TL3X_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL3X_CFG(a) "NIC_PF_TL3X_CFG"
+#define device_bar_BDK_NIC_PF_TL3X_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL3X_CFG(a) (a)
 #define arguments_BDK_NIC_PF_TL3X_CFG(a) (a),-1,-1,-1
 
@@ -12487,6 +12619,7 @@ static inline uint64_t BDK_NIC_PF_TL3X_CHAN(unsigned long a)
 #define typedef_BDK_NIC_PF_TL3X_CHAN(a) bdk_nic_pf_tl3x_chan_t
 #define bustype_BDK_NIC_PF_TL3X_CHAN(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL3X_CHAN(a) "NIC_PF_TL3X_CHAN"
+#define device_bar_BDK_NIC_PF_TL3X_CHAN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL3X_CHAN(a) (a)
 #define arguments_BDK_NIC_PF_TL3X_CHAN(a) (a),-1,-1,-1
 
@@ -12540,6 +12673,7 @@ static inline uint64_t BDK_NIC_PF_TL3X_PIR(unsigned long a)
 #define typedef_BDK_NIC_PF_TL3X_PIR(a) bdk_nic_pf_tl3x_pir_t
 #define bustype_BDK_NIC_PF_TL3X_PIR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL3X_PIR(a) "NIC_PF_TL3X_PIR"
+#define device_bar_BDK_NIC_PF_TL3X_PIR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL3X_PIR(a) (a)
 #define arguments_BDK_NIC_PF_TL3X_PIR(a) (a),-1,-1,-1
 
@@ -12612,6 +12746,7 @@ static inline uint64_t BDK_NIC_PF_TL3X_SH_STATUS(unsigned long a)
 #define typedef_BDK_NIC_PF_TL3X_SH_STATUS(a) bdk_nic_pf_tl3x_sh_status_t
 #define bustype_BDK_NIC_PF_TL3X_SH_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL3X_SH_STATUS(a) "NIC_PF_TL3X_SH_STATUS"
+#define device_bar_BDK_NIC_PF_TL3X_SH_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL3X_SH_STATUS(a) (a)
 #define arguments_BDK_NIC_PF_TL3X_SH_STATUS(a) (a),-1,-1,-1
 
@@ -12655,6 +12790,7 @@ static inline uint64_t BDK_NIC_PF_TL3X_SW_XOFF(unsigned long a)
 #define typedef_BDK_NIC_PF_TL3X_SW_XOFF(a) bdk_nic_pf_tl3x_sw_xoff_t
 #define bustype_BDK_NIC_PF_TL3X_SW_XOFF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL3X_SW_XOFF(a) "NIC_PF_TL3X_SW_XOFF"
+#define device_bar_BDK_NIC_PF_TL3X_SW_XOFF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL3X_SW_XOFF(a) (a)
 #define arguments_BDK_NIC_PF_TL3X_SW_XOFF(a) (a),-1,-1,-1
 
@@ -12734,6 +12870,7 @@ static inline uint64_t BDK_NIC_PF_TL3AX_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_TL3AX_CFG(a) bdk_nic_pf_tl3ax_cfg_t
 #define bustype_BDK_NIC_PF_TL3AX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL3AX_CFG(a) "NIC_PF_TL3AX_CFG"
+#define device_bar_BDK_NIC_PF_TL3AX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL3AX_CFG(a) (a)
 #define arguments_BDK_NIC_PF_TL3AX_CFG(a) (a),-1,-1,-1
 
@@ -12798,6 +12935,7 @@ static inline uint64_t BDK_NIC_PF_TL4X_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_TL4X_CFG(a) bdk_nic_pf_tl4x_cfg_t
 #define bustype_BDK_NIC_PF_TL4X_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL4X_CFG(a) "NIC_PF_TL4X_CFG"
+#define device_bar_BDK_NIC_PF_TL4X_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL4X_CFG(a) (a)
 #define arguments_BDK_NIC_PF_TL4X_CFG(a) (a),-1,-1,-1
 
@@ -12835,6 +12973,7 @@ static inline uint64_t BDK_NIC_PF_TL4X_SH_STATUS(unsigned long a)
 #define typedef_BDK_NIC_PF_TL4X_SH_STATUS(a) bdk_nic_pf_tl4x_sh_status_t
 #define bustype_BDK_NIC_PF_TL4X_SH_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL4X_SH_STATUS(a) "NIC_PF_TL4X_SH_STATUS"
+#define device_bar_BDK_NIC_PF_TL4X_SH_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL4X_SH_STATUS(a) (a)
 #define arguments_BDK_NIC_PF_TL4X_SH_STATUS(a) (a),-1,-1,-1
 
@@ -12874,6 +13013,7 @@ static inline uint64_t BDK_NIC_PF_TL4X_SW_XOFF(unsigned long a)
 #define typedef_BDK_NIC_PF_TL4X_SW_XOFF(a) bdk_nic_pf_tl4x_sw_xoff_t
 #define bustype_BDK_NIC_PF_TL4X_SW_XOFF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL4X_SW_XOFF(a) "NIC_PF_TL4X_SW_XOFF"
+#define device_bar_BDK_NIC_PF_TL4X_SW_XOFF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL4X_SW_XOFF(a) (a)
 #define arguments_BDK_NIC_PF_TL4X_SW_XOFF(a) (a),-1,-1,-1
 
@@ -12917,6 +13057,7 @@ static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long a)
 #define typedef_BDK_NIC_PF_TL4AX_CFG(a) bdk_nic_pf_tl4ax_cfg_t
 #define bustype_BDK_NIC_PF_TL4AX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TL4AX_CFG(a) "NIC_PF_TL4AX_CFG"
+#define device_bar_BDK_NIC_PF_TL4AX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TL4AX_CFG(a) (a)
 #define arguments_BDK_NIC_PF_TL4AX_CFG(a) (a),-1,-1,-1
 
@@ -12992,6 +13133,7 @@ static inline uint64_t BDK_NIC_PF_TSO_CFG_FUNC(void)
 #define typedef_BDK_NIC_PF_TSO_CFG bdk_nic_pf_tso_cfg_t
 #define bustype_BDK_NIC_PF_TSO_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TSO_CFG "NIC_PF_TSO_CFG"
+#define device_bar_BDK_NIC_PF_TSO_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TSO_CFG 0
 #define arguments_BDK_NIC_PF_TSO_CFG -1,-1,-1,-1
 
@@ -13028,6 +13170,7 @@ static inline uint64_t BDK_NIC_PF_TX_FIFO_STATUS_FUNC(void)
 #define typedef_BDK_NIC_PF_TX_FIFO_STATUS bdk_nic_pf_tx_fifo_status_t
 #define bustype_BDK_NIC_PF_TX_FIFO_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_TX_FIFO_STATUS "NIC_PF_TX_FIFO_STATUS"
+#define device_bar_BDK_NIC_PF_TX_FIFO_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_TX_FIFO_STATUS 0
 #define arguments_BDK_NIC_PF_TX_FIFO_STATUS -1,-1,-1,-1
 
@@ -13094,6 +13237,7 @@ static inline uint64_t BDK_NIC_PF_VFX_MBOXX(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_PF_VFX_MBOXX(a,b) bdk_nic_pf_vfx_mboxx_t
 #define bustype_BDK_NIC_PF_VFX_MBOXX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_VFX_MBOXX(a,b) "NIC_PF_VFX_MBOXX"
+#define device_bar_BDK_NIC_PF_VFX_MBOXX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_VFX_MBOXX(a,b) (a)
 #define arguments_BDK_NIC_PF_VFX_MBOXX(a,b) (a),(b),-1,-1
 
@@ -13134,6 +13278,7 @@ static inline uint64_t BDK_NIC_PF_VNICX_RX_STATX(unsigned long a, unsigned long 
 #define typedef_BDK_NIC_PF_VNICX_RX_STATX(a,b) bdk_nic_pf_vnicx_rx_statx_t
 #define bustype_BDK_NIC_PF_VNICX_RX_STATX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_VNICX_RX_STATX(a,b) "NIC_PF_VNICX_RX_STATX"
+#define device_bar_BDK_NIC_PF_VNICX_RX_STATX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_VNICX_RX_STATX(a,b) (a)
 #define arguments_BDK_NIC_PF_VNICX_RX_STATX(a,b) (a),(b),-1,-1
 
@@ -13174,6 +13319,7 @@ static inline uint64_t BDK_NIC_PF_VNICX_TX_STATX(unsigned long a, unsigned long 
 #define typedef_BDK_NIC_PF_VNICX_TX_STATX(a,b) bdk_nic_pf_vnicx_tx_statx_t
 #define bustype_BDK_NIC_PF_VNICX_TX_STATX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_PF_VNICX_TX_STATX(a,b) "NIC_PF_VNICX_TX_STATX"
+#define device_bar_BDK_NIC_PF_VNICX_TX_STATX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_VNICX_TX_STATX(a,b) (a)
 #define arguments_BDK_NIC_PF_VNICX_TX_STATX(a,b) (a),(b),-1,-1
 
@@ -13219,6 +13365,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_BASE(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_CQX_BASE(a,b) bdk_nic_qsx_cqx_base_t
 #define bustype_BDK_NIC_QSX_CQX_BASE(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_CQX_BASE(a,b) "NIC_QSX_CQX_BASE"
+#define device_bar_BDK_NIC_QSX_CQX_BASE(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_CQX_BASE(a,b) (a)
 #define arguments_BDK_NIC_QSX_CQX_BASE(a,b) (a),(b),-1,-1
 
@@ -13545,6 +13692,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_CFG(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_CQX_CFG(a,b) bdk_nic_qsx_cqx_cfg_t
 #define bustype_BDK_NIC_QSX_CQX_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_CQX_CFG(a,b) "NIC_QSX_CQX_CFG"
+#define device_bar_BDK_NIC_QSX_CQX_CFG(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_CQX_CFG(a,b) (a)
 #define arguments_BDK_NIC_QSX_CQX_CFG(a,b) (a),(b),-1,-1
 
@@ -13590,6 +13738,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_CFG2(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_CQX_CFG2(a,b) bdk_nic_qsx_cqx_cfg2_t
 #define bustype_BDK_NIC_QSX_CQX_CFG2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_CQX_CFG2(a,b) "NIC_QSX_CQX_CFG2"
+#define device_bar_BDK_NIC_QSX_CQX_CFG2(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_CQX_CFG2(a,b) (a)
 #define arguments_BDK_NIC_QSX_CQX_CFG2(a,b) (a),(b),-1,-1
 
@@ -13633,6 +13782,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_DEBUG(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_CQX_DEBUG(a,b) bdk_nic_qsx_cqx_debug_t
 #define bustype_BDK_NIC_QSX_CQX_DEBUG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_CQX_DEBUG(a,b) "NIC_QSX_CQX_DEBUG"
+#define device_bar_BDK_NIC_QSX_CQX_DEBUG(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_CQX_DEBUG(a,b) (a)
 #define arguments_BDK_NIC_QSX_CQX_DEBUG(a,b) (a),(b),-1,-1
 
@@ -13676,6 +13826,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_DOOR(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_CQX_DOOR(a,b) bdk_nic_qsx_cqx_door_t
 #define bustype_BDK_NIC_QSX_CQX_DOOR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_CQX_DOOR(a,b) "NIC_QSX_CQX_DOOR"
+#define device_bar_BDK_NIC_QSX_CQX_DOOR(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_CQX_DOOR(a,b) (a)
 #define arguments_BDK_NIC_QSX_CQX_DOOR(a,b) (a),(b),-1,-1
 
@@ -13721,6 +13872,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_HEAD(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_CQX_HEAD(a,b) bdk_nic_qsx_cqx_head_t
 #define bustype_BDK_NIC_QSX_CQX_HEAD(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_CQX_HEAD(a,b) "NIC_QSX_CQX_HEAD"
+#define device_bar_BDK_NIC_QSX_CQX_HEAD(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_CQX_HEAD(a,b) (a)
 #define arguments_BDK_NIC_QSX_CQX_HEAD(a,b) (a),(b),-1,-1
 
@@ -13800,6 +13952,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_STATUS(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_CQX_STATUS(a,b) bdk_nic_qsx_cqx_status_t
 #define bustype_BDK_NIC_QSX_CQX_STATUS(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_CQX_STATUS(a,b) "NIC_QSX_CQX_STATUS"
+#define device_bar_BDK_NIC_QSX_CQX_STATUS(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_CQX_STATUS(a,b) (a)
 #define arguments_BDK_NIC_QSX_CQX_STATUS(a,b) (a),(b),-1,-1
 
@@ -13867,6 +14020,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_STATUS2(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_CQX_STATUS2(a,b) bdk_nic_qsx_cqx_status2_t
 #define bustype_BDK_NIC_QSX_CQX_STATUS2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_CQX_STATUS2(a,b) "NIC_QSX_CQX_STATUS2"
+#define device_bar_BDK_NIC_QSX_CQX_STATUS2(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_CQX_STATUS2(a,b) (a)
 #define arguments_BDK_NIC_QSX_CQX_STATUS2(a,b) (a),(b),-1,-1
 
@@ -13914,6 +14068,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_TAIL(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_CQX_TAIL(a,b) bdk_nic_qsx_cqx_tail_t
 #define bustype_BDK_NIC_QSX_CQX_TAIL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_CQX_TAIL(a,b) "NIC_QSX_CQX_TAIL"
+#define device_bar_BDK_NIC_QSX_CQX_TAIL(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_CQX_TAIL(a,b) (a)
 #define arguments_BDK_NIC_QSX_CQX_TAIL(a,b) (a),(b),-1,-1
 
@@ -13957,6 +14112,7 @@ static inline uint64_t BDK_NIC_QSX_CQX_THRESH(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_CQX_THRESH(a,b) bdk_nic_qsx_cqx_thresh_t
 #define bustype_BDK_NIC_QSX_CQX_THRESH(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_CQX_THRESH(a,b) "NIC_QSX_CQX_THRESH"
+#define device_bar_BDK_NIC_QSX_CQX_THRESH(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_CQX_THRESH(a,b) (a)
 #define arguments_BDK_NIC_QSX_CQX_THRESH(a,b) (a),(b),-1,-1
 
@@ -14006,6 +14162,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_BASE(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_RBDRX_BASE(a,b) bdk_nic_qsx_rbdrx_base_t
 #define bustype_BDK_NIC_QSX_RBDRX_BASE(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RBDRX_BASE(a,b) "NIC_QSX_RBDRX_BASE"
+#define device_bar_BDK_NIC_QSX_RBDRX_BASE(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RBDRX_BASE(a,b) (a)
 #define arguments_BDK_NIC_QSX_RBDRX_BASE(a,b) (a),(b),-1,-1
 
@@ -14318,6 +14475,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_CFG(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_RBDRX_CFG(a,b) bdk_nic_qsx_rbdrx_cfg_t
 #define bustype_BDK_NIC_QSX_RBDRX_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RBDRX_CFG(a,b) "NIC_QSX_RBDRX_CFG"
+#define device_bar_BDK_NIC_QSX_RBDRX_CFG(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RBDRX_CFG(a,b) (a)
 #define arguments_BDK_NIC_QSX_RBDRX_CFG(a,b) (a),(b),-1,-1
 
@@ -14371,6 +14529,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_DOOR(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_RBDRX_DOOR(a,b) bdk_nic_qsx_rbdrx_door_t
 #define bustype_BDK_NIC_QSX_RBDRX_DOOR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RBDRX_DOOR(a,b) "NIC_QSX_RBDRX_DOOR"
+#define device_bar_BDK_NIC_QSX_RBDRX_DOOR(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RBDRX_DOOR(a,b) (a)
 #define arguments_BDK_NIC_QSX_RBDRX_DOOR(a,b) (a),(b),-1,-1
 
@@ -14418,6 +14577,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_HEAD(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_RBDRX_HEAD(a,b) bdk_nic_qsx_rbdrx_head_t
 #define bustype_BDK_NIC_QSX_RBDRX_HEAD(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RBDRX_HEAD(a,b) "NIC_QSX_RBDRX_HEAD"
+#define device_bar_BDK_NIC_QSX_RBDRX_HEAD(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RBDRX_HEAD(a,b) (a)
 #define arguments_BDK_NIC_QSX_RBDRX_HEAD(a,b) (a),(b),-1,-1
 
@@ -14461,6 +14621,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(unsigned long a, unsign
 #define typedef_BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(a,b) bdk_nic_qsx_rbdrx_prefetch_status_t
 #define bustype_BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(a,b) "NIC_QSX_RBDRX_PREFETCH_STATUS"
+#define device_bar_BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(a,b) (a)
 #define arguments_BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(a,b) (a),(b),-1,-1
 
@@ -14522,6 +14683,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS0(unsigned long a, unsigned long 
 #define typedef_BDK_NIC_QSX_RBDRX_STATUS0(a,b) bdk_nic_qsx_rbdrx_status0_t
 #define bustype_BDK_NIC_QSX_RBDRX_STATUS0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RBDRX_STATUS0(a,b) "NIC_QSX_RBDRX_STATUS0"
+#define device_bar_BDK_NIC_QSX_RBDRX_STATUS0(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RBDRX_STATUS0(a,b) (a)
 #define arguments_BDK_NIC_QSX_RBDRX_STATUS0(a,b) (a),(b),-1,-1
 
@@ -14561,6 +14723,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS1(unsigned long a, unsigned long 
 #define typedef_BDK_NIC_QSX_RBDRX_STATUS1(a,b) bdk_nic_qsx_rbdrx_status1_t
 #define bustype_BDK_NIC_QSX_RBDRX_STATUS1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RBDRX_STATUS1(a,b) "NIC_QSX_RBDRX_STATUS1"
+#define device_bar_BDK_NIC_QSX_RBDRX_STATUS1(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RBDRX_STATUS1(a,b) (a)
 #define arguments_BDK_NIC_QSX_RBDRX_STATUS1(a,b) (a),(b),-1,-1
 
@@ -14608,6 +14771,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_TAIL(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_RBDRX_TAIL(a,b) bdk_nic_qsx_rbdrx_tail_t
 #define bustype_BDK_NIC_QSX_RBDRX_TAIL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RBDRX_TAIL(a,b) "NIC_QSX_RBDRX_TAIL"
+#define device_bar_BDK_NIC_QSX_RBDRX_TAIL(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RBDRX_TAIL(a,b) (a)
 #define arguments_BDK_NIC_QSX_RBDRX_TAIL(a,b) (a),(b),-1,-1
 
@@ -14651,6 +14815,7 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_THRESH(unsigned long a, unsigned long b
 #define typedef_BDK_NIC_QSX_RBDRX_THRESH(a,b) bdk_nic_qsx_rbdrx_thresh_t
 #define bustype_BDK_NIC_QSX_RBDRX_THRESH(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RBDRX_THRESH(a,b) "NIC_QSX_RBDRX_THRESH"
+#define device_bar_BDK_NIC_QSX_RBDRX_THRESH(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RBDRX_THRESH(a,b) (a)
 #define arguments_BDK_NIC_QSX_RBDRX_THRESH(a,b) (a),(b),-1,-1
 
@@ -14696,6 +14861,7 @@ static inline uint64_t BDK_NIC_QSX_RQX_CFG(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_RQX_CFG(a,b) bdk_nic_qsx_rqx_cfg_t
 #define bustype_BDK_NIC_QSX_RQX_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RQX_CFG(a,b) "NIC_QSX_RQX_CFG"
+#define device_bar_BDK_NIC_QSX_RQX_CFG(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RQX_CFG(a,b) (a)
 #define arguments_BDK_NIC_QSX_RQX_CFG(a,b) (a),(b),-1,-1
 
@@ -14736,6 +14902,7 @@ static inline uint64_t BDK_NIC_QSX_RQX_STATX(unsigned long a, unsigned long b, u
 #define typedef_BDK_NIC_QSX_RQX_STATX(a,b,c) bdk_nic_qsx_rqx_statx_t
 #define bustype_BDK_NIC_QSX_RQX_STATX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RQX_STATX(a,b,c) "NIC_QSX_RQX_STATX"
+#define device_bar_BDK_NIC_QSX_RQX_STATX(a,b,c) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RQX_STATX(a,b,c) (a)
 #define arguments_BDK_NIC_QSX_RQX_STATX(a,b,c) (a),(b),(c),-1
 
@@ -14952,6 +15119,7 @@ static inline uint64_t BDK_NIC_QSX_RQ_GEN_CFG(unsigned long a)
 #define typedef_BDK_NIC_QSX_RQ_GEN_CFG(a) bdk_nic_qsx_rq_gen_cfg_t
 #define bustype_BDK_NIC_QSX_RQ_GEN_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_RQ_GEN_CFG(a) "NIC_QSX_RQ_GEN_CFG"
+#define device_bar_BDK_NIC_QSX_RQ_GEN_CFG(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_RQ_GEN_CFG(a) (a)
 #define arguments_BDK_NIC_QSX_RQ_GEN_CFG(a) (a),-1,-1,-1
 
@@ -14997,6 +15165,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_BASE(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_SQX_BASE(a,b) bdk_nic_qsx_sqx_base_t
 #define bustype_BDK_NIC_QSX_SQX_BASE(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_SQX_BASE(a,b) "NIC_QSX_SQX_BASE"
+#define device_bar_BDK_NIC_QSX_SQX_BASE(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_SQX_BASE(a,b) (a)
 #define arguments_BDK_NIC_QSX_SQX_BASE(a,b) (a),(b),-1,-1
 
@@ -15301,6 +15470,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_CFG(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_SQX_CFG(a,b) bdk_nic_qsx_sqx_cfg_t
 #define bustype_BDK_NIC_QSX_SQX_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_SQX_CFG(a,b) "NIC_QSX_SQX_CFG"
+#define device_bar_BDK_NIC_QSX_SQX_CFG(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_SQX_CFG(a,b) (a)
 #define arguments_BDK_NIC_QSX_SQX_CFG(a,b) (a),(b),-1,-1
 
@@ -15350,6 +15520,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_DEBUG(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_SQX_DEBUG(a,b) bdk_nic_qsx_sqx_debug_t
 #define bustype_BDK_NIC_QSX_SQX_DEBUG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_SQX_DEBUG(a,b) "NIC_QSX_SQX_DEBUG"
+#define device_bar_BDK_NIC_QSX_SQX_DEBUG(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_SQX_DEBUG(a,b) (a)
 #define arguments_BDK_NIC_QSX_SQX_DEBUG(a,b) (a),(b),-1,-1
 
@@ -15405,6 +15576,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_DOOR(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_SQX_DOOR(a,b) bdk_nic_qsx_sqx_door_t
 #define bustype_BDK_NIC_QSX_SQX_DOOR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_SQX_DOOR(a,b) "NIC_QSX_SQX_DOOR"
+#define device_bar_BDK_NIC_QSX_SQX_DOOR(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_SQX_DOOR(a,b) (a)
 #define arguments_BDK_NIC_QSX_SQX_DOOR(a,b) (a),(b),-1,-1
 
@@ -15452,6 +15624,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_HEAD(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_SQX_HEAD(a,b) bdk_nic_qsx_sqx_head_t
 #define bustype_BDK_NIC_QSX_SQX_HEAD(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_SQX_HEAD(a,b) "NIC_QSX_SQX_HEAD"
+#define device_bar_BDK_NIC_QSX_SQX_HEAD(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_SQX_HEAD(a,b) (a)
 #define arguments_BDK_NIC_QSX_SQX_HEAD(a,b) (a),(b),-1,-1
 
@@ -15492,6 +15665,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_STATX(unsigned long a, unsigned long b, u
 #define typedef_BDK_NIC_QSX_SQX_STATX(a,b,c) bdk_nic_qsx_sqx_statx_t
 #define bustype_BDK_NIC_QSX_SQX_STATX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_SQX_STATX(a,b,c) "NIC_QSX_SQX_STATX"
+#define device_bar_BDK_NIC_QSX_SQX_STATX(a,b,c) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_SQX_STATX(a,b,c) (a)
 #define arguments_BDK_NIC_QSX_SQX_STATX(a,b,c) (a),(b),(c),-1
 
@@ -15760,6 +15934,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_STATUS(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_SQX_STATUS(a,b) bdk_nic_qsx_sqx_status_t
 #define bustype_BDK_NIC_QSX_SQX_STATUS(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_SQX_STATUS(a,b) "NIC_QSX_SQX_STATUS"
+#define device_bar_BDK_NIC_QSX_SQX_STATUS(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_SQX_STATUS(a,b) (a)
 #define arguments_BDK_NIC_QSX_SQX_STATUS(a,b) (a),(b),-1,-1
 
@@ -15805,6 +15980,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_TAIL(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_SQX_TAIL(a,b) bdk_nic_qsx_sqx_tail_t
 #define bustype_BDK_NIC_QSX_SQX_TAIL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_SQX_TAIL(a,b) "NIC_QSX_SQX_TAIL"
+#define device_bar_BDK_NIC_QSX_SQX_TAIL(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_SQX_TAIL(a,b) (a)
 #define arguments_BDK_NIC_QSX_SQX_TAIL(a,b) (a),(b),-1,-1
 
@@ -15848,6 +16024,7 @@ static inline uint64_t BDK_NIC_QSX_SQX_THRESH(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_QSX_SQX_THRESH(a,b) bdk_nic_qsx_sqx_thresh_t
 #define bustype_BDK_NIC_QSX_SQX_THRESH(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_QSX_SQX_THRESH(a,b) "NIC_QSX_SQX_THRESH"
+#define device_bar_BDK_NIC_QSX_SQX_THRESH(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_QSX_SQX_THRESH(a,b) (a)
 #define arguments_BDK_NIC_QSX_SQX_THRESH(a,b) (a),(b),-1,-1
 
@@ -15893,6 +16070,7 @@ static inline uint64_t BDK_NIC_VFX_CFG(unsigned long a)
 #define typedef_BDK_NIC_VFX_CFG(a) bdk_nic_vfx_cfg_t
 #define bustype_BDK_NIC_VFX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VFX_CFG(a) "NIC_VFX_CFG"
+#define device_bar_BDK_NIC_VFX_CFG(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_VFX_CFG(a) (a)
 #define arguments_BDK_NIC_VFX_CFG(a) (a),-1,-1,-1
 
@@ -15972,6 +16150,7 @@ static inline uint64_t BDK_NIC_VFX_ENA_W1C(unsigned long a)
 #define typedef_BDK_NIC_VFX_ENA_W1C(a) bdk_nic_vfx_ena_w1c_t
 #define bustype_BDK_NIC_VFX_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VFX_ENA_W1C(a) "NIC_VFX_ENA_W1C"
+#define device_bar_BDK_NIC_VFX_ENA_W1C(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_VFX_ENA_W1C(a) (a)
 #define arguments_BDK_NIC_VFX_ENA_W1C(a) (a),-1,-1,-1
 
@@ -16051,6 +16230,7 @@ static inline uint64_t BDK_NIC_VFX_ENA_W1S(unsigned long a)
 #define typedef_BDK_NIC_VFX_ENA_W1S(a) bdk_nic_vfx_ena_w1s_t
 #define bustype_BDK_NIC_VFX_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VFX_ENA_W1S(a) "NIC_VFX_ENA_W1S"
+#define device_bar_BDK_NIC_VFX_ENA_W1S(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_VFX_ENA_W1S(a) (a)
 #define arguments_BDK_NIC_VFX_ENA_W1S(a) (a),-1,-1,-1
 
@@ -16269,6 +16449,7 @@ static inline uint64_t BDK_NIC_VFX_INT(unsigned long a)
 #define typedef_BDK_NIC_VFX_INT(a) bdk_nic_vfx_int_t
 #define bustype_BDK_NIC_VFX_INT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VFX_INT(a) "NIC_VFX_INT"
+#define device_bar_BDK_NIC_VFX_INT(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_VFX_INT(a) (a)
 #define arguments_BDK_NIC_VFX_INT(a) (a),-1,-1,-1
 
@@ -16348,6 +16529,7 @@ static inline uint64_t BDK_NIC_VFX_INT_W1S(unsigned long a)
 #define typedef_BDK_NIC_VFX_INT_W1S(a) bdk_nic_vfx_int_w1s_t
 #define bustype_BDK_NIC_VFX_INT_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VFX_INT_W1S(a) "NIC_VFX_INT_W1S"
+#define device_bar_BDK_NIC_VFX_INT_W1S(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_VFX_INT_W1S(a) (a)
 #define arguments_BDK_NIC_VFX_INT_W1S(a) (a),-1,-1,-1
 
@@ -16389,6 +16571,7 @@ static inline uint64_t BDK_NIC_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_VFX_MSIX_PBAX(a,b) bdk_nic_vfx_msix_pbax_t
 #define bustype_BDK_NIC_VFX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VFX_MSIX_PBAX(a,b) "NIC_VFX_MSIX_PBAX"
+#define device_bar_BDK_NIC_VFX_MSIX_PBAX(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_NIC_VFX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_NIC_VFX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -16437,6 +16620,7 @@ static inline uint64_t BDK_NIC_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
 #define typedef_BDK_NIC_VFX_MSIX_VECX_ADDR(a,b) bdk_nic_vfx_msix_vecx_addr_t
 #define bustype_BDK_NIC_VFX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VFX_MSIX_VECX_ADDR(a,b) "NIC_VFX_MSIX_VECX_ADDR"
+#define device_bar_BDK_NIC_VFX_MSIX_VECX_ADDR(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_NIC_VFX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_NIC_VFX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -16481,6 +16665,7 @@ static inline uint64_t BDK_NIC_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
 #define typedef_BDK_NIC_VFX_MSIX_VECX_CTL(a,b) bdk_nic_vfx_msix_vecx_ctl_t
 #define bustype_BDK_NIC_VFX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VFX_MSIX_VECX_CTL(a,b) "NIC_VFX_MSIX_VECX_CTL"
+#define device_bar_BDK_NIC_VFX_MSIX_VECX_CTL(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_NIC_VFX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_NIC_VFX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -16547,6 +16732,7 @@ static inline uint64_t BDK_NIC_VFX_PF_MBOXX(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_VFX_PF_MBOXX(a,b) bdk_nic_vfx_pf_mboxx_t
 #define bustype_BDK_NIC_VFX_PF_MBOXX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VFX_PF_MBOXX(a,b) "NIC_VFX_PF_MBOXX"
+#define device_bar_BDK_NIC_VFX_PF_MBOXX(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_VFX_PF_MBOXX(a,b) (a)
 #define arguments_BDK_NIC_VFX_PF_MBOXX(a,b) (a),(b),-1,-1
 
@@ -16709,6 +16895,7 @@ static inline uint64_t BDK_NIC_VNICX_RSS_CFG(unsigned long a)
 #define typedef_BDK_NIC_VNICX_RSS_CFG(a) bdk_nic_vnicx_rss_cfg_t
 #define bustype_BDK_NIC_VNICX_RSS_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VNICX_RSS_CFG(a) "NIC_VNICX_RSS_CFG"
+#define device_bar_BDK_NIC_VNICX_RSS_CFG(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_VNICX_RSS_CFG(a) (a)
 #define arguments_BDK_NIC_VNICX_RSS_CFG(a) (a),-1,-1,-1
 
@@ -16754,6 +16941,7 @@ static inline uint64_t BDK_NIC_VNICX_RSS_KEYX(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_VNICX_RSS_KEYX(a,b) bdk_nic_vnicx_rss_keyx_t
 #define bustype_BDK_NIC_VNICX_RSS_KEYX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VNICX_RSS_KEYX(a,b) "NIC_VNICX_RSS_KEYX"
+#define device_bar_BDK_NIC_VNICX_RSS_KEYX(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_VNICX_RSS_KEYX(a,b) (a)
 #define arguments_BDK_NIC_VNICX_RSS_KEYX(a,b) (a),(b),-1,-1
 
@@ -16794,6 +16982,7 @@ static inline uint64_t BDK_NIC_VNICX_RX_STATX(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_VNICX_RX_STATX(a,b) bdk_nic_vnicx_rx_statx_t
 #define bustype_BDK_NIC_VNICX_RX_STATX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VNICX_RX_STATX(a,b) "NIC_VNICX_RX_STATX"
+#define device_bar_BDK_NIC_VNICX_RX_STATX(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_VNICX_RX_STATX(a,b) (a)
 #define arguments_BDK_NIC_VNICX_RX_STATX(a,b) (a),(b),-1,-1
 
@@ -16834,6 +17023,7 @@ static inline uint64_t BDK_NIC_VNICX_TX_STATX(unsigned long a, unsigned long b)
 #define typedef_BDK_NIC_VNICX_TX_STATX(a,b) bdk_nic_vnicx_tx_statx_t
 #define bustype_BDK_NIC_VNICX_TX_STATX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_NIC_VNICX_TX_STATX(a,b) "NIC_VNICX_TX_STATX"
+#define device_bar_BDK_NIC_VNICX_TX_STATX(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_NIC_VNICX_TX_STATX(a,b) (a)
 #define arguments_BDK_NIC_VNICX_TX_STATX(a,b) (a),(b),-1,-1
 

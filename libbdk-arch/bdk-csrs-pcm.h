@@ -206,6 +206,7 @@ static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a)
 #define typedef_BDK_PCM_CLKX_CFG(a) bdk_pcm_clkx_cfg_t
 #define bustype_BDK_PCM_CLKX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_CLKX_CFG(a) "PCM_CLKX_CFG"
+#define device_bar_BDK_PCM_CLKX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_CLKX_CFG(a) (a)
 #define arguments_BDK_PCM_CLKX_CFG(a) (a),-1,-1,-1
 
@@ -241,6 +242,7 @@ static inline uint64_t BDK_PCM_CLKX_DBG(unsigned long a)
 #define typedef_BDK_PCM_CLKX_DBG(a) bdk_pcm_clkx_dbg_t
 #define bustype_BDK_PCM_CLKX_DBG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_CLKX_DBG(a) "PCM_CLKX_DBG"
+#define device_bar_BDK_PCM_CLKX_DBG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_CLKX_DBG(a) (a)
 #define arguments_BDK_PCM_CLKX_DBG(a) (a),-1,-1,-1
 
@@ -304,6 +306,7 @@ static inline uint64_t BDK_PCM_CLKX_GEN(unsigned long a)
 #define typedef_BDK_PCM_CLKX_GEN(a) bdk_pcm_clkx_gen_t
 #define bustype_BDK_PCM_CLKX_GEN(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_CLKX_GEN(a) "PCM_CLKX_GEN"
+#define device_bar_BDK_PCM_CLKX_GEN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_CLKX_GEN(a) (a)
 #define arguments_BDK_PCM_CLKX_GEN(a) (a),-1,-1,-1
 
@@ -342,6 +345,7 @@ static inline uint64_t BDK_PCM_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_PCM_MSIX_PBAX(a) bdk_pcm_msix_pbax_t
 #define bustype_BDK_PCM_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_MSIX_PBAX(a) "PCM_MSIX_PBAX"
+#define device_bar_BDK_PCM_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PCM_MSIX_PBAX(a) (a)
 #define arguments_BDK_PCM_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -398,6 +402,7 @@ static inline uint64_t BDK_PCM_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_PCM_MSIX_VECX_ADDR(a) bdk_pcm_msix_vecx_addr_t
 #define bustype_BDK_PCM_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_MSIX_VECX_ADDR(a) "PCM_MSIX_VECX_ADDR"
+#define device_bar_BDK_PCM_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PCM_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_PCM_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -440,6 +445,7 @@ static inline uint64_t BDK_PCM_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_PCM_MSIX_VECX_CTL(a) bdk_pcm_msix_vecx_ctl_t
 #define bustype_BDK_PCM_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_MSIX_VECX_CTL(a) "PCM_MSIX_VECX_CTL"
+#define device_bar_BDK_PCM_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PCM_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_PCM_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -531,6 +537,7 @@ static inline uint64_t BDK_PCM_TEX_DMA_CFG(unsigned long a)
 #define typedef_BDK_PCM_TEX_DMA_CFG(a) bdk_pcm_tex_dma_cfg_t
 #define bustype_BDK_PCM_TEX_DMA_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_DMA_CFG(a) "PCM_TEX_DMA_CFG"
+#define device_bar_BDK_PCM_TEX_DMA_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_DMA_CFG(a) (a)
 #define arguments_BDK_PCM_TEX_DMA_CFG(a) (a),-1,-1,-1
 
@@ -583,6 +590,7 @@ static inline uint64_t BDK_PCM_TEX_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_PCM_TEX_INT_ENA_W1C(a) bdk_pcm_tex_int_ena_w1c_t
 #define bustype_BDK_PCM_TEX_INT_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_INT_ENA_W1C(a) "PCM_TEX_INT_ENA_W1C"
+#define device_bar_BDK_PCM_TEX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_INT_ENA_W1C(a) (a)
 #define arguments_BDK_PCM_TEX_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -635,6 +643,7 @@ static inline uint64_t BDK_PCM_TEX_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_PCM_TEX_INT_ENA_W1S(a) bdk_pcm_tex_int_ena_w1s_t
 #define bustype_BDK_PCM_TEX_INT_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_INT_ENA_W1S(a) "PCM_TEX_INT_ENA_W1S"
+#define device_bar_BDK_PCM_TEX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_INT_ENA_W1S(a) (a)
 #define arguments_BDK_PCM_TEX_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -686,6 +695,7 @@ static inline uint64_t BDK_PCM_TEX_INT_SUM(unsigned long a)
 #define typedef_BDK_PCM_TEX_INT_SUM(a) bdk_pcm_tex_int_sum_t
 #define bustype_BDK_PCM_TEX_INT_SUM(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_INT_SUM(a) "PCM_TEX_INT_SUM"
+#define device_bar_BDK_PCM_TEX_INT_SUM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_INT_SUM(a) (a)
 #define arguments_BDK_PCM_TEX_INT_SUM(a) (a),-1,-1,-1
 
@@ -738,6 +748,7 @@ static inline uint64_t BDK_PCM_TEX_INT_SUM_W1S(unsigned long a)
 #define typedef_BDK_PCM_TEX_INT_SUM_W1S(a) bdk_pcm_tex_int_sum_w1s_t
 #define bustype_BDK_PCM_TEX_INT_SUM_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_INT_SUM_W1S(a) "PCM_TEX_INT_SUM_W1S"
+#define device_bar_BDK_PCM_TEX_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_INT_SUM_W1S(a) (a)
 #define arguments_BDK_PCM_TEX_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -775,6 +786,7 @@ static inline uint64_t BDK_PCM_TEX_RXADDR(unsigned long a)
 #define typedef_BDK_PCM_TEX_RXADDR(a) bdk_pcm_tex_rxaddr_t
 #define bustype_BDK_PCM_TEX_RXADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_RXADDR(a) "PCM_TEX_RXADDR"
+#define device_bar_BDK_PCM_TEX_RXADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_RXADDR(a) (a)
 #define arguments_BDK_PCM_TEX_RXADDR(a) (a),-1,-1,-1
 
@@ -812,6 +824,7 @@ static inline uint64_t BDK_PCM_TEX_RXCNT(unsigned long a)
 #define typedef_BDK_PCM_TEX_RXCNT(a) bdk_pcm_tex_rxcnt_t
 #define bustype_BDK_PCM_TEX_RXCNT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_RXCNT(a) "PCM_TEX_RXCNT"
+#define device_bar_BDK_PCM_TEX_RXCNT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_RXCNT(a) (a)
 #define arguments_BDK_PCM_TEX_RXCNT(a) (a),-1,-1,-1
 
@@ -865,6 +878,7 @@ static inline uint64_t BDK_PCM_TEX_RXMSKX(unsigned long a, unsigned long b)
 #define typedef_BDK_PCM_TEX_RXMSKX(a,b) bdk_pcm_tex_rxmskx_t
 #define bustype_BDK_PCM_TEX_RXMSKX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_RXMSKX(a,b) "PCM_TEX_RXMSKX"
+#define device_bar_BDK_PCM_TEX_RXMSKX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_RXMSKX(a,b) (a)
 #define arguments_BDK_PCM_TEX_RXMSKX(a,b) (a),(b),-1,-1
 
@@ -904,6 +918,7 @@ static inline uint64_t BDK_PCM_TEX_RXSTART(unsigned long a)
 #define typedef_BDK_PCM_TEX_RXSTART(a) bdk_pcm_tex_rxstart_t
 #define bustype_BDK_PCM_TEX_RXSTART(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_RXSTART(a) "PCM_TEX_RXSTART"
+#define device_bar_BDK_PCM_TEX_RXSTART(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_RXSTART(a) (a)
 #define arguments_BDK_PCM_TEX_RXSTART(a) (a),-1,-1,-1
 
@@ -967,6 +982,7 @@ static inline uint64_t BDK_PCM_TEX_TDM_CFG(unsigned long a)
 #define typedef_BDK_PCM_TEX_TDM_CFG(a) bdk_pcm_tex_tdm_cfg_t
 #define bustype_BDK_PCM_TEX_TDM_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_TDM_CFG(a) "PCM_TEX_TDM_CFG"
+#define device_bar_BDK_PCM_TEX_TDM_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_TDM_CFG(a) (a)
 #define arguments_BDK_PCM_TEX_TDM_CFG(a) (a),-1,-1,-1
 
@@ -1002,6 +1018,7 @@ static inline uint64_t BDK_PCM_TEX_TDM_DBG(unsigned long a)
 #define typedef_BDK_PCM_TEX_TDM_DBG(a) bdk_pcm_tex_tdm_dbg_t
 #define bustype_BDK_PCM_TEX_TDM_DBG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_TDM_DBG(a) "PCM_TEX_TDM_DBG"
+#define device_bar_BDK_PCM_TEX_TDM_DBG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_TDM_DBG(a) (a)
 #define arguments_BDK_PCM_TEX_TDM_DBG(a) (a),-1,-1,-1
 
@@ -1043,6 +1060,7 @@ static inline uint64_t BDK_PCM_TEX_TXADDR(unsigned long a)
 #define typedef_BDK_PCM_TEX_TXADDR(a) bdk_pcm_tex_txaddr_t
 #define bustype_BDK_PCM_TEX_TXADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_TXADDR(a) "PCM_TEX_TXADDR"
+#define device_bar_BDK_PCM_TEX_TXADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_TXADDR(a) (a)
 #define arguments_BDK_PCM_TEX_TXADDR(a) (a),-1,-1,-1
 
@@ -1080,6 +1098,7 @@ static inline uint64_t BDK_PCM_TEX_TXCNT(unsigned long a)
 #define typedef_BDK_PCM_TEX_TXCNT(a) bdk_pcm_tex_txcnt_t
 #define bustype_BDK_PCM_TEX_TXCNT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_TXCNT(a) "PCM_TEX_TXCNT"
+#define device_bar_BDK_PCM_TEX_TXCNT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_TXCNT(a) (a)
 #define arguments_BDK_PCM_TEX_TXCNT(a) (a),-1,-1,-1
 
@@ -1133,6 +1152,7 @@ static inline uint64_t BDK_PCM_TEX_TXMSKX(unsigned long a, unsigned long b)
 #define typedef_BDK_PCM_TEX_TXMSKX(a,b) bdk_pcm_tex_txmskx_t
 #define bustype_BDK_PCM_TEX_TXMSKX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_TXMSKX(a,b) "PCM_TEX_TXMSKX"
+#define device_bar_BDK_PCM_TEX_TXMSKX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_TXMSKX(a,b) (a)
 #define arguments_BDK_PCM_TEX_TXMSKX(a,b) (a),(b),-1,-1
 
@@ -1172,6 +1192,7 @@ static inline uint64_t BDK_PCM_TEX_TXSTART(unsigned long a)
 #define typedef_BDK_PCM_TEX_TXSTART(a) bdk_pcm_tex_txstart_t
 #define bustype_BDK_PCM_TEX_TXSTART(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PCM_TEX_TXSTART(a) "PCM_TEX_TXSTART"
+#define device_bar_BDK_PCM_TEX_TXSTART(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PCM_TEX_TXSTART(a) (a)
 #define arguments_BDK_PCM_TEX_TXSTART(a) (a),-1,-1,-1
 

@@ -312,6 +312,7 @@ static inline uint64_t BDK_GPIO_BIT_CFGX(unsigned long a)
 #define typedef_BDK_GPIO_BIT_CFGX(a) bdk_gpio_bit_cfgx_t
 #define bustype_BDK_GPIO_BIT_CFGX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_BIT_CFGX(a) "GPIO_BIT_CFGX"
+#define device_bar_BDK_GPIO_BIT_CFGX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_BIT_CFGX(a) (a)
 #define arguments_BDK_GPIO_BIT_CFGX(a) (a),-1,-1,-1
 
@@ -355,6 +356,7 @@ static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a)
 #define typedef_BDK_GPIO_CLK_GENX(a) bdk_gpio_clk_genx_t
 #define bustype_BDK_GPIO_CLK_GENX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_CLK_GENX(a) "GPIO_CLK_GENX"
+#define device_bar_BDK_GPIO_CLK_GENX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_CLK_GENX(a) (a)
 #define arguments_BDK_GPIO_CLK_GENX(a) (a),-1,-1,-1
 
@@ -362,9 +364,10 @@ static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a)
  * Register (NCB) gpio_clk_synce#
  *
  * GPIO Clock SyncE Registers
- * A QLM can be configured as a clock source. The GPIO block can support up to two unique clocks
- * to send out any GPIO pin as configured by GPIO_BIT_CFG()[SYNCE_SEL]. The clock can be
- * divided by 20, 40, 80 or 160 of the selected RX lane clock.
+ * A GSER can be configured as a clock source. The GPIO block can support up to two
+ * unique clocks to send out any GPIO pin as configured when GPIO_BIT_CFG()[PIN_SEL] =
+ * GPIO_PIN_SEL_E::GPIO_CLK_SYNCE(0..1). The clock can be divided by 20, 40, 80 or 160
+ * of the selected GSER SerDes clock.
  */
 typedef union
 {
@@ -411,6 +414,7 @@ static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a)
 #define typedef_BDK_GPIO_CLK_SYNCEX(a) bdk_gpio_clk_syncex_t
 #define bustype_BDK_GPIO_CLK_SYNCEX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_CLK_SYNCEX(a) "GPIO_CLK_SYNCEX"
+#define device_bar_BDK_GPIO_CLK_SYNCEX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_CLK_SYNCEX(a) (a)
 #define arguments_BDK_GPIO_CLK_SYNCEX(a) (a),-1,-1,-1
 
@@ -461,6 +465,7 @@ static inline uint64_t BDK_GPIO_COMP_FUNC(void)
 #define typedef_BDK_GPIO_COMP bdk_gpio_comp_t
 #define bustype_BDK_GPIO_COMP BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_COMP "GPIO_COMP"
+#define device_bar_BDK_GPIO_COMP 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_COMP 0
 #define arguments_BDK_GPIO_COMP -1,-1,-1,-1
 
@@ -469,6 +474,7 @@ static inline uint64_t BDK_GPIO_COMP_FUNC(void)
  *
  * GPIO Bit Interrupt Registers
  * Each register provides interrupt information for the corresponding GPIO pin.
+ * GPIO_INTR interrupts can be level or edge interrupts depending on GPIO_BIT_CFG()[INT_TYPE].
  */
 typedef union
 {
@@ -517,6 +523,7 @@ static inline uint64_t BDK_GPIO_INTRX(unsigned long a)
 #define typedef_BDK_GPIO_INTRX(a) bdk_gpio_intrx_t
 #define bustype_BDK_GPIO_INTRX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_INTRX(a) "GPIO_INTRX"
+#define device_bar_BDK_GPIO_INTRX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_INTRX(a) (a)
 #define arguments_BDK_GPIO_INTRX(a) (a),-1,-1,-1
 
@@ -524,7 +531,8 @@ static inline uint64_t BDK_GPIO_INTRX(unsigned long a)
  * Register (NCB) gpio_mc_intr#
  *
  * GPIO Bit Multicast Interrupt Registers
- * Each register provides interrupt multicasting for GPIO(4..7).
+ * Each register provides interrupt multicasting for GPIO(4..7),
+ * and all GPIO_MC_INTR interrupts are edge interrupts.
  */
 typedef union
 {
@@ -559,6 +567,7 @@ static inline uint64_t BDK_GPIO_MC_INTRX(unsigned long a)
 #define typedef_BDK_GPIO_MC_INTRX(a) bdk_gpio_mc_intrx_t
 #define bustype_BDK_GPIO_MC_INTRX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_MC_INTRX(a) "GPIO_MC_INTRX"
+#define device_bar_BDK_GPIO_MC_INTRX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_MC_INTRX(a) (a)
 #define arguments_BDK_GPIO_MC_INTRX(a) (a),-1,-1,-1
 
@@ -595,6 +604,7 @@ static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1C(unsigned long a)
 #define typedef_BDK_GPIO_MC_INTRX_ENA_W1C(a) bdk_gpio_mc_intrx_ena_w1c_t
 #define bustype_BDK_GPIO_MC_INTRX_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_MC_INTRX_ENA_W1C(a) "GPIO_MC_INTRX_ENA_W1C"
+#define device_bar_BDK_GPIO_MC_INTRX_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_MC_INTRX_ENA_W1C(a) (a)
 #define arguments_BDK_GPIO_MC_INTRX_ENA_W1C(a) (a),-1,-1,-1
 
@@ -631,13 +641,14 @@ static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1S(unsigned long a)
 #define typedef_BDK_GPIO_MC_INTRX_ENA_W1S(a) bdk_gpio_mc_intrx_ena_w1s_t
 #define bustype_BDK_GPIO_MC_INTRX_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_MC_INTRX_ENA_W1S(a) "GPIO_MC_INTRX_ENA_W1S"
+#define device_bar_BDK_GPIO_MC_INTRX_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_MC_INTRX_ENA_W1S(a) (a)
 #define arguments_BDK_GPIO_MC_INTRX_ENA_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) gpio_mc_intr#_w1s
  *
- * GPIO Bit Multicast Interrupt W1S Registers
+ * GPIO Bit Multicast Interrupt Registers
  * This register sets interrupt bits.
  */
 typedef union
@@ -667,6 +678,7 @@ static inline uint64_t BDK_GPIO_MC_INTRX_W1S(unsigned long a)
 #define typedef_BDK_GPIO_MC_INTRX_W1S(a) bdk_gpio_mc_intrx_w1s_t
 #define bustype_BDK_GPIO_MC_INTRX_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_MC_INTRX_W1S(a) "GPIO_MC_INTRX_W1S"
+#define device_bar_BDK_GPIO_MC_INTRX_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_MC_INTRX_W1S(a) (a)
 #define arguments_BDK_GPIO_MC_INTRX_W1S(a) (a),-1,-1,-1
 
@@ -705,6 +717,7 @@ static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_GPIO_MSIX_PBAX(a) bdk_gpio_msix_pbax_t
 #define bustype_BDK_GPIO_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_MSIX_PBAX(a) "GPIO_MSIX_PBAX"
+#define device_bar_BDK_GPIO_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GPIO_MSIX_PBAX(a) (a)
 #define arguments_BDK_GPIO_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -759,6 +772,7 @@ static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_GPIO_MSIX_VECX_ADDR(a) bdk_gpio_msix_vecx_addr_t
 #define bustype_BDK_GPIO_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_MSIX_VECX_ADDR(a) "GPIO_MSIX_VECX_ADDR"
+#define device_bar_BDK_GPIO_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GPIO_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_GPIO_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -799,6 +813,7 @@ static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_GPIO_MSIX_VECX_CTL(a) bdk_gpio_msix_vecx_ctl_t
 #define bustype_BDK_GPIO_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_MSIX_VECX_CTL(a) "GPIO_MSIX_VECX_CTL"
+#define device_bar_BDK_GPIO_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_GPIO_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_GPIO_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -838,6 +853,7 @@ static inline uint64_t BDK_GPIO_MULTI_CAST_FUNC(void)
 #define typedef_BDK_GPIO_MULTI_CAST bdk_gpio_multi_cast_t
 #define bustype_BDK_GPIO_MULTI_CAST BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_MULTI_CAST "GPIO_MULTI_CAST"
+#define device_bar_BDK_GPIO_MULTI_CAST 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_MULTI_CAST 0
 #define arguments_BDK_GPIO_MULTI_CAST -1,-1,-1,-1
 
@@ -880,6 +896,7 @@ static inline uint64_t BDK_GPIO_OCLA_EXTEN_TRIG_FUNC(void)
 #define typedef_BDK_GPIO_OCLA_EXTEN_TRIG bdk_gpio_ocla_exten_trig_t
 #define bustype_BDK_GPIO_OCLA_EXTEN_TRIG BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_OCLA_EXTEN_TRIG "GPIO_OCLA_EXTEN_TRIG"
+#define device_bar_BDK_GPIO_OCLA_EXTEN_TRIG 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_OCLA_EXTEN_TRIG 0
 #define arguments_BDK_GPIO_OCLA_EXTEN_TRIG -1,-1,-1,-1
 
@@ -887,7 +904,9 @@ static inline uint64_t BDK_GPIO_OCLA_EXTEN_TRIG_FUNC(void)
  * Register (NCB) gpio_rx_dat
  *
  * GPIO Receive Data Register
- * This register contains the state of the GPIO pins.
+ * This register contains the state of the GPIO pins, which is after glitch filter and XOR
+ * inverter (GPIO_BIT_CFG()[PIN_XOR]). GPIO inputs always report to GPIO_RX_DAT despite of
+ * the value of GPIO_BIT_CFG()[PIN_SEL].
  */
 typedef union
 {
@@ -915,6 +934,7 @@ static inline uint64_t BDK_GPIO_RX_DAT_FUNC(void)
 #define typedef_BDK_GPIO_RX_DAT bdk_gpio_rx_dat_t
 #define bustype_BDK_GPIO_RX_DAT BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_RX_DAT "GPIO_RX_DAT"
+#define device_bar_BDK_GPIO_RX_DAT 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_RX_DAT 0
 #define arguments_BDK_GPIO_RX_DAT -1,-1,-1,-1
 
@@ -950,6 +970,7 @@ static inline uint64_t BDK_GPIO_STRAP_FUNC(void)
 #define typedef_BDK_GPIO_STRAP bdk_gpio_strap_t
 #define bustype_BDK_GPIO_STRAP BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_STRAP "GPIO_STRAP"
+#define device_bar_BDK_GPIO_STRAP 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_STRAP 0
 #define arguments_BDK_GPIO_STRAP -1,-1,-1,-1
 
@@ -986,6 +1007,7 @@ static inline uint64_t BDK_GPIO_TX_CLR_FUNC(void)
 #define typedef_BDK_GPIO_TX_CLR bdk_gpio_tx_clr_t
 #define bustype_BDK_GPIO_TX_CLR BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_TX_CLR "GPIO_TX_CLR"
+#define device_bar_BDK_GPIO_TX_CLR 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_TX_CLR 0
 #define arguments_BDK_GPIO_TX_CLR -1,-1,-1,-1
 
@@ -1022,6 +1044,7 @@ static inline uint64_t BDK_GPIO_TX_SET_FUNC(void)
 #define typedef_BDK_GPIO_TX_SET bdk_gpio_tx_set_t
 #define bustype_BDK_GPIO_TX_SET BDK_CSR_TYPE_NCB
 #define basename_BDK_GPIO_TX_SET "GPIO_TX_SET"
+#define device_bar_BDK_GPIO_TX_SET 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_TX_SET 0
 #define arguments_BDK_GPIO_TX_SET -1,-1,-1,-1
 

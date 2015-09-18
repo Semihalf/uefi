@@ -113,7 +113,7 @@ union bdk_fpa_alloc_addr_s
  * Structure fpa_free_addr_s
  *
  * FPA Free Operation Address Structure
- * Store free operation addresses are formed with this structure.
+ * This structure forms the address for FPA_VHAURA()_OP_FREE.
  */
 union bdk_fpa_free_addr_s
 {
@@ -153,8 +153,10 @@ union bdk_fpa_free_addr_s
  * Register (NCB) fpa_addr_range_error
  *
  * FPA Address Range Error Information Register
- * When any FPA_POOL()_INT[RANGE] error occurs, this register is latched with additional
- * error information.
+ * When any FPA_VF()_INT[RANGE] error occurs, this register is latched with
+ * additional error information. The POOL and ADDR fields must be used from a single
+ * read of this register to avoid a race whereby a new range error changes this
+ * register.
  */
 typedef union
 {
@@ -186,6 +188,7 @@ static inline uint64_t BDK_FPA_ADDR_RANGE_ERROR_FUNC(void)
 #define typedef_BDK_FPA_ADDR_RANGE_ERROR bdk_fpa_addr_range_error_t
 #define bustype_BDK_FPA_ADDR_RANGE_ERROR BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_ADDR_RANGE_ERROR "FPA_ADDR_RANGE_ERROR"
+#define device_bar_BDK_FPA_ADDR_RANGE_ERROR 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_ADDR_RANGE_ERROR 0
 #define arguments_BDK_FPA_ADDR_RANGE_ERROR -1,-1,-1,-1
 
@@ -264,6 +267,7 @@ static inline uint64_t BDK_FPA_AURAX_CFG(unsigned long a)
 #define typedef_BDK_FPA_AURAX_CFG(a) bdk_fpa_aurax_cfg_t
 #define bustype_BDK_FPA_AURAX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_AURAX_CFG(a) "FPA_AURAX_CFG"
+#define device_bar_BDK_FPA_AURAX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_AURAX_CFG(a) (a)
 #define arguments_BDK_FPA_AURAX_CFG(a) (a),-1,-1,-1
 
@@ -355,6 +359,7 @@ static inline uint64_t BDK_FPA_AURAX_CNT_LEVELS(unsigned long a)
 #define typedef_BDK_FPA_AURAX_CNT_LEVELS(a) bdk_fpa_aurax_cnt_levels_t
 #define bustype_BDK_FPA_AURAX_CNT_LEVELS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_AURAX_CNT_LEVELS(a) "FPA_AURAX_CNT_LEVELS"
+#define device_bar_BDK_FPA_AURAX_CNT_LEVELS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_AURAX_CNT_LEVELS(a) (a)
 #define arguments_BDK_FPA_AURAX_CNT_LEVELS(a) (a),-1,-1,-1
 
@@ -393,6 +398,7 @@ static inline uint64_t BDK_FPA_AURAX_POOL(unsigned long a)
 #define typedef_BDK_FPA_AURAX_POOL(a) bdk_fpa_aurax_pool_t
 #define bustype_BDK_FPA_AURAX_POOL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_AURAX_POOL(a) "FPA_AURAX_POOL"
+#define device_bar_BDK_FPA_AURAX_POOL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_AURAX_POOL(a) (a)
 #define arguments_BDK_FPA_AURAX_POOL(a) (a),-1,-1,-1
 
@@ -498,6 +504,7 @@ static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a)
 #define typedef_BDK_FPA_AURAX_POOL_LEVELS(a) bdk_fpa_aurax_pool_levels_t
 #define bustype_BDK_FPA_AURAX_POOL_LEVELS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_AURAX_POOL_LEVELS(a) "FPA_AURAX_POOL_LEVELS"
+#define device_bar_BDK_FPA_AURAX_POOL_LEVELS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_AURAX_POOL_LEVELS(a) (a)
 #define arguments_BDK_FPA_AURAX_POOL_LEVELS(a) (a),-1,-1,-1
 
@@ -535,6 +542,7 @@ static inline uint64_t BDK_FPA_BIST_STATUS_FUNC(void)
 #define typedef_BDK_FPA_BIST_STATUS bdk_fpa_bist_status_t
 #define bustype_BDK_FPA_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_BIST_STATUS "FPA_BIST_STATUS"
+#define device_bar_BDK_FPA_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_BIST_STATUS 0
 #define arguments_BDK_FPA_BIST_STATUS -1,-1,-1,-1
 
@@ -603,6 +611,7 @@ static inline uint64_t BDK_FPA_BP_TEST_FUNC(void)
 #define typedef_BDK_FPA_BP_TEST bdk_fpa_bp_test_t
 #define bustype_BDK_FPA_BP_TEST BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_BP_TEST "FPA_BP_TEST"
+#define device_bar_BDK_FPA_BP_TEST 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_BP_TEST 0
 #define arguments_BDK_FPA_BP_TEST -1,-1,-1,-1
 
@@ -640,6 +649,7 @@ static inline uint64_t BDK_FPA_CLK_COUNT_FUNC(void)
 #define typedef_BDK_FPA_CLK_COUNT bdk_fpa_clk_count_t
 #define bustype_BDK_FPA_CLK_COUNT BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_CLK_COUNT "FPA_CLK_COUNT"
+#define device_bar_BDK_FPA_CLK_COUNT 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_CLK_COUNT 0
 #define arguments_BDK_FPA_CLK_COUNT -1,-1,-1,-1
 
@@ -683,6 +693,7 @@ static inline uint64_t BDK_FPA_CONST_FUNC(void)
 #define typedef_BDK_FPA_CONST bdk_fpa_const_t
 #define bustype_BDK_FPA_CONST BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_CONST "FPA_CONST"
+#define device_bar_BDK_FPA_CONST 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_CONST 0
 #define arguments_BDK_FPA_CONST -1,-1,-1,-1
 
@@ -718,6 +729,7 @@ static inline uint64_t BDK_FPA_CONST1_FUNC(void)
 #define typedef_BDK_FPA_CONST1 bdk_fpa_const1_t
 #define bustype_BDK_FPA_CONST1 BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_CONST1 "FPA_CONST1"
+#define device_bar_BDK_FPA_CONST1 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_CONST1 0
 #define arguments_BDK_FPA_CONST1 -1,-1,-1,-1
 
@@ -767,6 +779,7 @@ static inline uint64_t BDK_FPA_ECC_CTL_FUNC(void)
 #define typedef_BDK_FPA_ECC_CTL bdk_fpa_ecc_ctl_t
 #define bustype_BDK_FPA_ECC_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_ECC_CTL "FPA_ECC_CTL"
+#define device_bar_BDK_FPA_ECC_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_ECC_CTL 0
 #define arguments_BDK_FPA_ECC_CTL -1,-1,-1,-1
 
@@ -808,6 +821,7 @@ static inline uint64_t BDK_FPA_ECC_INT_FUNC(void)
 #define typedef_BDK_FPA_ECC_INT bdk_fpa_ecc_int_t
 #define bustype_BDK_FPA_ECC_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_ECC_INT "FPA_ECC_INT"
+#define device_bar_BDK_FPA_ECC_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_ECC_INT 0
 #define arguments_BDK_FPA_ECC_INT -1,-1,-1,-1
 
@@ -849,6 +863,7 @@ static inline uint64_t BDK_FPA_ECC_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_FPA_ECC_INT_ENA_W1C bdk_fpa_ecc_int_ena_w1c_t
 #define bustype_BDK_FPA_ECC_INT_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_ECC_INT_ENA_W1C "FPA_ECC_INT_ENA_W1C"
+#define device_bar_BDK_FPA_ECC_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_ECC_INT_ENA_W1C 0
 #define arguments_BDK_FPA_ECC_INT_ENA_W1C -1,-1,-1,-1
 
@@ -890,6 +905,7 @@ static inline uint64_t BDK_FPA_ECC_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_FPA_ECC_INT_ENA_W1S bdk_fpa_ecc_int_ena_w1s_t
 #define bustype_BDK_FPA_ECC_INT_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_ECC_INT_ENA_W1S "FPA_ECC_INT_ENA_W1S"
+#define device_bar_BDK_FPA_ECC_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_ECC_INT_ENA_W1S 0
 #define arguments_BDK_FPA_ECC_INT_ENA_W1S -1,-1,-1,-1
 
@@ -931,6 +947,7 @@ static inline uint64_t BDK_FPA_ECC_INT_W1S_FUNC(void)
 #define typedef_BDK_FPA_ECC_INT_W1S bdk_fpa_ecc_int_w1s_t
 #define bustype_BDK_FPA_ECC_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_ECC_INT_W1S "FPA_ECC_INT_W1S"
+#define device_bar_BDK_FPA_ECC_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_ECC_INT_W1S 0
 #define arguments_BDK_FPA_ECC_INT_W1S -1,-1,-1,-1
 
@@ -1006,6 +1023,7 @@ static inline uint64_t BDK_FPA_GEN_CFG_FUNC(void)
 #define typedef_BDK_FPA_GEN_CFG bdk_fpa_gen_cfg_t
 #define bustype_BDK_FPA_GEN_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_GEN_CFG "FPA_GEN_CFG"
+#define device_bar_BDK_FPA_GEN_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_GEN_CFG 0
 #define arguments_BDK_FPA_GEN_CFG -1,-1,-1,-1
 
@@ -1053,6 +1071,7 @@ static inline uint64_t BDK_FPA_GEN_INT_FUNC(void)
 #define typedef_BDK_FPA_GEN_INT bdk_fpa_gen_int_t
 #define bustype_BDK_FPA_GEN_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_GEN_INT "FPA_GEN_INT"
+#define device_bar_BDK_FPA_GEN_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_GEN_INT 0
 #define arguments_BDK_FPA_GEN_INT -1,-1,-1,-1
 
@@ -1092,6 +1111,7 @@ static inline uint64_t BDK_FPA_GEN_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_FPA_GEN_INT_ENA_W1C bdk_fpa_gen_int_ena_w1c_t
 #define bustype_BDK_FPA_GEN_INT_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_GEN_INT_ENA_W1C "FPA_GEN_INT_ENA_W1C"
+#define device_bar_BDK_FPA_GEN_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_GEN_INT_ENA_W1C 0
 #define arguments_BDK_FPA_GEN_INT_ENA_W1C -1,-1,-1,-1
 
@@ -1131,6 +1151,7 @@ static inline uint64_t BDK_FPA_GEN_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_FPA_GEN_INT_ENA_W1S bdk_fpa_gen_int_ena_w1s_t
 #define bustype_BDK_FPA_GEN_INT_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_GEN_INT_ENA_W1S "FPA_GEN_INT_ENA_W1S"
+#define device_bar_BDK_FPA_GEN_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_GEN_INT_ENA_W1S 0
 #define arguments_BDK_FPA_GEN_INT_ENA_W1S -1,-1,-1,-1
 
@@ -1170,6 +1191,7 @@ static inline uint64_t BDK_FPA_GEN_INT_W1S_FUNC(void)
 #define typedef_BDK_FPA_GEN_INT_W1S bdk_fpa_gen_int_w1s_t
 #define bustype_BDK_FPA_GEN_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_GEN_INT_W1S "FPA_GEN_INT_W1S"
+#define device_bar_BDK_FPA_GEN_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_GEN_INT_W1S 0
 #define arguments_BDK_FPA_GEN_INT_W1S -1,-1,-1,-1
 
@@ -1252,6 +1274,7 @@ static inline uint64_t BDK_FPA_INP_CTL_FUNC(void)
 #define typedef_BDK_FPA_INP_CTL bdk_fpa_inp_ctl_t
 #define bustype_BDK_FPA_INP_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_INP_CTL "FPA_INP_CTL"
+#define device_bar_BDK_FPA_INP_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_INP_CTL 0
 #define arguments_BDK_FPA_INP_CTL -1,-1,-1,-1
 
@@ -1304,6 +1327,7 @@ static inline uint64_t BDK_FPA_PF_MAPX(unsigned long a)
 #define typedef_BDK_FPA_PF_MAPX(a) bdk_fpa_pf_mapx_t
 #define bustype_BDK_FPA_PF_MAPX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_PF_MAPX(a) "FPA_PF_MAPX"
+#define device_bar_BDK_FPA_PF_MAPX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_PF_MAPX(a) (a)
 #define arguments_BDK_FPA_PF_MAPX(a) (a),-1,-1,-1
 
@@ -1341,6 +1365,7 @@ static inline uint64_t BDK_FPA_PF_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_FPA_PF_MSIX_PBAX(a) bdk_fpa_pf_msix_pbax_t
 #define bustype_BDK_FPA_PF_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_PF_MSIX_PBAX(a) "FPA_PF_MSIX_PBAX"
+#define device_bar_BDK_FPA_PF_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_FPA_PF_MSIX_PBAX(a) (a)
 #define arguments_BDK_FPA_PF_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -1397,6 +1422,7 @@ static inline uint64_t BDK_FPA_PF_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_FPA_PF_MSIX_VECX_ADDR(a) bdk_fpa_pf_msix_vecx_addr_t
 #define bustype_BDK_FPA_PF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_PF_MSIX_VECX_ADDR(a) "FPA_PF_MSIX_VECX_ADDR"
+#define device_bar_BDK_FPA_PF_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_FPA_PF_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_FPA_PF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -1437,6 +1463,7 @@ static inline uint64_t BDK_FPA_PF_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_FPA_PF_MSIX_VECX_CTL(a) bdk_fpa_pf_msix_vecx_ctl_t
 #define bustype_BDK_FPA_PF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_PF_MSIX_VECX_CTL(a) "FPA_PF_MSIX_VECX_CTL"
+#define device_bar_BDK_FPA_PF_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_FPA_PF_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_FPA_PF_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -1499,6 +1526,7 @@ static inline uint64_t BDK_FPA_PF_VFX_GMCTL(unsigned long a)
 #define typedef_BDK_FPA_PF_VFX_GMCTL(a) bdk_fpa_pf_vfx_gmctl_t
 #define bustype_BDK_FPA_PF_VFX_GMCTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_PF_VFX_GMCTL(a) "FPA_PF_VFX_GMCTL"
+#define device_bar_BDK_FPA_PF_VFX_GMCTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_PF_VFX_GMCTL(a) (a)
 #define arguments_BDK_FPA_PF_VFX_GMCTL(a) (a),-1,-1,-1
 
@@ -1586,6 +1614,7 @@ static inline uint64_t BDK_FPA_POOLX_CFG(unsigned long a)
 #define typedef_BDK_FPA_POOLX_CFG(a) bdk_fpa_poolx_cfg_t
 #define bustype_BDK_FPA_POOLX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_POOLX_CFG(a) "FPA_POOLX_CFG"
+#define device_bar_BDK_FPA_POOLX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_POOLX_CFG(a) (a)
 #define arguments_BDK_FPA_POOLX_CFG(a) (a),-1,-1,-1
 
@@ -1654,6 +1683,7 @@ static inline uint64_t BDK_FPA_POOLX_FPF_MARKS(unsigned long a)
 #define typedef_BDK_FPA_POOLX_FPF_MARKS(a) bdk_fpa_poolx_fpf_marks_t
 #define bustype_BDK_FPA_POOLX_FPF_MARKS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_POOLX_FPF_MARKS(a) "FPA_POOLX_FPF_MARKS"
+#define device_bar_BDK_FPA_POOLX_FPF_MARKS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_POOLX_FPF_MARKS(a) (a)
 #define arguments_BDK_FPA_POOLX_FPF_MARKS(a) (a),-1,-1,-1
 
@@ -1691,6 +1721,7 @@ static inline uint64_t BDK_FPA_POOLX_OP_PC(unsigned long a)
 #define typedef_BDK_FPA_POOLX_OP_PC(a) bdk_fpa_poolx_op_pc_t
 #define bustype_BDK_FPA_POOLX_OP_PC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_POOLX_OP_PC(a) "FPA_POOLX_OP_PC"
+#define device_bar_BDK_FPA_POOLX_OP_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_POOLX_OP_PC(a) (a)
 #define arguments_BDK_FPA_POOLX_OP_PC(a) (a),-1,-1,-1
 
@@ -1730,6 +1761,7 @@ static inline uint64_t BDK_FPA_POOLX_STACK_ADDR(unsigned long a)
 #define typedef_BDK_FPA_POOLX_STACK_ADDR(a) bdk_fpa_poolx_stack_addr_t
 #define bustype_BDK_FPA_POOLX_STACK_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_POOLX_STACK_ADDR(a) "FPA_POOLX_STACK_ADDR"
+#define device_bar_BDK_FPA_POOLX_STACK_ADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_POOLX_STACK_ADDR(a) (a)
 #define arguments_BDK_FPA_POOLX_STACK_ADDR(a) (a),-1,-1,-1
 
@@ -1767,6 +1799,7 @@ static inline uint64_t BDK_FPA_POOLX_STACK_BASE(unsigned long a)
 #define typedef_BDK_FPA_POOLX_STACK_BASE(a) bdk_fpa_poolx_stack_base_t
 #define bustype_BDK_FPA_POOLX_STACK_BASE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_POOLX_STACK_BASE(a) "FPA_POOLX_STACK_BASE"
+#define device_bar_BDK_FPA_POOLX_STACK_BASE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_POOLX_STACK_BASE(a) (a)
 #define arguments_BDK_FPA_POOLX_STACK_BASE(a) (a),-1,-1,-1
 
@@ -1806,6 +1839,7 @@ static inline uint64_t BDK_FPA_POOLX_STACK_END(unsigned long a)
 #define typedef_BDK_FPA_POOLX_STACK_END(a) bdk_fpa_poolx_stack_end_t
 #define bustype_BDK_FPA_POOLX_STACK_END(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_POOLX_STACK_END(a) "FPA_POOLX_STACK_END"
+#define device_bar_BDK_FPA_POOLX_STACK_END(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_POOLX_STACK_END(a) (a)
 #define arguments_BDK_FPA_POOLX_STACK_END(a) (a),-1,-1,-1
 
@@ -1844,6 +1878,7 @@ static inline uint64_t BDK_FPA_RD_LATENCY_PC_FUNC(void)
 #define typedef_BDK_FPA_RD_LATENCY_PC bdk_fpa_rd_latency_pc_t
 #define bustype_BDK_FPA_RD_LATENCY_PC BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_RD_LATENCY_PC "FPA_RD_LATENCY_PC"
+#define device_bar_BDK_FPA_RD_LATENCY_PC 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_RD_LATENCY_PC 0
 #define arguments_BDK_FPA_RD_LATENCY_PC -1,-1,-1,-1
 
@@ -1878,6 +1913,7 @@ static inline uint64_t BDK_FPA_RD_REQ_PC_FUNC(void)
 #define typedef_BDK_FPA_RD_REQ_PC bdk_fpa_rd_req_pc_t
 #define bustype_BDK_FPA_RD_REQ_PC BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_RD_REQ_PC "FPA_RD_REQ_PC"
+#define device_bar_BDK_FPA_RD_REQ_PC 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_RD_REQ_PC 0
 #define arguments_BDK_FPA_RD_REQ_PC -1,-1,-1,-1
 
@@ -1936,6 +1972,7 @@ static inline uint64_t BDK_FPA_RED_DELAY_FUNC(void)
 #define typedef_BDK_FPA_RED_DELAY bdk_fpa_red_delay_t
 #define bustype_BDK_FPA_RED_DELAY BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_RED_DELAY "FPA_RED_DELAY"
+#define device_bar_BDK_FPA_RED_DELAY 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_RED_DELAY 0
 #define arguments_BDK_FPA_RED_DELAY -1,-1,-1,-1
 
@@ -1981,6 +2018,7 @@ static inline uint64_t BDK_FPA_SFT_RST_FUNC(void)
 #define typedef_BDK_FPA_SFT_RST bdk_fpa_sft_rst_t
 #define bustype_BDK_FPA_SFT_RST BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_SFT_RST "FPA_SFT_RST"
+#define device_bar_BDK_FPA_SFT_RST 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_SFT_RST 0
 #define arguments_BDK_FPA_SFT_RST -1,-1,-1,-1
 
@@ -2019,6 +2057,7 @@ static inline uint64_t BDK_FPA_UNMAP_INFO_FUNC(void)
 #define typedef_BDK_FPA_UNMAP_INFO bdk_fpa_unmap_info_t
 #define bustype_BDK_FPA_UNMAP_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_UNMAP_INFO "FPA_UNMAP_INFO"
+#define device_bar_BDK_FPA_UNMAP_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_UNMAP_INFO 0
 #define arguments_BDK_FPA_UNMAP_INFO -1,-1,-1,-1
 
@@ -2104,6 +2143,7 @@ static inline uint64_t BDK_FPA_VFX_INT(unsigned long a)
 #define typedef_BDK_FPA_VFX_INT(a) bdk_fpa_vfx_int_t
 #define bustype_BDK_FPA_VFX_INT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VFX_INT(a) "FPA_VFX_INT"
+#define device_bar_BDK_FPA_VFX_INT(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VFX_INT(a) (a)
 #define arguments_BDK_FPA_VFX_INT(a) (a),-1,-1,-1
 
@@ -2156,6 +2196,7 @@ static inline uint64_t BDK_FPA_VFX_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_FPA_VFX_INT_ENA_W1C(a) bdk_fpa_vfx_int_ena_w1c_t
 #define bustype_BDK_FPA_VFX_INT_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VFX_INT_ENA_W1C(a) "FPA_VFX_INT_ENA_W1C"
+#define device_bar_BDK_FPA_VFX_INT_ENA_W1C(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VFX_INT_ENA_W1C(a) (a)
 #define arguments_BDK_FPA_VFX_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -2208,6 +2249,7 @@ static inline uint64_t BDK_FPA_VFX_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_FPA_VFX_INT_ENA_W1S(a) bdk_fpa_vfx_int_ena_w1s_t
 #define bustype_BDK_FPA_VFX_INT_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VFX_INT_ENA_W1S(a) "FPA_VFX_INT_ENA_W1S"
+#define device_bar_BDK_FPA_VFX_INT_ENA_W1S(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VFX_INT_ENA_W1S(a) (a)
 #define arguments_BDK_FPA_VFX_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -2260,6 +2302,7 @@ static inline uint64_t BDK_FPA_VFX_INT_W1S(unsigned long a)
 #define typedef_BDK_FPA_VFX_INT_W1S(a) bdk_fpa_vfx_int_w1s_t
 #define bustype_BDK_FPA_VFX_INT_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VFX_INT_W1S(a) "FPA_VFX_INT_W1S"
+#define device_bar_BDK_FPA_VFX_INT_W1S(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VFX_INT_W1S(a) (a)
 #define arguments_BDK_FPA_VFX_INT_W1S(a) (a),-1,-1,-1
 
@@ -2298,6 +2341,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_FPA_VFX_MSIX_PBAX(a,b) bdk_fpa_vfx_msix_pbax_t
 #define bustype_BDK_FPA_VFX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VFX_MSIX_PBAX(a,b) "FPA_VFX_MSIX_PBAX"
+#define device_bar_BDK_FPA_VFX_MSIX_PBAX(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_FPA_VFX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_FPA_VFX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -2342,6 +2386,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
 #define typedef_BDK_FPA_VFX_MSIX_VECX_ADDR(a,b) bdk_fpa_vfx_msix_vecx_addr_t
 #define bustype_BDK_FPA_VFX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VFX_MSIX_VECX_ADDR(a,b) "FPA_VFX_MSIX_VECX_ADDR"
+#define device_bar_BDK_FPA_VFX_MSIX_VECX_ADDR(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_FPA_VFX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_FPA_VFX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -2382,6 +2427,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
 #define typedef_BDK_FPA_VFX_MSIX_VECX_CTL(a,b) bdk_fpa_vfx_msix_vecx_ctl_t
 #define bustype_BDK_FPA_VFX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VFX_MSIX_VECX_CTL(a,b) "FPA_VFX_MSIX_VECX_CTL"
+#define device_bar_BDK_FPA_VFX_MSIX_VECX_CTL(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_FPA_VFX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_FPA_VFX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -2417,6 +2463,7 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT(unsigned long a)
 #define typedef_BDK_FPA_VHAURAX_CNT(a) bdk_fpa_vhaurax_cnt_t
 #define bustype_BDK_FPA_VHAURAX_CNT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VHAURAX_CNT(a) "FPA_VHAURAX_CNT"
+#define device_bar_BDK_FPA_VHAURAX_CNT(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VHAURAX_CNT(a) (a)
 #define arguments_BDK_FPA_VHAURAX_CNT(a) (a),-1,-1,-1
 
@@ -2466,6 +2513,7 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT_ADD(unsigned long a)
 #define typedef_BDK_FPA_VHAURAX_CNT_ADD(a) bdk_fpa_vhaurax_cnt_add_t
 #define bustype_BDK_FPA_VHAURAX_CNT_ADD(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VHAURAX_CNT_ADD(a) "FPA_VHAURAX_CNT_ADD"
+#define device_bar_BDK_FPA_VHAURAX_CNT_ADD(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VHAURAX_CNT_ADD(a) (a)
 #define arguments_BDK_FPA_VHAURAX_CNT_ADD(a) (a),-1,-1,-1
 
@@ -2505,6 +2553,7 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT_LIMIT(unsigned long a)
 #define typedef_BDK_FPA_VHAURAX_CNT_LIMIT(a) bdk_fpa_vhaurax_cnt_limit_t
 #define bustype_BDK_FPA_VHAURAX_CNT_LIMIT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VHAURAX_CNT_LIMIT(a) "FPA_VHAURAX_CNT_LIMIT"
+#define device_bar_BDK_FPA_VHAURAX_CNT_LIMIT(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VHAURAX_CNT_LIMIT(a) (a)
 #define arguments_BDK_FPA_VHAURAX_CNT_LIMIT(a) (a),-1,-1,-1
 
@@ -2544,6 +2593,7 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT_THRESHOLD(unsigned long a)
 #define typedef_BDK_FPA_VHAURAX_CNT_THRESHOLD(a) bdk_fpa_vhaurax_cnt_threshold_t
 #define bustype_BDK_FPA_VHAURAX_CNT_THRESHOLD(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VHAURAX_CNT_THRESHOLD(a) "FPA_VHAURAX_CNT_THRESHOLD"
+#define device_bar_BDK_FPA_VHAURAX_CNT_THRESHOLD(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VHAURAX_CNT_THRESHOLD(a) (a)
 #define arguments_BDK_FPA_VHAURAX_CNT_THRESHOLD(a) (a),-1,-1,-1
 
@@ -2589,6 +2639,7 @@ static inline uint64_t BDK_FPA_VHAURAX_OP_ALLOCX(unsigned long a, unsigned long 
 #define typedef_BDK_FPA_VHAURAX_OP_ALLOCX(a,b) bdk_fpa_vhaurax_op_allocx_t
 #define bustype_BDK_FPA_VHAURAX_OP_ALLOCX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VHAURAX_OP_ALLOCX(a,b) "FPA_VHAURAX_OP_ALLOCX"
+#define device_bar_BDK_FPA_VHAURAX_OP_ALLOCX(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VHAURAX_OP_ALLOCX(a,b) (a)
 #define arguments_BDK_FPA_VHAURAX_OP_ALLOCX(a,b) (a),(b),-1,-1
 
@@ -2632,6 +2683,7 @@ static inline uint64_t BDK_FPA_VHAURAX_OP_FREEX(unsigned long a, unsigned long b
 #define typedef_BDK_FPA_VHAURAX_OP_FREEX(a,b) bdk_fpa_vhaurax_op_freex_t
 #define bustype_BDK_FPA_VHAURAX_OP_FREEX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VHAURAX_OP_FREEX(a,b) "FPA_VHAURAX_OP_FREEX"
+#define device_bar_BDK_FPA_VHAURAX_OP_FREEX(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VHAURAX_OP_FREEX(a,b) (a)
 #define arguments_BDK_FPA_VHAURAX_OP_FREEX(a,b) (a),(b),-1,-1
 
@@ -2669,6 +2721,7 @@ static inline uint64_t BDK_FPA_VHPOOLX_AVAILABLE(unsigned long a)
 #define typedef_BDK_FPA_VHPOOLX_AVAILABLE(a) bdk_fpa_vhpoolx_available_t
 #define bustype_BDK_FPA_VHPOOLX_AVAILABLE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VHPOOLX_AVAILABLE(a) "FPA_VHPOOLX_AVAILABLE"
+#define device_bar_BDK_FPA_VHPOOLX_AVAILABLE(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VHPOOLX_AVAILABLE(a) (a)
 #define arguments_BDK_FPA_VHPOOLX_AVAILABLE(a) (a),-1,-1,-1
 
@@ -2707,6 +2760,7 @@ static inline uint64_t BDK_FPA_VHPOOLX_END_ADDR(unsigned long a)
 #define typedef_BDK_FPA_VHPOOLX_END_ADDR(a) bdk_fpa_vhpoolx_end_addr_t
 #define bustype_BDK_FPA_VHPOOLX_END_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VHPOOLX_END_ADDR(a) "FPA_VHPOOLX_END_ADDR"
+#define device_bar_BDK_FPA_VHPOOLX_END_ADDR(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VHPOOLX_END_ADDR(a) (a)
 #define arguments_BDK_FPA_VHPOOLX_END_ADDR(a) (a),-1,-1,-1
 
@@ -2745,6 +2799,7 @@ static inline uint64_t BDK_FPA_VHPOOLX_START_ADDR(unsigned long a)
 #define typedef_BDK_FPA_VHPOOLX_START_ADDR(a) bdk_fpa_vhpoolx_start_addr_t
 #define bustype_BDK_FPA_VHPOOLX_START_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VHPOOLX_START_ADDR(a) "FPA_VHPOOLX_START_ADDR"
+#define device_bar_BDK_FPA_VHPOOLX_START_ADDR(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VHPOOLX_START_ADDR(a) (a)
 #define arguments_BDK_FPA_VHPOOLX_START_ADDR(a) (a),-1,-1,-1
 
@@ -2784,6 +2839,7 @@ static inline uint64_t BDK_FPA_VHPOOLX_THRESHOLD(unsigned long a)
 #define typedef_BDK_FPA_VHPOOLX_THRESHOLD(a) bdk_fpa_vhpoolx_threshold_t
 #define bustype_BDK_FPA_VHPOOLX_THRESHOLD(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_FPA_VHPOOLX_THRESHOLD(a) "FPA_VHPOOLX_THRESHOLD"
+#define device_bar_BDK_FPA_VHPOOLX_THRESHOLD(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_FPA_VHPOOLX_THRESHOLD(a) (a)
 #define arguments_BDK_FPA_VHPOOLX_THRESHOLD(a) (a),-1,-1,-1
 

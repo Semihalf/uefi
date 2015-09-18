@@ -144,6 +144,7 @@ static inline uint64_t BDK_SMI_X_CLK(unsigned long a)
 #define typedef_BDK_SMI_X_CLK(a) bdk_smi_x_clk_t
 #define bustype_BDK_SMI_X_CLK(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_SMI_X_CLK(a) "SMI_X_CLK"
+#define device_bar_BDK_SMI_X_CLK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMI_X_CLK(a) (a)
 #define arguments_BDK_SMI_X_CLK(a) (a),-1,-1,-1
 
@@ -207,6 +208,7 @@ static inline uint64_t BDK_SMI_X_CMD(unsigned long a)
 #define typedef_BDK_SMI_X_CMD(a) bdk_smi_x_cmd_t
 #define bustype_BDK_SMI_X_CMD(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_SMI_X_CMD(a) "SMI_X_CMD"
+#define device_bar_BDK_SMI_X_CMD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMI_X_CMD(a) (a)
 #define arguments_BDK_SMI_X_CMD(a) (a),-1,-1,-1
 
@@ -247,6 +249,7 @@ static inline uint64_t BDK_SMI_X_EN(unsigned long a)
 #define typedef_BDK_SMI_X_EN(a) bdk_smi_x_en_t
 #define bustype_BDK_SMI_X_EN(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_SMI_X_EN(a) "SMI_X_EN"
+#define device_bar_BDK_SMI_X_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMI_X_EN(a) (a)
 #define arguments_BDK_SMI_X_EN(a) (a),-1,-1,-1
 
@@ -287,6 +290,7 @@ static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long a)
 #define typedef_BDK_SMI_X_RD_DAT(a) bdk_smi_x_rd_dat_t
 #define bustype_BDK_SMI_X_RD_DAT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_SMI_X_RD_DAT(a) "SMI_X_RD_DAT"
+#define device_bar_BDK_SMI_X_RD_DAT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMI_X_RD_DAT(a) (a)
 #define arguments_BDK_SMI_X_RD_DAT(a) (a),-1,-1,-1
 
@@ -327,6 +331,7 @@ static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long a)
 #define typedef_BDK_SMI_X_WR_DAT(a) bdk_smi_x_wr_dat_t
 #define bustype_BDK_SMI_X_WR_DAT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_SMI_X_WR_DAT(a) "SMI_X_WR_DAT"
+#define device_bar_BDK_SMI_X_WR_DAT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMI_X_WR_DAT(a) (a)
 #define arguments_BDK_SMI_X_WR_DAT(a) (a),-1,-1,-1
 
@@ -378,6 +383,7 @@ static inline uint64_t BDK_SMI_DRV_CTL_FUNC(void)
 #define typedef_BDK_SMI_DRV_CTL bdk_smi_drv_ctl_t
 #define bustype_BDK_SMI_DRV_CTL BDK_CSR_TYPE_RSL
 #define basename_BDK_SMI_DRV_CTL "SMI_DRV_CTL"
+#define device_bar_BDK_SMI_DRV_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_SMI_DRV_CTL 0
 #define arguments_BDK_SMI_DRV_CTL -1,-1,-1,-1
 

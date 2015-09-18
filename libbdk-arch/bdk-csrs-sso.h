@@ -130,6 +130,7 @@ static inline uint64_t BDK_SSO_ACTIVE_CYCLESX(unsigned long a)
 #define typedef_BDK_SSO_ACTIVE_CYCLESX(a) bdk_sso_active_cyclesx_t
 #define bustype_BDK_SSO_ACTIVE_CYCLESX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ACTIVE_CYCLESX(a) "SSO_ACTIVE_CYCLESX"
+#define device_bar_BDK_SSO_ACTIVE_CYCLESX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ACTIVE_CYCLESX(a) (a)
 #define arguments_BDK_SSO_ACTIVE_CYCLESX(a) (a),-1,-1,-1
 
@@ -170,6 +171,7 @@ static inline uint64_t BDK_SSO_AW_ADD_FUNC(void)
 #define typedef_BDK_SSO_AW_ADD bdk_sso_aw_add_t
 #define bustype_BDK_SSO_AW_ADD BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_AW_ADD "SSO_AW_ADD"
+#define device_bar_BDK_SSO_AW_ADD 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_AW_ADD 0
 #define arguments_BDK_SSO_AW_ADD -1,-1,-1,-1
 
@@ -229,6 +231,7 @@ static inline uint64_t BDK_SSO_AW_CFG_FUNC(void)
 #define typedef_BDK_SSO_AW_CFG bdk_sso_aw_cfg_t
 #define bustype_BDK_SSO_AW_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_AW_CFG "SSO_AW_CFG"
+#define device_bar_BDK_SSO_AW_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_AW_CFG 0
 #define arguments_BDK_SSO_AW_CFG -1,-1,-1,-1
 
@@ -265,6 +268,7 @@ static inline uint64_t BDK_SSO_AW_ECO_FUNC(void)
 #define typedef_BDK_SSO_AW_ECO bdk_sso_aw_eco_t
 #define bustype_BDK_SSO_AW_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_AW_ECO "SSO_AW_ECO"
+#define device_bar_BDK_SSO_AW_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_AW_ECO 0
 #define arguments_BDK_SSO_AW_ECO -1,-1,-1,-1
 
@@ -325,6 +329,7 @@ static inline uint64_t BDK_SSO_AW_INP_CTL_FUNC(void)
 #define typedef_BDK_SSO_AW_INP_CTL bdk_sso_aw_inp_ctl_t
 #define bustype_BDK_SSO_AW_INP_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_AW_INP_CTL "SSO_AW_INP_CTL"
+#define device_bar_BDK_SSO_AW_INP_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_AW_INP_CTL 0
 #define arguments_BDK_SSO_AW_INP_CTL -1,-1,-1,-1
 
@@ -376,6 +381,7 @@ static inline uint64_t BDK_SSO_AW_READ_ARB_FUNC(void)
 #define typedef_BDK_SSO_AW_READ_ARB bdk_sso_aw_read_arb_t
 #define bustype_BDK_SSO_AW_READ_ARB BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_AW_READ_ARB "SSO_AW_READ_ARB"
+#define device_bar_BDK_SSO_AW_READ_ARB 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_AW_READ_ARB 0
 #define arguments_BDK_SSO_AW_READ_ARB -1,-1,-1,-1
 
@@ -413,6 +419,7 @@ static inline uint64_t BDK_SSO_AW_STATUS_FUNC(void)
 #define typedef_BDK_SSO_AW_STATUS bdk_sso_aw_status_t
 #define bustype_BDK_SSO_AW_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_AW_STATUS "SSO_AW_STATUS"
+#define device_bar_BDK_SSO_AW_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_AW_STATUS 0
 #define arguments_BDK_SSO_AW_STATUS -1,-1,-1,-1
 
@@ -449,6 +456,7 @@ static inline uint64_t BDK_SSO_AW_TAG_LATENCY_PC_FUNC(void)
 #define typedef_BDK_SSO_AW_TAG_LATENCY_PC bdk_sso_aw_tag_latency_pc_t
 #define bustype_BDK_SSO_AW_TAG_LATENCY_PC BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_AW_TAG_LATENCY_PC "SSO_AW_TAG_LATENCY_PC"
+#define device_bar_BDK_SSO_AW_TAG_LATENCY_PC 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_AW_TAG_LATENCY_PC 0
 #define arguments_BDK_SSO_AW_TAG_LATENCY_PC -1,-1,-1,-1
 
@@ -483,6 +491,7 @@ static inline uint64_t BDK_SSO_AW_TAG_REQ_PC_FUNC(void)
 #define typedef_BDK_SSO_AW_TAG_REQ_PC bdk_sso_aw_tag_req_pc_t
 #define bustype_BDK_SSO_AW_TAG_REQ_PC BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_AW_TAG_REQ_PC "SSO_AW_TAG_REQ_PC"
+#define device_bar_BDK_SSO_AW_TAG_REQ_PC 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_AW_TAG_REQ_PC 0
 #define arguments_BDK_SSO_AW_TAG_REQ_PC -1,-1,-1,-1
 
@@ -531,6 +540,7 @@ static inline uint64_t BDK_SSO_AW_WE_FUNC(void)
 #define typedef_BDK_SSO_AW_WE bdk_sso_aw_we_t
 #define bustype_BDK_SSO_AW_WE BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_AW_WE "SSO_AW_WE"
+#define device_bar_BDK_SSO_AW_WE 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_AW_WE 0
 #define arguments_BDK_SSO_AW_WE -1,-1,-1,-1
 
@@ -588,6 +598,7 @@ static inline uint64_t BDK_SSO_BIST_STATUS0_FUNC(void)
 #define typedef_BDK_SSO_BIST_STATUS0 bdk_sso_bist_status0_t
 #define bustype_BDK_SSO_BIST_STATUS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_BIST_STATUS0 "SSO_BIST_STATUS0"
+#define device_bar_BDK_SSO_BIST_STATUS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_BIST_STATUS0 0
 #define arguments_BDK_SSO_BIST_STATUS0 -1,-1,-1,-1
 
@@ -639,6 +650,7 @@ static inline uint64_t BDK_SSO_BIST_STATUS1_FUNC(void)
 #define typedef_BDK_SSO_BIST_STATUS1 bdk_sso_bist_status1_t
 #define bustype_BDK_SSO_BIST_STATUS1 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_BIST_STATUS1 "SSO_BIST_STATUS1"
+#define device_bar_BDK_SSO_BIST_STATUS1 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_BIST_STATUS1 0
 #define arguments_BDK_SSO_BIST_STATUS1 -1,-1,-1,-1
 
@@ -694,6 +706,7 @@ static inline uint64_t BDK_SSO_BIST_STATUS2_FUNC(void)
 #define typedef_BDK_SSO_BIST_STATUS2 bdk_sso_bist_status2_t
 #define bustype_BDK_SSO_BIST_STATUS2 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_BIST_STATUS2 "SSO_BIST_STATUS2"
+#define device_bar_BDK_SSO_BIST_STATUS2 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_BIST_STATUS2 0
 #define arguments_BDK_SSO_BIST_STATUS2 -1,-1,-1,-1
 
@@ -762,6 +775,7 @@ static inline uint64_t BDK_SSO_BP_TEST0_FUNC(void)
 #define typedef_BDK_SSO_BP_TEST0 bdk_sso_bp_test0_t
 #define bustype_BDK_SSO_BP_TEST0 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_BP_TEST0 "SSO_BP_TEST0"
+#define device_bar_BDK_SSO_BP_TEST0 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_BP_TEST0 0
 #define arguments_BDK_SSO_BP_TEST0 -1,-1,-1,-1
 
@@ -830,6 +844,7 @@ static inline uint64_t BDK_SSO_BP_TEST1_FUNC(void)
 #define typedef_BDK_SSO_BP_TEST1 bdk_sso_bp_test1_t
 #define bustype_BDK_SSO_BP_TEST1 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_BP_TEST1 "SSO_BP_TEST1"
+#define device_bar_BDK_SSO_BP_TEST1 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_BP_TEST1 0
 #define arguments_BDK_SSO_BP_TEST1 -1,-1,-1,-1
 
@@ -898,6 +913,7 @@ static inline uint64_t BDK_SSO_BP_TEST2_FUNC(void)
 #define typedef_BDK_SSO_BP_TEST2 bdk_sso_bp_test2_t
 #define bustype_BDK_SSO_BP_TEST2 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_BP_TEST2 "SSO_BP_TEST2"
+#define device_bar_BDK_SSO_BP_TEST2 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_BP_TEST2 0
 #define arguments_BDK_SSO_BP_TEST2 -1,-1,-1,-1
 
@@ -941,6 +957,7 @@ static inline uint64_t BDK_SSO_CONST_FUNC(void)
 #define typedef_BDK_SSO_CONST bdk_sso_const_t
 #define bustype_BDK_SSO_CONST BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_CONST "SSO_CONST"
+#define device_bar_BDK_SSO_CONST 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_CONST 0
 #define arguments_BDK_SSO_CONST -1,-1,-1,-1
 
@@ -980,6 +997,7 @@ static inline uint64_t BDK_SSO_CONST1_FUNC(void)
 #define typedef_BDK_SSO_CONST1 bdk_sso_const1_t
 #define bustype_BDK_SSO_CONST1 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_CONST1 "SSO_CONST1"
+#define device_bar_BDK_SSO_CONST1 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_CONST1 0
 #define arguments_BDK_SSO_CONST1 -1,-1,-1,-1
 
@@ -1056,6 +1074,7 @@ static inline uint64_t BDK_SSO_ECC_CTL0_FUNC(void)
 #define typedef_BDK_SSO_ECC_CTL0 bdk_sso_ecc_ctl0_t
 #define bustype_BDK_SSO_ECC_CTL0 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ECC_CTL0 "SSO_ECC_CTL0"
+#define device_bar_BDK_SSO_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ECC_CTL0 0
 #define arguments_BDK_SSO_ECC_CTL0 -1,-1,-1,-1
 
@@ -1120,6 +1139,7 @@ static inline uint64_t BDK_SSO_ECC_CTL1_FUNC(void)
 #define typedef_BDK_SSO_ECC_CTL1 bdk_sso_ecc_ctl1_t
 #define bustype_BDK_SSO_ECC_CTL1 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ECC_CTL1 "SSO_ECC_CTL1"
+#define device_bar_BDK_SSO_ECC_CTL1 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ECC_CTL1 0
 #define arguments_BDK_SSO_ECC_CTL1 -1,-1,-1,-1
 
@@ -1176,6 +1196,7 @@ static inline uint64_t BDK_SSO_ECC_CTL2_FUNC(void)
 #define typedef_BDK_SSO_ECC_CTL2 bdk_sso_ecc_ctl2_t
 #define bustype_BDK_SSO_ECC_CTL2 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ECC_CTL2 "SSO_ECC_CTL2"
+#define device_bar_BDK_SSO_ECC_CTL2 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ECC_CTL2 0
 #define arguments_BDK_SSO_ECC_CTL2 -1,-1,-1,-1
 
@@ -1283,6 +1304,7 @@ static inline uint64_t BDK_SSO_ERR0_FUNC(void)
 #define typedef_BDK_SSO_ERR0 bdk_sso_err0_t
 #define bustype_BDK_SSO_ERR0 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR0 "SSO_ERR0"
+#define device_bar_BDK_SSO_ERR0 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR0 0
 #define arguments_BDK_SSO_ERR0 -1,-1,-1,-1
 
@@ -1376,6 +1398,7 @@ static inline uint64_t BDK_SSO_ERR0_ENA_W1C_FUNC(void)
 #define typedef_BDK_SSO_ERR0_ENA_W1C bdk_sso_err0_ena_w1c_t
 #define bustype_BDK_SSO_ERR0_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR0_ENA_W1C "SSO_ERR0_ENA_W1C"
+#define device_bar_BDK_SSO_ERR0_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR0_ENA_W1C 0
 #define arguments_BDK_SSO_ERR0_ENA_W1C -1,-1,-1,-1
 
@@ -1469,6 +1492,7 @@ static inline uint64_t BDK_SSO_ERR0_ENA_W1S_FUNC(void)
 #define typedef_BDK_SSO_ERR0_ENA_W1S bdk_sso_err0_ena_w1s_t
 #define bustype_BDK_SSO_ERR0_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR0_ENA_W1S "SSO_ERR0_ENA_W1S"
+#define device_bar_BDK_SSO_ERR0_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR0_ENA_W1S 0
 #define arguments_BDK_SSO_ERR0_ENA_W1S -1,-1,-1,-1
 
@@ -1562,6 +1586,7 @@ static inline uint64_t BDK_SSO_ERR0_W1S_FUNC(void)
 #define typedef_BDK_SSO_ERR0_W1S bdk_sso_err0_w1s_t
 #define bustype_BDK_SSO_ERR0_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR0_W1S "SSO_ERR0_W1S"
+#define device_bar_BDK_SSO_ERR0_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR0_W1S 0
 #define arguments_BDK_SSO_ERR0_W1S -1,-1,-1,-1
 
@@ -1625,6 +1650,7 @@ static inline uint64_t BDK_SSO_ERR1_FUNC(void)
 #define typedef_BDK_SSO_ERR1 bdk_sso_err1_t
 #define bustype_BDK_SSO_ERR1 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR1 "SSO_ERR1"
+#define device_bar_BDK_SSO_ERR1 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR1 0
 #define arguments_BDK_SSO_ERR1 -1,-1,-1,-1
 
@@ -1688,6 +1714,7 @@ static inline uint64_t BDK_SSO_ERR1_ENA_W1C_FUNC(void)
 #define typedef_BDK_SSO_ERR1_ENA_W1C bdk_sso_err1_ena_w1c_t
 #define bustype_BDK_SSO_ERR1_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR1_ENA_W1C "SSO_ERR1_ENA_W1C"
+#define device_bar_BDK_SSO_ERR1_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR1_ENA_W1C 0
 #define arguments_BDK_SSO_ERR1_ENA_W1C -1,-1,-1,-1
 
@@ -1751,6 +1778,7 @@ static inline uint64_t BDK_SSO_ERR1_ENA_W1S_FUNC(void)
 #define typedef_BDK_SSO_ERR1_ENA_W1S bdk_sso_err1_ena_w1s_t
 #define bustype_BDK_SSO_ERR1_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR1_ENA_W1S "SSO_ERR1_ENA_W1S"
+#define device_bar_BDK_SSO_ERR1_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR1_ENA_W1S 0
 #define arguments_BDK_SSO_ERR1_ENA_W1S -1,-1,-1,-1
 
@@ -1814,6 +1842,7 @@ static inline uint64_t BDK_SSO_ERR1_W1S_FUNC(void)
 #define typedef_BDK_SSO_ERR1_W1S bdk_sso_err1_w1s_t
 #define bustype_BDK_SSO_ERR1_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR1_W1S "SSO_ERR1_W1S"
+#define device_bar_BDK_SSO_ERR1_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR1_W1S 0
 #define arguments_BDK_SSO_ERR1_W1S -1,-1,-1,-1
 
@@ -1909,6 +1938,7 @@ static inline uint64_t BDK_SSO_ERR2_FUNC(void)
 #define typedef_BDK_SSO_ERR2 bdk_sso_err2_t
 #define bustype_BDK_SSO_ERR2 BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR2 "SSO_ERR2"
+#define device_bar_BDK_SSO_ERR2 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR2 0
 #define arguments_BDK_SSO_ERR2 -1,-1,-1,-1
 
@@ -1968,6 +1998,7 @@ static inline uint64_t BDK_SSO_ERR2_ENA_W1C_FUNC(void)
 #define typedef_BDK_SSO_ERR2_ENA_W1C bdk_sso_err2_ena_w1c_t
 #define bustype_BDK_SSO_ERR2_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR2_ENA_W1C "SSO_ERR2_ENA_W1C"
+#define device_bar_BDK_SSO_ERR2_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR2_ENA_W1C 0
 #define arguments_BDK_SSO_ERR2_ENA_W1C -1,-1,-1,-1
 
@@ -2027,6 +2058,7 @@ static inline uint64_t BDK_SSO_ERR2_ENA_W1S_FUNC(void)
 #define typedef_BDK_SSO_ERR2_ENA_W1S bdk_sso_err2_ena_w1s_t
 #define bustype_BDK_SSO_ERR2_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR2_ENA_W1S "SSO_ERR2_ENA_W1S"
+#define device_bar_BDK_SSO_ERR2_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR2_ENA_W1S 0
 #define arguments_BDK_SSO_ERR2_ENA_W1S -1,-1,-1,-1
 
@@ -2086,6 +2118,7 @@ static inline uint64_t BDK_SSO_ERR2_W1S_FUNC(void)
 #define typedef_BDK_SSO_ERR2_W1S bdk_sso_err2_w1s_t
 #define bustype_BDK_SSO_ERR2_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_ERR2_W1S "SSO_ERR2_W1S"
+#define device_bar_BDK_SSO_ERR2_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_ERR2_W1S 0
 #define arguments_BDK_SSO_ERR2_W1S -1,-1,-1,-1
 
@@ -2123,6 +2156,7 @@ static inline uint64_t BDK_SSO_GRPX_DS_PC(unsigned long a)
 #define typedef_BDK_SSO_GRPX_DS_PC(a) bdk_sso_grpx_ds_pc_t
 #define bustype_BDK_SSO_GRPX_DS_PC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_GRPX_DS_PC(a) "SSO_GRPX_DS_PC"
+#define device_bar_BDK_SSO_GRPX_DS_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_GRPX_DS_PC(a) (a)
 #define arguments_BDK_SSO_GRPX_DS_PC(a) (a),-1,-1,-1
 
@@ -2162,6 +2196,7 @@ static inline uint64_t BDK_SSO_GRPX_EXT_PC(unsigned long a)
 #define typedef_BDK_SSO_GRPX_EXT_PC(a) bdk_sso_grpx_ext_pc_t
 #define bustype_BDK_SSO_GRPX_EXT_PC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_GRPX_EXT_PC(a) "SSO_GRPX_EXT_PC"
+#define device_bar_BDK_SSO_GRPX_EXT_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_GRPX_EXT_PC(a) (a)
 #define arguments_BDK_SSO_GRPX_EXT_PC(a) (a),-1,-1,-1
 
@@ -2169,8 +2204,7 @@ static inline uint64_t BDK_SSO_GRPX_EXT_PC(unsigned long a)
  * Register (NCB) sso_grp#_iaq_thr
  *
  * SSO In-unit Admission Queue Threshold Registers
- * These registers contain the thresholds for allocating SSO in-unit admission queue entries, see
- * In-Unit Thresholds.
+ * These registers contain the thresholds for allocating SSO in-unit admission queue entries.
  */
 typedef union
 {
@@ -2221,6 +2255,7 @@ static inline uint64_t BDK_SSO_GRPX_IAQ_THR(unsigned long a)
 #define typedef_BDK_SSO_GRPX_IAQ_THR(a) bdk_sso_grpx_iaq_thr_t
 #define bustype_BDK_SSO_GRPX_IAQ_THR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_GRPX_IAQ_THR(a) "SSO_GRPX_IAQ_THR"
+#define device_bar_BDK_SSO_GRPX_IAQ_THR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_GRPX_IAQ_THR(a) (a)
 #define arguments_BDK_SSO_GRPX_IAQ_THR(a) (a),-1,-1,-1
 
@@ -2285,6 +2320,7 @@ static inline uint64_t BDK_SSO_GRPX_PRI(unsigned long a)
 #define typedef_BDK_SSO_GRPX_PRI(a) bdk_sso_grpx_pri_t
 #define bustype_BDK_SSO_GRPX_PRI(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_GRPX_PRI(a) "SSO_GRPX_PRI"
+#define device_bar_BDK_SSO_GRPX_PRI(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_GRPX_PRI(a) (a)
 #define arguments_BDK_SSO_GRPX_PRI(a) (a),-1,-1,-1
 
@@ -2293,7 +2329,7 @@ static inline uint64_t BDK_SSO_GRPX_PRI(unsigned long a)
  *
  * SSO Transitory Admission Queue Threshold Registers
  * These registers contain the thresholds for allocating SSO transitory admission queue storage
- * buffers, see Transitory-Admission Thresholds.
+ * buffers.
  */
 typedef union
 {
@@ -2342,6 +2378,7 @@ static inline uint64_t BDK_SSO_GRPX_TAQ_THR(unsigned long a)
 #define typedef_BDK_SSO_GRPX_TAQ_THR(a) bdk_sso_grpx_taq_thr_t
 #define bustype_BDK_SSO_GRPX_TAQ_THR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_GRPX_TAQ_THR(a) "SSO_GRPX_TAQ_THR"
+#define device_bar_BDK_SSO_GRPX_TAQ_THR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_GRPX_TAQ_THR(a) (a)
 #define arguments_BDK_SSO_GRPX_TAQ_THR(a) (a),-1,-1,-1
 
@@ -2379,6 +2416,7 @@ static inline uint64_t BDK_SSO_GRPX_TS_PC(unsigned long a)
 #define typedef_BDK_SSO_GRPX_TS_PC(a) bdk_sso_grpx_ts_pc_t
 #define bustype_BDK_SSO_GRPX_TS_PC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_GRPX_TS_PC(a) "SSO_GRPX_TS_PC"
+#define device_bar_BDK_SSO_GRPX_TS_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_GRPX_TS_PC(a) (a)
 #define arguments_BDK_SSO_GRPX_TS_PC(a) (a),-1,-1,-1
 
@@ -2418,6 +2456,7 @@ static inline uint64_t BDK_SSO_GRPX_WA_PC(unsigned long a)
 #define typedef_BDK_SSO_GRPX_WA_PC(a) bdk_sso_grpx_wa_pc_t
 #define bustype_BDK_SSO_GRPX_WA_PC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_GRPX_WA_PC(a) "SSO_GRPX_WA_PC"
+#define device_bar_BDK_SSO_GRPX_WA_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_GRPX_WA_PC(a) (a)
 #define arguments_BDK_SSO_GRPX_WA_PC(a) (a),-1,-1,-1
 
@@ -2455,6 +2494,7 @@ static inline uint64_t BDK_SSO_GRPX_WS_PC(unsigned long a)
 #define typedef_BDK_SSO_GRPX_WS_PC(a) bdk_sso_grpx_ws_pc_t
 #define bustype_BDK_SSO_GRPX_WS_PC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_GRPX_WS_PC(a) "SSO_GRPX_WS_PC"
+#define device_bar_BDK_SSO_GRPX_WS_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_GRPX_WS_PC(a) (a)
 #define arguments_BDK_SSO_GRPX_WS_PC(a) (a),-1,-1,-1
 
@@ -2491,6 +2531,7 @@ static inline uint64_t BDK_SSO_GW_ECO_FUNC(void)
 #define typedef_BDK_SSO_GW_ECO bdk_sso_gw_eco_t
 #define bustype_BDK_SSO_GW_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_GW_ECO "SSO_GW_ECO"
+#define device_bar_BDK_SSO_GW_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_GW_ECO 0
 #define arguments_BDK_SSO_GW_ECO -1,-1,-1,-1
 
@@ -2532,6 +2573,7 @@ static inline uint64_t BDK_SSO_GWE_CFG_FUNC(void)
 #define typedef_BDK_SSO_GWE_CFG bdk_sso_gwe_cfg_t
 #define bustype_BDK_SSO_GWE_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_GWE_CFG "SSO_GWE_CFG"
+#define device_bar_BDK_SSO_GWE_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_GWE_CFG 0
 #define arguments_BDK_SSO_GWE_CFG -1,-1,-1,-1
 
@@ -2595,6 +2637,7 @@ static inline uint64_t BDK_SSO_GWE_RANDOM_FUNC(void)
 #define typedef_BDK_SSO_GWE_RANDOM bdk_sso_gwe_random_t
 #define bustype_BDK_SSO_GWE_RANDOM BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_GWE_RANDOM "SSO_GWE_RANDOM"
+#define device_bar_BDK_SSO_GWE_RANDOM 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_GWE_RANDOM 0
 #define arguments_BDK_SSO_GWE_RANDOM -1,-1,-1,-1
 
@@ -2635,6 +2678,7 @@ static inline uint64_t BDK_SSO_HWSX_ARB(unsigned long a)
 #define typedef_BDK_SSO_HWSX_ARB(a) bdk_sso_hwsx_arb_t
 #define bustype_BDK_SSO_HWSX_ARB(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_HWSX_ARB(a) "SSO_HWSX_ARB"
+#define device_bar_BDK_SSO_HWSX_ARB(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_HWSX_ARB(a) (a)
 #define arguments_BDK_SSO_HWSX_ARB(a) (a),-1,-1,-1
 
@@ -2696,6 +2740,7 @@ static inline uint64_t BDK_SSO_HWSX_SX_GRPMSKX(unsigned long a, unsigned long b,
 #define typedef_BDK_SSO_HWSX_SX_GRPMSKX(a,b,c) bdk_sso_hwsx_sx_grpmskx_t
 #define bustype_BDK_SSO_HWSX_SX_GRPMSKX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_HWSX_SX_GRPMSKX(a,b,c) "SSO_HWSX_SX_GRPMSKX"
+#define device_bar_BDK_SSO_HWSX_SX_GRPMSKX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_HWSX_SX_GRPMSKX(a,b,c) (a)
 #define arguments_BDK_SSO_HWSX_SX_GRPMSKX(a,b,c) (a),(b),(c),-1
 
@@ -2744,6 +2789,7 @@ static inline uint64_t BDK_SSO_IENTX_GRP(unsigned long a)
 #define typedef_BDK_SSO_IENTX_GRP(a) bdk_sso_ientx_grp_t
 #define bustype_BDK_SSO_IENTX_GRP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_IENTX_GRP(a) "SSO_IENTX_GRP"
+#define device_bar_BDK_SSO_IENTX_GRP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_IENTX_GRP(a) (a)
 #define arguments_BDK_SSO_IENTX_GRP(a) (a),-1,-1,-1
 
@@ -2790,6 +2836,7 @@ static inline uint64_t BDK_SSO_IENTX_LINKS(unsigned long a)
 #define typedef_BDK_SSO_IENTX_LINKS(a) bdk_sso_ientx_links_t
 #define bustype_BDK_SSO_IENTX_LINKS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_IENTX_LINKS(a) "SSO_IENTX_LINKS"
+#define device_bar_BDK_SSO_IENTX_LINKS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_IENTX_LINKS(a) (a)
 #define arguments_BDK_SSO_IENTX_LINKS(a) (a),-1,-1,-1
 
@@ -2834,6 +2881,7 @@ static inline uint64_t BDK_SSO_IENTX_PENDTAG(unsigned long a)
 #define typedef_BDK_SSO_IENTX_PENDTAG(a) bdk_sso_ientx_pendtag_t
 #define bustype_BDK_SSO_IENTX_PENDTAG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_IENTX_PENDTAG(a) "SSO_IENTX_PENDTAG"
+#define device_bar_BDK_SSO_IENTX_PENDTAG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_IENTX_PENDTAG(a) (a)
 #define arguments_BDK_SSO_IENTX_PENDTAG(a) (a),-1,-1,-1
 
@@ -2870,6 +2918,7 @@ static inline uint64_t BDK_SSO_IENTX_QLINKS(unsigned long a)
 #define typedef_BDK_SSO_IENTX_QLINKS(a) bdk_sso_ientx_qlinks_t
 #define bustype_BDK_SSO_IENTX_QLINKS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_IENTX_QLINKS(a) "SSO_IENTX_QLINKS"
+#define device_bar_BDK_SSO_IENTX_QLINKS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_IENTX_QLINKS(a) (a)
 #define arguments_BDK_SSO_IENTX_QLINKS(a) (a),-1,-1,-1
 
@@ -2916,6 +2965,7 @@ static inline uint64_t BDK_SSO_IENTX_TAG(unsigned long a)
 #define typedef_BDK_SSO_IENTX_TAG(a) bdk_sso_ientx_tag_t
 #define bustype_BDK_SSO_IENTX_TAG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_IENTX_TAG(a) "SSO_IENTX_TAG"
+#define device_bar_BDK_SSO_IENTX_TAG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_IENTX_TAG(a) (a)
 #define arguments_BDK_SSO_IENTX_TAG(a) (a),-1,-1,-1
 
@@ -2952,6 +3002,7 @@ static inline uint64_t BDK_SSO_IENTX_WQP(unsigned long a)
 #define typedef_BDK_SSO_IENTX_WQP(a) bdk_sso_ientx_wqp_t
 #define bustype_BDK_SSO_IENTX_WQP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_IENTX_WQP(a) "SSO_IENTX_WQP"
+#define device_bar_BDK_SSO_IENTX_WQP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_IENTX_WQP(a) (a)
 #define arguments_BDK_SSO_IENTX_WQP(a) (a),-1,-1,-1
 
@@ -2999,6 +3050,7 @@ static inline uint64_t BDK_SSO_IPL_CONFX(unsigned long a)
 #define typedef_BDK_SSO_IPL_CONFX(a) bdk_sso_ipl_confx_t
 #define bustype_BDK_SSO_IPL_CONFX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_IPL_CONFX(a) "SSO_IPL_CONFX"
+#define device_bar_BDK_SSO_IPL_CONFX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_IPL_CONFX(a) (a)
 #define arguments_BDK_SSO_IPL_CONFX(a) (a),-1,-1,-1
 
@@ -3046,6 +3098,7 @@ static inline uint64_t BDK_SSO_IPL_DESCHEDX(unsigned long a)
 #define typedef_BDK_SSO_IPL_DESCHEDX(a) bdk_sso_ipl_deschedx_t
 #define bustype_BDK_SSO_IPL_DESCHEDX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_IPL_DESCHEDX(a) "SSO_IPL_DESCHEDX"
+#define device_bar_BDK_SSO_IPL_DESCHEDX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_IPL_DESCHEDX(a) (a)
 #define arguments_BDK_SSO_IPL_DESCHEDX(a) (a),-1,-1,-1
 
@@ -3096,6 +3149,7 @@ static inline uint64_t BDK_SSO_IPL_FREEX(unsigned long a)
 #define typedef_BDK_SSO_IPL_FREEX(a) bdk_sso_ipl_freex_t
 #define bustype_BDK_SSO_IPL_FREEX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_IPL_FREEX(a) "SSO_IPL_FREEX"
+#define device_bar_BDK_SSO_IPL_FREEX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_IPL_FREEX(a) (a)
 #define arguments_BDK_SSO_IPL_FREEX(a) (a),-1,-1,-1
 
@@ -3142,6 +3196,7 @@ static inline uint64_t BDK_SSO_IPL_IAQX(unsigned long a)
 #define typedef_BDK_SSO_IPL_IAQX(a) bdk_sso_ipl_iaqx_t
 #define bustype_BDK_SSO_IPL_IAQX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_IPL_IAQX(a) "SSO_IPL_IAQX"
+#define device_bar_BDK_SSO_IPL_IAQX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_IPL_IAQX(a) (a)
 #define arguments_BDK_SSO_IPL_IAQX(a) (a),-1,-1,-1
 
@@ -3179,6 +3234,7 @@ static inline uint64_t BDK_SSO_NOS_CNT_FUNC(void)
 #define typedef_BDK_SSO_NOS_CNT bdk_sso_nos_cnt_t
 #define bustype_BDK_SSO_NOS_CNT BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_NOS_CNT "SSO_NOS_CNT"
+#define device_bar_BDK_SSO_NOS_CNT 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_NOS_CNT 0
 #define arguments_BDK_SSO_NOS_CNT -1,-1,-1,-1
 
@@ -3226,6 +3282,7 @@ static inline uint64_t BDK_SSO_NW_TIM_FUNC(void)
 #define typedef_BDK_SSO_NW_TIM bdk_sso_nw_tim_t
 #define bustype_BDK_SSO_NW_TIM BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_NW_TIM "SSO_NW_TIM"
+#define device_bar_BDK_SSO_NW_TIM 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_NW_TIM 0
 #define arguments_BDK_SSO_NW_TIM -1,-1,-1,-1
 
@@ -3264,6 +3321,7 @@ static inline uint64_t BDK_SSO_PAGE_CNT_FUNC(void)
 #define typedef_BDK_SSO_PAGE_CNT bdk_sso_page_cnt_t
 #define bustype_BDK_SSO_PAGE_CNT BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_PAGE_CNT "SSO_PAGE_CNT"
+#define device_bar_BDK_SSO_PAGE_CNT 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_PAGE_CNT 0
 #define arguments_BDK_SSO_PAGE_CNT -1,-1,-1,-1
 
@@ -3316,6 +3374,7 @@ static inline uint64_t BDK_SSO_PF_MAPX(unsigned long a)
 #define typedef_BDK_SSO_PF_MAPX(a) bdk_sso_pf_mapx_t
 #define bustype_BDK_SSO_PF_MAPX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_PF_MAPX(a) "SSO_PF_MAPX"
+#define device_bar_BDK_SSO_PF_MAPX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_PF_MAPX(a) (a)
 #define arguments_BDK_SSO_PF_MAPX(a) (a),-1,-1,-1
 
@@ -3353,6 +3412,7 @@ static inline uint64_t BDK_SSO_PF_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_SSO_PF_MSIX_PBAX(a) bdk_sso_pf_msix_pbax_t
 #define bustype_BDK_SSO_PF_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_PF_MSIX_PBAX(a) "SSO_PF_MSIX_PBAX"
+#define device_bar_BDK_SSO_PF_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SSO_PF_MSIX_PBAX(a) (a)
 #define arguments_BDK_SSO_PF_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -3409,6 +3469,7 @@ static inline uint64_t BDK_SSO_PF_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_SSO_PF_MSIX_VECX_ADDR(a) bdk_sso_pf_msix_vecx_addr_t
 #define bustype_BDK_SSO_PF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_PF_MSIX_VECX_ADDR(a) "SSO_PF_MSIX_VECX_ADDR"
+#define device_bar_BDK_SSO_PF_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SSO_PF_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_SSO_PF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -3449,6 +3510,7 @@ static inline uint64_t BDK_SSO_PF_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_SSO_PF_MSIX_VECX_CTL(a) bdk_sso_pf_msix_vecx_ctl_t
 #define bustype_BDK_SSO_PF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_PF_MSIX_VECX_CTL(a) "SSO_PF_MSIX_VECX_CTL"
+#define device_bar_BDK_SSO_PF_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_SSO_PF_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_SSO_PF_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -3494,6 +3556,7 @@ static inline uint64_t BDK_SSO_RESET_FUNC(void)
 #define typedef_BDK_SSO_RESET bdk_sso_reset_t
 #define bustype_BDK_SSO_RESET BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_RESET "SSO_RESET"
+#define device_bar_BDK_SSO_RESET 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_RESET 0
 #define arguments_BDK_SSO_RESET -1,-1,-1,-1
 
@@ -3530,6 +3593,7 @@ static inline uint64_t BDK_SSO_TAQX_LINK(unsigned long a)
 #define typedef_BDK_SSO_TAQX_LINK(a) bdk_sso_taqx_link_t
 #define bustype_BDK_SSO_TAQX_LINK(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_TAQX_LINK(a) "SSO_TAQX_LINK"
+#define device_bar_BDK_SSO_TAQX_LINK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_TAQX_LINK(a) (a)
 #define arguments_BDK_SSO_TAQX_LINK(a) (a),-1,-1,-1
 
@@ -3568,6 +3632,7 @@ static inline uint64_t BDK_SSO_TAQX_WAEX_TAG(unsigned long a, unsigned long b)
 #define typedef_BDK_SSO_TAQX_WAEX_TAG(a,b) bdk_sso_taqx_waex_tag_t
 #define bustype_BDK_SSO_TAQX_WAEX_TAG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_TAQX_WAEX_TAG(a,b) "SSO_TAQX_WAEX_TAG"
+#define device_bar_BDK_SSO_TAQX_WAEX_TAG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_TAQX_WAEX_TAG(a,b) (a)
 #define arguments_BDK_SSO_TAQX_WAEX_TAG(a,b) (a),(b),-1,-1
 
@@ -3604,6 +3669,7 @@ static inline uint64_t BDK_SSO_TAQX_WAEX_WQP(unsigned long a, unsigned long b)
 #define typedef_BDK_SSO_TAQX_WAEX_WQP(a,b) bdk_sso_taqx_waex_wqp_t
 #define bustype_BDK_SSO_TAQX_WAEX_WQP(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_TAQX_WAEX_WQP(a,b) "SSO_TAQX_WAEX_WQP"
+#define device_bar_BDK_SSO_TAQX_WAEX_WQP(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_TAQX_WAEX_WQP(a,b) (a)
 #define arguments_BDK_SSO_TAQX_WAEX_WQP(a,b) (a),(b),-1,-1
 
@@ -3644,6 +3710,7 @@ static inline uint64_t BDK_SSO_TAQ_ADD_FUNC(void)
 #define typedef_BDK_SSO_TAQ_ADD bdk_sso_taq_add_t
 #define bustype_BDK_SSO_TAQ_ADD BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_TAQ_ADD "SSO_TAQ_ADD"
+#define device_bar_BDK_SSO_TAQ_ADD 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_TAQ_ADD 0
 #define arguments_BDK_SSO_TAQ_ADD -1,-1,-1,-1
 
@@ -3694,6 +3761,7 @@ static inline uint64_t BDK_SSO_TAQ_CNT_FUNC(void)
 #define typedef_BDK_SSO_TAQ_CNT bdk_sso_taq_cnt_t
 #define bustype_BDK_SSO_TAQ_CNT BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_TAQ_CNT "SSO_TAQ_CNT"
+#define device_bar_BDK_SSO_TAQ_CNT 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_TAQ_CNT 0
 #define arguments_BDK_SSO_TAQ_CNT -1,-1,-1,-1
 
@@ -3754,6 +3822,7 @@ static inline uint64_t BDK_SSO_TIAQX_STATUS(unsigned long a)
 #define typedef_BDK_SSO_TIAQX_STATUS(a) bdk_sso_tiaqx_status_t
 #define bustype_BDK_SSO_TIAQX_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_TIAQX_STATUS(a) "SSO_TIAQX_STATUS"
+#define device_bar_BDK_SSO_TIAQX_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_TIAQX_STATUS(a) (a)
 #define arguments_BDK_SSO_TIAQX_STATUS(a) (a),-1,-1,-1
 
@@ -3816,6 +3885,7 @@ static inline uint64_t BDK_SSO_TOAQX_STATUS(unsigned long a)
 #define typedef_BDK_SSO_TOAQX_STATUS(a) bdk_sso_toaqx_status_t
 #define bustype_BDK_SSO_TOAQX_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_TOAQX_STATUS(a) "SSO_TOAQX_STATUS"
+#define device_bar_BDK_SSO_TOAQX_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_TOAQX_STATUS(a) (a)
 #define arguments_BDK_SSO_TOAQX_STATUS(a) (a),-1,-1,-1
 
@@ -3854,6 +3924,7 @@ static inline uint64_t BDK_SSO_UNMAP_INFO_FUNC(void)
 #define typedef_BDK_SSO_UNMAP_INFO bdk_sso_unmap_info_t
 #define bustype_BDK_SSO_UNMAP_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_UNMAP_INFO "SSO_UNMAP_INFO"
+#define device_bar_BDK_SSO_UNMAP_INFO 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_UNMAP_INFO 0
 #define arguments_BDK_SSO_UNMAP_INFO -1,-1,-1,-1
 
@@ -3891,6 +3962,7 @@ static inline uint64_t BDK_SSO_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_SSO_VFX_MSIX_PBAX(a,b) bdk_sso_vfx_msix_pbax_t
 #define bustype_BDK_SSO_VFX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VFX_MSIX_PBAX(a,b) "SSO_VFX_MSIX_PBAX"
+#define device_bar_BDK_SSO_VFX_MSIX_PBAX(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_SSO_VFX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_SSO_VFX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -3935,6 +4007,7 @@ static inline uint64_t BDK_SSO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
 #define typedef_BDK_SSO_VFX_MSIX_VECX_ADDR(a,b) bdk_sso_vfx_msix_vecx_addr_t
 #define bustype_BDK_SSO_VFX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VFX_MSIX_VECX_ADDR(a,b) "SSO_VFX_MSIX_VECX_ADDR"
+#define device_bar_BDK_SSO_VFX_MSIX_VECX_ADDR(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_SSO_VFX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_SSO_VFX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -3975,6 +4048,7 @@ static inline uint64_t BDK_SSO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
 #define typedef_BDK_SSO_VFX_MSIX_VECX_CTL(a,b) bdk_sso_vfx_msix_vecx_ctl_t
 #define bustype_BDK_SSO_VFX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VFX_MSIX_VECX_CTL(a,b) "SSO_VFX_MSIX_VECX_CTL"
+#define device_bar_BDK_SSO_VFX_MSIX_VECX_CTL(a,b) 0x14 /* VF_BAR4 */
 #define busnum_BDK_SSO_VFX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_SSO_VFX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -4010,6 +4084,7 @@ static inline uint64_t BDK_SSO_VHGRPX_AQ_CNT(unsigned long a)
 #define typedef_BDK_SSO_VHGRPX_AQ_CNT(a) bdk_sso_vhgrpx_aq_cnt_t
 #define bustype_BDK_SSO_VHGRPX_AQ_CNT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VHGRPX_AQ_CNT(a) "SSO_VHGRPX_AQ_CNT"
+#define device_bar_BDK_SSO_VHGRPX_AQ_CNT(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSO_VHGRPX_AQ_CNT(a) (a)
 #define arguments_BDK_SSO_VHGRPX_AQ_CNT(a) (a),-1,-1,-1
 
@@ -4047,6 +4122,7 @@ static inline uint64_t BDK_SSO_VHGRPX_AQ_THR(unsigned long a)
 #define typedef_BDK_SSO_VHGRPX_AQ_THR(a) bdk_sso_vhgrpx_aq_thr_t
 #define bustype_BDK_SSO_VHGRPX_AQ_THR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VHGRPX_AQ_THR(a) "SSO_VHGRPX_AQ_THR"
+#define device_bar_BDK_SSO_VHGRPX_AQ_THR(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSO_VHGRPX_AQ_THR(a) (a)
 #define arguments_BDK_SSO_VHGRPX_AQ_THR(a) (a),-1,-1,-1
 
@@ -4130,6 +4206,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT(unsigned long a)
 #define typedef_BDK_SSO_VHGRPX_INT(a) bdk_sso_vhgrpx_int_t
 #define bustype_BDK_SSO_VHGRPX_INT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VHGRPX_INT(a) "SSO_VHGRPX_INT"
+#define device_bar_BDK_SSO_VHGRPX_INT(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSO_VHGRPX_INT(a) (a)
 #define arguments_BDK_SSO_VHGRPX_INT(a) (a),-1,-1,-1
 
@@ -4197,6 +4274,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_CNT(unsigned long a)
 #define typedef_BDK_SSO_VHGRPX_INT_CNT(a) bdk_sso_vhgrpx_int_cnt_t
 #define bustype_BDK_SSO_VHGRPX_INT_CNT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VHGRPX_INT_CNT(a) "SSO_VHGRPX_INT_CNT"
+#define device_bar_BDK_SSO_VHGRPX_INT_CNT(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSO_VHGRPX_INT_CNT(a) (a)
 #define arguments_BDK_SSO_VHGRPX_INT_CNT(a) (a),-1,-1,-1
 
@@ -4247,6 +4325,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_SSO_VHGRPX_INT_ENA_W1C(a) bdk_sso_vhgrpx_int_ena_w1c_t
 #define bustype_BDK_SSO_VHGRPX_INT_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VHGRPX_INT_ENA_W1C(a) "SSO_VHGRPX_INT_ENA_W1C"
+#define device_bar_BDK_SSO_VHGRPX_INT_ENA_W1C(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSO_VHGRPX_INT_ENA_W1C(a) (a)
 #define arguments_BDK_SSO_VHGRPX_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -4297,6 +4376,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_SSO_VHGRPX_INT_ENA_W1S(a) bdk_sso_vhgrpx_int_ena_w1s_t
 #define bustype_BDK_SSO_VHGRPX_INT_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VHGRPX_INT_ENA_W1S(a) "SSO_VHGRPX_INT_ENA_W1S"
+#define device_bar_BDK_SSO_VHGRPX_INT_ENA_W1S(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSO_VHGRPX_INT_ENA_W1S(a) (a)
 #define arguments_BDK_SSO_VHGRPX_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -4364,6 +4444,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_THR(unsigned long a)
 #define typedef_BDK_SSO_VHGRPX_INT_THR(a) bdk_sso_vhgrpx_int_thr_t
 #define bustype_BDK_SSO_VHGRPX_INT_THR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VHGRPX_INT_THR(a) "SSO_VHGRPX_INT_THR"
+#define device_bar_BDK_SSO_VHGRPX_INT_THR(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSO_VHGRPX_INT_THR(a) (a)
 #define arguments_BDK_SSO_VHGRPX_INT_THR(a) (a),-1,-1,-1
 
@@ -4414,6 +4495,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_W1S(unsigned long a)
 #define typedef_BDK_SSO_VHGRPX_INT_W1S(a) bdk_sso_vhgrpx_int_w1s_t
 #define bustype_BDK_SSO_VHGRPX_INT_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VHGRPX_INT_W1S(a) "SSO_VHGRPX_INT_W1S"
+#define device_bar_BDK_SSO_VHGRPX_INT_W1S(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSO_VHGRPX_INT_W1S(a) (a)
 #define arguments_BDK_SSO_VHGRPX_INT_W1S(a) (a),-1,-1,-1
 
@@ -4454,6 +4536,7 @@ static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK0(unsigned long a)
 #define typedef_BDK_SSO_VHGRPX_OP_ADD_WORK0(a) bdk_sso_vhgrpx_op_add_work0_t
 #define bustype_BDK_SSO_VHGRPX_OP_ADD_WORK0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VHGRPX_OP_ADD_WORK0(a) "SSO_VHGRPX_OP_ADD_WORK0"
+#define device_bar_BDK_SSO_VHGRPX_OP_ADD_WORK0(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSO_VHGRPX_OP_ADD_WORK0(a) (a)
 #define arguments_BDK_SSO_VHGRPX_OP_ADD_WORK0(a) (a),-1,-1,-1
 
@@ -4492,6 +4575,7 @@ static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK1(unsigned long a)
 #define typedef_BDK_SSO_VHGRPX_OP_ADD_WORK1(a) bdk_sso_vhgrpx_op_add_work1_t
 #define bustype_BDK_SSO_VHGRPX_OP_ADD_WORK1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_VHGRPX_OP_ADD_WORK1(a) "SSO_VHGRPX_OP_ADD_WORK1"
+#define device_bar_BDK_SSO_VHGRPX_OP_ADD_WORK1(a) 0x10 /* VF_BAR0 */
 #define busnum_BDK_SSO_VHGRPX_OP_ADD_WORK1(a) (a)
 #define arguments_BDK_SSO_VHGRPX_OP_ADD_WORK1(a) (a),-1,-1,-1
 
@@ -4539,6 +4623,7 @@ static inline uint64_t BDK_SSO_WQ_INT_PC_FUNC(void)
 #define typedef_BDK_SSO_WQ_INT_PC bdk_sso_wq_int_pc_t
 #define bustype_BDK_SSO_WQ_INT_PC BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_WQ_INT_PC "SSO_WQ_INT_PC"
+#define device_bar_BDK_SSO_WQ_INT_PC 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_WQ_INT_PC 0
 #define arguments_BDK_SSO_WQ_INT_PC -1,-1,-1,-1
 
@@ -4610,6 +4695,7 @@ static inline uint64_t BDK_SSO_WS_CFG_FUNC(void)
 #define typedef_BDK_SSO_WS_CFG bdk_sso_ws_cfg_t
 #define bustype_BDK_SSO_WS_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_WS_CFG "SSO_WS_CFG"
+#define device_bar_BDK_SSO_WS_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_WS_CFG 0
 #define arguments_BDK_SSO_WS_CFG -1,-1,-1,-1
 
@@ -4646,6 +4732,7 @@ static inline uint64_t BDK_SSO_WS_ECO_FUNC(void)
 #define typedef_BDK_SSO_WS_ECO bdk_sso_ws_eco_t
 #define bustype_BDK_SSO_WS_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_WS_ECO "SSO_WS_ECO"
+#define device_bar_BDK_SSO_WS_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_WS_ECO 0
 #define arguments_BDK_SSO_WS_ECO -1,-1,-1,-1
 
@@ -4689,6 +4776,7 @@ static inline uint64_t BDK_SSO_XAQX_HEAD_NEXT(unsigned long a)
 #define typedef_BDK_SSO_XAQX_HEAD_NEXT(a) bdk_sso_xaqx_head_next_t
 #define bustype_BDK_SSO_XAQX_HEAD_NEXT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_XAQX_HEAD_NEXT(a) "SSO_XAQX_HEAD_NEXT"
+#define device_bar_BDK_SSO_XAQX_HEAD_NEXT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_XAQX_HEAD_NEXT(a) (a)
 #define arguments_BDK_SSO_XAQX_HEAD_NEXT(a) (a),-1,-1,-1
 
@@ -4736,6 +4824,7 @@ static inline uint64_t BDK_SSO_XAQX_HEAD_PTR(unsigned long a)
 #define typedef_BDK_SSO_XAQX_HEAD_PTR(a) bdk_sso_xaqx_head_ptr_t
 #define bustype_BDK_SSO_XAQX_HEAD_PTR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_XAQX_HEAD_PTR(a) "SSO_XAQX_HEAD_PTR"
+#define device_bar_BDK_SSO_XAQX_HEAD_PTR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_XAQX_HEAD_PTR(a) (a)
 #define arguments_BDK_SSO_XAQX_HEAD_PTR(a) (a),-1,-1,-1
 
@@ -4772,6 +4861,7 @@ static inline uint64_t BDK_SSO_XAQX_MEMMGT(unsigned long a)
 #define typedef_BDK_SSO_XAQX_MEMMGT(a) bdk_sso_xaqx_memmgt_t
 #define bustype_BDK_SSO_XAQX_MEMMGT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_XAQX_MEMMGT(a) "SSO_XAQX_MEMMGT"
+#define device_bar_BDK_SSO_XAQX_MEMMGT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_XAQX_MEMMGT(a) (a)
 #define arguments_BDK_SSO_XAQX_MEMMGT(a) (a),-1,-1,-1
 
@@ -4816,6 +4906,7 @@ static inline uint64_t BDK_SSO_XAQX_TAIL_NEXT(unsigned long a)
 #define typedef_BDK_SSO_XAQX_TAIL_NEXT(a) bdk_sso_xaqx_tail_next_t
 #define bustype_BDK_SSO_XAQX_TAIL_NEXT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_XAQX_TAIL_NEXT(a) "SSO_XAQX_TAIL_NEXT"
+#define device_bar_BDK_SSO_XAQX_TAIL_NEXT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_XAQX_TAIL_NEXT(a) (a)
 #define arguments_BDK_SSO_XAQX_TAIL_NEXT(a) (a),-1,-1,-1
 
@@ -4864,6 +4955,7 @@ static inline uint64_t BDK_SSO_XAQX_TAIL_PTR(unsigned long a)
 #define typedef_BDK_SSO_XAQX_TAIL_PTR(a) bdk_sso_xaqx_tail_ptr_t
 #define bustype_BDK_SSO_XAQX_TAIL_PTR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_XAQX_TAIL_PTR(a) "SSO_XAQX_TAIL_PTR"
+#define device_bar_BDK_SSO_XAQX_TAIL_PTR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_XAQX_TAIL_PTR(a) (a)
 #define arguments_BDK_SSO_XAQX_TAIL_PTR(a) (a),-1,-1,-1
 
@@ -4908,6 +5000,7 @@ static inline uint64_t BDK_SSO_XAQ_AURA_FUNC(void)
 #define typedef_BDK_SSO_XAQ_AURA bdk_sso_xaq_aura_t
 #define bustype_BDK_SSO_XAQ_AURA BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_XAQ_AURA "SSO_XAQ_AURA"
+#define device_bar_BDK_SSO_XAQ_AURA 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_XAQ_AURA 0
 #define arguments_BDK_SSO_XAQ_AURA -1,-1,-1,-1
 
@@ -4946,6 +5039,7 @@ static inline uint64_t BDK_SSO_XAQ_GMCTL_FUNC(void)
 #define typedef_BDK_SSO_XAQ_GMCTL bdk_sso_xaq_gmctl_t
 #define bustype_BDK_SSO_XAQ_GMCTL BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_XAQ_GMCTL "SSO_XAQ_GMCTL"
+#define device_bar_BDK_SSO_XAQ_GMCTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_XAQ_GMCTL 0
 #define arguments_BDK_SSO_XAQ_GMCTL -1,-1,-1,-1
 
@@ -4982,6 +5076,7 @@ static inline uint64_t BDK_SSO_XAQ_LATENCY_PC_FUNC(void)
 #define typedef_BDK_SSO_XAQ_LATENCY_PC bdk_sso_xaq_latency_pc_t
 #define bustype_BDK_SSO_XAQ_LATENCY_PC BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_XAQ_LATENCY_PC "SSO_XAQ_LATENCY_PC"
+#define device_bar_BDK_SSO_XAQ_LATENCY_PC 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_XAQ_LATENCY_PC 0
 #define arguments_BDK_SSO_XAQ_LATENCY_PC -1,-1,-1,-1
 
@@ -5016,6 +5111,7 @@ static inline uint64_t BDK_SSO_XAQ_REQ_PC_FUNC(void)
 #define typedef_BDK_SSO_XAQ_REQ_PC bdk_sso_xaq_req_pc_t
 #define bustype_BDK_SSO_XAQ_REQ_PC BDK_CSR_TYPE_NCB
 #define basename_BDK_SSO_XAQ_REQ_PC "SSO_XAQ_REQ_PC"
+#define device_bar_BDK_SSO_XAQ_REQ_PC 0x0 /* PF_BAR0 */
 #define busnum_BDK_SSO_XAQ_REQ_PC 0
 #define arguments_BDK_SSO_XAQ_REQ_PC -1,-1,-1,-1
 

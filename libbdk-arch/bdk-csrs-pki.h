@@ -731,12 +731,12 @@ union bdk_pki_bewq_s
  * PKI and PKO can link packet segments together with this PKI_BUFLINK_S. When multiple
  * packet segments are linked, a valid PKI_BUFLINK_S is present 8 bytes before the first
  * byte of any earlier segment. The last segment linked does not have a next segment,
- * and must be preceded by 8 bytes of valid L2/DRAM where the PKI_BUFLINK_S normally
+ * and must be preceded by 16 bytes of valid L2/DRAM where the PKI_BUFLINK_S normally
  * exists, but need not have a valid PKI_BUFLINK_S in the space. CPU software
  * or PKO hardware may read, but effectively should not use, this "invalid
  * PKI_BUFLINK_S".
  *
- * PKI_BUFLINK_S's are not required be naturally aligned (to 64-bits) in L2/DRAM,
+ * PKI_BUFLINK_S's are not required be naturally aligned (to 128-bits) in L2/DRAM,
  * though the last segments and corresponding PKI_BUFLINK_S's
  * that PKI creates for packet input are naturally-aligned.
  */
@@ -1556,7 +1556,7 @@ union bdk_pki_wqe_s
 };
 
 /**
- * Register (RSL) pki_active0
+ * Register (NCB) pki_active0
  *
  * PKI Active 0 Register
  */
@@ -1586,13 +1586,14 @@ static inline uint64_t BDK_PKI_ACTIVE0_FUNC(void)
 }
 
 #define typedef_BDK_PKI_ACTIVE0 bdk_pki_active0_t
-#define bustype_BDK_PKI_ACTIVE0 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_ACTIVE0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ACTIVE0 "PKI_ACTIVE0"
+#define device_bar_BDK_PKI_ACTIVE0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ACTIVE0 0
 #define arguments_BDK_PKI_ACTIVE0 -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_active1
+ * Register (NCB) pki_active1
  *
  * PKI Active 1 Register
  */
@@ -1628,13 +1629,14 @@ static inline uint64_t BDK_PKI_ACTIVE1_FUNC(void)
 }
 
 #define typedef_BDK_PKI_ACTIVE1 bdk_pki_active1_t
-#define bustype_BDK_PKI_ACTIVE1 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_ACTIVE1 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ACTIVE1 "PKI_ACTIVE1"
+#define device_bar_BDK_PKI_ACTIVE1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ACTIVE1 0
 #define arguments_BDK_PKI_ACTIVE1 -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_active2
+ * Register (NCB) pki_active2
  *
  * PKI Active 2 Register
  */
@@ -1664,13 +1666,14 @@ static inline uint64_t BDK_PKI_ACTIVE2_FUNC(void)
 }
 
 #define typedef_BDK_PKI_ACTIVE2 bdk_pki_active2_t
-#define bustype_BDK_PKI_ACTIVE2 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_ACTIVE2 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ACTIVE2 "PKI_ACTIVE2"
+#define device_bar_BDK_PKI_ACTIVE2 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ACTIVE2 0
 #define arguments_BDK_PKI_ACTIVE2 -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_aura#_cfg
+ * Register (NCB) pki_aura#_cfg
  *
  * PKI Aura Configuration Register
  * This register configures aura backpressure, etc.
@@ -1728,13 +1731,14 @@ static inline uint64_t BDK_PKI_AURAX_CFG(unsigned long a)
 }
 
 #define typedef_BDK_PKI_AURAX_CFG(a) bdk_pki_aurax_cfg_t
-#define bustype_BDK_PKI_AURAX_CFG(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_AURAX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_AURAX_CFG(a) "PKI_AURAX_CFG"
+#define device_bar_BDK_PKI_AURAX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_AURAX_CFG(a) (a)
 #define arguments_BDK_PKI_AURAX_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_bist_status0
+ * Register (NCB) pki_bist_status0
  *
  * PKI BIST Results 0 Register
  * BIST status register.
@@ -1793,13 +1797,14 @@ static inline uint64_t BDK_PKI_BIST_STATUS0_FUNC(void)
 }
 
 #define typedef_BDK_PKI_BIST_STATUS0 bdk_pki_bist_status0_t
-#define bustype_BDK_PKI_BIST_STATUS0 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_BIST_STATUS0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_BIST_STATUS0 "PKI_BIST_STATUS0"
+#define device_bar_BDK_PKI_BIST_STATUS0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_BIST_STATUS0 0
 #define arguments_BDK_PKI_BIST_STATUS0 -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_bist_status1
+ * Register (NCB) pki_bist_status1
  *
  * PKI BIST Results 1 Register
  * BIST status register.
@@ -1878,13 +1883,14 @@ static inline uint64_t BDK_PKI_BIST_STATUS1_FUNC(void)
 }
 
 #define typedef_BDK_PKI_BIST_STATUS1 bdk_pki_bist_status1_t
-#define bustype_BDK_PKI_BIST_STATUS1 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_BIST_STATUS1 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_BIST_STATUS1 "PKI_BIST_STATUS1"
+#define device_bar_BDK_PKI_BIST_STATUS1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_BIST_STATUS1 0
 #define arguments_BDK_PKI_BIST_STATUS1 -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_bist_status2
+ * Register (NCB) pki_bist_status2
  *
  * PKI BIST Results 2 Register
  * BIST status register.
@@ -1945,8 +1951,9 @@ static inline uint64_t BDK_PKI_BIST_STATUS2_FUNC(void)
 }
 
 #define typedef_BDK_PKI_BIST_STATUS2 bdk_pki_bist_status2_t
-#define bustype_BDK_PKI_BIST_STATUS2 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_BIST_STATUS2 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_BIST_STATUS2 "PKI_BIST_STATUS2"
+#define device_bar_BDK_PKI_BIST_STATUS2 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_BIST_STATUS2 0
 #define arguments_BDK_PKI_BIST_STATUS2 -1,-1,-1,-1
 
@@ -2015,6 +2022,7 @@ static inline uint64_t BDK_PKI_BP_TEST0_FUNC(void)
 #define typedef_BDK_PKI_BP_TEST0 bdk_pki_bp_test0_t
 #define bustype_BDK_PKI_BP_TEST0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_BP_TEST0 "PKI_BP_TEST0"
+#define device_bar_BDK_PKI_BP_TEST0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_BP_TEST0 0
 #define arguments_BDK_PKI_BP_TEST0 -1,-1,-1,-1
 
@@ -2083,6 +2091,7 @@ static inline uint64_t BDK_PKI_BP_TEST1_FUNC(void)
 #define typedef_BDK_PKI_BP_TEST1 bdk_pki_bp_test1_t
 #define bustype_BDK_PKI_BP_TEST1 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_BP_TEST1 "PKI_BP_TEST1"
+#define device_bar_BDK_PKI_BP_TEST1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_BP_TEST1 0
 #define arguments_BDK_PKI_BP_TEST1 -1,-1,-1,-1
 
@@ -2151,11 +2160,12 @@ static inline uint64_t BDK_PKI_BP_TEST2_FUNC(void)
 #define typedef_BDK_PKI_BP_TEST2 bdk_pki_bp_test2_t
 #define bustype_BDK_PKI_BP_TEST2 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_BP_TEST2 "PKI_BP_TEST2"
+#define device_bar_BDK_PKI_BP_TEST2 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_BP_TEST2 0
 #define arguments_BDK_PKI_BP_TEST2 -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_bpid#_state
+ * Register (NCB) pki_bpid#_state
  *
  * PKI Bpid State Register
  * This register shows the current bpid state for diagnostics.
@@ -2185,13 +2195,14 @@ static inline uint64_t BDK_PKI_BPIDX_STATE(unsigned long a)
 }
 
 #define typedef_BDK_PKI_BPIDX_STATE(a) bdk_pki_bpidx_state_t
-#define bustype_BDK_PKI_BPIDX_STATE(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_BPIDX_STATE(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_BPIDX_STATE(a) "PKI_BPIDX_STATE"
+#define device_bar_BDK_PKI_BPIDX_STATE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_BPIDX_STATE(a) (a)
 #define arguments_BDK_PKI_BPIDX_STATE(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_buf_ctl
+ * Register (NCB) pki_buf_ctl
  *
  * PKI Buffer Control Register
  */
@@ -2259,13 +2270,14 @@ static inline uint64_t BDK_PKI_BUF_CTL_FUNC(void)
 }
 
 #define typedef_BDK_PKI_BUF_CTL bdk_pki_buf_ctl_t
-#define bustype_BDK_PKI_BUF_CTL BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_BUF_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_BUF_CTL "PKI_BUF_CTL"
+#define device_bar_BDK_PKI_BUF_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_BUF_CTL 0
 #define arguments_BDK_PKI_BUF_CTL -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_chan#_cfg
+ * Register (NCB) pki_chan#_cfg
  *
  * PKI Channel Configuration Register
  * This register configures each channel.
@@ -2311,13 +2323,14 @@ static inline uint64_t BDK_PKI_CHANX_CFG(unsigned long a)
 }
 
 #define typedef_BDK_PKI_CHANX_CFG(a) bdk_pki_chanx_cfg_t
-#define bustype_BDK_PKI_CHANX_CFG(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CHANX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CHANX_CFG(a) "PKI_CHANX_CFG"
+#define device_bar_BDK_PKI_CHANX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CHANX_CFG(a) (a)
 #define arguments_BDK_PKI_CHANX_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_cl#_ecc_ctl
+ * Register (NCB) pki_cl#_ecc_ctl
  *
  * PKI Cluster ECC/Parity Control Registers
  */
@@ -2376,13 +2389,14 @@ static inline uint64_t BDK_PKI_CLX_ECC_CTL(unsigned long a)
 }
 
 #define typedef_BDK_PKI_CLX_ECC_CTL(a) bdk_pki_clx_ecc_ctl_t
-#define bustype_BDK_PKI_CLX_ECC_CTL(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_ECC_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_ECC_CTL(a) "PKI_CLX_ECC_CTL"
+#define device_bar_BDK_PKI_CLX_ECC_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_ECC_CTL(a) (a)
 #define arguments_BDK_PKI_CLX_ECC_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_cl#_ecc_int
+ * Register (NCB) pki_cl#_ecc_int
  *
  * PKI Cluster ECC/Parity Interrupt Registers
  */
@@ -2429,8 +2443,9 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT(unsigned long a)
 }
 
 #define typedef_BDK_PKI_CLX_ECC_INT(a) bdk_pki_clx_ecc_int_t
-#define bustype_BDK_PKI_CLX_ECC_INT(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_ECC_INT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_ECC_INT(a) "PKI_CLX_ECC_INT"
+#define device_bar_BDK_PKI_CLX_ECC_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_ECC_INT(a) (a)
 #define arguments_BDK_PKI_CLX_ECC_INT(a) (a),-1,-1,-1
 
@@ -2481,6 +2496,7 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_PKI_CLX_ECC_INT_ENA_W1C(a) bdk_pki_clx_ecc_int_ena_w1c_t
 #define bustype_BDK_PKI_CLX_ECC_INT_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_ECC_INT_ENA_W1C(a) "PKI_CLX_ECC_INT_ENA_W1C"
+#define device_bar_BDK_PKI_CLX_ECC_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_ECC_INT_ENA_W1C(a) (a)
 #define arguments_BDK_PKI_CLX_ECC_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -2531,6 +2547,7 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_PKI_CLX_ECC_INT_ENA_W1S(a) bdk_pki_clx_ecc_int_ena_w1s_t
 #define bustype_BDK_PKI_CLX_ECC_INT_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_ECC_INT_ENA_W1S(a) "PKI_CLX_ECC_INT_ENA_W1S"
+#define device_bar_BDK_PKI_CLX_ECC_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_ECC_INT_ENA_W1S(a) (a)
 #define arguments_BDK_PKI_CLX_ECC_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -2581,11 +2598,12 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT_W1S(unsigned long a)
 #define typedef_BDK_PKI_CLX_ECC_INT_W1S(a) bdk_pki_clx_ecc_int_w1s_t
 #define bustype_BDK_PKI_CLX_ECC_INT_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_ECC_INT_W1S(a) "PKI_CLX_ECC_INT_W1S"
+#define device_bar_BDK_PKI_CLX_ECC_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_ECC_INT_W1S(a) (a)
 #define arguments_BDK_PKI_CLX_ECC_INT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_cl#_int
+ * Register (NCB) pki_cl#_int
  *
  * PKI Cluster Interrupt Registers
  */
@@ -2632,8 +2650,9 @@ static inline uint64_t BDK_PKI_CLX_INT(unsigned long a)
 }
 
 #define typedef_BDK_PKI_CLX_INT(a) bdk_pki_clx_int_t
-#define bustype_BDK_PKI_CLX_INT(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_INT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_INT(a) "PKI_CLX_INT"
+#define device_bar_BDK_PKI_CLX_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_INT(a) (a)
 #define arguments_BDK_PKI_CLX_INT(a) (a),-1,-1,-1
 
@@ -2674,6 +2693,7 @@ static inline uint64_t BDK_PKI_CLX_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_PKI_CLX_INT_ENA_W1C(a) bdk_pki_clx_int_ena_w1c_t
 #define bustype_BDK_PKI_CLX_INT_ENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_INT_ENA_W1C(a) "PKI_CLX_INT_ENA_W1C"
+#define device_bar_BDK_PKI_CLX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_INT_ENA_W1C(a) (a)
 #define arguments_BDK_PKI_CLX_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -2714,6 +2734,7 @@ static inline uint64_t BDK_PKI_CLX_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_PKI_CLX_INT_ENA_W1S(a) bdk_pki_clx_int_ena_w1s_t
 #define bustype_BDK_PKI_CLX_INT_ENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_INT_ENA_W1S(a) "PKI_CLX_INT_ENA_W1S"
+#define device_bar_BDK_PKI_CLX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_INT_ENA_W1S(a) (a)
 #define arguments_BDK_PKI_CLX_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -2754,11 +2775,12 @@ static inline uint64_t BDK_PKI_CLX_INT_W1S(unsigned long a)
 #define typedef_BDK_PKI_CLX_INT_W1S(a) bdk_pki_clx_int_w1s_t
 #define bustype_BDK_PKI_CLX_INT_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_INT_W1S(a) "PKI_CLX_INT_W1S"
+#define device_bar_BDK_PKI_CLX_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_INT_W1S(a) (a)
 #define arguments_BDK_PKI_CLX_INT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_cl#_pcam#_action#
+ * Register (NCB) pki_cl#_pcam#_action#
  *
  * PKI PCAM Entry Action Registers
  * Action performed based on PCAM lookup using the PKI_CL()_PCAM()_TERM() and
@@ -2889,13 +2911,14 @@ static inline uint64_t BDK_PKI_CLX_PCAMX_ACTIONX(unsigned long a, unsigned long 
 }
 
 #define typedef_BDK_PKI_CLX_PCAMX_ACTIONX(a,b,c) bdk_pki_clx_pcamx_actionx_t
-#define bustype_BDK_PKI_CLX_PCAMX_ACTIONX(a,b,c) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_PCAMX_ACTIONX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_PCAMX_ACTIONX(a,b,c) "PKI_CLX_PCAMX_ACTIONX"
+#define device_bar_BDK_PKI_CLX_PCAMX_ACTIONX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_PCAMX_ACTIONX(a,b,c) (a)
 #define arguments_BDK_PKI_CLX_PCAMX_ACTIONX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (RSL) pki_cl#_pcam#_match#
+ * Register (NCB) pki_cl#_pcam#_match#
  *
  * PKI PCAM Entry Data Match Registers
  */
@@ -2940,13 +2963,14 @@ static inline uint64_t BDK_PKI_CLX_PCAMX_MATCHX(unsigned long a, unsigned long b
 }
 
 #define typedef_BDK_PKI_CLX_PCAMX_MATCHX(a,b,c) bdk_pki_clx_pcamx_matchx_t
-#define bustype_BDK_PKI_CLX_PCAMX_MATCHX(a,b,c) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_PCAMX_MATCHX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_PCAMX_MATCHX(a,b,c) "PKI_CLX_PCAMX_MATCHX"
+#define device_bar_BDK_PKI_CLX_PCAMX_MATCHX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_PCAMX_MATCHX(a,b,c) (a)
 #define arguments_BDK_PKI_CLX_PCAMX_MATCHX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (RSL) pki_cl#_pcam#_term#
+ * Register (NCB) pki_cl#_pcam#_term#
  *
  * PKI PCAM Entry Term Match Registers
  */
@@ -3015,13 +3039,14 @@ static inline uint64_t BDK_PKI_CLX_PCAMX_TERMX(unsigned long a, unsigned long b,
 }
 
 #define typedef_BDK_PKI_CLX_PCAMX_TERMX(a,b,c) bdk_pki_clx_pcamx_termx_t
-#define bustype_BDK_PKI_CLX_PCAMX_TERMX(a,b,c) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_PCAMX_TERMX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_PCAMX_TERMX(a,b,c) "PKI_CLX_PCAMX_TERMX"
+#define device_bar_BDK_PKI_CLX_PCAMX_TERMX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_PCAMX_TERMX(a,b,c) (a)
 #define arguments_BDK_PKI_CLX_PCAMX_TERMX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (RSL) pki_cl#_pkind#_cfg
+ * Register (NCB) pki_cl#_pkind#_cfg
  *
  * PKI Per-Pkind Configuration Registers
  * Internal:
@@ -3112,13 +3137,14 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_CFG(unsigned long a, unsigned long b)
 }
 
 #define typedef_BDK_PKI_CLX_PKINDX_CFG(a,b) bdk_pki_clx_pkindx_cfg_t
-#define bustype_BDK_PKI_CLX_PKINDX_CFG(a,b) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_PKINDX_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_PKINDX_CFG(a,b) "PKI_CLX_PKINDX_CFG"
+#define device_bar_BDK_PKI_CLX_PKINDX_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_PKINDX_CFG(a,b) (a)
 #define arguments_BDK_PKI_CLX_PKINDX_CFG(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) pki_cl#_pkind#_kmem#
+ * Register (NCB) pki_cl#_pkind#_kmem#
  *
  * PKI KMEM Registers
  * A convenient alias block for the following registers:
@@ -3169,13 +3195,14 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_KMEMX(unsigned long a, unsigned long b
 }
 
 #define typedef_BDK_PKI_CLX_PKINDX_KMEMX(a,b,c) bdk_pki_clx_pkindx_kmemx_t
-#define bustype_BDK_PKI_CLX_PKINDX_KMEMX(a,b,c) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_PKINDX_KMEMX(a,b,c) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_PKINDX_KMEMX(a,b,c) "PKI_CLX_PKINDX_KMEMX"
+#define device_bar_BDK_PKI_CLX_PKINDX_KMEMX(a,b,c) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_PKINDX_KMEMX(a,b,c) (a)
 #define arguments_BDK_PKI_CLX_PKINDX_KMEMX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (RSL) pki_cl#_pkind#_l2_custom
+ * Register (NCB) pki_cl#_pkind#_l2_custom
  *
  * PKI Per-Pkind L2 Custom Extract Registers
  * Internal:
@@ -3220,13 +3247,14 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_L2_CUSTOM(unsigned long a, unsigned lo
 }
 
 #define typedef_BDK_PKI_CLX_PKINDX_L2_CUSTOM(a,b) bdk_pki_clx_pkindx_l2_custom_t
-#define bustype_BDK_PKI_CLX_PKINDX_L2_CUSTOM(a,b) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_PKINDX_L2_CUSTOM(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_PKINDX_L2_CUSTOM(a,b) "PKI_CLX_PKINDX_L2_CUSTOM"
+#define device_bar_BDK_PKI_CLX_PKINDX_L2_CUSTOM(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_PKINDX_L2_CUSTOM(a,b) (a)
 #define arguments_BDK_PKI_CLX_PKINDX_L2_CUSTOM(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) pki_cl#_pkind#_lg_custom
+ * Register (NCB) pki_cl#_pkind#_lg_custom
  *
  * PKI Per-Pkind LG Custom Extract Registers
  * Internal:
@@ -3259,13 +3287,14 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_LG_CUSTOM(unsigned long a, unsigned lo
 }
 
 #define typedef_BDK_PKI_CLX_PKINDX_LG_CUSTOM(a,b) bdk_pki_clx_pkindx_lg_custom_t
-#define bustype_BDK_PKI_CLX_PKINDX_LG_CUSTOM(a,b) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_PKINDX_LG_CUSTOM(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_PKINDX_LG_CUSTOM(a,b) "PKI_CLX_PKINDX_LG_CUSTOM"
+#define device_bar_BDK_PKI_CLX_PKINDX_LG_CUSTOM(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_PKINDX_LG_CUSTOM(a,b) (a)
 #define arguments_BDK_PKI_CLX_PKINDX_LG_CUSTOM(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) pki_cl#_pkind#_skip
+ * Register (NCB) pki_cl#_pkind#_skip
  *
  * PKI Per-Pkind L2 Skip Registers
  */
@@ -3308,13 +3337,14 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_SKIP(unsigned long a, unsigned long b)
 }
 
 #define typedef_BDK_PKI_CLX_PKINDX_SKIP(a,b) bdk_pki_clx_pkindx_skip_t
-#define bustype_BDK_PKI_CLX_PKINDX_SKIP(a,b) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_PKINDX_SKIP(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_PKINDX_SKIP(a,b) "PKI_CLX_PKINDX_SKIP"
+#define device_bar_BDK_PKI_CLX_PKINDX_SKIP(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_PKINDX_SKIP(a,b) (a)
 #define arguments_BDK_PKI_CLX_PKINDX_SKIP(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) pki_cl#_pkind#_style
+ * Register (NCB) pki_cl#_pkind#_style
  *
  * PKI Per-Pkind Initial Style Registers
  * Internal:
@@ -3385,13 +3415,14 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_STYLE(unsigned long a, unsigned long b
 }
 
 #define typedef_BDK_PKI_CLX_PKINDX_STYLE(a,b) bdk_pki_clx_pkindx_style_t
-#define bustype_BDK_PKI_CLX_PKINDX_STYLE(a,b) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_PKINDX_STYLE(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_PKINDX_STYLE(a,b) "PKI_CLX_PKINDX_STYLE"
+#define device_bar_BDK_PKI_CLX_PKINDX_STYLE(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_PKINDX_STYLE(a,b) (a)
 #define arguments_BDK_PKI_CLX_PKINDX_STYLE(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) pki_cl#_smem#
+ * Register (NCB) pki_cl#_smem#
  *
  * PKI SMEM Registers
  * A convenient alias block for the following registers:
@@ -3437,13 +3468,14 @@ static inline uint64_t BDK_PKI_CLX_SMEMX(unsigned long a, unsigned long b)
 }
 
 #define typedef_BDK_PKI_CLX_SMEMX(a,b) bdk_pki_clx_smemx_t
-#define bustype_BDK_PKI_CLX_SMEMX(a,b) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_SMEMX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_SMEMX(a,b) "PKI_CLX_SMEMX"
+#define device_bar_BDK_PKI_CLX_SMEMX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_SMEMX(a,b) (a)
 #define arguments_BDK_PKI_CLX_SMEMX(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) pki_cl#_start
+ * Register (NCB) pki_cl#_start
  *
  * PKI Cluster Start Registers
  */
@@ -3472,13 +3504,14 @@ static inline uint64_t BDK_PKI_CLX_START(unsigned long a)
 }
 
 #define typedef_BDK_PKI_CLX_START(a) bdk_pki_clx_start_t
-#define bustype_BDK_PKI_CLX_START(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_START(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_START(a) "PKI_CLX_START"
+#define device_bar_BDK_PKI_CLX_START(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_START(a) (a)
 #define arguments_BDK_PKI_CLX_START(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_cl#_style#_alg
+ * Register (NCB) pki_cl#_style#_alg
  *
  * PKI Per-Style Algorithm Configuration Registers
  * Internal:
@@ -3563,13 +3596,14 @@ static inline uint64_t BDK_PKI_CLX_STYLEX_ALG(unsigned long a, unsigned long b)
 }
 
 #define typedef_BDK_PKI_CLX_STYLEX_ALG(a,b) bdk_pki_clx_stylex_alg_t
-#define bustype_BDK_PKI_CLX_STYLEX_ALG(a,b) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_STYLEX_ALG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_STYLEX_ALG(a,b) "PKI_CLX_STYLEX_ALG"
+#define device_bar_BDK_PKI_CLX_STYLEX_ALG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_STYLEX_ALG(a,b) (a)
 #define arguments_BDK_PKI_CLX_STYLEX_ALG(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) pki_cl#_style#_cfg
+ * Register (NCB) pki_cl#_style#_cfg
  *
  * PKI Per-Style Configuration Registers
  * Internal:
@@ -3682,13 +3716,14 @@ static inline uint64_t BDK_PKI_CLX_STYLEX_CFG(unsigned long a, unsigned long b)
 }
 
 #define typedef_BDK_PKI_CLX_STYLEX_CFG(a,b) bdk_pki_clx_stylex_cfg_t
-#define bustype_BDK_PKI_CLX_STYLEX_CFG(a,b) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_STYLEX_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_STYLEX_CFG(a,b) "PKI_CLX_STYLEX_CFG"
+#define device_bar_BDK_PKI_CLX_STYLEX_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_STYLEX_CFG(a,b) (a)
 #define arguments_BDK_PKI_CLX_STYLEX_CFG(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) pki_cl#_style#_cfg2
+ * Register (NCB) pki_cl#_style#_cfg2
  *
  * PKI Per-Style Configuration 2 Registers
  * Internal:
@@ -3782,13 +3817,14 @@ static inline uint64_t BDK_PKI_CLX_STYLEX_CFG2(unsigned long a, unsigned long b)
 }
 
 #define typedef_BDK_PKI_CLX_STYLEX_CFG2(a,b) bdk_pki_clx_stylex_cfg2_t
-#define bustype_BDK_PKI_CLX_STYLEX_CFG2(a,b) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLX_STYLEX_CFG2(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLX_STYLEX_CFG2(a,b) "PKI_CLX_STYLEX_CFG2"
+#define device_bar_BDK_PKI_CLX_STYLEX_CFG2(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLX_STYLEX_CFG2(a,b) (a)
 #define arguments_BDK_PKI_CLX_STYLEX_CFG2(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) pki_clken
+ * Register (NCB) pki_clken
  *
  * PKI Clock Enable Register
  */
@@ -3822,8 +3858,9 @@ static inline uint64_t BDK_PKI_CLKEN_FUNC(void)
 }
 
 #define typedef_BDK_PKI_CLKEN bdk_pki_clken_t
-#define bustype_BDK_PKI_CLKEN BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_CLKEN BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CLKEN "PKI_CLKEN"
+#define device_bar_BDK_PKI_CLKEN 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CLKEN 0
 #define arguments_BDK_PKI_CLKEN -1,-1,-1,-1
 
@@ -3865,6 +3902,7 @@ static inline uint64_t BDK_PKI_CONST_FUNC(void)
 #define typedef_BDK_PKI_CONST bdk_pki_const_t
 #define bustype_BDK_PKI_CONST BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CONST "PKI_CONST"
+#define device_bar_BDK_PKI_CONST 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CONST 0
 #define arguments_BDK_PKI_CONST -1,-1,-1,-1
 
@@ -3906,6 +3944,7 @@ static inline uint64_t BDK_PKI_CONST1_FUNC(void)
 #define typedef_BDK_PKI_CONST1 bdk_pki_const1_t
 #define bustype_BDK_PKI_CONST1 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CONST1 "PKI_CONST1"
+#define device_bar_BDK_PKI_CONST1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CONST1 0
 #define arguments_BDK_PKI_CONST1 -1,-1,-1,-1
 
@@ -3947,6 +3986,7 @@ static inline uint64_t BDK_PKI_CONST2_FUNC(void)
 #define typedef_BDK_PKI_CONST2 bdk_pki_const2_t
 #define bustype_BDK_PKI_CONST2 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CONST2 "PKI_CONST2"
+#define device_bar_BDK_PKI_CONST2 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CONST2 0
 #define arguments_BDK_PKI_CONST2 -1,-1,-1,-1
 
@@ -3982,11 +4022,12 @@ static inline uint64_t BDK_PKI_CONST3_FUNC(void)
 #define typedef_BDK_PKI_CONST3 bdk_pki_const3_t
 #define bustype_BDK_PKI_CONST3 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_CONST3 "PKI_CONST3"
+#define device_bar_BDK_PKI_CONST3 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_CONST3 0
 #define arguments_BDK_PKI_CONST3 -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_dstat#_stat0
+ * Register (NCB) pki_dstat#_stat0
  *
  * PKI Packets Deep Statistic Registers
  * This register contains statistics indexed by PKI_QPG_TBLB()[DSTAT_ID].
@@ -4018,13 +4059,14 @@ static inline uint64_t BDK_PKI_DSTATX_STAT0(unsigned long a)
 }
 
 #define typedef_BDK_PKI_DSTATX_STAT0(a) bdk_pki_dstatx_stat0_t
-#define bustype_BDK_PKI_DSTATX_STAT0(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_DSTATX_STAT0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_DSTATX_STAT0(a) "PKI_DSTATX_STAT0"
+#define device_bar_BDK_PKI_DSTATX_STAT0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_DSTATX_STAT0(a) (a)
 #define arguments_BDK_PKI_DSTATX_STAT0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_dstat#_stat1
+ * Register (NCB) pki_dstat#_stat1
  *
  * PKI Octects Deep Statistic Registers
  * This register contains statistics indexed by PKI_QPG_TBLB()[DSTAT_ID].
@@ -4056,13 +4098,14 @@ static inline uint64_t BDK_PKI_DSTATX_STAT1(unsigned long a)
 }
 
 #define typedef_BDK_PKI_DSTATX_STAT1(a) bdk_pki_dstatx_stat1_t
-#define bustype_BDK_PKI_DSTATX_STAT1(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_DSTATX_STAT1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_DSTATX_STAT1(a) "PKI_DSTATX_STAT1"
+#define device_bar_BDK_PKI_DSTATX_STAT1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_DSTATX_STAT1(a) (a)
 #define arguments_BDK_PKI_DSTATX_STAT1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_dstat#_stat2
+ * Register (NCB) pki_dstat#_stat2
  *
  * PKI Error Packets Deep Statistic Registers
  * This register contains statistics indexed by PKI_QPG_TBLB()[DSTAT_ID].
@@ -4100,13 +4143,14 @@ static inline uint64_t BDK_PKI_DSTATX_STAT2(unsigned long a)
 }
 
 #define typedef_BDK_PKI_DSTATX_STAT2(a) bdk_pki_dstatx_stat2_t
-#define bustype_BDK_PKI_DSTATX_STAT2(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_DSTATX_STAT2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_DSTATX_STAT2(a) "PKI_DSTATX_STAT2"
+#define device_bar_BDK_PKI_DSTATX_STAT2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_DSTATX_STAT2(a) (a)
 #define arguments_BDK_PKI_DSTATX_STAT2(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_dstat#_stat3
+ * Register (NCB) pki_dstat#_stat3
  *
  * PKI Dropped Packets Deep Statistic Registers
  * This register contains statistics indexed by PKI_QPG_TBLB()[DSTAT_ID].
@@ -4138,13 +4182,14 @@ static inline uint64_t BDK_PKI_DSTATX_STAT3(unsigned long a)
 }
 
 #define typedef_BDK_PKI_DSTATX_STAT3(a) bdk_pki_dstatx_stat3_t
-#define bustype_BDK_PKI_DSTATX_STAT3(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_DSTATX_STAT3(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_DSTATX_STAT3(a) "PKI_DSTATX_STAT3"
+#define device_bar_BDK_PKI_DSTATX_STAT3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_DSTATX_STAT3(a) (a)
 #define arguments_BDK_PKI_DSTATX_STAT3(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_dstat#_stat4
+ * Register (NCB) pki_dstat#_stat4
  *
  * PKI Dropped Octets Deep Statistic Registers
  * This register contains statistics indexed by PKI_QPG_TBLB()[DSTAT_ID].
@@ -4176,13 +4221,14 @@ static inline uint64_t BDK_PKI_DSTATX_STAT4(unsigned long a)
 }
 
 #define typedef_BDK_PKI_DSTATX_STAT4(a) bdk_pki_dstatx_stat4_t
-#define bustype_BDK_PKI_DSTATX_STAT4(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_DSTATX_STAT4(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_DSTATX_STAT4(a) "PKI_DSTATX_STAT4"
+#define device_bar_BDK_PKI_DSTATX_STAT4(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_DSTATX_STAT4(a) (a)
 #define arguments_BDK_PKI_DSTATX_STAT4(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_ecc_ctl0
+ * Register (NCB) pki_ecc_ctl0
  *
  * PKI ECC Control 0 Register
  * This register allows inserting ECC errors for testing.
@@ -4259,13 +4305,14 @@ static inline uint64_t BDK_PKI_ECC_CTL0_FUNC(void)
 }
 
 #define typedef_BDK_PKI_ECC_CTL0 bdk_pki_ecc_ctl0_t
-#define bustype_BDK_PKI_ECC_CTL0 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_ECC_CTL0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_CTL0 "PKI_ECC_CTL0"
+#define device_bar_BDK_PKI_ECC_CTL0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_CTL0 0
 #define arguments_BDK_PKI_ECC_CTL0 -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_ecc_ctl1
+ * Register (NCB) pki_ecc_ctl1
  *
  * PKI ECC Control 1 Register
  * This register allows inserting ECC errors for testing.
@@ -4350,13 +4397,14 @@ static inline uint64_t BDK_PKI_ECC_CTL1_FUNC(void)
 }
 
 #define typedef_BDK_PKI_ECC_CTL1 bdk_pki_ecc_ctl1_t
-#define bustype_BDK_PKI_ECC_CTL1 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_ECC_CTL1 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_CTL1 "PKI_ECC_CTL1"
+#define device_bar_BDK_PKI_ECC_CTL1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_CTL1 0
 #define arguments_BDK_PKI_ECC_CTL1 -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_ecc_ctl2
+ * Register (NCB) pki_ecc_ctl2
  *
  * PKI ECC Control 2 Register
  * This register allows inserting ECC errors for testing.
@@ -4391,13 +4439,14 @@ static inline uint64_t BDK_PKI_ECC_CTL2_FUNC(void)
 }
 
 #define typedef_BDK_PKI_ECC_CTL2 bdk_pki_ecc_ctl2_t
-#define bustype_BDK_PKI_ECC_CTL2 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_ECC_CTL2 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_CTL2 "PKI_ECC_CTL2"
+#define device_bar_BDK_PKI_ECC_CTL2 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_CTL2 0
 #define arguments_BDK_PKI_ECC_CTL2 -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_ecc_int0
+ * Register (NCB) pki_ecc_int0
  *
  * PKI ECC Interrupt 0 Register
  */
@@ -4461,8 +4510,9 @@ static inline uint64_t BDK_PKI_ECC_INT0_FUNC(void)
 }
 
 #define typedef_BDK_PKI_ECC_INT0 bdk_pki_ecc_int0_t
-#define bustype_BDK_PKI_ECC_INT0 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_ECC_INT0 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT0 "PKI_ECC_INT0"
+#define device_bar_BDK_PKI_ECC_INT0 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT0 0
 #define arguments_BDK_PKI_ECC_INT0 -1,-1,-1,-1
 
@@ -4530,6 +4580,7 @@ static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1C_FUNC(void)
 #define typedef_BDK_PKI_ECC_INT0_ENA_W1C bdk_pki_ecc_int0_ena_w1c_t
 #define bustype_BDK_PKI_ECC_INT0_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT0_ENA_W1C "PKI_ECC_INT0_ENA_W1C"
+#define device_bar_BDK_PKI_ECC_INT0_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT0_ENA_W1C 0
 #define arguments_BDK_PKI_ECC_INT0_ENA_W1C -1,-1,-1,-1
 
@@ -4597,6 +4648,7 @@ static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1S_FUNC(void)
 #define typedef_BDK_PKI_ECC_INT0_ENA_W1S bdk_pki_ecc_int0_ena_w1s_t
 #define bustype_BDK_PKI_ECC_INT0_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT0_ENA_W1S "PKI_ECC_INT0_ENA_W1S"
+#define device_bar_BDK_PKI_ECC_INT0_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT0_ENA_W1S 0
 #define arguments_BDK_PKI_ECC_INT0_ENA_W1S -1,-1,-1,-1
 
@@ -4664,11 +4716,12 @@ static inline uint64_t BDK_PKI_ECC_INT0_W1S_FUNC(void)
 #define typedef_BDK_PKI_ECC_INT0_W1S bdk_pki_ecc_int0_w1s_t
 #define bustype_BDK_PKI_ECC_INT0_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT0_W1S "PKI_ECC_INT0_W1S"
+#define device_bar_BDK_PKI_ECC_INT0_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT0_W1S 0
 #define arguments_BDK_PKI_ECC_INT0_W1S -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_ecc_int1
+ * Register (NCB) pki_ecc_int1
  *
  * PKI ECC Interrupt 1 Register
  */
@@ -4748,8 +4801,9 @@ static inline uint64_t BDK_PKI_ECC_INT1_FUNC(void)
 }
 
 #define typedef_BDK_PKI_ECC_INT1 bdk_pki_ecc_int1_t
-#define bustype_BDK_PKI_ECC_INT1 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_ECC_INT1 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT1 "PKI_ECC_INT1"
+#define device_bar_BDK_PKI_ECC_INT1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT1 0
 #define arguments_BDK_PKI_ECC_INT1 -1,-1,-1,-1
 
@@ -4837,6 +4891,7 @@ static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1C_FUNC(void)
 #define typedef_BDK_PKI_ECC_INT1_ENA_W1C bdk_pki_ecc_int1_ena_w1c_t
 #define bustype_BDK_PKI_ECC_INT1_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT1_ENA_W1C "PKI_ECC_INT1_ENA_W1C"
+#define device_bar_BDK_PKI_ECC_INT1_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT1_ENA_W1C 0
 #define arguments_BDK_PKI_ECC_INT1_ENA_W1C -1,-1,-1,-1
 
@@ -4924,6 +4979,7 @@ static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1S_FUNC(void)
 #define typedef_BDK_PKI_ECC_INT1_ENA_W1S bdk_pki_ecc_int1_ena_w1s_t
 #define bustype_BDK_PKI_ECC_INT1_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT1_ENA_W1S "PKI_ECC_INT1_ENA_W1S"
+#define device_bar_BDK_PKI_ECC_INT1_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT1_ENA_W1S 0
 #define arguments_BDK_PKI_ECC_INT1_ENA_W1S -1,-1,-1,-1
 
@@ -5011,11 +5067,12 @@ static inline uint64_t BDK_PKI_ECC_INT1_W1S_FUNC(void)
 #define typedef_BDK_PKI_ECC_INT1_W1S bdk_pki_ecc_int1_w1s_t
 #define bustype_BDK_PKI_ECC_INT1_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT1_W1S "PKI_ECC_INT1_W1S"
+#define device_bar_BDK_PKI_ECC_INT1_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT1_W1S 0
 #define arguments_BDK_PKI_ECC_INT1_W1S -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_ecc_int2
+ * Register (NCB) pki_ecc_int2
  *
  * PKI ECC Interrupt 2 Register
  */
@@ -5051,8 +5108,9 @@ static inline uint64_t BDK_PKI_ECC_INT2_FUNC(void)
 }
 
 #define typedef_BDK_PKI_ECC_INT2 bdk_pki_ecc_int2_t
-#define bustype_BDK_PKI_ECC_INT2 BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_ECC_INT2 BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT2 "PKI_ECC_INT2"
+#define device_bar_BDK_PKI_ECC_INT2 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT2 0
 #define arguments_BDK_PKI_ECC_INT2 -1,-1,-1,-1
 
@@ -5092,6 +5150,7 @@ static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1C_FUNC(void)
 #define typedef_BDK_PKI_ECC_INT2_ENA_W1C bdk_pki_ecc_int2_ena_w1c_t
 #define bustype_BDK_PKI_ECC_INT2_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT2_ENA_W1C "PKI_ECC_INT2_ENA_W1C"
+#define device_bar_BDK_PKI_ECC_INT2_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT2_ENA_W1C 0
 #define arguments_BDK_PKI_ECC_INT2_ENA_W1C -1,-1,-1,-1
 
@@ -5131,6 +5190,7 @@ static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1S_FUNC(void)
 #define typedef_BDK_PKI_ECC_INT2_ENA_W1S bdk_pki_ecc_int2_ena_w1s_t
 #define bustype_BDK_PKI_ECC_INT2_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT2_ENA_W1S "PKI_ECC_INT2_ENA_W1S"
+#define device_bar_BDK_PKI_ECC_INT2_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT2_ENA_W1S 0
 #define arguments_BDK_PKI_ECC_INT2_ENA_W1S -1,-1,-1,-1
 
@@ -5170,11 +5230,12 @@ static inline uint64_t BDK_PKI_ECC_INT2_W1S_FUNC(void)
 #define typedef_BDK_PKI_ECC_INT2_W1S bdk_pki_ecc_int2_w1s_t
 #define bustype_BDK_PKI_ECC_INT2_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ECC_INT2_W1S "PKI_ECC_INT2_W1S"
+#define device_bar_BDK_PKI_ECC_INT2_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ECC_INT2_W1S 0
 #define arguments_BDK_PKI_ECC_INT2_W1S -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_frm_len_chk#
+ * Register (NCB) pki_frm_len_chk#
  *
  * PKI Frame Length Check Registers
  * Internal:
@@ -5207,13 +5268,14 @@ static inline uint64_t BDK_PKI_FRM_LEN_CHKX(unsigned long a)
 }
 
 #define typedef_BDK_PKI_FRM_LEN_CHKX(a) bdk_pki_frm_len_chkx_t
-#define bustype_BDK_PKI_FRM_LEN_CHKX(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_FRM_LEN_CHKX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_FRM_LEN_CHKX(a) "PKI_FRM_LEN_CHKX"
+#define device_bar_BDK_PKI_FRM_LEN_CHKX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_FRM_LEN_CHKX(a) (a)
 #define arguments_BDK_PKI_FRM_LEN_CHKX(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_gbl_pen
+ * Register (NCB) pki_gbl_pen
  *
  * PKI Global Parser Enable Register
  * Internal:
@@ -5331,13 +5393,14 @@ static inline uint64_t BDK_PKI_GBL_PEN_FUNC(void)
 }
 
 #define typedef_BDK_PKI_GBL_PEN bdk_pki_gbl_pen_t
-#define bustype_BDK_PKI_GBL_PEN BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_GBL_PEN BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_GBL_PEN "PKI_GBL_PEN"
+#define device_bar_BDK_PKI_GBL_PEN 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_GBL_PEN 0
 #define arguments_BDK_PKI_GBL_PEN -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_gen_int
+ * Register (NCB) pki_gen_int
  *
  * PKI General Interrupt Register
  */
@@ -5405,8 +5468,9 @@ static inline uint64_t BDK_PKI_GEN_INT_FUNC(void)
 }
 
 #define typedef_BDK_PKI_GEN_INT bdk_pki_gen_int_t
-#define bustype_BDK_PKI_GEN_INT BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_GEN_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_GEN_INT "PKI_GEN_INT"
+#define device_bar_BDK_PKI_GEN_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_GEN_INT 0
 #define arguments_BDK_PKI_GEN_INT -1,-1,-1,-1
 
@@ -5462,6 +5526,7 @@ static inline uint64_t BDK_PKI_GEN_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_PKI_GEN_INT_ENA_W1C bdk_pki_gen_int_ena_w1c_t
 #define bustype_BDK_PKI_GEN_INT_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_GEN_INT_ENA_W1C "PKI_GEN_INT_ENA_W1C"
+#define device_bar_BDK_PKI_GEN_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_GEN_INT_ENA_W1C 0
 #define arguments_BDK_PKI_GEN_INT_ENA_W1C -1,-1,-1,-1
 
@@ -5517,6 +5582,7 @@ static inline uint64_t BDK_PKI_GEN_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_PKI_GEN_INT_ENA_W1S bdk_pki_gen_int_ena_w1s_t
 #define bustype_BDK_PKI_GEN_INT_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_GEN_INT_ENA_W1S "PKI_GEN_INT_ENA_W1S"
+#define device_bar_BDK_PKI_GEN_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_GEN_INT_ENA_W1S 0
 #define arguments_BDK_PKI_GEN_INT_ENA_W1S -1,-1,-1,-1
 
@@ -5572,11 +5638,12 @@ static inline uint64_t BDK_PKI_GEN_INT_W1S_FUNC(void)
 #define typedef_BDK_PKI_GEN_INT_W1S bdk_pki_gen_int_w1s_t
 #define bustype_BDK_PKI_GEN_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_GEN_INT_W1S "PKI_GEN_INT_W1S"
+#define device_bar_BDK_PKI_GEN_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_GEN_INT_W1S 0
 #define arguments_BDK_PKI_GEN_INT_W1S -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_icg#_cfg
+ * Register (NCB) pki_icg#_cfg
  *
  * PKI Cluster Group Control Register
  * Configures a cluster group.
@@ -5678,13 +5745,14 @@ static inline uint64_t BDK_PKI_ICGX_CFG(unsigned long a)
 }
 
 #define typedef_BDK_PKI_ICGX_CFG(a) bdk_pki_icgx_cfg_t
-#define bustype_BDK_PKI_ICGX_CFG(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_ICGX_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_ICGX_CFG(a) "PKI_ICGX_CFG"
+#define device_bar_BDK_PKI_ICGX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_ICGX_CFG(a) (a)
 #define arguments_BDK_PKI_ICGX_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_imem#
+ * Register (NCB) pki_imem#
  *
  * PKI Cluster IMEM Registers
  */
@@ -5713,13 +5781,14 @@ static inline uint64_t BDK_PKI_IMEMX(unsigned long a)
 }
 
 #define typedef_BDK_PKI_IMEMX(a) bdk_pki_imemx_t
-#define bustype_BDK_PKI_IMEMX(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_IMEMX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_IMEMX(a) "PKI_IMEMX"
+#define device_bar_BDK_PKI_IMEMX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_IMEMX(a) (a)
 #define arguments_BDK_PKI_IMEMX(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_ltype#_map
+ * Register (NCB) pki_ltype#_map
  *
  * PKI Backend Layer Map Register
  */
@@ -5752,13 +5821,14 @@ static inline uint64_t BDK_PKI_LTYPEX_MAP(unsigned long a)
 }
 
 #define typedef_BDK_PKI_LTYPEX_MAP(a) bdk_pki_ltypex_map_t
-#define bustype_BDK_PKI_LTYPEX_MAP(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_LTYPEX_MAP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_LTYPEX_MAP(a) "PKI_LTYPEX_MAP"
+#define device_bar_BDK_PKI_LTYPEX_MAP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_LTYPEX_MAP(a) (a)
 #define arguments_BDK_PKI_LTYPEX_MAP(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_pbe_eco
+ * Register (NCB) pki_pbe_eco
  *
  * INTERNAL: PKI PBE ECO Register
  */
@@ -5788,13 +5858,14 @@ static inline uint64_t BDK_PKI_PBE_ECO_FUNC(void)
 }
 
 #define typedef_BDK_PKI_PBE_ECO bdk_pki_pbe_eco_t
-#define bustype_BDK_PKI_PBE_ECO BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PBE_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PBE_ECO "PKI_PBE_ECO"
+#define device_bar_BDK_PKI_PBE_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PBE_ECO 0
 #define arguments_BDK_PKI_PBE_ECO -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_pcam_lookup
+ * Register (NCB) pki_pcam_lookup
  *
  * PKI PCAM Lookup Register
  * For diagnostic use only, perform a PCAM lookup against the provided cluster and PCAM instance
@@ -5836,13 +5907,14 @@ static inline uint64_t BDK_PKI_PCAM_LOOKUP_FUNC(void)
 }
 
 #define typedef_BDK_PKI_PCAM_LOOKUP bdk_pki_pcam_lookup_t
-#define bustype_BDK_PKI_PCAM_LOOKUP BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PCAM_LOOKUP BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PCAM_LOOKUP "PKI_PCAM_LOOKUP"
+#define device_bar_BDK_PKI_PCAM_LOOKUP 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PCAM_LOOKUP 0
 #define arguments_BDK_PKI_PCAM_LOOKUP -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_pcam_result
+ * Register (NCB) pki_pcam_result
  *
  * PKI PCAM Result Register
  * Internal:
@@ -5887,8 +5959,9 @@ static inline uint64_t BDK_PKI_PCAM_RESULT_FUNC(void)
 }
 
 #define typedef_BDK_PKI_PCAM_RESULT bdk_pki_pcam_result_t
-#define bustype_BDK_PKI_PCAM_RESULT BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PCAM_RESULT BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PCAM_RESULT "PKI_PCAM_RESULT"
+#define device_bar_BDK_PKI_PCAM_RESULT 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PCAM_RESULT 0
 #define arguments_BDK_PKI_PCAM_RESULT -1,-1,-1,-1
 
@@ -5926,6 +5999,7 @@ static inline uint64_t BDK_PKI_PF_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_PKI_PF_MSIX_PBAX(a) bdk_pki_pf_msix_pbax_t
 #define bustype_BDK_PKI_PF_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PF_MSIX_PBAX(a) "PKI_PF_MSIX_PBAX"
+#define device_bar_BDK_PKI_PF_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PKI_PF_MSIX_PBAX(a) (a)
 #define arguments_BDK_PKI_PF_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -5982,6 +6056,7 @@ static inline uint64_t BDK_PKI_PF_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_PKI_PF_MSIX_VECX_ADDR(a) bdk_pki_pf_msix_vecx_addr_t
 #define bustype_BDK_PKI_PF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PF_MSIX_VECX_ADDR(a) "PKI_PF_MSIX_VECX_ADDR"
+#define device_bar_BDK_PKI_PF_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PKI_PF_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_PKI_PF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -6022,11 +6097,12 @@ static inline uint64_t BDK_PKI_PF_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_PKI_PF_MSIX_VECX_CTL(a) bdk_pki_pf_msix_vecx_ctl_t
 #define bustype_BDK_PKI_PF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PF_MSIX_VECX_CTL(a) "PKI_PF_MSIX_VECX_CTL"
+#define device_bar_BDK_PKI_PF_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PKI_PF_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_PKI_PF_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_pfe_diag
+ * Register (NCB) pki_pfe_diag
  *
  * INTERNAL: PKI PFE Diagnostic Register
  */
@@ -6056,13 +6132,14 @@ static inline uint64_t BDK_PKI_PFE_DIAG_FUNC(void)
 }
 
 #define typedef_BDK_PKI_PFE_DIAG bdk_pki_pfe_diag_t
-#define bustype_BDK_PKI_PFE_DIAG BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PFE_DIAG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PFE_DIAG "PKI_PFE_DIAG"
+#define device_bar_BDK_PKI_PFE_DIAG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PFE_DIAG 0
 #define arguments_BDK_PKI_PFE_DIAG -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_pfe_eco
+ * Register (NCB) pki_pfe_eco
  *
  * INTERNAL: PKI PFE ECO Register
  */
@@ -6092,13 +6169,14 @@ static inline uint64_t BDK_PKI_PFE_ECO_FUNC(void)
 }
 
 #define typedef_BDK_PKI_PFE_ECO bdk_pki_pfe_eco_t
-#define bustype_BDK_PKI_PFE_ECO BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PFE_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PFE_ECO "PKI_PFE_ECO"
+#define device_bar_BDK_PKI_PFE_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PFE_ECO 0
 #define arguments_BDK_PKI_PFE_ECO -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_pix_clken
+ * Register (NCB) pki_pix_clken
  *
  * INTERNAL: PKI PIX Conditional Clock Enable Register
  */
@@ -6132,13 +6210,14 @@ static inline uint64_t BDK_PKI_PIX_CLKEN_FUNC(void)
 }
 
 #define typedef_BDK_PKI_PIX_CLKEN bdk_pki_pix_clken_t
-#define bustype_BDK_PKI_PIX_CLKEN BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PIX_CLKEN BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PIX_CLKEN "PKI_PIX_CLKEN"
+#define device_bar_BDK_PKI_PIX_CLKEN 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PIX_CLKEN 0
 #define arguments_BDK_PKI_PIX_CLKEN -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_pix_diag
+ * Register (NCB) pki_pix_diag
  *
  * INTERNAL: PKI PIX Diagnostic Register
  */
@@ -6168,13 +6247,14 @@ static inline uint64_t BDK_PKI_PIX_DIAG_FUNC(void)
 }
 
 #define typedef_BDK_PKI_PIX_DIAG bdk_pki_pix_diag_t
-#define bustype_BDK_PKI_PIX_DIAG BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PIX_DIAG BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PIX_DIAG "PKI_PIX_DIAG"
+#define device_bar_BDK_PKI_PIX_DIAG 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PIX_DIAG 0
 #define arguments_BDK_PKI_PIX_DIAG -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_pix_eco
+ * Register (NCB) pki_pix_eco
  *
  * INTERNAL: PKI PIX ECO Register
  */
@@ -6204,13 +6284,14 @@ static inline uint64_t BDK_PKI_PIX_ECO_FUNC(void)
 }
 
 #define typedef_BDK_PKI_PIX_ECO bdk_pki_pix_eco_t
-#define bustype_BDK_PKI_PIX_ECO BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PIX_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PIX_ECO "PKI_PIX_ECO"
+#define device_bar_BDK_PKI_PIX_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PIX_ECO 0
 #define arguments_BDK_PKI_PIX_ECO -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_pkind#_icgsel
+ * Register (NCB) pki_pkind#_icgsel
  *
  * PKI Per-Pkind Cluster Group Select Register
  * Internal:
@@ -6243,13 +6324,14 @@ static inline uint64_t BDK_PKI_PKINDX_ICGSEL(unsigned long a)
 }
 
 #define typedef_BDK_PKI_PKINDX_ICGSEL(a) bdk_pki_pkindx_icgsel_t
-#define bustype_BDK_PKI_PKINDX_ICGSEL(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PKINDX_ICGSEL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PKINDX_ICGSEL(a) "PKI_PKINDX_ICGSEL"
+#define device_bar_BDK_PKI_PKINDX_ICGSEL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PKINDX_ICGSEL(a) (a)
 #define arguments_BDK_PKI_PKINDX_ICGSEL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_pknd#_inb_stat0
+ * Register (NCB) pki_pknd#_inb_stat0
  *
  * PKI Inbound Packets Statistic Registers
  * Inbound packets received by PKI per pkind.
@@ -6279,13 +6361,14 @@ static inline uint64_t BDK_PKI_PKNDX_INB_STAT0(unsigned long a)
 }
 
 #define typedef_BDK_PKI_PKNDX_INB_STAT0(a) bdk_pki_pkndx_inb_stat0_t
-#define bustype_BDK_PKI_PKNDX_INB_STAT0(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PKNDX_INB_STAT0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PKNDX_INB_STAT0(a) "PKI_PKNDX_INB_STAT0"
+#define device_bar_BDK_PKI_PKNDX_INB_STAT0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PKNDX_INB_STAT0(a) (a)
 #define arguments_BDK_PKI_PKNDX_INB_STAT0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_pknd#_inb_stat1
+ * Register (NCB) pki_pknd#_inb_stat1
  *
  * PKI Inbound Octets Statistic Registers
  * Inbound octets received by PKI per pkind.
@@ -6315,13 +6398,14 @@ static inline uint64_t BDK_PKI_PKNDX_INB_STAT1(unsigned long a)
 }
 
 #define typedef_BDK_PKI_PKNDX_INB_STAT1(a) bdk_pki_pkndx_inb_stat1_t
-#define bustype_BDK_PKI_PKNDX_INB_STAT1(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PKNDX_INB_STAT1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PKNDX_INB_STAT1(a) "PKI_PKNDX_INB_STAT1"
+#define device_bar_BDK_PKI_PKNDX_INB_STAT1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PKNDX_INB_STAT1(a) (a)
 #define arguments_BDK_PKI_PKNDX_INB_STAT1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_pknd#_inb_stat2
+ * Register (NCB) pki_pknd#_inb_stat2
  *
  * PKI Inbound Errors Statistic Registers
  * Inbound error packets received by PKI per pkind.
@@ -6351,13 +6435,14 @@ static inline uint64_t BDK_PKI_PKNDX_INB_STAT2(unsigned long a)
 }
 
 #define typedef_BDK_PKI_PKNDX_INB_STAT2(a) bdk_pki_pkndx_inb_stat2_t
-#define bustype_BDK_PKI_PKNDX_INB_STAT2(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PKNDX_INB_STAT2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PKNDX_INB_STAT2(a) "PKI_PKNDX_INB_STAT2"
+#define device_bar_BDK_PKI_PKNDX_INB_STAT2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PKNDX_INB_STAT2(a) (a)
 #define arguments_BDK_PKI_PKNDX_INB_STAT2(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_pkt_err
+ * Register (NCB) pki_pkt_err
  *
  * PKI Packet Error Register
  */
@@ -6389,13 +6474,14 @@ static inline uint64_t BDK_PKI_PKT_ERR_FUNC(void)
 }
 
 #define typedef_BDK_PKI_PKT_ERR bdk_pki_pkt_err_t
-#define bustype_BDK_PKI_PKT_ERR BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PKT_ERR BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PKT_ERR "PKI_PKT_ERR"
+#define device_bar_BDK_PKI_PKT_ERR 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PKT_ERR 0
 #define arguments_BDK_PKI_PKT_ERR -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_ptag_avail
+ * Register (NCB) pki_ptag_avail
  *
  * PKI PTAG Available Register
  * For diagnostic use. INTERNAL: This register configures tag management. It is
@@ -6444,13 +6530,14 @@ static inline uint64_t BDK_PKI_PTAG_AVAIL_FUNC(void)
 }
 
 #define typedef_BDK_PKI_PTAG_AVAIL bdk_pki_ptag_avail_t
-#define bustype_BDK_PKI_PTAG_AVAIL BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_PTAG_AVAIL BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_PTAG_AVAIL "PKI_PTAG_AVAIL"
+#define device_bar_BDK_PKI_PTAG_AVAIL 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PTAG_AVAIL 0
 #define arguments_BDK_PKI_PTAG_AVAIL -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_qpg_tbl#
+ * Register (NCB) pki_qpg_tbl#
  *
  * PKI QPG Table Registers
  * The QPG table is used to indirectly calculate the Portadd/Aura/Group from the Diffsrv, HiGig
@@ -6505,13 +6592,14 @@ static inline uint64_t BDK_PKI_QPG_TBLX(unsigned long a)
 }
 
 #define typedef_BDK_PKI_QPG_TBLX(a) bdk_pki_qpg_tblx_t
-#define bustype_BDK_PKI_QPG_TBLX(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_QPG_TBLX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_QPG_TBLX(a) "PKI_QPG_TBLX"
+#define device_bar_BDK_PKI_QPG_TBLX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_QPG_TBLX(a) (a)
 #define arguments_BDK_PKI_QPG_TBLX(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_qpg_tblb#
+ * Register (NCB) pki_qpg_tblb#
  *
  * PKI QPG Table Registers 2
  * This register configures the QPG table. See also PKI_QPG_TBL().
@@ -6563,13 +6651,14 @@ static inline uint64_t BDK_PKI_QPG_TBLBX(unsigned long a)
 }
 
 #define typedef_BDK_PKI_QPG_TBLBX(a) bdk_pki_qpg_tblbx_t
-#define bustype_BDK_PKI_QPG_TBLBX(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_QPG_TBLBX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_QPG_TBLBX(a) "PKI_QPG_TBLBX"
+#define device_bar_BDK_PKI_QPG_TBLBX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_QPG_TBLBX(a) (a)
 #define arguments_BDK_PKI_QPG_TBLBX(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_reasm_sop#
+ * Register (NCB) pki_reasm_sop#
  *
  * PKI Reasm-Id SOP Register
  * Set when a SOP is detected on a Reasm-Id, where the Reasm-ID value sets the bit vector of this
@@ -6606,13 +6695,14 @@ static inline uint64_t BDK_PKI_REASM_SOPX(unsigned long a)
 }
 
 #define typedef_BDK_PKI_REASM_SOPX(a) bdk_pki_reasm_sopx_t
-#define bustype_BDK_PKI_REASM_SOPX(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_REASM_SOPX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_REASM_SOPX(a) "PKI_REASM_SOPX"
+#define device_bar_BDK_PKI_REASM_SOPX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_REASM_SOPX(a) (a)
 #define arguments_BDK_PKI_REASM_SOPX(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_req_wgt
+ * Register (NCB) pki_req_wgt
  *
  * PKI Request Weight Register
  * Controls the round-robin weights between each PKI requestor. Intended for diagnostic tuning only.
@@ -6659,13 +6749,14 @@ static inline uint64_t BDK_PKI_REQ_WGT_FUNC(void)
 }
 
 #define typedef_BDK_PKI_REQ_WGT bdk_pki_req_wgt_t
-#define bustype_BDK_PKI_REQ_WGT BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_REQ_WGT BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_REQ_WGT "PKI_REQ_WGT"
+#define device_bar_BDK_PKI_REQ_WGT 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_REQ_WGT 0
 #define arguments_BDK_PKI_REQ_WGT -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_sft_rst
+ * Register (NCB) pki_sft_rst
  *
  * PKI Soft Reset Register
  * Internal:
@@ -6718,13 +6809,14 @@ static inline uint64_t BDK_PKI_SFT_RST_FUNC(void)
 }
 
 #define typedef_BDK_PKI_SFT_RST bdk_pki_sft_rst_t
-#define bustype_BDK_PKI_SFT_RST BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_SFT_RST BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_SFT_RST "PKI_SFT_RST"
+#define device_bar_BDK_PKI_SFT_RST 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_SFT_RST 0
 #define arguments_BDK_PKI_SFT_RST -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_hist0
+ * Register (NCB) pki_stat#_hist0
  *
  * PKI Histogram 0 Statistic Registers
  */
@@ -6755,13 +6847,14 @@ static inline uint64_t BDK_PKI_STATX_HIST0(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_HIST0(a) bdk_pki_statx_hist0_t
-#define bustype_BDK_PKI_STATX_HIST0(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_HIST0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_HIST0(a) "PKI_STATX_HIST0"
+#define device_bar_BDK_PKI_STATX_HIST0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_HIST0(a) (a)
 #define arguments_BDK_PKI_STATX_HIST0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_hist1
+ * Register (NCB) pki_stat#_hist1
  *
  * PKI Histogram 1 Statistic Registers
  */
@@ -6790,13 +6883,14 @@ static inline uint64_t BDK_PKI_STATX_HIST1(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_HIST1(a) bdk_pki_statx_hist1_t
-#define bustype_BDK_PKI_STATX_HIST1(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_HIST1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_HIST1(a) "PKI_STATX_HIST1"
+#define device_bar_BDK_PKI_STATX_HIST1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_HIST1(a) (a)
 #define arguments_BDK_PKI_STATX_HIST1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_hist2
+ * Register (NCB) pki_stat#_hist2
  *
  * PKI Histogram 2 Statistic Registers
  */
@@ -6825,13 +6919,14 @@ static inline uint64_t BDK_PKI_STATX_HIST2(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_HIST2(a) bdk_pki_statx_hist2_t
-#define bustype_BDK_PKI_STATX_HIST2(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_HIST2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_HIST2(a) "PKI_STATX_HIST2"
+#define device_bar_BDK_PKI_STATX_HIST2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_HIST2(a) (a)
 #define arguments_BDK_PKI_STATX_HIST2(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_hist3
+ * Register (NCB) pki_stat#_hist3
  *
  * PKI Histogram 3 Statistic Registers
  */
@@ -6860,13 +6955,14 @@ static inline uint64_t BDK_PKI_STATX_HIST3(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_HIST3(a) bdk_pki_statx_hist3_t
-#define bustype_BDK_PKI_STATX_HIST3(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_HIST3(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_HIST3(a) "PKI_STATX_HIST3"
+#define device_bar_BDK_PKI_STATX_HIST3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_HIST3(a) (a)
 #define arguments_BDK_PKI_STATX_HIST3(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_hist4
+ * Register (NCB) pki_stat#_hist4
  *
  * PKI Histogram 4 Statistic Registers
  */
@@ -6895,13 +6991,14 @@ static inline uint64_t BDK_PKI_STATX_HIST4(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_HIST4(a) bdk_pki_statx_hist4_t
-#define bustype_BDK_PKI_STATX_HIST4(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_HIST4(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_HIST4(a) "PKI_STATX_HIST4"
+#define device_bar_BDK_PKI_STATX_HIST4(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_HIST4(a) (a)
 #define arguments_BDK_PKI_STATX_HIST4(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_hist5
+ * Register (NCB) pki_stat#_hist5
  *
  * PKI Histogram 5 Statistic Registers
  */
@@ -6930,13 +7027,14 @@ static inline uint64_t BDK_PKI_STATX_HIST5(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_HIST5(a) bdk_pki_statx_hist5_t
-#define bustype_BDK_PKI_STATX_HIST5(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_HIST5(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_HIST5(a) "PKI_STATX_HIST5"
+#define device_bar_BDK_PKI_STATX_HIST5(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_HIST5(a) (a)
 #define arguments_BDK_PKI_STATX_HIST5(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_hist6
+ * Register (NCB) pki_stat#_hist6
  *
  * PKI Histogram 6 Statistic Registers
  */
@@ -6965,13 +7063,14 @@ static inline uint64_t BDK_PKI_STATX_HIST6(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_HIST6(a) bdk_pki_statx_hist6_t
-#define bustype_BDK_PKI_STATX_HIST6(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_HIST6(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_HIST6(a) "PKI_STATX_HIST6"
+#define device_bar_BDK_PKI_STATX_HIST6(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_HIST6(a) (a)
 #define arguments_BDK_PKI_STATX_HIST6(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat0
+ * Register (NCB) pki_stat#_stat0
  *
  * PKI Packets Statistic Registers
  */
@@ -7000,13 +7099,14 @@ static inline uint64_t BDK_PKI_STATX_STAT0(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT0(a) bdk_pki_statx_stat0_t
-#define bustype_BDK_PKI_STATX_STAT0(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT0(a) "PKI_STATX_STAT0"
+#define device_bar_BDK_PKI_STATX_STAT0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT0(a) (a)
 #define arguments_BDK_PKI_STATX_STAT0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat1
+ * Register (NCB) pki_stat#_stat1
  *
  * PKI Octets Statistic Registers
  */
@@ -7035,13 +7135,14 @@ static inline uint64_t BDK_PKI_STATX_STAT1(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT1(a) bdk_pki_statx_stat1_t
-#define bustype_BDK_PKI_STATX_STAT1(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT1(a) "PKI_STATX_STAT1"
+#define device_bar_BDK_PKI_STATX_STAT1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT1(a) (a)
 #define arguments_BDK_PKI_STATX_STAT1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat10
+ * Register (NCB) pki_stat#_stat10
  *
  * PKI Jabber Statistic Registers
  */
@@ -7070,13 +7171,14 @@ static inline uint64_t BDK_PKI_STATX_STAT10(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT10(a) bdk_pki_statx_stat10_t
-#define bustype_BDK_PKI_STATX_STAT10(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT10(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT10(a) "PKI_STATX_STAT10"
+#define device_bar_BDK_PKI_STATX_STAT10(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT10(a) (a)
 #define arguments_BDK_PKI_STATX_STAT10(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat11
+ * Register (NCB) pki_stat#_stat11
  *
  * PKI Oversize Statistic Registers
  */
@@ -7105,13 +7207,14 @@ static inline uint64_t BDK_PKI_STATX_STAT11(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT11(a) bdk_pki_statx_stat11_t
-#define bustype_BDK_PKI_STATX_STAT11(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT11(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT11(a) "PKI_STATX_STAT11"
+#define device_bar_BDK_PKI_STATX_STAT11(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT11(a) (a)
 #define arguments_BDK_PKI_STATX_STAT11(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat12
+ * Register (NCB) pki_stat#_stat12
  *
  * PKI L2 Error Statistic Registers
  */
@@ -7142,13 +7245,14 @@ static inline uint64_t BDK_PKI_STATX_STAT12(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT12(a) bdk_pki_statx_stat12_t
-#define bustype_BDK_PKI_STATX_STAT12(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT12(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT12(a) "PKI_STATX_STAT12"
+#define device_bar_BDK_PKI_STATX_STAT12(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT12(a) (a)
 #define arguments_BDK_PKI_STATX_STAT12(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat13
+ * Register (NCB) pki_stat#_stat13
  *
  * PKI Special Statistic Registers
  */
@@ -7181,13 +7285,14 @@ static inline uint64_t BDK_PKI_STATX_STAT13(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT13(a) bdk_pki_statx_stat13_t
-#define bustype_BDK_PKI_STATX_STAT13(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT13(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT13(a) "PKI_STATX_STAT13"
+#define device_bar_BDK_PKI_STATX_STAT13(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT13(a) (a)
 #define arguments_BDK_PKI_STATX_STAT13(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat14
+ * Register (NCB) pki_stat#_stat14
  *
  * PKI Dropped L2 Broadcast Statistic Registers
  */
@@ -7218,13 +7323,14 @@ static inline uint64_t BDK_PKI_STATX_STAT14(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT14(a) bdk_pki_statx_stat14_t
-#define bustype_BDK_PKI_STATX_STAT14(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT14(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT14(a) "PKI_STATX_STAT14"
+#define device_bar_BDK_PKI_STATX_STAT14(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT14(a) (a)
 #define arguments_BDK_PKI_STATX_STAT14(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat15
+ * Register (NCB) pki_stat#_stat15
  *
  * PKI Dropped L2 Multicast Statistic Registers
  */
@@ -7255,13 +7361,14 @@ static inline uint64_t BDK_PKI_STATX_STAT15(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT15(a) bdk_pki_statx_stat15_t
-#define bustype_BDK_PKI_STATX_STAT15(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT15(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT15(a) "PKI_STATX_STAT15"
+#define device_bar_BDK_PKI_STATX_STAT15(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT15(a) (a)
 #define arguments_BDK_PKI_STATX_STAT15(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat16
+ * Register (NCB) pki_stat#_stat16
  *
  * PKI Dropped L3 Broadcast Statistic Registers
  */
@@ -7292,13 +7399,14 @@ static inline uint64_t BDK_PKI_STATX_STAT16(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT16(a) bdk_pki_statx_stat16_t
-#define bustype_BDK_PKI_STATX_STAT16(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT16(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT16(a) "PKI_STATX_STAT16"
+#define device_bar_BDK_PKI_STATX_STAT16(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT16(a) (a)
 #define arguments_BDK_PKI_STATX_STAT16(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat17
+ * Register (NCB) pki_stat#_stat17
  *
  * PKI Dropped L3 Multicast Statistic Registers
  */
@@ -7329,13 +7437,14 @@ static inline uint64_t BDK_PKI_STATX_STAT17(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT17(a) bdk_pki_statx_stat17_t
-#define bustype_BDK_PKI_STATX_STAT17(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT17(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT17(a) "PKI_STATX_STAT17"
+#define device_bar_BDK_PKI_STATX_STAT17(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT17(a) (a)
 #define arguments_BDK_PKI_STATX_STAT17(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat18
+ * Register (NCB) pki_stat#_stat18
  *
  * PKI Dropped Special Statistic Registers
  */
@@ -7366,13 +7475,14 @@ static inline uint64_t BDK_PKI_STATX_STAT18(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT18(a) bdk_pki_statx_stat18_t
-#define bustype_BDK_PKI_STATX_STAT18(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT18(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT18(a) "PKI_STATX_STAT18"
+#define device_bar_BDK_PKI_STATX_STAT18(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT18(a) (a)
 #define arguments_BDK_PKI_STATX_STAT18(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat2
+ * Register (NCB) pki_stat#_stat2
  *
  * PKI Raw Packets Statistic Registers
  */
@@ -7401,13 +7511,14 @@ static inline uint64_t BDK_PKI_STATX_STAT2(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT2(a) bdk_pki_statx_stat2_t
-#define bustype_BDK_PKI_STATX_STAT2(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT2(a) "PKI_STATX_STAT2"
+#define device_bar_BDK_PKI_STATX_STAT2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT2(a) (a)
 #define arguments_BDK_PKI_STATX_STAT2(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat3
+ * Register (NCB) pki_stat#_stat3
  *
  * PKI Dropped Packets Statistic Registers
  */
@@ -7436,13 +7547,14 @@ static inline uint64_t BDK_PKI_STATX_STAT3(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT3(a) bdk_pki_statx_stat3_t
-#define bustype_BDK_PKI_STATX_STAT3(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT3(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT3(a) "PKI_STATX_STAT3"
+#define device_bar_BDK_PKI_STATX_STAT3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT3(a) (a)
 #define arguments_BDK_PKI_STATX_STAT3(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat4
+ * Register (NCB) pki_stat#_stat4
  *
  * PKI Dropped Octets Statistic Registers
  */
@@ -7471,13 +7583,14 @@ static inline uint64_t BDK_PKI_STATX_STAT4(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT4(a) bdk_pki_statx_stat4_t
-#define bustype_BDK_PKI_STATX_STAT4(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT4(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT4(a) "PKI_STATX_STAT4"
+#define device_bar_BDK_PKI_STATX_STAT4(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT4(a) (a)
 #define arguments_BDK_PKI_STATX_STAT4(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat5
+ * Register (NCB) pki_stat#_stat5
  *
  * PKI L2 Broadcast Statistic Registers
  */
@@ -7508,13 +7621,14 @@ static inline uint64_t BDK_PKI_STATX_STAT5(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT5(a) bdk_pki_statx_stat5_t
-#define bustype_BDK_PKI_STATX_STAT5(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT5(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT5(a) "PKI_STATX_STAT5"
+#define device_bar_BDK_PKI_STATX_STAT5(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT5(a) (a)
 #define arguments_BDK_PKI_STATX_STAT5(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat6
+ * Register (NCB) pki_stat#_stat6
  *
  * PKI L2 Multicast Statistic Registers
  */
@@ -7545,13 +7659,14 @@ static inline uint64_t BDK_PKI_STATX_STAT6(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT6(a) bdk_pki_statx_stat6_t
-#define bustype_BDK_PKI_STATX_STAT6(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT6(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT6(a) "PKI_STATX_STAT6"
+#define device_bar_BDK_PKI_STATX_STAT6(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT6(a) (a)
 #define arguments_BDK_PKI_STATX_STAT6(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat7
+ * Register (NCB) pki_stat#_stat7
  *
  * PKI FCS Statistic Registers
  */
@@ -7580,13 +7695,14 @@ static inline uint64_t BDK_PKI_STATX_STAT7(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT7(a) bdk_pki_statx_stat7_t
-#define bustype_BDK_PKI_STATX_STAT7(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT7(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT7(a) "PKI_STATX_STAT7"
+#define device_bar_BDK_PKI_STATX_STAT7(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT7(a) (a)
 #define arguments_BDK_PKI_STATX_STAT7(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat8
+ * Register (NCB) pki_stat#_stat8
  *
  * PKI Frac Statistic Registers
  */
@@ -7615,13 +7731,14 @@ static inline uint64_t BDK_PKI_STATX_STAT8(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT8(a) bdk_pki_statx_stat8_t
-#define bustype_BDK_PKI_STATX_STAT8(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT8(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT8(a) "PKI_STATX_STAT8"
+#define device_bar_BDK_PKI_STATX_STAT8(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT8(a) (a)
 #define arguments_BDK_PKI_STATX_STAT8(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_stat9
+ * Register (NCB) pki_stat#_stat9
  *
  * PKI Undersize Statistic Registers
  */
@@ -7650,13 +7767,14 @@ static inline uint64_t BDK_PKI_STATX_STAT9(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STATX_STAT9(a) bdk_pki_statx_stat9_t
-#define bustype_BDK_PKI_STATX_STAT9(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STATX_STAT9(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STATX_STAT9(a) "PKI_STATX_STAT9"
+#define device_bar_BDK_PKI_STATX_STAT9(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STATX_STAT9(a) (a)
 #define arguments_BDK_PKI_STATX_STAT9(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_stat_ctl
+ * Register (NCB) pki_stat_ctl
  *
  * PKI Stat Control Register
  * Controls how the PKI statistics counters are handled.
@@ -7705,13 +7823,14 @@ static inline uint64_t BDK_PKI_STAT_CTL_FUNC(void)
 }
 
 #define typedef_BDK_PKI_STAT_CTL bdk_pki_stat_ctl_t
-#define bustype_BDK_PKI_STAT_CTL BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STAT_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STAT_CTL "PKI_STAT_CTL"
+#define device_bar_BDK_PKI_STAT_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STAT_CTL 0
 #define arguments_BDK_PKI_STAT_CTL -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_style#_buf
+ * Register (NCB) pki_style#_buf
  *
  * PKI Per-Style Buffer Configuration Register
  * Internal:
@@ -7870,13 +7989,14 @@ static inline uint64_t BDK_PKI_STYLEX_BUF(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STYLEX_BUF(a) bdk_pki_stylex_buf_t
-#define bustype_BDK_PKI_STYLEX_BUF(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STYLEX_BUF(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STYLEX_BUF(a) "PKI_STYLEX_BUF"
+#define device_bar_BDK_PKI_STYLEX_BUF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STYLEX_BUF(a) (a)
 #define arguments_BDK_PKI_STYLEX_BUF(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_style#_tag_mask
+ * Register (NCB) pki_style#_tag_mask
  *
  * PKI Per-Style Tag Generation Mask Registers
  * Internal:
@@ -7911,13 +8031,14 @@ static inline uint64_t BDK_PKI_STYLEX_TAG_MASK(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STYLEX_TAG_MASK(a) bdk_pki_stylex_tag_mask_t
-#define bustype_BDK_PKI_STYLEX_TAG_MASK(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STYLEX_TAG_MASK(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STYLEX_TAG_MASK(a) "PKI_STYLEX_TAG_MASK"
+#define device_bar_BDK_PKI_STYLEX_TAG_MASK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STYLEX_TAG_MASK(a) (a)
 #define arguments_BDK_PKI_STYLEX_TAG_MASK(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_style#_tag_sel
+ * Register (NCB) pki_style#_tag_sel
  *
  * PKI Per-Style Configuration 2 Registers
  * Internal:
@@ -7962,13 +8083,14 @@ static inline uint64_t BDK_PKI_STYLEX_TAG_SEL(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STYLEX_TAG_SEL(a) bdk_pki_stylex_tag_sel_t
-#define bustype_BDK_PKI_STYLEX_TAG_SEL(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STYLEX_TAG_SEL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STYLEX_TAG_SEL(a) "PKI_STYLEX_TAG_SEL"
+#define device_bar_BDK_PKI_STYLEX_TAG_SEL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STYLEX_TAG_SEL(a) (a)
 #define arguments_BDK_PKI_STYLEX_TAG_SEL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_style#_wq2
+ * Register (NCB) pki_style#_wq2
  *
  * PKI Per-Style WQ Word 2 Registers
  * Internal:
@@ -8001,13 +8123,14 @@ static inline uint64_t BDK_PKI_STYLEX_WQ2(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STYLEX_WQ2(a) bdk_pki_stylex_wq2_t
-#define bustype_BDK_PKI_STYLEX_WQ2(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STYLEX_WQ2(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STYLEX_WQ2(a) "PKI_STYLEX_WQ2"
+#define device_bar_BDK_PKI_STYLEX_WQ2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STYLEX_WQ2(a) (a)
 #define arguments_BDK_PKI_STYLEX_WQ2(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_style#_wq4
+ * Register (NCB) pki_style#_wq4
  *
  * PKI Per-Style WQ Word 4 Registers
  * Internal:
@@ -8040,13 +8163,14 @@ static inline uint64_t BDK_PKI_STYLEX_WQ4(unsigned long a)
 }
 
 #define typedef_BDK_PKI_STYLEX_WQ4(a) bdk_pki_stylex_wq4_t
-#define bustype_BDK_PKI_STYLEX_WQ4(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_STYLEX_WQ4(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_STYLEX_WQ4(a) "PKI_STYLEX_WQ4"
+#define device_bar_BDK_PKI_STYLEX_WQ4(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STYLEX_WQ4(a) (a)
 #define arguments_BDK_PKI_STYLEX_WQ4(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_tag_inc#_ctl
+ * Register (NCB) pki_tag_inc#_ctl
  *
  * PKI Tag Inclusion Control Registers
  */
@@ -8117,13 +8241,14 @@ static inline uint64_t BDK_PKI_TAG_INCX_CTL(unsigned long a)
 }
 
 #define typedef_BDK_PKI_TAG_INCX_CTL(a) bdk_pki_tag_incx_ctl_t
-#define bustype_BDK_PKI_TAG_INCX_CTL(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_TAG_INCX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_TAG_INCX_CTL(a) "PKI_TAG_INCX_CTL"
+#define device_bar_BDK_PKI_TAG_INCX_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_TAG_INCX_CTL(a) (a)
 #define arguments_BDK_PKI_TAG_INCX_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_tag_inc#_mask
+ * Register (NCB) pki_tag_inc#_mask
  *
  * PKI Tag Inclusion Mask Registers
  */
@@ -8152,13 +8277,14 @@ static inline uint64_t BDK_PKI_TAG_INCX_MASK(unsigned long a)
 }
 
 #define typedef_BDK_PKI_TAG_INCX_MASK(a) bdk_pki_tag_incx_mask_t
-#define bustype_BDK_PKI_TAG_INCX_MASK(a) BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_TAG_INCX_MASK(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_TAG_INCX_MASK(a) "PKI_TAG_INCX_MASK"
+#define device_bar_BDK_PKI_TAG_INCX_MASK(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_TAG_INCX_MASK(a) (a)
 #define arguments_BDK_PKI_TAG_INCX_MASK(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) pki_tag_secret
+ * Register (NCB) pki_tag_secret
  *
  * PKI Initial-Value Register
  * The source and destination initial values (IVs) in tag generation provide a mechanism for
@@ -8202,13 +8328,14 @@ static inline uint64_t BDK_PKI_TAG_SECRET_FUNC(void)
 }
 
 #define typedef_BDK_PKI_TAG_SECRET bdk_pki_tag_secret_t
-#define bustype_BDK_PKI_TAG_SECRET BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_TAG_SECRET BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_TAG_SECRET "PKI_TAG_SECRET"
+#define device_bar_BDK_PKI_TAG_SECRET 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_TAG_SECRET 0
 #define arguments_BDK_PKI_TAG_SECRET -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_x2p_req_ofl
+ * Register (NCB) pki_x2p_req_ofl
  *
  * PKI X2P Request Overflow Error Register
  */
@@ -8240,8 +8367,9 @@ static inline uint64_t BDK_PKI_X2P_REQ_OFL_FUNC(void)
 }
 
 #define typedef_BDK_PKI_X2P_REQ_OFL bdk_pki_x2p_req_ofl_t
-#define bustype_BDK_PKI_X2P_REQ_OFL BDK_CSR_TYPE_RSL
+#define bustype_BDK_PKI_X2P_REQ_OFL BDK_CSR_TYPE_NCB
 #define basename_BDK_PKI_X2P_REQ_OFL "PKI_X2P_REQ_OFL"
+#define device_bar_BDK_PKI_X2P_REQ_OFL 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_X2P_REQ_OFL 0
 #define arguments_BDK_PKI_X2P_REQ_OFL -1,-1,-1,-1
 

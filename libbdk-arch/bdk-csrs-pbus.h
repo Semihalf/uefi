@@ -118,6 +118,7 @@ static inline uint64_t BDK_PBUS_DMA_ADRX(unsigned long a)
 #define typedef_BDK_PBUS_DMA_ADRX(a) bdk_pbus_dma_adrx_t
 #define bustype_BDK_PBUS_DMA_ADRX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_DMA_ADRX(a) "PBUS_DMA_ADRX"
+#define device_bar_BDK_PBUS_DMA_ADRX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PBUS_DMA_ADRX(a) (a)
 #define arguments_BDK_PBUS_DMA_ADRX(a) (a),-1,-1,-1
 
@@ -197,6 +198,7 @@ static inline uint64_t BDK_PBUS_DMA_CFGX(unsigned long a)
 #define typedef_BDK_PBUS_DMA_CFGX(a) bdk_pbus_dma_cfgx_t
 #define bustype_BDK_PBUS_DMA_CFGX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_DMA_CFGX(a) "PBUS_DMA_CFGX"
+#define device_bar_BDK_PBUS_DMA_CFGX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PBUS_DMA_CFGX(a) (a)
 #define arguments_BDK_PBUS_DMA_CFGX(a) (a),-1,-1,-1
 
@@ -277,6 +279,7 @@ static inline uint64_t BDK_PBUS_DMA_TIMX(unsigned long a)
 #define typedef_BDK_PBUS_DMA_TIMX(a) bdk_pbus_dma_timx_t
 #define bustype_BDK_PBUS_DMA_TIMX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_DMA_TIMX(a) "PBUS_DMA_TIMX"
+#define device_bar_BDK_PBUS_DMA_TIMX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PBUS_DMA_TIMX(a) (a)
 #define arguments_BDK_PBUS_DMA_TIMX(a) (a),-1,-1,-1
 
@@ -315,6 +318,7 @@ static inline uint64_t BDK_PBUS_ECO_FUNC(void)
 #define typedef_BDK_PBUS_ECO bdk_pbus_eco_t
 #define bustype_BDK_PBUS_ECO BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_ECO "PBUS_ECO"
+#define device_bar_BDK_PBUS_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PBUS_ECO 0
 #define arguments_BDK_PBUS_ECO -1,-1,-1,-1
 
@@ -366,6 +370,7 @@ static inline uint64_t BDK_PBUS_INT_FUNC(void)
 #define typedef_BDK_PBUS_INT bdk_pbus_int_t
 #define bustype_BDK_PBUS_INT BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_INT "PBUS_INT"
+#define device_bar_BDK_PBUS_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_PBUS_INT 0
 #define arguments_BDK_PBUS_INT -1,-1,-1,-1
 
@@ -411,6 +416,7 @@ static inline uint64_t BDK_PBUS_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_PBUS_INT_ENA_W1C bdk_pbus_int_ena_w1c_t
 #define bustype_BDK_PBUS_INT_ENA_W1C BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_INT_ENA_W1C "PBUS_INT_ENA_W1C"
+#define device_bar_BDK_PBUS_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_PBUS_INT_ENA_W1C 0
 #define arguments_BDK_PBUS_INT_ENA_W1C -1,-1,-1,-1
 
@@ -456,6 +462,7 @@ static inline uint64_t BDK_PBUS_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_PBUS_INT_ENA_W1S bdk_pbus_int_ena_w1s_t
 #define bustype_BDK_PBUS_INT_ENA_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_INT_ENA_W1S "PBUS_INT_ENA_W1S"
+#define device_bar_BDK_PBUS_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PBUS_INT_ENA_W1S 0
 #define arguments_BDK_PBUS_INT_ENA_W1S -1,-1,-1,-1
 
@@ -501,6 +508,7 @@ static inline uint64_t BDK_PBUS_INT_W1S_FUNC(void)
 #define typedef_BDK_PBUS_INT_W1S bdk_pbus_int_w1s_t
 #define bustype_BDK_PBUS_INT_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_INT_W1S "PBUS_INT_W1S"
+#define device_bar_BDK_PBUS_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_PBUS_INT_W1S 0
 #define arguments_BDK_PBUS_INT_W1S -1,-1,-1,-1
 
@@ -540,6 +548,7 @@ static inline uint64_t BDK_PBUS_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_PBUS_MSIX_PBAX(a) bdk_pbus_msix_pbax_t
 #define bustype_BDK_PBUS_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_MSIX_PBAX(a) "PBUS_MSIX_PBAX"
+#define device_bar_BDK_PBUS_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PBUS_MSIX_PBAX(a) (a)
 #define arguments_BDK_PBUS_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -598,6 +607,7 @@ static inline uint64_t BDK_PBUS_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_PBUS_MSIX_VECX_ADDR(a) bdk_pbus_msix_vecx_addr_t
 #define bustype_BDK_PBUS_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_MSIX_VECX_ADDR(a) "PBUS_MSIX_VECX_ADDR"
+#define device_bar_BDK_PBUS_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PBUS_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_PBUS_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -640,6 +650,7 @@ static inline uint64_t BDK_PBUS_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_PBUS_MSIX_VECX_CTL(a) bdk_pbus_msix_vecx_ctl_t
 #define bustype_BDK_PBUS_MSIX_VECX_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_MSIX_VECX_CTL(a) "PBUS_MSIX_VECX_CTL"
+#define device_bar_BDK_PBUS_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_PBUS_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_PBUS_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -874,6 +885,7 @@ static inline uint64_t BDK_PBUS_REGX_CFG(unsigned long a)
 #define typedef_BDK_PBUS_REGX_CFG(a) bdk_pbus_regx_cfg_t
 #define bustype_BDK_PBUS_REGX_CFG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_REGX_CFG(a) "PBUS_REGX_CFG"
+#define device_bar_BDK_PBUS_REGX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PBUS_REGX_CFG(a) (a)
 #define arguments_BDK_PBUS_REGX_CFG(a) (a),-1,-1,-1
 
@@ -950,6 +962,7 @@ static inline uint64_t BDK_PBUS_REGX_TIM(unsigned long a)
 #define typedef_BDK_PBUS_REGX_TIM(a) bdk_pbus_regx_tim_t
 #define bustype_BDK_PBUS_REGX_TIM(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_REGX_TIM(a) "PBUS_REGX_TIM"
+#define device_bar_BDK_PBUS_REGX_TIM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PBUS_REGX_TIM(a) (a)
 #define arguments_BDK_PBUS_REGX_TIM(a) (a),-1,-1,-1
 
@@ -1002,6 +1015,7 @@ static inline uint64_t BDK_PBUS_THR_FUNC(void)
 #define typedef_BDK_PBUS_THR bdk_pbus_thr_t
 #define bustype_BDK_PBUS_THR BDK_CSR_TYPE_RSL
 #define basename_BDK_PBUS_THR "PBUS_THR"
+#define device_bar_BDK_PBUS_THR 0x0 /* PF_BAR0 */
 #define busnum_BDK_PBUS_THR 0
 #define arguments_BDK_PBUS_THR -1,-1,-1,-1
 

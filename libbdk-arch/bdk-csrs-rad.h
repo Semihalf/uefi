@@ -661,6 +661,7 @@ static inline uint64_t BDK_RAD_DONE_ACK_FUNC(void)
 #define typedef_BDK_RAD_DONE_ACK bdk_rad_done_ack_t
 #define bustype_BDK_RAD_DONE_ACK BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_DONE_ACK "RAD_DONE_ACK"
+#define device_bar_BDK_RAD_DONE_ACK 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_DONE_ACK 0
 #define arguments_BDK_RAD_DONE_ACK -1,-1,-1,-1
 
@@ -743,6 +744,7 @@ static inline uint64_t BDK_RAD_DONE_CNT_FUNC(void)
 #define typedef_BDK_RAD_DONE_CNT bdk_rad_done_cnt_t
 #define bustype_BDK_RAD_DONE_CNT BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_DONE_CNT "RAD_DONE_CNT"
+#define device_bar_BDK_RAD_DONE_CNT 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_DONE_CNT 0
 #define arguments_BDK_RAD_DONE_CNT -1,-1,-1,-1
 
@@ -792,6 +794,7 @@ static inline uint64_t BDK_RAD_DONE_WAIT_FUNC(void)
 #define typedef_BDK_RAD_DONE_WAIT bdk_rad_done_wait_t
 #define bustype_BDK_RAD_DONE_WAIT BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_DONE_WAIT "RAD_DONE_WAIT"
+#define device_bar_BDK_RAD_DONE_WAIT 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_DONE_WAIT 0
 #define arguments_BDK_RAD_DONE_WAIT -1,-1,-1,-1
 
@@ -832,6 +835,7 @@ static inline uint64_t BDK_RAD_DOORBELL_FUNC(void)
 #define typedef_BDK_RAD_DOORBELL bdk_rad_doorbell_t
 #define bustype_BDK_RAD_DOORBELL BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_DOORBELL "RAD_DOORBELL"
+#define device_bar_BDK_RAD_DOORBELL 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_DOORBELL 0
 #define arguments_BDK_RAD_DOORBELL -1,-1,-1,-1
 
@@ -872,6 +876,7 @@ static inline uint64_t BDK_RAD_GMCTL_FUNC(void)
 #define typedef_BDK_RAD_GMCTL bdk_rad_gmctl_t
 #define bustype_BDK_RAD_GMCTL BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_GMCTL "RAD_GMCTL"
+#define device_bar_BDK_RAD_GMCTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_GMCTL 0
 #define arguments_BDK_RAD_GMCTL -1,-1,-1,-1
 
@@ -914,6 +919,7 @@ static inline uint64_t BDK_RAD_INT_FUNC(void)
 #define typedef_BDK_RAD_INT bdk_rad_int_t
 #define bustype_BDK_RAD_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_INT "RAD_INT"
+#define device_bar_BDK_RAD_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_INT 0
 #define arguments_BDK_RAD_INT -1,-1,-1,-1
 
@@ -955,6 +961,7 @@ static inline uint64_t BDK_RAD_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_RAD_INT_ENA_W1C bdk_rad_int_ena_w1c_t
 #define bustype_BDK_RAD_INT_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_INT_ENA_W1C "RAD_INT_ENA_W1C"
+#define device_bar_BDK_RAD_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_INT_ENA_W1C 0
 #define arguments_BDK_RAD_INT_ENA_W1C -1,-1,-1,-1
 
@@ -996,6 +1003,7 @@ static inline uint64_t BDK_RAD_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_RAD_INT_ENA_W1S bdk_rad_int_ena_w1s_t
 #define bustype_BDK_RAD_INT_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_INT_ENA_W1S "RAD_INT_ENA_W1S"
+#define device_bar_BDK_RAD_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_INT_ENA_W1S 0
 #define arguments_BDK_RAD_INT_ENA_W1S -1,-1,-1,-1
 
@@ -1036,6 +1044,7 @@ static inline uint64_t BDK_RAD_INT_W1S_FUNC(void)
 #define typedef_BDK_RAD_INT_W1S bdk_rad_int_w1s_t
 #define bustype_BDK_RAD_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_INT_W1S "RAD_INT_W1S"
+#define device_bar_BDK_RAD_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_INT_W1S 0
 #define arguments_BDK_RAD_INT_W1S -1,-1,-1,-1
 
@@ -1076,6 +1085,7 @@ static inline uint64_t BDK_RAD_MEM_DEBUG0_FUNC(void)
 #define typedef_BDK_RAD_MEM_DEBUG0 bdk_rad_mem_debug0_t
 #define bustype_BDK_RAD_MEM_DEBUG0 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_MEM_DEBUG0 "RAD_MEM_DEBUG0"
+#define device_bar_BDK_RAD_MEM_DEBUG0 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_MEM_DEBUG0 0
 #define arguments_BDK_RAD_MEM_DEBUG0 -1,-1,-1,-1
 
@@ -1116,6 +1126,7 @@ static inline uint64_t BDK_RAD_MEM_DEBUG1_FUNC(void)
 #define typedef_BDK_RAD_MEM_DEBUG1 bdk_rad_mem_debug1_t
 #define bustype_BDK_RAD_MEM_DEBUG1 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_MEM_DEBUG1 "RAD_MEM_DEBUG1"
+#define device_bar_BDK_RAD_MEM_DEBUG1 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_MEM_DEBUG1 0
 #define arguments_BDK_RAD_MEM_DEBUG1 -1,-1,-1,-1
 
@@ -1156,6 +1167,7 @@ static inline uint64_t BDK_RAD_MEM_DEBUG2_FUNC(void)
 #define typedef_BDK_RAD_MEM_DEBUG2 bdk_rad_mem_debug2_t
 #define bustype_BDK_RAD_MEM_DEBUG2 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_MEM_DEBUG2 "RAD_MEM_DEBUG2"
+#define device_bar_BDK_RAD_MEM_DEBUG2 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_MEM_DEBUG2 0
 #define arguments_BDK_RAD_MEM_DEBUG2 -1,-1,-1,-1
 
@@ -1195,6 +1207,7 @@ static inline uint64_t BDK_RAD_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_RAD_MSIX_PBAX(a) bdk_rad_msix_pbax_t
 #define bustype_BDK_RAD_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_MSIX_PBAX(a) "RAD_MSIX_PBAX"
+#define device_bar_BDK_RAD_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_RAD_MSIX_PBAX(a) (a)
 #define arguments_BDK_RAD_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -1251,6 +1264,7 @@ static inline uint64_t BDK_RAD_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_RAD_MSIX_VECX_ADDR(a) bdk_rad_msix_vecx_addr_t
 #define bustype_BDK_RAD_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_MSIX_VECX_ADDR(a) "RAD_MSIX_VECX_ADDR"
+#define device_bar_BDK_RAD_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_RAD_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_RAD_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -1293,6 +1307,7 @@ static inline uint64_t BDK_RAD_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_RAD_MSIX_VECX_CTL(a) bdk_rad_msix_vecx_ctl_t
 #define bustype_BDK_RAD_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_MSIX_VECX_CTL(a) "RAD_MSIX_VECX_CTL"
+#define device_bar_BDK_RAD_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_RAD_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_RAD_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -1343,6 +1358,7 @@ static inline uint64_t BDK_RAD_REG_BIST_RESULT_FUNC(void)
 #define typedef_BDK_RAD_REG_BIST_RESULT bdk_rad_reg_bist_result_t
 #define bustype_BDK_RAD_REG_BIST_RESULT BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_BIST_RESULT "RAD_REG_BIST_RESULT"
+#define device_bar_BDK_RAD_REG_BIST_RESULT 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_BIST_RESULT 0
 #define arguments_BDK_RAD_REG_BIST_RESULT -1,-1,-1,-1
 
@@ -1458,6 +1474,7 @@ static inline uint64_t BDK_RAD_REG_CMD_BUF_FUNC(void)
 #define typedef_BDK_RAD_REG_CMD_BUF bdk_rad_reg_cmd_buf_t
 #define bustype_BDK_RAD_REG_CMD_BUF BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_CMD_BUF "RAD_REG_CMD_BUF"
+#define device_bar_BDK_RAD_REG_CMD_BUF 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_CMD_BUF 0
 #define arguments_BDK_RAD_REG_CMD_BUF -1,-1,-1,-1
 
@@ -1515,6 +1532,7 @@ static inline uint64_t BDK_RAD_REG_CMD_PTR_FUNC(void)
 #define typedef_BDK_RAD_REG_CMD_PTR bdk_rad_reg_cmd_ptr_t
 #define bustype_BDK_RAD_REG_CMD_PTR BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_CMD_PTR "RAD_REG_CMD_PTR"
+#define device_bar_BDK_RAD_REG_CMD_PTR 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_CMD_PTR 0
 #define arguments_BDK_RAD_REG_CMD_PTR -1,-1,-1,-1
 
@@ -1567,6 +1585,7 @@ static inline uint64_t BDK_RAD_REG_CTL_FUNC(void)
 #define typedef_BDK_RAD_REG_CTL bdk_rad_reg_ctl_t
 #define bustype_BDK_RAD_REG_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_CTL "RAD_REG_CTL"
+#define device_bar_BDK_RAD_REG_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_CTL 0
 #define arguments_BDK_RAD_REG_CTL -1,-1,-1,-1
 
@@ -1621,6 +1640,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG0_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG0 bdk_rad_reg_debug0_t
 #define bustype_BDK_RAD_REG_DEBUG0 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG0 "RAD_REG_DEBUG0"
+#define device_bar_BDK_RAD_REG_DEBUG0 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG0 0
 #define arguments_BDK_RAD_REG_DEBUG0 -1,-1,-1,-1
 
@@ -1657,6 +1677,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG1_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG1 bdk_rad_reg_debug1_t
 #define bustype_BDK_RAD_REG_DEBUG1 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG1 "RAD_REG_DEBUG1"
+#define device_bar_BDK_RAD_REG_DEBUG1 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG1 0
 #define arguments_BDK_RAD_REG_DEBUG1 -1,-1,-1,-1
 
@@ -1697,6 +1718,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG10_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG10 bdk_rad_reg_debug10_t
 #define bustype_BDK_RAD_REG_DEBUG10 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG10 "RAD_REG_DEBUG10"
+#define device_bar_BDK_RAD_REG_DEBUG10 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG10 0
 #define arguments_BDK_RAD_REG_DEBUG10 -1,-1,-1,-1
 
@@ -1745,6 +1767,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG11_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG11 bdk_rad_reg_debug11_t
 #define bustype_BDK_RAD_REG_DEBUG11 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG11 "RAD_REG_DEBUG11"
+#define device_bar_BDK_RAD_REG_DEBUG11 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG11 0
 #define arguments_BDK_RAD_REG_DEBUG11 -1,-1,-1,-1
 
@@ -1783,6 +1806,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG12_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG12 bdk_rad_reg_debug12_t
 #define bustype_BDK_RAD_REG_DEBUG12 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG12 "RAD_REG_DEBUG12"
+#define device_bar_BDK_RAD_REG_DEBUG12 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG12 0
 #define arguments_BDK_RAD_REG_DEBUG12 -1,-1,-1,-1
 
@@ -1819,6 +1843,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG2_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG2 bdk_rad_reg_debug2_t
 #define bustype_BDK_RAD_REG_DEBUG2 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG2 "RAD_REG_DEBUG2"
+#define device_bar_BDK_RAD_REG_DEBUG2 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG2 0
 #define arguments_BDK_RAD_REG_DEBUG2 -1,-1,-1,-1
 
@@ -1855,6 +1880,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG3_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG3 bdk_rad_reg_debug3_t
 #define bustype_BDK_RAD_REG_DEBUG3 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG3 "RAD_REG_DEBUG3"
+#define device_bar_BDK_RAD_REG_DEBUG3 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG3 0
 #define arguments_BDK_RAD_REG_DEBUG3 -1,-1,-1,-1
 
@@ -1891,6 +1917,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG4_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG4 bdk_rad_reg_debug4_t
 #define bustype_BDK_RAD_REG_DEBUG4 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG4 "RAD_REG_DEBUG4"
+#define device_bar_BDK_RAD_REG_DEBUG4 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG4 0
 #define arguments_BDK_RAD_REG_DEBUG4 -1,-1,-1,-1
 
@@ -1961,6 +1988,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG5_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG5 bdk_rad_reg_debug5_t
 #define bustype_BDK_RAD_REG_DEBUG5 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG5 "RAD_REG_DEBUG5"
+#define device_bar_BDK_RAD_REG_DEBUG5 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG5 0
 #define arguments_BDK_RAD_REG_DEBUG5 -1,-1,-1,-1
 
@@ -2001,6 +2029,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG6_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG6 bdk_rad_reg_debug6_t
 #define bustype_BDK_RAD_REG_DEBUG6 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG6 "RAD_REG_DEBUG6"
+#define device_bar_BDK_RAD_REG_DEBUG6 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG6 0
 #define arguments_BDK_RAD_REG_DEBUG6 -1,-1,-1,-1
 
@@ -2039,6 +2068,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG7_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG7 bdk_rad_reg_debug7_t
 #define bustype_BDK_RAD_REG_DEBUG7 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG7 "RAD_REG_DEBUG7"
+#define device_bar_BDK_RAD_REG_DEBUG7 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG7 0
 #define arguments_BDK_RAD_REG_DEBUG7 -1,-1,-1,-1
 
@@ -2079,6 +2109,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG8_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG8 bdk_rad_reg_debug8_t
 #define bustype_BDK_RAD_REG_DEBUG8 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG8 "RAD_REG_DEBUG8"
+#define device_bar_BDK_RAD_REG_DEBUG8 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG8 0
 #define arguments_BDK_RAD_REG_DEBUG8 -1,-1,-1,-1
 
@@ -2127,6 +2158,7 @@ static inline uint64_t BDK_RAD_REG_DEBUG9_FUNC(void)
 #define typedef_BDK_RAD_REG_DEBUG9 bdk_rad_reg_debug9_t
 #define bustype_BDK_RAD_REG_DEBUG9 BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_DEBUG9 "RAD_REG_DEBUG9"
+#define device_bar_BDK_RAD_REG_DEBUG9 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_DEBUG9 0
 #define arguments_BDK_RAD_REG_DEBUG9 -1,-1,-1,-1
 
@@ -2170,6 +2202,7 @@ static inline uint64_t BDK_RAD_REG_POLYNOMIAL_FUNC(void)
 #define typedef_BDK_RAD_REG_POLYNOMIAL bdk_rad_reg_polynomial_t
 #define bustype_BDK_RAD_REG_POLYNOMIAL BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_POLYNOMIAL "RAD_REG_POLYNOMIAL"
+#define device_bar_BDK_RAD_REG_POLYNOMIAL 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_POLYNOMIAL 0
 #define arguments_BDK_RAD_REG_POLYNOMIAL -1,-1,-1,-1
 
@@ -2217,6 +2250,7 @@ static inline uint64_t BDK_RAD_REG_READ_IDX_FUNC(void)
 #define typedef_BDK_RAD_REG_READ_IDX bdk_rad_reg_read_idx_t
 #define bustype_BDK_RAD_REG_READ_IDX BDK_CSR_TYPE_NCB
 #define basename_BDK_RAD_REG_READ_IDX "RAD_REG_READ_IDX"
+#define device_bar_BDK_RAD_REG_READ_IDX 0x0 /* PF_BAR0 */
 #define busnum_BDK_RAD_REG_READ_IDX 0
 #define arguments_BDK_RAD_REG_READ_IDX -1,-1,-1,-1
 

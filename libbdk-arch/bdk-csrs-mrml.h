@@ -106,6 +106,7 @@ static inline uint64_t BDK_MRML_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_MRML_INT_ENA_W1C bdk_mrml_int_ena_w1c_t
 #define bustype_BDK_MRML_INT_ENA_W1C BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_INT_ENA_W1C "MRML_INT_ENA_W1C"
+#define device_bar_BDK_MRML_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_MRML_INT_ENA_W1C 0
 #define arguments_BDK_MRML_INT_ENA_W1C -1,-1,-1,-1
 
@@ -143,6 +144,7 @@ static inline uint64_t BDK_MRML_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_MRML_INT_ENA_W1S bdk_mrml_int_ena_w1s_t
 #define bustype_BDK_MRML_INT_ENA_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_INT_ENA_W1S "MRML_INT_ENA_W1S"
+#define device_bar_BDK_MRML_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_MRML_INT_ENA_W1S 0
 #define arguments_BDK_MRML_INT_ENA_W1S -1,-1,-1,-1
 
@@ -178,6 +180,7 @@ static inline uint64_t BDK_MRML_INT_LOCAL_TO_FUNC(void)
 #define typedef_BDK_MRML_INT_LOCAL_TO bdk_mrml_int_local_to_t
 #define bustype_BDK_MRML_INT_LOCAL_TO BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_INT_LOCAL_TO "MRML_INT_LOCAL_TO"
+#define device_bar_BDK_MRML_INT_LOCAL_TO 0x0 /* PF_BAR0 */
 #define busnum_BDK_MRML_INT_LOCAL_TO 0
 #define arguments_BDK_MRML_INT_LOCAL_TO -1,-1,-1,-1
 
@@ -213,6 +216,7 @@ static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void)
 #define typedef_BDK_MRML_INT_OCX_TO bdk_mrml_int_ocx_to_t
 #define bustype_BDK_MRML_INT_OCX_TO BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_INT_OCX_TO "MRML_INT_OCX_TO"
+#define device_bar_BDK_MRML_INT_OCX_TO 0x0 /* PF_BAR0 */
 #define busnum_BDK_MRML_INT_OCX_TO 0
 #define arguments_BDK_MRML_INT_OCX_TO -1,-1,-1,-1
 
@@ -250,6 +254,7 @@ static inline uint64_t BDK_MRML_INT_SUM_FUNC(void)
 #define typedef_BDK_MRML_INT_SUM bdk_mrml_int_sum_t
 #define bustype_BDK_MRML_INT_SUM BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_INT_SUM "MRML_INT_SUM"
+#define device_bar_BDK_MRML_INT_SUM 0x0 /* PF_BAR0 */
 #define busnum_BDK_MRML_INT_SUM 0
 #define arguments_BDK_MRML_INT_SUM -1,-1,-1,-1
 
@@ -287,6 +292,7 @@ static inline uint64_t BDK_MRML_INT_SUM_W1S_FUNC(void)
 #define typedef_BDK_MRML_INT_SUM_W1S bdk_mrml_int_sum_w1s_t
 #define bustype_BDK_MRML_INT_SUM_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_INT_SUM_W1S "MRML_INT_SUM_W1S"
+#define device_bar_BDK_MRML_INT_SUM_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_MRML_INT_SUM_W1S 0
 #define arguments_BDK_MRML_INT_SUM_W1S -1,-1,-1,-1
 
@@ -323,6 +329,7 @@ static inline uint64_t BDK_MRML_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_MRML_MSIX_PBAX(a) bdk_mrml_msix_pbax_t
 #define bustype_BDK_MRML_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_MSIX_PBAX(a) "MRML_MSIX_PBAX"
+#define device_bar_BDK_MRML_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MRML_MSIX_PBAX(a) (a)
 #define arguments_BDK_MRML_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -377,6 +384,7 @@ static inline uint64_t BDK_MRML_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_MRML_MSIX_VECX_ADDR(a) bdk_mrml_msix_vecx_addr_t
 #define bustype_BDK_MRML_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_MSIX_VECX_ADDR(a) "MRML_MSIX_VECX_ADDR"
+#define device_bar_BDK_MRML_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MRML_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_MRML_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -417,6 +425,7 @@ static inline uint64_t BDK_MRML_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_MRML_MSIX_VECX_CTL(a) bdk_mrml_msix_vecx_ctl_t
 #define bustype_BDK_MRML_MSIX_VECX_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_MSIX_VECX_CTL(a) "MRML_MSIX_VECX_CTL"
+#define device_bar_BDK_MRML_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MRML_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_MRML_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -450,6 +459,7 @@ static inline uint64_t BDK_MRML_NCBX_SDEV(unsigned long a)
 #define typedef_BDK_MRML_NCBX_SDEV(a) bdk_mrml_ncbx_sdev_t
 #define bustype_BDK_MRML_NCBX_SDEV(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_NCBX_SDEV(a) "MRML_NCBX_SDEV"
+#define device_bar_BDK_MRML_NCBX_SDEV(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MRML_NCBX_SDEV(a) (a)
 #define arguments_BDK_MRML_NCBX_SDEV(a) (a),-1,-1,-1
 
@@ -503,6 +513,7 @@ static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a)
 #define typedef_BDK_MRML_RSLX_SDEV(a) bdk_mrml_rslx_sdev_t
 #define bustype_BDK_MRML_RSLX_SDEV(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_RSLX_SDEV(a) "MRML_RSLX_SDEV"
+#define device_bar_BDK_MRML_RSLX_SDEV(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MRML_RSLX_SDEV(a) (a)
 #define arguments_BDK_MRML_RSLX_SDEV(a) (a),-1,-1,-1
 
@@ -535,6 +546,7 @@ static inline uint64_t BDK_MRML_SCFG_FUNC(void)
 #define typedef_BDK_MRML_SCFG bdk_mrml_scfg_t
 #define bustype_BDK_MRML_SCFG BDK_CSR_TYPE_RSL
 #define basename_BDK_MRML_SCFG "MRML_SCFG"
+#define device_bar_BDK_MRML_SCFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_MRML_SCFG 0
 #define arguments_BDK_MRML_SCFG -1,-1,-1,-1
 

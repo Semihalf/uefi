@@ -105,6 +105,7 @@ static inline uint64_t BDK_KEY_BIST_REG_FUNC(void)
 #define typedef_BDK_KEY_BIST_REG bdk_key_bist_reg_t
 #define bustype_BDK_KEY_BIST_REG BDK_CSR_TYPE_RSL
 #define basename_BDK_KEY_BIST_REG "KEY_BIST_REG"
+#define device_bar_BDK_KEY_BIST_REG 0x0 /* PF_BAR0 */
 #define busnum_BDK_KEY_BIST_REG 0
 #define arguments_BDK_KEY_BIST_REG -1,-1,-1,-1
 
@@ -112,7 +113,7 @@ static inline uint64_t BDK_KEY_BIST_REG_FUNC(void)
  * Register (RSL) key_ctl_status
  *
  * KEY Control and Status Register
- * KEY control and status register.
+ * This register provides control and status information for KEY memory.
  */
 typedef union
 {
@@ -142,6 +143,7 @@ static inline uint64_t BDK_KEY_CTL_STATUS_FUNC(void)
 #define typedef_BDK_KEY_CTL_STATUS bdk_key_ctl_status_t
 #define bustype_BDK_KEY_CTL_STATUS BDK_CSR_TYPE_RSL
 #define basename_BDK_KEY_CTL_STATUS "KEY_CTL_STATUS"
+#define device_bar_BDK_KEY_CTL_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_KEY_CTL_STATUS 0
 #define arguments_BDK_KEY_CTL_STATUS -1,-1,-1,-1
 
@@ -179,6 +181,7 @@ static inline uint64_t BDK_KEY_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_KEY_INT_ENA_W1C bdk_key_int_ena_w1c_t
 #define bustype_BDK_KEY_INT_ENA_W1C BDK_CSR_TYPE_RSL
 #define basename_BDK_KEY_INT_ENA_W1C "KEY_INT_ENA_W1C"
+#define device_bar_BDK_KEY_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_KEY_INT_ENA_W1C 0
 #define arguments_BDK_KEY_INT_ENA_W1C -1,-1,-1,-1
 
@@ -216,6 +219,7 @@ static inline uint64_t BDK_KEY_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_KEY_INT_ENA_W1S bdk_key_int_ena_w1s_t
 #define bustype_BDK_KEY_INT_ENA_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_KEY_INT_ENA_W1S "KEY_INT_ENA_W1S"
+#define device_bar_BDK_KEY_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_KEY_INT_ENA_W1S 0
 #define arguments_BDK_KEY_INT_ENA_W1S -1,-1,-1,-1
 
@@ -253,6 +257,7 @@ static inline uint64_t BDK_KEY_INT_SUM_FUNC(void)
 #define typedef_BDK_KEY_INT_SUM bdk_key_int_sum_t
 #define bustype_BDK_KEY_INT_SUM BDK_CSR_TYPE_RSL
 #define basename_BDK_KEY_INT_SUM "KEY_INT_SUM"
+#define device_bar_BDK_KEY_INT_SUM 0x0 /* PF_BAR0 */
 #define busnum_BDK_KEY_INT_SUM 0
 #define arguments_BDK_KEY_INT_SUM -1,-1,-1,-1
 
@@ -290,6 +295,7 @@ static inline uint64_t BDK_KEY_INT_SUM_W1S_FUNC(void)
 #define typedef_BDK_KEY_INT_SUM_W1S bdk_key_int_sum_w1s_t
 #define bustype_BDK_KEY_INT_SUM_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_KEY_INT_SUM_W1S "KEY_INT_SUM_W1S"
+#define device_bar_BDK_KEY_INT_SUM_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_KEY_INT_SUM_W1S 0
 #define arguments_BDK_KEY_INT_SUM_W1S -1,-1,-1,-1
 
@@ -334,6 +340,7 @@ static inline uint64_t BDK_KEY_MEMX(unsigned long a)
 #define typedef_BDK_KEY_MEMX(a) bdk_key_memx_t
 #define bustype_BDK_KEY_MEMX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_KEY_MEMX(a) "KEY_MEMX"
+#define device_bar_BDK_KEY_MEMX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_KEY_MEMX(a) (a)
 #define arguments_BDK_KEY_MEMX(a) (a),-1,-1,-1
 
@@ -384,6 +391,7 @@ static inline uint64_t BDK_KEY_MEM_ACCESS_FUNC(void)
 #define typedef_BDK_KEY_MEM_ACCESS bdk_key_mem_access_t
 #define bustype_BDK_KEY_MEM_ACCESS BDK_CSR_TYPE_RSL
 #define basename_BDK_KEY_MEM_ACCESS "KEY_MEM_ACCESS"
+#define device_bar_BDK_KEY_MEM_ACCESS 0x0 /* PF_BAR0 */
 #define busnum_BDK_KEY_MEM_ACCESS 0
 #define arguments_BDK_KEY_MEM_ACCESS -1,-1,-1,-1
 
@@ -420,6 +428,7 @@ static inline uint64_t BDK_KEY_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_KEY_MSIX_PBAX(a) bdk_key_msix_pbax_t
 #define bustype_BDK_KEY_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_KEY_MSIX_PBAX(a) "KEY_MSIX_PBAX"
+#define device_bar_BDK_KEY_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_KEY_MSIX_PBAX(a) (a)
 #define arguments_BDK_KEY_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -474,6 +483,7 @@ static inline uint64_t BDK_KEY_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_KEY_MSIX_VECX_ADDR(a) bdk_key_msix_vecx_addr_t
 #define bustype_BDK_KEY_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_KEY_MSIX_VECX_ADDR(a) "KEY_MSIX_VECX_ADDR"
+#define device_bar_BDK_KEY_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_KEY_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_KEY_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -514,6 +524,7 @@ static inline uint64_t BDK_KEY_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_KEY_MSIX_VECX_CTL(a) bdk_key_msix_vecx_ctl_t
 #define bustype_BDK_KEY_MSIX_VECX_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_KEY_MSIX_VECX_CTL(a) "KEY_MSIX_VECX_CTL"
+#define device_bar_BDK_KEY_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_KEY_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_KEY_MSIX_VECX_CTL(a) (a),-1,-1,-1
 

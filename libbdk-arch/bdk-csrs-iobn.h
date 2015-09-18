@@ -143,6 +143,7 @@ static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long a)
 #define typedef_BDK_IOBNX_BISTR_REG(a) bdk_iobnx_bistr_reg_t
 #define bustype_BDK_IOBNX_BISTR_REG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_BISTR_REG(a) "IOBNX_BISTR_REG"
+#define device_bar_BDK_IOBNX_BISTR_REG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_BISTR_REG(a) (a)
 #define arguments_BDK_IOBNX_BISTR_REG(a) (a),-1,-1,-1
 
@@ -201,6 +202,7 @@ static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long a)
 #define typedef_BDK_IOBNX_BISTS_REG(a) bdk_iobnx_bists_reg_t
 #define bustype_BDK_IOBNX_BISTS_REG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_BISTS_REG(a) "IOBNX_BISTS_REG"
+#define device_bar_BDK_IOBNX_BISTS_REG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_BISTS_REG(a) (a)
 #define arguments_BDK_IOBNX_BISTS_REG(a) (a),-1,-1,-1
 
@@ -262,6 +264,7 @@ static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long a)
 #define typedef_BDK_IOBNX_CHIP_CUR_PWR(a) bdk_iobnx_chip_cur_pwr_t
 #define bustype_BDK_IOBNX_CHIP_CUR_PWR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_CHIP_CUR_PWR(a) "IOBNX_CHIP_CUR_PWR"
+#define device_bar_BDK_IOBNX_CHIP_CUR_PWR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_CHIP_CUR_PWR(a) (a)
 #define arguments_BDK_IOBNX_CHIP_CUR_PWR(a) (a),-1,-1,-1
 
@@ -337,6 +340,7 @@ static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long a)
 #define typedef_BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(a) bdk_iobnx_chip_glb_pwr_throttle_t
 #define bustype_BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(a) "IOBNX_CHIP_GLB_PWR_THROTTLE"
+#define device_bar_BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(a) (a)
 #define arguments_BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(a) (a),-1,-1,-1
 
@@ -392,6 +396,7 @@ static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long a)
 #define typedef_BDK_IOBNX_CHIP_PWR_OUT(a) bdk_iobnx_chip_pwr_out_t
 #define bustype_BDK_IOBNX_CHIP_PWR_OUT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_CHIP_PWR_OUT(a) "IOBNX_CHIP_PWR_OUT"
+#define device_bar_BDK_IOBNX_CHIP_PWR_OUT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_CHIP_PWR_OUT(a) (a)
 #define arguments_BDK_IOBNX_CHIP_PWR_OUT(a) (a),-1,-1,-1
 
@@ -446,6 +451,7 @@ static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a)
 #define typedef_BDK_IOBNX_CORE_BIST_STATUS(a) bdk_iobnx_core_bist_status_t
 #define bustype_BDK_IOBNX_CORE_BIST_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_CORE_BIST_STATUS(a) "IOBNX_CORE_BIST_STATUS"
+#define device_bar_BDK_IOBNX_CORE_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_CORE_BIST_STATUS(a) (a)
 #define arguments_BDK_IOBNX_CORE_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -643,6 +649,7 @@ static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a)
 #define typedef_BDK_IOBNX_DIS_NCBI_IO(a) bdk_iobnx_dis_ncbi_io_t
 #define bustype_BDK_IOBNX_DIS_NCBI_IO(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_DIS_NCBI_IO(a) "IOBNX_DIS_NCBI_IO"
+#define device_bar_BDK_IOBNX_DIS_NCBI_IO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_DIS_NCBI_IO(a) (a)
 #define arguments_BDK_IOBNX_DIS_NCBI_IO(a) (a),-1,-1,-1
 
@@ -704,6 +711,7 @@ static inline uint64_t BDK_IOBNX_GBL_DLL(unsigned long a)
 #define typedef_BDK_IOBNX_GBL_DLL(a) bdk_iobnx_gbl_dll_t
 #define bustype_BDK_IOBNX_GBL_DLL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_GBL_DLL(a) "IOBNX_GBL_DLL"
+#define device_bar_BDK_IOBNX_GBL_DLL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_GBL_DLL(a) (a)
 #define arguments_BDK_IOBNX_GBL_DLL(a) (a),-1,-1,-1
 
@@ -777,6 +785,7 @@ static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_IOBNX_INT_ENA_W1C(a) bdk_iobnx_int_ena_w1c_t
 #define bustype_BDK_IOBNX_INT_ENA_W1C(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_INT_ENA_W1C(a) "IOBNX_INT_ENA_W1C"
+#define device_bar_BDK_IOBNX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_INT_ENA_W1C(a) (a)
 #define arguments_BDK_IOBNX_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -850,6 +859,7 @@ static inline uint64_t BDK_IOBNX_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_IOBNX_INT_ENA_W1S(a) bdk_iobnx_int_ena_w1s_t
 #define bustype_BDK_IOBNX_INT_ENA_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_INT_ENA_W1S(a) "IOBNX_INT_ENA_W1S"
+#define device_bar_BDK_IOBNX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_INT_ENA_W1S(a) (a)
 #define arguments_BDK_IOBNX_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -1414,6 +1424,7 @@ static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long a)
 #define typedef_BDK_IOBNX_INT_SUM(a) bdk_iobnx_int_sum_t
 #define bustype_BDK_IOBNX_INT_SUM(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_INT_SUM(a) "IOBNX_INT_SUM"
+#define device_bar_BDK_IOBNX_INT_SUM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_INT_SUM(a) (a)
 #define arguments_BDK_IOBNX_INT_SUM(a) (a),-1,-1,-1
 
@@ -1487,6 +1498,7 @@ static inline uint64_t BDK_IOBNX_INT_SUM_W1S(unsigned long a)
 #define typedef_BDK_IOBNX_INT_SUM_W1S(a) bdk_iobnx_int_sum_w1s_t
 #define bustype_BDK_IOBNX_INT_SUM_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_INT_SUM_W1S(a) "IOBNX_INT_SUM_W1S"
+#define device_bar_BDK_IOBNX_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_INT_SUM_W1S(a) (a)
 #define arguments_BDK_IOBNX_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -1587,6 +1599,7 @@ static inline uint64_t BDK_IOBNX_MCTLR_REG(unsigned long a)
 #define typedef_BDK_IOBNX_MCTLR_REG(a) bdk_iobnx_mctlr_reg_t
 #define bustype_BDK_IOBNX_MCTLR_REG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_MCTLR_REG(a) "IOBNX_MCTLR_REG"
+#define device_bar_BDK_IOBNX_MCTLR_REG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_MCTLR_REG(a) (a)
 #define arguments_BDK_IOBNX_MCTLR_REG(a) (a),-1,-1,-1
 
@@ -1675,6 +1688,7 @@ static inline uint64_t BDK_IOBNX_MCTLS_REG(unsigned long a)
 #define typedef_BDK_IOBNX_MCTLS_REG(a) bdk_iobnx_mctls_reg_t
 #define bustype_BDK_IOBNX_MCTLS_REG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_MCTLS_REG(a) "IOBNX_MCTLS_REG"
+#define device_bar_BDK_IOBNX_MCTLS_REG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_MCTLS_REG(a) (a)
 #define arguments_BDK_IOBNX_MCTLS_REG(a) (a),-1,-1,-1
 
@@ -1711,6 +1725,7 @@ static inline uint64_t BDK_IOBNX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_IOBNX_MSIX_PBAX(a,b) bdk_iobnx_msix_pbax_t
 #define bustype_BDK_IOBNX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_MSIX_PBAX(a,b) "IOBNX_MSIX_PBAX"
+#define device_bar_BDK_IOBNX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_IOBNX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_IOBNX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -1765,6 +1780,7 @@ static inline uint64_t BDK_IOBNX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
 #define typedef_BDK_IOBNX_MSIX_VECX_ADDR(a,b) bdk_iobnx_msix_vecx_addr_t
 #define bustype_BDK_IOBNX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_MSIX_VECX_ADDR(a,b) "IOBNX_MSIX_VECX_ADDR"
+#define device_bar_BDK_IOBNX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_IOBNX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_IOBNX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -1805,6 +1821,7 @@ static inline uint64_t BDK_IOBNX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_IOBNX_MSIX_VECX_CTL(a,b) bdk_iobnx_msix_vecx_ctl_t
 #define bustype_BDK_IOBNX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_MSIX_VECX_CTL(a,b) "IOBNX_MSIX_VECX_CTL"
+#define device_bar_BDK_IOBNX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_IOBNX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_IOBNX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -1855,6 +1872,7 @@ static inline uint64_t BDK_IOBNX_NCBX_CREDITS(unsigned long a, unsigned long b)
 #define typedef_BDK_IOBNX_NCBX_CREDITS(a,b) bdk_iobnx_ncbx_credits_t
 #define bustype_BDK_IOBNX_NCBX_CREDITS(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_NCBX_CREDITS(a,b) "IOBNX_NCBX_CREDITS"
+#define device_bar_BDK_IOBNX_NCBX_CREDITS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_NCBX_CREDITS(a,b) (a)
 #define arguments_BDK_IOBNX_NCBX_CREDITS(a,b) (a),(b),-1,-1
 
@@ -1911,6 +1929,7 @@ static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_IOBNX_NCBX_CTL(a,b) bdk_iobnx_ncbx_ctl_t
 #define bustype_BDK_IOBNX_NCBX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_NCBX_CTL(a,b) "IOBNX_NCBX_CTL"
+#define device_bar_BDK_IOBNX_NCBX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_NCBX_CTL(a,b) (a)
 #define arguments_BDK_IOBNX_NCBX_CTL(a,b) (a),(b),-1,-1
 
@@ -1946,6 +1965,7 @@ static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a)
 #define typedef_BDK_IOBNX_NCB0_HP(a) bdk_iobnx_ncb0_hp_t
 #define bustype_BDK_IOBNX_NCB0_HP(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_NCB0_HP(a) "IOBNX_NCB0_HP"
+#define device_bar_BDK_IOBNX_NCB0_HP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_NCB0_HP(a) (a)
 #define arguments_BDK_IOBNX_NCB0_HP(a) (a),-1,-1,-1
 
@@ -1982,6 +2002,7 @@ static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long a, unsigned long b)
 #define typedef_BDK_IOBNX_NCB0_SDISX(a,b) bdk_iobnx_ncb0_sdisx_t
 #define bustype_BDK_IOBNX_NCB0_SDISX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_NCB0_SDISX(a,b) "IOBNX_NCB0_SDISX"
+#define device_bar_BDK_IOBNX_NCB0_SDISX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_NCB0_SDISX(a,b) (a)
 #define arguments_BDK_IOBNX_NCB0_SDISX(a,b) (a),(b),-1,-1
 
@@ -2082,6 +2103,7 @@ static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long a)
 #define typedef_BDK_IOBNX_ROC_DLL(a) bdk_iobnx_roc_dll_t
 #define bustype_BDK_IOBNX_ROC_DLL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_ROC_DLL(a) "IOBNX_ROC_DLL"
+#define device_bar_BDK_IOBNX_ROC_DLL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_ROC_DLL(a) (a)
 #define arguments_BDK_IOBNX_ROC_DLL(a) (a),-1,-1,-1
 
@@ -2115,6 +2137,7 @@ static inline uint64_t BDK_IOBNX_SCRATCH(unsigned long a)
 #define typedef_BDK_IOBNX_SCRATCH(a) bdk_iobnx_scratch_t
 #define bustype_BDK_IOBNX_SCRATCH(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_SCRATCH(a) "IOBNX_SCRATCH"
+#define device_bar_BDK_IOBNX_SCRATCH(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_SCRATCH(a) (a)
 #define arguments_BDK_IOBNX_SCRATCH(a) (a),-1,-1,-1
 
@@ -2282,6 +2305,7 @@ static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long a, unsigned long 
 #define typedef_BDK_IOBNX_SLITAGX_CONTROL(a,b) bdk_iobnx_slitagx_control_t
 #define bustype_BDK_IOBNX_SLITAGX_CONTROL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_SLITAGX_CONTROL(a,b) "IOBNX_SLITAGX_CONTROL"
+#define device_bar_BDK_IOBNX_SLITAGX_CONTROL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_SLITAGX_CONTROL(a,b) (a)
 #define arguments_BDK_IOBNX_SLITAGX_CONTROL(a,b) (a),(b),-1,-1
 
@@ -2317,6 +2341,7 @@ static inline uint64_t BDK_IOBNX_TEST(unsigned long a)
 #define typedef_BDK_IOBNX_TEST(a) bdk_iobnx_test_t
 #define bustype_BDK_IOBNX_TEST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_IOBNX_TEST(a) "IOBNX_TEST"
+#define device_bar_BDK_IOBNX_TEST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_TEST(a) (a)
 #define arguments_BDK_IOBNX_TEST(a) (a),-1,-1,-1
 

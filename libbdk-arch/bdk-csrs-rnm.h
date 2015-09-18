@@ -66,7 +66,7 @@
  *
  * RNM BIST Status Register
  * This register is the RNM memory BIST status register, indicating status of built-in self-
- * tests. 0 = passed BIST, 1 = failed BIST.
+ * tests.  0 = passed BIST, 1 = failed BIST.
  */
 typedef union
 {
@@ -96,6 +96,7 @@ static inline uint64_t BDK_RNM_BIST_STATUS_FUNC(void)
 #define typedef_BDK_RNM_BIST_STATUS bdk_rnm_bist_status_t
 #define bustype_BDK_RNM_BIST_STATUS BDK_CSR_TYPE_RSL
 #define basename_BDK_RNM_BIST_STATUS "RNM_BIST_STATUS"
+#define device_bar_BDK_RNM_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_RNM_BIST_STATUS 0
 #define arguments_BDK_RNM_BIST_STATUS -1,-1,-1,-1
 
@@ -103,7 +104,9 @@ static inline uint64_t BDK_RNM_BIST_STATUS_FUNC(void)
  * Register (RSL) rnm_ctl_status
  *
  * RNM Control and Status Register
- * This register is the RNM interrupt-enable register.
+ * This register is the RNM control register.
+ * This register is secure only to prevent non-secure world from affecting secure-world clients
+ * using true random numbers.
  */
 typedef union
 {
@@ -201,13 +204,15 @@ static inline uint64_t BDK_RNM_CTL_STATUS_FUNC(void)
 #define typedef_BDK_RNM_CTL_STATUS bdk_rnm_ctl_status_t
 #define bustype_BDK_RNM_CTL_STATUS BDK_CSR_TYPE_RSL
 #define basename_BDK_RNM_CTL_STATUS "RNM_CTL_STATUS"
+#define device_bar_BDK_RNM_CTL_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_RNM_CTL_STATUS 0
 #define arguments_BDK_RNM_CTL_STATUS -1,-1,-1,-1
 
 /**
  * Register (RSL) rnm_eer_dbg
  *
- * RNM Encryption Enable Debug Register
+ * INTERNAL: RNM Encryption Enable Debug Register
+ *
  * This register is the encryption enable debug register.
  */
 typedef union
@@ -236,6 +241,7 @@ static inline uint64_t BDK_RNM_EER_DBG_FUNC(void)
 #define typedef_BDK_RNM_EER_DBG bdk_rnm_eer_dbg_t
 #define bustype_BDK_RNM_EER_DBG BDK_CSR_TYPE_RSL
 #define basename_BDK_RNM_EER_DBG "RNM_EER_DBG"
+#define device_bar_BDK_RNM_EER_DBG 0x0 /* PF_BAR0 */
 #define busnum_BDK_RNM_EER_DBG 0
 #define arguments_BDK_RNM_EER_DBG -1,-1,-1,-1
 
@@ -271,6 +277,7 @@ static inline uint64_t BDK_RNM_EER_KEY_FUNC(void)
 #define typedef_BDK_RNM_EER_KEY bdk_rnm_eer_key_t
 #define bustype_BDK_RNM_EER_KEY BDK_CSR_TYPE_RSL
 #define basename_BDK_RNM_EER_KEY "RNM_EER_KEY"
+#define device_bar_BDK_RNM_EER_KEY 0x0 /* PF_BAR0 */
 #define busnum_BDK_RNM_EER_KEY 0
 #define arguments_BDK_RNM_EER_KEY -1,-1,-1,-1
 
@@ -307,6 +314,7 @@ static inline uint64_t BDK_RNM_RANDOM_FUNC(void)
 #define typedef_BDK_RNM_RANDOM bdk_rnm_random_t
 #define bustype_BDK_RNM_RANDOM BDK_CSR_TYPE_NCB
 #define basename_BDK_RNM_RANDOM "RNM_RANDOM"
+#define device_bar_BDK_RNM_RANDOM 0x10 /* VF_BAR0 */
 #define busnum_BDK_RNM_RANDOM 0
 #define arguments_BDK_RNM_RANDOM -1,-1,-1,-1
 
@@ -339,6 +347,7 @@ static inline uint64_t BDK_RNM_SERIAL_NUM_FUNC(void)
 #define typedef_BDK_RNM_SERIAL_NUM bdk_rnm_serial_num_t
 #define bustype_BDK_RNM_SERIAL_NUM BDK_CSR_TYPE_RSL
 #define basename_BDK_RNM_SERIAL_NUM "RNM_SERIAL_NUM"
+#define device_bar_BDK_RNM_SERIAL_NUM 0x0 /* PF_BAR0 */
 #define busnum_BDK_RNM_SERIAL_NUM 0
 #define arguments_BDK_RNM_SERIAL_NUM -1,-1,-1,-1
 

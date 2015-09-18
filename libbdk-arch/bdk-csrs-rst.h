@@ -200,6 +200,7 @@ static inline uint64_t BDK_RST_BIST_TIMER_FUNC(void)
 #define typedef_BDK_RST_BIST_TIMER bdk_rst_bist_timer_t
 #define bustype_BDK_RST_BIST_TIMER BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_BIST_TIMER "RST_BIST_TIMER"
+#define device_bar_BDK_RST_BIST_TIMER 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_BIST_TIMER 0
 #define arguments_BDK_RST_BIST_TIMER -1,-1,-1,-1
 
@@ -523,6 +524,7 @@ static inline uint64_t BDK_RST_BOOT_FUNC(void)
 #define typedef_BDK_RST_BOOT bdk_rst_boot_t
 #define bustype_BDK_RST_BOOT BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_BOOT "RST_BOOT"
+#define device_bar_BDK_RST_BOOT 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_BOOT 0
 #define arguments_BDK_RST_BOOT -1,-1,-1,-1
 
@@ -569,6 +571,7 @@ static inline uint64_t BDK_RST_CFG_FUNC(void)
 #define typedef_BDK_RST_CFG bdk_rst_cfg_t
 #define bustype_BDK_RST_CFG BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_CFG "RST_CFG"
+#define device_bar_BDK_RST_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_CFG 0
 #define arguments_BDK_RST_CFG -1,-1,-1,-1
 
@@ -607,6 +610,7 @@ static inline uint64_t BDK_RST_CKILL_FUNC(void)
 #define typedef_BDK_RST_CKILL bdk_rst_ckill_t
 #define bustype_BDK_RST_CKILL BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_CKILL "RST_CKILL"
+#define device_bar_BDK_RST_CKILL 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_CKILL 0
 #define arguments_BDK_RST_CKILL -1,-1,-1,-1
 
@@ -640,6 +644,7 @@ static inline uint64_t BDK_RST_COLD_DATAX(unsigned long a)
 #define typedef_BDK_RST_COLD_DATAX(a) bdk_rst_cold_datax_t
 #define bustype_BDK_RST_COLD_DATAX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_COLD_DATAX(a) "RST_COLD_DATAX"
+#define device_bar_BDK_RST_COLD_DATAX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_COLD_DATAX(a) (a)
 #define arguments_BDK_RST_COLD_DATAX(a) (a),-1,-1,-1
 
@@ -785,6 +790,7 @@ static inline uint64_t BDK_RST_CTLX(unsigned long a)
 #define typedef_BDK_RST_CTLX(a) bdk_rst_ctlx_t
 #define bustype_BDK_RST_CTLX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_CTLX(a) "RST_CTLX"
+#define device_bar_BDK_RST_CTLX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_CTLX(a) (a)
 #define arguments_BDK_RST_CTLX(a) (a),-1,-1,-1
 
@@ -861,6 +867,7 @@ static inline uint64_t BDK_RST_DBG_RESET_FUNC(void)
 #define typedef_BDK_RST_DBG_RESET bdk_rst_dbg_reset_t
 #define bustype_BDK_RST_DBG_RESET BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_DBG_RESET "RST_DBG_RESET"
+#define device_bar_BDK_RST_DBG_RESET 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_DBG_RESET 0
 #define arguments_BDK_RST_DBG_RESET -1,-1,-1,-1
 
@@ -868,6 +875,7 @@ static inline uint64_t BDK_RST_DBG_RESET_FUNC(void)
  * Register (RSL) rst_debug
  *
  * RST Debug Register
+ * Added in pass 2.
  */
 typedef union
 {
@@ -901,6 +909,7 @@ static inline uint64_t BDK_RST_DEBUG_FUNC(void)
 #define typedef_BDK_RST_DEBUG bdk_rst_debug_t
 #define bustype_BDK_RST_DEBUG BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_DEBUG "RST_DEBUG"
+#define device_bar_BDK_RST_DEBUG 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_DEBUG 0
 #define arguments_BDK_RST_DEBUG -1,-1,-1,-1
 
@@ -949,6 +958,7 @@ static inline uint64_t BDK_RST_DELAY_FUNC(void)
 #define typedef_BDK_RST_DELAY bdk_rst_delay_t
 #define bustype_BDK_RST_DELAY BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_DELAY "RST_DELAY"
+#define device_bar_BDK_RST_DELAY 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_DELAY 0
 #define arguments_BDK_RST_DELAY -1,-1,-1,-1
 
@@ -956,6 +966,8 @@ static inline uint64_t BDK_RST_DELAY_FUNC(void)
  * Register (RSL) rst_eco
  *
  * INTERNAL: RST ECO Register
+ *
+ * Added in pass 2.
  */
 typedef union
 {
@@ -989,6 +1001,7 @@ static inline uint64_t BDK_RST_ECO_FUNC(void)
 #define typedef_BDK_RST_ECO bdk_rst_eco_t
 #define bustype_BDK_RST_ECO BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_ECO "RST_ECO"
+#define device_bar_BDK_RST_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_ECO 0
 #define arguments_BDK_RST_ECO -1,-1,-1,-1
 
@@ -1031,6 +1044,7 @@ static inline uint64_t BDK_RST_INT_FUNC(void)
 #define typedef_BDK_RST_INT bdk_rst_int_t
 #define bustype_BDK_RST_INT BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_INT "RST_INT"
+#define device_bar_BDK_RST_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_INT 0
 #define arguments_BDK_RST_INT -1,-1,-1,-1
 
@@ -1070,6 +1084,7 @@ static inline uint64_t BDK_RST_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_RST_INT_ENA_W1C bdk_rst_int_ena_w1c_t
 #define bustype_BDK_RST_INT_ENA_W1C BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_INT_ENA_W1C "RST_INT_ENA_W1C"
+#define device_bar_BDK_RST_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_INT_ENA_W1C 0
 #define arguments_BDK_RST_INT_ENA_W1C -1,-1,-1,-1
 
@@ -1109,13 +1124,14 @@ static inline uint64_t BDK_RST_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_RST_INT_ENA_W1S bdk_rst_int_ena_w1s_t
 #define bustype_BDK_RST_INT_ENA_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_INT_ENA_W1S "RST_INT_ENA_W1S"
+#define device_bar_BDK_RST_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_INT_ENA_W1S 0
 #define arguments_BDK_RST_INT_ENA_W1S -1,-1,-1,-1
 
 /**
  * Register (RSL) rst_int_w1s
  *
- * RST Interrupt Register
+ * RST Interrupt Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -1148,6 +1164,7 @@ static inline uint64_t BDK_RST_INT_W1S_FUNC(void)
 #define typedef_BDK_RST_INT_W1S bdk_rst_int_w1s_t
 #define bustype_BDK_RST_INT_W1S BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_INT_W1S "RST_INT_W1S"
+#define device_bar_BDK_RST_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_INT_W1S 0
 #define arguments_BDK_RST_INT_W1S -1,-1,-1,-1
 
@@ -1185,6 +1202,7 @@ static inline uint64_t BDK_RST_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_RST_MSIX_PBAX(a) bdk_rst_msix_pbax_t
 #define bustype_BDK_RST_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_MSIX_PBAX(a) "RST_MSIX_PBAX"
+#define device_bar_BDK_RST_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_RST_MSIX_PBAX(a) (a)
 #define arguments_BDK_RST_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -1241,6 +1259,7 @@ static inline uint64_t BDK_RST_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_RST_MSIX_VECX_ADDR(a) bdk_rst_msix_vecx_addr_t
 #define bustype_BDK_RST_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_MSIX_VECX_ADDR(a) "RST_MSIX_VECX_ADDR"
+#define device_bar_BDK_RST_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_RST_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_RST_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -1281,6 +1300,7 @@ static inline uint64_t BDK_RST_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_RST_MSIX_VECX_CTL(a) bdk_rst_msix_vecx_ctl_t
 #define bustype_BDK_RST_MSIX_VECX_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_MSIX_VECX_CTL(a) "RST_MSIX_VECX_CTL"
+#define device_bar_BDK_RST_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_RST_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_RST_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -1321,6 +1341,7 @@ static inline uint64_t BDK_RST_OCX_FUNC(void)
 #define typedef_BDK_RST_OCX bdk_rst_ocx_t
 #define bustype_BDK_RST_OCX BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_OCX "RST_OCX"
+#define device_bar_BDK_RST_OCX 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_OCX 0
 #define arguments_BDK_RST_OCX -1,-1,-1,-1
 
@@ -1361,6 +1382,7 @@ static inline uint64_t BDK_RST_OSC_CNTR_FUNC(void)
 #define typedef_BDK_RST_OSC_CNTR bdk_rst_osc_cntr_t
 #define bustype_BDK_RST_OSC_CNTR BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_OSC_CNTR "RST_OSC_CNTR"
+#define device_bar_BDK_RST_OSC_CNTR 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_OSC_CNTR 0
 #define arguments_BDK_RST_OSC_CNTR -1,-1,-1,-1
 
@@ -1401,13 +1423,14 @@ static inline uint64_t BDK_RST_OUT_CTL_FUNC(void)
 #define typedef_BDK_RST_OUT_CTL bdk_rst_out_ctl_t
 #define bustype_BDK_RST_OUT_CTL BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_OUT_CTL "RST_OUT_CTL"
+#define device_bar_BDK_RST_OUT_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_OUT_CTL 0
 #define arguments_BDK_RST_OUT_CTL -1,-1,-1,-1
 
 /**
  * Register (RSL) rst_power_dbg
  *
- * RST Core Power Debug Control Register
+ * RST Core-Power Debug-Control Register
  */
 typedef union
 {
@@ -1435,6 +1458,7 @@ static inline uint64_t BDK_RST_POWER_DBG_FUNC(void)
 #define typedef_BDK_RST_POWER_DBG bdk_rst_power_dbg_t
 #define bustype_BDK_RST_POWER_DBG BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_POWER_DBG "RST_POWER_DBG"
+#define device_bar_BDK_RST_POWER_DBG 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_POWER_DBG 0
 #define arguments_BDK_RST_POWER_DBG -1,-1,-1,-1
 
@@ -1489,6 +1513,7 @@ static inline uint64_t BDK_RST_PP_AVAILABLE_FUNC(void)
 #define typedef_BDK_RST_PP_AVAILABLE bdk_rst_pp_available_t
 #define bustype_BDK_RST_PP_AVAILABLE BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_PP_AVAILABLE "RST_PP_AVAILABLE"
+#define device_bar_BDK_RST_PP_AVAILABLE 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_PP_AVAILABLE 0
 #define arguments_BDK_RST_PP_AVAILABLE -1,-1,-1,-1
 
@@ -1562,13 +1587,14 @@ static inline uint64_t BDK_RST_PP_PENDING_FUNC(void)
 #define typedef_BDK_RST_PP_PENDING bdk_rst_pp_pending_t
 #define bustype_BDK_RST_PP_PENDING BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_PP_PENDING "RST_PP_PENDING"
+#define device_bar_BDK_RST_PP_PENDING 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_PP_PENDING 0
 #define arguments_BDK_RST_PP_PENDING -1,-1,-1,-1
 
 /**
  * Register (RSL) rst_pp_power
  *
- * RST Core Power Gating Control Register
+ * RST Core-Power Gating-Control Register
  */
 typedef union
 {
@@ -1640,6 +1666,7 @@ static inline uint64_t BDK_RST_PP_POWER_FUNC(void)
 #define typedef_BDK_RST_PP_POWER bdk_rst_pp_power_t
 #define bustype_BDK_RST_PP_POWER BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_PP_POWER "RST_PP_POWER"
+#define device_bar_BDK_RST_PP_POWER 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_PP_POWER 0
 #define arguments_BDK_RST_PP_POWER -1,-1,-1,-1
 
@@ -1718,6 +1745,7 @@ static inline uint64_t BDK_RST_PP_POWER_STAT_FUNC(void)
 #define typedef_BDK_RST_PP_POWER_STAT bdk_rst_pp_power_stat_t
 #define bustype_BDK_RST_PP_POWER_STAT BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_PP_POWER_STAT "RST_PP_POWER_STAT"
+#define device_bar_BDK_RST_PP_POWER_STAT 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_PP_POWER_STAT 0
 #define arguments_BDK_RST_PP_POWER_STAT -1,-1,-1,-1
 
@@ -1801,6 +1829,7 @@ static inline uint64_t BDK_RST_PP_RESET_FUNC(void)
 #define typedef_BDK_RST_PP_RESET bdk_rst_pp_reset_t
 #define bustype_BDK_RST_PP_RESET BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_PP_RESET "RST_PP_RESET"
+#define device_bar_BDK_RST_PP_RESET 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_PP_RESET 0
 #define arguments_BDK_RST_PP_RESET -1,-1,-1,-1
 
@@ -1861,6 +1890,7 @@ static inline uint64_t BDK_RST_REF_CHECK_FUNC(void)
 #define typedef_BDK_RST_REF_CHECK bdk_rst_ref_check_t
 #define bustype_BDK_RST_REF_CHECK BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_REF_CHECK "RST_REF_CHECK"
+#define device_bar_BDK_RST_REF_CHECK 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_REF_CHECK 0
 #define arguments_BDK_RST_REF_CHECK -1,-1,-1,-1
 
@@ -1897,6 +1927,7 @@ static inline uint64_t BDK_RST_REF_CNTR_FUNC(void)
 #define typedef_BDK_RST_REF_CNTR bdk_rst_ref_cntr_t
 #define bustype_BDK_RST_REF_CNTR BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_REF_CNTR "RST_REF_CNTR"
+#define device_bar_BDK_RST_REF_CNTR 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_REF_CNTR 0
 #define arguments_BDK_RST_REF_CNTR -1,-1,-1,-1
 
@@ -1948,6 +1979,7 @@ static inline uint64_t BDK_RST_SOFT_PRSTX(unsigned long a)
 #define typedef_BDK_RST_SOFT_PRSTX(a) bdk_rst_soft_prstx_t
 #define bustype_BDK_RST_SOFT_PRSTX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_SOFT_PRSTX(a) "RST_SOFT_PRSTX"
+#define device_bar_BDK_RST_SOFT_PRSTX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_SOFT_PRSTX(a) (a)
 #define arguments_BDK_RST_SOFT_PRSTX(a) (a),-1,-1,-1
 
@@ -1986,6 +2018,7 @@ static inline uint64_t BDK_RST_SOFT_RST_FUNC(void)
 #define typedef_BDK_RST_SOFT_RST bdk_rst_soft_rst_t
 #define bustype_BDK_RST_SOFT_RST BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_SOFT_RST "RST_SOFT_RST"
+#define device_bar_BDK_RST_SOFT_RST 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_SOFT_RST 0
 #define arguments_BDK_RST_SOFT_RST -1,-1,-1,-1
 
@@ -2034,6 +2067,7 @@ static inline uint64_t BDK_RST_THERMAL_ALERT_FUNC(void)
 #define typedef_BDK_RST_THERMAL_ALERT bdk_rst_thermal_alert_t
 #define bustype_BDK_RST_THERMAL_ALERT BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_THERMAL_ALERT "RST_THERMAL_ALERT"
+#define device_bar_BDK_RST_THERMAL_ALERT 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_THERMAL_ALERT 0
 #define arguments_BDK_RST_THERMAL_ALERT -1,-1,-1,-1
 
@@ -2150,6 +2184,7 @@ static inline uint64_t BDK_RST_TNS_PLL_CTL_FUNC(void)
 #define typedef_BDK_RST_TNS_PLL_CTL bdk_rst_tns_pll_ctl_t
 #define bustype_BDK_RST_TNS_PLL_CTL BDK_CSR_TYPE_RSL
 #define basename_BDK_RST_TNS_PLL_CTL "RST_TNS_PLL_CTL"
+#define device_bar_BDK_RST_TNS_PLL_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_RST_TNS_PLL_CTL 0
 #define arguments_BDK_RST_TNS_PLL_CTL -1,-1,-1,-1
 

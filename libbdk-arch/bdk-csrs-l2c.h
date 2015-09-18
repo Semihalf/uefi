@@ -621,6 +621,7 @@ static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a)
 #define typedef_BDK_L2C_ASC_REGIONX_ATTR(a) bdk_l2c_asc_regionx_attr_t
 #define bustype_BDK_L2C_ASC_REGIONX_ATTR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_ASC_REGIONX_ATTR(a) "L2C_ASC_REGIONX_ATTR"
+#define device_bar_BDK_L2C_ASC_REGIONX_ATTR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_ASC_REGIONX_ATTR(a) (a)
 #define arguments_BDK_L2C_ASC_REGIONX_ATTR(a) (a),-1,-1,-1
 
@@ -668,6 +669,7 @@ static inline uint64_t BDK_L2C_ASC_REGIONX_END(unsigned long a)
 #define typedef_BDK_L2C_ASC_REGIONX_END(a) bdk_l2c_asc_regionx_end_t
 #define bustype_BDK_L2C_ASC_REGIONX_END(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_ASC_REGIONX_END(a) "L2C_ASC_REGIONX_END"
+#define device_bar_BDK_L2C_ASC_REGIONX_END(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_ASC_REGIONX_END(a) (a)
 #define arguments_BDK_L2C_ASC_REGIONX_END(a) (a),-1,-1,-1
 
@@ -707,6 +709,7 @@ static inline uint64_t BDK_L2C_ASC_REGIONX_START(unsigned long a)
 #define typedef_BDK_L2C_ASC_REGIONX_START(a) bdk_l2c_asc_regionx_start_t
 #define bustype_BDK_L2C_ASC_REGIONX_START(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_ASC_REGIONX_START(a) "L2C_ASC_REGIONX_START"
+#define device_bar_BDK_L2C_ASC_REGIONX_START(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_ASC_REGIONX_START(a) (a)
 #define arguments_BDK_L2C_ASC_REGIONX_START(a) (a),-1,-1,-1
 
@@ -748,13 +751,14 @@ static inline uint64_t BDK_L2C_CBCX_BIST_STATUS(unsigned long a)
 #define typedef_BDK_L2C_CBCX_BIST_STATUS(a) bdk_l2c_cbcx_bist_status_t
 #define bustype_BDK_L2C_CBCX_BIST_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_CBCX_BIST_STATUS(a) "L2C_CBCX_BIST_STATUS"
+#define device_bar_BDK_L2C_CBCX_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_CBCX_BIST_STATUS(a) (a)
 #define arguments_BDK_L2C_CBCX_BIST_STATUS(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) l2c_cbc#_dll
  *
- * L2C CBC DLL Observability Register
+ * Level 2 Cache CBC DLL Observability Register
  * Register for DLL observability.
  */
 typedef union
@@ -806,6 +810,7 @@ static inline uint64_t BDK_L2C_CBCX_DLL(unsigned long a)
 #define typedef_BDK_L2C_CBCX_DLL(a) bdk_l2c_cbcx_dll_t
 #define bustype_BDK_L2C_CBCX_DLL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_CBCX_DLL(a) "L2C_CBCX_DLL"
+#define device_bar_BDK_L2C_CBCX_DLL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_CBCX_DLL(a) (a)
 #define arguments_BDK_L2C_CBCX_DLL(a) (a),-1,-1,-1
 
@@ -844,6 +849,7 @@ static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a)
 #define typedef_BDK_L2C_CBCX_IOCERR(a) bdk_l2c_cbcx_iocerr_t
 #define bustype_BDK_L2C_CBCX_IOCERR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_CBCX_IOCERR(a) "L2C_CBCX_IOCERR"
+#define device_bar_BDK_L2C_CBCX_IOCERR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_CBCX_IOCERR(a) (a)
 #define arguments_BDK_L2C_CBCX_IOCERR(a) (a),-1,-1,-1
 
@@ -851,7 +857,12 @@ static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a)
  * Register (RSL) l2c_cbc#_iodisocierr
  *
  * Level 2 Cache IODISOCI Error Information Registers
- * Reserved.
+ * This register records error information associated with IORDDISOCI/IOWRDISOCI interrupts.
+ * IOWRDISOCI events take priority over previously captured IORDDISOCI events. Of the available
+ * I/O transactions, some commands will either set IORDDISOCI, set IOWRDISOCI, or set both
+ * IORDDISOCI and IOWRDISOCI. See L2C_CBC()_INT_W1C for information about which I/O
+ * transactions
+ * may result in IORDDISOCI/IOWRDISOCI interrupts.
  */
 typedef union
 {
@@ -896,6 +907,7 @@ static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a)
 #define typedef_BDK_L2C_CBCX_IODISOCIERR(a) bdk_l2c_cbcx_iodisocierr_t
 #define bustype_BDK_L2C_CBCX_IODISOCIERR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_CBCX_IODISOCIERR(a) "L2C_CBCX_IODISOCIERR"
+#define device_bar_BDK_L2C_CBCX_IODISOCIERR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_CBCX_IODISOCIERR(a) (a)
 #define arguments_BDK_L2C_CBCX_IODISOCIERR(a) (a),-1,-1,-1
 
@@ -903,7 +915,11 @@ static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a)
  * Register (RSL) l2c_cbc#_miberr
  *
  * Level 2 Cache MIB Error Information Registers
- * Reserved.
+ * This register records error information for all CBC MIB errors. An error locks the INDEX, and
+ * SYN fields and set the bit corresponding to the error received. MIBDBE errors take priority
+ * and overwrite an earlier logged MIBSBE error. Only one of MIBSBE/MIBDBE is set at any given
+ * time and serves to document which error the INDEX/SYN is associated with. The syndrome is
+ * recorded for DBE errors, though the utility of the value is not clear.
  */
 typedef union
 {
@@ -954,6 +970,7 @@ static inline uint64_t BDK_L2C_CBCX_MIBERR(unsigned long a)
 #define typedef_BDK_L2C_CBCX_MIBERR(a) bdk_l2c_cbcx_miberr_t
 #define bustype_BDK_L2C_CBCX_MIBERR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_CBCX_MIBERR(a) "L2C_CBCX_MIBERR"
+#define device_bar_BDK_L2C_CBCX_MIBERR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_CBCX_MIBERR(a) (a)
 #define arguments_BDK_L2C_CBCX_MIBERR(a) (a),-1,-1,-1
 
@@ -1011,6 +1028,7 @@ static inline uint64_t BDK_L2C_CBCX_RSDERR(unsigned long a)
 #define typedef_BDK_L2C_CBCX_RSDERR(a) bdk_l2c_cbcx_rsderr_t
 #define bustype_BDK_L2C_CBCX_RSDERR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_CBCX_RSDERR(a) "L2C_CBCX_RSDERR"
+#define device_bar_BDK_L2C_CBCX_RSDERR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_CBCX_RSDERR(a) (a)
 #define arguments_BDK_L2C_CBCX_RSDERR(a) (a),-1,-1,-1
 
@@ -1206,6 +1224,7 @@ static inline uint64_t BDK_L2C_CTL_FUNC(void)
 #define typedef_BDK_L2C_CTL bdk_l2c_ctl_t
 #define bustype_BDK_L2C_CTL BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_CTL "L2C_CTL"
+#define device_bar_BDK_L2C_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_CTL 0
 #define arguments_BDK_L2C_CTL -1,-1,-1,-1
 
@@ -1269,6 +1288,7 @@ static inline uint64_t BDK_L2C_ECC_CTL_FUNC(void)
 #define typedef_BDK_L2C_ECC_CTL bdk_l2c_ecc_ctl_t
 #define bustype_BDK_L2C_ECC_CTL BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_ECC_CTL "L2C_ECC_CTL"
+#define device_bar_BDK_L2C_ECC_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_ECC_CTL 0
 #define arguments_BDK_L2C_ECC_CTL -1,-1,-1,-1
 
@@ -1316,6 +1336,7 @@ static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a)
 #define typedef_BDK_L2C_MCIX_BIST_STATUS(a) bdk_l2c_mcix_bist_status_t
 #define bustype_BDK_L2C_MCIX_BIST_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_MCIX_BIST_STATUS(a) "L2C_MCIX_BIST_STATUS"
+#define device_bar_BDK_L2C_MCIX_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_MCIX_BIST_STATUS(a) (a)
 #define arguments_BDK_L2C_MCIX_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -1328,7 +1349,7 @@ static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a)
  * received. VBFDBE errors take priority and will overwrite an earlier logged VBFSBE error. The
  * information from exactly one VBF read is present at any given time and serves to document
  * which error(s) were present in the read with the highest priority error.
- * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+ * The syndrome is recorded for DBE errors.
  */
 typedef union
 {
@@ -1383,6 +1404,7 @@ static inline uint64_t BDK_L2C_MCIX_ERR(unsigned long a)
 #define typedef_BDK_L2C_MCIX_ERR(a) bdk_l2c_mcix_err_t
 #define bustype_BDK_L2C_MCIX_ERR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_MCIX_ERR(a) "L2C_MCIX_ERR"
+#define device_bar_BDK_L2C_MCIX_ERR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_MCIX_ERR(a) (a)
 #define arguments_BDK_L2C_MCIX_ERR(a) (a),-1,-1,-1
 
@@ -1722,6 +1744,7 @@ static inline uint64_t BDK_L2C_OCI_CTL_FUNC(void)
 #define typedef_BDK_L2C_OCI_CTL bdk_l2c_oci_ctl_t
 #define bustype_BDK_L2C_OCI_CTL BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_OCI_CTL "L2C_OCI_CTL"
+#define device_bar_BDK_L2C_OCI_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_OCI_CTL 0
 #define arguments_BDK_L2C_OCI_CTL -1,-1,-1,-1
 
@@ -1761,6 +1784,7 @@ static inline uint64_t BDK_L2C_QOS_PPX(unsigned long a)
 #define typedef_BDK_L2C_QOS_PPX(a) bdk_l2c_qos_ppx_t
 #define bustype_BDK_L2C_QOS_PPX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_QOS_PPX(a) "L2C_QOS_PPX"
+#define device_bar_BDK_L2C_QOS_PPX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_QOS_PPX(a) (a)
 #define arguments_BDK_L2C_QOS_PPX(a) (a),-1,-1,-1
 
@@ -1807,6 +1831,7 @@ static inline uint64_t BDK_L2C_QOS_WGT_FUNC(void)
 #define typedef_BDK_L2C_QOS_WGT bdk_l2c_qos_wgt_t
 #define bustype_BDK_L2C_QOS_WGT BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_QOS_WGT "L2C_QOS_WGT"
+#define device_bar_BDK_L2C_QOS_WGT 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_QOS_WGT 0
 #define arguments_BDK_L2C_QOS_WGT -1,-1,-1,-1
 
@@ -1865,6 +1890,7 @@ static inline uint64_t BDK_L2C_TADX_DLL(unsigned long a)
 #define typedef_BDK_L2C_TADX_DLL(a) bdk_l2c_tadx_dll_t
 #define bustype_BDK_L2C_TADX_DLL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_DLL(a) "L2C_TADX_DLL"
+#define device_bar_BDK_L2C_TADX_DLL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_DLL(a) (a)
 #define arguments_BDK_L2C_TADX_DLL(a) (a),-1,-1,-1
 
@@ -1872,9 +1898,12 @@ static inline uint64_t BDK_L2C_TADX_DLL(unsigned long a)
  * Register (RSL) l2c_tad#_err
  *
  * Level 2 Cache TAD Request Error Info Registers
- * This register records error information for BIG* interrupts. The BIG logic only
- * applies to local addresses. The first BIGWR error will lock the register until the
- * logged error type is cleared; BIGRD never locks the register.
+ * This register records error information for *DISOCI and *NXM
+ * interrupts. The NXM logic only applies to local addresses. A command for
+ * a remote address does not cause a RDNXM/WRNXM on the requesting node, but
+ * may on the remote node. Similary RDDISOCI/WRDISOCI is always for a remote
+ * address. The first WRDISOCI/WRNXM error will lock the register until the
+ * logged error type is cleared; RDDISOCI/RDNXM never locks the register.
  */
 typedef union
 {
@@ -1941,6 +1970,7 @@ static inline uint64_t BDK_L2C_TADX_ERR(unsigned long a)
 #define typedef_BDK_L2C_TADX_ERR(a) bdk_l2c_tadx_err_t
 #define bustype_BDK_L2C_TADX_ERR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_ERR(a) "L2C_TADX_ERR"
+#define device_bar_BDK_L2C_TADX_ERR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_ERR(a) (a)
 #define arguments_BDK_L2C_TADX_ERR(a) (a),-1,-1,-1
 
@@ -1978,6 +2008,7 @@ static inline uint64_t BDK_L2C_TADX_PFCX(unsigned long a, unsigned long b)
 #define typedef_BDK_L2C_TADX_PFCX(a,b) bdk_l2c_tadx_pfcx_t
 #define bustype_BDK_L2C_TADX_PFCX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_PFCX(a,b) "L2C_TADX_PFCX"
+#define device_bar_BDK_L2C_TADX_PFCX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_PFCX(a,b) (a)
 #define arguments_BDK_L2C_TADX_PFCX(a,b) (a),(b),-1,-1
 
@@ -2056,6 +2087,7 @@ static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a)
 #define typedef_BDK_L2C_TADX_PRF(a) bdk_l2c_tadx_prf_t
 #define bustype_BDK_L2C_TADX_PRF(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_PRF(a) "L2C_TADX_PRF"
+#define device_bar_BDK_L2C_TADX_PRF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_PRF(a) (a)
 #define arguments_BDK_L2C_TADX_PRF(a) (a),-1,-1,-1
 
@@ -2063,7 +2095,7 @@ static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a)
  * Register (RSL) l2c_tad#_stat
  *
  * Level 2 Cache TAD Status Registers
- * This register holds information about the instantaneous state of the TAD.
+ * This register holds information about the instantaneous state of the TAD
  */
 typedef union
 {
@@ -2100,6 +2132,7 @@ static inline uint64_t BDK_L2C_TADX_STAT(unsigned long a)
 #define typedef_BDK_L2C_TADX_STAT(a) bdk_l2c_tadx_stat_t
 #define bustype_BDK_L2C_TADX_STAT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_STAT(a) "L2C_TADX_STAT"
+#define device_bar_BDK_L2C_TADX_STAT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_STAT(a) (a)
 #define arguments_BDK_L2C_TADX_STAT(a) (a),-1,-1,-1
 
@@ -2325,6 +2358,7 @@ static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a)
 #define typedef_BDK_L2C_TADX_TAG(a) bdk_l2c_tadx_tag_t
 #define bustype_BDK_L2C_TADX_TAG(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_TAG(a) "L2C_TADX_TAG"
+#define device_bar_BDK_L2C_TADX_TAG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_TAG(a) (a)
 #define arguments_BDK_L2C_TADX_TAG(a) (a),-1,-1,-1
 
@@ -2405,6 +2439,7 @@ static inline uint64_t BDK_L2C_TADX_TIMEOUT(unsigned long a)
 #define typedef_BDK_L2C_TADX_TIMEOUT(a) bdk_l2c_tadx_timeout_t
 #define bustype_BDK_L2C_TADX_TIMEOUT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_TIMEOUT(a) "L2C_TADX_TIMEOUT"
+#define device_bar_BDK_L2C_TADX_TIMEOUT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_TIMEOUT(a) (a)
 #define arguments_BDK_L2C_TADX_TIMEOUT(a) (a),-1,-1,-1
 
@@ -2463,6 +2498,7 @@ static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a)
 #define typedef_BDK_L2C_TADX_TIMETWO(a) bdk_l2c_tadx_timetwo_t
 #define bustype_BDK_L2C_TADX_TIMETWO(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_TIMETWO(a) "L2C_TADX_TIMETWO"
+#define device_bar_BDK_L2C_TADX_TIMETWO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_TIMETWO(a) (a)
 #define arguments_BDK_L2C_TADX_TIMETWO(a) (a),-1,-1,-1
 
@@ -2470,8 +2506,12 @@ static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a)
  * Register (RSL) l2c_tad_ctl
  *
  * Level 2 Cache TAD Control Register
- * "* If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB.
- * * If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF."
+ * In CNXXXX, MAXLFB, EXLRQ, EXRRQ, EXFWD, EXVIC refer to half-TAD LFBs/VABs. Therefore, even
+ * though there are 32 LFBs/VABs in a full TAD, the number applies to both halves.
+ * * If MAXLFB is != 0, VBF_THRESH should be less than MAXLFB.
+ * * If MAXVBF is != 0, VBF_THRESH should be less than MAXVBF.
+ * * If MAXLFB != 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to MAXLFB - 4.
+ * * If MAXLFB == 0, EXLRQ + EXRRQ + EXFWD + EXVIC must be less than or equal to 12.
  */
 typedef union
 {
@@ -2566,6 +2606,7 @@ static inline uint64_t BDK_L2C_TAD_CTL_FUNC(void)
 #define typedef_BDK_L2C_TAD_CTL bdk_l2c_tad_ctl_t
 #define bustype_BDK_L2C_TAD_CTL BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TAD_CTL "L2C_TAD_CTL"
+#define device_bar_BDK_L2C_TAD_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TAD_CTL 0
 #define arguments_BDK_L2C_TAD_CTL -1,-1,-1,-1
 
@@ -2603,6 +2644,7 @@ static inline uint64_t BDK_L2C_WPAR_IOBX(unsigned long a)
 #define typedef_BDK_L2C_WPAR_IOBX(a) bdk_l2c_wpar_iobx_t
 #define bustype_BDK_L2C_WPAR_IOBX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_WPAR_IOBX(a) "L2C_WPAR_IOBX"
+#define device_bar_BDK_L2C_WPAR_IOBX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_WPAR_IOBX(a) (a)
 #define arguments_BDK_L2C_WPAR_IOBX(a) (a),-1,-1,-1
 
@@ -2644,6 +2686,7 @@ static inline uint64_t BDK_L2C_WPAR_PPX(unsigned long a)
 #define typedef_BDK_L2C_WPAR_PPX(a) bdk_l2c_wpar_ppx_t
 #define bustype_BDK_L2C_WPAR_PPX(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_WPAR_PPX(a) "L2C_WPAR_PPX"
+#define device_bar_BDK_L2C_WPAR_PPX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_WPAR_PPX(a) (a)
 #define arguments_BDK_L2C_WPAR_PPX(a) (a),-1,-1,-1
 

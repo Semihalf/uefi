@@ -91,6 +91,7 @@ static inline uint64_t BDK_MIO_BOOT_AP_JUMP_FUNC(void)
 #define typedef_BDK_MIO_BOOT_AP_JUMP bdk_mio_boot_ap_jump_t
 #define bustype_BDK_MIO_BOOT_AP_JUMP BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_BOOT_AP_JUMP "MIO_BOOT_AP_JUMP"
+#define device_bar_BDK_MIO_BOOT_AP_JUMP 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_BOOT_AP_JUMP 0
 #define arguments_BDK_MIO_BOOT_AP_JUMP -1,-1,-1,-1
 
@@ -147,6 +148,7 @@ static inline uint64_t BDK_MIO_BOOT_BIST_STAT_FUNC(void)
 #define typedef_BDK_MIO_BOOT_BIST_STAT bdk_mio_boot_bist_stat_t
 #define bustype_BDK_MIO_BOOT_BIST_STAT BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_BOOT_BIST_STAT "MIO_BOOT_BIST_STAT"
+#define device_bar_BDK_MIO_BOOT_BIST_STAT 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_BOOT_BIST_STAT 0
 #define arguments_BDK_MIO_BOOT_BIST_STAT -1,-1,-1,-1
 
@@ -201,6 +203,7 @@ static inline uint64_t BDK_MIO_BOOT_PIN_DEFS_FUNC(void)
 #define typedef_BDK_MIO_BOOT_PIN_DEFS bdk_mio_boot_pin_defs_t
 #define bustype_BDK_MIO_BOOT_PIN_DEFS BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_BOOT_PIN_DEFS "MIO_BOOT_PIN_DEFS"
+#define device_bar_BDK_MIO_BOOT_PIN_DEFS 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_BOOT_PIN_DEFS 0
 #define arguments_BDK_MIO_BOOT_PIN_DEFS -1,-1,-1,-1
 
@@ -248,6 +251,7 @@ static inline uint64_t BDK_MIO_BOOT_ROM_LIMIT_FUNC(void)
 #define typedef_BDK_MIO_BOOT_ROM_LIMIT bdk_mio_boot_rom_limit_t
 #define bustype_BDK_MIO_BOOT_ROM_LIMIT BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_BOOT_ROM_LIMIT "MIO_BOOT_ROM_LIMIT"
+#define device_bar_BDK_MIO_BOOT_ROM_LIMIT 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_BOOT_ROM_LIMIT 0
 #define arguments_BDK_MIO_BOOT_ROM_LIMIT -1,-1,-1,-1
 
@@ -287,6 +291,7 @@ static inline uint64_t BDK_MIO_BOOT_THR_FUNC(void)
 #define typedef_BDK_MIO_BOOT_THR bdk_mio_boot_thr_t
 #define bustype_BDK_MIO_BOOT_THR BDK_CSR_TYPE_RSL
 #define basename_BDK_MIO_BOOT_THR "MIO_BOOT_THR"
+#define device_bar_BDK_MIO_BOOT_THR 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_BOOT_THR 0
 #define arguments_BDK_MIO_BOOT_THR -1,-1,-1,-1
 

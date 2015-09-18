@@ -153,6 +153,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS bdk_tns_bist_status_t
 #define bustype_BDK_TNS_BIST_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS "TNS_BIST_STATUS"
+#define device_bar_BDK_TNS_BIST_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS 0
 #define arguments_BDK_TNS_BIST_STATUS -1,-1,-1,-1
 
@@ -204,6 +205,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS1_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS1 bdk_tns_bist_status1_t
 #define bustype_BDK_TNS_BIST_STATUS1 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS1 "TNS_BIST_STATUS1"
+#define device_bar_BDK_TNS_BIST_STATUS1 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS1 0
 #define arguments_BDK_TNS_BIST_STATUS1 -1,-1,-1,-1
 
@@ -247,6 +249,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS10_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS10 bdk_tns_bist_status10_t
 #define bustype_BDK_TNS_BIST_STATUS10 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS10 "TNS_BIST_STATUS10"
+#define device_bar_BDK_TNS_BIST_STATUS10 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS10 0
 #define arguments_BDK_TNS_BIST_STATUS10 -1,-1,-1,-1
 
@@ -292,6 +295,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS11_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS11 bdk_tns_bist_status11_t
 #define bustype_BDK_TNS_BIST_STATUS11 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS11 "TNS_BIST_STATUS11"
+#define device_bar_BDK_TNS_BIST_STATUS11 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS11 0
 #define arguments_BDK_TNS_BIST_STATUS11 -1,-1,-1,-1
 
@@ -365,6 +369,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS2_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS2 bdk_tns_bist_status2_t
 #define bustype_BDK_TNS_BIST_STATUS2 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS2 "TNS_BIST_STATUS2"
+#define device_bar_BDK_TNS_BIST_STATUS2 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS2 0
 #define arguments_BDK_TNS_BIST_STATUS2 -1,-1,-1,-1
 
@@ -420,6 +425,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS3_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS3 bdk_tns_bist_status3_t
 #define bustype_BDK_TNS_BIST_STATUS3 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS3 "TNS_BIST_STATUS3"
+#define device_bar_BDK_TNS_BIST_STATUS3 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS3 0
 #define arguments_BDK_TNS_BIST_STATUS3 -1,-1,-1,-1
 
@@ -465,6 +471,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS4_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS4 bdk_tns_bist_status4_t
 #define bustype_BDK_TNS_BIST_STATUS4 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS4 "TNS_BIST_STATUS4"
+#define device_bar_BDK_TNS_BIST_STATUS4 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS4 0
 #define arguments_BDK_TNS_BIST_STATUS4 -1,-1,-1,-1
 
@@ -508,6 +515,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS5_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS5 bdk_tns_bist_status5_t
 #define bustype_BDK_TNS_BIST_STATUS5 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS5 "TNS_BIST_STATUS5"
+#define device_bar_BDK_TNS_BIST_STATUS5 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS5 0
 #define arguments_BDK_TNS_BIST_STATUS5 -1,-1,-1,-1
 
@@ -547,6 +555,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS6_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS6 bdk_tns_bist_status6_t
 #define bustype_BDK_TNS_BIST_STATUS6 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS6 "TNS_BIST_STATUS6"
+#define device_bar_BDK_TNS_BIST_STATUS6 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS6 0
 #define arguments_BDK_TNS_BIST_STATUS6 -1,-1,-1,-1
 
@@ -586,6 +595,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS7_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS7 bdk_tns_bist_status7_t
 #define bustype_BDK_TNS_BIST_STATUS7 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS7 "TNS_BIST_STATUS7"
+#define device_bar_BDK_TNS_BIST_STATUS7 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS7 0
 #define arguments_BDK_TNS_BIST_STATUS7 -1,-1,-1,-1
 
@@ -631,6 +641,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS8_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS8 bdk_tns_bist_status8_t
 #define bustype_BDK_TNS_BIST_STATUS8 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS8 "TNS_BIST_STATUS8"
+#define device_bar_BDK_TNS_BIST_STATUS8 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS8 0
 #define arguments_BDK_TNS_BIST_STATUS8 -1,-1,-1,-1
 
@@ -670,6 +681,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS9_FUNC(void)
 #define typedef_BDK_TNS_BIST_STATUS9 bdk_tns_bist_status9_t
 #define bustype_BDK_TNS_BIST_STATUS9 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_BIST_STATUS9 "TNS_BIST_STATUS9"
+#define device_bar_BDK_TNS_BIST_STATUS9 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_BIST_STATUS9 0
 #define arguments_BDK_TNS_BIST_STATUS9 -1,-1,-1,-1
 
@@ -706,6 +718,7 @@ static inline uint64_t BDK_TNS_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_TNS_MSIX_PBAX(a) bdk_tns_msix_pbax_t
 #define bustype_BDK_TNS_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_MSIX_PBAX(a) "TNS_MSIX_PBAX"
+#define device_bar_BDK_TNS_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_TNS_MSIX_PBAX(a) (a)
 #define arguments_BDK_TNS_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -760,6 +773,7 @@ static inline uint64_t BDK_TNS_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_TNS_MSIX_VECX_ADDR(a) bdk_tns_msix_vecx_addr_t
 #define bustype_BDK_TNS_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_MSIX_VECX_ADDR(a) "TNS_MSIX_VECX_ADDR"
+#define device_bar_BDK_TNS_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_TNS_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_TNS_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -800,6 +814,7 @@ static inline uint64_t BDK_TNS_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_TNS_MSIX_VECX_CTL(a) bdk_tns_msix_vecx_ctl_t
 #define bustype_BDK_TNS_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_MSIX_VECX_CTL(a) "TNS_MSIX_VECX_CTL"
+#define device_bar_BDK_TNS_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_TNS_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_TNS_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -837,6 +852,7 @@ static inline uint64_t BDK_TNS_PM_RD_ACCX(unsigned long a)
 #define typedef_BDK_TNS_PM_RD_ACCX(a) bdk_tns_pm_rd_accx_t
 #define bustype_BDK_TNS_PM_RD_ACCX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_PM_RD_ACCX(a) "TNS_PM_RD_ACCX"
+#define device_bar_BDK_TNS_PM_RD_ACCX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_PM_RD_ACCX(a) (a)
 #define arguments_BDK_TNS_PM_RD_ACCX(a) (a),-1,-1,-1
 
@@ -878,6 +894,7 @@ static inline uint64_t BDK_TNS_PM_WR_ACCX(unsigned long a)
 #define typedef_BDK_TNS_PM_WR_ACCX(a) bdk_tns_pm_wr_accx_t
 #define bustype_BDK_TNS_PM_WR_ACCX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_PM_WR_ACCX(a) "TNS_PM_WR_ACCX"
+#define device_bar_BDK_TNS_PM_WR_ACCX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_PM_WR_ACCX(a) (a)
 #define arguments_BDK_TNS_PM_WR_ACCX(a) (a),-1,-1,-1
 
@@ -918,6 +935,7 @@ static inline uint64_t BDK_TNS_RDMA_CNTX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_CNTX(a) bdk_tns_rdma_cntx_t
 #define bustype_BDK_TNS_RDMA_CNTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_CNTX(a) "TNS_RDMA_CNTX"
+#define device_bar_BDK_TNS_RDMA_CNTX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_CNTX(a) (a)
 #define arguments_BDK_TNS_RDMA_CNTX(a) (a),-1,-1,-1
 
@@ -955,6 +973,7 @@ static inline uint64_t BDK_TNS_RDMA_CNT_BYTESX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_CNT_BYTESX(a) bdk_tns_rdma_cnt_bytesx_t
 #define bustype_BDK_TNS_RDMA_CNT_BYTESX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_CNT_BYTESX(a) "TNS_RDMA_CNT_BYTESX"
+#define device_bar_BDK_TNS_RDMA_CNT_BYTESX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_CNT_BYTESX(a) (a)
 #define arguments_BDK_TNS_RDMA_CNT_BYTESX(a) (a),-1,-1,-1
 
@@ -992,6 +1011,7 @@ static inline uint64_t BDK_TNS_RDMA_CNT_PKTSX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_CNT_PKTSX(a) bdk_tns_rdma_cnt_pktsx_t
 #define bustype_BDK_TNS_RDMA_CNT_PKTSX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_CNT_PKTSX(a) "TNS_RDMA_CNT_PKTSX"
+#define device_bar_BDK_TNS_RDMA_CNT_PKTSX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_CNT_PKTSX(a) (a)
 #define arguments_BDK_TNS_RDMA_CNT_PKTSX(a) (a),-1,-1,-1
 
@@ -1044,6 +1064,7 @@ static inline uint64_t BDK_TNS_RDMA_CONFIG_FUNC(void)
 #define typedef_BDK_TNS_RDMA_CONFIG bdk_tns_rdma_config_t
 #define bustype_BDK_TNS_RDMA_CONFIG BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_CONFIG "TNS_RDMA_CONFIG"
+#define device_bar_BDK_TNS_RDMA_CONFIG 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_CONFIG 0
 #define arguments_BDK_TNS_RDMA_CONFIG -1,-1,-1,-1
 
@@ -1092,6 +1113,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_CDT_CTL_FUNC(void)
 #define typedef_BDK_TNS_RDMA_DBG_CDT_CTL bdk_tns_rdma_dbg_cdt_ctl_t
 #define bustype_BDK_TNS_RDMA_DBG_CDT_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_DBG_CDT_CTL "TNS_RDMA_DBG_CDT_CTL"
+#define device_bar_BDK_TNS_RDMA_DBG_CDT_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_DBG_CDT_CTL 0
 #define arguments_BDK_TNS_RDMA_DBG_CDT_CTL -1,-1,-1,-1
 
@@ -1148,6 +1170,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_CX_FULL_FUNC(void)
 #define typedef_BDK_TNS_RDMA_DBG_CX_FULL bdk_tns_rdma_dbg_cx_full_t
 #define bustype_BDK_TNS_RDMA_DBG_CX_FULL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_DBG_CX_FULL "TNS_RDMA_DBG_CX_FULL"
+#define device_bar_BDK_TNS_RDMA_DBG_CX_FULL 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_DBG_CX_FULL 0
 #define arguments_BDK_TNS_RDMA_DBG_CX_FULL -1,-1,-1,-1
 
@@ -1214,6 +1237,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_CX_OCC_FUNC(void)
 #define typedef_BDK_TNS_RDMA_DBG_CX_OCC bdk_tns_rdma_dbg_cx_occ_t
 #define bustype_BDK_TNS_RDMA_DBG_CX_OCC BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_DBG_CX_OCC "TNS_RDMA_DBG_CX_OCC"
+#define device_bar_BDK_TNS_RDMA_DBG_CX_OCC 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_DBG_CX_OCC 0
 #define arguments_BDK_TNS_RDMA_DBG_CX_OCC -1,-1,-1,-1
 
@@ -1304,6 +1328,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_PKT1_STATUS_FUNC(void)
 #define typedef_BDK_TNS_RDMA_DBG_PKT1_STATUS bdk_tns_rdma_dbg_pkt1_status_t
 #define bustype_BDK_TNS_RDMA_DBG_PKT1_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_DBG_PKT1_STATUS "TNS_RDMA_DBG_PKT1_STATUS"
+#define device_bar_BDK_TNS_RDMA_DBG_PKT1_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_DBG_PKT1_STATUS 0
 #define arguments_BDK_TNS_RDMA_DBG_PKT1_STATUS -1,-1,-1,-1
 
@@ -1342,6 +1367,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_PKT2_STATUS_FUNC(void)
 #define typedef_BDK_TNS_RDMA_DBG_PKT2_STATUS bdk_tns_rdma_dbg_pkt2_status_t
 #define bustype_BDK_TNS_RDMA_DBG_PKT2_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_DBG_PKT2_STATUS "TNS_RDMA_DBG_PKT2_STATUS"
+#define device_bar_BDK_TNS_RDMA_DBG_PKT2_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_DBG_PKT2_STATUS 0
 #define arguments_BDK_TNS_RDMA_DBG_PKT2_STATUS -1,-1,-1,-1
 
@@ -1380,6 +1406,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_PKT_CTL_FUNC(void)
 #define typedef_BDK_TNS_RDMA_DBG_PKT_CTL bdk_tns_rdma_dbg_pkt_ctl_t
 #define bustype_BDK_TNS_RDMA_DBG_PKT_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_DBG_PKT_CTL "TNS_RDMA_DBG_PKT_CTL"
+#define device_bar_BDK_TNS_RDMA_DBG_PKT_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_DBG_PKT_CTL 0
 #define arguments_BDK_TNS_RDMA_DBG_PKT_CTL -1,-1,-1,-1
 
@@ -1421,6 +1448,7 @@ static inline uint64_t BDK_TNS_RDMA_DBGB_SEL_FUNC(void)
 #define typedef_BDK_TNS_RDMA_DBGB_SEL bdk_tns_rdma_dbgb_sel_t
 #define bustype_BDK_TNS_RDMA_DBGB_SEL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_DBGB_SEL "TNS_RDMA_DBGB_SEL"
+#define device_bar_BDK_TNS_RDMA_DBGB_SEL 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_DBGB_SEL 0
 #define arguments_BDK_TNS_RDMA_DBGB_SEL -1,-1,-1,-1
 
@@ -1475,6 +1503,7 @@ static inline uint64_t BDK_TNS_RDMA_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_RDMA_ECC_CTL bdk_tns_rdma_ecc_ctl_t
 #define bustype_BDK_TNS_RDMA_ECC_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_ECC_CTL "TNS_RDMA_ECC_CTL"
+#define device_bar_BDK_TNS_RDMA_ECC_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_ECC_CTL 0
 #define arguments_BDK_TNS_RDMA_ECC_CTL -1,-1,-1,-1
 
@@ -1516,6 +1545,7 @@ static inline uint64_t BDK_TNS_RDMA_ECC_ERR_STAT_FUNC(void)
 #define typedef_BDK_TNS_RDMA_ECC_ERR_STAT bdk_tns_rdma_ecc_err_stat_t
 #define bustype_BDK_TNS_RDMA_ECC_ERR_STAT BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_ECC_ERR_STAT "TNS_RDMA_ECC_ERR_STAT"
+#define device_bar_BDK_TNS_RDMA_ECC_ERR_STAT 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_ECC_ERR_STAT 0
 #define arguments_BDK_TNS_RDMA_ECC_ERR_STAT -1,-1,-1,-1
 
@@ -1556,6 +1586,7 @@ static inline uint64_t BDK_TNS_RDMA_ECO_FUNC(void)
 #define typedef_BDK_TNS_RDMA_ECO bdk_tns_rdma_eco_t
 #define bustype_BDK_TNS_RDMA_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_ECO "TNS_RDMA_ECO"
+#define device_bar_BDK_TNS_RDMA_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_ECO 0
 #define arguments_BDK_TNS_RDMA_ECO -1,-1,-1,-1
 
@@ -1614,6 +1645,7 @@ static inline uint64_t BDK_TNS_RDMA_HDR_TS_CFG_FUNC(void)
 #define typedef_BDK_TNS_RDMA_HDR_TS_CFG bdk_tns_rdma_hdr_ts_cfg_t
 #define bustype_BDK_TNS_RDMA_HDR_TS_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_HDR_TS_CFG "TNS_RDMA_HDR_TS_CFG"
+#define device_bar_BDK_TNS_RDMA_HDR_TS_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_HDR_TS_CFG 0
 #define arguments_BDK_TNS_RDMA_HDR_TS_CFG -1,-1,-1,-1
 
@@ -1669,6 +1701,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_EN_W1C_FUNC(void)
 #define typedef_BDK_TNS_RDMA_INT_EN_W1C bdk_tns_rdma_int_en_w1c_t
 #define bustype_BDK_TNS_RDMA_INT_EN_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_INT_EN_W1C "TNS_RDMA_INT_EN_W1C"
+#define device_bar_BDK_TNS_RDMA_INT_EN_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_INT_EN_W1C 0
 #define arguments_BDK_TNS_RDMA_INT_EN_W1C -1,-1,-1,-1
 
@@ -1724,6 +1757,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_EN_W1S_FUNC(void)
 #define typedef_BDK_TNS_RDMA_INT_EN_W1S bdk_tns_rdma_int_en_w1s_t
 #define bustype_BDK_TNS_RDMA_INT_EN_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_INT_EN_W1S "TNS_RDMA_INT_EN_W1S"
+#define device_bar_BDK_TNS_RDMA_INT_EN_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_INT_EN_W1S 0
 #define arguments_BDK_TNS_RDMA_INT_EN_W1S -1,-1,-1,-1
 
@@ -1779,6 +1813,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_FEN_W1C_FUNC(void)
 #define typedef_BDK_TNS_RDMA_INT_FEN_W1C bdk_tns_rdma_int_fen_w1c_t
 #define bustype_BDK_TNS_RDMA_INT_FEN_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_INT_FEN_W1C "TNS_RDMA_INT_FEN_W1C"
+#define device_bar_BDK_TNS_RDMA_INT_FEN_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_INT_FEN_W1C 0
 #define arguments_BDK_TNS_RDMA_INT_FEN_W1C -1,-1,-1,-1
 
@@ -1834,6 +1869,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_FEN_W1S_FUNC(void)
 #define typedef_BDK_TNS_RDMA_INT_FEN_W1S bdk_tns_rdma_int_fen_w1s_t
 #define bustype_BDK_TNS_RDMA_INT_FEN_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_INT_FEN_W1S "TNS_RDMA_INT_FEN_W1S"
+#define device_bar_BDK_TNS_RDMA_INT_FEN_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_INT_FEN_W1S 0
 #define arguments_BDK_TNS_RDMA_INT_FEN_W1S -1,-1,-1,-1
 
@@ -1892,6 +1928,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_FSTAT_FUNC(void)
 #define typedef_BDK_TNS_RDMA_INT_FSTAT bdk_tns_rdma_int_fstat_t
 #define bustype_BDK_TNS_RDMA_INT_FSTAT BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_INT_FSTAT "TNS_RDMA_INT_FSTAT"
+#define device_bar_BDK_TNS_RDMA_INT_FSTAT 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_INT_FSTAT 0
 #define arguments_BDK_TNS_RDMA_INT_FSTAT -1,-1,-1,-1
 
@@ -1947,6 +1984,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_STAT_W1C_FUNC(void)
 #define typedef_BDK_TNS_RDMA_INT_STAT_W1C bdk_tns_rdma_int_stat_w1c_t
 #define bustype_BDK_TNS_RDMA_INT_STAT_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_INT_STAT_W1C "TNS_RDMA_INT_STAT_W1C"
+#define device_bar_BDK_TNS_RDMA_INT_STAT_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_INT_STAT_W1C 0
 #define arguments_BDK_TNS_RDMA_INT_STAT_W1C -1,-1,-1,-1
 
@@ -2002,6 +2040,7 @@ static inline uint64_t BDK_TNS_RDMA_INT_STAT_W1S_FUNC(void)
 #define typedef_BDK_TNS_RDMA_INT_STAT_W1S bdk_tns_rdma_int_stat_w1s_t
 #define bustype_BDK_TNS_RDMA_INT_STAT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_INT_STAT_W1S "TNS_RDMA_INT_STAT_W1S"
+#define device_bar_BDK_TNS_RDMA_INT_STAT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_INT_STAT_W1S 0
 #define arguments_BDK_TNS_RDMA_INT_STAT_W1S -1,-1,-1,-1
 
@@ -2049,6 +2088,7 @@ static inline uint64_t BDK_TNS_RDMA_LMACX_DROP_CNT(unsigned long a)
 #define typedef_BDK_TNS_RDMA_LMACX_DROP_CNT(a) bdk_tns_rdma_lmacx_drop_cnt_t
 #define bustype_BDK_TNS_RDMA_LMACX_DROP_CNT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_LMACX_DROP_CNT(a) "TNS_RDMA_LMACX_DROP_CNT"
+#define device_bar_BDK_TNS_RDMA_LMACX_DROP_CNT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_LMACX_DROP_CNT(a) (a)
 #define arguments_BDK_TNS_RDMA_LMACX_DROP_CNT(a) (a),-1,-1,-1
 
@@ -2089,6 +2129,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_CNT_LB_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_CNT_LB bdk_tns_rdma_nb_cnt_lb_t
 #define bustype_BDK_TNS_RDMA_NB_CNT_LB BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_CNT_LB "TNS_RDMA_NB_CNT_LB"
+#define device_bar_BDK_TNS_RDMA_NB_CNT_LB 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_CNT_LB 0
 #define arguments_BDK_TNS_RDMA_NB_CNT_LB -1,-1,-1,-1
 
@@ -2130,6 +2171,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_CONFIG_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_CONFIG bdk_tns_rdma_nb_config_t
 #define bustype_BDK_TNS_RDMA_NB_CONFIG BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_CONFIG "TNS_RDMA_NB_CONFIG"
+#define device_bar_BDK_TNS_RDMA_NB_CONFIG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_CONFIG 0
 #define arguments_BDK_TNS_RDMA_NB_CONFIG -1,-1,-1,-1
 
@@ -2200,6 +2242,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBG_CONFIG_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_DBG_CONFIG bdk_tns_rdma_nb_dbg_config_t
 #define bustype_BDK_TNS_RDMA_NB_DBG_CONFIG BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_DBG_CONFIG "TNS_RDMA_NB_DBG_CONFIG"
+#define device_bar_BDK_TNS_RDMA_NB_DBG_CONFIG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_DBG_CONFIG 0
 #define arguments_BDK_TNS_RDMA_NB_DBG_CONFIG -1,-1,-1,-1
 
@@ -2248,6 +2291,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBG_CX_FULL_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_DBG_CX_FULL bdk_tns_rdma_nb_dbg_cx_full_t
 #define bustype_BDK_TNS_RDMA_NB_DBG_CX_FULL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_DBG_CX_FULL "TNS_RDMA_NB_DBG_CX_FULL"
+#define device_bar_BDK_TNS_RDMA_NB_DBG_CX_FULL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_DBG_CX_FULL 0
 #define arguments_BDK_TNS_RDMA_NB_DBG_CX_FULL -1,-1,-1,-1
 
@@ -2306,6 +2350,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBG_CX_OCC_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_DBG_CX_OCC bdk_tns_rdma_nb_dbg_cx_occ_t
 #define bustype_BDK_TNS_RDMA_NB_DBG_CX_OCC BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_DBG_CX_OCC "TNS_RDMA_NB_DBG_CX_OCC"
+#define device_bar_BDK_TNS_RDMA_NB_DBG_CX_OCC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_DBG_CX_OCC 0
 #define arguments_BDK_TNS_RDMA_NB_DBG_CX_OCC -1,-1,-1,-1
 
@@ -2347,6 +2392,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBGB_SEL_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_DBGB_SEL bdk_tns_rdma_nb_dbgb_sel_t
 #define bustype_BDK_TNS_RDMA_NB_DBGB_SEL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_DBGB_SEL "TNS_RDMA_NB_DBGB_SEL"
+#define device_bar_BDK_TNS_RDMA_NB_DBGB_SEL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_DBGB_SEL 0
 #define arguments_BDK_TNS_RDMA_NB_DBGB_SEL -1,-1,-1,-1
 
@@ -2421,6 +2467,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_ECC_CTL bdk_tns_rdma_nb_ecc_ctl_t
 #define bustype_BDK_TNS_RDMA_NB_ECC_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_ECC_CTL "TNS_RDMA_NB_ECC_CTL"
+#define device_bar_BDK_TNS_RDMA_NB_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_ECC_CTL 0
 #define arguments_BDK_TNS_RDMA_NB_ECC_CTL -1,-1,-1,-1
 
@@ -2460,6 +2507,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_ECC_ERR_STAT_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_ECC_ERR_STAT bdk_tns_rdma_nb_ecc_err_stat_t
 #define bustype_BDK_TNS_RDMA_NB_ECC_ERR_STAT BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_ECC_ERR_STAT "TNS_RDMA_NB_ECC_ERR_STAT"
+#define device_bar_BDK_TNS_RDMA_NB_ECC_ERR_STAT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_ECC_ERR_STAT 0
 #define arguments_BDK_TNS_RDMA_NB_ECC_ERR_STAT -1,-1,-1,-1
 
@@ -2500,6 +2548,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_ECO_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_ECO bdk_tns_rdma_nb_eco_t
 #define bustype_BDK_TNS_RDMA_NB_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_ECO "TNS_RDMA_NB_ECO"
+#define device_bar_BDK_TNS_RDMA_NB_ECO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_ECO 0
 #define arguments_BDK_TNS_RDMA_NB_ECO -1,-1,-1,-1
 
@@ -2543,6 +2592,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_FORCE_LMACX_BP(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_FORCE_LMACX_BP(a) bdk_tns_rdma_nb_force_lmacx_bp_t
 #define bustype_BDK_TNS_RDMA_NB_FORCE_LMACX_BP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_FORCE_LMACX_BP(a) "TNS_RDMA_NB_FORCE_LMACX_BP"
+#define device_bar_BDK_TNS_RDMA_NB_FORCE_LMACX_BP(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_FORCE_LMACX_BP(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_FORCE_LMACX_BP(a) (a),-1,-1,-1
 
@@ -2584,6 +2634,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_FORCE_NICX_BP(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_FORCE_NICX_BP(a) bdk_tns_rdma_nb_force_nicx_bp_t
 #define bustype_BDK_TNS_RDMA_NB_FORCE_NICX_BP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_FORCE_NICX_BP(a) "TNS_RDMA_NB_FORCE_NICX_BP"
+#define device_bar_BDK_TNS_RDMA_NB_FORCE_NICX_BP(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_FORCE_NICX_BP(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_FORCE_NICX_BP(a) (a),-1,-1,-1
 
@@ -2648,6 +2699,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_HDR_SZ_CFG_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_HDR_SZ_CFG bdk_tns_rdma_nb_hdr_sz_cfg_t
 #define bustype_BDK_TNS_RDMA_NB_HDR_SZ_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_HDR_SZ_CFG "TNS_RDMA_NB_HDR_SZ_CFG"
+#define device_bar_BDK_TNS_RDMA_NB_HDR_SZ_CFG 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_HDR_SZ_CFG 0
 #define arguments_BDK_TNS_RDMA_NB_HDR_SZ_CFG -1,-1,-1,-1
 
@@ -2719,6 +2771,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_EN_W1C_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_INT_EN_W1C bdk_tns_rdma_nb_int_en_w1c_t
 #define bustype_BDK_TNS_RDMA_NB_INT_EN_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_INT_EN_W1C "TNS_RDMA_NB_INT_EN_W1C"
+#define device_bar_BDK_TNS_RDMA_NB_INT_EN_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_INT_EN_W1C 0
 #define arguments_BDK_TNS_RDMA_NB_INT_EN_W1C -1,-1,-1,-1
 
@@ -2790,6 +2843,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_EN_W1S_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_INT_EN_W1S bdk_tns_rdma_nb_int_en_w1s_t
 #define bustype_BDK_TNS_RDMA_NB_INT_EN_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_INT_EN_W1S "TNS_RDMA_NB_INT_EN_W1S"
+#define device_bar_BDK_TNS_RDMA_NB_INT_EN_W1S 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_INT_EN_W1S 0
 #define arguments_BDK_TNS_RDMA_NB_INT_EN_W1S -1,-1,-1,-1
 
@@ -2861,6 +2915,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_FEN_W1C_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_INT_FEN_W1C bdk_tns_rdma_nb_int_fen_w1c_t
 #define bustype_BDK_TNS_RDMA_NB_INT_FEN_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_INT_FEN_W1C "TNS_RDMA_NB_INT_FEN_W1C"
+#define device_bar_BDK_TNS_RDMA_NB_INT_FEN_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_INT_FEN_W1C 0
 #define arguments_BDK_TNS_RDMA_NB_INT_FEN_W1C -1,-1,-1,-1
 
@@ -2932,6 +2987,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_FEN_W1S_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_INT_FEN_W1S bdk_tns_rdma_nb_int_fen_w1s_t
 #define bustype_BDK_TNS_RDMA_NB_INT_FEN_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_INT_FEN_W1S "TNS_RDMA_NB_INT_FEN_W1S"
+#define device_bar_BDK_TNS_RDMA_NB_INT_FEN_W1S 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_INT_FEN_W1S 0
 #define arguments_BDK_TNS_RDMA_NB_INT_FEN_W1S -1,-1,-1,-1
 
@@ -3003,6 +3059,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_FSTAT_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_INT_FSTAT bdk_tns_rdma_nb_int_fstat_t
 #define bustype_BDK_TNS_RDMA_NB_INT_FSTAT BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_INT_FSTAT "TNS_RDMA_NB_INT_FSTAT"
+#define device_bar_BDK_TNS_RDMA_NB_INT_FSTAT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_INT_FSTAT 0
 #define arguments_BDK_TNS_RDMA_NB_INT_FSTAT -1,-1,-1,-1
 
@@ -3074,6 +3131,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_STAT_W1C_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_INT_STAT_W1C bdk_tns_rdma_nb_int_stat_w1c_t
 #define bustype_BDK_TNS_RDMA_NB_INT_STAT_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_INT_STAT_W1C "TNS_RDMA_NB_INT_STAT_W1C"
+#define device_bar_BDK_TNS_RDMA_NB_INT_STAT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_INT_STAT_W1C 0
 #define arguments_BDK_TNS_RDMA_NB_INT_STAT_W1C -1,-1,-1,-1
 
@@ -3145,6 +3203,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_INT_STAT_W1S_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_INT_STAT_W1S bdk_tns_rdma_nb_int_stat_w1s_t
 #define bustype_BDK_TNS_RDMA_NB_INT_STAT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_INT_STAT_W1S "TNS_RDMA_NB_INT_STAT_W1S"
+#define device_bar_BDK_TNS_RDMA_NB_INT_STAT_W1S 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_INT_STAT_W1S 0
 #define arguments_BDK_TNS_RDMA_NB_INT_STAT_W1S -1,-1,-1,-1
 
@@ -3194,6 +3253,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(a) bdk_tns_rdma_nb_lmacx_rpkt_sz_t
 #define bustype_BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(a) "TNS_RDMA_NB_LMACX_RPKT_SZ"
+#define device_bar_BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(a) (a),-1,-1,-1
 
@@ -3239,6 +3299,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_LMAC_PLUTX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_LMAC_PLUTX(a) bdk_tns_rdma_nb_lmac_plutx_t
 #define bustype_BDK_TNS_RDMA_NB_LMAC_PLUTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_LMAC_PLUTX(a) "TNS_RDMA_NB_LMAC_PLUTX"
+#define device_bar_BDK_TNS_RDMA_NB_LMAC_PLUTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_LMAC_PLUTX(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_LMAC_PLUTX(a) (a),-1,-1,-1
 
@@ -3282,6 +3343,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_LOOPBACK_PLUT_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_LOOPBACK_PLUT bdk_tns_rdma_nb_loopback_plut_t
 #define bustype_BDK_TNS_RDMA_NB_LOOPBACK_PLUT BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_LOOPBACK_PLUT "TNS_RDMA_NB_LOOPBACK_PLUT"
+#define device_bar_BDK_TNS_RDMA_NB_LOOPBACK_PLUT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_LOOPBACK_PLUT 0
 #define arguments_BDK_TNS_RDMA_NB_LOOPBACK_PLUT -1,-1,-1,-1
 
@@ -3325,6 +3387,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_LP_PLUTX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_LP_PLUTX(a) bdk_tns_rdma_nb_lp_plutx_t
 #define bustype_BDK_TNS_RDMA_NB_LP_PLUTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_LP_PLUTX(a) "TNS_RDMA_NB_LP_PLUTX"
+#define device_bar_BDK_TNS_RDMA_NB_LP_PLUTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_LP_PLUTX(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_LP_PLUTX(a) (a),-1,-1,-1
 
@@ -3358,6 +3421,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(a) bdk_tns_rdma_nb_nic_c_cdt_pndx_t
 #define bustype_BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(a) "TNS_RDMA_NB_NIC_C_CDT_PNDX"
+#define device_bar_BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(a) (a),-1,-1,-1
 
@@ -3403,6 +3467,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_NIC_PLUTX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_NIC_PLUTX(a) bdk_tns_rdma_nb_nic_plutx_t
 #define bustype_BDK_TNS_RDMA_NB_NIC_PLUTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_NIC_PLUTX(a) "TNS_RDMA_NB_NIC_PLUTX"
+#define device_bar_BDK_TNS_RDMA_NB_NIC_PLUTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_NIC_PLUTX(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_NIC_PLUTX(a) (a),-1,-1,-1
 
@@ -3446,6 +3511,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(a) bdk_tns_rdma_nb_nicix_rpkt_sz_t
 #define bustype_BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(a) "TNS_RDMA_NB_NICIX_RPKT_SZ"
+#define device_bar_BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(a) (a),-1,-1,-1
 
@@ -3484,6 +3550,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_PARSER_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_PARSER bdk_tns_rdma_nb_parser_t
 #define bustype_BDK_TNS_RDMA_NB_PARSER BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_PARSER "TNS_RDMA_NB_PARSER"
+#define device_bar_BDK_TNS_RDMA_NB_PARSER 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_PARSER 0
 #define arguments_BDK_TNS_RDMA_NB_PARSER -1,-1,-1,-1
 
@@ -3556,6 +3623,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_PATH_ENABLE_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_PATH_ENABLE bdk_tns_rdma_nb_path_enable_t
 #define bustype_BDK_TNS_RDMA_NB_PATH_ENABLE BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_PATH_ENABLE "TNS_RDMA_NB_PATH_ENABLE"
+#define device_bar_BDK_TNS_RDMA_NB_PATH_ENABLE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_PATH_ENABLE 0
 #define arguments_BDK_TNS_RDMA_NB_PATH_ENABLE -1,-1,-1,-1
 
@@ -3655,6 +3723,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_PERF_CNTRLX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_PERF_CNTRLX(a) bdk_tns_rdma_nb_perf_cntrlx_t
 #define bustype_BDK_TNS_RDMA_NB_PERF_CNTRLX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_PERF_CNTRLX(a) "TNS_RDMA_NB_PERF_CNTRLX"
+#define device_bar_BDK_TNS_RDMA_NB_PERF_CNTRLX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_PERF_CNTRLX(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_PERF_CNTRLX(a) (a),-1,-1,-1
 
@@ -3692,6 +3761,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_PERF_STATUSX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_PERF_STATUSX(a) bdk_tns_rdma_nb_perf_statusx_t
 #define bustype_BDK_TNS_RDMA_NB_PERF_STATUSX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_PERF_STATUSX(a) "TNS_RDMA_NB_PERF_STATUSX"
+#define device_bar_BDK_TNS_RDMA_NB_PERF_STATUSX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_PERF_STATUSX(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_PERF_STATUSX(a) (a),-1,-1,-1
 
@@ -3731,6 +3801,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_RPKT_DATAX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_RPKT_DATAX(a) bdk_tns_rdma_nb_rpkt_datax_t
 #define bustype_BDK_TNS_RDMA_NB_RPKT_DATAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_RPKT_DATAX(a) "TNS_RDMA_NB_RPKT_DATAX"
+#define device_bar_BDK_TNS_RDMA_NB_RPKT_DATAX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_RPKT_DATAX(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_RPKT_DATAX(a) (a),-1,-1,-1
 
@@ -3774,6 +3845,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_RPKT_INFO_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NB_RPKT_INFO bdk_tns_rdma_nb_rpkt_info_t
 #define bustype_BDK_TNS_RDMA_NB_RPKT_INFO BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_RPKT_INFO "TNS_RDMA_NB_RPKT_INFO"
+#define device_bar_BDK_TNS_RDMA_NB_RPKT_INFO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_RPKT_INFO 0
 #define arguments_BDK_TNS_RDMA_NB_RPKT_INFO -1,-1,-1,-1
 
@@ -3813,6 +3885,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_RUNT_CNTX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_NB_RUNT_CNTX(a) bdk_tns_rdma_nb_runt_cntx_t
 #define bustype_BDK_TNS_RDMA_NB_RUNT_CNTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NB_RUNT_CNTX(a) "TNS_RDMA_NB_RUNT_CNTX"
+#define device_bar_BDK_TNS_RDMA_NB_RUNT_CNTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_RDMA_NB_RUNT_CNTX(a) (a)
 #define arguments_BDK_TNS_RDMA_NB_RUNT_CNTX(a) (a),-1,-1,-1
 
@@ -3869,6 +3942,7 @@ static inline uint64_t BDK_TNS_RDMA_NIC_CDT_RTN_FUNC(void)
 #define typedef_BDK_TNS_RDMA_NIC_CDT_RTN bdk_tns_rdma_nic_cdt_rtn_t
 #define bustype_BDK_TNS_RDMA_NIC_CDT_RTN BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_NIC_CDT_RTN "TNS_RDMA_NIC_CDT_RTN"
+#define device_bar_BDK_TNS_RDMA_NIC_CDT_RTN 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_NIC_CDT_RTN 0
 #define arguments_BDK_TNS_RDMA_NIC_CDT_RTN -1,-1,-1,-1
 
@@ -3968,6 +4042,7 @@ static inline uint64_t BDK_TNS_RDMA_PERF_CNTRLX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_PERF_CNTRLX(a) bdk_tns_rdma_perf_cntrlx_t
 #define bustype_BDK_TNS_RDMA_PERF_CNTRLX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_PERF_CNTRLX(a) "TNS_RDMA_PERF_CNTRLX"
+#define device_bar_BDK_TNS_RDMA_PERF_CNTRLX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_PERF_CNTRLX(a) (a)
 #define arguments_BDK_TNS_RDMA_PERF_CNTRLX(a) (a),-1,-1,-1
 
@@ -4005,6 +4080,7 @@ static inline uint64_t BDK_TNS_RDMA_PERF_STATUSX(unsigned long a)
 #define typedef_BDK_TNS_RDMA_PERF_STATUSX(a) bdk_tns_rdma_perf_statusx_t
 #define bustype_BDK_TNS_RDMA_PERF_STATUSX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_RDMA_PERF_STATUSX(a) "TNS_RDMA_PERF_STATUSX"
+#define device_bar_BDK_TNS_RDMA_PERF_STATUSX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_RDMA_PERF_STATUSX(a) (a)
 #define arguments_BDK_TNS_RDMA_PERF_STATUSX(a) (a),-1,-1,-1
 
@@ -4041,6 +4117,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0_FUNC(void)
 #define typedef_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0 bdk_tns_sde_parser_cfg_sde_spare_w0_t
 #define bustype_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0 "TNS_SDE_PARSER_CFG_SDE_SPARE_W0"
+#define device_bar_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0 0
 #define arguments_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W0 -1,-1,-1,-1
 
@@ -4077,6 +4154,7 @@ static inline uint64_t BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1_FUNC(void)
 #define typedef_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1 bdk_tns_sde_parser_cfg_sde_spare_w1_t
 #define bustype_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1 "TNS_SDE_PARSER_CFG_SDE_SPARE_W1"
+#define device_bar_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1 0
 #define arguments_BDK_TNS_SDE_PARSER_CFG_SDE_SPARE_W1 -1,-1,-1,-1
 
@@ -4113,6 +4191,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_TABLE_SPARE_W0_FUNC(void)
 #define typedef_BDK_TNS_SE_TCAM_TABLE_SPARE_W0 bdk_tns_se_tcam_table_spare_w0_t
 #define bustype_BDK_TNS_SE_TCAM_TABLE_SPARE_W0 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_TABLE_SPARE_W0 "TNS_SE_TCAM_TABLE_SPARE_W0"
+#define device_bar_BDK_TNS_SE_TCAM_TABLE_SPARE_W0 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_TABLE_SPARE_W0 0
 #define arguments_BDK_TNS_SE_TCAM_TABLE_SPARE_W0 -1,-1,-1,-1
 
@@ -4149,6 +4228,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_TABLE_SPARE_W1_FUNC(void)
 #define typedef_BDK_TNS_SE_TCAM_TABLE_SPARE_W1 bdk_tns_se_tcam_table_spare_w1_t
 #define bustype_BDK_TNS_SE_TCAM_TABLE_SPARE_W1 BDK_CSR_TYPE_NCB32b
 #define basename_BDK_TNS_SE_TCAM_TABLE_SPARE_W1 "TNS_SE_TCAM_TABLE_SPARE_W1"
+#define device_bar_BDK_TNS_SE_TCAM_TABLE_SPARE_W1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_SE_TCAM_TABLE_SPARE_W1 0
 #define arguments_BDK_TNS_SE_TCAM_TABLE_SPARE_W1 -1,-1,-1,-1
 
@@ -4189,6 +4269,7 @@ static inline uint64_t BDK_TNS_TDMA_CAP_FUNC(void)
 #define typedef_BDK_TNS_TDMA_CAP bdk_tns_tdma_cap_t
 #define bustype_BDK_TNS_TDMA_CAP BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_CAP "TNS_TDMA_CAP"
+#define device_bar_BDK_TNS_TDMA_CAP 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_CAP 0
 #define arguments_BDK_TNS_TDMA_CAP -1,-1,-1,-1
 
@@ -4229,6 +4310,7 @@ static inline uint64_t BDK_TNS_TDMA_CNTX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_CNTX(a) bdk_tns_tdma_cntx_t
 #define bustype_BDK_TNS_TDMA_CNTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_CNTX(a) "TNS_TDMA_CNTX"
+#define device_bar_BDK_TNS_TDMA_CNTX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_CNTX(a) (a)
 #define arguments_BDK_TNS_TDMA_CNTX(a) (a),-1,-1,-1
 
@@ -4266,6 +4348,7 @@ static inline uint64_t BDK_TNS_TDMA_CNT_BYTESX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_CNT_BYTESX(a) bdk_tns_tdma_cnt_bytesx_t
 #define bustype_BDK_TNS_TDMA_CNT_BYTESX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_CNT_BYTESX(a) "TNS_TDMA_CNT_BYTESX"
+#define device_bar_BDK_TNS_TDMA_CNT_BYTESX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_CNT_BYTESX(a) (a)
 #define arguments_BDK_TNS_TDMA_CNT_BYTESX(a) (a),-1,-1,-1
 
@@ -4303,6 +4386,7 @@ static inline uint64_t BDK_TNS_TDMA_CNT_PKTSX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_CNT_PKTSX(a) bdk_tns_tdma_cnt_pktsx_t
 #define bustype_BDK_TNS_TDMA_CNT_PKTSX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_CNT_PKTSX(a) "TNS_TDMA_CNT_PKTSX"
+#define device_bar_BDK_TNS_TDMA_CNT_PKTSX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_CNT_PKTSX(a) (a)
 #define arguments_BDK_TNS_TDMA_CNT_PKTSX(a) (a),-1,-1,-1
 
@@ -4389,6 +4473,7 @@ static inline uint64_t BDK_TNS_TDMA_CONFIG_FUNC(void)
 #define typedef_BDK_TNS_TDMA_CONFIG bdk_tns_tdma_config_t
 #define bustype_BDK_TNS_TDMA_CONFIG BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_CONFIG "TNS_TDMA_CONFIG"
+#define device_bar_BDK_TNS_TDMA_CONFIG 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_CONFIG 0
 #define arguments_BDK_TNS_TDMA_CONFIG -1,-1,-1,-1
 
@@ -4433,6 +4518,7 @@ static inline uint64_t BDK_TNS_TDMA_DBG_CDT_CTL_FUNC(void)
 #define typedef_BDK_TNS_TDMA_DBG_CDT_CTL bdk_tns_tdma_dbg_cdt_ctl_t
 #define bustype_BDK_TNS_TDMA_DBG_CDT_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_DBG_CDT_CTL "TNS_TDMA_DBG_CDT_CTL"
+#define device_bar_BDK_TNS_TDMA_DBG_CDT_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_DBG_CDT_CTL 0
 #define arguments_BDK_TNS_TDMA_DBG_CDT_CTL -1,-1,-1,-1
 
@@ -4484,6 +4570,7 @@ static inline uint64_t BDK_TNS_TDMA_DBG_LMACX_CONFIG(unsigned long a)
 #define typedef_BDK_TNS_TDMA_DBG_LMACX_CONFIG(a) bdk_tns_tdma_dbg_lmacx_config_t
 #define bustype_BDK_TNS_TDMA_DBG_LMACX_CONFIG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_DBG_LMACX_CONFIG(a) "TNS_TDMA_DBG_LMACX_CONFIG"
+#define device_bar_BDK_TNS_TDMA_DBG_LMACX_CONFIG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_DBG_LMACX_CONFIG(a) (a)
 #define arguments_BDK_TNS_TDMA_DBG_LMACX_CONFIG(a) (a),-1,-1,-1
 
@@ -4535,6 +4622,7 @@ static inline uint64_t BDK_TNS_TDMA_DBG_LMACX_STATUS1(unsigned long a)
 #define typedef_BDK_TNS_TDMA_DBG_LMACX_STATUS1(a) bdk_tns_tdma_dbg_lmacx_status1_t
 #define bustype_BDK_TNS_TDMA_DBG_LMACX_STATUS1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_DBG_LMACX_STATUS1(a) "TNS_TDMA_DBG_LMACX_STATUS1"
+#define device_bar_BDK_TNS_TDMA_DBG_LMACX_STATUS1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_DBG_LMACX_STATUS1(a) (a)
 #define arguments_BDK_TNS_TDMA_DBG_LMACX_STATUS1(a) (a),-1,-1,-1
 
@@ -4576,6 +4664,7 @@ static inline uint64_t BDK_TNS_TDMA_DBG_NICIX_CONFIG(unsigned long a)
 #define typedef_BDK_TNS_TDMA_DBG_NICIX_CONFIG(a) bdk_tns_tdma_dbg_nicix_config_t
 #define bustype_BDK_TNS_TDMA_DBG_NICIX_CONFIG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_DBG_NICIX_CONFIG(a) "TNS_TDMA_DBG_NICIX_CONFIG"
+#define device_bar_BDK_TNS_TDMA_DBG_NICIX_CONFIG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_DBG_NICIX_CONFIG(a) (a)
 #define arguments_BDK_TNS_TDMA_DBG_NICIX_CONFIG(a) (a),-1,-1,-1
 
@@ -4654,6 +4743,7 @@ static inline uint64_t BDK_TNS_TDMA_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_TDMA_ECC_CTL bdk_tns_tdma_ecc_ctl_t
 #define bustype_BDK_TNS_TDMA_ECC_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_ECC_CTL "TNS_TDMA_ECC_CTL"
+#define device_bar_BDK_TNS_TDMA_ECC_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_ECC_CTL 0
 #define arguments_BDK_TNS_TDMA_ECC_CTL -1,-1,-1,-1
 
@@ -4695,6 +4785,7 @@ static inline uint64_t BDK_TNS_TDMA_ECC_ERR_STAT_FUNC(void)
 #define typedef_BDK_TNS_TDMA_ECC_ERR_STAT bdk_tns_tdma_ecc_err_stat_t
 #define bustype_BDK_TNS_TDMA_ECC_ERR_STAT BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_ECC_ERR_STAT "TNS_TDMA_ECC_ERR_STAT"
+#define device_bar_BDK_TNS_TDMA_ECC_ERR_STAT 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_ECC_ERR_STAT 0
 #define arguments_BDK_TNS_TDMA_ECC_ERR_STAT -1,-1,-1,-1
 
@@ -4735,6 +4826,7 @@ static inline uint64_t BDK_TNS_TDMA_ECO_FUNC(void)
 #define typedef_BDK_TNS_TDMA_ECO bdk_tns_tdma_eco_t
 #define bustype_BDK_TNS_TDMA_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_ECO "TNS_TDMA_ECO"
+#define device_bar_BDK_TNS_TDMA_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_ECO 0
 #define arguments_BDK_TNS_TDMA_ECO -1,-1,-1,-1
 
@@ -4784,6 +4876,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_EN_W1C_FUNC(void)
 #define typedef_BDK_TNS_TDMA_INT_EN_W1C bdk_tns_tdma_int_en_w1c_t
 #define bustype_BDK_TNS_TDMA_INT_EN_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_INT_EN_W1C "TNS_TDMA_INT_EN_W1C"
+#define device_bar_BDK_TNS_TDMA_INT_EN_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_INT_EN_W1C 0
 #define arguments_BDK_TNS_TDMA_INT_EN_W1C -1,-1,-1,-1
 
@@ -4833,6 +4926,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_EN_W1S_FUNC(void)
 #define typedef_BDK_TNS_TDMA_INT_EN_W1S bdk_tns_tdma_int_en_w1s_t
 #define bustype_BDK_TNS_TDMA_INT_EN_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_INT_EN_W1S "TNS_TDMA_INT_EN_W1S"
+#define device_bar_BDK_TNS_TDMA_INT_EN_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_INT_EN_W1S 0
 #define arguments_BDK_TNS_TDMA_INT_EN_W1S -1,-1,-1,-1
 
@@ -4882,6 +4976,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_FEN_W1C_FUNC(void)
 #define typedef_BDK_TNS_TDMA_INT_FEN_W1C bdk_tns_tdma_int_fen_w1c_t
 #define bustype_BDK_TNS_TDMA_INT_FEN_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_INT_FEN_W1C "TNS_TDMA_INT_FEN_W1C"
+#define device_bar_BDK_TNS_TDMA_INT_FEN_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_INT_FEN_W1C 0
 #define arguments_BDK_TNS_TDMA_INT_FEN_W1C -1,-1,-1,-1
 
@@ -4931,6 +5026,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_FEN_W1S_FUNC(void)
 #define typedef_BDK_TNS_TDMA_INT_FEN_W1S bdk_tns_tdma_int_fen_w1s_t
 #define bustype_BDK_TNS_TDMA_INT_FEN_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_INT_FEN_W1S "TNS_TDMA_INT_FEN_W1S"
+#define device_bar_BDK_TNS_TDMA_INT_FEN_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_INT_FEN_W1S 0
 #define arguments_BDK_TNS_TDMA_INT_FEN_W1S -1,-1,-1,-1
 
@@ -4980,6 +5076,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_FSTAT_FUNC(void)
 #define typedef_BDK_TNS_TDMA_INT_FSTAT bdk_tns_tdma_int_fstat_t
 #define bustype_BDK_TNS_TDMA_INT_FSTAT BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_INT_FSTAT "TNS_TDMA_INT_FSTAT"
+#define device_bar_BDK_TNS_TDMA_INT_FSTAT 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_INT_FSTAT 0
 #define arguments_BDK_TNS_TDMA_INT_FSTAT -1,-1,-1,-1
 
@@ -5029,6 +5126,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_STAT_W1C_FUNC(void)
 #define typedef_BDK_TNS_TDMA_INT_STAT_W1C bdk_tns_tdma_int_stat_w1c_t
 #define bustype_BDK_TNS_TDMA_INT_STAT_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_INT_STAT_W1C "TNS_TDMA_INT_STAT_W1C"
+#define device_bar_BDK_TNS_TDMA_INT_STAT_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_INT_STAT_W1C 0
 #define arguments_BDK_TNS_TDMA_INT_STAT_W1C -1,-1,-1,-1
 
@@ -5078,6 +5176,7 @@ static inline uint64_t BDK_TNS_TDMA_INT_STAT_W1S_FUNC(void)
 #define typedef_BDK_TNS_TDMA_INT_STAT_W1S bdk_tns_tdma_int_stat_w1s_t
 #define bustype_BDK_TNS_TDMA_INT_STAT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_INT_STAT_W1S "TNS_TDMA_INT_STAT_W1S"
+#define device_bar_BDK_TNS_TDMA_INT_STAT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_INT_STAT_W1S 0
 #define arguments_BDK_TNS_TDMA_INT_STAT_W1S -1,-1,-1,-1
 
@@ -5122,6 +5221,7 @@ static inline uint64_t BDK_TNS_TDMA_LMACX_CONFIG(unsigned long a)
 #define typedef_BDK_TNS_TDMA_LMACX_CONFIG(a) bdk_tns_tdma_lmacx_config_t
 #define bustype_BDK_TNS_TDMA_LMACX_CONFIG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_LMACX_CONFIG(a) "TNS_TDMA_LMACX_CONFIG"
+#define device_bar_BDK_TNS_TDMA_LMACX_CONFIG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_LMACX_CONFIG(a) (a)
 #define arguments_BDK_TNS_TDMA_LMACX_CONFIG(a) (a),-1,-1,-1
 
@@ -5251,6 +5351,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_CONFIG1_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_CONFIG1 bdk_tns_tdma_nb_config1_t
 #define bustype_BDK_TNS_TDMA_NB_CONFIG1 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_CONFIG1 "TNS_TDMA_NB_CONFIG1"
+#define device_bar_BDK_TNS_TDMA_NB_CONFIG1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_CONFIG1 0
 #define arguments_BDK_TNS_TDMA_NB_CONFIG1 -1,-1,-1,-1
 
@@ -5301,6 +5402,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_CONFIG2_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_CONFIG2 bdk_tns_tdma_nb_config2_t
 #define bustype_BDK_TNS_TDMA_NB_CONFIG2 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_CONFIG2 "TNS_TDMA_NB_CONFIG2"
+#define device_bar_BDK_TNS_TDMA_NB_CONFIG2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_CONFIG2 0
 #define arguments_BDK_TNS_TDMA_NB_CONFIG2 -1,-1,-1,-1
 
@@ -5711,6 +5813,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_CONFIG1_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_DBG_CONFIG1 bdk_tns_tdma_nb_dbg_config1_t
 #define bustype_BDK_TNS_TDMA_NB_DBG_CONFIG1 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_DBG_CONFIG1 "TNS_TDMA_NB_DBG_CONFIG1"
+#define device_bar_BDK_TNS_TDMA_NB_DBG_CONFIG1 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_DBG_CONFIG1 0
 #define arguments_BDK_TNS_TDMA_NB_DBG_CONFIG1 -1,-1,-1,-1
 
@@ -5757,6 +5860,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_CONFIG2_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_DBG_CONFIG2 bdk_tns_tdma_nb_dbg_config2_t
 #define bustype_BDK_TNS_TDMA_NB_DBG_CONFIG2 BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_DBG_CONFIG2 "TNS_TDMA_NB_DBG_CONFIG2"
+#define device_bar_BDK_TNS_TDMA_NB_DBG_CONFIG2 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_DBG_CONFIG2 0
 #define arguments_BDK_TNS_TDMA_NB_DBG_CONFIG2 -1,-1,-1,-1
 
@@ -5801,6 +5905,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_CX_FULL_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_DBG_CX_FULL bdk_tns_tdma_nb_dbg_cx_full_t
 #define bustype_BDK_TNS_TDMA_NB_DBG_CX_FULL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_DBG_CX_FULL "TNS_TDMA_NB_DBG_CX_FULL"
+#define device_bar_BDK_TNS_TDMA_NB_DBG_CX_FULL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_DBG_CX_FULL 0
 #define arguments_BDK_TNS_TDMA_NB_DBG_CX_FULL -1,-1,-1,-1
 
@@ -5843,6 +5948,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_CX_OCC_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_DBG_CX_OCC bdk_tns_tdma_nb_dbg_cx_occ_t
 #define bustype_BDK_TNS_TDMA_NB_DBG_CX_OCC BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_DBG_CX_OCC "TNS_TDMA_NB_DBG_CX_OCC"
+#define device_bar_BDK_TNS_TDMA_NB_DBG_CX_OCC 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_DBG_CX_OCC 0
 #define arguments_BDK_TNS_TDMA_NB_DBG_CX_OCC -1,-1,-1,-1
 
@@ -5894,6 +6000,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(a) bdk_tns_tdma_nb_dbg_lmacx_config1_t
 #define bustype_BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(a) "TNS_TDMA_NB_DBG_LMACX_CONFIG1"
+#define device_bar_BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(a) (a),-1,-1,-1
 
@@ -5968,6 +6075,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_ECC_CTL_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_ECC_CTL bdk_tns_tdma_nb_ecc_ctl_t
 #define bustype_BDK_TNS_TDMA_NB_ECC_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_ECC_CTL "TNS_TDMA_NB_ECC_CTL"
+#define device_bar_BDK_TNS_TDMA_NB_ECC_CTL 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_ECC_CTL 0
 #define arguments_BDK_TNS_TDMA_NB_ECC_CTL -1,-1,-1,-1
 
@@ -6007,6 +6115,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_ECC_ERR_STAT_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_ECC_ERR_STAT bdk_tns_tdma_nb_ecc_err_stat_t
 #define bustype_BDK_TNS_TDMA_NB_ECC_ERR_STAT BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_ECC_ERR_STAT "TNS_TDMA_NB_ECC_ERR_STAT"
+#define device_bar_BDK_TNS_TDMA_NB_ECC_ERR_STAT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_ECC_ERR_STAT 0
 #define arguments_BDK_TNS_TDMA_NB_ECC_ERR_STAT -1,-1,-1,-1
 
@@ -6047,6 +6156,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_ECO_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_ECO bdk_tns_tdma_nb_eco_t
 #define bustype_BDK_TNS_TDMA_NB_ECO BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_ECO "TNS_TDMA_NB_ECO"
+#define device_bar_BDK_TNS_TDMA_NB_ECO 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_ECO 0
 #define arguments_BDK_TNS_TDMA_NB_ECO -1,-1,-1,-1
 
@@ -6089,6 +6199,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_FPM_ACCX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_FPM_ACCX(a) bdk_tns_tdma_nb_fpm_accx_t
 #define bustype_BDK_TNS_TDMA_NB_FPM_ACCX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_FPM_ACCX(a) "TNS_TDMA_NB_FPM_ACCX"
+#define device_bar_BDK_TNS_TDMA_NB_FPM_ACCX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_FPM_ACCX(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_FPM_ACCX(a) (a),-1,-1,-1
 
@@ -6148,6 +6259,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_FPM_MOD_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_FPM_MOD bdk_tns_tdma_nb_fpm_mod_t
 #define bustype_BDK_TNS_TDMA_NB_FPM_MOD BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_FPM_MOD "TNS_TDMA_NB_FPM_MOD"
+#define device_bar_BDK_TNS_TDMA_NB_FPM_MOD 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_FPM_MOD 0
 #define arguments_BDK_TNS_TDMA_NB_FPM_MOD -1,-1,-1,-1
 
@@ -6194,6 +6306,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_FPM_STATUS_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_FPM_STATUS bdk_tns_tdma_nb_fpm_status_t
 #define bustype_BDK_TNS_TDMA_NB_FPM_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_FPM_STATUS "TNS_TDMA_NB_FPM_STATUS"
+#define device_bar_BDK_TNS_TDMA_NB_FPM_STATUS 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_FPM_STATUS 0
 #define arguments_BDK_TNS_TDMA_NB_FPM_STATUS -1,-1,-1,-1
 
@@ -6273,6 +6386,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_EN_W1C_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_INT_EN_W1C bdk_tns_tdma_nb_int_en_w1c_t
 #define bustype_BDK_TNS_TDMA_NB_INT_EN_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_INT_EN_W1C "TNS_TDMA_NB_INT_EN_W1C"
+#define device_bar_BDK_TNS_TDMA_NB_INT_EN_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_INT_EN_W1C 0
 #define arguments_BDK_TNS_TDMA_NB_INT_EN_W1C -1,-1,-1,-1
 
@@ -6352,6 +6466,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_EN_W1S_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_INT_EN_W1S bdk_tns_tdma_nb_int_en_w1s_t
 #define bustype_BDK_TNS_TDMA_NB_INT_EN_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_INT_EN_W1S "TNS_TDMA_NB_INT_EN_W1S"
+#define device_bar_BDK_TNS_TDMA_NB_INT_EN_W1S 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_INT_EN_W1S 0
 #define arguments_BDK_TNS_TDMA_NB_INT_EN_W1S -1,-1,-1,-1
 
@@ -6431,6 +6546,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_FEN_W1C_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_INT_FEN_W1C bdk_tns_tdma_nb_int_fen_w1c_t
 #define bustype_BDK_TNS_TDMA_NB_INT_FEN_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_INT_FEN_W1C "TNS_TDMA_NB_INT_FEN_W1C"
+#define device_bar_BDK_TNS_TDMA_NB_INT_FEN_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_INT_FEN_W1C 0
 #define arguments_BDK_TNS_TDMA_NB_INT_FEN_W1C -1,-1,-1,-1
 
@@ -6510,6 +6626,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_FEN_W1S_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_INT_FEN_W1S bdk_tns_tdma_nb_int_fen_w1s_t
 #define bustype_BDK_TNS_TDMA_NB_INT_FEN_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_INT_FEN_W1S "TNS_TDMA_NB_INT_FEN_W1S"
+#define device_bar_BDK_TNS_TDMA_NB_INT_FEN_W1S 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_INT_FEN_W1S 0
 #define arguments_BDK_TNS_TDMA_NB_INT_FEN_W1S -1,-1,-1,-1
 
@@ -6589,6 +6706,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_FSTAT_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_INT_FSTAT bdk_tns_tdma_nb_int_fstat_t
 #define bustype_BDK_TNS_TDMA_NB_INT_FSTAT BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_INT_FSTAT "TNS_TDMA_NB_INT_FSTAT"
+#define device_bar_BDK_TNS_TDMA_NB_INT_FSTAT 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_INT_FSTAT 0
 #define arguments_BDK_TNS_TDMA_NB_INT_FSTAT -1,-1,-1,-1
 
@@ -6668,6 +6786,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_STAT_W1C_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_INT_STAT_W1C bdk_tns_tdma_nb_int_stat_w1c_t
 #define bustype_BDK_TNS_TDMA_NB_INT_STAT_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_INT_STAT_W1C "TNS_TDMA_NB_INT_STAT_W1C"
+#define device_bar_BDK_TNS_TDMA_NB_INT_STAT_W1C 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_INT_STAT_W1C 0
 #define arguments_BDK_TNS_TDMA_NB_INT_STAT_W1C -1,-1,-1,-1
 
@@ -6747,6 +6866,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_INT_STAT_W1S_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_INT_STAT_W1S bdk_tns_tdma_nb_int_stat_w1s_t
 #define bustype_BDK_TNS_TDMA_NB_INT_STAT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_INT_STAT_W1S "TNS_TDMA_NB_INT_STAT_W1S"
+#define device_bar_BDK_TNS_TDMA_NB_INT_STAT_W1S 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_INT_STAT_W1S 0
 #define arguments_BDK_TNS_TDMA_NB_INT_STAT_W1S -1,-1,-1,-1
 
@@ -6791,6 +6911,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_LL_ACCX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_LL_ACCX(a) bdk_tns_tdma_nb_ll_accx_t
 #define bustype_BDK_TNS_TDMA_NB_LL_ACCX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_LL_ACCX(a) "TNS_TDMA_NB_LL_ACCX"
+#define device_bar_BDK_TNS_TDMA_NB_LL_ACCX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_LL_ACCX(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_LL_ACCX(a) (a),-1,-1,-1
 
@@ -6861,6 +6982,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_LMACX_C_CDT_CFG(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_LMACX_C_CDT_CFG(a) bdk_tns_tdma_nb_lmacx_c_cdt_cfg_t
 #define bustype_BDK_TNS_TDMA_NB_LMACX_C_CDT_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_LMACX_C_CDT_CFG(a) "TNS_TDMA_NB_LMACX_C_CDT_CFG"
+#define device_bar_BDK_TNS_TDMA_NB_LMACX_C_CDT_CFG(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_LMACX_C_CDT_CFG(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_LMACX_C_CDT_CFG(a) (a),-1,-1,-1
 
@@ -6898,6 +7020,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_LMACX_C_CDT_STAT(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_LMACX_C_CDT_STAT(a) bdk_tns_tdma_nb_lmacx_c_cdt_stat_t
 #define bustype_BDK_TNS_TDMA_NB_LMACX_C_CDT_STAT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_LMACX_C_CDT_STAT(a) "TNS_TDMA_NB_LMACX_C_CDT_STAT"
+#define device_bar_BDK_TNS_TDMA_NB_LMACX_C_CDT_STAT(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_LMACX_C_CDT_STAT(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_LMACX_C_CDT_STAT(a) (a),-1,-1,-1
 
@@ -6933,6 +7056,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_LMACX_EBP_STAT(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_LMACX_EBP_STAT(a) bdk_tns_tdma_nb_lmacx_ebp_stat_t
 #define bustype_BDK_TNS_TDMA_NB_LMACX_EBP_STAT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_LMACX_EBP_STAT(a) "TNS_TDMA_NB_LMACX_EBP_STAT"
+#define device_bar_BDK_TNS_TDMA_NB_LMACX_EBP_STAT(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_LMACX_EBP_STAT(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_LMACX_EBP_STAT(a) (a),-1,-1,-1
 
@@ -6984,6 +7108,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PAGE_RD_CNTX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_PAGE_RD_CNTX(a) bdk_tns_tdma_nb_page_rd_cntx_t
 #define bustype_BDK_TNS_TDMA_NB_PAGE_RD_CNTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_PAGE_RD_CNTX(a) "TNS_TDMA_NB_PAGE_RD_CNTX"
+#define device_bar_BDK_TNS_TDMA_NB_PAGE_RD_CNTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_PAGE_RD_CNTX(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_PAGE_RD_CNTX(a) (a),-1,-1,-1
 
@@ -7022,6 +7147,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(a) bdk_tns_tdma_nb_page_src_cntx_t
 #define bustype_BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(a) "TNS_TDMA_NB_PAGE_SRC_CNTX"
+#define device_bar_BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_PAGE_SRC_CNTX(a) (a),-1,-1,-1
 
@@ -7062,6 +7188,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PAGES_USED_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_PAGES_USED bdk_tns_tdma_nb_pages_used_t
 #define bustype_BDK_TNS_TDMA_NB_PAGES_USED BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_PAGES_USED "TNS_TDMA_NB_PAGES_USED"
+#define device_bar_BDK_TNS_TDMA_NB_PAGES_USED 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_PAGES_USED 0
 #define arguments_BDK_TNS_TDMA_NB_PAGES_USED -1,-1,-1,-1
 
@@ -7161,6 +7288,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PERF_CNTRLX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_PERF_CNTRLX(a) bdk_tns_tdma_nb_perf_cntrlx_t
 #define bustype_BDK_TNS_TDMA_NB_PERF_CNTRLX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_PERF_CNTRLX(a) "TNS_TDMA_NB_PERF_CNTRLX"
+#define device_bar_BDK_TNS_TDMA_NB_PERF_CNTRLX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_PERF_CNTRLX(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_PERF_CNTRLX(a) (a),-1,-1,-1
 
@@ -7198,6 +7326,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PERF_STATUSX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_PERF_STATUSX(a) bdk_tns_tdma_nb_perf_statusx_t
 #define bustype_BDK_TNS_TDMA_NB_PERF_STATUSX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_PERF_STATUSX(a) "TNS_TDMA_NB_PERF_STATUSX"
+#define device_bar_BDK_TNS_TDMA_NB_PERF_STATUSX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_PERF_STATUSX(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_PERF_STATUSX(a) (a),-1,-1,-1
 
@@ -7246,6 +7375,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PRC_ACCX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_PRC_ACCX(a) bdk_tns_tdma_nb_prc_accx_t
 #define bustype_BDK_TNS_TDMA_NB_PRC_ACCX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_PRC_ACCX(a) "TNS_TDMA_NB_PRC_ACCX"
+#define device_bar_BDK_TNS_TDMA_NB_PRC_ACCX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_PRC_ACCX(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_PRC_ACCX(a) (a),-1,-1,-1
 
@@ -7282,6 +7412,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_PRC_ERR_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_PRC_ERR bdk_tns_tdma_nb_prc_err_t
 #define bustype_BDK_TNS_TDMA_NB_PRC_ERR BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_PRC_ERR "TNS_TDMA_NB_PRC_ERR"
+#define device_bar_BDK_TNS_TDMA_NB_PRC_ERR 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_PRC_ERR 0
 #define arguments_BDK_TNS_TDMA_NB_PRC_ERR -1,-1,-1,-1
 
@@ -7325,6 +7456,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_STATUS_FUNC(void)
 #define typedef_BDK_TNS_TDMA_NB_STATUS bdk_tns_tdma_nb_status_t
 #define bustype_BDK_TNS_TDMA_NB_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_STATUS "TNS_TDMA_NB_STATUS"
+#define device_bar_BDK_TNS_TDMA_NB_STATUS 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_STATUS 0
 #define arguments_BDK_TNS_TDMA_NB_STATUS -1,-1,-1,-1
 
@@ -7362,6 +7494,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(a) bdk_tns_tdma_nb_strip_lmacx_xph_t
 #define bustype_BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(a) "TNS_TDMA_NB_STRIP_LMACX_XPH"
+#define device_bar_BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_STRIP_LMACX_XPH(a) (a),-1,-1,-1
 
@@ -7397,6 +7530,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_STRIP_NIC_XPHX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_STRIP_NIC_XPHX(a) bdk_tns_tdma_nb_strip_nic_xphx_t
 #define bustype_BDK_TNS_TDMA_NB_STRIP_NIC_XPHX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_STRIP_NIC_XPHX(a) "TNS_TDMA_NB_STRIP_NIC_XPHX"
+#define device_bar_BDK_TNS_TDMA_NB_STRIP_NIC_XPHX(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_STRIP_NIC_XPHX(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_STRIP_NIC_XPHX(a) (a),-1,-1,-1
 
@@ -7444,6 +7578,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_TRUNCATEX_LEN(unsigned long a)
 #define typedef_BDK_TNS_TDMA_NB_TRUNCATEX_LEN(a) bdk_tns_tdma_nb_truncatex_len_t
 #define bustype_BDK_TNS_TDMA_NB_TRUNCATEX_LEN(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_NB_TRUNCATEX_LEN(a) "TNS_TDMA_NB_TRUNCATEX_LEN"
+#define device_bar_BDK_TNS_TDMA_NB_TRUNCATEX_LEN(a) 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TDMA_NB_TRUNCATEX_LEN(a) (a)
 #define arguments_BDK_TNS_TDMA_NB_TRUNCATEX_LEN(a) (a),-1,-1,-1
 
@@ -7545,6 +7680,7 @@ static inline uint64_t BDK_TNS_TDMA_PERF_CNTRLX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_PERF_CNTRLX(a) bdk_tns_tdma_perf_cntrlx_t
 #define bustype_BDK_TNS_TDMA_PERF_CNTRLX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_PERF_CNTRLX(a) "TNS_TDMA_PERF_CNTRLX"
+#define device_bar_BDK_TNS_TDMA_PERF_CNTRLX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_PERF_CNTRLX(a) (a)
 #define arguments_BDK_TNS_TDMA_PERF_CNTRLX(a) (a),-1,-1,-1
 
@@ -7582,6 +7718,7 @@ static inline uint64_t BDK_TNS_TDMA_PERF_STATUSX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_PERF_STATUSX(a) bdk_tns_tdma_perf_statusx_t
 #define bustype_BDK_TNS_TDMA_PERF_STATUSX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_PERF_STATUSX(a) "TNS_TDMA_PERF_STATUSX"
+#define device_bar_BDK_TNS_TDMA_PERF_STATUSX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_PERF_STATUSX(a) (a)
 #define arguments_BDK_TNS_TDMA_PERF_STATUSX(a) (a),-1,-1,-1
 
@@ -7639,6 +7776,7 @@ static inline uint64_t BDK_TNS_TDMA_PKT_X2P_CNTRSX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_PKT_X2P_CNTRSX(a) bdk_tns_tdma_pkt_x2p_cntrsx_t
 #define bustype_BDK_TNS_TDMA_PKT_X2P_CNTRSX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_PKT_X2P_CNTRSX(a) "TNS_TDMA_PKT_X2P_CNTRSX"
+#define device_bar_BDK_TNS_TDMA_PKT_X2P_CNTRSX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_PKT_X2P_CNTRSX(a) (a)
 #define arguments_BDK_TNS_TDMA_PKT_X2P_CNTRSX(a) (a),-1,-1,-1
 
@@ -7752,6 +7890,7 @@ static inline uint64_t BDK_TNS_TDMA_RESET_CTL_FUNC(void)
 #define typedef_BDK_TNS_TDMA_RESET_CTL bdk_tns_tdma_reset_ctl_t
 #define bustype_BDK_TNS_TDMA_RESET_CTL BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_RESET_CTL "TNS_TDMA_RESET_CTL"
+#define device_bar_BDK_TNS_TDMA_RESET_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_RESET_CTL 0
 #define arguments_BDK_TNS_TDMA_RESET_CTL -1,-1,-1,-1
 
@@ -7788,6 +7927,7 @@ static inline uint64_t BDK_TNS_TDMA_SPARE_FUNC(void)
 #define typedef_BDK_TNS_TDMA_SPARE bdk_tns_tdma_spare_t
 #define bustype_BDK_TNS_TDMA_SPARE BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_SPARE "TNS_TDMA_SPARE"
+#define device_bar_BDK_TNS_TDMA_SPARE 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_SPARE 0
 #define arguments_BDK_TNS_TDMA_SPARE -1,-1,-1,-1
 
@@ -7844,6 +7984,7 @@ static inline uint64_t BDK_TNS_TDMA_SST_ACC_CMD_FUNC(void)
 #define typedef_BDK_TNS_TDMA_SST_ACC_CMD bdk_tns_tdma_sst_acc_cmd_t
 #define bustype_BDK_TNS_TDMA_SST_ACC_CMD BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_SST_ACC_CMD "TNS_TDMA_SST_ACC_CMD"
+#define device_bar_BDK_TNS_TDMA_SST_ACC_CMD 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_SST_ACC_CMD 0
 #define arguments_BDK_TNS_TDMA_SST_ACC_CMD -1,-1,-1,-1
 
@@ -7881,6 +8022,7 @@ static inline uint64_t BDK_TNS_TDMA_SST_ACC_RDATX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_SST_ACC_RDATX(a) bdk_tns_tdma_sst_acc_rdatx_t
 #define bustype_BDK_TNS_TDMA_SST_ACC_RDATX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_SST_ACC_RDATX(a) "TNS_TDMA_SST_ACC_RDATX"
+#define device_bar_BDK_TNS_TDMA_SST_ACC_RDATX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_SST_ACC_RDATX(a) (a)
 #define arguments_BDK_TNS_TDMA_SST_ACC_RDATX(a) (a),-1,-1,-1
 
@@ -7919,6 +8061,7 @@ static inline uint64_t BDK_TNS_TDMA_SST_ACC_STAT_FUNC(void)
 #define typedef_BDK_TNS_TDMA_SST_ACC_STAT bdk_tns_tdma_sst_acc_stat_t
 #define bustype_BDK_TNS_TDMA_SST_ACC_STAT BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_SST_ACC_STAT "TNS_TDMA_SST_ACC_STAT"
+#define device_bar_BDK_TNS_TDMA_SST_ACC_STAT 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_SST_ACC_STAT 0
 #define arguments_BDK_TNS_TDMA_SST_ACC_STAT -1,-1,-1,-1
 
@@ -7954,6 +8097,7 @@ static inline uint64_t BDK_TNS_TDMA_SST_ACC_WDATX(unsigned long a)
 #define typedef_BDK_TNS_TDMA_SST_ACC_WDATX(a) bdk_tns_tdma_sst_acc_wdatx_t
 #define bustype_BDK_TNS_TDMA_SST_ACC_WDATX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_SST_ACC_WDATX(a) "TNS_TDMA_SST_ACC_WDATX"
+#define device_bar_BDK_TNS_TDMA_SST_ACC_WDATX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_SST_ACC_WDATX(a) (a)
 #define arguments_BDK_TNS_TDMA_SST_ACC_WDATX(a) (a),-1,-1,-1
 
@@ -7994,6 +8138,7 @@ static inline uint64_t BDK_TNS_TDMA_STATUS_FUNC(void)
 #define typedef_BDK_TNS_TDMA_STATUS bdk_tns_tdma_status_t
 #define bustype_BDK_TNS_TDMA_STATUS BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TDMA_STATUS "TNS_TDMA_STATUS"
+#define device_bar_BDK_TNS_TDMA_STATUS 0x0 /* PF_BAR0 */
 #define busnum_BDK_TNS_TDMA_STATUS 0
 #define arguments_BDK_TNS_TDMA_STATUS -1,-1,-1,-1
 
@@ -8032,6 +8177,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_CFG_SPARE_FUNC(void)
 #define typedef_BDK_TNS_TXQ_EQ_CFG_SPARE bdk_tns_txq_eq_cfg_spare_t
 #define bustype_BDK_TNS_TXQ_EQ_CFG_SPARE BDK_CSR_TYPE_NCB
 #define basename_BDK_TNS_TXQ_EQ_CFG_SPARE "TNS_TXQ_EQ_CFG_SPARE"
+#define device_bar_BDK_TNS_TXQ_EQ_CFG_SPARE 0x2 /* PF_BAR2 */
 #define busnum_BDK_TNS_TXQ_EQ_CFG_SPARE 0
 #define arguments_BDK_TNS_TXQ_EQ_CFG_SPARE -1,-1,-1,-1
 

@@ -350,6 +350,7 @@ static inline uint64_t BDK_L2C_TADX_INT_ENA_W1C(unsigned long a)
 #define typedef_BDK_L2C_TADX_INT_ENA_W1C(a) bdk_l2c_tadx_int_ena_w1c_t
 #define bustype_BDK_L2C_TADX_INT_ENA_W1C(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_INT_ENA_W1C(a) "L2C_TADX_INT_ENA_W1C"
+#define device_bar_BDK_L2C_TADX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_INT_ENA_W1C(a) (a)
 #define arguments_BDK_L2C_TADX_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -631,6 +632,7 @@ static inline uint64_t BDK_L2C_TADX_INT_ENA_W1S(unsigned long a)
 #define typedef_BDK_L2C_TADX_INT_ENA_W1S(a) bdk_l2c_tadx_int_ena_w1s_t
 #define bustype_BDK_L2C_TADX_INT_ENA_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_INT_ENA_W1S(a) "L2C_TADX_INT_ENA_W1S"
+#define device_bar_BDK_L2C_TADX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_INT_ENA_W1S(a) (a)
 #define arguments_BDK_L2C_TADX_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -1097,6 +1099,7 @@ static inline uint64_t BDK_L2C_TADX_INT_W1C(unsigned long a)
 #define typedef_BDK_L2C_TADX_INT_W1C(a) bdk_l2c_tadx_int_w1c_t
 #define bustype_BDK_L2C_TADX_INT_W1C(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_INT_W1C(a) "L2C_TADX_INT_W1C"
+#define device_bar_BDK_L2C_TADX_INT_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_INT_W1C(a) (a)
 #define arguments_BDK_L2C_TADX_INT_W1C(a) (a),-1,-1,-1
 
@@ -1378,6 +1381,7 @@ static inline uint64_t BDK_L2C_TADX_INT_W1S(unsigned long a)
 #define typedef_BDK_L2C_TADX_INT_W1S(a) bdk_l2c_tadx_int_w1s_t
 #define bustype_BDK_L2C_TADX_INT_W1S(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_INT_W1S(a) "L2C_TADX_INT_W1S"
+#define device_bar_BDK_L2C_TADX_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_INT_W1S(a) (a)
 #define arguments_BDK_L2C_TADX_INT_W1S(a) (a),-1,-1,-1
 
@@ -1421,6 +1425,7 @@ static inline uint64_t BDK_L2C_TADX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_L2C_TADX_MSIX_PBAX(a,b) bdk_l2c_tadx_msix_pbax_t
 #define bustype_BDK_L2C_TADX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_MSIX_PBAX(a,b) "L2C_TADX_MSIX_PBAX"
+#define device_bar_BDK_L2C_TADX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_L2C_TADX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_L2C_TADX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -1481,6 +1486,7 @@ static inline uint64_t BDK_L2C_TADX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
 #define typedef_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) bdk_l2c_tadx_msix_vecx_addr_t
 #define bustype_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) "L2C_TADX_MSIX_VECX_ADDR"
+#define device_bar_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -1525,6 +1531,7 @@ static inline uint64_t BDK_L2C_TADX_MSIX_VECX_CTL(unsigned long a, unsigned long
 #define typedef_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) bdk_l2c_tadx_msix_vecx_ctl_t
 #define bustype_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) "L2C_TADX_MSIX_VECX_CTL"
+#define device_bar_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -1578,6 +1585,7 @@ static inline uint64_t BDK_L2C_TADX_RTG_ERR(unsigned long a)
 #define typedef_BDK_L2C_TADX_RTG_ERR(a) bdk_l2c_tadx_rtg_err_t
 #define bustype_BDK_L2C_TADX_RTG_ERR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_RTG_ERR(a) "L2C_TADX_RTG_ERR"
+#define device_bar_BDK_L2C_TADX_RTG_ERR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_RTG_ERR(a) (a)
 #define arguments_BDK_L2C_TADX_RTG_ERR(a) (a),-1,-1,-1
 
@@ -1621,6 +1629,7 @@ static inline uint64_t BDK_L2C_TADX_TBF_BIST_STATUS(unsigned long a)
 #define typedef_BDK_L2C_TADX_TBF_BIST_STATUS(a) bdk_l2c_tadx_tbf_bist_status_t
 #define bustype_BDK_L2C_TADX_TBF_BIST_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_TBF_BIST_STATUS(a) "L2C_TADX_TBF_BIST_STATUS"
+#define device_bar_BDK_L2C_TADX_TBF_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_TBF_BIST_STATUS(a) (a)
 #define arguments_BDK_L2C_TADX_TBF_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -1660,6 +1669,7 @@ static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a)
 #define typedef_BDK_L2C_TADX_TDT_BIST_STATUS(a) bdk_l2c_tadx_tdt_bist_status_t
 #define bustype_BDK_L2C_TADX_TDT_BIST_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_TDT_BIST_STATUS(a) "L2C_TADX_TDT_BIST_STATUS"
+#define device_bar_BDK_L2C_TADX_TDT_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_TDT_BIST_STATUS(a) (a)
 #define arguments_BDK_L2C_TADX_TDT_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -1726,6 +1736,7 @@ static inline uint64_t BDK_L2C_TADX_TQD_ERR(unsigned long a)
 #define typedef_BDK_L2C_TADX_TQD_ERR(a) bdk_l2c_tadx_tqd_err_t
 #define bustype_BDK_L2C_TADX_TQD_ERR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_TQD_ERR(a) "L2C_TADX_TQD_ERR"
+#define device_bar_BDK_L2C_TADX_TQD_ERR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_TQD_ERR(a) (a)
 #define arguments_BDK_L2C_TADX_TQD_ERR(a) (a),-1,-1,-1
 
@@ -1794,6 +1805,7 @@ static inline uint64_t BDK_L2C_TADX_TTG_BIST_STATUS(unsigned long a)
 #define typedef_BDK_L2C_TADX_TTG_BIST_STATUS(a) bdk_l2c_tadx_ttg_bist_status_t
 #define bustype_BDK_L2C_TADX_TTG_BIST_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_TTG_BIST_STATUS(a) "L2C_TADX_TTG_BIST_STATUS"
+#define device_bar_BDK_L2C_TADX_TTG_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_TTG_BIST_STATUS(a) (a)
 #define arguments_BDK_L2C_TADX_TTG_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -1918,6 +1930,7 @@ static inline uint64_t BDK_L2C_TADX_TTG_ERR(unsigned long a)
 #define typedef_BDK_L2C_TADX_TTG_ERR(a) bdk_l2c_tadx_ttg_err_t
 #define bustype_BDK_L2C_TADX_TTG_ERR(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_L2C_TADX_TTG_ERR(a) "L2C_TADX_TTG_ERR"
+#define device_bar_BDK_L2C_TADX_TTG_ERR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_L2C_TADX_TTG_ERR(a) (a)
 #define arguments_BDK_L2C_TADX_TTG_ERR(a) (a),-1,-1,-1
 

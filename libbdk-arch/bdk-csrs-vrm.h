@@ -64,8 +64,7 @@
 /**
  * Enumeration vrm_type_e
  *
- * INTERNAL: VRM Types Register Enumeration
- *
+ * VRM Types Register Enumeration
  * Indicates type of device connected to this controller, as loaded into
  * VRM()_MISC_INFO[VRM_TYPE] and VRM()_MISC_INFO[VRM_TYPE2].
  */
@@ -77,8 +76,7 @@
 /**
  * Structure vrm_tws_twsi_sw_s
  *
- * INTERNAL: VRM TWSI Software Write Structure
- *
+ * VRM TWSI Software Write Structure
  * Format for software to write data to external regulator.
  */
 union bdk_vrm_tws_twsi_sw_s
@@ -110,7 +108,7 @@ union bdk_vrm_tws_twsi_sw_s
 /**
  * Register (RSL) vrm#_alt_fuse
  *
- * INTERNAL: VRM Alternative Fuse Register
+ * VRM Alternative Fuse Register
  */
 typedef union
 {
@@ -147,13 +145,14 @@ static inline uint64_t BDK_VRMX_ALT_FUSE(unsigned long a)
 #define typedef_BDK_VRMX_ALT_FUSE(a) bdk_vrmx_alt_fuse_t
 #define bustype_BDK_VRMX_ALT_FUSE(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_ALT_FUSE(a) "VRMX_ALT_FUSE"
+#define device_bar_BDK_VRMX_ALT_FUSE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_ALT_FUSE(a) (a)
 #define arguments_BDK_VRMX_ALT_FUSE(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) vrm#_device_status
  *
- * INTERNAL: VRM Device Status Register
+ * VRM Device Status Register
  */
 typedef union
 {
@@ -194,6 +193,7 @@ static inline uint64_t BDK_VRMX_DEVICE_STATUS(unsigned long a)
 #define typedef_BDK_VRMX_DEVICE_STATUS(a) bdk_vrmx_device_status_t
 #define bustype_BDK_VRMX_DEVICE_STATUS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_DEVICE_STATUS(a) "VRMX_DEVICE_STATUS"
+#define device_bar_BDK_VRMX_DEVICE_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_DEVICE_STATUS(a) (a)
 #define arguments_BDK_VRMX_DEVICE_STATUS(a) (a),-1,-1,-1
 
@@ -201,6 +201,8 @@ static inline uint64_t BDK_VRMX_DEVICE_STATUS(unsigned long a)
  * Register (RSL) vrm#_eco
  *
  * INTERNAL: VRM ECO Register
+ *
+ * Added in pass 2.
  */
 typedef union
 {
@@ -233,13 +235,14 @@ static inline uint64_t BDK_VRMX_ECO(unsigned long a)
 #define typedef_BDK_VRMX_ECO(a) bdk_vrmx_eco_t
 #define bustype_BDK_VRMX_ECO(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_ECO(a) "VRMX_ECO"
+#define device_bar_BDK_VRMX_ECO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_ECO(a) (a)
 #define arguments_BDK_VRMX_ECO(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) vrm#_fuse_bypass
  *
- * INTERNAL: VRM Fuse Bypass Register
+ * VRM Fuse Bypass Register
  */
 typedef union
 {
@@ -274,13 +277,14 @@ static inline uint64_t BDK_VRMX_FUSE_BYPASS(unsigned long a)
 #define typedef_BDK_VRMX_FUSE_BYPASS(a) bdk_vrmx_fuse_bypass_t
 #define bustype_BDK_VRMX_FUSE_BYPASS(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_FUSE_BYPASS(a) "VRMX_FUSE_BYPASS"
+#define device_bar_BDK_VRMX_FUSE_BYPASS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_FUSE_BYPASS(a) (a)
 #define arguments_BDK_VRMX_FUSE_BYPASS(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) vrm#_misc_info
  *
- * INTERNAL: VRM Miscellaneous Register
+ * VRM Miscellaneous Register
  */
 typedef union
 {
@@ -325,13 +329,14 @@ static inline uint64_t BDK_VRMX_MISC_INFO(unsigned long a)
 #define typedef_BDK_VRMX_MISC_INFO(a) bdk_vrmx_misc_info_t
 #define bustype_BDK_VRMX_MISC_INFO(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_MISC_INFO(a) "VRMX_MISC_INFO"
+#define device_bar_BDK_VRMX_MISC_INFO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_MISC_INFO(a) (a)
 #define arguments_BDK_VRMX_MISC_INFO(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) vrm#_telemetry_cmnd
  *
- * INTERNAL: VRM Telemetry Command Register
+ * VRM Telemetry Command Register
  */
 typedef union
 {
@@ -374,13 +379,14 @@ static inline uint64_t BDK_VRMX_TELEMETRY_CMND(unsigned long a)
 #define typedef_BDK_VRMX_TELEMETRY_CMND(a) bdk_vrmx_telemetry_cmnd_t
 #define bustype_BDK_VRMX_TELEMETRY_CMND(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_TELEMETRY_CMND(a) "VRMX_TELEMETRY_CMND"
+#define device_bar_BDK_VRMX_TELEMETRY_CMND(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_TELEMETRY_CMND(a) (a)
 #define arguments_BDK_VRMX_TELEMETRY_CMND(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) vrm#_telemetry_read
  *
- * INTERNAL: VRM Telemetry Read Register
+ * VRM Telemetry Read Register
  */
 typedef union
 {
@@ -411,6 +417,7 @@ static inline uint64_t BDK_VRMX_TELEMETRY_READ(unsigned long a)
 #define typedef_BDK_VRMX_TELEMETRY_READ(a) bdk_vrmx_telemetry_read_t
 #define bustype_BDK_VRMX_TELEMETRY_READ(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_TELEMETRY_READ(a) "VRMX_TELEMETRY_READ"
+#define device_bar_BDK_VRMX_TELEMETRY_READ(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_TELEMETRY_READ(a) (a)
 #define arguments_BDK_VRMX_TELEMETRY_READ(a) (a),-1,-1,-1
 
@@ -464,6 +471,7 @@ static inline uint64_t BDK_VRMX_TRIP(unsigned long a)
 #define typedef_BDK_VRMX_TRIP(a) bdk_vrmx_trip_t
 #define bustype_BDK_VRMX_TRIP(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_TRIP(a) "VRMX_TRIP"
+#define device_bar_BDK_VRMX_TRIP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_TRIP(a) (a)
 #define arguments_BDK_VRMX_TRIP(a) (a),-1,-1,-1
 
@@ -523,6 +531,7 @@ static inline uint64_t BDK_VRMX_TS_TEMP_CONV_COEFF_FSM(unsigned long a)
 #define typedef_BDK_VRMX_TS_TEMP_CONV_COEFF_FSM(a) bdk_vrmx_ts_temp_conv_coeff_fsm_t
 #define bustype_BDK_VRMX_TS_TEMP_CONV_COEFF_FSM(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_TS_TEMP_CONV_COEFF_FSM(a) "VRMX_TS_TEMP_CONV_COEFF_FSM"
+#define device_bar_BDK_VRMX_TS_TEMP_CONV_COEFF_FSM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_TS_TEMP_CONV_COEFF_FSM(a) (a)
 #define arguments_BDK_VRMX_TS_TEMP_CONV_COEFF_FSM(a) (a),-1,-1,-1
 
@@ -568,6 +577,7 @@ static inline uint64_t BDK_VRMX_TS_TEMP_CONV_CTL(unsigned long a)
 #define typedef_BDK_VRMX_TS_TEMP_CONV_CTL(a) bdk_vrmx_ts_temp_conv_ctl_t
 #define bustype_BDK_VRMX_TS_TEMP_CONV_CTL(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_TS_TEMP_CONV_CTL(a) "VRMX_TS_TEMP_CONV_CTL"
+#define device_bar_BDK_VRMX_TS_TEMP_CONV_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_TS_TEMP_CONV_CTL(a) (a)
 #define arguments_BDK_VRMX_TS_TEMP_CONV_CTL(a) (a),-1,-1,-1
 
@@ -615,6 +625,7 @@ static inline uint64_t BDK_VRMX_TS_TEMP_CONV_RESULT(unsigned long a)
 #define typedef_BDK_VRMX_TS_TEMP_CONV_RESULT(a) bdk_vrmx_ts_temp_conv_result_t
 #define bustype_BDK_VRMX_TS_TEMP_CONV_RESULT(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_TS_TEMP_CONV_RESULT(a) "VRMX_TS_TEMP_CONV_RESULT"
+#define device_bar_BDK_VRMX_TS_TEMP_CONV_RESULT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_TS_TEMP_CONV_RESULT(a) (a)
 #define arguments_BDK_VRMX_TS_TEMP_CONV_RESULT(a) (a),-1,-1,-1
 
@@ -656,14 +667,14 @@ static inline uint64_t BDK_VRMX_TS_TEMP_NOFF_MC(unsigned long a)
 #define typedef_BDK_VRMX_TS_TEMP_NOFF_MC(a) bdk_vrmx_ts_temp_noff_mc_t
 #define bustype_BDK_VRMX_TS_TEMP_NOFF_MC(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_TS_TEMP_NOFF_MC(a) "VRMX_TS_TEMP_NOFF_MC"
+#define device_bar_BDK_VRMX_TS_TEMP_NOFF_MC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_TS_TEMP_NOFF_MC(a) (a)
 #define arguments_BDK_VRMX_TS_TEMP_NOFF_MC(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) vrm#_tws_twsi_sw
  *
- * INTERNAL: VRM TWSI to Software Register
- *
+ * VRM TWSI to Software Register
  * This register allows software to write data into I2C controller directly.
  * This register is for diagnostic use only.
  */
@@ -754,6 +765,7 @@ static inline uint64_t BDK_VRMX_TWS_TWSI_SW(unsigned long a)
 #define typedef_BDK_VRMX_TWS_TWSI_SW(a) bdk_vrmx_tws_twsi_sw_t
 #define bustype_BDK_VRMX_TWS_TWSI_SW(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_VRMX_TWS_TWSI_SW(a) "VRMX_TWS_TWSI_SW"
+#define device_bar_BDK_VRMX_TWS_TWSI_SW(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_VRMX_TWS_TWSI_SW(a) (a)
 #define arguments_BDK_VRMX_TWS_TWSI_SW(a) (a),-1,-1,-1
 

@@ -152,6 +152,7 @@ static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b)
 #define typedef_BDK_ECAMX_BUSX_NSDIS(a,b) bdk_ecamx_busx_nsdis_t
 #define bustype_BDK_ECAMX_BUSX_NSDIS(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_ECAMX_BUSX_NSDIS(a,b) "ECAMX_BUSX_NSDIS"
+#define device_bar_BDK_ECAMX_BUSX_NSDIS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_BUSX_NSDIS(a,b) (a)
 #define arguments_BDK_ECAMX_BUSX_NSDIS(a,b) (a),(b),-1,-1
 
@@ -197,6 +198,7 @@ static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b)
 #define typedef_BDK_ECAMX_BUSX_SDIS(a,b) bdk_ecamx_busx_sdis_t
 #define bustype_BDK_ECAMX_BUSX_SDIS(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_ECAMX_BUSX_SDIS(a,b) "ECAMX_BUSX_SDIS"
+#define device_bar_BDK_ECAMX_BUSX_SDIS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_BUSX_SDIS(a,b) (a)
 #define arguments_BDK_ECAMX_BUSX_SDIS(a,b) (a),(b),-1,-1
 
@@ -237,6 +239,7 @@ static inline uint64_t BDK_ECAMX_CONST(unsigned long a)
 #define typedef_BDK_ECAMX_CONST(a) bdk_ecamx_const_t
 #define bustype_BDK_ECAMX_CONST(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_ECAMX_CONST(a) "ECAMX_CONST"
+#define device_bar_BDK_ECAMX_CONST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_CONST(a) (a)
 #define arguments_BDK_ECAMX_CONST(a) (a),-1,-1,-1
 
@@ -278,6 +281,7 @@ static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b)
 #define typedef_BDK_ECAMX_DEVX_NSDIS(a,b) bdk_ecamx_devx_nsdis_t
 #define bustype_BDK_ECAMX_DEVX_NSDIS(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_ECAMX_DEVX_NSDIS(a,b) "ECAMX_DEVX_NSDIS"
+#define device_bar_BDK_ECAMX_DEVX_NSDIS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_DEVX_NSDIS(a,b) (a)
 #define arguments_BDK_ECAMX_DEVX_NSDIS(a,b) (a),(b),-1,-1
 
@@ -325,6 +329,7 @@ static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long a, unsigned long b)
 #define typedef_BDK_ECAMX_DEVX_SDIS(a,b) bdk_ecamx_devx_sdis_t
 #define bustype_BDK_ECAMX_DEVX_SDIS(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_ECAMX_DEVX_SDIS(a,b) "ECAMX_DEVX_SDIS"
+#define device_bar_BDK_ECAMX_DEVX_SDIS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_DEVX_SDIS(a,b) (a)
 #define arguments_BDK_ECAMX_DEVX_SDIS(a,b) (a),(b),-1,-1
 
@@ -358,6 +363,7 @@ static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a)
 #define typedef_BDK_ECAMX_NOP_OF(a) bdk_ecamx_nop_of_t
 #define bustype_BDK_ECAMX_NOP_OF(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_ECAMX_NOP_OF(a) "ECAMX_NOP_OF"
+#define device_bar_BDK_ECAMX_NOP_OF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_NOP_OF(a) (a)
 #define arguments_BDK_ECAMX_NOP_OF(a) (a),-1,-1,-1
 
@@ -391,6 +397,7 @@ static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a)
 #define typedef_BDK_ECAMX_NOP_ONF(a) bdk_ecamx_nop_onf_t
 #define bustype_BDK_ECAMX_NOP_ONF(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_ECAMX_NOP_ONF(a) "ECAMX_NOP_ONF"
+#define device_bar_BDK_ECAMX_NOP_ONF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_NOP_ONF(a) (a)
 #define arguments_BDK_ECAMX_NOP_ONF(a) (a),-1,-1,-1
 
@@ -424,6 +431,7 @@ static inline uint64_t BDK_ECAMX_NOP_ZF(unsigned long a)
 #define typedef_BDK_ECAMX_NOP_ZF(a) bdk_ecamx_nop_zf_t
 #define bustype_BDK_ECAMX_NOP_ZF(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_ECAMX_NOP_ZF(a) "ECAMX_NOP_ZF"
+#define device_bar_BDK_ECAMX_NOP_ZF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_NOP_ZF(a) (a)
 #define arguments_BDK_ECAMX_NOP_ZF(a) (a),-1,-1,-1
 
@@ -457,6 +465,7 @@ static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a)
 #define typedef_BDK_ECAMX_NOP_ZNF(a) bdk_ecamx_nop_znf_t
 #define bustype_BDK_ECAMX_NOP_ZNF(a) BDK_CSR_TYPE_RSL
 #define basename_BDK_ECAMX_NOP_ZNF(a) "ECAMX_NOP_ZNF"
+#define device_bar_BDK_ECAMX_NOP_ZNF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_NOP_ZNF(a) (a)
 #define arguments_BDK_ECAMX_NOP_ZNF(a) (a),-1,-1,-1
 
@@ -499,6 +508,7 @@ static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b)
 #define typedef_BDK_ECAMX_RSLX_NSDIS(a,b) bdk_ecamx_rslx_nsdis_t
 #define bustype_BDK_ECAMX_RSLX_NSDIS(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_ECAMX_RSLX_NSDIS(a,b) "ECAMX_RSLX_NSDIS"
+#define device_bar_BDK_ECAMX_RSLX_NSDIS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_RSLX_NSDIS(a,b) (a)
 #define arguments_BDK_ECAMX_RSLX_NSDIS(a,b) (a),(b),-1,-1
 
@@ -547,6 +557,7 @@ static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b)
 #define typedef_BDK_ECAMX_RSLX_SDIS(a,b) bdk_ecamx_rslx_sdis_t
 #define bustype_BDK_ECAMX_RSLX_SDIS(a,b) BDK_CSR_TYPE_RSL
 #define basename_BDK_ECAMX_RSLX_SDIS(a,b) "ECAMX_RSLX_SDIS"
+#define device_bar_BDK_ECAMX_RSLX_SDIS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_RSLX_SDIS(a,b) (a)
 #define arguments_BDK_ECAMX_RSLX_SDIS(a,b) (a),(b),-1,-1
 

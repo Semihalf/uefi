@@ -207,6 +207,7 @@ static inline uint64_t BDK_USBHX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_USBHX_MSIX_PBAX(a,b) bdk_usbhx_msix_pbax_t
 #define bustype_BDK_USBHX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_MSIX_PBAX(a,b) "USBHX_MSIX_PBAX"
+#define device_bar_BDK_USBHX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_USBHX_MSIX_PBAX(a,b) (a)
 #define arguments_BDK_USBHX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
@@ -265,6 +266,7 @@ static inline uint64_t BDK_USBHX_MSIX_VECX_ADDR(unsigned long a, unsigned long b
 #define typedef_BDK_USBHX_MSIX_VECX_ADDR(a,b) bdk_usbhx_msix_vecx_addr_t
 #define bustype_BDK_USBHX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_MSIX_VECX_ADDR(a,b) "USBHX_MSIX_VECX_ADDR"
+#define device_bar_BDK_USBHX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_USBHX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_USBHX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
@@ -305,6 +307,7 @@ static inline uint64_t BDK_USBHX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_USBHX_MSIX_VECX_CTL(a,b) bdk_usbhx_msix_vecx_ctl_t
 #define bustype_BDK_USBHX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_MSIX_VECX_CTL(a,b) "USBHX_MSIX_VECX_CTL"
+#define device_bar_BDK_USBHX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_BDK_USBHX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_USBHX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
@@ -343,6 +346,7 @@ static inline uint64_t BDK_USBHX_UAHC_CAPLENGTH(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_CAPLENGTH(a) bdk_usbhx_uahc_caplength_t
 #define bustype_BDK_USBHX_UAHC_CAPLENGTH(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_CAPLENGTH(a) "USBHX_UAHC_CAPLENGTH"
+#define device_bar_BDK_USBHX_UAHC_CAPLENGTH(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_CAPLENGTH(a) (a)
 #define arguments_BDK_USBHX_UAHC_CAPLENGTH(a) (a),-1,-1,-1
 
@@ -384,6 +388,7 @@ static inline uint64_t BDK_USBHX_UAHC_CONFIG(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_CONFIG(a) bdk_usbhx_uahc_config_t
 #define bustype_BDK_USBHX_UAHC_CONFIG(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_CONFIG(a) "USBHX_UAHC_CONFIG"
+#define device_bar_BDK_USBHX_UAHC_CONFIG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_CONFIG(a) (a)
 #define arguments_BDK_USBHX_UAHC_CONFIG(a) (a),-1,-1,-1
 
@@ -433,6 +438,7 @@ static inline uint64_t BDK_USBHX_UAHC_CRCR(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_CRCR(a) bdk_usbhx_uahc_crcr_t
 #define bustype_BDK_USBHX_UAHC_CRCR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UAHC_CRCR(a) "USBHX_UAHC_CRCR"
+#define device_bar_BDK_USBHX_UAHC_CRCR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_CRCR(a) (a)
 #define arguments_BDK_USBHX_UAHC_CRCR(a) (a),-1,-1,-1
 
@@ -478,6 +484,7 @@ static inline uint64_t BDK_USBHX_UAHC_DBX(unsigned long a, unsigned long b)
 #define typedef_BDK_USBHX_UAHC_DBX(a,b) bdk_usbhx_uahc_dbx_t
 #define bustype_BDK_USBHX_UAHC_DBX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_DBX(a,b) "USBHX_UAHC_DBX"
+#define device_bar_BDK_USBHX_UAHC_DBX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_DBX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_DBX(a,b) (a),(b),-1,-1
 
@@ -514,6 +521,7 @@ static inline uint64_t BDK_USBHX_UAHC_DBOFF(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_DBOFF(a) bdk_usbhx_uahc_dboff_t
 #define bustype_BDK_USBHX_UAHC_DBOFF(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_DBOFF(a) "USBHX_UAHC_DBOFF"
+#define device_bar_BDK_USBHX_UAHC_DBOFF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_DBOFF(a) (a)
 #define arguments_BDK_USBHX_UAHC_DBOFF(a) (a),-1,-1,-1
 
@@ -555,6 +563,7 @@ static inline uint64_t BDK_USBHX_UAHC_DCBAAP(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_DCBAAP(a) bdk_usbhx_uahc_dcbaap_t
 #define bustype_BDK_USBHX_UAHC_DCBAAP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UAHC_DCBAAP(a) "USBHX_UAHC_DCBAAP"
+#define device_bar_BDK_USBHX_UAHC_DCBAAP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_DCBAAP(a) (a)
 #define arguments_BDK_USBHX_UAHC_DCBAAP(a) (a),-1,-1,-1
 
@@ -596,6 +605,7 @@ static inline uint64_t BDK_USBHX_UAHC_DNCTRL(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_DNCTRL(a) bdk_usbhx_uahc_dnctrl_t
 #define bustype_BDK_USBHX_UAHC_DNCTRL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_DNCTRL(a) "USBHX_UAHC_DNCTRL"
+#define device_bar_BDK_USBHX_UAHC_DNCTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_DNCTRL(a) (a)
 #define arguments_BDK_USBHX_UAHC_DNCTRL(a) (a),-1,-1,-1
 
@@ -639,6 +649,7 @@ static inline uint64_t BDK_USBHX_UAHC_ERDPX(unsigned long a, unsigned long b)
 #define typedef_BDK_USBHX_UAHC_ERDPX(a,b) bdk_usbhx_uahc_erdpx_t
 #define bustype_BDK_USBHX_UAHC_ERDPX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UAHC_ERDPX(a,b) "USBHX_UAHC_ERDPX"
+#define device_bar_BDK_USBHX_UAHC_ERDPX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_ERDPX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_ERDPX(a,b) (a),(b),-1,-1
 
@@ -680,6 +691,7 @@ static inline uint64_t BDK_USBHX_UAHC_ERSTBAX(unsigned long a, unsigned long b)
 #define typedef_BDK_USBHX_UAHC_ERSTBAX(a,b) bdk_usbhx_uahc_erstbax_t
 #define bustype_BDK_USBHX_UAHC_ERSTBAX(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UAHC_ERSTBAX(a,b) "USBHX_UAHC_ERSTBAX"
+#define device_bar_BDK_USBHX_UAHC_ERSTBAX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_ERSTBAX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_ERSTBAX(a,b) (a),(b),-1,-1
 
@@ -721,6 +733,7 @@ static inline uint64_t BDK_USBHX_UAHC_ERSTSZX(unsigned long a, unsigned long b)
 #define typedef_BDK_USBHX_UAHC_ERSTSZX(a,b) bdk_usbhx_uahc_erstszx_t
 #define bustype_BDK_USBHX_UAHC_ERSTSZX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_ERSTSZX(a,b) "USBHX_UAHC_ERSTSZX"
+#define device_bar_BDK_USBHX_UAHC_ERSTSZX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_ERSTSZX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_ERSTSZX(a,b) (a),(b),-1,-1
 
@@ -775,6 +788,7 @@ static inline uint64_t BDK_USBHX_UAHC_GBUSERRADDR(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GBUSERRADDR(a) bdk_usbhx_uahc_gbuserraddr_t
 #define bustype_BDK_USBHX_UAHC_GBUSERRADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UAHC_GBUSERRADDR(a) "USBHX_UAHC_GBUSERRADDR"
+#define device_bar_BDK_USBHX_UAHC_GBUSERRADDR(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GBUSERRADDR(a) (a)
 #define arguments_BDK_USBHX_UAHC_GBUSERRADDR(a) (a),-1,-1,-1
 
@@ -1332,6 +1346,7 @@ static inline uint64_t BDK_USBHX_UAHC_GCTL(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GCTL(a) bdk_usbhx_uahc_gctl_t
 #define bustype_BDK_USBHX_UAHC_GCTL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GCTL(a) "USBHX_UAHC_GCTL"
+#define device_bar_BDK_USBHX_UAHC_GCTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GCTL(a) (a)
 #define arguments_BDK_USBHX_UAHC_GCTL(a) (a),-1,-1,-1
 
@@ -1374,6 +1389,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGBMU(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GDBGBMU(a) bdk_usbhx_uahc_gdbgbmu_t
 #define bustype_BDK_USBHX_UAHC_GDBGBMU(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GDBGBMU(a) "USBHX_UAHC_GDBGBMU"
+#define device_bar_BDK_USBHX_UAHC_GDBGBMU(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GDBGBMU(a) (a)
 #define arguments_BDK_USBHX_UAHC_GDBGBMU(a) (a),-1,-1,-1
 
@@ -1410,6 +1426,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGEPINFO(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GDBGEPINFO(a) bdk_usbhx_uahc_gdbgepinfo_t
 #define bustype_BDK_USBHX_UAHC_GDBGEPINFO(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UAHC_GDBGEPINFO(a) "USBHX_UAHC_GDBGEPINFO"
+#define device_bar_BDK_USBHX_UAHC_GDBGEPINFO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GDBGEPINFO(a) (a)
 #define arguments_BDK_USBHX_UAHC_GDBGEPINFO(a) (a),-1,-1,-1
 
@@ -1483,6 +1500,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGFIFOSPACE(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) bdk_usbhx_uahc_gdbgfifospace_t
 #define bustype_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) "USBHX_UAHC_GDBGFIFOSPACE"
+#define device_bar_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) (a)
 #define arguments_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) (a),-1,-1,-1
 
@@ -1527,6 +1545,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLNMCC(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GDBGLNMCC(a) bdk_usbhx_uahc_gdbglnmcc_t
 #define bustype_BDK_USBHX_UAHC_GDBGLNMCC(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GDBGLNMCC(a) "USBHX_UAHC_GDBGLNMCC"
+#define device_bar_BDK_USBHX_UAHC_GDBGLNMCC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GDBGLNMCC(a) (a)
 #define arguments_BDK_USBHX_UAHC_GDBGLNMCC(a) (a),-1,-1,-1
 
@@ -1563,6 +1582,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GDBGLSP(a) bdk_usbhx_uahc_gdbglsp_t
 #define bustype_BDK_USBHX_UAHC_GDBGLSP(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GDBGLSP(a) "USBHX_UAHC_GDBGLSP"
+#define device_bar_BDK_USBHX_UAHC_GDBGLSP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GDBGLSP(a) (a)
 #define arguments_BDK_USBHX_UAHC_GDBGLSP(a) (a),-1,-1,-1
 
@@ -1622,6 +1642,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLSPMUX(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GDBGLSPMUX(a) bdk_usbhx_uahc_gdbglspmux_t
 #define bustype_BDK_USBHX_UAHC_GDBGLSPMUX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GDBGLSPMUX(a) "USBHX_UAHC_GDBGLSPMUX"
+#define device_bar_BDK_USBHX_UAHC_GDBGLSPMUX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GDBGLSPMUX(a) (a)
 #define arguments_BDK_USBHX_UAHC_GDBGLSPMUX(a) (a),-1,-1,-1
 
@@ -1792,6 +1813,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLTSSM(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GDBGLTSSM(a) bdk_usbhx_uahc_gdbgltssm_t
 #define bustype_BDK_USBHX_UAHC_GDBGLTSSM(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GDBGLTSSM(a) "USBHX_UAHC_GDBGLTSSM"
+#define device_bar_BDK_USBHX_UAHC_GDBGLTSSM(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GDBGLTSSM(a) (a)
 #define arguments_BDK_USBHX_UAHC_GDBGLTSSM(a) (a),-1,-1,-1
 
@@ -1853,6 +1875,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDMAHLRATIO(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GDMAHLRATIO(a) bdk_usbhx_uahc_gdmahlratio_t
 #define bustype_BDK_USBHX_UAHC_GDMAHLRATIO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GDMAHLRATIO(a) "USBHX_UAHC_GDMAHLRATIO"
+#define device_bar_BDK_USBHX_UAHC_GDMAHLRATIO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GDMAHLRATIO(a) (a)
 #define arguments_BDK_USBHX_UAHC_GDMAHLRATIO(a) (a),-1,-1,-1
 
@@ -2064,6 +2087,7 @@ static inline uint64_t BDK_USBHX_UAHC_GFLADJ(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GFLADJ(a) bdk_usbhx_uahc_gfladj_t
 #define bustype_BDK_USBHX_UAHC_GFLADJ(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GFLADJ(a) "USBHX_UAHC_GFLADJ"
+#define device_bar_BDK_USBHX_UAHC_GFLADJ(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GFLADJ(a) (a)
 #define arguments_BDK_USBHX_UAHC_GFLADJ(a) (a),-1,-1,-1
 
@@ -2105,6 +2129,7 @@ static inline uint64_t BDK_USBHX_UAHC_GGPIO(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GGPIO(a) bdk_usbhx_uahc_ggpio_t
 #define bustype_BDK_USBHX_UAHC_GGPIO(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GGPIO(a) "USBHX_UAHC_GGPIO"
+#define device_bar_BDK_USBHX_UAHC_GGPIO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GGPIO(a) (a)
 #define arguments_BDK_USBHX_UAHC_GGPIO(a) (a),-1,-1,-1
 
@@ -2151,6 +2176,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS0(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS0(a) bdk_usbhx_uahc_ghwparams0_t
 #define bustype_BDK_USBHX_UAHC_GHWPARAMS0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GHWPARAMS0(a) "USBHX_UAHC_GHWPARAMS0"
+#define device_bar_BDK_USBHX_UAHC_GHWPARAMS0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GHWPARAMS0(a) (a)
 #define arguments_BDK_USBHX_UAHC_GHWPARAMS0(a) (a),-1,-1,-1
 
@@ -2221,6 +2247,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS1(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS1(a) bdk_usbhx_uahc_ghwparams1_t
 #define bustype_BDK_USBHX_UAHC_GHWPARAMS1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GHWPARAMS1(a) "USBHX_UAHC_GHWPARAMS1"
+#define device_bar_BDK_USBHX_UAHC_GHWPARAMS1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GHWPARAMS1(a) (a)
 #define arguments_BDK_USBHX_UAHC_GHWPARAMS1(a) (a),-1,-1,-1
 
@@ -2257,6 +2284,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS2(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS2(a) bdk_usbhx_uahc_ghwparams2_t
 #define bustype_BDK_USBHX_UAHC_GHWPARAMS2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GHWPARAMS2(a) "USBHX_UAHC_GHWPARAMS2"
+#define device_bar_BDK_USBHX_UAHC_GHWPARAMS2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GHWPARAMS2(a) (a)
 #define arguments_BDK_USBHX_UAHC_GHWPARAMS2(a) (a),-1,-1,-1
 
@@ -2313,6 +2341,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS3(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS3(a) bdk_usbhx_uahc_ghwparams3_t
 #define bustype_BDK_USBHX_UAHC_GHWPARAMS3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GHWPARAMS3(a) "USBHX_UAHC_GHWPARAMS3"
+#define device_bar_BDK_USBHX_UAHC_GHWPARAMS3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GHWPARAMS3(a) (a)
 #define arguments_BDK_USBHX_UAHC_GHWPARAMS3(a) (a),-1,-1,-1
 
@@ -2365,6 +2394,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS4(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS4(a) bdk_usbhx_uahc_ghwparams4_t
 #define bustype_BDK_USBHX_UAHC_GHWPARAMS4(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GHWPARAMS4(a) "USBHX_UAHC_GHWPARAMS4"
+#define device_bar_BDK_USBHX_UAHC_GHWPARAMS4(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GHWPARAMS4(a) (a)
 #define arguments_BDK_USBHX_UAHC_GHWPARAMS4(a) (a),-1,-1,-1
 
@@ -2411,6 +2441,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS5(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS5(a) bdk_usbhx_uahc_ghwparams5_t
 #define bustype_BDK_USBHX_UAHC_GHWPARAMS5(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GHWPARAMS5(a) "USBHX_UAHC_GHWPARAMS5"
+#define device_bar_BDK_USBHX_UAHC_GHWPARAMS5(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GHWPARAMS5(a) (a)
 #define arguments_BDK_USBHX_UAHC_GHWPARAMS5(a) (a),-1,-1,-1
 
@@ -2467,6 +2498,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS6(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS6(a) bdk_usbhx_uahc_ghwparams6_t
 #define bustype_BDK_USBHX_UAHC_GHWPARAMS6(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GHWPARAMS6(a) "USBHX_UAHC_GHWPARAMS6"
+#define device_bar_BDK_USBHX_UAHC_GHWPARAMS6(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GHWPARAMS6(a) (a)
 #define arguments_BDK_USBHX_UAHC_GHWPARAMS6(a) (a),-1,-1,-1
 
@@ -2505,6 +2537,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS7(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS7(a) bdk_usbhx_uahc_ghwparams7_t
 #define bustype_BDK_USBHX_UAHC_GHWPARAMS7(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GHWPARAMS7(a) "USBHX_UAHC_GHWPARAMS7"
+#define device_bar_BDK_USBHX_UAHC_GHWPARAMS7(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GHWPARAMS7(a) (a)
 #define arguments_BDK_USBHX_UAHC_GHWPARAMS7(a) (a),-1,-1,-1
 
@@ -2541,6 +2574,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS8(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS8(a) bdk_usbhx_uahc_ghwparams8_t
 #define bustype_BDK_USBHX_UAHC_GHWPARAMS8(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GHWPARAMS8(a) "USBHX_UAHC_GHWPARAMS8"
+#define device_bar_BDK_USBHX_UAHC_GHWPARAMS8(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GHWPARAMS8(a) (a)
 #define arguments_BDK_USBHX_UAHC_GHWPARAMS8(a) (a),-1,-1,-1
 
@@ -2622,6 +2656,7 @@ static inline uint64_t BDK_USBHX_UAHC_GPMSTS(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GPMSTS(a) bdk_usbhx_uahc_gpmsts_t
 #define bustype_BDK_USBHX_UAHC_GPMSTS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GPMSTS(a) "USBHX_UAHC_GPMSTS"
+#define device_bar_BDK_USBHX_UAHC_GPMSTS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GPMSTS(a) (a)
 #define arguments_BDK_USBHX_UAHC_GPMSTS(a) (a),-1,-1,-1
 
@@ -2666,6 +2701,7 @@ static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GPRTBIMAP(a) bdk_usbhx_uahc_gprtbimap_t
 #define bustype_BDK_USBHX_UAHC_GPRTBIMAP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UAHC_GPRTBIMAP(a) "USBHX_UAHC_GPRTBIMAP"
+#define device_bar_BDK_USBHX_UAHC_GPRTBIMAP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GPRTBIMAP(a) (a)
 #define arguments_BDK_USBHX_UAHC_GPRTBIMAP(a) (a),-1,-1,-1
 
@@ -2710,6 +2746,7 @@ static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) bdk_usbhx_uahc_gprtbimap_fs_t
 #define bustype_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) "USBHX_UAHC_GPRTBIMAP_FS"
+#define device_bar_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) (a)
 #define arguments_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) (a),-1,-1,-1
 
@@ -2754,6 +2791,7 @@ static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) bdk_usbhx_uahc_gprtbimap_hs_t
 #define bustype_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) "USBHX_UAHC_GPRTBIMAP_HS"
+#define device_bar_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a)
 #define arguments_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a),-1,-1,-1
 
@@ -2798,6 +2836,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRLSID(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GRLSID(a) bdk_usbhx_uahc_grlsid_t
 #define bustype_BDK_USBHX_UAHC_GRLSID(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GRLSID(a) "USBHX_UAHC_GRLSID"
+#define device_bar_BDK_USBHX_UAHC_GRLSID(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GRLSID(a) (a)
 #define arguments_BDK_USBHX_UAHC_GRLSID(a) (a),-1,-1,-1
 
@@ -2857,6 +2896,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) bdk_usbhx_uahc_grxfifoprihst_t
 #define bustype_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) "USBHX_UAHC_GRXFIFOPRIHST"
+#define device_bar_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) (a)
 #define arguments_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) (a),-1,-1,-1
 
@@ -2913,6 +2953,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned long
 #define typedef_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) bdk_usbhx_uahc_grxfifosizx_t
 #define bustype_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) "USBHX_UAHC_GRXFIFOSIZX"
+#define device_bar_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) (a),(b),-1,-1
 
@@ -3068,6 +3109,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRXTHRCFG(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GRXTHRCFG(a) bdk_usbhx_uahc_grxthrcfg_t
 #define bustype_BDK_USBHX_UAHC_GRXTHRCFG(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GRXTHRCFG(a) "USBHX_UAHC_GRXTHRCFG"
+#define device_bar_BDK_USBHX_UAHC_GRXTHRCFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GRXTHRCFG(a) (a)
 #define arguments_BDK_USBHX_UAHC_GRXTHRCFG(a) (a),-1,-1,-1
 
@@ -3170,6 +3212,7 @@ static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG0(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GSBUSCFG0(a) bdk_usbhx_uahc_gsbuscfg0_t
 #define bustype_BDK_USBHX_UAHC_GSBUSCFG0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GSBUSCFG0(a) "USBHX_UAHC_GSBUSCFG0"
+#define device_bar_BDK_USBHX_UAHC_GSBUSCFG0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GSBUSCFG0(a) (a)
 #define arguments_BDK_USBHX_UAHC_GSBUSCFG0(a) (a),-1,-1,-1
 
@@ -3243,6 +3286,7 @@ static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG1(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GSBUSCFG1(a) bdk_usbhx_uahc_gsbuscfg1_t
 #define bustype_BDK_USBHX_UAHC_GSBUSCFG1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GSBUSCFG1(a) "USBHX_UAHC_GSBUSCFG1"
+#define device_bar_BDK_USBHX_UAHC_GSBUSCFG1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GSBUSCFG1(a) (a)
 #define arguments_BDK_USBHX_UAHC_GSBUSCFG1(a) (a),-1,-1,-1
 
@@ -3303,6 +3347,7 @@ static inline uint64_t BDK_USBHX_UAHC_GSTS(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GSTS(a) bdk_usbhx_uahc_gsts_t
 #define bustype_BDK_USBHX_UAHC_GSTS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GSTS(a) "USBHX_UAHC_GSTS"
+#define device_bar_BDK_USBHX_UAHC_GSTS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GSTS(a) (a)
 #define arguments_BDK_USBHX_UAHC_GSTS(a) (a),-1,-1,-1
 
@@ -3365,6 +3410,7 @@ static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) bdk_usbhx_uahc_gtxfifoprihst_t
 #define bustype_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) "USBHX_UAHC_GTXFIFOPRIHST"
+#define device_bar_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) (a)
 #define arguments_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) (a),-1,-1,-1
 
@@ -3422,6 +3468,7 @@ static inline uint64_t BDK_USBHX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned long
 #define typedef_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) bdk_usbhx_uahc_gtxfifosizx_t
 #define bustype_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) "USBHX_UAHC_GTXFIFOSIZX"
+#define device_bar_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) (a),(b),-1,-1
 
@@ -3564,6 +3611,7 @@ static inline uint64_t BDK_USBHX_UAHC_GTXTHRCFG(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GTXTHRCFG(a) bdk_usbhx_uahc_gtxthrcfg_t
 #define bustype_BDK_USBHX_UAHC_GTXTHRCFG(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GTXTHRCFG(a) "USBHX_UAHC_GTXTHRCFG"
+#define device_bar_BDK_USBHX_UAHC_GTXTHRCFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GTXTHRCFG(a) (a)
 #define arguments_BDK_USBHX_UAHC_GTXTHRCFG(a) (a),-1,-1,-1
 
@@ -3795,6 +3843,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUCTL(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GUCTL(a) bdk_usbhx_uahc_guctl_t
 #define bustype_BDK_USBHX_UAHC_GUCTL(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GUCTL(a) "USBHX_UAHC_GUCTL"
+#define device_bar_BDK_USBHX_UAHC_GUCTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GUCTL(a) (a)
 #define arguments_BDK_USBHX_UAHC_GUCTL(a) (a),-1,-1,-1
 
@@ -3905,6 +3954,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUCTL1(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GUCTL1(a) bdk_usbhx_uahc_guctl1_t
 #define bustype_BDK_USBHX_UAHC_GUCTL1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GUCTL1(a) "USBHX_UAHC_GUCTL1"
+#define device_bar_BDK_USBHX_UAHC_GUCTL1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GUCTL1(a) (a)
 #define arguments_BDK_USBHX_UAHC_GUCTL1(a) (a),-1,-1,-1
 
@@ -3948,6 +3998,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUID(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_GUID(a) bdk_usbhx_uahc_guid_t
 #define bustype_BDK_USBHX_UAHC_GUID(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GUID(a) "USBHX_UAHC_GUID"
+#define device_bar_BDK_USBHX_UAHC_GUID(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GUID(a) (a)
 #define arguments_BDK_USBHX_UAHC_GUID(a) (a),-1,-1,-1
 
@@ -3986,6 +4037,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned lon
 #define typedef_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) bdk_usbhx_uahc_gusb2i2cctlx_t
 #define bustype_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) "USBHX_UAHC_GUSB2I2CCTLX"
+#define device_bar_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) (a),(b),-1,-1
 
@@ -4302,6 +4354,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned lon
 #define typedef_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) bdk_usbhx_uahc_gusb2phycfgx_t
 #define bustype_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) "USBHX_UAHC_GUSB2PHYCFGX"
+#define device_bar_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) (a),(b),-1,-1
 
@@ -4611,6 +4664,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned lo
 #define typedef_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) bdk_usbhx_uahc_gusb3pipectlx_t
 #define bustype_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) "USBHX_UAHC_GUSB3PIPECTLX"
+#define device_bar_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) (a),(b),-1,-1
 
@@ -4671,6 +4725,7 @@ static inline uint64_t BDK_USBHX_UAHC_HCCPARAMS(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_HCCPARAMS(a) bdk_usbhx_uahc_hccparams_t
 #define bustype_BDK_USBHX_UAHC_HCCPARAMS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_HCCPARAMS(a) "USBHX_UAHC_HCCPARAMS"
+#define device_bar_BDK_USBHX_UAHC_HCCPARAMS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_HCCPARAMS(a) (a)
 #define arguments_BDK_USBHX_UAHC_HCCPARAMS(a) (a),-1,-1,-1
 
@@ -4711,6 +4766,7 @@ static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS1(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_HCSPARAMS1(a) bdk_usbhx_uahc_hcsparams1_t
 #define bustype_BDK_USBHX_UAHC_HCSPARAMS1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_HCSPARAMS1(a) "USBHX_UAHC_HCSPARAMS1"
+#define device_bar_BDK_USBHX_UAHC_HCSPARAMS1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_HCSPARAMS1(a) (a)
 #define arguments_BDK_USBHX_UAHC_HCSPARAMS1(a) (a),-1,-1,-1
 
@@ -4755,6 +4811,7 @@ static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS2(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_HCSPARAMS2(a) bdk_usbhx_uahc_hcsparams2_t
 #define bustype_BDK_USBHX_UAHC_HCSPARAMS2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_HCSPARAMS2(a) "USBHX_UAHC_HCSPARAMS2"
+#define device_bar_BDK_USBHX_UAHC_HCSPARAMS2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_HCSPARAMS2(a) (a)
 #define arguments_BDK_USBHX_UAHC_HCSPARAMS2(a) (a),-1,-1,-1
 
@@ -4793,6 +4850,7 @@ static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS3(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_HCSPARAMS3(a) bdk_usbhx_uahc_hcsparams3_t
 #define bustype_BDK_USBHX_UAHC_HCSPARAMS3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_HCSPARAMS3(a) "USBHX_UAHC_HCSPARAMS3"
+#define device_bar_BDK_USBHX_UAHC_HCSPARAMS3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_HCSPARAMS3(a) (a)
 #define arguments_BDK_USBHX_UAHC_HCSPARAMS3(a) (a),-1,-1,-1
 
@@ -4836,6 +4894,7 @@ static inline uint64_t BDK_USBHX_UAHC_IMANX(unsigned long a, unsigned long b)
 #define typedef_BDK_USBHX_UAHC_IMANX(a,b) bdk_usbhx_uahc_imanx_t
 #define bustype_BDK_USBHX_UAHC_IMANX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_IMANX(a,b) "USBHX_UAHC_IMANX"
+#define device_bar_BDK_USBHX_UAHC_IMANX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_IMANX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_IMANX(a,b) (a),(b),-1,-1
 
@@ -4877,6 +4936,7 @@ static inline uint64_t BDK_USBHX_UAHC_IMODX(unsigned long a, unsigned long b)
 #define typedef_BDK_USBHX_UAHC_IMODX(a,b) bdk_usbhx_uahc_imodx_t
 #define bustype_BDK_USBHX_UAHC_IMODX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_IMODX(a,b) "USBHX_UAHC_IMODX"
+#define device_bar_BDK_USBHX_UAHC_IMODX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_IMODX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_IMODX(a,b) (a),(b),-1,-1
 
@@ -4918,6 +4978,7 @@ static inline uint64_t BDK_USBHX_UAHC_MFINDEX(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_MFINDEX(a) bdk_usbhx_uahc_mfindex_t
 #define bustype_BDK_USBHX_UAHC_MFINDEX(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_MFINDEX(a) "USBHX_UAHC_MFINDEX"
+#define device_bar_BDK_USBHX_UAHC_MFINDEX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_MFINDEX(a) (a)
 #define arguments_BDK_USBHX_UAHC_MFINDEX(a) (a),-1,-1,-1
 
@@ -4954,6 +5015,7 @@ static inline uint64_t BDK_USBHX_UAHC_PAGESIZE(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_PAGESIZE(a) bdk_usbhx_uahc_pagesize_t
 #define bustype_BDK_USBHX_UAHC_PAGESIZE(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_PAGESIZE(a) "USBHX_UAHC_PAGESIZE"
+#define device_bar_BDK_USBHX_UAHC_PAGESIZE(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_PAGESIZE(a) (a)
 #define arguments_BDK_USBHX_UAHC_PAGESIZE(a) (a),-1,-1,-1
 
@@ -5021,6 +5083,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_20X(unsigned long a, unsigned lo
 #define typedef_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) bdk_usbhx_uahc_porthlpmc_20x_t
 #define bustype_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) "USBHX_UAHC_PORTHLPMC_20X"
+#define device_bar_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) (a),(b),-1,-1
 
@@ -5061,6 +5124,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned lo
 #define typedef_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) bdk_usbhx_uahc_porthlpmc_ssx_t
 #define bustype_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) "USBHX_UAHC_PORTHLPMC_SSX"
+#define device_bar_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) (a),(b),-1,-1
 
@@ -5095,6 +5159,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTLI_20X(unsigned long a, unsigned long 
 #define typedef_BDK_USBHX_UAHC_PORTLI_20X(a,b) bdk_usbhx_uahc_portli_20x_t
 #define bustype_BDK_USBHX_UAHC_PORTLI_20X(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_PORTLI_20X(a,b) "USBHX_UAHC_PORTLI_20X"
+#define device_bar_BDK_USBHX_UAHC_PORTLI_20X(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_PORTLI_20X(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_PORTLI_20X(a,b) (a),(b),-1,-1
 
@@ -5131,6 +5196,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTLI_SSX(unsigned long a, unsigned long 
 #define typedef_BDK_USBHX_UAHC_PORTLI_SSX(a,b) bdk_usbhx_uahc_portli_ssx_t
 #define bustype_BDK_USBHX_UAHC_PORTLI_SSX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_PORTLI_SSX(a,b) "USBHX_UAHC_PORTLI_SSX"
+#define device_bar_BDK_USBHX_UAHC_PORTLI_SSX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_PORTLI_SSX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_PORTLI_SSX(a,b) (a),(b),-1,-1
 
@@ -5182,6 +5248,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_20X(unsigned long a, unsigned lon
 #define typedef_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) bdk_usbhx_uahc_portpmsc_20x_t
 #define bustype_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) "USBHX_UAHC_PORTPMSC_20X"
+#define device_bar_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) (a),(b),-1,-1
 
@@ -5227,6 +5294,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_SSX(unsigned long a, unsigned lon
 #define typedef_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) bdk_usbhx_uahc_portpmsc_ssx_t
 #define bustype_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) "USBHX_UAHC_PORTPMSC_SSX"
+#define device_bar_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) (a),(b),-1,-1
 
@@ -5313,6 +5381,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTSCX(unsigned long a, unsigned long b)
 #define typedef_BDK_USBHX_UAHC_PORTSCX(a,b) bdk_usbhx_uahc_portscx_t
 #define bustype_BDK_USBHX_UAHC_PORTSCX(a,b) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_PORTSCX(a,b) "USBHX_UAHC_PORTSCX"
+#define device_bar_BDK_USBHX_UAHC_PORTSCX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_PORTSCX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_PORTSCX(a,b) (a),(b),-1,-1
 
@@ -5349,6 +5418,7 @@ static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_RTSOFF(a) bdk_usbhx_uahc_rtsoff_t
 #define bustype_BDK_USBHX_UAHC_RTSOFF(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_RTSOFF(a) "USBHX_UAHC_RTSOFF"
+#define device_bar_BDK_USBHX_UAHC_RTSOFF(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_RTSOFF(a) (a)
 #define arguments_BDK_USBHX_UAHC_RTSOFF(a) (a),-1,-1,-1
 
@@ -5389,6 +5459,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW0(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) bdk_usbhx_uahc_suptprt2_dw0_t
 #define bustype_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) "USBHX_UAHC_SUPTPRT2_DW0"
+#define device_bar_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) (a)
 #define arguments_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) (a),-1,-1,-1
 
@@ -5423,6 +5494,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW1(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) bdk_usbhx_uahc_suptprt2_dw1_t
 #define bustype_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) "USBHX_UAHC_SUPTPRT2_DW1"
+#define device_bar_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) (a)
 #define arguments_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) (a),-1,-1,-1
 
@@ -5473,6 +5545,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW2(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) bdk_usbhx_uahc_suptprt2_dw2_t
 #define bustype_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) "USBHX_UAHC_SUPTPRT2_DW2"
+#define device_bar_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) (a)
 #define arguments_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) (a),-1,-1,-1
 
@@ -5509,6 +5582,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW3(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) bdk_usbhx_uahc_suptprt2_dw3_t
 #define bustype_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) "USBHX_UAHC_SUPTPRT2_DW3"
+#define device_bar_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) (a)
 #define arguments_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) (a),-1,-1,-1
 
@@ -5553,6 +5627,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW0(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) bdk_usbhx_uahc_suptprt3_dw0_t
 #define bustype_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) "USBHX_UAHC_SUPTPRT3_DW0"
+#define device_bar_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) (a)
 #define arguments_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) (a),-1,-1,-1
 
@@ -5587,6 +5662,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW1(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) bdk_usbhx_uahc_suptprt3_dw1_t
 #define bustype_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) "USBHX_UAHC_SUPTPRT3_DW1"
+#define device_bar_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) (a)
 #define arguments_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) (a),-1,-1,-1
 
@@ -5627,6 +5703,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW2(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) bdk_usbhx_uahc_suptprt3_dw2_t
 #define bustype_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) "USBHX_UAHC_SUPTPRT3_DW2"
+#define device_bar_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) (a)
 #define arguments_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) (a),-1,-1,-1
 
@@ -5663,6 +5740,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW3(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) bdk_usbhx_uahc_suptprt3_dw3_t
 #define bustype_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) "USBHX_UAHC_SUPTPRT3_DW3"
+#define device_bar_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) (a)
 #define arguments_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) (a),-1,-1,-1
 
@@ -5722,6 +5800,7 @@ static inline uint64_t BDK_USBHX_UAHC_USBCMD(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_USBCMD(a) bdk_usbhx_uahc_usbcmd_t
 #define bustype_BDK_USBHX_UAHC_USBCMD(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_USBCMD(a) "USBHX_UAHC_USBCMD"
+#define device_bar_BDK_USBHX_UAHC_USBCMD(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_USBCMD(a) (a)
 #define arguments_BDK_USBHX_UAHC_USBCMD(a) (a),-1,-1,-1
 
@@ -5806,6 +5885,7 @@ static inline uint64_t BDK_USBHX_UAHC_USBLEGCTLSTS(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_USBLEGCTLSTS(a) bdk_usbhx_uahc_usblegctlsts_t
 #define bustype_BDK_USBHX_UAHC_USBLEGCTLSTS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_USBLEGCTLSTS(a) "USBHX_UAHC_USBLEGCTLSTS"
+#define device_bar_BDK_USBHX_UAHC_USBLEGCTLSTS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_USBLEGCTLSTS(a) (a)
 #define arguments_BDK_USBHX_UAHC_USBLEGCTLSTS(a) (a),-1,-1,-1
 
@@ -5855,6 +5935,7 @@ static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_USBLEGSUP(a) bdk_usbhx_uahc_usblegsup_t
 #define bustype_BDK_USBHX_UAHC_USBLEGSUP(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_USBLEGSUP(a) "USBHX_UAHC_USBLEGSUP"
+#define device_bar_BDK_USBHX_UAHC_USBLEGSUP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_USBLEGSUP(a) (a)
 #define arguments_BDK_USBHX_UAHC_USBLEGSUP(a) (a),-1,-1,-1
 
@@ -5916,6 +5997,7 @@ static inline uint64_t BDK_USBHX_UAHC_USBSTS(unsigned long a)
 #define typedef_BDK_USBHX_UAHC_USBSTS(a) bdk_usbhx_uahc_usbsts_t
 #define bustype_BDK_USBHX_UAHC_USBSTS(a) BDK_CSR_TYPE_NCB32b
 #define basename_BDK_USBHX_UAHC_USBSTS(a) "USBHX_UAHC_USBSTS"
+#define device_bar_BDK_USBHX_UAHC_USBSTS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UAHC_USBSTS(a) (a)
 #define arguments_BDK_USBHX_UAHC_USBSTS(a) (a),-1,-1,-1
 
@@ -5977,6 +6059,7 @@ static inline uint64_t BDK_USBHX_UCTL_BIST_STATUS(unsigned long a)
 #define typedef_BDK_USBHX_UCTL_BIST_STATUS(a) bdk_usbhx_uctl_bist_status_t
 #define bustype_BDK_USBHX_UCTL_BIST_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_BIST_STATUS(a) "USBHX_UCTL_BIST_STATUS"
+#define device_bar_BDK_USBHX_UCTL_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_BIST_STATUS(a) (a)
 #define arguments_BDK_USBHX_UCTL_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -6363,6 +6446,7 @@ static inline uint64_t BDK_USBHX_UCTL_CTL(unsigned long a)
 #define typedef_BDK_USBHX_UCTL_CTL(a) bdk_usbhx_uctl_ctl_t
 #define bustype_BDK_USBHX_UCTL_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_CTL(a) "USBHX_UCTL_CTL"
+#define device_bar_BDK_USBHX_UCTL_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_CTL(a) (a)
 #define arguments_BDK_USBHX_UCTL_CTL(a) (a),-1,-1,-1
 
@@ -6445,6 +6529,7 @@ static inline uint64_t BDK_USBHX_UCTL_ECC(unsigned long a)
 #define typedef_BDK_USBHX_UCTL_ECC(a) bdk_usbhx_uctl_ecc_t
 #define bustype_BDK_USBHX_UCTL_ECC(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_ECC(a) "USBHX_UCTL_ECC"
+#define device_bar_BDK_USBHX_UCTL_ECC(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_ECC(a) (a)
 #define arguments_BDK_USBHX_UCTL_ECC(a) (a),-1,-1,-1
 
@@ -6586,6 +6671,7 @@ static inline uint64_t BDK_USBHX_UCTL_HOST_CFG(unsigned long a)
 #define typedef_BDK_USBHX_UCTL_HOST_CFG(a) bdk_usbhx_uctl_host_cfg_t
 #define bustype_BDK_USBHX_UCTL_HOST_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_HOST_CFG(a) "USBHX_UCTL_HOST_CFG"
+#define device_bar_BDK_USBHX_UCTL_HOST_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_HOST_CFG(a) (a)
 #define arguments_BDK_USBHX_UCTL_HOST_CFG(a) (a),-1,-1,-1
 
@@ -6656,6 +6742,7 @@ static inline uint64_t BDK_USBHX_UCTL_INTENA_W1C(unsigned long a)
 #define typedef_BDK_USBHX_UCTL_INTENA_W1C(a) bdk_usbhx_uctl_intena_w1c_t
 #define bustype_BDK_USBHX_UCTL_INTENA_W1C(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_INTENA_W1C(a) "USBHX_UCTL_INTENA_W1C"
+#define device_bar_BDK_USBHX_UCTL_INTENA_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_INTENA_W1C(a) (a)
 #define arguments_BDK_USBHX_UCTL_INTENA_W1C(a) (a),-1,-1,-1
 
@@ -6726,6 +6813,7 @@ static inline uint64_t BDK_USBHX_UCTL_INTENA_W1S(unsigned long a)
 #define typedef_BDK_USBHX_UCTL_INTENA_W1S(a) bdk_usbhx_uctl_intena_w1s_t
 #define bustype_BDK_USBHX_UCTL_INTENA_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_INTENA_W1S(a) "USBHX_UCTL_INTENA_W1S"
+#define device_bar_BDK_USBHX_UCTL_INTENA_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_INTENA_W1S(a) (a)
 #define arguments_BDK_USBHX_UCTL_INTENA_W1S(a) (a),-1,-1,-1
 
@@ -6819,6 +6907,7 @@ static inline uint64_t BDK_USBHX_UCTL_INTSTAT(unsigned long a)
 #define typedef_BDK_USBHX_UCTL_INTSTAT(a) bdk_usbhx_uctl_intstat_t
 #define bustype_BDK_USBHX_UCTL_INTSTAT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_INTSTAT(a) "USBHX_UCTL_INTSTAT"
+#define device_bar_BDK_USBHX_UCTL_INTSTAT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_INTSTAT(a) (a)
 #define arguments_BDK_USBHX_UCTL_INTSTAT(a) (a),-1,-1,-1
 
@@ -6889,6 +6978,7 @@ static inline uint64_t BDK_USBHX_UCTL_INTSTAT_W1S(unsigned long a)
 #define typedef_BDK_USBHX_UCTL_INTSTAT_W1S(a) bdk_usbhx_uctl_intstat_w1s_t
 #define bustype_BDK_USBHX_UCTL_INTSTAT_W1S(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_INTSTAT_W1S(a) "USBHX_UCTL_INTSTAT_W1S"
+#define device_bar_BDK_USBHX_UCTL_INTSTAT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_INTSTAT_W1S(a) (a)
 #define arguments_BDK_USBHX_UCTL_INTSTAT_W1S(a) (a),-1,-1,-1
 
@@ -7092,6 +7182,7 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned lon
 #define typedef_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) bdk_usbhx_uctl_portx_cfg_hs_t
 #define bustype_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) "USBHX_UCTL_PORTX_CFG_HS"
+#define device_bar_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) (a)
 #define arguments_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) (a),(b),-1,-1
 
@@ -7340,6 +7431,7 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned lon
 #define typedef_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) bdk_usbhx_uctl_portx_cfg_ss_t
 #define bustype_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) "USBHX_UCTL_PORTX_CFG_SS"
+#define device_bar_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) (a)
 #define arguments_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) (a),(b),-1,-1
 
@@ -7446,6 +7538,7 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsigned
 #define typedef_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) bdk_usbhx_uctl_portx_cr_dbg_cfg_t
 #define bustype_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) "USBHX_UCTL_PORTX_CR_DBG_CFG"
+#define device_bar_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) (a)
 #define arguments_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) (a),(b),-1,-1
 
@@ -7491,6 +7584,7 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, unsig
 #define typedef_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) bdk_usbhx_uctl_portx_cr_dbg_status_t
 #define bustype_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) "USBHX_UCTL_PORTX_CR_DBG_STATUS"
+#define device_bar_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) (a)
 #define arguments_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) (a),(b),-1,-1
 
@@ -7568,6 +7662,7 @@ static inline uint64_t BDK_USBHX_UCTL_SHIM_CFG(unsigned long a)
 #define typedef_BDK_USBHX_UCTL_SHIM_CFG(a) bdk_usbhx_uctl_shim_cfg_t
 #define bustype_BDK_USBHX_UCTL_SHIM_CFG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_SHIM_CFG(a) "USBHX_UCTL_SHIM_CFG"
+#define device_bar_BDK_USBHX_UCTL_SHIM_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_SHIM_CFG(a) (a)
 #define arguments_BDK_USBHX_UCTL_SHIM_CFG(a) (a),-1,-1,-1
 
@@ -7602,6 +7697,7 @@ static inline uint64_t BDK_USBHX_UCTL_SPARE0(unsigned long a)
 #define typedef_BDK_USBHX_UCTL_SPARE0(a) bdk_usbhx_uctl_spare0_t
 #define bustype_BDK_USBHX_UCTL_SPARE0(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_SPARE0(a) "USBHX_UCTL_SPARE0"
+#define device_bar_BDK_USBHX_UCTL_SPARE0(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_SPARE0(a) (a)
 #define arguments_BDK_USBHX_UCTL_SPARE0(a) (a),-1,-1,-1
 
@@ -7638,6 +7734,7 @@ static inline uint64_t BDK_USBHX_UCTL_SPARE1(unsigned long a)
 #define typedef_BDK_USBHX_UCTL_SPARE1(a) bdk_usbhx_uctl_spare1_t
 #define bustype_BDK_USBHX_UCTL_SPARE1(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_USBHX_UCTL_SPARE1(a) "USBHX_UCTL_SPARE1"
+#define device_bar_BDK_USBHX_UCTL_SPARE1(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_USBHX_UCTL_SPARE1(a) (a)
 #define arguments_BDK_USBHX_UCTL_SPARE1(a) (a),-1,-1,-1
 

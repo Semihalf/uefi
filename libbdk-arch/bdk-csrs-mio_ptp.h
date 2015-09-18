@@ -66,6 +66,7 @@
  *
  * PTP External Sources Select Enumeration
  * Enumerates the different external signal sources for PTP.
+ * Note that CCPI reference clocks cannot be selected.
  */
 #define BDK_MIO_PTP_EXT_SEL_E_GPIOX(a) (0 + (a)) /**< Normal GPIO inputs. */
 #define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX(a) (0x38 + (a)) /**< GSER0-7 reference clock. */
@@ -88,7 +89,7 @@
 /**
  * Register (NCB) mio_ptp_ckout_hi_incr
  *
- * PTP CKOUT High Increment Register
+ * PTP Clock Out High Increment Register
  * This register contains the PTP CKOUT threshold increment on pre-inverted PTP_CKOUT rising
  * edge. See MIO_PTP_CKOUT_THRESH_HI for details.
  */
@@ -118,13 +119,14 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_HI_INCR_FUNC(void)
 #define typedef_BDK_MIO_PTP_CKOUT_HI_INCR bdk_mio_ptp_ckout_hi_incr_t
 #define bustype_BDK_MIO_PTP_CKOUT_HI_INCR BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_CKOUT_HI_INCR "MIO_PTP_CKOUT_HI_INCR"
+#define device_bar_BDK_MIO_PTP_CKOUT_HI_INCR 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_CKOUT_HI_INCR 0
 #define arguments_BDK_MIO_PTP_CKOUT_HI_INCR -1,-1,-1,-1
 
 /**
  * Register (NCB) mio_ptp_ckout_lo_incr
  *
- * PTP CKOUT Low Increment Register
+ * PTP Clock Out Low Increment Register
  * This register contains the PTP CKOUTthreshold increment on pre-inverted PTP_CKOUT falling
  * edge. See MIO_PTP_CKOUT_THRESH_HI for details.
  */
@@ -154,13 +156,14 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_LO_INCR_FUNC(void)
 #define typedef_BDK_MIO_PTP_CKOUT_LO_INCR bdk_mio_ptp_ckout_lo_incr_t
 #define bustype_BDK_MIO_PTP_CKOUT_LO_INCR BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_CKOUT_LO_INCR "MIO_PTP_CKOUT_LO_INCR"
+#define device_bar_BDK_MIO_PTP_CKOUT_LO_INCR 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_CKOUT_LO_INCR 0
 #define arguments_BDK_MIO_PTP_CKOUT_LO_INCR -1,-1,-1,-1
 
 /**
  * Register (NCB) mio_ptp_ckout_thresh_hi
  *
- * PTP CKOUT Threshold High Register
+ * PTP Clock Out High Register
  * This register contains the high bytes of the PTP CKOUT threshold.
  * Writes to MIO_PTP_CKOUT_THRESH_HI also clear MIO_PTP_CKOUT_THRESH_LO; in order to update all
  * 96 bits, writes MIO_PTP_CKOUT_THRESH_HI followed by MIO_PTP_CKOUT_THRESH_LO.
@@ -197,13 +200,14 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_THRESH_HI_FUNC(void)
 #define typedef_BDK_MIO_PTP_CKOUT_THRESH_HI bdk_mio_ptp_ckout_thresh_hi_t
 #define bustype_BDK_MIO_PTP_CKOUT_THRESH_HI BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_CKOUT_THRESH_HI "MIO_PTP_CKOUT_THRESH_HI"
+#define device_bar_BDK_MIO_PTP_CKOUT_THRESH_HI 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_CKOUT_THRESH_HI 0
 #define arguments_BDK_MIO_PTP_CKOUT_THRESH_HI -1,-1,-1,-1
 
 /**
  * Register (NCB) mio_ptp_ckout_thresh_lo
  *
- * PTP CKOUT Threshold Low Register
+ * PTP Clock Out Low Register
  * This register contains the low bytes of the PTP CKOUT threshold,
  * See MIO_PTP_CKOUT_THRESH_HI for details.
  */
@@ -233,6 +237,7 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_THRESH_LO_FUNC(void)
 #define typedef_BDK_MIO_PTP_CKOUT_THRESH_LO bdk_mio_ptp_ckout_thresh_lo_t
 #define bustype_BDK_MIO_PTP_CKOUT_THRESH_LO BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_CKOUT_THRESH_LO "MIO_PTP_CKOUT_THRESH_LO"
+#define device_bar_BDK_MIO_PTP_CKOUT_THRESH_LO 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_CKOUT_THRESH_LO 0
 #define arguments_BDK_MIO_PTP_CKOUT_THRESH_LO -1,-1,-1,-1
 
@@ -324,6 +329,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_CFG_FUNC(void)
 #define typedef_BDK_MIO_PTP_CLOCK_CFG bdk_mio_ptp_clock_cfg_t
 #define bustype_BDK_MIO_PTP_CLOCK_CFG BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_CLOCK_CFG "MIO_PTP_CLOCK_CFG"
+#define device_bar_BDK_MIO_PTP_CLOCK_CFG 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_CLOCK_CFG 0
 #define arguments_BDK_MIO_PTP_CLOCK_CFG -1,-1,-1,-1
 
@@ -362,6 +368,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_COMP_FUNC(void)
 #define typedef_BDK_MIO_PTP_CLOCK_COMP bdk_mio_ptp_clock_comp_t
 #define bustype_BDK_MIO_PTP_CLOCK_COMP BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_CLOCK_COMP "MIO_PTP_CLOCK_COMP"
+#define device_bar_BDK_MIO_PTP_CLOCK_COMP 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_CLOCK_COMP 0
 #define arguments_BDK_MIO_PTP_CLOCK_COMP -1,-1,-1,-1
 
@@ -397,6 +404,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_HI_FUNC(void)
 #define typedef_BDK_MIO_PTP_CLOCK_HI bdk_mio_ptp_clock_hi_t
 #define bustype_BDK_MIO_PTP_CLOCK_HI BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_CLOCK_HI "MIO_PTP_CLOCK_HI"
+#define device_bar_BDK_MIO_PTP_CLOCK_HI 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_CLOCK_HI 0
 #define arguments_BDK_MIO_PTP_CLOCK_HI -1,-1,-1,-1
 
@@ -433,6 +441,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_LO_FUNC(void)
 #define typedef_BDK_MIO_PTP_CLOCK_LO bdk_mio_ptp_clock_lo_t
 #define bustype_BDK_MIO_PTP_CLOCK_LO BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_CLOCK_LO "MIO_PTP_CLOCK_LO"
+#define device_bar_BDK_MIO_PTP_CLOCK_LO 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_CLOCK_LO 0
 #define arguments_BDK_MIO_PTP_CLOCK_LO -1,-1,-1,-1
 
@@ -440,7 +449,7 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_LO_FUNC(void)
  * Register (NCB) mio_ptp_dpll_err_int
  *
  * PTP Digital PLL Error Interrupt Register
- * This register contains the Digital PLL error event interrupt.
+ * This register contains the Digital PLL error event.
  */
 typedef union
 {
@@ -470,6 +479,7 @@ static inline uint64_t BDK_MIO_PTP_DPLL_ERR_INT_FUNC(void)
 #define typedef_BDK_MIO_PTP_DPLL_ERR_INT bdk_mio_ptp_dpll_err_int_t
 #define bustype_BDK_MIO_PTP_DPLL_ERR_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_DPLL_ERR_INT "MIO_PTP_DPLL_ERR_INT"
+#define device_bar_BDK_MIO_PTP_DPLL_ERR_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_DPLL_ERR_INT 0
 #define arguments_BDK_MIO_PTP_DPLL_ERR_INT -1,-1,-1,-1
 
@@ -505,6 +515,7 @@ static inline uint64_t BDK_MIO_PTP_DPLL_ERR_THRESH_FUNC(void)
 #define typedef_BDK_MIO_PTP_DPLL_ERR_THRESH bdk_mio_ptp_dpll_err_thresh_t
 #define bustype_BDK_MIO_PTP_DPLL_ERR_THRESH BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_DPLL_ERR_THRESH "MIO_PTP_DPLL_ERR_THRESH"
+#define device_bar_BDK_MIO_PTP_DPLL_ERR_THRESH 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_DPLL_ERR_THRESH 0
 #define arguments_BDK_MIO_PTP_DPLL_ERR_THRESH -1,-1,-1,-1
 
@@ -541,6 +552,7 @@ static inline uint64_t BDK_MIO_PTP_DPLL_INCR_FUNC(void)
 #define typedef_BDK_MIO_PTP_DPLL_INCR bdk_mio_ptp_dpll_incr_t
 #define bustype_BDK_MIO_PTP_DPLL_INCR BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_DPLL_INCR "MIO_PTP_DPLL_INCR"
+#define device_bar_BDK_MIO_PTP_DPLL_INCR 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_DPLL_INCR 0
 #define arguments_BDK_MIO_PTP_DPLL_INCR -1,-1,-1,-1
 
@@ -582,6 +594,7 @@ static inline uint64_t BDK_MIO_PTP_EVT_CNT_FUNC(void)
 #define typedef_BDK_MIO_PTP_EVT_CNT bdk_mio_ptp_evt_cnt_t
 #define bustype_BDK_MIO_PTP_EVT_CNT BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_EVT_CNT "MIO_PTP_EVT_CNT"
+#define device_bar_BDK_MIO_PTP_EVT_CNT 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_EVT_CNT 0
 #define arguments_BDK_MIO_PTP_EVT_CNT -1,-1,-1,-1
 
@@ -619,6 +632,7 @@ static inline uint64_t BDK_MIO_PTP_INT_FUNC(void)
 #define typedef_BDK_MIO_PTP_INT bdk_mio_ptp_int_t
 #define bustype_BDK_MIO_PTP_INT BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_INT "MIO_PTP_INT"
+#define device_bar_BDK_MIO_PTP_INT 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_INT 0
 #define arguments_BDK_MIO_PTP_INT -1,-1,-1,-1
 
@@ -656,6 +670,7 @@ static inline uint64_t BDK_MIO_PTP_INT_ENA_W1C_FUNC(void)
 #define typedef_BDK_MIO_PTP_INT_ENA_W1C bdk_mio_ptp_int_ena_w1c_t
 #define bustype_BDK_MIO_PTP_INT_ENA_W1C BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_INT_ENA_W1C "MIO_PTP_INT_ENA_W1C"
+#define device_bar_BDK_MIO_PTP_INT_ENA_W1C 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_INT_ENA_W1C 0
 #define arguments_BDK_MIO_PTP_INT_ENA_W1C -1,-1,-1,-1
 
@@ -693,6 +708,7 @@ static inline uint64_t BDK_MIO_PTP_INT_ENA_W1S_FUNC(void)
 #define typedef_BDK_MIO_PTP_INT_ENA_W1S bdk_mio_ptp_int_ena_w1s_t
 #define bustype_BDK_MIO_PTP_INT_ENA_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_INT_ENA_W1S "MIO_PTP_INT_ENA_W1S"
+#define device_bar_BDK_MIO_PTP_INT_ENA_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_INT_ENA_W1S 0
 #define arguments_BDK_MIO_PTP_INT_ENA_W1S -1,-1,-1,-1
 
@@ -730,6 +746,7 @@ static inline uint64_t BDK_MIO_PTP_INT_W1S_FUNC(void)
 #define typedef_BDK_MIO_PTP_INT_W1S bdk_mio_ptp_int_w1s_t
 #define bustype_BDK_MIO_PTP_INT_W1S BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_INT_W1S "MIO_PTP_INT_W1S"
+#define device_bar_BDK_MIO_PTP_INT_W1S 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_INT_W1S 0
 #define arguments_BDK_MIO_PTP_INT_W1S -1,-1,-1,-1
 
@@ -769,6 +786,7 @@ static inline uint64_t BDK_MIO_PTP_MSIX_PBAX(unsigned long a)
 #define typedef_BDK_MIO_PTP_MSIX_PBAX(a) bdk_mio_ptp_msix_pbax_t
 #define bustype_BDK_MIO_PTP_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_MSIX_PBAX(a) "MIO_PTP_MSIX_PBAX"
+#define device_bar_BDK_MIO_PTP_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MIO_PTP_MSIX_PBAX(a) (a)
 #define arguments_BDK_MIO_PTP_MSIX_PBAX(a) (a),-1,-1,-1
 
@@ -825,6 +843,7 @@ static inline uint64_t BDK_MIO_PTP_MSIX_VECX_ADDR(unsigned long a)
 #define typedef_BDK_MIO_PTP_MSIX_VECX_ADDR(a) bdk_mio_ptp_msix_vecx_addr_t
 #define bustype_BDK_MIO_PTP_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_MSIX_VECX_ADDR(a) "MIO_PTP_MSIX_VECX_ADDR"
+#define device_bar_BDK_MIO_PTP_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MIO_PTP_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_MIO_PTP_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
@@ -865,6 +884,7 @@ static inline uint64_t BDK_MIO_PTP_MSIX_VECX_CTL(unsigned long a)
 #define typedef_BDK_MIO_PTP_MSIX_VECX_CTL(a) bdk_mio_ptp_msix_vecx_ctl_t
 #define bustype_BDK_MIO_PTP_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_MSIX_VECX_CTL(a) "MIO_PTP_MSIX_VECX_CTL"
+#define device_bar_BDK_MIO_PTP_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
 #define busnum_BDK_MIO_PTP_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_MIO_PTP_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
@@ -901,6 +921,7 @@ static inline uint64_t BDK_MIO_PTP_PPS_HI_INCR_FUNC(void)
 #define typedef_BDK_MIO_PTP_PPS_HI_INCR bdk_mio_ptp_pps_hi_incr_t
 #define bustype_BDK_MIO_PTP_PPS_HI_INCR BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_PPS_HI_INCR "MIO_PTP_PPS_HI_INCR"
+#define device_bar_BDK_MIO_PTP_PPS_HI_INCR 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_PPS_HI_INCR 0
 #define arguments_BDK_MIO_PTP_PPS_HI_INCR -1,-1,-1,-1
 
@@ -937,6 +958,7 @@ static inline uint64_t BDK_MIO_PTP_PPS_LO_INCR_FUNC(void)
 #define typedef_BDK_MIO_PTP_PPS_LO_INCR bdk_mio_ptp_pps_lo_incr_t
 #define bustype_BDK_MIO_PTP_PPS_LO_INCR BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_PPS_LO_INCR "MIO_PTP_PPS_LO_INCR"
+#define device_bar_BDK_MIO_PTP_PPS_LO_INCR 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_PPS_LO_INCR 0
 #define arguments_BDK_MIO_PTP_PPS_LO_INCR -1,-1,-1,-1
 
@@ -947,7 +969,7 @@ static inline uint64_t BDK_MIO_PTP_PPS_LO_INCR_FUNC(void)
  * This register contains the high bytes of the PTP PPS threshold.
  * Writes to MIO_PTP_PPS_THRESH_HI also clear MIO_PTP_PPS_THRESH_LO; in order to update all 96
  * bits, writes MIO_PTP_PPS_THRESH_HI followed by MIO_PTP_PPS_THRESH_LO.
- * This threshold {MIO_PTP_PPS_THRESH_HI,  MIO_PTP_PPS_THRESH_LO}  is a rolling threshold that
+ * This threshold {MIO_PTP_PPS_THRESH_HI, MIO_PTP_PPS_THRESH_LO}  is a rolling threshold that
  * will be updated by hardware:
  *   When current PTP_PPS before inversion (defined by MIO_PTP_CLOCK_CFG[PPS_INV]) is zero,
  *   and {MIO_PTP_CLOCK_HI/LO} >=  {MIO_PTP_PPS_THRESH_HI/LO}, the pre-inverted PTP_PPS will
@@ -980,13 +1002,14 @@ static inline uint64_t BDK_MIO_PTP_PPS_THRESH_HI_FUNC(void)
 #define typedef_BDK_MIO_PTP_PPS_THRESH_HI bdk_mio_ptp_pps_thresh_hi_t
 #define bustype_BDK_MIO_PTP_PPS_THRESH_HI BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_PPS_THRESH_HI "MIO_PTP_PPS_THRESH_HI"
+#define device_bar_BDK_MIO_PTP_PPS_THRESH_HI 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_PPS_THRESH_HI 0
 #define arguments_BDK_MIO_PTP_PPS_THRESH_HI -1,-1,-1,-1
 
 /**
  * Register (NCB) mio_ptp_pps_thresh_lo
  *
- * PTP PPS Threshold Low Register
+ * PTP PPS Low Register
  * This register contains the low bytes of the PTP PPS threshold.
  * See MIO_PTP_PPS_THRESH_HI for details.
  */
@@ -1016,6 +1039,7 @@ static inline uint64_t BDK_MIO_PTP_PPS_THRESH_LO_FUNC(void)
 #define typedef_BDK_MIO_PTP_PPS_THRESH_LO bdk_mio_ptp_pps_thresh_lo_t
 #define bustype_BDK_MIO_PTP_PPS_THRESH_LO BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_PPS_THRESH_LO "MIO_PTP_PPS_THRESH_LO"
+#define device_bar_BDK_MIO_PTP_PPS_THRESH_LO 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_PPS_THRESH_LO 0
 #define arguments_BDK_MIO_PTP_PPS_THRESH_LO -1,-1,-1,-1
 
@@ -1050,6 +1074,7 @@ static inline uint64_t BDK_MIO_PTP_TIMESTAMP_FUNC(void)
 #define typedef_BDK_MIO_PTP_TIMESTAMP bdk_mio_ptp_timestamp_t
 #define bustype_BDK_MIO_PTP_TIMESTAMP BDK_CSR_TYPE_NCB
 #define basename_BDK_MIO_PTP_TIMESTAMP "MIO_PTP_TIMESTAMP"
+#define device_bar_BDK_MIO_PTP_TIMESTAMP 0x0 /* PF_BAR0 */
 #define busnum_BDK_MIO_PTP_TIMESTAMP 0
 #define arguments_BDK_MIO_PTP_TIMESTAMP -1,-1,-1,-1
 
