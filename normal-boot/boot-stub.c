@@ -277,9 +277,6 @@ int main(void)
     /* Enable watchdog */
     bdk_watchdog_set(0);
 
-    boot_read_config();     /* Load configuration settings from config file */
-
-
     board_init_early();     /* Do board specific early initialization */
 
 
@@ -303,13 +300,13 @@ int main(void)
     {
         bdk_boot_ccpi_link();      /* Set up CCPI */
 
-        boot_init_dram(BDK_NODE_0); /* Initialize DRAM on node 0 */
+        bdk_boot_dram(bdk_numa_master(), MFG_SYSTEM_LEVEL_TEST); /* Initialize DRAM on node 0 */
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
 
         bdk_boot_ccpi_nodes();     /* Set up CCPI */
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_CCPI_COMPLETE);
 
-        boot_init_dram(BDK_NODE_1); /* Initialize DRAM on node 1 */
+        bdk_boot_dram(BDK_NODE_1, MFG_SYSTEM_LEVEL_TEST); /* Initialize DRAM on node 1 */
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
 
         bdk_boot_qlm();

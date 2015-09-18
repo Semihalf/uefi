@@ -11,12 +11,8 @@
 /* Address of ATF in flash */
 #define ATF_ADDRESS 0x00400000
 
-void boot_read_config();
-
 void print_node_strapping(bdk_node_t node);
 const char *boot_device_name_for_boot_method(int boot_method);
-
-void boot_init_dram(bdk_node_t node);
 
 /* Weakly bound default functions. Can be overwritten by board specific
  * functions in board/$(BOARD_TYPE)/board_init.c
