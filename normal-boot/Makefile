@@ -19,7 +19,6 @@ COMMON_OBJS	:= $(addsuffix .o, $(basename $(COMMON_SRC)))
 COMMON_OBJS := $(foreach o,$(COMMON_OBJS),$(BOARD_ROOT)/$(o))
 
 CFG_FILES  = $(BOARD_TYPE)/*.cfg
-HEADERS    = *.h
 
 FATFS_IMG  = $(BOARD_ROOT)/fatfs.bin
 STAGE0_BIN = $(BOARD_ROOT)/stage0.bin
@@ -64,11 +63,11 @@ $(IMAGE_NAME).bin: $(STAGE0_BIN) $(STAGE1_BIN) $(STAGE2_BIN) lua-common/*.lua $(
 	    -l "lua-common/*.lua $(BOARD_ROOT)/lua/*.lua" -c "$(BOARD_ROOT)/default.cfg safe-mode.cfg"
 	rm safe-mode.cfg
 
-$(CHAINLOADER): $(BOARD_ROOT)/chainloader.o $(BOARD_ROOT)/boot-common.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
+$(CHAINLOADER): $(BOARD_ROOT)/chainloader.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
 $(DIAGNOSTICS): $(BOARD_ROOT)/diagnostics.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
-$(BOOT_STUB):   $(BOARD_ROOT)/boot-stub.o   $(BOARD_ROOT)/boot-common.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
+$(BOOT_STUB):   $(BOARD_ROOT)/boot-stub.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
 
-$(COMMON_OBJS): $(BOARD_ROOT)/%.o: %.c $(HEADERS)
+$(COMMON_OBJS): $(BOARD_ROOT)/%.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:

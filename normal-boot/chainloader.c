@@ -1,8 +1,6 @@
 #include <bdk.h>
 #include <malloc.h>
 
-#include "boot-common.h"
-
 #ifndef MFG_SYSTEM_LEVEL_TEST
 #define MFG_SYSTEM_LEVEL_TEST 0
 #endif
