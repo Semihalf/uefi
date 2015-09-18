@@ -11,14 +11,12 @@
 /*
  * Configuration variables read from the board config file.
  */
-static int BMC_TWSI     = -1;
 static int MULTI_NODE   = 2; /* 'auto' is default */
 static int DRAM_VERBOSE = 0;
 static int WATCHDOG_TIMEOUT = 0;
 static const char *DRAM_NODE0 = NULL;
 static const char *DRAM_NODE1 = NULL;
 
-static int BRD_DISABLE_TWSI  = 0;
 static int BRD_DISABLE_DRAM  = 0;
 static int BRD_DISABLE_CCPI  = 0;
 static int BRD_DISABLE_QLM   = 0;
@@ -29,13 +27,11 @@ static int BRD_DISABLE_PCI   = 0;
 void boot_read_config()
 {
     MULTI_NODE        = bdk_brd_cfg_get_int(MULTI_NODE,         BDK_BRD_CFG_MULTI_NODE);
-    BMC_TWSI          = bdk_brd_cfg_get_int(BMC_TWSI,           BDK_BRD_CFG_BMC_TWSI);
     DRAM_VERBOSE      = bdk_brd_cfg_get_int(DRAM_VERBOSE,       BDK_BRD_CFG_DRAM_VERBOSE);
     WATCHDOG_TIMEOUT  = bdk_brd_cfg_get_int(WATCHDOG_TIMEOUT,   BDK_BRD_CFG_WATCHDOG_TIMEOUT);
     DRAM_NODE0        = bdk_brd_cfg_get_str(DRAM_NODE0,         BDK_BRD_CFG_DRAM_NODE, 0);
     DRAM_NODE1        = bdk_brd_cfg_get_str(DRAM_NODE1,         BDK_BRD_CFG_DRAM_NODE, 1);
 
-    BRD_DISABLE_TWSI  = bdk_brd_cfg_get_int(BRD_DISABLE_TWSI,   BDK_BRD_CFG_DISABLE_TWSI);
     BRD_DISABLE_DRAM  = bdk_brd_cfg_get_int(BRD_DISABLE_DRAM,   BDK_BRD_CFG_DISABLE_DRAM);
     BRD_DISABLE_CCPI  = bdk_brd_cfg_get_int(BRD_DISABLE_CCPI,   BDK_BRD_CFG_DISABLE_CCPI);
     BRD_DISABLE_QLM   = bdk_brd_cfg_get_int(BRD_DISABLE_QLM,    BDK_BRD_CFG_DISABLE_QLM);
@@ -192,30 +188,6 @@ const char *boot_device_name_for_boot_method(int boot_method)
     return boot_device_name;
 }
 
-void update_bmc_status(bmc_status_t status)
-{
-    if (BMC_TWSI != -1)
-    {
-        BDK_CSR_MODIFY(c, bdk_numa_master(), BDK_MIO_TWSX_SW_TWSI(BMC_TWSI),
-            c.s.v = 1;
-            c.s.data = status);
-        if (status == BMC_STATUS_REQUEST_POWER_CYCLE)
-        {
-            printf("Requested power cycle\n");
-            bdk_wait_usec(5000000); /* 5 sec */
-            bdk_reset_chip(bdk_numa_local());
-        }
-    }
-}
-
-void reset_or_power_cycle(void)
-{
-    if (USE_POWER_CYCLE)
-        update_bmc_status(BMC_STATUS_REQUEST_POWER_CYCLE);
-    else
-        bdk_reset_chip(bdk_numa_local());
-}
-
 /**
  * Boot an image from a device file at the specified location
  *
@@ -281,7 +253,7 @@ void boot_image(const char *filename, uint64_t loc)
     BDK_MB;
 
     /* Send status to the BMC: Boot stub complete */
-    update_bmc_status(BMC_STATUS_BOOT_STUB_COMPLETE);
+    bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_COMPLETE);
 
     if (WATCHDOG_TIMEOUT)
     {
@@ -338,26 +310,6 @@ out:
     fclose(inf);
 }
 
-/*
- * Device initialization functions.
- */
-void boot_init_twsi()
-{
-    if (BRD_DISABLE_TWSI)
-        return;
-
-    bdk_node_t node = bdk_numa_local();
-
-    if (BMC_TWSI != -1)
-    {
-        BDK_TRACE(BOOT_STUB, "Initializing TWSI%d as a slave\n", BMC_TWSI);
-        BDK_CSR_DEFINE(sw_twsi, BDK_MIO_TWSX_SW_TWSI(BMC_TWSI));
-        sw_twsi.u = 0;
-        sw_twsi.s.slonly = 1; /* Slave only */
-        BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(BMC_TWSI), sw_twsi.u);
-    }
-}
-
 void boot_init_dram(bdk_node_t node)
 {
     if (BRD_DISABLE_DRAM)
@@ -398,7 +350,7 @@ void boot_init_dram(bdk_node_t node)
                 bdk_error("Failed DRAM init\n");
             /* Reset on failure if we're using the watchdog */
             if (WATCHDOG_TIMEOUT)
-                reset_or_power_cycle();
+                bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
         }
 
         /* Poke the watchdog */
@@ -435,7 +387,7 @@ void boot_init_dram(bdk_node_t node)
                     bdk_init_cores(other_node, 1);
                     /* Run the address test to make sure DRAM works */
                     if (bdk_dram_test(13, 0, 0x10000000000ull))
-                        reset_or_power_cycle();
+                        bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
                     /* Put other node core back in reset */
                     BDK_CSR_WRITE(other_node, BDK_RST_PP_RESET, -1);
                     uint64_t skip = bdk_dram_get_top_of_bdk();
@@ -449,7 +401,7 @@ void boot_init_dram(bdk_node_t node)
                 bdk_error("Node %d failed DRAM init\n", other_node);
                 /* Reset on failure if we're using the watchdog */
                 if (WATCHDOG_TIMEOUT)
-                    reset_or_power_cycle();
+                    bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
             }
         }
         else
@@ -457,7 +409,7 @@ void boot_init_dram(bdk_node_t node)
             printf("Node %d: Not found, skipping DRAM init\n", other_node);
             /* Reset on failure if we're using the watchdog */
             if (WATCHDOG_TIMEOUT)
-                reset_or_power_cycle();
+                bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
         }
         /* Poke the watchdog */
         watchdog_poke();
@@ -477,7 +429,7 @@ void boot_init_ccpi_link()
             printf("CCPI: Link timeout\n");
             /* Reset on failure if we're using the watchdog */
             if (WATCHDOG_TIMEOUT)
-                reset_or_power_cycle();
+                bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
         }
         else /* fail case for 'auto' setting */
         {
@@ -501,7 +453,7 @@ void boot_init_ccpi_node()
     bdk_init_nodes(1, 0);
     /* Reset if CCPI failed */
     if (bdk_numa_is_only_one() && WATCHDOG_TIMEOUT)
-        reset_or_power_cycle();
+        bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
 
     watchdog_poke();
 }

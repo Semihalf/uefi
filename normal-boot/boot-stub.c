@@ -283,11 +283,8 @@ int main(void)
     board_init_early();     /* Do board specific early initialization */
 
 
-    boot_init_twsi();       /* Initialize TWSI interface TBD as a slave */
-
-
     /* Send status to the BMC: Started boot stub */
-    update_bmc_status(BMC_STATUS_BOOT_STUB_STARTING);
+    bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_STARTING);
 
 
     printf(
@@ -307,17 +304,17 @@ int main(void)
         boot_init_ccpi_link();      /* Set up CCPI */
 
         boot_init_dram(BDK_NODE_0); /* Initialize DRAM on node 0 */
-        update_bmc_status(BMC_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
+        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
 
         boot_init_ccpi_node();      /* Set up CCPI */
-        update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
+        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_CCPI_COMPLETE);
 
         boot_init_dram(BDK_NODE_1); /* Initialize DRAM on node 1 */
-        update_bmc_status(BMC_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
+        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
 
         boot_init_qlm_clk();    /* Initialize QLM clocks */
         boot_init_qlm_mode();   /* Initialize QLM modes */
-        update_bmc_status(BMC_STATUS_BOOT_STUB_QLM_COMPLETE);
+        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_QLM_COMPLETE);
 
         boot_init_bgx();
         boot_init_usb();
@@ -368,9 +365,9 @@ int main(void)
 
     /* Send status to the BMC: Loading ATF */
     if (use_atf)
-        update_bmc_status(BMC_STATUS_BOOT_STUB_LOADING_ATF);
+        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_LOADING_ATF);
     else
-        update_bmc_status(BMC_STATUS_BOOT_STUB_LOADING_DIAGNOSTICS);
+        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_LOADING_DIAGNOSTICS);
 
     /* Determine how we booted */
     int boot_method;
