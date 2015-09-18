@@ -319,6 +319,8 @@ int main(void)
         bdk_boot_ccpi_nodes();     /* Set up CCPI */
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_CCPI_COMPLETE);
 
+        if (bdk_numa_exists(BDK_NODE_1))
+            bdk_boot_info_strapping(BDK_NODE_1);
         bdk_boot_dram(BDK_NODE_1, MFG_SYSTEM_LEVEL_TEST); /* Initialize DRAM on node 1 */
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
 
