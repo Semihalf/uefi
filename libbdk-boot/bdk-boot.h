@@ -15,5 +15,6 @@
 
 #include "bdk-boot-status.h"
 #include "bdk-image.h"
+#include "bdk-watchdog.h"
 
 #endif

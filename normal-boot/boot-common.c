@@ -13,7 +13,6 @@
  */
 static int MULTI_NODE   = 2; /* 'auto' is default */
 static int DRAM_VERBOSE = 0;
-static int WATCHDOG_TIMEOUT = 0;
 static const char *DRAM_NODE0 = NULL;
 static const char *DRAM_NODE1 = NULL;
 
@@ -28,7 +27,6 @@ void boot_read_config()
 {
     MULTI_NODE        = bdk_brd_cfg_get_int(MULTI_NODE,         BDK_BRD_CFG_MULTI_NODE);
     DRAM_VERBOSE      = bdk_brd_cfg_get_int(DRAM_VERBOSE,       BDK_BRD_CFG_DRAM_VERBOSE);
-    WATCHDOG_TIMEOUT  = bdk_brd_cfg_get_int(WATCHDOG_TIMEOUT,   BDK_BRD_CFG_WATCHDOG_TIMEOUT);
     DRAM_NODE0        = bdk_brd_cfg_get_str(DRAM_NODE0,         BDK_BRD_CFG_DRAM_NODE, 0);
     DRAM_NODE1        = bdk_brd_cfg_get_str(DRAM_NODE1,         BDK_BRD_CFG_DRAM_NODE, 1);
 
@@ -42,10 +40,6 @@ void boot_read_config()
 
 #define XCONFIG_STR_NAME(n)	#n
 #define CONFIG_STR_NAME(n) XCONFIG_STR_NAME(n)
-
-/* Perform a fast DRAM test before booting, rebooting or pwoer cycling on
-   failure. Only useful if WATCHDOG_TIMEOUT */
-#define RUN_DRAM_TEST (WATCHDOG_TIMEOUT != 0)
 
 /**
  * report boot status to the bmc
@@ -255,7 +249,7 @@ void boot_image(const char *filename, uint64_t loc)
     /* Send status to the BMC: Boot stub complete */
     bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_COMPLETE);
 
-    if (WATCHDOG_TIMEOUT)
+    if (bdk_watchdog_is_running())
     {
         int loading_atf = 0;
 
@@ -274,16 +268,12 @@ void boot_image(const char *filename, uint64_t loc)
         if (loading_atf)
         {
             /* Software wants the watchdog running with a 15 second timout */
-            uint64_t timeout = 15 * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_SCLK) / 262144;
-            /* Check for overflow */
-            if (timeout > 0xffff)
-                timeout = 0xffff;
-            watchdog_set(timeout);
+            bdk_watchdog_set(15000);
         }
         else
         {
             /* Disable watchdog */
-            watchdog_disable();
+            bdk_watchdog_disable();
         }
     }
 
@@ -349,12 +339,12 @@ void boot_init_dram(bdk_node_t node)
             else
                 bdk_error("Failed DRAM init\n");
             /* Reset on failure if we're using the watchdog */
-            if (WATCHDOG_TIMEOUT)
+            if (bdk_watchdog_is_running())
                 bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
         }
 
         /* Poke the watchdog */
-        watchdog_poke();
+        bdk_watchdog_poke();
 
         /* Unlock L2 now that DRAM works */
         if (mbytes > 0)
@@ -363,7 +353,7 @@ void boot_init_dram(bdk_node_t node)
             BDK_TRACE(BOOT_STUB, "Unlocking L2\n");
             bdk_l2c_unlock_mem_region(node, 0, l2_size);
             /* Poke the watchdog */
-            watchdog_poke();
+            bdk_watchdog_poke();
         }
     }
 
@@ -381,7 +371,7 @@ void boot_init_dram(bdk_node_t node)
                 uint32_t freq = libdram_get_freq(other_node);
                 freq = (freq + 500000) / 1000000;
                 printf("Node %d: DRAM: %d MB, %u MHz\n", other_node, mbytes, freq);
-                if (RUN_DRAM_TEST)
+                if (bdk_watchdog_is_running())
                 {
                     /* Wake up one core on the other node */
                     bdk_init_cores(other_node, 1);
@@ -400,7 +390,7 @@ void boot_init_dram(bdk_node_t node)
             {
                 bdk_error("Node %d failed DRAM init\n", other_node);
                 /* Reset on failure if we're using the watchdog */
-                if (WATCHDOG_TIMEOUT)
+                if (bdk_watchdog_is_running())
                     bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
             }
         }
@@ -408,11 +398,11 @@ void boot_init_dram(bdk_node_t node)
         {
             printf("Node %d: Not found, skipping DRAM init\n", other_node);
             /* Reset on failure if we're using the watchdog */
-            if (WATCHDOG_TIMEOUT)
+            if (bdk_watchdog_is_running())
                 bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
         }
         /* Poke the watchdog */
-        watchdog_poke();
+        bdk_watchdog_poke();
     }
 }
 
@@ -428,7 +418,7 @@ void boot_init_ccpi_link()
         {
             printf("CCPI: Link timeout\n");
             /* Reset on failure if we're using the watchdog */
-            if (WATCHDOG_TIMEOUT)
+            if (bdk_watchdog_is_running())
                 bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
         }
         else /* fail case for 'auto' setting */
@@ -440,7 +430,7 @@ void boot_init_ccpi_link()
     else if (2 == MULTI_NODE) /* success case for 'auto' setting */
         BDK_TRACE(BOOT_STUB, "Auto configured 2 nodes.\n");
 
-    watchdog_poke();
+    bdk_watchdog_poke();
 }
 
 void boot_init_ccpi_node()
@@ -452,10 +442,10 @@ void boot_init_ccpi_node()
     bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
     bdk_init_nodes(1, 0);
     /* Reset if CCPI failed */
-    if (bdk_numa_is_only_one() && WATCHDOG_TIMEOUT)
+    if (bdk_numa_is_only_one() && bdk_watchdog_is_running())
         bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
 
-    watchdog_poke();
+    bdk_watchdog_poke();
 }
 
 void boot_init_qlm_clk()
@@ -619,31 +609,6 @@ void boot_init_pci()
             }
         }
     }
-}
-
-void watchdog_set(int timeout)
-{
-    if (!WATCHDOG_TIMEOUT)
-        return; /* Watchdog not configured for this board */
-
-    if (timeout <= 0)
-        timeout = WATCHDOG_TIMEOUT;
-
-    BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()),
-        c.s.len = timeout;
-        c.s.mode = 3);
-}
-
-void watchdog_poke()
-{
-    if (WATCHDOG_TIMEOUT)
-        BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
-}
-
-void watchdog_disable()
-{
-    if (WATCHDOG_TIMEOUT)
-        BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
 }
 
 /* Weakly bound default functions. Can be overwritten by board specific

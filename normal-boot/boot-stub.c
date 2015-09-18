@@ -275,7 +275,7 @@ int main(void)
                  "Will use empty configuration...\n");
 
     /* Enable watchdog */
-    watchdog_set(bdk_brd_cfg_get_int(0, BDK_BRD_CFG_WATCHDOG_TIMEOUT));
+    bdk_watchdog_set(0);
 
     boot_read_config();     /* Load configuration settings from config file */
 
@@ -296,7 +296,7 @@ int main(void)
         bdk_version_string());
 
 
-    watchdog_poke();
+    bdk_watchdog_poke();
 
 
     if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
@@ -320,7 +320,7 @@ int main(void)
         boot_init_usb();
     }
 
-    watchdog_poke();
+    bdk_watchdog_poke();
 
     boot_init_pci();
     board_init_late();
@@ -343,7 +343,7 @@ int main(void)
     }
 
     /* Poke the watchdog */
-    watchdog_poke();
+    bdk_watchdog_poke();
 
     /* Check for 'D' override */
     if (use_atf && (DIAGS_TIMEOUT > 0) && !bdk_is_platform(BDK_PLATFORM_EMULATOR))
@@ -354,7 +354,7 @@ int main(void)
     }
 
     /* Poke the watchdog */
-    watchdog_poke();
+    bdk_watchdog_poke();
 
     if (MFG_SYSTEM_LEVEL_TEST)
     {
