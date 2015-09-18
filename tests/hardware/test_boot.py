@@ -58,7 +58,7 @@ def wait_for_bootstub_messages(cnx):
         cnx.waitforRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=90)
     else:
         cnx.waitforRE("DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=60)
-    cnx.waitfor("Press 'D' within 3 seconds to boot diagnostics", timeout=5)
+    cnx.waitfor("Press 'D' within 3 seconds to boot diagnostics", timeout=15)
     cnx.write("D")
     cnx.match("Loading image file '/fatfs/stage2.bin'")
     cnx.match("Verifying image")
@@ -92,7 +92,11 @@ def wait_for_bdk_boot(cnx):
     cnx.match("14) Traffic Generator")
     cnx.match("15) Burn power")
     cnx.match("16) Save board configuration")
-    cnx.match("17) Reboot")
+    try:
+        cnx.match("17) Set power throttle level")
+        cnx.match("18) Reboot")
+    except:
+        cnx.match("17) Reboot")
     # Extra output allowed here
     cnx.waitfor("(INS)Menu choice []:")
     cnx.sendEcho("keys")
@@ -118,6 +122,10 @@ def wait_for_main_menu(cnx):
     cnx.match("tg) Traffic Generator")
     cnx.match("burn) Burn power")
     cnx.match("save) Save board configuration")
+    try:
+        cnx.match("throt) Set power throttle level")
+    except:
+        pass
     cnx.match("rbt) Reboot")
     # Extra output allowed here
     cnx.waitfor("(INS)Menu choice []:")
