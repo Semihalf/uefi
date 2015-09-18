@@ -69,7 +69,7 @@ int main(void)
 
     /* Load and transfer control to next image */
     BDK_TRACE(CHAINLOADER, "Looking for BDK image\n");
-    boot_image("/fatfs/stage1.bin", 0);
+    bdk_image_boot("/fatfs/stage1.bin", 0);
 
     bdk_error("Image load failed\n");
 }

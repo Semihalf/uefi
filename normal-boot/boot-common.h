@@ -19,8 +19,6 @@ void boot_read_config();
 void print_node_strapping(bdk_node_t node);
 const char *boot_device_name_for_boot_method(int boot_method);
 
-void boot_image(const char *filename, uint64_t loc);
-
 void boot_init_dram(bdk_node_t node);
 void boot_init_ccpi_link();
 void boot_init_ccpi_node();

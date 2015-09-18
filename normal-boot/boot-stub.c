@@ -150,7 +150,7 @@ static void choose_image(const char *path)
     }
     else
         printf("One image found, automatically loading\n");
-    boot_image(image_names[use_image], 0);
+    bdk_image_boot(image_names[use_image], 0);
 }
 
 static void usb_bist(int node, int cnt, int clear_bist)
@@ -220,7 +220,7 @@ static void slt_boot_image(bdk_node_t node)
             sprintf(boot_device_name, "/dev/n%d.mmc0", node);
             /* Try to load ATF image from raw flash */
             BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
-            boot_image(boot_device_name, ATF_ADDRESS);
+            bdk_image_boot(boot_device_name, ATF_ADDRESS);
             bdk_error("Unable to load image\n");
             break;
         case 4:
@@ -381,18 +381,18 @@ int main(void)
     {
         /* Try to load ATF image from raw flash */
         BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
-        boot_image(boot_device_name, ATF_ADDRESS);
+        bdk_image_boot(boot_device_name, ATF_ADDRESS);
         bdk_error("Unable to load image\n");
         printf("Trying diagnostics\n");
     }
 
     /* Load Diagnostics from FAT fs */
     BDK_TRACE(BOOT_STUB, "Looking for Diagnostics image\n");
-    boot_image("/fatfs/stage2.bin", 0);
+    bdk_image_boot("/fatfs/stage2.bin", 0);
 
     /* Loading stage 1 from FAT fs failed. Try raw flash */
     bdk_error("Failed to load Diagnostics from FAT fs. Trying raw flash.\n");
-    boot_image(boot_device_name, DIAGS_ADDRESS);
+    bdk_image_boot(boot_device_name, DIAGS_ADDRESS);
     bdk_error("Image load failed\n");
 }
 
