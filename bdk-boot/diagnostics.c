@@ -45,6 +45,7 @@ void __bdk_require_depends(void)
  */
 int main(void)
 {
+    bdk_watchdog_disable();
     /* Start Lua. It will execute init.lua */
     return bdk_lua_start();
 }
