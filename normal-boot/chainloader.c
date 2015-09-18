@@ -61,7 +61,7 @@ int main(void)
         "Boot Attempt: %lu\n"
         "\n",
         version, boot_count);
-    print_node_strapping(bdk_numa_master());
+    bdk_boot_info_strapping(bdk_numa_master());
     if (MFG_SYSTEM_LEVEL_TEST)
     {
         bdk_bist_check();

@@ -365,14 +365,8 @@ int main(void)
     else
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_LOADING_DIAGNOSTICS);
 
-    /* Determine how we booted */
-    int boot_method;
-    BDK_TRACE(BOOT_STUB, "Extracting strapping options\n");
-    BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
-    BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
-
     /* Transfer control to next image */
-    const char *boot_device_name = boot_device_name_for_boot_method(boot_method);
+    const char *boot_device_name = bdk_boot_info_bootdev();
     if (use_atf)
     {
         /* Try to load ATF image from raw flash */
