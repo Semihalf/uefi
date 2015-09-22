@@ -86,10 +86,10 @@ void __bdk_init_node(bdk_node_t node)
     BDK_TRACE(INIT, "N%d: Initialize random number generator\n", node);
     bdk_rng_enable(node);
 
-    if (BDK_IS_REQUIRED(PCIE))
+    if (BDK_IS_REQUIRED(ECAM))
     {
-        BDK_TRACE(INIT, "N%d: Performing global PCIe initialization\n", node);
-        bdk_pcie_global_initialize(node);
+        BDK_TRACE(INIT, "N%d: Performing global ECAM initialization\n", node);
+        bdk_ecam_scan_all(node);
     }
     if (BDK_IS_REQUIRED(QLM))
     {

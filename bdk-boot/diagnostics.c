@@ -36,6 +36,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(TRAFFIC_GEN);
     BDK_REQUIRE(TWSI);
     BDK_REQUIRE(USB);
+    BDK_REQUIRE(ECAM);
 }
 
 /**

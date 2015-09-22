@@ -24,7 +24,7 @@ extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 
 #define BDK_TRACE_ENABLE_DRAM       0   /* DRAM initialzation */
 #define BDK_TRACE_ENABLE_DRAM_TEST  0   /* DRAM test code */
 #define BDK_TRACE_ENABLE_INIT       0   /* Early initialization, before main() */
-#define BDK_TRACE_ENABLE_INIT_ECAM  0   /* Early ECAM initialization */
+#define BDK_TRACE_ENABLE_ECAM       0   /* ECAM initialization */
 #define BDK_TRACE_ENABLE_QLM        0   /* QLM related debug */
 #define BDK_TRACE_ENABLE_EMMC       0   /* eMMC related debug */
 #define BDK_TRACE_ENABLE_PCIE       0   /* PCIe link init */
