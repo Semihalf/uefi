@@ -283,6 +283,16 @@ static void populate_device(bdk_device_t *device)
                     bar += 8;
                 }
             }
+            else if (cap_id == 0x01)
+            {
+                /* Advanced Error Reporting Capability */
+                BDK_TRACE(DEVICE_SCAN, "%s:      Advanced Error Reporting\n", device->name);
+            }
+            else if (cap_id == 0x19)
+            {
+                /* Secondary PCI Express Extended Capability */
+                BDK_TRACE(DEVICE_SCAN, "%s:      Secondary PCI Express Extended\n", device->name);
+            }
             else
             {
                 /* Unknown PCIe capability */
