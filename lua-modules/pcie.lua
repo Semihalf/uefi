@@ -671,7 +671,7 @@ function pcie.initialize(node, pcie_port)
         local pmem_address = cavium.c.bdk_pcie_get_base_address(self.node, self.port, cavium.PCIE_MEM_PREFETCH)
         -- Assign resources to all top level devices
         for _,device in ipairs(self.devices) do
-            io_address, mem_address = device:enumerate(io_address, mem_address, pmem_address)
+            io_address, mem_address, pmem_address = device:enumerate(io_address, mem_address, pmem_address)
         end
     end
 
