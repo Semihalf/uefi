@@ -16,6 +16,7 @@ int __bdk_driver_register_all(void)
         if (&__bdk_driver_##name)                           \
             bdk_device_add_driver(&__bdk_driver_##name)
 
+    DRIVER(mdio);
     DRIVER(smmu);
 
     return 0;

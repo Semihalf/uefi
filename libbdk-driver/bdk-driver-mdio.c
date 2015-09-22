@@ -4,6 +4,11 @@
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(MDIO);
 
+/* To maintain backwards compatability for the old MDIO API we need
+   to lookup the MDIO device on the ECAM bus by ID. This defines
+   the ID */
+#define MDIO_DEVID (0xa000177d | (BDK_PCC_DEV_IDL_E_SMI << 16))
+
 #define BDK_MDIO_TIMEOUT   100000 /* 100 millisec */
 
 /* Operating request encodings. */
@@ -16,38 +21,20 @@ BDK_REQUIRE_DEFINE(MDIO);
 #define MDIO_CLAUSE_45_READ     3
 
 /**
- * Initialize all MDIO busses on a node
- *
- * @param node   Node to initialize
- */
-void bdk_mdio_initialize(bdk_node_t node)
-{
-    if (bdk_is_platform(BDK_PLATFORM_ASIM))
-        return;
-
-    int num_mdio = 2;
-
-    for (int i=0; i<num_mdio; i++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_SMI_X_EN(i), c.s.en = 1);
-    }
-}
-
-/**
  * Helper function to put MDIO interface into clause 45 mode
  *
  * @param bus_id
  */
-static void __bdk_mdio_set_clause45_mode(bdk_node_t node, int bus_id)
+static void __bdk_mdio_set_clause45_mode(const bdk_device_t *device, int bus_id)
 {
     bdk_smi_x_clk_t smi_clk;
     /* Put bus into clause 45 mode */
-    smi_clk.u = BDK_CSR_READ(node, BDK_SMI_X_CLK(bus_id));
+    smi_clk.u = BDK_BAR_READ(device, BDK_SMI_X_CLK(bus_id));
     if (smi_clk.s.mode != 1)
     {
         smi_clk.s.mode = 1;
         smi_clk.s.preamble = 1;
-        BDK_CSR_WRITE(node, BDK_SMI_X_CLK(bus_id), smi_clk.u);
+        BDK_BAR_WRITE(device, BDK_SMI_X_CLK(bus_id), smi_clk.u);
     }
 }
 
@@ -56,15 +43,15 @@ static void __bdk_mdio_set_clause45_mode(bdk_node_t node, int bus_id)
  *
  * @param bus_id
  */
-static void __bdk_mdio_set_clause22_mode(bdk_node_t node, int bus_id)
+static void __bdk_mdio_set_clause22_mode(const bdk_device_t *device, int bus_id)
 {
     bdk_smi_x_clk_t smi_clk;
     /* Put bus into clause 22 mode */
-    smi_clk.u = BDK_CSR_READ(node, BDK_SMI_X_CLK(bus_id));
+    smi_clk.u = BDK_BAR_READ(device, BDK_SMI_X_CLK(bus_id));
     if (smi_clk.s.mode != 0)
     {
         smi_clk.s.mode = 0;
-        BDK_CSR_WRITE(node, BDK_SMI_X_CLK(bus_id), smi_clk.u);
+        BDK_BAR_WRITE(device, BDK_SMI_X_CLK(bus_id), smi_clk.u);
     }
 }
 
@@ -78,7 +65,7 @@ static void __bdk_mdio_set_clause22_mode(bdk_node_t node, int bus_id)
  * @return Value of SMIX_RD_DAT. pending will be set on
  *         a timeout.
  */
-static bdk_smi_x_rd_dat_t __bdk_mdio_read_rd_dat(bdk_node_t node, int bus_id)
+static bdk_smi_x_rd_dat_t __bdk_mdio_read_rd_dat(const bdk_device_t *device, int bus_id)
 {
     bdk_smi_x_rd_dat_t smi_rd;
     uint64_t done = bdk_clock_get_count(BDK_CLOCK_TIME) + (uint64_t)BDK_MDIO_TIMEOUT *
@@ -86,7 +73,7 @@ static bdk_smi_x_rd_dat_t __bdk_mdio_read_rd_dat(bdk_node_t node, int bus_id)
     do
     {
         bdk_wait(1000);
-        smi_rd.u = BDK_CSR_READ(node, BDK_SMI_X_RD_DAT(bus_id));
+        smi_rd.u = BDK_BAR_READ(device, BDK_SMI_X_RD_DAT(bus_id));
     } while (smi_rd.s.pending && (bdk_clock_get_count(BDK_CLOCK_TIME) < done));
     return smi_rd;
 }
@@ -105,18 +92,19 @@ static bdk_smi_x_rd_dat_t __bdk_mdio_read_rd_dat(bdk_node_t node, int bus_id)
  */
 int bdk_mdio_read(bdk_node_t node, int bus_id, int phy_id, int location)
 {
+    const bdk_device_t *device = bdk_device_lookup(node, MDIO_DEVID, 0);
     bdk_smi_x_cmd_t smi_cmd;
     bdk_smi_x_rd_dat_t smi_rd;
 
-    __bdk_mdio_set_clause22_mode(node, bus_id);
+    __bdk_mdio_set_clause22_mode(device, bus_id);
 
     smi_cmd.u = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_22_READ;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = location;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
+    BDK_BAR_WRITE(device, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
-    smi_rd = __bdk_mdio_read_rd_dat(node, bus_id);
+    smi_rd = __bdk_mdio_read_rd_dat(device, bus_id);
     if (smi_rd.s.val)
         return smi_rd.s.dat;
     else
@@ -139,22 +127,23 @@ int bdk_mdio_read(bdk_node_t node, int bus_id, int phy_id, int location)
  */
 int bdk_mdio_write(bdk_node_t node, int bus_id, int phy_id, int location, int val)
 {
+    const bdk_device_t *device = bdk_device_lookup(node, MDIO_DEVID, 0);
     bdk_smi_x_cmd_t smi_cmd;
     bdk_smi_x_wr_dat_t smi_wr;
 
-    __bdk_mdio_set_clause22_mode(node, bus_id);
+    __bdk_mdio_set_clause22_mode(device, bus_id);
 
     smi_wr.u = 0;
     smi_wr.s.dat = val;
-    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
+    BDK_BAR_WRITE(device, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
 
     smi_cmd.u = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_22_WRITE;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = location;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
+    BDK_BAR_WRITE(device, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
+    if (BDK_BAR_WAIT_FOR_FIELD(device, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
         return -1;
 
     return 0;
@@ -175,23 +164,24 @@ int bdk_mdio_write(bdk_node_t node, int bus_id, int phy_id, int location, int va
 
 int bdk_mdio_45_read(bdk_node_t node, int bus_id, int phy_id, int device, int location)
 {
+    const bdk_device_t *ecam_device = bdk_device_lookup(node, MDIO_DEVID, 0);
     bdk_smi_x_cmd_t smi_cmd;
     bdk_smi_x_rd_dat_t smi_rd;
     bdk_smi_x_wr_dat_t smi_wr;
 
-    __bdk_mdio_set_clause45_mode(node, bus_id);
+    __bdk_mdio_set_clause45_mode(ecam_device, bus_id);
 
     smi_wr.u = 0;
     smi_wr.s.dat = location;
-    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
+    BDK_BAR_WRITE(ecam_device, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
 
     smi_cmd.u = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_45_ADDRESS;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
+    BDK_BAR_WRITE(ecam_device, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
+    if (BDK_BAR_WAIT_FOR_FIELD(ecam_device, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
     {
         bdk_error("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   TIME OUT(address)\n", bus_id, phy_id, device, location);
         return -1;
@@ -201,9 +191,9 @@ int bdk_mdio_45_read(bdk_node_t node, int bus_id, int phy_id, int device, int lo
     smi_cmd.s.phy_op = MDIO_CLAUSE_45_READ;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
+    BDK_BAR_WRITE(ecam_device, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
-    smi_rd = __bdk_mdio_read_rd_dat(node, bus_id);
+    smi_rd = __bdk_mdio_read_rd_dat(ecam_device, bus_id);
     if (smi_rd.s.pending)
     {
         bdk_error("bdk_mdio_45_read: bus_id %d phy_id %2d device %2d register %2d   TIME OUT(data)\n", bus_id, phy_id, device, location);
@@ -236,38 +226,77 @@ int bdk_mdio_45_read(bdk_node_t node, int bus_id, int phy_id, int device, int lo
 int bdk_mdio_45_write(bdk_node_t node, int bus_id, int phy_id, int device, int location,
                                      int val)
 {
+    const bdk_device_t *ecam_device = bdk_device_lookup(node, MDIO_DEVID, 0);
     bdk_smi_x_cmd_t smi_cmd;
     bdk_smi_x_wr_dat_t smi_wr;
 
-    __bdk_mdio_set_clause45_mode(node, bus_id);
+    __bdk_mdio_set_clause45_mode(ecam_device, bus_id);
 
     smi_wr.u = 0;
     smi_wr.s.dat = location;
-    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
+    BDK_BAR_WRITE(ecam_device, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
 
     smi_cmd.u = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_45_ADDRESS;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
+    BDK_BAR_WRITE(ecam_device, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
+    if (BDK_BAR_WAIT_FOR_FIELD(ecam_device, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
         return -1;
 
     smi_wr.u = 0;
     smi_wr.s.dat = val;
-    BDK_CSR_WRITE(node, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
+    BDK_BAR_WRITE(ecam_device, BDK_SMI_X_WR_DAT(bus_id), smi_wr.u);
 
     smi_cmd.u = 0;
     smi_cmd.s.phy_op = MDIO_CLAUSE_45_WRITE;
     smi_cmd.s.phy_adr = phy_id;
     smi_cmd.s.reg_adr = device;
-    BDK_CSR_WRITE(node, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
+    BDK_BAR_WRITE(ecam_device, BDK_SMI_X_CMD(bus_id), smi_cmd.u);
 
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
+    if (BDK_BAR_WAIT_FOR_FIELD(ecam_device, BDK_SMI_X_WR_DAT(bus_id), pending, ==, 0, BDK_MDIO_TIMEOUT))
         return -1;
 
     return 0;
 }
 
+
+/**
+ * The MDIO probe function
+ *
+ * @param device MDIO/SMI to probe
+ *
+ * @return Zero on success, negative on failure
+ */
+static int probe(bdk_device_t *device)
+{
+    /* Change the device name */
+    bdk_device_rename(device, "N%d.MDIO", device->node);
+    return 0;
+}
+
+/**
+ * MDIO init() function
+ *
+ * @param device MDIO/SMI to initialize
+ *
+ * @return Zero on success, negative on failure
+ */
+static int init(bdk_device_t *device)
+{
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
+        return 0;
+
+    for (int i = 0; i < 2; i++)
+        BDK_BAR_MODIFY(c, device, BDK_SMI_X_EN(i), c.s.en = 1);
+
+    return 0;
+}
+
+bdk_driver_t __bdk_driver_mdio = {
+    .id = MDIO_DEVID,
+    .probe = probe,
+    .init = init,
+};
 
