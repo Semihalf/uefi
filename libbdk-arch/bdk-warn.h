@@ -38,6 +38,8 @@ extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 
 #define BDK_TRACE_ENABLE_PKI        0   /* Packet Input */
 #define BDK_TRACE_ENABLE_PKO        0   /* Packet Output */
 #define BDK_TRACE_ENABLE_SSO        0   /* SSO */
+#define BDK_TRACE_ENABLE_DEVICE     0   /* ECAM based device framework */
+#define BDK_TRACE_ENABLE_DEVICE_SCAN 0   /* ECAM based device scanning detail */
 
 /**
  * Macro for low level tracing of BDK functions. When enabled,

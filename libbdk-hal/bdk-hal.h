@@ -27,6 +27,7 @@
 #include "bdk-crc.h"
 #include "bdk-error-report.h"
 #include "bdk-gpio.h"
+#include "device/bdk-device.h"
 #include "if/bdk-if.h"
 #include "bdk-fpa.h"
 #include "bdk-pki.h"

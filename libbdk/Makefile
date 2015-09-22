@@ -7,6 +7,7 @@ dirs  = libbdk-arch
 dirs += libbdk-hal
 dirs += libbdk-hal/if
 dirs += libbdk-hal/qlm
+dirs += libbdk-hal/device
 dirs += libbdk-os
 dirs += libbdk-dram
 dirs += liblua
