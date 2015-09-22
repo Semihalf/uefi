@@ -201,13 +201,18 @@ void __bdk_init(uint32_t image_crc)
                 write(1, BANNER_2, sizeof(BANNER_2)-1);
             bdk_l2c_lock_mem_region(node, bdk_numa_get_address(node, 0), bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
             /* The locked region isn't considered dirty by L2. Do read
-               read/write of each cache line to force each to be dirty */
-            volatile uint8_t *ptr = bdk_phys_to_ptr(bdk_numa_get_address(node, 1));
-            uint8_t *end = bdk_phys_to_ptr(bdk_numa_get_address(node, bdk_l2c_get_cache_size_bytes(node)));
+               read/write of each cache line to force each to be dirty. This
+               is needed across the whole line to make sure the L2 dirty bits
+               are all up to date */
+            volatile uint64_t *ptr = bdk_phys_to_ptr(bdk_numa_get_address(node, 8));
+            /* The above pointer got address 8 to avoid NULL pointer checking
+               in bdk_phys_to_ptr(). Correct it here */
+            ptr--;
+            uint64_t *end = bdk_phys_to_ptr(bdk_numa_get_address(node, bdk_l2c_get_cache_size_bytes(node)));
             while (ptr < end)
             {
                 *ptr = *ptr;
-                ptr += 128;
+                ptr++;
             }
             /* The above locking will cause L2 to load zeros without DRAM setup.
                 This will cause L2C_TADX_INT[rddislmc], which we suppress below */
