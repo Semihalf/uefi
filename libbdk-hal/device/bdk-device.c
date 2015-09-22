@@ -57,16 +57,6 @@ static const bdk_driver_t *lookup_driver(const bdk_device_t *device)
     return NULL;
 }
 
-static uint32_t config_read32(const bdk_device_t *device, int offset)
-{
-    return bdk_pcie_config_read32(device->node, 100 + device->ecam, device->bus, device->dev, device->func, offset);
-}
-
-static void config_write32(const bdk_device_t *device, int offset, uint32_t value)
-{
-    bdk_pcie_config_write32(device->node, 100 + device->ecam, device->bus, device->dev, device->func, offset, value);
-}
-
 /**
  * Populate the fields of a new device from the ECAM
  *
@@ -88,17 +78,17 @@ static void populate_device(bdk_device_t *device)
     /* PCCPF_XXX_VSEC_SCTL[RID] with the revision of the chip,
        read from fuses */
     BDK_CSR_DEFINE(sctl, BDK_PCCPF_XXX_VSEC_SCTL);
-    sctl.u = config_read32(device, BDK_PCCPF_XXX_VSEC_SCTL);
+    sctl.u = bdk_ecam_read32(device, BDK_PCCPF_XXX_VSEC_SCTL);
     sctl.s.rid = midr_el1.s.revision | (midr_el1.s.variant<<3);
     sctl.s.node = device->node; /* Program node bits */
-    config_write32(device, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
+    bdk_ecam_write32(device, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
 
     /* Read the Device ID */
-    device->id = config_read32(device, BDK_PCCPF_XXX_ID);
+    device->id = bdk_ecam_read32(device, BDK_PCCPF_XXX_ID);
 
     /* Read the Device Type so we know how to handle BARs */
     bdk_pccpf_xxx_clsize_t clsize;
-    clsize.u = config_read32(device, BDK_PCCPF_XXX_CLSIZE);
+    clsize.u = bdk_ecam_read32(device, BDK_PCCPF_XXX_CLSIZE);
     int isbridge = (clsize.s.hdrtype & 0x7f) == 1;
 
     BDK_TRACE(DEVICE_SCAN, "%s: Device ID: 0x%08x%s\n", device->name, device->id,
@@ -111,7 +101,7 @@ static void populate_device(bdk_device_t *device)
     {
         int bar_index = (bar - BDK_PCCPF_XXX_BAR0L) / 8;
         /* Read the BAR address and config bits [3:0] */
-        uint64_t address = config_read32(device, bar);
+        uint64_t address = bdk_ecam_read32(device, bar);
         int ismem = !(address & 1);         /* Bit 0: 0 = mem, 1 = io */
         int is64 = ismem && (address & 4);  /* Bit 2: 0 = 32 bit, 1 = 64 bit if mem */
         /* Bit 3: 1 = Is prefetchable. We on't care for now */
@@ -126,18 +116,18 @@ static void populate_device(bdk_device_t *device)
         }
 
         /* Get the upper part of 64bit BARs */
-        address |= (uint64_t)config_read32(device, bar + 4) << 32;
+        address |= (uint64_t)bdk_ecam_read32(device, bar + 4) << 32;
 
         /* Write the bits to determine the size */
-        config_write32(device, bar, -1);
-        config_write32(device, bar + 4, -1);
-        uint64_t size_mask = (uint64_t)config_read32(device, bar + 4) << 32;
-        size_mask |= config_read32(device, bar);
+        bdk_ecam_write32(device, bar, -1);
+        bdk_ecam_write32(device, bar + 4, -1);
+        uint64_t size_mask = (uint64_t)bdk_ecam_read32(device, bar + 4) << 32;
+        size_mask |= bdk_ecam_read32(device, bar);
         /* Make sure the node bits are correct in the address */
         BDK_INSERT(address, device->node, 44, 2);
         /* Restore address value */
-        config_write32(device, bar, address);
-        config_write32(device, bar + 4, address >> 32);
+        bdk_ecam_write32(device, bar, address);
+        bdk_ecam_write32(device, bar + 4, address >> 32);
 
         /* Convert the size into a power of 2 bits */
         int size_bits = bdk_dpop(~size_mask | 0xf);
@@ -159,11 +149,11 @@ static void populate_device(bdk_device_t *device)
     BDK_TRACE(DEVICE_SCAN, "%s: Walking PCI capabilites\n", device->name);
     int has_pcie = 0;
     bdk_pccpf_xxx_cap_ptr_t cap_ptr;
-    cap_ptr.u = config_read32(device, BDK_PCCPF_XXX_CAP_PTR);
+    cap_ptr.u = bdk_ecam_read32(device, BDK_PCCPF_XXX_CAP_PTR);
     int cap_loc = cap_ptr.s.cp;
     while (cap_loc)
     {
-        uint32_t cap = config_read32(device, cap_loc);
+        uint32_t cap = bdk_ecam_read32(device, cap_loc);
         int cap_id = cap & 0xff;
         int cap_next = (cap >> 8) & 0xff;
 
@@ -200,7 +190,7 @@ static void populate_device(bdk_device_t *device)
         cap_loc = 0x100;
         while (cap_loc)
         {
-            uint32_t cap = config_read32(device, cap_loc);
+            uint32_t cap = bdk_ecam_read32(device, cap_loc);
             int cap_id = cap & 0xffff;
             int cap_ver = (cap >> 16) & 0xf;
             int cap_next = cap >> 20;
@@ -214,7 +204,7 @@ static void populate_device(bdk_device_t *device)
             else if (cap_id == 0xb)
             {
                 /* Vendor specific*/
-                int vsec_id = config_read32(device, cap_loc + 4);
+                int vsec_id = bdk_ecam_read32(device, cap_loc + 4);
                 int vsec_id_id = vsec_id & 0xffff;
                 int vsec_id_rev = (vsec_id >> 16) & 0xf;
                 int vsec_id_len = vsec_id >> 20;
@@ -225,12 +215,12 @@ static void populate_device(bdk_device_t *device)
                 {
                     if (vsec_id_rev == 1)
                     {
-                        int vsec_ctl = config_read32(device, cap_loc + 8);
+                        int vsec_ctl = bdk_ecam_read32(device, cap_loc + 8);
                         int vsec_ctl_inst_num = vsec_ctl & 0xff;
                         int vsec_ctl_subnum = (vsec_ctl >> 8) & 0xff;
                         BDK_TRACE(DEVICE_SCAN, "%s:        Instance: 0x%02x Static Bus: 0x%02x\n",
                             device->name, vsec_ctl_inst_num, vsec_ctl_subnum);
-                        int vsec_sctl = config_read32(device, cap_loc + 12);
+                        int vsec_sctl = bdk_ecam_read32(device, cap_loc + 12);
                         int vsec_sctl_rid = (vsec_sctl >> 16) & 0xff;
                         BDK_TRACE(DEVICE_SCAN, "%s:        Revision ID: 0x%02x\n",
                             device->name, vsec_sctl_rid);
@@ -258,7 +248,7 @@ static void populate_device(bdk_device_t *device)
                 {
                     int bar_index = (bar - 0x24) / 8;
                     /* Read the BAR address and config bits [3:0] */
-                    uint64_t address = config_read32(device, bar);
+                    uint64_t address = bdk_ecam_read32(device, bar);
                     int ismem = !(address & 1);         /* Bit 0: 0 = mem, 1 = io */
                     int is64 = ismem && (address & 4);  /* Bit 2: 0 = 32 bit, 1 = 64 bit if mem */
                     /* Bit 3: 1 = Is prefetchable. We don't care for now */
@@ -273,18 +263,18 @@ static void populate_device(bdk_device_t *device)
                     }
 
                     /* Get the upper part of 64bit BARs */
-                    address |= (uint64_t)config_read32(device, bar + 4) << 32;
+                    address |= (uint64_t)bdk_ecam_read32(device, bar + 4) << 32;
 
                     /* Write the bits to determine the size */
-                    config_write32(device, bar, -1);
-                    config_write32(device, bar + 4, -1);
-                    uint64_t size_mask = (uint64_t)config_read32(device, bar + 4) << 32;
-                    size_mask |= config_read32(device, bar);
+                    bdk_ecam_write32(device, bar, -1);
+                    bdk_ecam_write32(device, bar + 4, -1);
+                    uint64_t size_mask = (uint64_t)bdk_ecam_read32(device, bar + 4) << 32;
+                    size_mask |= bdk_ecam_read32(device, bar);
                     /* Make sure the node bits are correct in the address */
                     BDK_INSERT(address, device->node, 44, 2);
                     /* Restore address value */
-                    config_write32(device, bar, address);
-                    config_write32(device, bar + 4, address >> 32);
+                    bdk_ecam_write32(device, bar, address);
+                    bdk_ecam_write32(device, bar + 4, address >> 32);
 
                     /* Convert the size into a power of 2 bits */
                     int size_bits = bdk_dpop(size_mask | 0xf);
