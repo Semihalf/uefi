@@ -68,6 +68,14 @@ static void populate_device(bdk_device_t *device)
     sctl.u = bdk_ecam_read32(device, BDK_PCCPF_XXX_VSEC_SCTL);
     sctl.s.rid = midr_el1.s.revision | (midr_el1.s.variant<<3);
     sctl.s.node = device->node; /* Program node bits */
+    /* FIXME: The SDK software has not implemented support for Enhanced
+       Allocation yet. This checks to see if the CSR database is loaded
+       to figure out if we're in diagnostics. If the database is not
+       loaded, we disable EA */
+    if (!BDK_IS_REQUIRED(CSR_DB))
+        sctl.s.ea = 0; /* Disable use of EA */
+    else
+        sctl.s.ea = 1; /* Enable use of EA */
     bdk_ecam_write32(device, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
 
     /* Read the Device ID */
