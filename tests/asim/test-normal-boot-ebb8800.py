@@ -27,7 +27,7 @@ UART1PORT = "1"
 os.environ["UART0PORT"] = UART0PORT
 os.environ["UART1PORT"] = UART1PORT
 os.environ["BIN_IMAGE"] = BDK_ROOT + "/target-bin/normal-ebb8800.bin"
-os.environ["SYMBOL_IMAGE"] = BDK_ROOT + "/normal-boot-ebb8800/diagnostics"
+os.environ["SYMBOL_IMAGE"] = BDK_ROOT + "/normal-boot/ebb8800/diagnostics"
 if not "ASIM_CHIP" in os.environ:
     os.environ["ASIM_CHIP"] = "CN88XX:2.0"
 #
@@ -91,7 +91,7 @@ wait_for("BDK version:")
 wait_for("N0: QLM Config: Configuring QLMs for a sample setup")
 #wait_for("N1: QLM Config: Configuring QLMs for a sample setup")
 wait_for("Press 'D' within 3 seconds to boot diagnostics")
-wait_for("Loading image at 0x400000")
+wait_for("Loading image at /dev/n0.mpi0/cs-l,2wire,idle-h,msb,24bit,12:0x400000")
 wait_for("ERROR: Image header is corrupt")
 wait_for("ERROR: Unable to load image")
 wait_for("Trying diagnostics")
