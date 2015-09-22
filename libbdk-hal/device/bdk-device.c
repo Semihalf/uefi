@@ -160,9 +160,19 @@ static void populate_device(bdk_device_t *device)
             BDK_TRACE(DEVICE_SCAN, "%s:      PCIe\n", device->name);
             has_pcie = 1;
         }
+        else if (cap_id == 0x01)
+        {
+            BDK_TRACE(DEVICE_SCAN, "%s:      PCI Power Management Interface\n", device->name);
+            /* Do nothing for now */
+        }
         else if (cap_id == 0x11)
         {
             BDK_TRACE(DEVICE_SCAN, "%s:      MSI-X\n", device->name);
+            /* Do nothing for now */
+        }
+        else if (cap_id == 0x05)
+        {
+            BDK_TRACE(DEVICE_SCAN, "%s:      MSI\n", device->name);
             /* Do nothing for now */
         }
         else if (cap_id == 0x14)
