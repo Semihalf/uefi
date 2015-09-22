@@ -50,6 +50,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(TWSI);
     BDK_REQUIRE(USB);
     BDK_REQUIRE(ECAM);
+    BDK_REQUIRE(DRIVER);
 }
 
 extern const char *boot_device_volstr_for_boot_method(int boot_method);

@@ -163,6 +163,12 @@ void __bdk_init_main(int arg, void *arg1)
        will not be run on the other nodes */
     if (bdk_is_boot_core())
     {
+        if (BDK_IS_REQUIRED(DRIVER))
+        {
+            BDK_TRACE(INIT, "N%d: Registering drivers\n", node);
+            __bdk_driver_register_all();
+        }
+
         BDK_TRACE(INIT, "N%d: Performing common initialization\n", node);
 
         __bdk_config_init(); /* Some config setting are dynamically updated */

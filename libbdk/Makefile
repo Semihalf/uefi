@@ -10,6 +10,7 @@ dirs += libbdk-hal/qlm
 dirs += libbdk-hal/device
 dirs += libbdk-os
 dirs += libbdk-dram
+dirs += libbdk-driver
 dirs += liblua
 dirs += libbdk-lua
 dirs += libdram

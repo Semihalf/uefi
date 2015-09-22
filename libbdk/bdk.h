@@ -21,6 +21,7 @@
 #ifndef BDK_BUILD_HOST
 #include "../libbdk-hal/bdk-hal.h"
 #include "../libbdk-dram/bdk-dram.h"
+#include "../libbdk-driver/bdk-driver.h"
 #include "../libdram/libdram.h"
 #include "bdk-functions.h"
 #endif

@@ -1,9 +1,6 @@
 #include <bdk.h>
 
-#define DRIVER_GROW 16
-static const bdk_driver_t **driver_list = NULL;
-static int driver_list_count = 0;
-static int driver_list_max = 0;
+static struct bdk_driver_s *driver_list = NULL;
 
 #define DEVICE_GROW 64
 static bdk_device_t *device_list = NULL;
@@ -20,21 +17,10 @@ static int device_list_max = 0;
  *
  * @return Zero on success, negative on failure
  */
-int bdk_device_add_driver(const bdk_driver_t *driver)
+int bdk_device_add_driver(struct bdk_driver_s *driver)
 {
-    if (driver_list_count == driver_list_max)
-    {
-        int grow = driver_list_max + DRIVER_GROW;
-        const bdk_driver_t **tmp = realloc(driver_list, grow * sizeof(bdk_driver_t *));
-        if (tmp == NULL)
-        {
-            bdk_error("bdk-device: Failed to allocate space for driver\n");
-            return -1;
-        }
-        driver_list = tmp;
-        driver_list_max = grow;
-    }
-    driver_list[driver_list_count++] = driver;
+    driver->next = driver_list;
+    driver_list = driver;
     BDK_TRACE(DEVICE, "Added driver for %08x\n", driver->id);
     return 0;
 }
@@ -48,11 +34,12 @@ int bdk_device_add_driver(const bdk_driver_t *driver)
  */
 static const bdk_driver_t *lookup_driver(const bdk_device_t *device)
 {
-    for (int i = 0; i < driver_list_count; i++)
+    const bdk_driver_t *drv = driver_list;
+    while (drv)
     {
-        const bdk_driver_t *drv = driver_list[i];
         if (drv->id == device->id)
             return drv;
+        drv = drv->next;
     }
     return NULL;
 }

@@ -69,14 +69,10 @@ typedef struct
 } bdk_device_t;
 
 /**
- * Defines the main entry points for a device driver
+ * Defines the main entry points for a device driver. Full
+ * definition is in bdk-device.h
  */
-typedef struct
-{
-    uint32_t id; /* ECAM device ID */
-    int (*probe)(bdk_device_t *device);
-    int (*init)(bdk_device_t *device);
-} bdk_driver_t;
+struct bdk_driver_s;
 
 /**
  * Called to register a new driver with the bdk-device system. Drivers are probed
@@ -88,7 +84,7 @@ typedef struct
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_device_add_driver(const bdk_driver_t *driver);
+extern int bdk_device_add_driver(struct bdk_driver_s *driver);
 
 /**
  * Called by the ECAM code whan a new device is detected in the system
