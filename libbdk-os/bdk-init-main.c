@@ -83,8 +83,6 @@ void __bdk_init_node(bdk_node_t node)
 
     BDK_TRACE(INIT, "N%d: Initialize L2\n", node);
     bdk_l2c_initialize(node);
-    BDK_TRACE(INIT, "N%d: Initialize random number generator\n", node);
-    bdk_rng_enable(node);
 
     if (BDK_IS_REQUIRED(ECAM))
     {

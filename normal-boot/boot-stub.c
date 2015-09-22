@@ -43,7 +43,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(MDIO);
     BDK_REQUIRE(PCIE);
     BDK_REQUIRE(GPIO);
-    BDK_REQUIRE(RNG);
+    BDK_REQUIRE(RNM);
     BDK_REQUIRE(KEY_MEMORY);
     BDK_REQUIRE(MPI);
     BDK_REQUIRE(DRAM_CONFIG);

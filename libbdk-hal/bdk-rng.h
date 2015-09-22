@@ -10,11 +10,6 @@
  */
 
 /**
- * Enables the random number generator. Must be called before RNG is used
- */
-extern void bdk_rng_enable(bdk_node_t node);
-
-/**
  * Reads 8 bits of random data from Random number generator
  *
  * @return random data
