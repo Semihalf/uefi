@@ -3963,6 +3963,31 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN81XX. */
+        uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
+                                                                 Note in the SBSA this is defined as part of the product identification.
+                                                                 In CNXXXX, the major pass number. */
+        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */
+        uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
+                                                                 In CNXXXX, the minor pass number. */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Cavium. */
+#else /* Word 0 - Little Endian */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Cavium. */
+        uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
+                                                                 In CNXXXX, the minor pass number. */
+        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */
+        uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
+                                                                 Note in the SBSA this is defined as part of the product identification.
+                                                                 In CNXXXX, the major pass number. */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN81XX. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gti_wcx_w_iidr_s cn88xx; */
+    struct bdk_gti_wcx_w_iidr_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
                                                                  In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
                                                                  Note in the SBSA this is defined as part of the product identification.
@@ -3982,9 +4007,7 @@ typedef union
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
                                                                  In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gti_wcx_w_iidr_s cn88xx; */
-    /* struct bdk_gti_wcx_w_iidr_cn81xx cn83xx; */
+    } cn83xx;
 } bdk_gti_wcx_w_iidr_t;
 
 static inline uint64_t BDK_GTI_WCX_W_IIDR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4594,6 +4617,31 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN81XX. */
+        uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
+                                                                 Note in the SBSA this is defined as part of the product identification.
+                                                                 In CNXXXX, the major pass number. */
+        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */
+        uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
+                                                                 In CNXXXX, the minor pass number. */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Cavium. */
+#else /* Word 0 - Little Endian */
+        uint32_t implementer           : 12; /**< [ 11:  0](RO) Indicates the implementer: 0x34C = Cavium. */
+        uint32_t revision              : 4;  /**< [ 15: 12](RO) Indicates the minor revision of the product.
+                                                                 In CNXXXX, the minor pass number. */
+        uint32_t arch                  : 4;  /**< [ 19: 16](RO) Architecture revision. 0x0 = SBSA 1.0 watchdogs. */
+        uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
+                                                                 Note in the SBSA this is defined as part of the product identification.
+                                                                 In CNXXXX, the major pass number. */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN81XX. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gti_wrx_w_iidr_s cn88xx; */
+    struct bdk_gti_wrx_w_iidr_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
                                                                  In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
                                                                  Note in the SBSA this is defined as part of the product identification.
@@ -4613,9 +4661,7 @@ typedef union
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
                                                                  In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gti_wrx_w_iidr_s cn88xx; */
-    /* struct bdk_gti_wrx_w_iidr_cn81xx cn83xx; */
+    } cn83xx;
 } bdk_gti_wrx_w_iidr_t;
 
 static inline uint64_t BDK_GTI_WRX_W_IIDR(unsigned long a) __attribute__ ((pure, always_inline));

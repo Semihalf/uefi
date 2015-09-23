@@ -293,16 +293,17 @@ typedef union
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
                                                                  INTERNAL: Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <63> = Reserved.
+                                                                 <62> = When set,disables popping of NCBO FIFO,also credits won't be returned.
+                                                                 <61> = When set,disables popping of NCBI FIFO,also credits won't be returned.
+                                                                 <60> = When set,enables backpressure on the FPA(XPD) interface. Applicable for T83, has no
+                                                                 effect in T81. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  INTERNAL:
                                                                    There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
-                                                                   <23:22> = BP_CFG3.
+                                                                   <23:22> = Reserved.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
                                                                    <17:16> = BP_CFG0. */
@@ -315,7 +316,7 @@ typedef union
                                                                  INTERNAL:
                                                                    There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
-                                                                   <23:22> = BP_CFG3.
+                                                                   <23:22> = Reserved.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
                                                                    <17:16> = BP_CFG0. */
@@ -323,10 +324,11 @@ typedef union
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
                                                                  INTERNAL: Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
-                                                                 <63> = Reserved. FIXME - add some.
-                                                                 <62> = Reserved. FIXME - add some.
-                                                                 <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <63> = Reserved.
+                                                                 <62> = When set,disables popping of NCBO FIFO,also credits won't be returned.
+                                                                 <61> = When set,disables popping of NCBI FIFO,also credits won't be returned.
+                                                                 <60> = When set,enables backpressure on the FPA(XPD) interface. Applicable for T83, has no
+                                                                 effect in T81. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bch_bp_test_s cn; */

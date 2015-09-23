@@ -381,7 +381,10 @@ typedef union
     struct bdk_slix_m2s_macx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
+        uint64_t reserved_21_63        : 43;
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
+                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
+                                                                 atomics without byte swapping. */
         uint64_t wait_pxfr             : 1;  /**< [ 19: 19](R/W) When set, will cause a Posted TLP write from a MAC to follow the following sequence:
                                                                  (having this bit set will cut the Posted-TLP performance about 50%).
                                                                  _ 1. Request the NCBI.
@@ -459,7 +462,10 @@ typedef union
                                                                  _ 3. Start the next Posted TLP.
 
                                                                  For diagnostic use only. */
-        uint64_t reserved_20_63        : 44;
+        uint64_t bige                  : 1;  /**< [ 20: 20](R/W) Atomics sent on NCBI will be marked as big endian.  If the link partner is
+                                                                 big-endian and the processors are big-endian, this allows exchange of big-endian
+                                                                 atomics without byte swapping. */
+        uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
     struct bdk_slix_m2s_macx_ctl_cn88xxp1

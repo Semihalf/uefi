@@ -130,6 +130,25 @@
 #define BDK_PKI_ETHERTYPE_E_VLAN_9300 (0x9300) /**< Alternative VLAN Ethertype. */
 
 /**
+ * Enumeration pki_int_vec_e
+ *
+ * PKI MSI-X Vector Enumeration
+ * Enumerates the MSI-X interrupt vectors.
+ */
+#define BDK_PKI_INT_VEC_E_CLX_ECC(a) (6 + (a)) /**< See interrupt clears PKI_CL(0..1)_ECC_INT, interrupt sets PKI_CL(0..1)_ECC_INT_W1S,
+                                       enable clears PKI_CL(0..1)_ECC_INT_ENA_W1C, and enable sets PKI_CL(0..1)_ECC_INT_ENA_W1S. */
+#define BDK_PKI_INT_VEC_E_CLX_INT(a) (4 + (a)) /**< See interrupt clears PKI_CL(0..1)_INT, interrupt sets PKI_CL(0..1)_INT_W1S,
+                                       enable clears PKI_CL(0..1)_INT_ENA_W1C, and enable sets PKI_CL(0..1)_INT_ENA_W1S. */
+#define BDK_PKI_INT_VEC_E_ECC0 (1) /**< See interrupt clears PKI_ECC_INT0, interrupt sets PKI_ECC_INT0_W1S,
+                                       enable clears PKI_ECC_INT0_ENA_W1C, and enable sets PKI_ECC_INT0_ENA_W1S. */
+#define BDK_PKI_INT_VEC_E_ECC1 (2) /**< See interrupt clears PKI_ECC_INT1, interrupt sets PKI_ECC_INT1_W1S,
+                                       enable clears PKI_ECC_INT1_ENA_W1C, and enable sets PKI_ECC_INT1_ENA_W1S. */
+#define BDK_PKI_INT_VEC_E_ECC2 (3) /**< See interrupt clears PKI_ECC_INT2, interrupt sets PKI_ECC_INT2_W1S,
+                                       enable clears PKI_ECC_INT2_ENA_W1C, and enable sets PKI_ECC_INT2_ENA_W1S. */
+#define BDK_PKI_INT_VEC_E_GEN (0) /**< See interrupt clears PKI_GEN_INT, interrupt sets PKI_GEN_INT_W1S,
+                                       enable clears PKI_GEN_INT_ENA_W1C, and enable sets PKI_GEN_INT_ENA_W1S. */
+
+/**
  * Enumeration pki_ipproto_e
  *
  * PKI IP Protocol Enumeration
@@ -294,7 +313,7 @@
                                        interface operating at data rates of >= 10 Gb/s, the packet had both an FCS and data
                                        reception error. Not applicable when the packet arrived via the DPI interface. */
 #define BDK_PKI_OPCODE_E_RE_JABBER (2) /**< Jabber error: the packet was too large and is truncated. Applicable only to BGX
-                                       interfaces. */
+                                       interface. */
 #define BDK_PKI_OPCODE_E_RE_MEMOUT (0x15) /**< PKI ran out of FPA buffers while receiving the packet. */
 #define BDK_PKI_OPCODE_E_RE_NONE (0) /**< No error. */
 #define BDK_PKI_OPCODE_E_RE_PARTIAL (1) /**< Partial error: the packet was partially received. If the packet arrived via a BGX
@@ -348,7 +367,8 @@
  * * The 'Adv' column indicates if PKI_CL()_PCAM()_ACTION()[ADVANCE] may be non-zero;
  *   'No' indicates it may not be non-zero; otherwise indicates the typical ADVANCE value.
  * * The 'PMC' column indicates if PKI_CL()_PCAM()_ACTION()[PMC] may be non-zero.
- *   The typical PMC value is zero.
+ *   The typical PMC value is zero.  MBZ indicates [PMC] must be zero. Yes6
+ *   indicatates PMC<6> may be non-zero and PMC<5:0> MBZ.
  * * The 'SETTY' column indicates if PKI_CL()_PCAM()_ACTION()[SETTY] may be non-zero,
  * and if so either which values it may take or which WQE pointer
  * field and type field will be set to the SETTY value when SETTY!=NONE (0). For example, LFTY
@@ -454,6 +474,26 @@
 #define BDK_PKI_PCAM_TERM_E_L2_CUSTOM (2) /**< Pre-L2 custom header.
                                        
                                        _ MATCH<31:0> = Custom extract controlled by PKI_CL()_PKIND()_L2_CUSTOM. */
+#define BDK_PKI_PCAM_TERM_E_L3_DIPHH (0x24) /**< L3 destination IPv6 address high. This match is only performed if LC parsing was
+                                       enabled.
+                                       _ MATCH<31:0> = High four bytes of destination address.
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
+#define BDK_PKI_PCAM_TERM_E_L3_DIPLL (0x27) /**< L3 destination IPv4/IPv6 address low. This match is only performed if LC parsing
+                                       was enabled.
+                                       _ MATCH<31:0> = Low four bytes of destination address.
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
+#define BDK_PKI_PCAM_TERM_E_L3_DIPMH (0x25) /**< L3 destination IPv6 address middle-high. This match is only performed if LC
+                                       parsing was enabled.
+                                       _ MATCH<31:0> = Middle-high four bytes of destination address.
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
+#define BDK_PKI_PCAM_TERM_E_L3_DIPML (0x26) /**< L3 destination IPv6 address middle-low. This match is only performed if LC
+                                       parsing was enabled.
+                                       _ MATCH<31:0> = Middle-low four bytes of destination address.
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
 #define BDK_PKI_PCAM_TERM_E_L3_FLAGS (0x23) /**< L3 flags summary. This match is only performed if LC parsing was enabled and IP was found
                                        (WQE[LCTY]==IP*).
                                        _ MATCH<31:24> = DiffSrv (IPv4) or Flowclass (IPv6).
@@ -464,6 +504,25 @@
                                        NONE may be the most common ACTION[SETTY] value used in this case. SW28,
                                        SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
                                        If ACTION[SETTY]!=NONE (0), then PKI will set WQE[LDTY] and WQE[LDPTR] on a match. */
+#define BDK_PKI_PCAM_TERM_E_L3_SIPHH (0x1f) /**< L3 source IPv6 address high. This match is only performed if LC parsing was enabled.
+                                       _ MATCH<31:0> = High four bytes of source address.
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
+#define BDK_PKI_PCAM_TERM_E_L3_SIPLL (0x22) /**< L3 source IPv4/IPv6 address low. This match is only performed if LC parsing was
+                                       enabled.
+                                       _ MATCH<31:0> = Low four bytes of source address.
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
+#define BDK_PKI_PCAM_TERM_E_L3_SIPMH (0x20) /**< L3 source IPv6 address middle-high. This match is only performed if LC parsing
+                                       was enabled.
+                                       _ MATCH<31:0> = Middle-high four bytes of source address.
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
+#define BDK_PKI_PCAM_TERM_E_L3_SIPML (0x21) /**< L3 source IPv6 address middle-low. This match is only performed if LC parsing
+                                       was enabled.
+                                       _ MATCH<31:0> = Middle-low four bytes of source address.
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
 #define BDK_PKI_PCAM_TERM_E_L4_PORT (0x30) /**< L4 destination port and flags. This match is only performed if LF parsing was enabled and
                                        IP was found (see algorithms).
                                        _ MATCH<23:16> = IPv4 proto or IPv6 next_header.
@@ -478,13 +537,28 @@
                                        TCP/UDP/SCTP header
                                        size), and PKI will set WQE[LGTY]=ACTION[SETTY] and WQE[LGPTR]=ACTION[ADVANCE]+WQE[LFPTR]
                                        on a match. */
+#define BDK_PKI_PCAM_TERM_E_L4_SPORT (0x2f) /**< L4 source port. This match is only performed if LF parsing was enabled and IP
+                                       was found (see algorithms).
+                                       _ MATCH<23:16> = Reserved.
+                                       _ MATCH<15:0> = TCP/UDP/SCTP source port. (Specifically the 16 bits from packet
+                                       bytes WQE[LFPTR], as the packet need not be TCP/UDP/SCTP.)
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
 #define BDK_PKI_PCAM_TERM_E_LD_VNI (0x28) /**< Virtualization tunnel identifier. This match is only performed if LD parsing was enabled
                                        and NVGRE/VXLAN/GENEVE was found (WQE[LDTY]==NVGRE/VXLAN/GENEVE).
                                        _ MATCH<31:8> = VNI (GENEVE) / VNI (VXLAN) / TNI (GRE).
                                        _ MATCH<7>   = OAM frame bit (GENEVE) / Reserved (VXLAN) / Reserved (GRE).
                                        _ MATCH<6:0> = Reserved. */
-#define BDK_PKI_PCAM_TERM_E_LG_CUSTOM (0x39) /**< LG custom match. This match is only performed if LE and LG parsing was enabled.
-                                       _ MATCH<31:0> = Custom extract controlled by PKI_CL()_PKIND()_LG_CUSTOM
+#define BDK_PKI_PCAM_TERM_E_LF_SPI (0x2e) /**< Layer F IPSEC SPI. This match is only performed if LF parsing was enabled and IP
+                                       was found.
+                                       _ MATCH<31:0> = Four bytes of SPI.
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
+#define BDK_PKI_PCAM_TERM_E_LG_CUSTOM (0x39) /**< LG custom match. This match is performed if LG and any of the layers C/D/E/F
+                                       parsing was enabled.
+                                       
+                                       _ MATCH<31:0> = Custom extract controlled by PKI_CL()_PKIND()_LG_CUSTOM and
+                                       PKI_CL()_PKIND()_CFG[LG_CUSTOM_LAYER].
                                        
                                        NONE may be the most common ACTION[SETTY] value used in this case. SW28,
                                        SW29, SW30, and SW31 may also be useful ACTION[SETTY]'s, as might others.
@@ -495,25 +569,15 @@
                                        _ MATCH<8> = Last-Label indicator
                                        _ MATCH<7:0> = TTL */
 #define BDK_PKI_PCAM_TERM_E_NONE (0) /**< CAM entry disabled, will never match. */
-
-/**
- * Enumeration pki_pf_int_vec_e
- *
- * PKI MSI-X Vector Enumeration
- * Enumerates the MSI-X interrupt vectors.
- */
-#define BDK_PKI_PF_INT_VEC_E_CL_ECCX(a) (6 + (a)) /**< See interrupt clears PKI_CL(0..1)_ECC_INT, interrupt sets PKI_CL(0..1)_ECC_INT_W1S,
-                                       enable clears PKI_CL(0..1)_ECC_INT_ENA_W1C, and enable sets PKI_CL(0..1)_ECC_INT_ENA_W1S. */
-#define BDK_PKI_PF_INT_VEC_E_CL_INTX(a) (4 + (a)) /**< See interrupt clears PKI_CL(0..1)_INT, interrupt sets PKI_CL(0..1)_INT_W1S,
-                                       enable clears PKI_CL(0..1)_INT_ENA_W1C, and enable sets PKI_CL(0..1)_INT_ENA_W1S. */
-#define BDK_PKI_PF_INT_VEC_E_ECC0 (1) /**< See interrupt clears PKI_ECC_INT0, interrupt sets PKI_ECC_INT0_W1S,
-                                       enable clears PKI_ECC_INT0_ENA_W1C, and enable sets PKI_ECC_INT0_ENA_W1S. */
-#define BDK_PKI_PF_INT_VEC_E_ECC1 (2) /**< See interrupt clears PKI_ECC_INT1, interrupt sets PKI_ECC_INT1_W1S,
-                                       enable clears PKI_ECC_INT1_ENA_W1C, and enable sets PKI_ECC_INT1_ENA_W1S. */
-#define BDK_PKI_PF_INT_VEC_E_ECC2 (3) /**< See interrupt clears PKI_ECC_INT2, interrupt sets PKI_ECC_INT2_W1S,
-                                       enable clears PKI_ECC_INT2_ENA_W1C, and enable sets PKI_ECC_INT2_ENA_W1S. */
-#define BDK_PKI_PF_INT_VEC_E_GEN (0) /**< See interrupt clears PKI_GEN_INT, interrupt sets PKI_GEN_INT_W1S,
-                                       enable clears PKI_GEN_INT_ENA_W1C, and enable sets PKI_GEN_INT_ENA_W1S. */
+#define BDK_PKI_PCAM_TERM_E_SMACH (8) /**< L2 source MAC address high. This match is only performed if L2 parsing was enabled.
+                                       _ MATCH<31:16> = Reserved.
+                                       _ MATCH<15:0> = First two bytes of SMAC.
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
+#define BDK_PKI_PCAM_TERM_E_SMACL (9) /**< L2 source MAC address low. This match is only performed if L2 parsing was enabled.
+                                       _ MATCH<31:0> = Low four bytes of SMAC.
+                                       
+                                       INTERNAL: Support for this term added in software's microcode. */
 
 /**
  * Enumeration pki_qpgqos_e
@@ -1834,7 +1898,8 @@ typedef union
                                                                  <12 =10> = Reserved.
                                                                  <9> = PLC.
                                                                  <8> = PKTWQ.
-                                                                 <7 =6> = Reserved.
+                                                                 <7> = Reserved.
+                                                                 <6> = STRM.
                                                                  <5> = TAG.
                                                                  <4> = AURA.
                                                                  <3> = CHAN.
@@ -1860,7 +1925,8 @@ typedef union
                                                                  <12 =10> = Reserved.
                                                                  <9> = PLC.
                                                                  <8> = PKTWQ.
-                                                                 <7 =6> = Reserved.
+                                                                 <7> = Reserved.
+                                                                 <6> = STRM.
                                                                  <5> = TAG.
                                                                  <4> = AURA.
                                                                  <3> = CHAN.
@@ -2384,7 +2450,7 @@ static inline uint64_t BDK_PKI_CLX_ECC_CTL(unsigned long a) __attribute__ ((pure
 static inline uint64_t BDK_PKI_CLX_ECC_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86c00000c320ll + 0x10000ll * ((a) & 0x1);
+        return 0x86c00000c020ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_ECC_CTL", 1, a, 0, 0, 0);
 }
 
@@ -2452,7 +2518,7 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT(unsigned long a)
 /**
  * Register (NCB) pki_cl#_ecc_int_ena_w1c
  *
- * PKI Cluster ECC/Parity Interrupt Enable Clear Registers
+ * PKI Cluster ECC/Parity Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -2503,7 +2569,7 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1C(unsigned long a)
 /**
  * Register (NCB) pki_cl#_ecc_int_ena_w1s
  *
- * PKI Cluster ECC/Parity Interrupt Enable Set Registers
+ * PKI Cluster ECC/Parity Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -2554,7 +2620,7 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1S(unsigned long a)
 /**
  * Register (NCB) pki_cl#_ecc_int_w1s
  *
- * PKI Cluster ECC/Parity Interrupt Set Registers
+ * PKI Cluster ECC/Parity Interrupt Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -2659,7 +2725,7 @@ static inline uint64_t BDK_PKI_CLX_INT(unsigned long a)
 /**
  * Register (NCB) pki_cl#_int_ena_w1c
  *
- * PKI Cluster Interrupt Enable Clear Registers
+ * PKI Cluster Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -2700,7 +2766,7 @@ static inline uint64_t BDK_PKI_CLX_INT_ENA_W1C(unsigned long a)
 /**
  * Register (NCB) pki_cl#_int_ena_w1s
  *
- * PKI Cluster Interrupt Enable Set Registers
+ * PKI Cluster Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -2741,7 +2807,7 @@ static inline uint64_t BDK_PKI_CLX_INT_ENA_W1S(unsigned long a)
 /**
  * Register (NCB) pki_cl#_int_w1s
  *
- * PKI Cluster Interrupt Set Registers
+ * PKI Cluster Interrupt Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -2813,19 +2879,26 @@ typedef union
                                                                  _ <5> = LF (L4)
                                                                  _ <6> = LG (Custom/Application)
 
-                                                                 The legal values are:
-                                                                 0x0 = no change in parsing.
-                                                                 0x1 = Skip further LA parsing; start LB parsing. For TERM==L2_CUSTOM only).
-                                                                 0x3 = Skip further LA/LB parsing; start LC parsing. For TERMs through Ethertypes only).
-                                                                 0x7 = Skip further LA-LC parsing; start LD parsing. For TERMs through L3FLAGS only).
-                                                                 0x7F = Skip all parsing; no further packet inspection. For TERMs through L3FLAGS only).
+                                                                 Typically PMC is 0x0 to indicate no parse mode change.  Must be zero for invalid
+                                                                 entries, or for TERMs that do not allow a parse mode change as specified in the
+                                                                 PMC column of the PKI_PCAM_TERM_E table.
 
-                                                                 For example an Ethertype match action that wishes to resume with additional Ethertype
-                                                                 matches would use a zero PMC to indicate no parse mode change. An Ethertype match action
-                                                                 that wishes to not parse any additional Ethertypes and resume at LC would use 0x3.
+                                                                 The legal values for PMC<5:0> are:
+                                                                   0x0 = no change in parsing.
+                                                                   0x1 = Skip further LA parsing; start LB parsing. For PKI_PCAM_TERM_E==L2_CUSTOM
+                                                                   only.
+                                                                   0x3 = Skip further LA/LB parsing; start LC parsing. For PKI_PCAM_TERM_Es through
+                                                                   Ethertypes only.
+                                                                   0x7 = Skip further LA-LC parsing; start LD parsing. For PKI_PCAM_TERM_Es through
+                                                                   L3FLAGS only.
+                                                                   0x3F = Skip all parsing; no further packet inspection. For PKI_PCAM_TERM_Es
+                                                                   through L3FLAGS only.
 
-                                                                 Must be zero for invalid entries, or for TERMs that do not allow a parse mode change as
-                                                                 specified in the PKI_PCAM_TERM_E table. */
+                                                                 The typical use of PMC<5:0> being non-zero is for Ethertypes or custom headers
+                                                                 to indicate non-IP follows that Ethertype/custom header. This corresponds to use
+                                                                 only with PKI_PCAM_TERM_E::ETHTYPE0..3, and PKI_PCAM_TERM_E::L2_CUSTOM.
+
+                                                                 Independently PMC<6> may be set to disable LG (LG_CUSTOM) parsing. */
         uint64_t style_add             : 8;  /**< [ 23: 16](R/W) Resulting interim style adder. If this CAM entry matches, the value to add to the current
                                                                  style (may wrap around through 256). Must be zero for invalid entries. */
         uint64_t pf                    : 3;  /**< [ 15: 13](R/W) Parse flag to set. Specifies the parse flag to set when entry matches, see PCAM actions
@@ -2882,19 +2955,26 @@ typedef union
                                                                  _ <5> = LF (L4)
                                                                  _ <6> = LG (Custom/Application)
 
-                                                                 The legal values are:
-                                                                 0x0 = no change in parsing.
-                                                                 0x1 = Skip further LA parsing; start LB parsing. For TERM==L2_CUSTOM only).
-                                                                 0x3 = Skip further LA/LB parsing; start LC parsing. For TERMs through Ethertypes only).
-                                                                 0x7 = Skip further LA-LC parsing; start LD parsing. For TERMs through L3FLAGS only).
-                                                                 0x7F = Skip all parsing; no further packet inspection. For TERMs through L3FLAGS only).
+                                                                 Typically PMC is 0x0 to indicate no parse mode change.  Must be zero for invalid
+                                                                 entries, or for TERMs that do not allow a parse mode change as specified in the
+                                                                 PMC column of the PKI_PCAM_TERM_E table.
 
-                                                                 For example an Ethertype match action that wishes to resume with additional Ethertype
-                                                                 matches would use a zero PMC to indicate no parse mode change. An Ethertype match action
-                                                                 that wishes to not parse any additional Ethertypes and resume at LC would use 0x3.
+                                                                 The legal values for PMC<5:0> are:
+                                                                   0x0 = no change in parsing.
+                                                                   0x1 = Skip further LA parsing; start LB parsing. For PKI_PCAM_TERM_E==L2_CUSTOM
+                                                                   only.
+                                                                   0x3 = Skip further LA/LB parsing; start LC parsing. For PKI_PCAM_TERM_Es through
+                                                                   Ethertypes only.
+                                                                   0x7 = Skip further LA-LC parsing; start LD parsing. For PKI_PCAM_TERM_Es through
+                                                                   L3FLAGS only.
+                                                                   0x3F = Skip all parsing; no further packet inspection. For PKI_PCAM_TERM_Es
+                                                                   through L3FLAGS only.
 
-                                                                 Must be zero for invalid entries, or for TERMs that do not allow a parse mode change as
-                                                                 specified in the PKI_PCAM_TERM_E table. */
+                                                                 The typical use of PMC<5:0> being non-zero is for Ethertypes or custom headers
+                                                                 to indicate non-IP follows that Ethertype/custom header. This corresponds to use
+                                                                 only with PKI_PCAM_TERM_E::ETHTYPE0..3, and PKI_PCAM_TERM_E::L2_CUSTOM.
+
+                                                                 Independently PMC<6> may be set to disable LG (LG_CUSTOM) parsing. */
         uint64_t rsvdrw31              : 1;  /**< [ 31: 31](R/W) Reserved. Must be zero. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -3061,7 +3141,18 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t rsvdrw15              : 8;  /**< [ 15:  8](R/W) Reserved. */
+        uint64_t rsvdrw15              : 5;  /**< [ 15: 11](R/W) Reserved. */
+        uint64_t lg_custom_layer       : 3;  /**< [ 10:  8](R/W) Layer G custom match enable.
+                                                                 0x0 = Disable custom LG header extraction
+                                                                 0x1 = Enable custom LG header extraction after layer C.
+                                                                 0x2 = Enable custom LG header extraction after layer D.
+                                                                 0x3 = Enable custom LG header extraction after layer E.
+                                                                 0x4 = Enable custom LG header extraction after layer F.
+                                                                 0x5-0x7 = Reserved.
+
+                                                                 If non-zero PKI_GBL_PEN[CLG_PEN] must be set.
+
+                                                                 INTERNAL: Non-zero implemented only in software's microcode. */
         uint64_t fcs_pres              : 1;  /**< [  7:  7](R/W) FCS present.
                                                                  0 = FCS not present. FCS may not be checked nor stripped.
                                                                  1 = FCS present; the last four bytes of the packet are part of the FCS and may not be
@@ -3121,7 +3212,18 @@ typedef union
                                                                  1 = FCS present; the last four bytes of the packet are part of the FCS and may not be
                                                                  considered part of a IP, TCP or other header for length error checks.
                                                                  PKI_CL()_STYLE()_CFG[FCS_CHK or FCS_STRIP] may optionally be set. */
-        uint64_t rsvdrw15              : 8;  /**< [ 15:  8](R/W) Reserved. */
+        uint64_t lg_custom_layer       : 3;  /**< [ 10:  8](R/W) Layer G custom match enable.
+                                                                 0x0 = Disable custom LG header extraction
+                                                                 0x1 = Enable custom LG header extraction after layer C.
+                                                                 0x2 = Enable custom LG header extraction after layer D.
+                                                                 0x3 = Enable custom LG header extraction after layer E.
+                                                                 0x4 = Enable custom LG header extraction after layer F.
+                                                                 0x5-0x7 = Reserved.
+
+                                                                 If non-zero PKI_GBL_PEN[CLG_PEN] must be set.
+
+                                                                 INTERNAL: Non-zero implemented only in software's microcode. */
+        uint64_t rsvdrw15              : 5;  /**< [ 15: 11](R/W) Reserved. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -3267,11 +3369,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t offset                : 8;  /**< [  7:  0](R/W) Scan offset. Pointer to first byte of 32-bit custom extraction header, as relative number
-                                                                 of bytes from WQE[LFPTR]. */
+        uint64_t offset                : 8;  /**< [  7:  0](R/W) Scan offset. Pointer to first byte of 32-bit custom extraction header, as
+                                                                 relative number of bytes from WQE[LCPTR], WQE[LDPTR], WQE[LEPTR], WQE[LFPTR], as
+                                                                 selected by PKI_CL()_PKIND()_CFG[LG_CUSTOM_LAYER].
+
+                                                                 INTERNAL: Support for LC/LE/LE added in software's microcode. */
 #else /* Word 0 - Little Endian */
-        uint64_t offset                : 8;  /**< [  7:  0](R/W) Scan offset. Pointer to first byte of 32-bit custom extraction header, as relative number
-                                                                 of bytes from WQE[LFPTR]. */
+        uint64_t offset                : 8;  /**< [  7:  0](R/W) Scan offset. Pointer to first byte of 32-bit custom extraction header, as
+                                                                 relative number of bytes from WQE[LCPTR], WQE[LDPTR], WQE[LEPTR], WQE[LFPTR], as
+                                                                 selected by PKI_CL()_PKIND()_CFG[LG_CUSTOM_LAYER].
+
+                                                                 INTERNAL: Support for LC/LE/LE added in software's microcode. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -3499,7 +3607,7 @@ static inline uint64_t BDK_PKI_CLX_START(unsigned long a) __attribute__ ((pure, 
 static inline uint64_t BDK_PKI_CLX_START(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x86c00000c330ll + 0x10000ll * ((a) & 0x1);
+        return 0x86c00000c030ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_START", 1, a, 0, 0, 0);
 }
 
@@ -4337,7 +4445,8 @@ typedef union
         uint64_t plc_cdis              : 1;  /**< [ 27: 27](R/W) PLC ECC correction disable. */
         uint64_t pktwq_flip            : 2;  /**< [ 26: 25](R/W) PKTWQ flip syndrome bits on write. */
         uint64_t pktwq_cdis            : 1;  /**< [ 24: 24](R/W) PKTWQ ECC correction disable. */
-        uint64_t reserved_21_23        : 3;
+        uint64_t strm_flip             : 2;  /**< [ 23: 22](R/W) STRM flip syndrome bits on write. */
+        uint64_t strm_cdis             : 1;  /**< [ 21: 21](R/W) STRM ECC correction disable. */
         uint64_t stylewq2_flip         : 2;  /**< [ 20: 19](R/W) STYLEWQ2 flip syndrome bits on write. */
         uint64_t stylewq2_cdis         : 1;  /**< [ 18: 18](R/W) STYLEWQ2 ECC correction disable. */
         uint64_t tag_flip              : 2;  /**< [ 17: 16](R/W) TAG flip syndrome bits on write. */
@@ -4367,7 +4476,8 @@ typedef union
         uint64_t tag_flip              : 2;  /**< [ 17: 16](R/W) TAG flip syndrome bits on write. */
         uint64_t stylewq2_cdis         : 1;  /**< [ 18: 18](R/W) STYLEWQ2 ECC correction disable. */
         uint64_t stylewq2_flip         : 2;  /**< [ 20: 19](R/W) STYLEWQ2 flip syndrome bits on write. */
-        uint64_t reserved_21_23        : 3;
+        uint64_t strm_cdis             : 1;  /**< [ 21: 21](R/W) STRM ECC correction disable. */
+        uint64_t strm_flip             : 2;  /**< [ 23: 22](R/W) STRM flip syndrome bits on write. */
         uint64_t pktwq_cdis            : 1;  /**< [ 24: 24](R/W) PKTWQ ECC correction disable. */
         uint64_t pktwq_flip            : 2;  /**< [ 26: 25](R/W) PKTWQ flip syndrome bits on write. */
         uint64_t plc_cdis              : 1;  /**< [ 27: 27](R/W) PLC ECC correction disable. */
@@ -4519,7 +4629,7 @@ static inline uint64_t BDK_PKI_ECC_INT0_FUNC(void)
 /**
  * Register (NCB) pki_ecc_int0_ena_w1c
  *
- * PKI ECC 0 Interrupt Enable Clear Registers
+ * PKI ECC 0 Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -4587,7 +4697,7 @@ static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1C_FUNC(void)
 /**
  * Register (NCB) pki_ecc_int0_ena_w1s
  *
- * PKI ECC 0 Interrupt Enable Set Registers
+ * PKI ECC 0 Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -4655,7 +4765,7 @@ static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1S_FUNC(void)
 /**
  * Register (NCB) pki_ecc_int0_w1s
  *
- * PKI ECC 0 Interrupt Set Registers
+ * PKI ECC 0 Interrupt Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -4745,7 +4855,9 @@ typedef union
         uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) PLC ECC single bit error. */
         uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) PKTWQ ECC double bit error. */
         uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) PKTWQ ECC single bit error. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t reserved_14_15        : 2;
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) STRM ECC double bit error. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) STRM ECC single bit error. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) TAG ECC double bit error. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) TAG ECC single bit error. */
         uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) AURA ECC double bit error. */
@@ -4771,7 +4883,9 @@ typedef union
         uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) AURA ECC double bit error. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) TAG ECC single bit error. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) TAG ECC double bit error. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) STRM ECC single bit error. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) STRM ECC double bit error. */
+        uint64_t reserved_14_15        : 2;
         uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) PKTWQ ECC single bit error. */
         uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) PKTWQ ECC double bit error. */
         uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) PLC ECC single bit error. */
@@ -4810,7 +4924,7 @@ static inline uint64_t BDK_PKI_ECC_INT1_FUNC(void)
 /**
  * Register (NCB) pki_ecc_int1_ena_w1c
  *
- * PKI ECC 1 Interrupt Enable Clear Registers
+ * PKI ECC 1 Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -4833,7 +4947,9 @@ typedef union
         uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PLC_SBE]. */
         uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PKTWQ_DBE]. */
         uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PKTWQ_SBE]. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t reserved_14_15        : 2;
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STRM_DBE]. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STRM_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[TAG_DBE]. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[TAG_SBE]. */
         uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[AURA_DBE]. */
@@ -4859,7 +4975,9 @@ typedef union
         uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[AURA_DBE]. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[TAG_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[TAG_DBE]. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STRM_SBE]. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STRM_DBE]. */
+        uint64_t reserved_14_15        : 2;
         uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PKTWQ_SBE]. */
         uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PKTWQ_DBE]. */
         uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PLC_SBE]. */
@@ -4898,7 +5016,7 @@ static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1C_FUNC(void)
 /**
  * Register (NCB) pki_ecc_int1_ena_w1s
  *
- * PKI ECC 1 Interrupt Enable Set Registers
+ * PKI ECC 1 Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -4921,7 +5039,9 @@ typedef union
         uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PLC_SBE]. */
         uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PKTWQ_DBE]. */
         uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PKTWQ_SBE]. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t reserved_14_15        : 2;
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STRM_DBE]. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STRM_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[TAG_DBE]. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[TAG_SBE]. */
         uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[AURA_DBE]. */
@@ -4947,7 +5067,9 @@ typedef union
         uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[AURA_DBE]. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[TAG_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[TAG_DBE]. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STRM_SBE]. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STRM_DBE]. */
+        uint64_t reserved_14_15        : 2;
         uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PKTWQ_SBE]. */
         uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PKTWQ_DBE]. */
         uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PLC_SBE]. */
@@ -4986,7 +5108,7 @@ static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1S_FUNC(void)
 /**
  * Register (NCB) pki_ecc_int1_w1s
  *
- * PKI ECC 1 Interrupt Set Registers
+ * PKI ECC 1 Interrupt Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -5009,7 +5131,9 @@ typedef union
         uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PKI_ECC_INT1[PLC_SBE]. */
         uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets PKI_ECC_INT1[PKTWQ_DBE]. */
         uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PKI_ECC_INT1[PKTWQ_SBE]. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t reserved_14_15        : 2;
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PKI_ECC_INT1[STRM_DBE]. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC_INT1[STRM_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC_INT1[TAG_DBE]. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC_INT1[TAG_SBE]. */
         uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC_INT1[AURA_DBE]. */
@@ -5035,7 +5159,9 @@ typedef union
         uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC_INT1[AURA_DBE]. */
         uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC_INT1[TAG_SBE]. */
         uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC_INT1[TAG_DBE]. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC_INT1[STRM_SBE]. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PKI_ECC_INT1[STRM_DBE]. */
+        uint64_t reserved_14_15        : 2;
         uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PKI_ECC_INT1[PKTWQ_SBE]. */
         uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets PKI_ECC_INT1[PKTWQ_DBE]. */
         uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PKI_ECC_INT1[PLC_SBE]. */
@@ -5117,7 +5243,7 @@ static inline uint64_t BDK_PKI_ECC_INT2_FUNC(void)
 /**
  * Register (NCB) pki_ecc_int2_ena_w1c
  *
- * PKI ECC 2 Interrupt Enable Clear Registers
+ * PKI ECC 2 Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -5157,7 +5283,7 @@ static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1C_FUNC(void)
 /**
  * Register (NCB) pki_ecc_int2_ena_w1s
  *
- * PKI ECC 2 Interrupt Enable Set Registers
+ * PKI ECC 2 Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -5197,7 +5323,7 @@ static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1S_FUNC(void)
 /**
  * Register (NCB) pki_ecc_int2_w1s
  *
- * PKI ECC 2 Interrupt Set Registers
+ * PKI ECC 2 Interrupt Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -5477,7 +5603,7 @@ static inline uint64_t BDK_PKI_GEN_INT_FUNC(void)
 /**
  * Register (NCB) pki_gen_int_ena_w1c
  *
- * PKI General Interrupt Enable Clear Registers
+ * PKI General Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -5533,7 +5659,7 @@ static inline uint64_t BDK_PKI_GEN_INT_ENA_W1C_FUNC(void)
 /**
  * Register (NCB) pki_gen_int_ena_w1s
  *
- * PKI General Interrupt Enable Set Registers
+ * PKI General Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -5589,7 +5715,7 @@ static inline uint64_t BDK_PKI_GEN_INT_ENA_W1S_FUNC(void)
 /**
  * Register (NCB) pki_gen_int_w1s
  *
- * PKI General Interrupt Set Registers
+ * PKI General Interrupt Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -5828,6 +5954,142 @@ static inline uint64_t BDK_PKI_LTYPEX_MAP(unsigned long a)
 #define arguments_BDK_PKI_LTYPEX_MAP(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) pki_msix_pba#
+ *
+ * PKI MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the PKI_INT_VEC_E
+ * enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated PKI_MSIX_VEC()_CTL, enumerated by
+                                                                 PKI_INT_VEC_E. Bits that have no associated PKI_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated PKI_MSIX_VEC()_CTL, enumerated by
+                                                                 PKI_INT_VEC_E. Bits that have no associated PKI_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_msix_pbax_s cn; */
+} bdk_pki_msix_pbax_t;
+
+static inline uint64_t BDK_PKI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_MSIX_PBAX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86c0010f0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("PKI_MSIX_PBAX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_MSIX_PBAX(a) bdk_pki_msix_pbax_t
+#define bustype_BDK_PKI_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_MSIX_PBAX(a) "PKI_MSIX_PBAX"
+#define device_bar_BDK_PKI_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
+#define busnum_BDK_PKI_MSIX_PBAX(a) (a)
+#define arguments_BDK_PKI_MSIX_PBAX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pki_msix_vec#_addr
+ *
+ * PKI MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the PKI_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 =  This vector's PKI_MSIX_VEC()_ADDR, PKI_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of PKI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_PKI_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
+                                                                 [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 =  This vector's PKI_MSIX_VEC()_ADDR, PKI_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of PKI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_PKI_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
+                                                                 [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_msix_vecx_addr_s cn; */
+} bdk_pki_msix_vecx_addr_t;
+
+static inline uint64_t BDK_PKI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_MSIX_VECX_ADDR(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
+        return 0x86c001000000ll + 0x10ll * ((a) & 0x7);
+    __bdk_csr_fatal("PKI_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_MSIX_VECX_ADDR(a) bdk_pki_msix_vecx_addr_t
+#define bustype_BDK_PKI_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_MSIX_VECX_ADDR(a) "PKI_MSIX_VECX_ADDR"
+#define device_bar_BDK_PKI_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
+#define busnum_BDK_PKI_MSIX_VECX_ADDR(a) (a)
+#define arguments_BDK_PKI_MSIX_VECX_ADDR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pki_msix_vec#_ctl
+ *
+ * PKI MSI-X Vector-Table Control and Data Register
+ * This register is the MSI-X vector table, indexed by the PKI_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_msix_vecx_ctl_s cn; */
+} bdk_pki_msix_vecx_ctl_t;
+
+static inline uint64_t BDK_PKI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_MSIX_VECX_CTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
+        return 0x86c001000008ll + 0x10ll * ((a) & 0x7);
+    __bdk_csr_fatal("PKI_MSIX_VECX_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_MSIX_VECX_CTL(a) bdk_pki_msix_vecx_ctl_t
+#define bustype_BDK_PKI_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_MSIX_VECX_CTL(a) "PKI_MSIX_VECX_CTL"
+#define device_bar_BDK_PKI_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
+#define busnum_BDK_PKI_MSIX_VECX_CTL(a) (a)
+#define arguments_BDK_PKI_MSIX_VECX_CTL(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) pki_pbe_eco
  *
  * INTERNAL: PKI PBE ECO Register
@@ -5964,142 +6226,6 @@ static inline uint64_t BDK_PKI_PCAM_RESULT_FUNC(void)
 #define device_bar_BDK_PKI_PCAM_RESULT 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PCAM_RESULT 0
 #define arguments_BDK_PKI_PCAM_RESULT -1,-1,-1,-1
-
-/**
- * Register (NCB) pki_pf_msix_pba#
- *
- * PKI MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table; the bit number is indexed by the PKI_PF_INT_VEC_E
- * enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pki_pf_msix_pbax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated PKI_PF_MSIX_VEC()_CTL, enumerated by
-                                                                 PKI_PF_INT_VEC_E. Bits that have no associated PKI_PF_INT_VEC_E are 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated PKI_PF_MSIX_VEC()_CTL, enumerated by
-                                                                 PKI_PF_INT_VEC_E. Bits that have no associated PKI_PF_INT_VEC_E are 0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pki_pf_msix_pbax_s cn; */
-} bdk_pki_pf_msix_pbax_t;
-
-static inline uint64_t BDK_PKI_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_PF_MSIX_PBAX(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86c0010f0000ll + 8ll * ((a) & 0x0);
-    __bdk_csr_fatal("PKI_PF_MSIX_PBAX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PKI_PF_MSIX_PBAX(a) bdk_pki_pf_msix_pbax_t
-#define bustype_BDK_PKI_PF_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_PF_MSIX_PBAX(a) "PKI_PF_MSIX_PBAX"
-#define device_bar_BDK_PKI_PF_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
-#define busnum_BDK_PKI_PF_MSIX_PBAX(a) (a)
-#define arguments_BDK_PKI_PF_MSIX_PBAX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pki_pf_msix_vec#_addr
- *
- * PKI MSI-X Vector-Table Address Register
- * This register is the MSI-X vector table, indexed by the PKI_PF_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pki_pf_msix_vecx_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's PKI_PF_MSIX_VEC()_ADDR, PKI_PF_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of PKI_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_PKI_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
-                                                                 [SECVEC] was set. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's PKI_PF_MSIX_VEC()_ADDR, PKI_PF_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of PKI_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_PKI_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
-                                                                 [SECVEC] was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pki_pf_msix_vecx_addr_s cn; */
-} bdk_pki_pf_msix_vecx_addr_t;
-
-static inline uint64_t BDK_PKI_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_PF_MSIX_VECX_ADDR(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
-        return 0x86c001000000ll + 0x10ll * ((a) & 0x7);
-    __bdk_csr_fatal("PKI_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PKI_PF_MSIX_VECX_ADDR(a) bdk_pki_pf_msix_vecx_addr_t
-#define bustype_BDK_PKI_PF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_PF_MSIX_VECX_ADDR(a) "PKI_PF_MSIX_VECX_ADDR"
-#define device_bar_BDK_PKI_PF_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
-#define busnum_BDK_PKI_PF_MSIX_VECX_ADDR(a) (a)
-#define arguments_BDK_PKI_PF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pki_pf_msix_vec#_ctl
- *
- * PKI MSI-X Vector-Table Control and Data Register
- * This register is the MSI-X vector table, indexed by the PKI_PF_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pki_pf_msix_vecx_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pki_pf_msix_vecx_ctl_s cn; */
-} bdk_pki_pf_msix_vecx_ctl_t;
-
-static inline uint64_t BDK_PKI_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_PF_MSIX_VECX_CTL(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
-        return 0x86c001000008ll + 0x10ll * ((a) & 0x7);
-    __bdk_csr_fatal("PKI_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PKI_PF_MSIX_VECX_CTL(a) bdk_pki_pf_msix_vecx_ctl_t
-#define bustype_BDK_PKI_PF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_PF_MSIX_VECX_CTL(a) "PKI_PF_MSIX_VECX_CTL"
-#define device_bar_BDK_PKI_PF_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
-#define busnum_BDK_PKI_PF_MSIX_VECX_CTL(a) (a)
-#define arguments_BDK_PKI_PF_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pki_pfe_diag
@@ -6612,12 +6738,7 @@ typedef union
     struct bdk_pki_qpg_tblbx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t gmid                  : 16; /**< [ 47: 32](R/W) Guest machine identifier. The GMID to send to FPA for all
-                                                                 buffer allocations/frees, or to SSO for all submit work operations related to
-                                                                 PKI_QPG_TBL()[AURA]/[GRP_OK]/[GRP_BAD].
-                                                                 Must be non-zero or requests will be dropped by FPA/SSO. */
-        uint64_t reserved_24_31        : 8;
+        uint64_t reserved_24_63        : 40;
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Stream identifier bits <7:0>. */
         uint64_t reserved_10_15        : 6;
         uint64_t dstat_id              : 10; /**< [  9:  0](R/W) Deep statistic bucket to use for traffic to this QPG. This determines which
@@ -6631,12 +6752,7 @@ typedef union
                                                                  PKI_STAT()_STAT0..PKI_STAT()_STAT18 and PKI_STAT()_HIST0..PKI_STAT()_HIST6. */
         uint64_t reserved_10_15        : 6;
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Stream identifier bits <7:0>. */
-        uint64_t reserved_24_31        : 8;
-        uint64_t gmid                  : 16; /**< [ 47: 32](R/W) Guest machine identifier. The GMID to send to FPA for all
-                                                                 buffer allocations/frees, or to SSO for all submit work operations related to
-                                                                 PKI_QPG_TBL()[AURA]/[GRP_OK]/[GRP_BAD].
-                                                                 Must be non-zero or requests will be dropped by FPA/SSO. */
-        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_qpg_tblbx_s cn; */
@@ -7828,6 +7944,49 @@ static inline uint64_t BDK_PKI_STAT_CTL_FUNC(void)
 #define device_bar_BDK_PKI_STAT_CTL 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_STAT_CTL 0
 #define arguments_BDK_PKI_STAT_CTL -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_strm#_cfg
+ *
+ * PKI Stream ID Configuration Register
+ * This register configures each stream.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_strmx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
+                                                                 buffer allocations/frees, or to SSO for all submit work operations related to
+                                                                 PKI_QPG_TBL()[AURA]/[GRP_OK]/[GRP_BAD].
+                                                                 Must be non-zero or requests will be dropped by FPA/SSO. */
+#else /* Word 0 - Little Endian */
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
+                                                                 buffer allocations/frees, or to SSO for all submit work operations related to
+                                                                 PKI_QPG_TBL()[AURA]/[GRP_OK]/[GRP_BAD].
+                                                                 Must be non-zero or requests will be dropped by FPA/SSO. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_strmx_cfg_s cn; */
+} bdk_pki_strmx_cfg_t;
+
+static inline uint64_t BDK_PKI_STRMX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_STRMX_CFG(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
+        return 0x86c000840000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("PKI_STRMX_CFG", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_STRMX_CFG(a) bdk_pki_strmx_cfg_t
+#define bustype_BDK_PKI_STRMX_CFG(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_STRMX_CFG(a) "PKI_STRMX_CFG"
+#define device_bar_BDK_PKI_STRMX_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_STRMX_CFG(a) (a)
+#define arguments_BDK_PKI_STRMX_CFG(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pki_style#_buf

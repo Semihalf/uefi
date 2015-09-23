@@ -64,10 +64,8 @@ typedef union
     struct bdk_pcieepx_cfg000_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for CN73XX, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. For EEPROM loads, also see VENDID of this register.
-                                                                 SLI PKT (PF0/PF1) DEVID = 0x9700.
-                                                                 NQM PKT (PF2)     DEVID = 0x9701. */
+        uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for CNXXXX, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field. For EEPROM loads, also see VENDID of this register. */
         uint32_t vendid                : 16; /**< [ 15:  0](RO/WRSL) Cavium's vendor ID, writable through PEM()_CFG_WR. However, the application must not
                                                                  change this field. During an EPROM Load, if a value of 0xFFFF is loaded to this field and
                                                                  a value of 0xFFFF is loaded to the DEVID field of this register, the value will not be
@@ -79,10 +77,8 @@ typedef union
                                                                  a value of 0xFFFF is loaded to the DEVID field of this register, the value will not be
                                                                  loaded, EEPROM load will stop, and the FastLinkEnable bit will be set in the
                                                                  PCIEEP()_CFG452 register. */
-        uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for CN73XX, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. For EEPROM loads, also see VENDID of this register.
-                                                                 SLI PKT (PF0/PF1) DEVID = 0x9700.
-                                                                 NQM PKT (PF2)     DEVID = 0x9701. */
+        uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for CNXXXX, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field. For EEPROM loads, also see VENDID of this register. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg000_s cn; */
@@ -91,8 +87,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG000(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG000(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000000ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000000ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG000", 1, a, 0, 0, 0);
 }
 
@@ -135,25 +131,13 @@ typedef union
         uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VF's try to master the bus when this bit is
-                                                                 not set,
-                                                                 the request is discarded. A interrupt will be generated setting the
-                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
-                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
-                                                                 to SLI/DPI/NQM soon thereafter.
-                                                                 Bus master enable mimics the behavor of SPEM()_FLR_PF()_STOPREQ. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
         uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable. */
 #else /* Word 0 - Little Endian */
         uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable. */
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
-        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VF's try to master the bus when this bit is
-                                                                 not set,
-                                                                 the request is discarded. A interrupt will be generated setting the
-                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
-                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
-                                                                 to SLI/DPI/NQM soon thereafter.
-                                                                 Bus master enable mimics the behavor of SPEM()_FLR_PF()_STOPREQ. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
@@ -183,8 +167,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG001(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG001(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000004ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000004ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG001", 1, a, 0, 0, 0);
 }
 
@@ -206,55 +190,25 @@ typedef union
     struct bdk_pcieepx_cfg002_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code,
-
-                                                                 _ PF0:          0x0b  (Processers)
-                                                                 _ PF1:          0x0b  (Processors)
-                                                                 _ PF2:          0x01  (Mass Storage controller)
-
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code,
-
-                                                                 _ PF0:          0x30 (MIPS)
-                                                                 _ PF1:          0x30 (MIPS)
-                                                                 _ PF2:          0x08 (Non-volatile)
-
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface.
-
-                                                                 _ PF0:          0x0 (386)
-                                                                 _ PF1:          0x0 (386)
-                                                                 _ PF2:          0x2 (NVMe)
-
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
         uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. Possible values:
-                                                                 0x0 = Pass 1.0. */
+                                                                 this field.
+                                                                 0x0 = pass 1.0. */
 #else /* Word 0 - Little Endian */
         uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. Possible values:
-                                                                 0x0 = Pass 1.0. */
-        uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface.
-
-                                                                 _ PF0:          0x0 (386)
-                                                                 _ PF1:          0x0 (386)
-                                                                 _ PF2:          0x2 (NVMe)
-
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code,
-
-                                                                 _ PF0:          0x30 (MIPS)
-                                                                 _ PF1:          0x30 (MIPS)
-                                                                 _ PF2:          0x08 (Non-volatile)
-
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code,
-
-                                                                 _ PF0:          0x0b  (Processers)
-                                                                 _ PF1:          0x0b  (Processors)
-                                                                 _ PF2:          0x01  (Mass Storage controller)
-
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+                                                                 this field.
+                                                                 0x0 = pass 1.0. */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg002_s cn; */
@@ -263,8 +217,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG002(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG002(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000008ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000008ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG002", 1, a, 0, 0, 0);
 }
 
@@ -290,10 +244,7 @@ typedef union
                                                                  hardwired to 0x0. */
         uint32_t mfd                   : 1;  /**< [ 23: 23](RO/WRSL) Multi function device. The multi function device bit is writable through PEM()_CFG_WR.
                                                                  However, this is a single function device. Therefore, the application must not write a 1
-                                                                 to this bit.
-
-                                                                 _ PCIEEP(0..2): 0x1
-                                                                 _ PCIEEP(3..5): 0x0 */
+                                                                 to this bit. */
         uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x0 for type 0. */
         uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
         uint32_t cls                   : 8;  /**< [  7:  0](R/W) Cache line size. The cache line size register is R/W for legacy compatibility purposes and
@@ -307,10 +258,7 @@ typedef union
         uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x0 for type 0. */
         uint32_t mfd                   : 1;  /**< [ 23: 23](RO/WRSL) Multi function device. The multi function device bit is writable through PEM()_CFG_WR.
                                                                  However, this is a single function device. Therefore, the application must not write a 1
-                                                                 to this bit.
-
-                                                                 _ PCIEEP(0..2): 0x1
-                                                                 _ PCIEEP(3..5): 0x0 */
+                                                                 to this bit. */
         uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are
                                                                  hardwired to 0x0. */
 #endif /* Word 0 - End */
@@ -321,8 +269,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG003(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG003(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000000cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000000cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG003", 1, a, 0, 0, 0);
 }
 
@@ -344,8 +292,8 @@ typedef union
     struct bdk_pcieepx_cfg004_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 9;  /**< [ 31: 23](R/W) Lower bits of the BAR 0 base address. */
-        uint32_t reserved_4_22         : 19;
+        uint32_t lbab                  : 7;  /**< [ 31: 25](R/W) Lower bits of the BAR 0 base address. */
+        uint32_t reserved_4_24         : 21;
         uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
                                                                  must not change this field. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/WRSL) BAR type.
@@ -375,8 +323,8 @@ typedef union
                                                                  this field. */
         uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
                                                                  must not change this field. */
-        uint32_t reserved_4_22         : 19;
-        uint32_t lbab                  : 9;  /**< [ 31: 23](R/W) Lower bits of the BAR 0 base address. */
+        uint32_t reserved_4_24         : 21;
+        uint32_t lbab                  : 7;  /**< [ 31: 25](R/W) Lower bits of the BAR 0 base address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg004_s cn; */
@@ -385,8 +333,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG004(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG004(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000010ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000010ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG004", 1, a, 0, 0, 0);
 }
 
@@ -428,8 +376,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG004_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG004_MASK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30080000010ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30080000010ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG004_MASK", 1, a, 0, 0, 0);
 }
 
@@ -462,8 +410,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG005(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG005(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000014ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000014ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG005", 1, a, 0, 0, 0);
 }
 
@@ -497,8 +445,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG005_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG005_MASK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30080000014ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30080000014ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG005_MASK", 1, a, 0, 0, 0);
 }
 
@@ -520,39 +468,25 @@ typedef union
     struct bdk_pcieepx_cfg006_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 6;  /**< [ 31: 26](R/W) Lower bits of the BAR 1 base address. */
+        uint32_t lbab                  : 6;  /**< [ 31: 26](RO) Lower bits of the BAR 1 base address. */
         uint32_t reserved_4_25         : 22;
-        uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
-                                                                 must not change this field. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO/WRSL) BAR type.
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type.
                                                                  0x0 = 32-bit BAR.
-                                                                 0x2 = 64-bit BAR.
-
-                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO/WRSL) Memory space indicator.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR 1 is a memory BAR.
-                                                                 1 = BAR 1 is an I/O BAR.
-
-                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
+                                                                 1 = BAR 1 is an I/O BAR. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO/WRSL) Memory space indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR 1 is a memory BAR.
-                                                                 1 = BAR 1 is an I/O BAR.
-
-                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO/WRSL) BAR type.
+                                                                 1 = BAR 1 is an I/O BAR. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type.
                                                                  0x0 = 32-bit BAR.
-                                                                 0x2 = 64-bit BAR.
-
-                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
-        uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
-                                                                 must not change this field. */
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
         uint32_t reserved_4_25         : 22;
-        uint32_t lbab                  : 6;  /**< [ 31: 26](R/W) Lower bits of the BAR 1 base address. */
+        uint32_t lbab                  : 6;  /**< [ 31: 26](RO) Lower bits of the BAR 1 base address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg006_s cn; */
@@ -561,8 +495,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG006(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG006(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000018ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000018ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG006", 1, a, 0, 0, 0);
 }
 
@@ -604,8 +538,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG006_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG006_MASK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30080000018ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30080000018ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG006_MASK", 1, a, 0, 0, 0);
 }
 
@@ -627,9 +561,9 @@ typedef union
     struct bdk_pcieepx_cfg007_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 1 base address. */
+        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Contains the upper 32 bits of the BAR 1 base address. */
 #else /* Word 0 - Little Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 1 base address. */
+        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Contains the upper 32 bits of the BAR 1 base address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg007_s cn; */
@@ -638,8 +572,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG007(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG007(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000001cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000001cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG007", 1, a, 0, 0, 0);
 }
 
@@ -673,8 +607,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG007_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG007_MASK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3008000001cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3008000001cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG007_MASK", 1, a, 0, 0, 0);
 }
 
@@ -696,39 +630,25 @@ typedef union
     struct bdk_pcieepx_cfg008_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 12; /**< [ 31: 20](R/W) Lower bits of the BAR 2 base address */
+        uint32_t lbab                  : 12; /**< [ 31: 20](RO) Lower bits of the BAR 2 base address */
         uint32_t reserved_4_19         : 16;
-        uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
-                                                                 must not change this field. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO/WRSL) BAR type.
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type.
                                                                  0x0 = 32-bit BAR.
-                                                                 0x2 = 64-bit BAR.
-
-                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO/WRSL) Memory space indicator.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR 2 is a memory BAR.
-                                                                 1 = BAR 2 is an I/O BAR.
-
-                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
+                                                                 1 = BAR 2 is an I/O BAR. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO/WRSL) Memory space indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
                                                                  0 = BAR 2 is a memory BAR.
-                                                                 1 = BAR 2 is an I/O BAR.
-
-                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO/WRSL) BAR type.
+                                                                 1 = BAR 2 is an I/O BAR. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type.
                                                                  0x0 = 32-bit BAR.
-                                                                 0x2 = 64-bit BAR.
-
-                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
-        uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
-                                                                 must not change this field. */
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
         uint32_t reserved_4_19         : 16;
-        uint32_t lbab                  : 12; /**< [ 31: 20](R/W) Lower bits of the BAR 2 base address */
+        uint32_t lbab                  : 12; /**< [ 31: 20](RO) Lower bits of the BAR 2 base address */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg008_s cn; */
@@ -737,8 +657,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG008(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG008(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000020ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000020ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG008", 1, a, 0, 0, 0);
 }
 
@@ -780,8 +700,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG008_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG008_MASK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30080000020ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30080000020ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG008_MASK", 1, a, 0, 0, 0);
 }
 
@@ -803,9 +723,9 @@ typedef union
     struct bdk_pcieepx_cfg009_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address. */
+        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Contains the upper 32 bits of the BAR 2 base address. */
 #else /* Word 0 - Little Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address. */
+        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Contains the upper 32 bits of the BAR 2 base address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg009_s cn; */
@@ -814,8 +734,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG009(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG009(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000024ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000024ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG009", 1, a, 0, 0, 0);
 }
 
@@ -849,8 +769,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG009_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG009_MASK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30080000024ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30080000024ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG009_MASK", 1, a, 0, 0, 0);
 }
 
@@ -883,8 +803,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG010(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG010(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000028ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000028ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG010", 1, a, 0, 0, 0);
 }
 
@@ -927,8 +847,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG011(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG011(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000002cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000002cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG011", 1, a, 0, 0, 0);
 }
 
@@ -950,21 +870,13 @@ typedef union
     struct bdk_pcieepx_cfg012_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t eraddr                : 16; /**< [ 31: 16](R/W) Expansion ROM address. */
+        uint32_t eraddr                : 16; /**< [ 31: 16](RO) Expansion ROM address. */
         uint32_t reserved_1_15         : 15;
-        uint32_t er_en                 : 1;  /**< [  0:  0](R/W) Expansion ROM enable.
-
-                                                                 _ PF0:          Supported.
-                                                                 _ PF1:          Supported.
-                                                                 _ PF2:          Not Supported. */
+        uint32_t er_en                 : 1;  /**< [  0:  0](RO) Expansion ROM enable (Not supported). */
 #else /* Word 0 - Little Endian */
-        uint32_t er_en                 : 1;  /**< [  0:  0](R/W) Expansion ROM enable.
-
-                                                                 _ PF0:          Supported.
-                                                                 _ PF1:          Supported.
-                                                                 _ PF2:          Not Supported. */
+        uint32_t er_en                 : 1;  /**< [  0:  0](RO) Expansion ROM enable (Not supported). */
         uint32_t reserved_1_15         : 15;
-        uint32_t eraddr                : 16; /**< [ 31: 16](R/W) Expansion ROM address. */
+        uint32_t eraddr                : 16; /**< [ 31: 16](RO) Expansion ROM address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg012_s cn; */
@@ -973,8 +885,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG012(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG012(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000030ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000030ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG012", 1, a, 0, 0, 0);
 }
 
@@ -1016,8 +928,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG012_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG012_MASK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30080000030ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30080000030ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG012_MASK", 1, a, 0, 0, 0);
 }
 
@@ -1054,8 +966,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG013(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG013(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000034ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000034ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG013", 1, a, 0, 0, 0);
 }
 
@@ -1077,21 +989,15 @@ typedef union
     struct bdk_pcieepx_cfg015_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ml                    : 8;  /**< [ 31: 24](RO) Maximum latency (hardwired to 0x0). */
-        uint32_t mg                    : 8;  /**< [ 23: 16](RO) Minimum grant (hardwired to 0x0). */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
-                                                                 function) uses. The interrupt pin register is writable through PEM()_CFG_WR. In a
-                                                                 single-function configuration, only INTA is used. Therefore, the application must not
-                                                                 change this field. */
+        uint32_t ml                    : 8;  /**< [ 31: 24](RO/H) Maximum latency (hardwired to 0x0). */
+        uint32_t mg                    : 8;  /**< [ 23: 16](RO/H) Minimum grant (hardwired to 0x0). */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO) Interrupt pin (not supported). */
         uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
 #else /* Word 0 - Little Endian */
         uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
-                                                                 function) uses. The interrupt pin register is writable through PEM()_CFG_WR. In a
-                                                                 single-function configuration, only INTA is used. Therefore, the application must not
-                                                                 change this field. */
-        uint32_t mg                    : 8;  /**< [ 23: 16](RO) Minimum grant (hardwired to 0x0). */
-        uint32_t ml                    : 8;  /**< [ 31: 24](RO) Maximum latency (hardwired to 0x0). */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO) Interrupt pin (not supported). */
+        uint32_t mg                    : 8;  /**< [ 23: 16](RO/H) Minimum grant (hardwired to 0x0). */
+        uint32_t ml                    : 8;  /**< [ 31: 24](RO/H) Maximum latency (hardwired to 0x0). */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg015_s cn; */
@@ -1100,8 +1006,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG015(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG015(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000003cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000003cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG015", 1, a, 0, 0, 0);
 }
 
@@ -1149,14 +1055,12 @@ typedef union
         uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to 0. */
         uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the MSI capabilities (PF0, PF1) or
-                                                                 PCIe capabilities list (PF2) by default, writable through
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the MSI capabilities by default, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
 #else /* Word 0 - Little Endian */
         uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the MSI capabilities (PF0, PF1) or
-                                                                 PCIe capabilities list (PF2) by default, writable through
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the MSI capabilities by default, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
@@ -1190,8 +1094,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG016(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG016(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000040ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000040ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG016", 1, a, 0, 0, 0);
 }
 
@@ -1260,8 +1164,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG017(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG017(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000044ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000044ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG017", 1, a, 0, 0, 0);
 }
 
@@ -1318,8 +1222,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG020(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG020(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000050ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000050ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG020", 1, a, 0, 0, 0);
 }
 
@@ -1354,8 +1258,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG021(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG021(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000054ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000054ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG021", 1, a, 0, 0, 0);
 }
 
@@ -1388,8 +1292,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG022(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG022(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000058ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000058ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG022", 1, a, 0, 0, 0);
 }
 
@@ -1426,8 +1330,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG023(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG023(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000005cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000005cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG023", 1, a, 0, 0, 0);
 }
 
@@ -1462,8 +1366,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG024(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG024(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000060ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000060ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG024", 1, a, 0, 0, 0);
 }
 
@@ -1496,8 +1400,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG025(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG025(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000064ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000064ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG025", 1, a, 0, 0, 0);
 }
 
@@ -1556,8 +1460,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG028(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG028(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000070ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000070ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG028", 1, a, 0, 0, 0);
 }
 
@@ -1673,8 +1577,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG029(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG029(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000074ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000074ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG029", 1, a, 0, 0, 0);
 }
 
@@ -1717,7 +1621,7 @@ typedef union
                                                                  receive any of the errors in PCIEEP()_CFG068, for example a replay-timer timeout.
                                                                  Also, it can be set if we get any of the errors in PCIEEP()_CFG066 that has a severity
                                                                  set to Nonfatal and meets the Advisory Nonfatal criteria, which most ECRC errors should. */
-        uint32_t i_flr                 : 1;  /**< [ 15: 15](R/W) Initiate function level reset. */
+        uint32_t i_flr                 : 1;  /**< [ 15: 15](R/W) Initiate function level reset (not supported). */
         uint32_t mrrs                  : 3;  /**< [ 14: 12](R/W) Max read request size.
                                                                  0x0 =128 bytes.
                                                                  0x1 = 256 bytes.
@@ -1730,7 +1634,7 @@ typedef union
                                                                  SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
                                                                  max read request size. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (not suppported). */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (Not supported). */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W) Phantom function enable. This bit should never be set; PEM requests never use phantom functions. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. */
         uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values: 0x0 = 128 B, 0x1 = 256 B.
@@ -1754,7 +1658,7 @@ typedef union
                                                                  functionality. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W) Phantom function enable. This bit should never be set; PEM requests never use phantom functions. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (not suppported). */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (Not supported). */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
         uint32_t mrrs                  : 3;  /**< [ 14: 12](R/W) Max read request size.
                                                                  0x0 =128 bytes.
@@ -1767,7 +1671,7 @@ typedef union
                                                                  SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must also be set properly.
                                                                  SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
                                                                  max read request size. */
-        uint32_t i_flr                 : 1;  /**< [ 15: 15](R/W) Initiate function level reset. */
+        uint32_t i_flr                 : 1;  /**< [ 15: 15](R/W) Initiate function level reset (not supported). */
         uint32_t ce_d                  : 1;  /**< [ 16: 16](R/W1C/H) Correctable error detected. Errors are logged in this register regardless of whether or
                                                                  not error reporting is enabled in the device control register. This field is set if we
                                                                  receive any of the errors in PCIEEP()_CFG068, for example a replay-timer timeout.
@@ -1797,8 +1701,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG030(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG030(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000078ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000078ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG030", 1, a, 0, 0, 0);
 }
 
@@ -1841,11 +1745,14 @@ typedef union
                                                                  must not change this field. */
         uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
                                                                  The reset value of this field is determined by the value read from the PEM
-                                                                 csr PEM()_CFG[LANES8] and PEM()_QLM[PEMDLMSEL]. If PEMDLMSEL is set, the reset
-                                                                 value is 0x2.  If PEMDLMSEL is set and LANES8 is set the reset value is 0x4, otherwise
-                                                                 0x8.
+                                                                 csr PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
 
-                                                                 This field is writable through PEM()_CFG_WR. */
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both the MLW and MLS out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting MLW and MLS to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
         uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL/H) Maximum link speed. The reset value of this field is controlled by the value read from
                                                                  PEM()_CFG[MD].
 
@@ -1857,8 +1764,12 @@ typedef union
 
                                                                  _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode).
 
-                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both the MLW and MLS out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting MLW and MLS to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
 #else /* Word 0 - Little Endian */
         uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL/H) Maximum link speed. The reset value of this field is controlled by the value read from
                                                                  PEM()_CFG[MD].
@@ -1871,15 +1782,22 @@ typedef union
 
                                                                  _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode).
 
-                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both the MLW and MLS out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting MLW and MLS to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
         uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.
                                                                  The reset value of this field is determined by the value read from the PEM
-                                                                 csr PEM()_CFG[LANES8] and PEM()_QLM[PEMDLMSEL]. If PEMDLMSEL is set, the reset
-                                                                 value is 0x2.  If PEMDLMSEL is set and LANES8 is set the reset value is 0x4, otherwise
-                                                                 0x8.
+                                                                 csr PEM()_CFG[LANES8]. If LANES8 is set the reset value is 0x8, otherwise 0x4.
 
-                                                                 This field is writable through PEM()_CFG_WR. */
+                                                                 This field is writable through PEM()_CFG_WR.
+
+                                                                 Note that zeroing both the MLW and MLS out of reset, using the EEPROM, will prevent
+                                                                 the ltssm from advancing past CONFIG.  This can be useful to allow software to locally
+                                                                 boot and perform preconfiguration and bug fixes.  Setting MLW and MLS to valid values
+                                                                 will then allow the lttsm to advance and the link to come up. */
         uint32_t aslpms                : 2;  /**< [ 11: 10](RO/WRSL) Active state link PM support. The default value is the value that software specifies
                                                                  during hardware configuration, writable through PEM()_CFG_WR. However, the application
                                                                  must not change this field. */
@@ -1907,8 +1825,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG031(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG031(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000007cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000007cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG031", 1, a, 0, 0, 0);
 }
 
@@ -2001,8 +1919,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG032(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG032(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000080ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000080ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG032", 1, a, 0, 0, 0);
 }
 
@@ -2031,61 +1949,35 @@ typedef union
                                                                  0x3 = 3.
                                                                  0x0 = 4. */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
+                                                                 the application must not change this field. */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
         uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
-
-                                                                 _ PF0:          0x1
-                                                                 _ PF1:          0x1
-                                                                 _ PF2:          0x0
-
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
-
-                                                                 _ PF0:          0x1
-                                                                 _ PF1:          0x1
-                                                                 _ PF2:          0x0
-
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported (not supported). */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported (not supported). */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported (not applicable for EP). */
         uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
-        uint32_t ctrs                  : 4;  /**< [  3:  0](RO) Completion timeout ranges supported. */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
 #else /* Word 0 - Little Endian */
-        uint32_t ctrs                  : 4;  /**< [  3:  0](RO) Completion timeout ranges supported. */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
         uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported (not applicable for EP). */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
-
-                                                                 _ PF0:          0x1
-                                                                 _ PF1:          0x1
-                                                                 _ PF2:          0x0
-
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
-
-                                                                 _ PF0:          0x1
-                                                                 _ PF1:          0x1
-                                                                 _ PF2:          0x0
-
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported (not supported). */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported (not supported). */
         uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
+                                                                 the application must not change this field. */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
         uint32_t meetp                 : 2;  /**< [ 23: 22](RO/WRSL) Max end-end TLP prefixes.
                                                                  0x1 = 1.
@@ -2101,8 +1993,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG037(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000094ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000094ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG037", 1, a, 0, 0, 0);
 }
 
@@ -2131,19 +2023,19 @@ typedef union
         uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable (not supported). */
         uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
         uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
-        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
-        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
-        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking (not supported). */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable (not supported). */
+        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
         uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
-        uint32_t ctv                   : 4;  /**< [  3:  0](RO) Completion timeout value. Completion timeout programming is not supported. Completion
+        uint32_t ctv                   : 4;  /**< [  3:  0](RO/H) Completion timeout value. Completion timeout programming is not supported. Completion
                                                                  timeout is the range of 16 ms to 55 ms. */
 #else /* Word 0 - Little Endian */
-        uint32_t ctv                   : 4;  /**< [  3:  0](RO) Completion timeout value. Completion timeout programming is not supported. Completion
+        uint32_t ctv                   : 4;  /**< [  3:  0](RO/H) Completion timeout value. Completion timeout programming is not supported. Completion
                                                                  timeout is the range of 16 ms to 55 ms. */
         uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
-        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
-        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
-        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
+        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable (not supported). */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking (not supported). */
         uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
         uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
         uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable (not supported). */
@@ -2159,8 +2051,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG038(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG038(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000098ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000098ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG038", 1, a, 0, 0, 0);
 }
 
@@ -2239,8 +2131,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG039(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG039(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000009cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000009cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG039", 1, a, 0, 0, 0);
 }
 
@@ -2304,7 +2196,7 @@ typedef union
         uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
                                                                  speed indicated in the target link speed field by setting this bit to 1 in both components
                                                                  on a link and then initiating a hot reset on the link. */
-        uint32_t tls                   : 4;  /**< [  3:  0](R/W/H) Target link speed. For downstream ports, this field sets an upper limit on link
+        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
                                                                  operational speed by restricting the values advertised by the upstream component in its
                                                                  training sequences:
 
@@ -2328,7 +2220,7 @@ typedef union
 
                                                                  _ MD is 0x3, reset to 0x3: 8.0 Ghz, 5.0 GHz and 2.5 GHz supported (RC Mode). */
 #else /* Word 0 - Little Endian */
-        uint32_t tls                   : 4;  /**< [  3:  0](R/W/H) Target link speed. For downstream ports, this field sets an upper limit on link
+        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
                                                                  operational speed by restricting the values advertised by the upstream component in its
                                                                  training sequences:
 
@@ -2401,8 +2293,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG040(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG040(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000000a0ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000a0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG040", 1, a, 0, 0, 0);
 }
 
@@ -2430,31 +2322,13 @@ typedef union
                                                                  1 = All vectors associated with the function are masked, regardless of their respective
                                                                  per-vector mask bits. */
         uint32_t reserved_27_29        : 3;
-        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1).
-
-                                                                 _ PF0:          0x40
-                                                                 _ PF1:          0x40
-                                                                 _ PF2:          0x10
-
-                                                                 Writable through PEM()_CFG_WR.
-
-                                                                 SPEM_CFG_WR[ADDR[25:24] determines the physical function accessed by the write.
-                                                                 0..2 are legal values in EP mode. */
+        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). Writable through PEM()_CFG_WR. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer */
         uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X Capability ID */
 #else /* Word 0 - Little Endian */
         uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X Capability ID */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer */
-        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1).
-
-                                                                 _ PF0:          0x40
-                                                                 _ PF1:          0x40
-                                                                 _ PF2:          0x10
-
-                                                                 Writable through PEM()_CFG_WR.
-
-                                                                 SPEM_CFG_WR[ADDR[25:24] determines the physical function accessed by the write.
-                                                                 0..2 are legal values in EP mode. */
+        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). Writable through PEM()_CFG_WR. */
         uint32_t reserved_27_29        : 3;
         uint32_t funm                  : 1;  /**< [ 30: 30](R/W) Function mask.
                                                                  0 = Each vectors mask bit determines whether the vector is masked or not.
@@ -2469,8 +2343,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG044(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG044(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000000b0ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000b0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG044", 1, a, 0, 0, 0);
 }
 
@@ -2492,13 +2366,10 @@ typedef union
     struct bdk_pcieepx_cfg045_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
-                                                                 address of the BAR indicated by the Table BIR bits.
-                                                                 _ PF0:          0x0
-                                                                 _ PF1:          0x0
-                                                                 _ PF2:          0x2000
-
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL) "MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
+                                                                 address of the BAR indicated by the Table BIR bits. Writable through PEM()_CFG_WR.
+                                                                 However,
+                                                                 the application must not change this field." */
         uint32_t msixtbir              : 3;  /**< [  2:  0](RO/WRSL) MSI-X table BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
                                                                  table into memory space.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
@@ -2506,13 +2377,10 @@ typedef union
         uint32_t msixtbir              : 3;  /**< [  2:  0](RO/WRSL) MSI-X table BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
                                                                  table into memory space.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
-                                                                 address of the BAR indicated by the Table BIR bits.
-                                                                 _ PF0:          0x0
-                                                                 _ PF1:          0x0
-                                                                 _ PF2:          0x2000
-
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL) "MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
+                                                                 address of the BAR indicated by the Table BIR bits. Writable through PEM()_CFG_WR.
+                                                                 However,
+                                                                 the application must not change this field." */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg045_s cn; */
@@ -2521,8 +2389,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG045(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG045(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000000b4ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000b4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG045", 1, a, 0, 0, 0);
 }
 
@@ -2545,13 +2413,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
-                                                                 address of the BAR indicated by the table PBA bits.
-
-                                                                 _ PF0:          0x200
-                                                                 _ PF1:          0x200
-                                                                 _ PF2:          0x2040
-
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+                                                                 address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_WR.
+                                                                 However,
+                                                                 the application must not change this field. */
         uint32_t msixpbir              : 3;  /**< [  2:  0](RO/WRSL) MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
                                                                  pending bit array into memory space.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
@@ -2560,13 +2424,9 @@ typedef union
                                                                  pending bit array into memory space.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
-                                                                 address of the BAR indicated by the table PBA bits.
-
-                                                                 _ PF0:          0x200
-                                                                 _ PF1:          0x200
-                                                                 _ PF2:          0x2040
-
-                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+                                                                 address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_WR.
+                                                                 However,
+                                                                 the application must not change this field. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg046_s cn; */
@@ -2575,8 +2435,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG046(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG046(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000000b8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000b8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG046", 1, a, 0, 0, 0);
 }
 
@@ -2613,8 +2473,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG064(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG064(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000100ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000100ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG064", 1, a, 0, 0, 0);
 }
 
@@ -2724,8 +2584,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG065(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG065(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000104ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000104ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG065", 1, a, 0, 0, 0);
 }
 
@@ -2749,7 +2609,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
         uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
-        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
+        uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked mask. */
         uint32_t reserved_23           : 1;
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
         uint32_t reserved_21           : 1;
@@ -2781,7 +2641,7 @@ typedef union
         uint32_t reserved_21           : 1;
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
         uint32_t reserved_23           : 1;
-        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
+        uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked mask. */
         uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
@@ -2791,7 +2651,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
         uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
-        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
+        uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked mask. */
         uint32_t reserved_23           : 1;
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
         uint32_t reserved_21           : 1;
@@ -2825,7 +2685,7 @@ typedef union
         uint32_t reserved_21           : 1;
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
         uint32_t reserved_23           : 1;
-        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked mask. */
+        uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked mask. */
         uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
@@ -2835,8 +2695,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG066(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG066(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000108ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000108ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG066", 1, a, 0, 0, 0);
 }
 
@@ -2860,7 +2720,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
         uint32_t reserved_23           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_21           : 1;
@@ -2892,7 +2752,7 @@ typedef union
         uint32_t reserved_21           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_23           : 1;
-        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
@@ -2902,7 +2762,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
         uint32_t reserved_23           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_21           : 1;
@@ -2936,7 +2796,7 @@ typedef union
         uint32_t reserved_21           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_23           : 1;
-        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
@@ -2946,8 +2806,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG067(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG067(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000010cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000010cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG067", 1, a, 0, 0, 0);
 }
 
@@ -2998,8 +2858,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG068(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG068(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000110ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000110ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG068", 1, a, 0, 0, 0);
 }
 
@@ -3050,8 +2910,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG069(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG069(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000114ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000114ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG069", 1, a, 0, 0, 0);
 }
 
@@ -3098,8 +2958,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG070(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG070(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000118ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000118ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG070", 1, a, 0, 0, 0);
 }
 
@@ -3132,8 +2992,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG071(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG071(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000011cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000011cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG071", 1, a, 0, 0, 0);
 }
 
@@ -3166,8 +3026,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG072(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG072(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000120ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000120ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG072", 1, a, 0, 0, 0);
 }
 
@@ -3200,8 +3060,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG073(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG073(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000124ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000124ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG073", 1, a, 0, 0, 0);
 }
 
@@ -3234,8 +3094,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG074(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG074(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000128ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000128ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG074", 1, a, 0, 0, 0);
 }
 
@@ -3268,8 +3128,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG078(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG078(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000138ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000138ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG078", 1, a, 0, 0, 0);
 }
 
@@ -3306,8 +3166,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG082(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG082(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000148ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000148ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG082", 1, a, 0, 0, 0);
 }
 
@@ -3356,8 +3216,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG083(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG083(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000014cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000014cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG083", 1, a, 0, 0, 0);
 }
 
@@ -3394,8 +3254,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG086(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG086(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000158ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000158ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG086", 1, a, 0, 0, 0);
 }
 
@@ -3432,8 +3292,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG087(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG087(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000015cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000015cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG087", 1, a, 0, 0, 0);
 }
 
@@ -3468,8 +3328,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG088(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG088(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000160ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000160ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG088", 1, a, 0, 0, 0);
 }
 
@@ -3559,8 +3419,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG089(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG089(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000164ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000164ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG089", 1, a, 0, 0, 0);
 }
 
@@ -3650,8 +3510,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG090(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG090(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000168ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000168ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG090", 1, a, 0, 0, 0);
 }
 
@@ -3741,8 +3601,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG091(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG091(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000016cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000016cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG091", 1, a, 0, 0, 0);
 }
 
@@ -3832,8 +3692,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG092(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG092(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000170ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000170ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG092", 1, a, 0, 0, 0);
 }
 
@@ -3855,13 +3715,13 @@ typedef union
     struct bdk_pcieepx_cfg094_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the resizable BAR capabilities by default */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability. */
 #else /* Word 0 - Little Endian */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the resizable BAR capabilities by default */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg094_s cn; */
@@ -3870,8 +3730,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG094(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG094(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000178ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000178ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG094", 1, a, 0, 0, 0);
 }
 
@@ -3897,9 +3757,9 @@ typedef union
         uint32_t reserved_2_20         : 19;
         uint32_t arichp                : 1;  /**< [  1:  1](R/W) ARI capable hierarchy preserved. Writable through PEM()_CFG_WR. However, the application
                                                                  must not change this field. */
-        uint32_t vfmc                  : 1;  /**< [  0:  0](RO) VF migration capable. */
+        uint32_t vfmc                  : 1;  /**< [  0:  0](RO/H) VF migration capable. */
 #else /* Word 0 - Little Endian */
-        uint32_t vfmc                  : 1;  /**< [  0:  0](RO) VF migration capable. */
+        uint32_t vfmc                  : 1;  /**< [  0:  0](RO/H) VF migration capable. */
         uint32_t arichp                : 1;  /**< [  1:  1](R/W) ARI capable hierarchy preserved. Writable through PEM()_CFG_WR. However, the application
                                                                  must not change this field. */
         uint32_t reserved_2_20         : 19;
@@ -3912,8 +3772,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG095(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG095(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000017cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000017cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG095", 1, a, 0, 0, 0);
 }
 
@@ -3944,13 +3804,13 @@ typedef union
 
                                                                  The value in this field in PF0 is used for all other physical functions. */
         uint32_t mse                   : 1;  /**< [  3:  3](R/W) VF MSE. */
-        uint32_t mie                   : 1;  /**< [  2:  2](RO) VF migration interrupt enable. */
-        uint32_t me                    : 1;  /**< [  1:  1](RO) VF migration enable. */
+        uint32_t mie                   : 1;  /**< [  2:  2](RO/H) VF migration interrupt enable. */
+        uint32_t me                    : 1;  /**< [  1:  1](RO/H) VF migration enable. */
         uint32_t vfe                   : 1;  /**< [  0:  0](R/W) VF enable. */
 #else /* Word 0 - Little Endian */
         uint32_t vfe                   : 1;  /**< [  0:  0](R/W) VF enable. */
-        uint32_t me                    : 1;  /**< [  1:  1](RO) VF migration enable. */
-        uint32_t mie                   : 1;  /**< [  2:  2](RO) VF migration interrupt enable. */
+        uint32_t me                    : 1;  /**< [  1:  1](RO/H) VF migration enable. */
+        uint32_t mie                   : 1;  /**< [  2:  2](RO/H) VF migration interrupt enable. */
         uint32_t mse                   : 1;  /**< [  3:  3](R/W) VF MSE. */
         uint32_t ach                   : 1;  /**< [  4:  4](R/W) ARI capable hierarchy.
                                                                  0 = All PFs have non-ARI capable hierarchy.
@@ -3968,8 +3828,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG096(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG096(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000180ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000180ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG096", 1, a, 0, 0, 0);
 }
 
@@ -3991,51 +3851,29 @@ typedef union
     struct bdk_pcieepx_cfg097_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t tvf                   : 16; /**< [ 31: 16](RO/H) Total VFs.  Read-only copy of PCIEP()_CFG097[IVF].
+        uint32_t tvf                   : 16; /**< [ 31: 16](RO) Total VFs.  Read-only copy of PCIEP()_CFG097[IVF]. */
+        uint32_t ivf                   : 16; /**< [ 15:  0](RO/WRSL) Initial VFs.
 
-                                                                 _ PF0:          0x40
-                                                                 _ PF1:          0x40
-                                                                 _ PF2:          0x403 */
-        uint32_t ivf                   : 16; /**< [ 15:  0](RO/WRSL/H) Initial VFs.
-
-                                                                 _ PF0:          0x40
-                                                                 _ PF1:          0x40
-                                                                 _ PF2:          0x403
-
-                                                                 There are two InitialVFs registers per PF; one for each ARI Capable
-                                                                 and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ARI] determines which one is
+                                                                 There are two InitialVFs registers; one for each ARI Capable
+                                                                 and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ACH] determines which one is
                                                                  being used for SR-IOV, and which one is accessed by a read request.
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which IVF register is updated.
                                                                  0 = accesses non-ARI Capable Hieracrhy copy of IVF.
-                                                                 1 = accesses ARI Capable Hieracrhy copy of IVF.
-
-                                                                 SPEM_CFG_WR[ADDR[25:24] determines the physical function accessed by the write.
-                                                                 0..2 are legal values in EP mode. */
+                                                                 1 = accesses ARI Capable Hieracrhy copy of IVF. */
 #else /* Word 0 - Little Endian */
-        uint32_t ivf                   : 16; /**< [ 15:  0](RO/WRSL/H) Initial VFs.
+        uint32_t ivf                   : 16; /**< [ 15:  0](RO/WRSL) Initial VFs.
 
-                                                                 _ PF0:          0x40
-                                                                 _ PF1:          0x40
-                                                                 _ PF2:          0x403
-
-                                                                 There are two InitialVFs registers per PF; one for each ARI Capable
-                                                                 and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ARI] determines which one is
+                                                                 There are two InitialVFs registers; one for each ARI Capable
+                                                                 and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ACH] determines which one is
                                                                  being used for SR-IOV, and which one is accessed by a read request.
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which IVF register is updated.
                                                                  0 = accesses non-ARI Capable Hieracrhy copy of IVF.
-                                                                 1 = accesses ARI Capable Hieracrhy copy of IVF.
-
-                                                                 SPEM_CFG_WR[ADDR[25:24] determines the physical function accessed by the write.
-                                                                 0..2 are legal values in EP mode. */
-        uint32_t tvf                   : 16; /**< [ 31: 16](RO/H) Total VFs.  Read-only copy of PCIEP()_CFG097[IVF].
-
-                                                                 _ PF0:          0x40
-                                                                 _ PF1:          0x40
-                                                                 _ PF2:          0x403 */
+                                                                 1 = accesses ARI Capable Hieracrhy copy of IVF. */
+        uint32_t tvf                   : 16; /**< [ 31: 16](RO) Total VFs.  Read-only copy of PCIEP()_CFG097[IVF]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg097_s cn; */
@@ -4044,8 +3882,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG097(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG097(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000184ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000184ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG097", 1, a, 0, 0, 0);
 }
 
@@ -4068,19 +3906,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t fdl                   : 8;  /**< [ 23: 16](RO/H) Function dependency link.
-
-                                                                 _ PF0:          0x0
-                                                                 _ PF1:          0x1
-                                                                 _ PF2:          0x2 */
+        uint32_t fdl                   : 8;  /**< [ 23: 16](RO/H) Function dependency link. Enables support for VF dependency link. */
         uint32_t nvf                   : 16; /**< [ 15:  0](R/W) Number of VFs that are visible. */
 #else /* Word 0 - Little Endian */
         uint32_t nvf                   : 16; /**< [ 15:  0](R/W) Number of VFs that are visible. */
-        uint32_t fdl                   : 8;  /**< [ 23: 16](RO/H) Function dependency link.
-
-                                                                 _ PF0:          0x0
-                                                                 _ PF1:          0x1
-                                                                 _ PF2:          0x2 */
+        uint32_t fdl                   : 8;  /**< [ 23: 16](RO/H) Function dependency link. Enables support for VF dependency link. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
@@ -4090,8 +3920,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG098(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG098(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000188ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000188ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG098", 1, a, 0, 0, 0);
 }
 
@@ -4113,69 +3943,43 @@ typedef union
     struct bdk_pcieepx_cfg099_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vfs                   : 16; /**< [ 31: 16](RO/WRSL) VF stride.
-
-                                                                 There are two VF Stride registers per PF; one for each ARI Capable
+        uint32_t vfs                   : 16; /**< [ 31: 16](RO/H) There are two VF Stride registers;  one for each ARI Capable
                                                                  and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ARI] determines which one is
                                                                  being used for SR-IOV, and which one is accessed by a read request.
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which VFS register is updated.
                                                                  0 = accesses non-ARI Capable Hieracrhy copy of VFS.
-                                                                 1 = accesses ARI Capable Hieracrhy copy of VFS.
+                                                                 1 = accesses ARI Capable Hieracrhy copy of VFS. */
+        uint32_t fo                    : 16; /**< [ 15:  0](RO/H) First VF offset.
 
-                                                                 SPEM_CFG_WR[ADDR[25:24] determines the physical function accessed by the write.
-                                                                 0..2 are legal values in EP mode. */
-        uint32_t fo                    : 16; /**< [ 15:  0](RO/WRSL/H) First VF offset.
-
-                                                                 _ PF0 (SPEM):   0x3
-                                                                 _ PF0 (PEM):    0x1
-                                                                 _ PF1:          0x43
-                                                                 _ PF2:          0x83
-
-                                                                 There are two First VF Offset registers per PF; one for each ARI Capable
+                                                                 There are two First VF Offset registers;  one for each ARI Capable
                                                                  and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ARI] determines which one is
                                                                  being used for SR-IOV, and which one is accessed by a read request.
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which FO register is updated.
                                                                  0 = accesses non-ARI Capable Hieracrhy copy of FO.
-                                                                 1 = accesses ARI Capable Hieracrhy copy of FO.
-
-                                                                 SPEM_CFG_WR[ADDR[25:24] determines the physical function accessed by the write.
-                                                                 0..2 are legal values in EP mode. */
+                                                                 1 = accesses ARI Capable Hieracrhy copy of FO. */
 #else /* Word 0 - Little Endian */
-        uint32_t fo                    : 16; /**< [ 15:  0](RO/WRSL/H) First VF offset.
+        uint32_t fo                    : 16; /**< [ 15:  0](RO/H) First VF offset.
 
-                                                                 _ PF0 (SPEM):   0x3
-                                                                 _ PF0 (PEM):    0x1
-                                                                 _ PF1:          0x43
-                                                                 _ PF2:          0x83
-
-                                                                 There are two First VF Offset registers per PF; one for each ARI Capable
+                                                                 There are two First VF Offset registers;  one for each ARI Capable
                                                                  and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ARI] determines which one is
                                                                  being used for SR-IOV, and which one is accessed by a read request.
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which FO register is updated.
                                                                  0 = accesses non-ARI Capable Hieracrhy copy of FO.
-                                                                 1 = accesses ARI Capable Hieracrhy copy of FO.
-
-                                                                 SPEM_CFG_WR[ADDR[25:24] determines the physical function accessed by the write.
-                                                                 0..2 are legal values in EP mode. */
-        uint32_t vfs                   : 16; /**< [ 31: 16](RO/WRSL) VF stride.
-
-                                                                 There are two VF Stride registers per PF; one for each ARI Capable
+                                                                 1 = accesses ARI Capable Hieracrhy copy of FO. */
+        uint32_t vfs                   : 16; /**< [ 31: 16](RO/H) There are two VF Stride registers;  one for each ARI Capable
                                                                  and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ARI] determines which one is
                                                                  being used for SR-IOV, and which one is accessed by a read request.
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
                                                                  which VFS register is updated.
                                                                  0 = accesses non-ARI Capable Hieracrhy copy of VFS.
-                                                                 1 = accesses ARI Capable Hieracrhy copy of VFS.
-
-                                                                 SPEM_CFG_WR[ADDR[25:24] determines the physical function accessed by the write.
-                                                                 0..2 are legal values in EP mode. */
+                                                                 1 = accesses ARI Capable Hieracrhy copy of VFS. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg099_s cn; */
@@ -4184,8 +3988,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG099(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG099(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000018cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000018cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG099", 1, a, 0, 0, 0);
 }
 
@@ -4207,19 +4011,11 @@ typedef union
     struct bdk_pcieepx_cfg100_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vfdev                 : 16; /**< [ 31: 16](RO) VF device ID.
-
-                                                                 _ PF0:          0x9710
-                                                                 _ PF1:          0x9710
-                                                                 _ PF2:          0x9711 */
+        uint32_t vfdev                 : 16; /**< [ 31: 16](RO/H) VF device ID. */
         uint32_t reserved_0_15         : 16;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_15         : 16;
-        uint32_t vfdev                 : 16; /**< [ 31: 16](RO) VF device ID.
-
-                                                                 _ PF0:          0x9710
-                                                                 _ PF1:          0x9710
-                                                                 _ PF2:          0x9711 */
+        uint32_t vfdev                 : 16; /**< [ 31: 16](RO/H) VF device ID. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg100_s cn; */
@@ -4228,8 +4024,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG100(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG100(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000190ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000190ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG100", 1, a, 0, 0, 0);
 }
 
@@ -4251,9 +4047,9 @@ typedef union
     struct bdk_pcieepx_cfg101_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t supps                 : 32; /**< [ 31:  0](RO) Supported page sizes. */
+        uint32_t supps                 : 32; /**< [ 31:  0](RO/H) Supported page sizes. */
 #else /* Word 0 - Little Endian */
-        uint32_t supps                 : 32; /**< [ 31:  0](RO) Supported page sizes. */
+        uint32_t supps                 : 32; /**< [ 31:  0](RO/H) Supported page sizes. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg101_s cn; */
@@ -4262,8 +4058,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG101(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG101(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000194ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000194ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG101", 1, a, 0, 0, 0);
 }
 
@@ -4296,8 +4092,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG102(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG102(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000198ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000198ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG102", 1, a, 0, 0, 0);
 }
 
@@ -4319,25 +4115,25 @@ typedef union
     struct bdk_pcieepx_cfg103_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 12; /**< [ 31: 20](R/W) Lower bits of the VF BAR 0 base address. */
-        uint32_t reserved_4_19         : 16;
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type:
+        uint32_t lbab                  : 11; /**< [ 31: 21](R/W) Lower bits of the VF BAR 0 base address. */
+        uint32_t reserved_4_20         : 17;
+        uint32_t pf                    : 1;  /**< [  3:  3](RO/H) Prefetchable. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type:
                                                                  0x0 = 32-bit BAR.
                                                                  0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator:
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO/H) Memory space indicator:
                                                                  0 = BAR 0 is a memory BAR.
                                                                  1 = BAR 0 is an I/O BAR. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator:
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO/H) Memory space indicator:
                                                                  0 = BAR 0 is a memory BAR.
                                                                  1 = BAR 0 is an I/O BAR. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type:
+        uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type:
                                                                  0x0 = 32-bit BAR.
                                                                  0x2 = 64-bit BAR. */
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t reserved_4_19         : 16;
-        uint32_t lbab                  : 12; /**< [ 31: 20](R/W) Lower bits of the VF BAR 0 base address. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO/H) Prefetchable. */
+        uint32_t reserved_4_20         : 17;
+        uint32_t lbab                  : 11; /**< [ 31: 21](R/W) Lower bits of the VF BAR 0 base address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg103_s cn; */
@@ -4346,8 +4142,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG103(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG103(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000019cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000019cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG103", 1, a, 0, 0, 0);
 }
 
@@ -4380,8 +4176,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG104(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG104(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000001a0ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001a0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG104", 1, a, 0, 0, 0);
 }
 
@@ -4414,8 +4210,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG105(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG105(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000001a4ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001a4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG105", 1, a, 0, 0, 0);
 }
 
@@ -4448,8 +4244,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000001a8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001a8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG106", 1, a, 0, 0, 0);
 }
 
@@ -4482,8 +4278,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG107(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG107(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000001acll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001acll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG107", 1, a, 0, 0, 0);
 }
 
@@ -4516,8 +4312,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG108(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG108(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000001b0ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001b0ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG108", 1, a, 0, 0, 0);
 }
 
@@ -4539,11 +4335,11 @@ typedef union
     struct bdk_pcieepx_cfg109_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t mso                   : 29; /**< [ 31:  3](RO) VF migration state offset. */
-        uint32_t msbir                 : 3;  /**< [  2:  0](RO) VF migration state BIR. */
+        uint32_t mso                   : 29; /**< [ 31:  3](RO/H) VF migration state offset. */
+        uint32_t msbir                 : 3;  /**< [  2:  0](RO/H) VF migration state BIR. */
 #else /* Word 0 - Little Endian */
-        uint32_t msbir                 : 3;  /**< [  2:  0](RO) VF migration state BIR. */
-        uint32_t mso                   : 29; /**< [ 31:  3](RO) VF migration state offset. */
+        uint32_t msbir                 : 3;  /**< [  2:  0](RO/H) VF migration state BIR. */
+        uint32_t mso                   : 29; /**< [ 31:  3](RO/H) VF migration state offset. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg109_s cn; */
@@ -4552,8 +4348,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG109(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG109(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000001b4ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001b4ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG109", 1, a, 0, 0, 0);
 }
 
@@ -4562,132 +4358,6 @@ static inline uint64_t BDK_PCIEEPX_CFG109(unsigned long a)
 #define basename_BDK_PCIEEPX_CFG109(a) "PCIEEPX_CFG109"
 #define busnum_BDK_PCIEEPX_CFG109(a) (a)
 #define arguments_BDK_PCIEEPX_CFG109(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieep#_cfg110
- *
- * PCI Express Resizable BAR (RBAR) Capability Header Register
- * This register contains the one hundred eleventh 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepx_cfg110_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
-#else /* Word 0 - Little Endian */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg110_s cn; */
-} bdk_pcieepx_cfg110_t;
-
-static inline uint64_t BDK_PCIEEPX_CFG110(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPX_CFG110(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000001b8ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPX_CFG110", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPX_CFG110(a) bdk_pcieepx_cfg110_t
-#define bustype_BDK_PCIEEPX_CFG110(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPX_CFG110(a) "PCIEEPX_CFG110"
-#define busnum_BDK_PCIEEPX_CFG110(a) (a)
-#define arguments_BDK_PCIEEPX_CFG110(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieep#_cfg111
- *
- * PCI Express Resizable BAR (RBAR) Capability Register
- * This register contains the one hundred twelfth 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepx_cfg111_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_30_31        : 2;
-        uint32_t srs                   : 26; /**< [ 29:  4](RO/WRSL) "Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
-                                                                 0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CNXXXX
-                                                                 advertises a BAR size of 32TB (0x3FF_FFFF). The BAR is disabled at runtime by writing all
-                                                                 zeros through PEM()_CFG_WR to this field." */
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t srs                   : 26; /**< [ 29:  4](RO/WRSL) "Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
-                                                                 0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CNXXXX
-                                                                 advertises a BAR size of 32TB (0x3FF_FFFF). The BAR is disabled at runtime by writing all
-                                                                 zeros through PEM()_CFG_WR to this field." */
-        uint32_t reserved_30_31        : 2;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg111_s cn; */
-} bdk_pcieepx_cfg111_t;
-
-static inline uint64_t BDK_PCIEEPX_CFG111(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPX_CFG111(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000001bcll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPX_CFG111", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPX_CFG111(a) bdk_pcieepx_cfg111_t
-#define bustype_BDK_PCIEEPX_CFG111(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPX_CFG111(a) "PCIEEPX_CFG111"
-#define busnum_BDK_PCIEEPX_CFG111(a) (a)
-#define arguments_BDK_PCIEEPX_CFG111(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieep#_cfg112
- *
- * PCI Express Resizable BAR (RBAR) Control Register
- * This register contains the one hundred thirteenth 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepx_cfg112_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_13_31        : 19;
-        uint32_t rbars                 : 5;  /**< [ 12:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
-                                                                 values as large as 0x19 (32TB). */
-        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
-        uint32_t reserved_3_4          : 2;
-        uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
-#else /* Word 0 - Little Endian */
-        uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
-        uint32_t reserved_3_4          : 2;
-        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
-        uint32_t rbars                 : 5;  /**< [ 12:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
-                                                                 values as large as 0x19 (32TB). */
-        uint32_t reserved_13_31        : 19;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg112_s cn; */
-} bdk_pcieepx_cfg112_t;
-
-static inline uint64_t BDK_PCIEEPX_CFG112(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPX_CFG112(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000001c0ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPX_CFG112", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPX_CFG112(a) bdk_pcieepx_cfg112_t
-#define bustype_BDK_PCIEEPX_CFG112(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPX_CFG112(a) "PCIEEPX_CFG112"
-#define busnum_BDK_PCIEEPX_CFG112(a) (a)
-#define arguments_BDK_PCIEEPX_CFG112(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieep#_cfg448
@@ -4728,8 +4398,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG448(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG448(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000700ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000700ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG448", 1, a, 0, 0, 0);
 }
 
@@ -4780,8 +4450,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG449(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG449(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000704ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000704ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG449", 1, a, 0, 0, 0);
 }
 
@@ -4906,8 +4576,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG450(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG450(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000708ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000708ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG450", 1, a, 0, 0, 0);
 }
 
@@ -5002,8 +4672,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG451(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG451(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000070cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000070cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG451", 1, a, 0, 0, 0);
 }
 
@@ -5106,8 +4776,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG452(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG452(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000710ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000710ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG452", 1, a, 0, 0, 0);
 }
 
@@ -5154,8 +4824,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG453(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG453(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000714ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000714ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG453", 1, a, 0, 0, 0);
 }
 
@@ -5183,14 +4853,14 @@ typedef union
                                                                  prevent software from breaking. */
         uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for Ack/Nak latency timer. Increases the timer value for the Ack/Nak
                                                                  latency timer, in increments of 64 clock cycles. */
-        uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W) Timer modifier for replay timer. Increases the timer value for the replay timer, in
+        uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W/H) Timer modifier for replay timer. Increases the timer value for the replay timer, in
                                                                  increments of 64 clock cycles. */
         uint32_t reserved_8_13         : 6;
         uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported. Used for SR-IOV. */
 #else /* Word 0 - Little Endian */
         uint32_t mfuncn                : 8;  /**< [  7:  0](R/W) Max number of functions supported. Used for SR-IOV. */
         uint32_t reserved_8_13         : 6;
-        uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W) Timer modifier for replay timer. Increases the timer value for the replay timer, in
+        uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W/H) Timer modifier for replay timer. Increases the timer value for the replay timer, in
                                                                  increments of 64 clock cycles. */
         uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for Ack/Nak latency timer. Increases the timer value for the Ack/Nak
                                                                  latency timer, in increments of 64 clock cycles. */
@@ -5206,8 +4876,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG454(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG454(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000718ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000718ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG454", 1, a, 0, 0, 0);
 }
 
@@ -5276,8 +4946,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG455(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG455(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000071cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000071cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG455", 1, a, 0, 0, 0);
 }
 
@@ -5318,8 +4988,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG456(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG456(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000720ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000720ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG456", 1, a, 0, 0, 0);
 }
 
@@ -5352,8 +5022,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG458(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG458(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000728ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000728ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG458", 1, a, 0, 0, 0);
 }
 
@@ -5386,8 +5056,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG459(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG459(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000072cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000072cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG459", 1, a, 0, 0, 0);
 }
 
@@ -5428,8 +5098,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG460(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG460(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000730ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000730ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG460", 1, a, 0, 0, 0);
 }
 
@@ -5470,8 +5140,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG461(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG461(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000734ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000734ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG461", 1, a, 0, 0, 0);
 }
 
@@ -5512,8 +5182,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG462(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG462(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000738ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000738ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG462", 1, a, 0, 0, 0);
 }
 
@@ -5570,8 +5240,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG463(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG463(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000073cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000073cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG463", 1, a, 0, 0, 0);
 }
 
@@ -5610,8 +5280,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG464(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG464(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000740ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000740ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG464", 1, a, 0, 0, 0);
 }
 
@@ -5650,8 +5320,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG465(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG465(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000744ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000744ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG465", 1, a, 0, 0, 0);
 }
 
@@ -5746,8 +5416,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG466(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG466(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000748ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000748ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG466", 1, a, 0, 0, 0);
 }
 
@@ -5818,8 +5488,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG467(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG467(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000074cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000074cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG467", 1, a, 0, 0, 0);
 }
 
@@ -5890,8 +5560,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG468(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG468(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000750ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000750ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG468", 1, a, 0, 0, 0);
 }
 
@@ -5956,8 +5626,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG515(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG515(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x3000000080cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x3000000080cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG515", 1, a, 0, 0, 0);
 }
 
@@ -5990,8 +5660,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG516(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG516(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000810ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000810ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG516", 1, a, 0, 0, 0);
 }
 
@@ -6024,8 +5694,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG517(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG517(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000814ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000814ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG517", 1, a, 0, 0, 0);
 }
 
@@ -6084,8 +5754,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG548(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG548(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x30000000890ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000890ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG548", 1, a, 0, 0, 0);
 }
 
@@ -6234,8 +5904,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG554(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG554(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000008a8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000008a8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG554", 1, a, 0, 0, 0);
 }
 
@@ -6270,8 +5940,8 @@ typedef union
 static inline uint64_t BDK_PCIEEPX_CFG558(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPX_CFG558(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000008b8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000008b8ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIEEPX_CFG558", 1, a, 0, 0, 0);
 }
 

@@ -4709,8 +4709,7 @@ static inline uint64_t BDK_OCX_WIN_TIMER_FUNC(void)
  *
  * OCX Window Write Data Register
  * For diagnostic use only. This register is typically written by hardware after accesses to the
- * SLI_WIN_WR_DATA register. Contains the data to write to the address located in the OCX_WIN_CMD
- * Register.
+ * SLI_WIN_WR_DATA register. Contains the data to write to the address located in OCX_WIN_CMD.
  */
 typedef union
 {

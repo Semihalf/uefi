@@ -4267,7 +4267,11 @@ typedef union
 static inline uint64_t BDK_DTX_PEMX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_BCST_RSP(unsigned long a)
 {
-    if (a<=5)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
+        return 0x87e0fe600080ll + 0x8000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0fe600080ll + 0x8000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e0fe600080ll + 0x8000ll * ((a) & 0x7);
     __bdk_csr_fatal("DTX_PEMX_BCST_RSP", 1, a, 0, 0, 0);
 }
@@ -4312,7 +4316,11 @@ typedef union
 static inline uint64_t BDK_DTX_PEMX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_CTL(unsigned long a)
 {
-    if (a<=5)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
+        return 0x87e0fe600060ll + 0x8000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0fe600060ll + 0x8000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e0fe600060ll + 0x8000ll * ((a) & 0x7);
     __bdk_csr_fatal("DTX_PEMX_CTL", 1, a, 0, 0, 0);
 }
@@ -4349,7 +4357,11 @@ typedef union
 static inline uint64_t BDK_DTX_PEMX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_DATX(unsigned long a, unsigned long b)
 {
-    if ((a<=5) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=5) && (b<=1)))
+        return 0x87e0fe600040ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=1)))
+        return 0x87e0fe600040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=5) && (b<=1)))
         return 0x87e0fe600040ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_PEMX_DATX", 2, a, b, 0, 0);
 }
@@ -4386,7 +4398,11 @@ typedef union
 static inline uint64_t BDK_DTX_PEMX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_ENAX(unsigned long a, unsigned long b)
 {
-    if ((a<=5) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=5) && (b<=1)))
+        return 0x87e0fe600020ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=1)))
+        return 0x87e0fe600020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=5) && (b<=1)))
         return 0x87e0fe600020ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_PEMX_ENAX", 2, a, b, 0, 0);
 }
@@ -4421,7 +4437,11 @@ typedef union
 static inline uint64_t BDK_DTX_PEMX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_SELX(unsigned long a, unsigned long b)
 {
-    if ((a<=5) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=5) && (b<=1)))
+        return 0x87e0fe600000ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=1)))
+        return 0x87e0fe600000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=5) && (b<=1)))
         return 0x87e0fe600000ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_PEMX_SELX", 2, a, b, 0, 0);
 }
@@ -4433,14 +4453,14 @@ static inline uint64_t BDK_DTX_PEMX_SELX(unsigned long a, unsigned long b)
 #define arguments_BDK_DTX_PEMX_SELX(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) dtx_pki_pbe_bcst_rsp
+ * Register (RSL) dtx_pki_bcst_rsp
  *
- * DTX PKI_PBE Control Register
+ * DTX PKI Control Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_dtx_pki_pbe_bcst_rsp_s
+    struct bdk_dtx_pki_bcst_rsp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -4450,33 +4470,33 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dtx_pki_pbe_bcst_rsp_s cn; */
-} bdk_dtx_pki_pbe_bcst_rsp_t;
+    /* struct bdk_dtx_pki_bcst_rsp_s cn; */
+} bdk_dtx_pki_bcst_rsp_t;
 
-#define BDK_DTX_PKI_PBE_BCST_RSP BDK_DTX_PKI_PBE_BCST_RSP_FUNC()
-static inline uint64_t BDK_DTX_PKI_PBE_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PBE_BCST_RSP_FUNC(void)
+#define BDK_DTX_PKI_BCST_RSP BDK_DTX_PKI_BCST_RSP_FUNC()
+static inline uint64_t BDK_DTX_PKI_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_PKI_BCST_RSP_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e0fe228080ll;
-    __bdk_csr_fatal("DTX_PKI_PBE_BCST_RSP", 0, 0, 0, 0, 0);
+        return 0x87e0feb60080ll;
+    __bdk_csr_fatal("DTX_PKI_BCST_RSP", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_DTX_PKI_PBE_BCST_RSP bdk_dtx_pki_pbe_bcst_rsp_t
-#define bustype_BDK_DTX_PKI_PBE_BCST_RSP BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PBE_BCST_RSP "DTX_PKI_PBE_BCST_RSP"
-#define busnum_BDK_DTX_PKI_PBE_BCST_RSP 0
-#define arguments_BDK_DTX_PKI_PBE_BCST_RSP -1,-1,-1,-1
+#define typedef_BDK_DTX_PKI_BCST_RSP bdk_dtx_pki_bcst_rsp_t
+#define bustype_BDK_DTX_PKI_BCST_RSP BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_PKI_BCST_RSP "DTX_PKI_BCST_RSP"
+#define busnum_BDK_DTX_PKI_BCST_RSP 0
+#define arguments_BDK_DTX_PKI_BCST_RSP -1,-1,-1,-1
 
 /**
- * Register (RSL) dtx_pki_pbe_ctl
+ * Register (RSL) dtx_pki_ctl
  *
- * DTX PKI_PBE Control Register
+ * DTX PKI Control Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_dtx_pki_pbe_ctl_s
+    struct bdk_dtx_pki_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
@@ -4496,33 +4516,33 @@ typedef union
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dtx_pki_pbe_ctl_s cn; */
-} bdk_dtx_pki_pbe_ctl_t;
+    /* struct bdk_dtx_pki_ctl_s cn; */
+} bdk_dtx_pki_ctl_t;
 
-#define BDK_DTX_PKI_PBE_CTL BDK_DTX_PKI_PBE_CTL_FUNC()
-static inline uint64_t BDK_DTX_PKI_PBE_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PBE_CTL_FUNC(void)
+#define BDK_DTX_PKI_CTL BDK_DTX_PKI_CTL_FUNC()
+static inline uint64_t BDK_DTX_PKI_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_PKI_CTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e0fe228060ll;
-    __bdk_csr_fatal("DTX_PKI_PBE_CTL", 0, 0, 0, 0, 0);
+        return 0x87e0feb60060ll;
+    __bdk_csr_fatal("DTX_PKI_CTL", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_DTX_PKI_PBE_CTL bdk_dtx_pki_pbe_ctl_t
-#define bustype_BDK_DTX_PKI_PBE_CTL BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PBE_CTL "DTX_PKI_PBE_CTL"
-#define busnum_BDK_DTX_PKI_PBE_CTL 0
-#define arguments_BDK_DTX_PKI_PBE_CTL -1,-1,-1,-1
+#define typedef_BDK_DTX_PKI_CTL bdk_dtx_pki_ctl_t
+#define bustype_BDK_DTX_PKI_CTL BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_PKI_CTL "DTX_PKI_CTL"
+#define busnum_BDK_DTX_PKI_CTL 0
+#define arguments_BDK_DTX_PKI_CTL -1,-1,-1,-1
 
 /**
- * Register (RSL) dtx_pki_pbe_dat#
+ * Register (RSL) dtx_pki_dat#
  *
- * DTX PKI_PBE Raw Data Register
+ * DTX PKI Raw Data Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_dtx_pki_pbe_datx_s
+    struct bdk_dtx_pki_datx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
@@ -4534,32 +4554,32 @@ typedef union
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dtx_pki_pbe_datx_s cn; */
-} bdk_dtx_pki_pbe_datx_t;
+    /* struct bdk_dtx_pki_datx_s cn; */
+} bdk_dtx_pki_datx_t;
 
-static inline uint64_t BDK_DTX_PKI_PBE_DATX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PBE_DATX(unsigned long a)
+static inline uint64_t BDK_DTX_PKI_DATX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_PKI_DATX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe228040ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("DTX_PKI_PBE_DATX", 1, a, 0, 0, 0);
+        return 0x87e0feb60040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_PKI_DATX", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DTX_PKI_PBE_DATX(a) bdk_dtx_pki_pbe_datx_t
-#define bustype_BDK_DTX_PKI_PBE_DATX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PBE_DATX(a) "DTX_PKI_PBE_DATX"
-#define busnum_BDK_DTX_PKI_PBE_DATX(a) (a)
-#define arguments_BDK_DTX_PKI_PBE_DATX(a) (a),-1,-1,-1
+#define typedef_BDK_DTX_PKI_DATX(a) bdk_dtx_pki_datx_t
+#define bustype_BDK_DTX_PKI_DATX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_PKI_DATX(a) "DTX_PKI_DATX"
+#define busnum_BDK_DTX_PKI_DATX(a) (a)
+#define arguments_BDK_DTX_PKI_DATX(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dtx_pki_pbe_ena#
+ * Register (RSL) dtx_pki_ena#
  *
- * DTX PKI_PBE Data Enable Register
+ * DTX PKI Data Enable Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_dtx_pki_pbe_enax_s
+    struct bdk_dtx_pki_enax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
@@ -4571,32 +4591,32 @@ typedef union
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dtx_pki_pbe_enax_s cn; */
-} bdk_dtx_pki_pbe_enax_t;
+    /* struct bdk_dtx_pki_enax_s cn; */
+} bdk_dtx_pki_enax_t;
 
-static inline uint64_t BDK_DTX_PKI_PBE_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PBE_ENAX(unsigned long a)
+static inline uint64_t BDK_DTX_PKI_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_PKI_ENAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe228020ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("DTX_PKI_PBE_ENAX", 1, a, 0, 0, 0);
+        return 0x87e0feb60020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_PKI_ENAX", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DTX_PKI_PBE_ENAX(a) bdk_dtx_pki_pbe_enax_t
-#define bustype_BDK_DTX_PKI_PBE_ENAX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PBE_ENAX(a) "DTX_PKI_PBE_ENAX"
-#define busnum_BDK_DTX_PKI_PBE_ENAX(a) (a)
-#define arguments_BDK_DTX_PKI_PBE_ENAX(a) (a),-1,-1,-1
+#define typedef_BDK_DTX_PKI_ENAX(a) bdk_dtx_pki_enax_t
+#define bustype_BDK_DTX_PKI_ENAX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_PKI_ENAX(a) "DTX_PKI_ENAX"
+#define busnum_BDK_DTX_PKI_ENAX(a) (a)
+#define arguments_BDK_DTX_PKI_ENAX(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) dtx_pki_pbe_sel#
+ * Register (RSL) dtx_pki_sel#
  *
- * DTX PKI_PBE Select Register
+ * DTX PKI Select Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_dtx_pki_pbe_selx_s
+    struct bdk_dtx_pki_selx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
@@ -4606,404 +4626,22 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dtx_pki_pbe_selx_s cn; */
-} bdk_dtx_pki_pbe_selx_t;
+    /* struct bdk_dtx_pki_selx_s cn; */
+} bdk_dtx_pki_selx_t;
 
-static inline uint64_t BDK_DTX_PKI_PBE_SELX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PBE_SELX(unsigned long a)
+static inline uint64_t BDK_DTX_PKI_SELX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_PKI_SELX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe228000ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("DTX_PKI_PBE_SELX", 1, a, 0, 0, 0);
+        return 0x87e0feb60000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_PKI_SELX", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DTX_PKI_PBE_SELX(a) bdk_dtx_pki_pbe_selx_t
-#define bustype_BDK_DTX_PKI_PBE_SELX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PBE_SELX(a) "DTX_PKI_PBE_SELX"
-#define busnum_BDK_DTX_PKI_PBE_SELX(a) (a)
-#define arguments_BDK_DTX_PKI_PBE_SELX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dtx_pki_pfe_bcst_rsp
- *
- * DTX PKI_PFE Control Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dtx_pki_pfe_bcst_rsp_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
-#else /* Word 0 - Little Endian */
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dtx_pki_pfe_bcst_rsp_s cn; */
-} bdk_dtx_pki_pfe_bcst_rsp_t;
-
-#define BDK_DTX_PKI_PFE_BCST_RSP BDK_DTX_PKI_PFE_BCST_RSP_FUNC()
-static inline uint64_t BDK_DTX_PKI_PFE_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PFE_BCST_RSP_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e0fe220080ll;
-    __bdk_csr_fatal("DTX_PKI_PFE_BCST_RSP", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_DTX_PKI_PFE_BCST_RSP bdk_dtx_pki_pfe_bcst_rsp_t
-#define bustype_BDK_DTX_PKI_PFE_BCST_RSP BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PFE_BCST_RSP "DTX_PKI_PFE_BCST_RSP"
-#define busnum_BDK_DTX_PKI_PFE_BCST_RSP 0
-#define arguments_BDK_DTX_PKI_PFE_BCST_RSP -1,-1,-1,-1
-
-/**
- * Register (RSL) dtx_pki_pfe_ctl
- *
- * DTX PKI_PFE Control Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dtx_pki_pfe_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
-                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
-                                                                 only. */
-        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
-#else /* Word 0 - Little Endian */
-        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
-        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
-                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
-                                                                 only. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dtx_pki_pfe_ctl_s cn; */
-} bdk_dtx_pki_pfe_ctl_t;
-
-#define BDK_DTX_PKI_PFE_CTL BDK_DTX_PKI_PFE_CTL_FUNC()
-static inline uint64_t BDK_DTX_PKI_PFE_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PFE_CTL_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e0fe220060ll;
-    __bdk_csr_fatal("DTX_PKI_PFE_CTL", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_DTX_PKI_PFE_CTL bdk_dtx_pki_pfe_ctl_t
-#define bustype_BDK_DTX_PKI_PFE_CTL BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PFE_CTL "DTX_PKI_PFE_CTL"
-#define busnum_BDK_DTX_PKI_PFE_CTL 0
-#define arguments_BDK_DTX_PKI_PFE_CTL -1,-1,-1,-1
-
-/**
- * Register (RSL) dtx_pki_pfe_dat#
- *
- * DTX PKI_PFE Raw Data Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dtx_pki_pfe_datx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
-                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
-#else /* Word 0 - Little Endian */
-        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
-                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dtx_pki_pfe_datx_s cn; */
-} bdk_dtx_pki_pfe_datx_t;
-
-static inline uint64_t BDK_DTX_PKI_PFE_DATX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PFE_DATX(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe220040ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("DTX_PKI_PFE_DATX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DTX_PKI_PFE_DATX(a) bdk_dtx_pki_pfe_datx_t
-#define bustype_BDK_DTX_PKI_PFE_DATX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PFE_DATX(a) "DTX_PKI_PFE_DATX"
-#define busnum_BDK_DTX_PKI_PFE_DATX(a) (a)
-#define arguments_BDK_DTX_PKI_PFE_DATX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dtx_pki_pfe_ena#
- *
- * DTX PKI_PFE Data Enable Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dtx_pki_pfe_enax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
-                                                                 only one block will drive each bit. */
-#else /* Word 0 - Little Endian */
-        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
-                                                                 only one block will drive each bit. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dtx_pki_pfe_enax_s cn; */
-} bdk_dtx_pki_pfe_enax_t;
-
-static inline uint64_t BDK_DTX_PKI_PFE_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PFE_ENAX(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe220020ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("DTX_PKI_PFE_ENAX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DTX_PKI_PFE_ENAX(a) bdk_dtx_pki_pfe_enax_t
-#define bustype_BDK_DTX_PKI_PFE_ENAX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PFE_ENAX(a) "DTX_PKI_PFE_ENAX"
-#define busnum_BDK_DTX_PKI_PFE_ENAX(a) (a)
-#define arguments_BDK_DTX_PKI_PFE_ENAX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dtx_pki_pfe_sel#
- *
- * DTX PKI_PFE Select Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dtx_pki_pfe_selx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
-#else /* Word 0 - Little Endian */
-        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
-        uint64_t reserved_24_63        : 40;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dtx_pki_pfe_selx_s cn; */
-} bdk_dtx_pki_pfe_selx_t;
-
-static inline uint64_t BDK_DTX_PKI_PFE_SELX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PFE_SELX(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe220000ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("DTX_PKI_PFE_SELX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DTX_PKI_PFE_SELX(a) bdk_dtx_pki_pfe_selx_t
-#define bustype_BDK_DTX_PKI_PFE_SELX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PFE_SELX(a) "DTX_PKI_PFE_SELX"
-#define busnum_BDK_DTX_PKI_PFE_SELX(a) (a)
-#define arguments_BDK_DTX_PKI_PFE_SELX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dtx_pki_pix_bcst_rsp
- *
- * DTX PKI_PIX Control Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dtx_pki_pix_bcst_rsp_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
-#else /* Word 0 - Little Endian */
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dtx_pki_pix_bcst_rsp_s cn; */
-} bdk_dtx_pki_pix_bcst_rsp_t;
-
-#define BDK_DTX_PKI_PIX_BCST_RSP BDK_DTX_PKI_PIX_BCST_RSP_FUNC()
-static inline uint64_t BDK_DTX_PKI_PIX_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PIX_BCST_RSP_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e0fe230080ll;
-    __bdk_csr_fatal("DTX_PKI_PIX_BCST_RSP", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_DTX_PKI_PIX_BCST_RSP bdk_dtx_pki_pix_bcst_rsp_t
-#define bustype_BDK_DTX_PKI_PIX_BCST_RSP BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PIX_BCST_RSP "DTX_PKI_PIX_BCST_RSP"
-#define busnum_BDK_DTX_PKI_PIX_BCST_RSP 0
-#define arguments_BDK_DTX_PKI_PIX_BCST_RSP -1,-1,-1,-1
-
-/**
- * Register (RSL) dtx_pki_pix_ctl
- *
- * DTX PKI_PIX Control Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dtx_pki_pix_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
-                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
-                                                                 only. */
-        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
-#else /* Word 0 - Little Endian */
-        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
-        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
-                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
-                                                                 only. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dtx_pki_pix_ctl_s cn; */
-} bdk_dtx_pki_pix_ctl_t;
-
-#define BDK_DTX_PKI_PIX_CTL BDK_DTX_PKI_PIX_CTL_FUNC()
-static inline uint64_t BDK_DTX_PKI_PIX_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PIX_CTL_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e0fe230060ll;
-    __bdk_csr_fatal("DTX_PKI_PIX_CTL", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_DTX_PKI_PIX_CTL bdk_dtx_pki_pix_ctl_t
-#define bustype_BDK_DTX_PKI_PIX_CTL BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PIX_CTL "DTX_PKI_PIX_CTL"
-#define busnum_BDK_DTX_PKI_PIX_CTL 0
-#define arguments_BDK_DTX_PKI_PIX_CTL -1,-1,-1,-1
-
-/**
- * Register (RSL) dtx_pki_pix_dat#
- *
- * DTX PKI_PIX Raw Data Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dtx_pki_pix_datx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
-                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
-#else /* Word 0 - Little Endian */
-        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
-                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dtx_pki_pix_datx_s cn; */
-} bdk_dtx_pki_pix_datx_t;
-
-static inline uint64_t BDK_DTX_PKI_PIX_DATX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PIX_DATX(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe230040ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("DTX_PKI_PIX_DATX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DTX_PKI_PIX_DATX(a) bdk_dtx_pki_pix_datx_t
-#define bustype_BDK_DTX_PKI_PIX_DATX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PIX_DATX(a) "DTX_PKI_PIX_DATX"
-#define busnum_BDK_DTX_PKI_PIX_DATX(a) (a)
-#define arguments_BDK_DTX_PKI_PIX_DATX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dtx_pki_pix_ena#
- *
- * DTX PKI_PIX Data Enable Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dtx_pki_pix_enax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
-                                                                 only one block will drive each bit. */
-#else /* Word 0 - Little Endian */
-        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
-                                                                 only one block will drive each bit. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dtx_pki_pix_enax_s cn; */
-} bdk_dtx_pki_pix_enax_t;
-
-static inline uint64_t BDK_DTX_PKI_PIX_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PIX_ENAX(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe230020ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("DTX_PKI_PIX_ENAX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DTX_PKI_PIX_ENAX(a) bdk_dtx_pki_pix_enax_t
-#define bustype_BDK_DTX_PKI_PIX_ENAX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PIX_ENAX(a) "DTX_PKI_PIX_ENAX"
-#define busnum_BDK_DTX_PKI_PIX_ENAX(a) (a)
-#define arguments_BDK_DTX_PKI_PIX_ENAX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dtx_pki_pix_sel#
- *
- * DTX PKI_PIX Select Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dtx_pki_pix_selx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
-#else /* Word 0 - Little Endian */
-        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
-        uint64_t reserved_24_63        : 40;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dtx_pki_pix_selx_s cn; */
-} bdk_dtx_pki_pix_selx_t;
-
-static inline uint64_t BDK_DTX_PKI_PIX_SELX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DTX_PKI_PIX_SELX(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0fe230000ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("DTX_PKI_PIX_SELX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DTX_PKI_PIX_SELX(a) bdk_dtx_pki_pix_selx_t
-#define bustype_BDK_DTX_PKI_PIX_SELX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_DTX_PKI_PIX_SELX(a) "DTX_PKI_PIX_SELX"
-#define busnum_BDK_DTX_PKI_PIX_SELX(a) (a)
-#define arguments_BDK_DTX_PKI_PIX_SELX(a) (a),-1,-1,-1
+#define typedef_BDK_DTX_PKI_SELX(a) bdk_dtx_pki_selx_t
+#define bustype_BDK_DTX_PKI_SELX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_PKI_SELX(a) "DTX_PKI_SELX"
+#define busnum_BDK_DTX_PKI_SELX(a) (a)
+#define arguments_BDK_DTX_PKI_SELX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) dtx_pko_bcst_rsp
@@ -6928,6 +6566,207 @@ static inline uint64_t BDK_DTX_USBHX_SELX(unsigned long a, unsigned long b)
 #define basename_BDK_DTX_USBHX_SELX(a,b) "DTX_USBHX_SELX"
 #define busnum_BDK_DTX_USBHX_SELX(a,b) (a)
 #define arguments_BDK_DTX_USBHX_SELX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_xcv_bcst_rsp
+ *
+ * DTX XCV Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_xcv_bcst_rsp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_xcv_bcst_rsp_s cn; */
+} bdk_dtx_xcv_bcst_rsp_t;
+
+#define BDK_DTX_XCV_BCST_RSP BDK_DTX_XCV_BCST_RSP_FUNC()
+static inline uint64_t BDK_DTX_XCV_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_XCV_BCST_RSP_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e0fe6d8080ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e0fe6d8080ll;
+    __bdk_csr_fatal("DTX_XCV_BCST_RSP", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_XCV_BCST_RSP bdk_dtx_xcv_bcst_rsp_t
+#define bustype_BDK_DTX_XCV_BCST_RSP BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_XCV_BCST_RSP "DTX_XCV_BCST_RSP"
+#define busnum_BDK_DTX_XCV_BCST_RSP 0
+#define arguments_BDK_DTX_XCV_BCST_RSP -1,-1,-1,-1
+
+/**
+ * Register (RSL) dtx_xcv_ctl
+ *
+ * DTX XCV Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_xcv_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
+                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+                                                                 only. */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+#else /* Word 0 - Little Endian */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
+                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+                                                                 only. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_xcv_ctl_s cn; */
+} bdk_dtx_xcv_ctl_t;
+
+#define BDK_DTX_XCV_CTL BDK_DTX_XCV_CTL_FUNC()
+static inline uint64_t BDK_DTX_XCV_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_XCV_CTL_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e0fe6d8060ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e0fe6d8060ll;
+    __bdk_csr_fatal("DTX_XCV_CTL", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_XCV_CTL bdk_dtx_xcv_ctl_t
+#define bustype_BDK_DTX_XCV_CTL BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_XCV_CTL "DTX_XCV_CTL"
+#define busnum_BDK_DTX_XCV_CTL 0
+#define arguments_BDK_DTX_XCV_CTL -1,-1,-1,-1
+
+/**
+ * Register (RSL) dtx_xcv_dat#
+ *
+ * DTX XCV Raw Data Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_xcv_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
+#else /* Word 0 - Little Endian */
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_xcv_datx_s cn; */
+} bdk_dtx_xcv_datx_t;
+
+static inline uint64_t BDK_DTX_XCV_DATX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_XCV_DATX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0fe6d8040ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0fe6d8040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_XCV_DATX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_XCV_DATX(a) bdk_dtx_xcv_datx_t
+#define bustype_BDK_DTX_XCV_DATX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_XCV_DATX(a) "DTX_XCV_DATX"
+#define busnum_BDK_DTX_XCV_DATX(a) (a)
+#define arguments_BDK_DTX_XCV_DATX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_xcv_ena#
+ *
+ * DTX XCV Data Enable Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_xcv_enax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+                                                                 only one block will drive each bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+                                                                 only one block will drive each bit. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_xcv_enax_s cn; */
+} bdk_dtx_xcv_enax_t;
+
+static inline uint64_t BDK_DTX_XCV_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_XCV_ENAX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0fe6d8020ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0fe6d8020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_XCV_ENAX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_XCV_ENAX(a) bdk_dtx_xcv_enax_t
+#define bustype_BDK_DTX_XCV_ENAX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_XCV_ENAX(a) "DTX_XCV_ENAX"
+#define busnum_BDK_DTX_XCV_ENAX(a) (a)
+#define arguments_BDK_DTX_XCV_ENAX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_xcv_sel#
+ *
+ * DTX XCV Select Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_xcv_selx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_xcv_selx_s cn; */
+} bdk_dtx_xcv_selx_t;
+
+static inline uint64_t BDK_DTX_XCV_SELX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_XCV_SELX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0fe6d8000ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0fe6d8000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_XCV_SELX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_XCV_SELX(a) bdk_dtx_xcv_selx_t
+#define bustype_BDK_DTX_XCV_SELX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_XCV_SELX(a) "DTX_XCV_SELX"
+#define busnum_BDK_DTX_XCV_SELX(a) (a)
+#define arguments_BDK_DTX_XCV_SELX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) dtx_zip_bcst_rsp

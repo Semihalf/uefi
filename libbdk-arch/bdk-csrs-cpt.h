@@ -78,6 +78,107 @@
                                        hardware. */
 
 /**
+ * Enumeration cpt_eop_e
+ *
+ * CPT EOP (EPCI Opcodes) Enumeration
+ * Opcodes on the epci bus.
+ */
+#define BDK_CPT_EOP_E_ATM_CAS128 (0x24) /**< Compare-and-swap 128-bit. Maps to LACAS on CMB. */
+#define BDK_CPT_EOP_E_ATM_CAS32 (0x22) /**< Compare-and-swap 32-bit. Maps to LACAS on CMB. */
+#define BDK_CPT_EOP_E_ATM_CAS64 (0x23) /**< Compare-and-swap 64-bit. Maps to LACAS on CMB. */
+#define BDK_CPT_EOP_E_ATM_CLR16 (0x2d) /**< Load atomic clear 16-bit. Maps to LACLR on CMB. */
+#define BDK_CPT_EOP_E_ATM_CLR32 (0x2e) /**< Load atomic clear 32-bit. Maps to LACLR on CMB. */
+#define BDK_CPT_EOP_E_ATM_CLR64 (0x2f) /**< Load atomic clear 64-bit. Maps to LACLR on CMB. */
+#define BDK_CPT_EOP_E_ATM_CLR8 (0x2c) /**< Load atomic clear 8-bit. Maps to LACLR on CMB. */
+#define BDK_CPT_EOP_E_ATM_DECR16 (0x35) /**< Load atomic decrement 16-bit. Maps  to LADEC on CMB. */
+#define BDK_CPT_EOP_E_ATM_DECR32 (0x36) /**< Load atomic decrement 32-bit. Maps  to LADEC on CMB. */
+#define BDK_CPT_EOP_E_ATM_DECR64 (0x37) /**< Load atomic decrement 64-bit. Maps  to LADEC on CMB. */
+#define BDK_CPT_EOP_E_ATM_DECR8 (0x34) /**< Load atomic decrement 8-bit. Maps  to LADEC on CMB. */
+#define BDK_CPT_EOP_E_ATM_FAA32 (0x3a) /**< Load atomic add 32-bit. Maps to LAADD on CMB. */
+#define BDK_CPT_EOP_E_ATM_FAA64 (0x3b) /**< Load atomic add 64-bit. Maps to LAADD on CMB. */
+#define BDK_CPT_EOP_E_ATM_FAS32 (0x16) /**< Store atomic swap 32-bit. Maps to SASWP on CMB. */
+#define BDK_CPT_EOP_E_ATM_FAS64 (0x17) /**< Store atomic swap 64-bit. maps to SASWP on CMB. */
+#define BDK_CPT_EOP_E_ATM_INCR16 (0x31) /**< Load atomic increment 16-bit. Maps to LAINC on CMB. */
+#define BDK_CPT_EOP_E_ATM_INCR32 (0x32) /**< Load atomic increment 32-bit. Maps to LAINC on CMB. */
+#define BDK_CPT_EOP_E_ATM_INCR64 (0x33) /**< Load atomic increment 64-bit. Maps to LAINC on CMB. */
+#define BDK_CPT_EOP_E_ATM_INCR8 (0x30) /**< Load atomic increment 8-bit. Maps to LAINC on CMB. */
+#define BDK_CPT_EOP_E_ATM_LAEOR16 (0x81) /**< Load atomic exclusive-or 16-bit. */
+#define BDK_CPT_EOP_E_ATM_LAEOR32 (0x82) /**< Load atomic exclusive-or 32-bit. */
+#define BDK_CPT_EOP_E_ATM_LAEOR64 (0x83) /**< Load atomic exclusive-or 64-bit. */
+#define BDK_CPT_EOP_E_ATM_LAEOR8 (0x80) /**< Load atomic exclusive-or 8-bit. */
+#define BDK_CPT_EOP_E_ATM_LASMAX16 (0x85) /**< Load atomic maximum 16-bit. */
+#define BDK_CPT_EOP_E_ATM_LASMAX32 (0x86) /**< Load atomic maximum 32-bit. */
+#define BDK_CPT_EOP_E_ATM_LASMAX64 (0x87) /**< Load atomic maximum 64-bit. */
+#define BDK_CPT_EOP_E_ATM_LASMAX8 (0x84) /**< Load atomic maximum 8-bit. */
+#define BDK_CPT_EOP_E_ATM_LASMIN16 (0x89) /**< Load atomic minimum 16-bit. */
+#define BDK_CPT_EOP_E_ATM_LASMIN32 (0x8a) /**< Load atomic minimum 32-bit. */
+#define BDK_CPT_EOP_E_ATM_LASMIN64 (0x8b) /**< Load atomic minimum 64-bit. */
+#define BDK_CPT_EOP_E_ATM_LASMIN8 (0x88) /**< Load atomic minimum 8-bit. */
+#define BDK_CPT_EOP_E_ATM_LAUMAX16 (0x8d) /**< Load atomic unsigned maximum 16-bit. */
+#define BDK_CPT_EOP_E_ATM_LAUMAX32 (0x8e) /**< Load atomic unsigned maximum 32-bit. */
+#define BDK_CPT_EOP_E_ATM_LAUMAX64 (0x8f) /**< Load atomic unsigned maximum 64-bit. */
+#define BDK_CPT_EOP_E_ATM_LAUMAX8 (0x8c) /**< Load atomic unsigned maximum 8-bit. */
+#define BDK_CPT_EOP_E_ATM_LAUMIN16 (0x91) /**< Load atomic unsigned minimum 16-bit. */
+#define BDK_CPT_EOP_E_ATM_LAUMIN32 (0x92) /**< Load atomic unsigned minimum 32-bit. */
+#define BDK_CPT_EOP_E_ATM_LAUMIN64 (0x93) /**< Load atomic unsigned minimum 64-bit. */
+#define BDK_CPT_EOP_E_ATM_LAUMIN8 (0x90) /**< Load atomic unsigned minimum 8-bit. */
+#define BDK_CPT_EOP_E_ATM_SAA32 (0x3e) /**< Store atomic add 32-bit. Maps to SAADD on CMB. */
+#define BDK_CPT_EOP_E_ATM_SAA64 (0x3f) /**< Store atomic add 64-bit. Maps to SAADD on CMB. */
+#define BDK_CPT_EOP_E_ATM_SAAM132 (0x26) /**< Store atomic minus-one 32-bit. Maps to SADEC on CMB. */
+#define BDK_CPT_EOP_E_ATM_SAAM164 (0x27) /**< Store atomic minus-one 64-bit. Maps to SADEC on CMB. */
+#define BDK_CPT_EOP_E_ATM_SACLR16 (0xa5) /**< Store atomic 16-bit. Maps to SACLR on CMB. */
+#define BDK_CPT_EOP_E_ATM_SACLR32 (0xa6) /**< Store atomic 32-bit. Maps to SACLR on CMB. */
+#define BDK_CPT_EOP_E_ATM_SACLR64 (0xa7) /**< Store atomic 64-bit. Maps to SACLR on CMB. */
+#define BDK_CPT_EOP_E_ATM_SACLR8 (0xa4) /**< Store atomic 8-bit. Maps to SACLR on CMB. */
+#define BDK_CPT_EOP_E_ATM_SAEOR16 (0xa9) /**< Store atomic exclusive-or 16-bit. */
+#define BDK_CPT_EOP_E_ATM_SAEOR32 (0xaa) /**< Store atomic exclusive-or 32-bit. */
+#define BDK_CPT_EOP_E_ATM_SAEOR64 (0xab) /**< Store atomic exclusive-or 64-bit. */
+#define BDK_CPT_EOP_E_ATM_SAEOR8 (0xa8) /**< Store atomic exclusive-or 8-bit. */
+#define BDK_CPT_EOP_E_ATM_SAINCR16 (0xa1) /**< Store atomic increment 16-bit. Maps to SAINC on CMB. */
+#define BDK_CPT_EOP_E_ATM_SAINCR32 (0xa2) /**< Store atomic increment 32-bit. Maps to SAINC on CMB. */
+#define BDK_CPT_EOP_E_ATM_SAINCR64 (0xa3) /**< Store atomic increment 64-bit. Maps to SAINC on CMB. */
+#define BDK_CPT_EOP_E_ATM_SAINCR8 (0xa0) /**< Store atomic increment 8-bit. Maps to SAINC on CMB. */
+#define BDK_CPT_EOP_E_ATM_SASET16 (0xad) /**< Store atomic 16-bit. Maps to SASET on CMB. */
+#define BDK_CPT_EOP_E_ATM_SASET32 (0xae) /**< Store atomic 32-bit. Maps to SASET on CMB. */
+#define BDK_CPT_EOP_E_ATM_SASET64 (0xaf) /**< Store atomic 64-bit. Maps to SASET on CMB. */
+#define BDK_CPT_EOP_E_ATM_SASET8 (0xac) /**< Store atomic 8-bit. Maps to SASET on CMB. */
+#define BDK_CPT_EOP_E_ATM_SASMAX16 (0xb1) /**< Store atomic maximum 16-bit. */
+#define BDK_CPT_EOP_E_ATM_SASMAX32 (0xb2) /**< Store atomic maximum 32-bit. */
+#define BDK_CPT_EOP_E_ATM_SASMAX64 (0xb3) /**< Store atomic maximum 64-bit. */
+#define BDK_CPT_EOP_E_ATM_SASMAX8 (0xb0) /**< Store atomic maximum 8-bit. */
+#define BDK_CPT_EOP_E_ATM_SASMIN16 (0xb5) /**< Store atomic minimum 16-bit. */
+#define BDK_CPT_EOP_E_ATM_SASMIN32 (0xb6) /**< Store atomic minimum 32-bit. */
+#define BDK_CPT_EOP_E_ATM_SASMIN64 (0xb7) /**< Store atomic minimum 64-bit. */
+#define BDK_CPT_EOP_E_ATM_SASMIN8 (0xb4) /**< Store atomic minimum 8-bit. */
+#define BDK_CPT_EOP_E_ATM_SAUMAX16 (0xb9) /**< Store atomic unsigned maximum 16-bit. */
+#define BDK_CPT_EOP_E_ATM_SAUMAX32 (0xba) /**< Store atomic unsigned maximum 32-bit. */
+#define BDK_CPT_EOP_E_ATM_SAUMAX64 (0xbb) /**< Store atomic unsigned maximum 64-bit. */
+#define BDK_CPT_EOP_E_ATM_SAUMAX8 (0xb8) /**< Store atomic unsigned maximum 8-bit. */
+#define BDK_CPT_EOP_E_ATM_SAUMIN16 (0xbd) /**< Store atomic unsigned minimum 16-bit. */
+#define BDK_CPT_EOP_E_ATM_SAUMIN32 (0xbe) /**< Store atomic unsigned minimum 32-bit. */
+#define BDK_CPT_EOP_E_ATM_SAUMIN64 (0xbf) /**< Store atomic unsigned minimim 64-bit. */
+#define BDK_CPT_EOP_E_ATM_SAUMIN8 (0xbc) /**< Store atomic unsigned minimum 8-bit. */
+#define BDK_CPT_EOP_E_ATM_SET16 (0x29) /**< Load atomic set 16-bit. Maps to LASET on CMB. */
+#define BDK_CPT_EOP_E_ATM_SET32 (0x2a) /**< Load atomic set 32-bit. Maps to LASET on CMB. */
+#define BDK_CPT_EOP_E_ATM_SET64 (0x2b) /**< Load atomic set 64-bit. Maps to LASET on CMB. */
+#define BDK_CPT_EOP_E_ATM_SET8 (0x28) /**< Load atomic set 8-bit. Maps to LASET on CMB. */
+#define BDK_CPT_EOP_E_DMA_RD_LDD (8) /**< Read and cache local. */
+#define BDK_CPT_EOP_E_DMA_RD_LDE (0xb) /**< Read and cache local write intent. */
+#define BDK_CPT_EOP_E_DMA_RD_LDI (2) /**< Read and cache local read-only. */
+#define BDK_CPT_EOP_E_DMA_RD_LDT (1) /**< Read and don't allocate. */
+#define BDK_CPT_EOP_E_DMA_RD_LDWB (0xd) /**< Read and invalidate. */
+#define BDK_CPT_EOP_E_DMA_RD_LDY (6) /**< Read and cache home. */
+#define BDK_CPT_EOP_E_DMA_WR_STP (0x12) /**< Store partial/full on NCB. CPT/IOB chooses between STP or STF based on the
+                                       transaction size. */
+#define BDK_CPT_EOP_E_DMA_WR_STT (0x11) /**< Store and don't allocate a cache location. Maps to STT on NCB. */
+#define BDK_CPT_EOP_E_DMA_WR_STY (0xe) /**< Store and allocate home cache; CPT chooses based on size. Maps to STY/RSTP on NCB. */
+#define BDK_CPT_EOP_E_ERR_REQUEST (0xfb) /**< Report an error. */
+#define BDK_CPT_EOP_E_NEW_WORK_REQ (0xff) /**< Request new work. */
+#define BDK_CPT_EOP_E_RANDOM1_REQ (0x61) /**< Request block of non-zero random bytes. */
+#define BDK_CPT_EOP_E_RANDOM_REQ (0x60) /**< Request block of random bytes. */
+#define BDK_CPT_EOP_E_UCODE_REQ (0xfc) /**< Request microcode cache block. */
+
+/**
  * Enumeration cpt_pf_int_vec_e
  *
  * CPT PF MSI-X Vector Enumeration

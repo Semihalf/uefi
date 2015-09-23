@@ -7346,8 +7346,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_TLBX_DAT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBX_DAT(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=4095)))
-        return 0x830000028000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0xfff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2047)))
+        return 0x830000028000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=4095)))
         return 0x830000028000ll + 0x1000000000ll * ((a) & 0x3) + 8ll * ((b) & 0xfff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=4095)))
@@ -7691,8 +7691,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_WCUX_DAT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_WCUX_DAT(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2047)))
-        return 0x830000024000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=1023)))
+        return 0x830000024000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=2047)))
         return 0x830000024000ll + 0x1000000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=2047)))

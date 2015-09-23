@@ -178,6 +178,15 @@
                                        ZIP_INST_S[IV_PTR] = 0x0 the initial hash value is the SHA-1 standard
                                        0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0.
                                        
+                                       ZIP calculates SHA hashes on 64-byte hash-blocks, padding the final hash-block
+                                       if necessary to 64 bytes.  Therefore, if hashing is enabled, and ZIP_INST_S[EF]
+                                       is clear indicating additional file-blocks will follow, and the length of the
+                                       hashed data is not a multiple of the hash block size (64 bytes), then ZIP will
+                                       have padded the final hash-block in the file-block.  Feeding that calculated
+                                       hash forward to subsequent instructions working on additional file-blocks in the
+                                       file may result in a whole-file hash that differs from a hash calculated if the
+                                       entire file was processed as a single instruction.
+                                       
                                        INTERNAL: Verify this IVs result in the proper standard hash results. */
 #define BDK_ZIP_HASH_ALG_E_SHA256 (2) /**< SHA-256 hashing. ZIP_ZRES_S writes 64 bytes.
                                        
@@ -185,6 +194,15 @@
                                        ZIP_INST_S[IV_PTR] = 0x0 the initial hash value is the SHA-256 standard
                                        0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A, 0x510E527F, 0x9B05688C,
                                        0x1F83D9AB, 0x5BE0CD19.
+                                       
+                                       ZIP calculates SHA hashes on 64-byte hash-blocks, padding the final hash-block
+                                       if necessary to 64 bytes.  Therefore, if hashing is enabled, and ZIP_INST_S[EF]
+                                       is clear indicating additional file-blocks will follow, and the length of the
+                                       hashed data is not a multiple of the hash block size (64 bytes), then ZIP will
+                                       have padded the final hash-block in the file-block.  Feeding that calculated
+                                       hash forward to subsequent instructions working on additional file-blocks in the
+                                       file may result in a whole-file hash that differs from a hash calculated if the
+                                       entire file was processed as a single instruction.
                                        
                                        INTERNAL: Verify this IVs result in the proper standard hash results. */
 

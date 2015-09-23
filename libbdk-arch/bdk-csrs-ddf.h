@@ -192,7 +192,7 @@ union bdk_ddf_inst_find_s
                                                                  the next instruction will access the same data. */
         uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When DONEINT is set and the instruction completes,
                                                                  DDF()_VQ()_DONE[DONE] will be incremented. */
-        uint64_t qwords                : 8;  /**< [ 15:  8] Number of 16-byte quadwords in request. Must be 1-16. If less than the size of
+        uint64_t qwords                : 8;  /**< [ 15:  8] Number of 8-byte quadwords in request. Must be 1-16. If less than the size of
                                                                  this structure then structure elements described here are not read from memory
                                                                  and behave as if zero.
 
@@ -201,7 +201,7 @@ union bdk_ddf_inst_find_s
         uint64_t op                    : 8;  /**< [  7:  0] Operation to perform. Enumerated by DDF_OP_E. */
 #else /* Word 0 - Little Endian */
         uint64_t op                    : 8;  /**< [  7:  0] Operation to perform. Enumerated by DDF_OP_E. */
-        uint64_t qwords                : 8;  /**< [ 15:  8] Number of 16-byte quadwords in request. Must be 1-16. If less than the size of
+        uint64_t qwords                : 8;  /**< [ 15:  8] Number of 8-byte quadwords in request. Must be 1-16. If less than the size of
                                                                  this structure then structure elements described here are not read from memory
                                                                  and behave as if zero.
 
@@ -313,26 +313,26 @@ union bdk_ddf_inst_find_s
                                                                  0x2 = 4 ways.
                                                                  0x3 = 8 ways. */
         uint64_t hdrszp2               : 3;  /**< [377:375] Size of a filter header as power-of-2.
-                                                                    0x1 = 1 byte.
-                                                                    0x2 = 2 bytes.
-                                                                    0x3 = 4 bytes.
-                                                                    0x4 = 8 bytes.
-                                                                    0x5 = 16 bytes.
-                                                                    0x6 = 32 bytes. (See note - must have 1, 2 or 4 ways.)
-                                                                    0x7 = 64 bytes. (See note - must have 1 or 2 ways.)
-                                                                    0x8 = 128 bytes. (See note - must have 1 way.)
+                                                                    0x0 = 1 byte.
+                                                                    0x1 = 2 bytes.
+                                                                    0x2 = 4 bytes.
+                                                                    0x3 = 8 bytes.
+                                                                    0x4 = 16 bytes.
+                                                                    0x5 = 32 bytes. (See note - must have 1, 2 or 4 ways.)
+                                                                    0x6 = 64 bytes. (See note - must have 1 or 2 ways.)
+                                                                    0x7 = 128 bytes. (See note - must have 1 way.)
 
                                                                  The size of a header for all ways, e.g. (2^NWAYP2)*(2^HDRSZP2) cannot be larger than
                                                                  128 bytes.
 
                                                                  If [VICTEN] is set the header must be large enough to fit the victim. */
         uint64_t nestszp2              : 3;  /**< [374:372] Size of a nest entry as power-of-2.
-                                                                    0x1 = 1 byte.
-                                                                    0x2 = 2 bytes.
-                                                                    0x3 = 4 bytes.
-                                                                    0x4 = 8 bytes.
-                                                                    0x5 = 16 bytes.
-                                                                    0x6 = 32 bytes.
+                                                                    0x0 = 1 byte.
+                                                                    0x1 = 2 bytes.
+                                                                    0x2 = 4 bytes.
+                                                                    0x3 = 8 bytes.
+                                                                    0x4 = 16 bytes.
+                                                                    0x5 = 32 bytes.
 
                                                                  The total size of a filter, e.g. (2^NBUCKP2) * 4 * 2^NESTSZP2) cannot be larger than
                                                                  512 bytes.
@@ -340,7 +340,8 @@ union bdk_ddf_inst_find_s
 
                                                                  INTERNAL: This means a 32-byte SHA256 cannot have any payload (SW must use separate
                                                                  table). Limiting to 32 byte nests means all 4 nests fit in a cache line. */
-        uint64_t nbuckp2               : 4;  /**< [371:368] Number of buckets per filter as a power-of-2.
+        uint64_t reserved_371          : 1;
+        uint64_t nbuckp2               : 3;  /**< [370:368] Number of buckets per filter as a power-of-2.
                                                                    0x0 = 1 bucket/filter.
                                                                    0x1 = 2^1 = 2 buckets/filter.
                                                                    0x2 = 2^2 = 4 buckets/filter.
@@ -355,17 +356,17 @@ union bdk_ddf_inst_find_s
         uint64_t tagbitsm1             : 8;  /**< [367:360] Number of tag bits minus one. Maximum of 0xFF corresponds to a complete 256 bit key. */
         uint64_t reserved_359          : 1;
         uint64_t cuckoo                : 7;  /**< [358:352] Cuckoo retries.
-                                                                 For [OP] = ADD, the the number of times to perform cuckoo replacements.
+                                                                 For [OP] = FIND_INS, the the number of times to perform cuckoo replacements.
                                                                  0x0 disables retrying.  For a filter of 64 buckets, 64 would be a typical maximum. */
         uint64_t nrankm1               : 32; /**< [351:320] Number of ranks minus one. Does not need to be a power-of-2. */
 #else /* Word 5 - Little Endian */
         uint64_t nrankm1               : 32; /**< [351:320] Number of ranks minus one. Does not need to be a power-of-2. */
         uint64_t cuckoo                : 7;  /**< [358:352] Cuckoo retries.
-                                                                 For [OP] = ADD, the the number of times to perform cuckoo replacements.
+                                                                 For [OP] = FIND_INS, the the number of times to perform cuckoo replacements.
                                                                  0x0 disables retrying.  For a filter of 64 buckets, 64 would be a typical maximum. */
         uint64_t reserved_359          : 1;
         uint64_t tagbitsm1             : 8;  /**< [367:360] Number of tag bits minus one. Maximum of 0xFF corresponds to a complete 256 bit key. */
-        uint64_t nbuckp2               : 4;  /**< [371:368] Number of buckets per filter as a power-of-2.
+        uint64_t nbuckp2               : 3;  /**< [370:368] Number of buckets per filter as a power-of-2.
                                                                    0x0 = 1 bucket/filter.
                                                                    0x1 = 2^1 = 2 buckets/filter.
                                                                    0x2 = 2^2 = 4 buckets/filter.
@@ -377,13 +378,14 @@ union bdk_ddf_inst_find_s
 
                                                                  The total size of a filter, e.g. (2^NBUCKP2)*4*2^NESTSZP2) cannot be larger than 512
                                                                  bytes. */
+        uint64_t reserved_371          : 1;
         uint64_t nestszp2              : 3;  /**< [374:372] Size of a nest entry as power-of-2.
-                                                                    0x1 = 1 byte.
-                                                                    0x2 = 2 bytes.
-                                                                    0x3 = 4 bytes.
-                                                                    0x4 = 8 bytes.
-                                                                    0x5 = 16 bytes.
-                                                                    0x6 = 32 bytes.
+                                                                    0x0 = 1 byte.
+                                                                    0x1 = 2 bytes.
+                                                                    0x2 = 4 bytes.
+                                                                    0x3 = 8 bytes.
+                                                                    0x4 = 16 bytes.
+                                                                    0x5 = 32 bytes.
 
                                                                  The total size of a filter, e.g. (2^NBUCKP2) * 4 * 2^NESTSZP2) cannot be larger than
                                                                  512 bytes.
@@ -392,14 +394,14 @@ union bdk_ddf_inst_find_s
                                                                  INTERNAL: This means a 32-byte SHA256 cannot have any payload (SW must use separate
                                                                  table). Limiting to 32 byte nests means all 4 nests fit in a cache line. */
         uint64_t hdrszp2               : 3;  /**< [377:375] Size of a filter header as power-of-2.
-                                                                    0x1 = 1 byte.
-                                                                    0x2 = 2 bytes.
-                                                                    0x3 = 4 bytes.
-                                                                    0x4 = 8 bytes.
-                                                                    0x5 = 16 bytes.
-                                                                    0x6 = 32 bytes. (See note - must have 1, 2 or 4 ways.)
-                                                                    0x7 = 64 bytes. (See note - must have 1 or 2 ways.)
-                                                                    0x8 = 128 bytes. (See note - must have 1 way.)
+                                                                    0x0 = 1 byte.
+                                                                    0x1 = 2 bytes.
+                                                                    0x2 = 4 bytes.
+                                                                    0x3 = 8 bytes.
+                                                                    0x4 = 16 bytes.
+                                                                    0x5 = 32 bytes. (See note - must have 1, 2 or 4 ways.)
+                                                                    0x6 = 64 bytes. (See note - must have 1 or 2 ways.)
+                                                                    0x7 = 128 bytes. (See note - must have 1 way.)
 
                                                                  The size of a header for all ways, e.g. (2^NWAYP2)*(2^HDRSZP2) cannot be larger than
                                                                  128 bytes.
@@ -508,15 +510,24 @@ union bdk_ddf_inst_match_s
                                                                  Typically the same as the number of records in a record block.
                                                                  If 0x0, compare nothing. */
         uint64_t recszm1               : 8;  /**< [ 47: 40] Record size in bytes minus one.  Number of bytes must be multiple of 4
-                                                                 and are not required to be powers of 2.
+                                                                 and are not required to be powers of 2. Hardware ignores bits 1:0.
+
                                                                  0x3 = 4 bytes.
                                                                  0x7 = 8 bytes.
                                                                  0xF = 16 bytes.
                                                                  0x13 = 20 bytes.
+                                                                 0x17 = 24 bytes.
+                                                                 _ ...
                                                                  0x3F = 64 bytes.
 
                                                                  INTERNAL: Must support non-power-of-2. */
-        uint64_t reserved_22_39        : 18;
+        uint64_t reserved_23_39        : 17;
+        uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches.
+                                                                 0 = A match is only expected in one record.
+                                                                 Once a record is found to match in any record-set, ignore further comparisons.
+                                                                 1 = A match may occur in multiple records.
+                                                                 If a record is found to match, continue to compare or update all records in
+                                                                 all record-sets. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
         uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
                                                                  clear, do not allocate if not already in L2 cache. */
@@ -538,13 +549,22 @@ union bdk_ddf_inst_match_s
         uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
                                                                  clear, do not allocate if not already in L2 cache. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
-        uint64_t reserved_22_39        : 18;
+        uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches.
+                                                                 0 = A match is only expected in one record.
+                                                                 Once a record is found to match in any record-set, ignore further comparisons.
+                                                                 1 = A match may occur in multiple records.
+                                                                 If a record is found to match, continue to compare or update all records in
+                                                                 all record-sets. */
+        uint64_t reserved_23_39        : 17;
         uint64_t recszm1               : 8;  /**< [ 47: 40] Record size in bytes minus one.  Number of bytes must be multiple of 4
-                                                                 and are not required to be powers of 2.
+                                                                 and are not required to be powers of 2. Hardware ignores bits 1:0.
+
                                                                  0x3 = 4 bytes.
                                                                  0x7 = 8 bytes.
                                                                  0xF = 16 bytes.
                                                                  0x13 = 20 bytes.
+                                                                 0x17 = 24 bytes.
+                                                                 _ ...
                                                                  0x3F = 64 bytes.
 
                                                                  INTERNAL: Must support non-power-of-2. */
@@ -673,16 +693,25 @@ union bdk_ddf_inst_match_s
                                                                  Typically the same as the number of records in a record block.
                                                                  If 0x0, compare nothing. */
         uint64_t recszm1               : 8;  /**< [ 47: 40] Record size in bytes minus one.  Number of bytes must be multiple of 4
-                                                                 and are not required to be powers of 2.
+                                                                 and are not required to be powers of 2. Hardware ignores bits 1:0.
+
                                                                  0x3 = 4 bytes.
                                                                  0x7 = 8 bytes.
                                                                  0xF = 16 bytes.
                                                                  0x13 = 20 bytes.
+                                                                 0x17 = 24 bytes.
+                                                                 _ ...
                                                                  0x3F = 64 bytes.
 
                                                                  INTERNAL: Must support non-power-of-2. */
         uint64_t reserved_32_39        : 8;
-        uint64_t reserved_22_31        : 10;
+        uint64_t reserved_23_31        : 9;
+        uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches.
+                                                                 0 = A match is only expected in one record.
+                                                                 Once a record is found to match in any record-set, ignore further comparisons.
+                                                                 1 = A match may occur in multiple records.
+                                                                 If a record is found to match, continue to compare or update all records in
+                                                                 all record-sets. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
         uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
                                                                  clear, do not allocate if not already in L2 cache. */
@@ -704,14 +733,23 @@ union bdk_ddf_inst_match_s
         uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
                                                                  clear, do not allocate if not already in L2 cache. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_MATCH_S. */
-        uint64_t reserved_22_31        : 10;
+        uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches.
+                                                                 0 = A match is only expected in one record.
+                                                                 Once a record is found to match in any record-set, ignore further comparisons.
+                                                                 1 = A match may occur in multiple records.
+                                                                 If a record is found to match, continue to compare or update all records in
+                                                                 all record-sets. */
+        uint64_t reserved_23_31        : 9;
         uint64_t reserved_32_39        : 8;
         uint64_t recszm1               : 8;  /**< [ 47: 40] Record size in bytes minus one.  Number of bytes must be multiple of 4
-                                                                 and are not required to be powers of 2.
+                                                                 and are not required to be powers of 2. Hardware ignores bits 1:0.
+
                                                                  0x3 = 4 bytes.
                                                                  0x7 = 8 bytes.
                                                                  0xF = 16 bytes.
                                                                  0x13 = 20 bytes.
+                                                                 0x17 = 24 bytes.
+                                                                 _ ...
                                                                  0x3F = 64 bytes.
 
                                                                  INTERNAL: Must support non-power-of-2. */
@@ -981,17 +1019,13 @@ union bdk_ddf_res_match_s
                                                                  which record block this hit refers to.
 
                                                                  For DDF_OP_E::RABS_SET, unpredictable. */
-        uint64_t hitrb                 : 8;  /**< [ 47: 40] Hit record block. Bitmask of which record blocks contain the key or were
-                                                                 inserted into, e.g. bit 0 of this field corresponds to a match found in
-                                                                 DDF_INST_MATCH_S[RB0_ADDR]. */
-        uint64_t reserved_23_39        : 17;
+        uint64_t reserved_23_47        : 25;
         uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for MATCH_INS,
                                                                  will be set if the record hit an existing record and clear if inserted into a
                                                                  previously empty location.
 
                                                                  For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
-        uint64_t reserved_18_21        : 4;
-        uint64_t lkres                 : 1;  /**< [ 17: 17] See DDF_RES_FIND_S[LKRES]. */
+        uint64_t reserved_17_21        : 5;
         uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_RES_FIND_S[DONEINT]. */
         uint64_t res_type              : 8;  /**< [ 15:  8] See DDF_RES_FIND_S[RES_TYPE]. */
         uint64_t compcode              : 8;  /**< [  7:  0] See DDF_RES_FIND_S[COMPCODE]. */
@@ -999,17 +1033,13 @@ union bdk_ddf_res_match_s
         uint64_t compcode              : 8;  /**< [  7:  0] See DDF_RES_FIND_S[COMPCODE]. */
         uint64_t res_type              : 8;  /**< [ 15:  8] See DDF_RES_FIND_S[RES_TYPE]. */
         uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_RES_FIND_S[DONEINT]. */
-        uint64_t lkres                 : 1;  /**< [ 17: 17] See DDF_RES_FIND_S[LKRES]. */
-        uint64_t reserved_18_21        : 4;
+        uint64_t reserved_17_21        : 5;
         uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for MATCH_INS,
                                                                  will be set if the record hit an existing record and clear if inserted into a
                                                                  previously empty location.
 
                                                                  For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
-        uint64_t reserved_23_39        : 17;
-        uint64_t hitrb                 : 8;  /**< [ 47: 40] Hit record block. Bitmask of which record blocks contain the key or were
-                                                                 inserted into, e.g. bit 0 of this field corresponds to a match found in
-                                                                 DDF_INST_MATCH_S[RB0_ADDR]. */
+        uint64_t reserved_23_47        : 25;
         uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into. If
                                                                  multiple record blocks hit (more than one bit set in [HITRB]), then unspecified
                                                                  which record block this hit refers to.
@@ -1074,18 +1104,14 @@ union bdk_ddf_res_match_s
                                                                  which record block this hit refers to.
 
                                                                  For DDF_OP_E::RABS_SET, unpredictable. */
-        uint64_t hitrb                 : 8;  /**< [ 47: 40] Hit record block. Bitmask of which record blocks contain the key or were
-                                                                 inserted into, e.g. bit 0 of this field corresponds to a match found in
-                                                                 DDF_INST_MATCH_S[RB0_ADDR]. */
-        uint64_t reserved_24_39        : 16;
+        uint64_t reserved_24_47        : 24;
         uint64_t reserved_23           : 1;
         uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for MATCH_INS,
                                                                  will be set if the record hit an existing record and clear if inserted into a
                                                                  previously empty location.
 
                                                                  For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
-        uint64_t reserved_18_21        : 4;
-        uint64_t lkres                 : 1;  /**< [ 17: 17] See DDF_RES_FIND_S[LKRES]. */
+        uint64_t reserved_17_21        : 5;
         uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_RES_FIND_S[DONEINT]. */
         uint64_t res_type              : 8;  /**< [ 15:  8] See DDF_RES_FIND_S[RES_TYPE]. */
         uint64_t compcode              : 8;  /**< [  7:  0] See DDF_RES_FIND_S[COMPCODE]. */
@@ -1093,18 +1119,14 @@ union bdk_ddf_res_match_s
         uint64_t compcode              : 8;  /**< [  7:  0] See DDF_RES_FIND_S[COMPCODE]. */
         uint64_t res_type              : 8;  /**< [ 15:  8] See DDF_RES_FIND_S[RES_TYPE]. */
         uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_RES_FIND_S[DONEINT]. */
-        uint64_t lkres                 : 1;  /**< [ 17: 17] See DDF_RES_FIND_S[LKRES]. */
-        uint64_t reserved_18_21        : 4;
+        uint64_t reserved_17_21        : 5;
         uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for MATCH_INS,
                                                                  will be set if the record hit an existing record and clear if inserted into a
                                                                  previously empty location.
 
                                                                  For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
         uint64_t reserved_23           : 1;
-        uint64_t reserved_24_39        : 16;
-        uint64_t hitrb                 : 8;  /**< [ 47: 40] Hit record block. Bitmask of which record blocks contain the key or were
-                                                                 inserted into, e.g. bit 0 of this field corresponds to a match found in
-                                                                 DDF_INST_MATCH_S[RB0_ADDR]. */
+        uint64_t reserved_24_47        : 24;
         uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into. If
                                                                  multiple record blocks hit (more than one bit set in [HITRB]), then unspecified
                                                                  which record block this hit refers to.

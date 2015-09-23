@@ -118,7 +118,11 @@ typedef union
 static inline uint64_t BDK_MIO_TWSX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_INT(unsigned long a)
 {
-    if (a<=5)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
+        return 0x87e0d0001010ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0d0001010ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e0d0001010ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("MIO_TWSX_INT", 1, a, 0, 0, 0);
 }
@@ -158,7 +162,11 @@ typedef union
 static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1C(unsigned long a)
 {
-    if (a<=5)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
+        return 0x87e0d0001028ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0d0001028ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e0d0001028ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("MIO_TWSX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -198,7 +206,11 @@ typedef union
 static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1S(unsigned long a)
 {
-    if (a<=5)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
+        return 0x87e0d0001030ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0d0001030ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e0d0001030ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("MIO_TWSX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -238,7 +250,11 @@ typedef union
 static inline uint64_t BDK_MIO_TWSX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_INT_W1S(unsigned long a)
 {
-    if (a<=5)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
+        return 0x87e0d0001020ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0d0001020ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e0d0001020ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("MIO_TWSX_INT_W1S", 1, a, 0, 0, 0);
 }
@@ -300,7 +316,11 @@ typedef union
 static inline uint64_t BDK_MIO_TWSX_MODE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_MODE(unsigned long a)
 {
-    if (a<=5)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
+        return 0x87e0d0001038ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0d0001038ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e0d0001038ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("MIO_TWSX_MODE", 1, a, 0, 0, 0);
 }
@@ -338,7 +358,11 @@ typedef union
 static inline uint64_t BDK_MIO_TWSX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if ((a<=5) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=5) && (b==0)))
+        return 0x87e0d0ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x87e0d0ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=5) && (b==0)))
         return 0x87e0d0ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("MIO_TWSX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -395,7 +419,11 @@ typedef union
 static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if ((a<=5) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=5) && (b==0)))
+        return 0x87e0d0f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x87e0d0f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=5) && (b==0)))
         return 0x87e0d0f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("MIO_TWSX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -436,7 +464,11 @@ typedef union
 static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=5) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=5) && (b==0)))
+        return 0x87e0d0f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x87e0d0f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=5) && (b==0)))
         return 0x87e0d0f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("MIO_TWSX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -611,7 +643,11 @@ typedef union
 static inline uint64_t BDK_MIO_TWSX_SW_TWSI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_SW_TWSI(unsigned long a)
 {
-    if (a<=5)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
+        return 0x87e0d0001000ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0d0001000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e0d0001000ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("MIO_TWSX_SW_TWSI", 1, a, 0, 0, 0);
 }
@@ -662,7 +698,11 @@ typedef union
 static inline uint64_t BDK_MIO_TWSX_SW_TWSI_EXT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_SW_TWSI_EXT(unsigned long a)
 {
-    if (a<=5)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
+        return 0x87e0d0001018ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0d0001018ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e0d0001018ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("MIO_TWSX_SW_TWSI_EXT", 1, a, 0, 0, 0);
 }
@@ -708,7 +748,11 @@ typedef union
 static inline uint64_t BDK_MIO_TWSX_TWSI_SW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_TWSX_TWSI_SW(unsigned long a)
 {
-    if (a<=5)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
+        return 0x87e0d0001008ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0d0001008ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e0d0001008ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("MIO_TWSX_TWSI_SW", 1, a, 0, 0, 0);
 }

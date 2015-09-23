@@ -80,7 +80,7 @@
 #define BDK_PCC_DEV_CON_E_L2C_CBCX(a) (0x138 + (a)) /**< Level 2 cache CBC. */
 #define BDK_PCC_DEV_CON_E_L2C_MCIX(a) (0x13c + (a)) /**< Level 2 cache MCI. */
 #define BDK_PCC_DEV_CON_E_L2C_TADX(a) (0x130 + (a)) /**< Level 2 cache TAD. */
-#define BDK_PCC_DEV_CON_E_LBKX(a) (0x168 + (a)) /**< Loopback */
+#define BDK_PCC_DEV_CON_E_LBKX(a) (0x168 + (a)) /**< Loopback. */
 #define BDK_PCC_DEV_CON_E_LMCX(a) (0x150 + (a)) /**< LMC interface. */
 #define BDK_PCC_DEV_CON_E_MIO_BOOT_CN81XX (0x10e) /**< Boot registers. */
 #define BDK_PCC_DEV_CON_E_MIO_BOOT_CN88XX (0x10e) /**< Boot-bus. */
@@ -157,6 +157,7 @@
 #define BDK_PCC_DEV_CON_E_UAAX(a) (0x140 + (a)) /**< UART. */
 #define BDK_PCC_DEV_CON_E_USBHX(a) (0x80 + 8 * (a)) /**< USB interface. */
 #define BDK_PCC_DEV_CON_E_VRMX(a) (0x144 + (a)) /**< Voltage regulator. */
+#define BDK_PCC_DEV_CON_E_XCV (0x110) /**< RGMII XCV. */
 #define BDK_PCC_DEV_CON_E_ZIP (0x300) /**< ZIP. */
 
 /**
@@ -236,8 +237,10 @@
 #define BDK_PCC_DEV_IDL_E_TIM_VF (0x51) /**< Work timer virtual function. */
 #define BDK_PCC_DEV_IDL_E_TNS (0x1f) /**< Network switch. */
 #define BDK_PCC_DEV_IDL_E_UAA (0xf) /**< UART. */
-#define BDK_PCC_DEV_IDL_E_USBH (0x1b) /**< USB interface. */
+#define BDK_PCC_DEV_IDL_E_USBDRD (0x55) /**< USB host and endpoint interface. */
+#define BDK_PCC_DEV_IDL_E_USBH (0x1b) /**< USB host-only interface. */
 #define BDK_PCC_DEV_IDL_E_VRM (0x14) /**< Voltage regulator. */
+#define BDK_PCC_DEV_IDL_E_XCV (0x56) /**< RGMII XCV. */
 #define BDK_PCC_DEV_IDL_E_ZIP (0x1a) /**< ZIP. */
 
 /**
@@ -282,13 +285,23 @@
  * Enumeration pcc_prod_e
  *
  * PCC Device ID Product Enumeration
- * Enumerates the values of the PCI configuration header Device ID and Subsystem Device ID bits
- * <15:8>.
+ * Enumerates the chip identifier.
  */
-#define BDK_PCC_PROD_E_CN81XX (0xa2) /**< INTERNAL: Indicates CN81XX. Used only in the Subsystem Device ID <15:8>. */
-#define BDK_PCC_PROD_E_CN83XX (0xa3) /**< INTERNAL: Indicates CN83XX. Used only in the Subsystem Device ID <15:8>. */
-#define BDK_PCC_PROD_E_CN88XX (0xa1) /**< Indicates CN88XX. Used only in the Subsystem Device ID <15:8>. */
-#define BDK_PCC_PROD_E_GEN (0xa0) /**< Indicates the generic ThunderX family. used only in the Device ID <15:8>. */
+#define BDK_PCC_PROD_E_CN81XX_CN81XX (0xa2) /**< Indicates CN81XX. Used in AP_MIDR_EL1[PARTNUM], and PCCPF_XXX_SUBID[SSID]<15:8>,
+                                       and other identifier registers. */
+#define BDK_PCC_PROD_E_CN81XX_CN88XX (0xa2) /**< INTERNAL: Indicates CN81XX. Used in AP_MIDR_EL1[PARTNUM], and
+                                       PCCPF_XXX_SUBID[SSID]<15:8>, and other identifier registers. */
+#define BDK_PCC_PROD_E_CN81XX_CN83XX (0xa2) /**< Indicates CN81XX. Used in AP_MIDR_EL1[PARTNUM], and PCCPF_XXX_SUBID[SSID]<15:8>,
+                                       and other identifier registers. */
+#define BDK_PCC_PROD_E_CN83XX_CN81XX (0xa3) /**< Indicates CN83XX. Used in AP_MIDR_EL1[PARTNUM], and PCCPF_XXX_SUBID[SSID]<15:8>,
+                                       and other identifier registers. */
+#define BDK_PCC_PROD_E_CN83XX_CN88XX (0xa3) /**< INTERNAL: Indicates CN83XX. Used in AP_MIDR_EL1[PARTNUM], and
+                                       PCCPF_XXX_SUBID[SSID]<15:8>, and other identifier registers. */
+#define BDK_PCC_PROD_E_CN83XX_CN83XX (0xa3) /**< Indicates CN83XX. Used in AP_MIDR_EL1[PARTNUM], and PCCPF_XXX_SUBID[SSID]<15:8>,
+                                       and other identifier registers. */
+#define BDK_PCC_PROD_E_CN88XX (0xa1) /**< Indicates CN88XX. Used in AP_MIDR_EL1[PARTNUM], PCCPF_XXX_SUBID[SSID]<15:8>, and
+                                       other identifier registers. */
+#define BDK_PCC_PROD_E_GEN (0xa0) /**< Indicates the generic ThunderX family. Used in only PCCPF_XXX_ID[DEVID]<15:8>. */
 
 /**
  * Enumeration pcc_vendor_e

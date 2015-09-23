@@ -344,8 +344,10 @@
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_MISS_CN81XX (0x4c) /**< TAG miss (does not allocate TAG or RTG on miss - XMC & MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_MISS_CN88XX (0x4c) /**< TAG miss (does not allocate TAG or RTG on miss - XMC & MIB). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_MISS_CN83XX (0x4c) /**< TAG miss (does not allocate TAG or RTG on miss - XMC & MIB). */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HIT (0x54) /**< RTG hit S/E (does not allocate TAG on miss - XMC local address). Added in pass
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HIT_CN81XX (0x54) /**< RTG hit S/E (does not allocate TAG on miss - XMC local address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HIT_CN88XX (0x54) /**< RTG hit S/E (does not allocate TAG on miss - XMC local address). Added in pass
                                        2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HIT_CN83XX (0x54) /**< RTG hit S/E (does not allocate TAG on miss - XMC local address). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITE_CN81XX (0x56) /**< RTG hit E (does not allocate TAG on miss - XMC local address). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITE_CN88XX (0x56) /**< RTG hit E (does not allocate TAG on miss - XMC local address). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITE_CN83XX (0x56) /**< RTG hit E (does not allocate TAG on miss - XMC local address). */

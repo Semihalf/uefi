@@ -1053,7 +1053,7 @@ static inline uint64_t BDK_RAD_INT_W1S_FUNC(void)
  *
  * INTERNAL: RAD Memory Debug0 Register
  *
- * This CSR is a memory of 32 entries, and thus, the RAD_REG_READ_IDX CSR must be written before
+ * This CSR is a memory of 32 entries, and thus RAD_REG_READ_IDX must be written before
  * any CSR read operations to this address can be performed. A read of any entry that has not
  * been previously written is illegal and will result in unpredictable CSR read data.
  */
@@ -1094,7 +1094,7 @@ static inline uint64_t BDK_RAD_MEM_DEBUG0_FUNC(void)
  *
  * INTERNAL: RAD Memory Debug1 Register
  *
- * This CSR is a memory of 256 entries, and thus, the RAD_REG_READ_IDX CSR must be written before
+ * This CSR is a memory of 256 entries, and thus, RAD_REG_READ_IDX must be written before
  * any CSR read operations to this address can be performed. A read of any entry that has not
  * been previously written is illegal and will result in unpredictable CSR read data.
  */
@@ -1135,7 +1135,7 @@ static inline uint64_t BDK_RAD_MEM_DEBUG1_FUNC(void)
  *
  * INTERNAL: RAD Memory Debug2 Register
  *
- * This CSR is a memory of 256 entries, and thus, the RAD_REG_READ_IDX CSR must be written before
+ * This CSR is a memory of 256 entries, and thus, RAD_REG_READ_IDX must be written before
  * any CSR read operations to this address can be performed. A read of any entry that has not
  * been previously written is illegal and will result in unpredictable CSR read data.
  */

@@ -1112,7 +1112,7 @@ static inline uint64_t BDK_L2C_CBCX_XMCX_PFC(unsigned long a, unsigned long b)
  *
  * The address written to L2C_XMC_CMD is a physical address. L2C performs index
  * aliasing (if enabled) on the written address and uses that for the command. This
- * index-aliased address is what is returned on a read of the L2C_XMC_CMD register.
+ * index-aliased address is what is returned on a read of L2C_XMC_CMD.
  */
 typedef union
 {
@@ -1130,15 +1130,15 @@ typedef union
         uint64_t qos                   : 3;  /**< [ 46: 44](R/W) QOS level to use for simulated ADD bus request. */
         uint64_t reserved_42_43        : 2;
         uint64_t node                  : 2;  /**< [ 41: 40](R/W) CCPI node to use for simulated ADD bus request. */
-        uint64_t addr                  : 40; /**< [ 39:  0](R/W) Address to use for simulated ADD bus request. (The address written to L2C_XMC_CMD is a
-                                                                 physical address. L2C performs index aliasing (if enabled) on the written
-                                                                 address and uses that for the command. This index-aliased address is what is
-                                                                 returned on a read of L2C_XMC_CMD.) */
+        uint64_t addr                  : 40; /**< [ 39:  0](R/W) Address to use for simulated ADD bus request. (The address written to
+                                                                 L2C_CBC()_XMC_CMD is a physical address. L2C performs index aliasing (if
+                                                                 enabled) on the written address and uses that for the command. This
+                                                                 index-aliased address is what is returned on a read of L2C_CBC()_XMC_CMD.) */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 40; /**< [ 39:  0](R/W) Address to use for simulated ADD bus request. (The address written to L2C_XMC_CMD is a
-                                                                 physical address. L2C performs index aliasing (if enabled) on the written
-                                                                 address and uses that for the command. This index-aliased address is what is
-                                                                 returned on a read of L2C_XMC_CMD.) */
+        uint64_t addr                  : 40; /**< [ 39:  0](R/W) Address to use for simulated ADD bus request. (The address written to
+                                                                 L2C_CBC()_XMC_CMD is a physical address. L2C performs index aliasing (if
+                                                                 enabled) on the written address and uses that for the command. This
+                                                                 index-aliased address is what is returned on a read of L2C_CBC()_XMC_CMD.) */
         uint64_t node                  : 2;  /**< [ 41: 40](R/W) CCPI node to use for simulated ADD bus request. */
         uint64_t reserved_42_43        : 2;
         uint64_t qos                   : 3;  /**< [ 46: 44](R/W) QOS level to use for simulated ADD bus request. */
