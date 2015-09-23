@@ -209,33 +209,26 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         c.s.fere = 1); /* Fatal error reporting enable. */
 
     /* Make sure the PEM agrees with GSERX about the speed its going to try */
-    const int qlm = bdk_qlm_get(node, BDK_IF_PCIE, pcie_port, 0);
-    const int gbaud = bdk_qlm_get_gbaud_mhz(node, qlm);
-    switch (gbaud)
+    BDK_CSR_INIT(pem_cfg, node, BDK_PEMX_CFG(pcie_port));
+    switch (pem_cfg.s.md)
     {
-        case 2500: /* Gen1 */
-            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
-                c.s.md = 0);
+        case 0: /* Gen 1 */
             /* Set the target link speed */
             BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
                 c.s.tls = 1);
             break;
-        case 5000: /* Gen2 */
-            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
-                c.s.md = 1);
+        case 1: /* Gen 2 */
             /* Set the target link speed */
             BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
                 c.s.tls = 2);
             break;
-        case 8000: /* Gen3 */
-            BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(pcie_port),
-                c.s.md = 2);
+        case 2: /* Gen 3 */
             /* Set the target link speed */
             BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG040(pcie_port),
                 c.s.tls = 3);
             break;
         default:
-            bdk_error("N%d.PCIe%d: Unexpected rate of %d GBaud on QLM%d\n", node, pcie_port, gbaud, qlm);
+            bdk_error("N%d.PCIe%d: Unexpected rate of %d\n", node, pcie_port, pem_cfg.s.md);
             break;
     }
 
@@ -409,8 +402,8 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
  */
 int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
 {
-    const int qlm = bdk_qlm_get(node, BDK_IF_PCIE, pcie_port, 0);
-    if (qlm < 0)
+    BDK_CSR_INIT(pemx_on, node, BDK_PEMX_ON(pcie_port));
+    if (!pemx_on.s.pemon)
     {
         bdk_error("N%d.PCIe%d: QLM not in PCIe mode.\n", node, pcie_port);
         return -1;
