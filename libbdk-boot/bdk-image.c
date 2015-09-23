@@ -141,10 +141,6 @@ int bdk_image_boot(const char *filename, uint64_t loc)
         bdk_watchdog_set(15000);
     }
 
-    /* Clear the boot counter */
-    if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
-        BDK_CSR_WRITE(bdk_numa_local(), BDK_GSERX_SCRATCH(0), 0);
-
     /* This string is passed to the image as a default environment. It is
        series of NAME=VALUE pairs separated by '\0'. The end is marked with
        two '\0' in a row. */

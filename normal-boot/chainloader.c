@@ -37,15 +37,6 @@ int main(void)
     BDK_TRACE(CHAINLOADER, "Driving GPIO10 high\n");
     bdk_gpio_initialize(node, 10, 1, 1);
 
-    /* Update the boot counter held in GESR0_SCRATCH */
-    uint64_t boot_count = 0;
-    if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
-    {
-        boot_count = BDK_CSR_READ(node, BDK_GSERX_SCRATCH(0));
-        boot_count++;
-        BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(0), boot_count);
-    }
-
     /* Get the address of the version field in our header */
     uint64_t version_offset = offsetof(bdk_image_header_t, version);
     uint64_t version_pa = bdk_numa_get_address(node, version_offset);
@@ -56,9 +47,8 @@ int main(void)
         "Cavium THUNDERX Chainloader\n"
         "===========================\n"
         "Version: %s\n"
-        "Boot Attempt: %lu\n"
         "\n",
-        version, boot_count);
+        version);
     bdk_boot_info_strapping(bdk_numa_master());
     if (MFG_SYSTEM_LEVEL_TEST)
     {
