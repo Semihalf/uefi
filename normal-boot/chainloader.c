@@ -5,9 +5,6 @@
 #define MFG_SYSTEM_LEVEL_TEST 0
 #endif
 
-/* Enable or disable detailed tracing of the boot stub (0 or 1) */
-#define BDK_TRACE_ENABLE_CHAINLOADER 0
-
 /**
  * This function is not defined by the BDK libraries. It must be
  * defined by all BDK applications. It should be empty except for
@@ -34,7 +31,6 @@ int main(void)
     bdk_node_t node = bdk_numa_local();
 
     /* Drive GPIO 10 high, signalling success transferring from the boot ROM */
-    BDK_TRACE(CHAINLOADER, "Driving GPIO10 high\n");
     bdk_gpio_initialize(node, 10, 1, 1);
 
     /* Get the address of the version field in our header */
@@ -56,7 +52,6 @@ int main(void)
     }
 
     /* Load and transfer control to next image */
-    BDK_TRACE(CHAINLOADER, "Looking for BDK image\n");
     bdk_image_boot("/fatfs/stage1.bin", 0);
 
     bdk_error("Image load failed\n");
