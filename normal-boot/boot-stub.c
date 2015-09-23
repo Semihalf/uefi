@@ -35,6 +35,7 @@ extern void board_init_late() BDK_WEAK;
  */
 void __bdk_require_depends(void)
 {
+    BDK_REQUIRE(CCPI);
     BDK_REQUIRE(ERROR_DECODE);
     BDK_REQUIRE(FS_FATFS);
     BDK_REQUIRE(FS_MMC);

@@ -9,6 +9,7 @@
  */
 void __bdk_require_depends(void)
 {
+    BDK_REQUIRE(CCPI);
     BDK_REQUIRE(CSR_DB);
     BDK_REQUIRE(DRAM_CONFIG);
     BDK_REQUIRE(DRAM_TEST);

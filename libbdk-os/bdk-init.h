@@ -55,7 +55,7 @@ extern int bdk_init_nodes(int skip_cores, int ccpi_sw_gbaud);
  *
  * @return Zero on success, negative on failure. Zero means all CCPI links are functional.
  */
-extern int __bdk_init_ccpi_links(uint64_t gbaud);
+extern int __bdk_init_ccpi_links(uint64_t gbaud) BDK_WEAK;
 
 /**
  * Once CCPI links are operational, this function transitions the system to a
@@ -65,7 +65,7 @@ extern int __bdk_init_ccpi_links(uint64_t gbaud);
  *
  * @return Zero on success, negative on failure
  */
-extern int __bdk_init_ccpi_multinode(void);
+extern int __bdk_init_ccpi_multinode(void) BDK_WEAK;
 
 /**
  * This function is the first function run on all cores once the

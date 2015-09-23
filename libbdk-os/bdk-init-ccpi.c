@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <unistd.h>
 
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(CCPI);
+
 /* The functions in this file work with CCPI at the lane and link level. These
    initialize CCPI into a working link, but do not actually transition to
    multi-node. Only after these functions have brought CCPI inot a work state

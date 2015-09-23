@@ -423,10 +423,10 @@ static void setup_node(bdk_node_t node)
 int bdk_init_nodes(int skip_cores, int ccpi_sw_gbaud)
 {
     int result = 0;
-    int do_oci_init = 0;
+    int do_oci_init = (__bdk_init_ccpi_links != NULL);
 
     /* Only init OCI/CCPI on chips that support it */
-    do_oci_init = CAVIUM_IS_MODEL(CAVIUM_CN88XX);
+    do_oci_init &= CAVIUM_IS_MODEL(CAVIUM_CN88XX);
 
     /* Check that the BDK config says multi-node is enabled */
     if (bdk_config_get(BDK_CONFIG_ENABLE_MULTINODE) == 0)
