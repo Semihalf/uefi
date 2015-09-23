@@ -195,9 +195,10 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
  * "name.s.field = value", without the quotes.
  */
 #define BDK_CSR_MODIFY(name, node, csr, code_block) do { \
-        typedef_##csr name = {.u = bdk_csr_read(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr)}; \
+        uint64_t address = csr; \
+        typedef_##csr name = {.u = bdk_csr_read(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), address)}; \
         code_block; \
-        bdk_csr_write(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr, name.u); \
+        bdk_csr_write(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), address, name.u); \
     } while (0)
 
 /**
@@ -215,9 +216,10 @@ static inline void bdk_csr_write(bdk_node_t node, bdk_csr_type_t type, int busnu
         uint64_t done = bdk_clock_get_count(BDK_CLOCK_TIME) + (uint64_t)timeout_usec * \
                         bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) / 1000000;   \
         typedef_##csr c;                                                \
+        uint64_t address = csr;                                         \
         while (1)                                                       \
         {                                                               \
-            c.u = bdk_csr_read(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), csr);                             \
+            c.u = bdk_csr_read(node, bustype_##csr, busnum_##csr, sizeof(typedef_##csr), address); \
             if ((c.s.field) op (value)) {                               \
                 result = 0;                                             \
                 break;                                                  \

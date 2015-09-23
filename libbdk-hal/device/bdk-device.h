@@ -178,9 +178,10 @@ extern void bdk_bar_write(const bdk_device_t *device, int bar, int size, uint64_
  * "name.s.field = value", without the quotes.
  */
 #define BDK_BAR_MODIFY(name, device, REG, code_block) do { \
-        typedef_##REG name = {.u = bdk_bar_read(device, device_bar_##REG, sizeof(typedef_##REG), REG)}; \
+        uint64_t address = REG; \
+        typedef_##REG name = {.u = bdk_bar_read(device, device_bar_##REG, sizeof(typedef_##REG), address)}; \
         code_block; \
-        bdk_bar_write(device, device_bar_##REG, sizeof(typedef_##REG), REG, name.u); \
+        bdk_bar_write(device, device_bar_##REG, sizeof(typedef_##REG), address, name.u); \
     } while (0)
 
 /**
@@ -199,9 +200,10 @@ extern void bdk_bar_write(const bdk_device_t *device, int bar, int size, uint64_
         uint64_t done = bdk_clock_get_count(BDK_CLOCK_TIME) + (uint64_t)timeout_usec * \
                         bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) / 1000000;   \
         typedef_##REG c;                                                \
+        uint64_t address = REG;                                         \
         while (1)                                                       \
         {                                                               \
-            c.u = bdk_bar_read(device, device_bar_##REG, sizeof(typedef_##REG), REG); \
+            c.u = bdk_bar_read(device, device_bar_##REG, sizeof(typedef_##REG), address); \
             if ((c.s.field) op (value)) {                               \
                 result = 0;                                             \
                 break;                                                  \
