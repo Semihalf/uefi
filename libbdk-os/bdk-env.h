@@ -80,7 +80,7 @@ extern void bdk_showenv(void);
 #define BDK_BRD_CFG_DIAGS_GPIO_VALUE        "BRD.CFG.DIAGS_GPIO_VALUE"
 #define BDK_BRD_CFG_DIAGS_GPIO              "BRD.CFG.DIAGS_GPIO"
 #define BDK_BRD_CFG_BOARD                   "BRD.CFG.BOARD"
-#define BDK_BRD_CFG_USB_PWR_GPIO            "BRD.CFG.USB_PWR_GPIO.N%d"
+#define BDK_BRD_CFG_USB_PWR_GPIO            "BRD.CFG.USB_PWR_GPIO.N%d.PORT%d"
 #define BDK_BRD_CFG_QLM_MODE_AUTO_CONFIG    "BRD.CFG.QLM_MODE_AUTO_CONFIG"
 #define BDK_BRD_CFG_WATCHDOG_TIMEOUT        "BRD.CFG.WATCHDOG_TIMEOUT"
 #define BDK_BRD_CFG_DRAM_NODE               "BRD.CFG.DRAM.N%d"

@@ -1,17 +1,5 @@
 #include <bdk.h>
 
-void board_init_early()
-{
-    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
-    {
-        int usb_gpio = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_USB_PWR_GPIO, n);
-        /* BDK_BRD_CFG_USB_PWR_GPIO controls USB power */
-        if (-1 != usb_gpio)
-            bdk_gpio_initialize(n, usb_gpio, 1, 1);
-    }
-}
-
-
 void board_init_late()
 {
     bdk_node_t node = bdk_numa_local();
