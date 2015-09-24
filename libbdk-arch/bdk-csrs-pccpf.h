@@ -155,6 +155,7 @@
 #define BDK_PCC_DEV_CON_E_TIM (0xe00) /**< TIM. */
 #define BDK_PCC_DEV_CON_E_TNS (0x20018) /**< Network switch. */
 #define BDK_PCC_DEV_CON_E_UAAX(a) (0x140 + (a)) /**< UART. */
+#define BDK_PCC_DEV_CON_E_USBDRDX(a) (0x80 + 8 * (a)) /**< USB interface. */
 #define BDK_PCC_DEV_CON_E_USBHX(a) (0x80 + 8 * (a)) /**< USB interface. */
 #define BDK_PCC_DEV_CON_E_VRMX(a) (0x144 + (a)) /**< Voltage regulator. */
 #define BDK_PCC_DEV_CON_E_XCV (0x110) /**< RGMII XCV. */

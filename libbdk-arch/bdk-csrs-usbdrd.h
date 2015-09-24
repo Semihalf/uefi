@@ -1,5 +1,5 @@
-#ifndef __BDK_CSRS_USBH_H__
-#define __BDK_CSRS_USBH_H__
+#ifndef __BDK_CSRS_USBDRD_H__
+#define __BDK_CSRS_USBDRD_H__
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
@@ -46,224 +46,250 @@
  * @file
  *
  * Configuration and status register (CSR) address and type definitions for
- * Cavium USBH.
+ * Cavium USBDRD.
  *
  * This file is auto generated. Do not edit.
  *
  */
 
 /**
- * Enumeration uctl_dma_read_cmd_e
+ * Enumeration usbdrd_bar_e
  *
- * UCTL DMA Read Command Enumeration
- * Enumerate NCB inbound command selections for DMA read operations.
- */
-#define BDK_UCTL_DMA_READ_CMD_E_LDI (0) /**< Use LDI (allocate local). */
-#define BDK_UCTL_DMA_READ_CMD_E_LDT (1) /**< Use LDT (no allocate). Default. */
-#define BDK_UCTL_DMA_READ_CMD_E_LDY (2) /**< Use LDY (allocate home). */
-
-/**
- * Enumeration uctl_dma_write_cmd_e
- *
- * UCTL DMA Write Command Enumeration
- * Enumerate NCB inbound command selections for DMA write operations.
- */
-#define BDK_UCTL_DMA_WRITE_CMD_E_RSTP (1) /**< Use RSTP (allocate home, no fill zero's). */
-#define BDK_UCTL_DMA_WRITE_CMD_E_STP (0) /**< Use STP (allocate local, no fill zero's). Default. */
-
-/**
- * Enumeration uctl_ecc_err_source_e
- *
- * UCTL ECC Error Source Enumeration
- * Enumerate sources of ECC error log information.
- */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_NONE (0) /**< No error logged. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM0_DBE (0xf) /**< UAHC RAM0 double-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM0_SBE (7) /**< UAHC RAM0 single-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM1_DBE (0xe) /**< UAHC RAM1 double-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM1_SBE (6) /**< UAHC RAM1 single-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM2_DBE (0xd) /**< UAHC RAM2 double-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_RAM2_SBE (5) /**< UAHC RAM2 single-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_R_DBE (0xa) /**< UCTL AxiMaster read data asynchronous FIFO double-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_R_SBE (2) /**< UCTL AxiMaster read data asynchronous FIFO single-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_W_DBE (9) /**< UCTL AxiMaster write data asynchronous FIFO double-bit error. */
-#define BDK_UCTL_ECC_ERR_SOURCE_E_XM_W_SBE (1) /**< UCTL AxiMaster write data asynchronous FIFO single-bit error. */
-
-/**
- * Enumeration uctl_endian_mode_e
- *
- * UCTL Endian-Mode Enumeration
- * Enumerate endian mode selections.
- */
-#define BDK_UCTL_ENDIAN_MODE_E_BIG (1) /**< Core is in big-endian mode. A-B-C-D-E-F-G-H becomes
-                                       H-G-F-E-D-C-B-A (swap bytes within the 32-bit word, then swap 32-bit words within 64-bit
-                                       doubleword). This is the mode to use with Open-Source xHCI drivers when the core is in
-                                       big-endian mode. */
-#define BDK_UCTL_ENDIAN_MODE_E_LITTLE (0) /**< Core is in little-endian mode. A-B-C-D-E-F-G-H becomes
-                                       A-B-C-D-E-F-G-H. This is the mode to use with Open-Source xHCI drivers when the core is in
-                                       little-endian mode. */
-#define BDK_UCTL_ENDIAN_MODE_E_RSVD2 (2) /**< Reserved. A-B-C-D-E-F-G-H becomes D-C-B-A-H-G-F-E. */
-#define BDK_UCTL_ENDIAN_MODE_E_RSVD3 (3) /**< Reserved. A-B-C-D-E-F-G-H becomes E-F-G-H-A-B-C-D. */
-
-/**
- * Enumeration uctl_xm_bad_dma_type_e
- *
- * UCTL XM Bad DMA Type Enumeration
- * Enumerate type of DMA error seen.
- */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_ADDR_OOB (1) /**< AxAddr<64:42> != 0x0. */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_LEN_GT_16 (2) /**< AxLen > 0xF. */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_BYTE (3) /**< AxSize = 0x0 and AxLen != 0x0. */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_HALFWORD (4) /**< AxSize = 0x1 and AxLen != 0x0. */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_WORD (5) /**< AxSize = 0x2 and AxLen != 0x0. */
-#define BDK_UCTL_XM_BAD_DMA_TYPE_E_NONE (0) /**< No error logged. */
-
-/**
- * Enumeration usbh_bar_e
- *
- * USBH Base Address Register Enumeration
+ * USBDRD Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_USBH_BAR_E_USBHX_PF_BAR0(a) (0x868000000000ll + 0x1000000000ll * (a)) /**< Base address for standard registers. */
-#define BDK_USBH_BAR_E_USBHX_PF_BAR4(a) (0x868000200000ll + 0x1000000000ll * (a)) /**< Base address for MSI-X registers. */
+#define BDK_USBDRD_BAR_E_USBDRDX_PF_BAR0(a) (0x868000000000ll + 0x1000000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_USBDRD_BAR_E_USBDRDX_PF_BAR4(a) (0x868000200000ll + 0x1000000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
- * Enumeration usbh_int_vec_e
+ * Enumeration usbdrd_int_vec_e
  *
- * USBH MSI-X Vector Enumeration
+ * USBDRD MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP1_1 (0) /**< Changed in pass 1.1. See UAHC()_IMAN()[IP]. */
-#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP1_0 (2) /**< Changed in pass 1.1. See UAHC()_IMAN()[IP]. */
-#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP2 (0) /**< Changed in pass 1.1. See UAHC()_IMAN()[IP]. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP1_1 (2) /**< Changed in pass 1.1. See UAHC()_USBSTS[HSE]. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP1_0 (0) /**< Changed in pass 1.1. See UAHC()_USBSTS[HSE]. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP2 (2) /**< Changed in pass 1.1. See UAHC()_USBSTS[HSE]. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP1_1 (3) /**< Changed in pass 1.1. Level sensitive interrupt clear vector. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP1_0 (1) /**< Changed in pass 1.1. Level sensitive interrupt clear vector. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP2 (3) /**< Changed in pass 1.1. Level sensitive interrupt clear vector. */
-#define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP1_1 (1) /**< Changed in pass 1.1.
-                                       See interrupt clears USBH()_UCTL_INTSTAT,
-                                       interrupt sets USBH()_UCTL_INTSTAT_W1S,
-                                       enable clears USBH()_UCTL_INTENA_W1C,
-                                       and enable sets USBH()_UCTL_INTENA_W1S. */
-#define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP1_0 (3) /**< Changed in pass 1.1.
-                                       See interrupt clears USBH()_UCTL_INTSTAT,
-                                       interrupt sets USBH()_UCTL_INTSTAT_W1S,
-                                       enable clears USBH()_UCTL_INTENA_W1C,
-                                       and enable sets USBH()_UCTL_INTENA_W1S. */
-#define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP2 (1) /**< Changed in pass 1.1.
-                                       See interrupt clears USBH()_UCTL_INTSTAT,
-                                       interrupt sets USBH()_UCTL_INTSTAT_W1S,
-                                       enable clears USBH()_UCTL_INTENA_W1C,
-                                       and enable sets USBH()_UCTL_INTENA_W1S. */
+#define BDK_USBDRD_INT_VEC_E_UAHC_IMAN_IP (0) /**< Changed in pass 1.1. See UAHC(0)_IMAN(0)[IP]. */
+#define BDK_USBDRD_INT_VEC_E_UAHC_USBSTS_HSE (2) /**< Changed in pass 1.1. See UAHC(0..1)_USBSTS[HSE]. */
+#define BDK_USBDRD_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR (3) /**< Changed in pass 1.1. Level sensitive interrupt clear vector. */
+#define BDK_USBDRD_INT_VEC_E_UCTL_INTSTAT (1) /**< Changed in pass 1.1.
+                                       See interrupt clears USBDRD(0..1)_UCTL_INTSTAT,
+                                       interrupt sets USBDRD(0..1)_UCTL_INTSTAT_W1S,
+                                       enable clears USBDRD(0..1)_UCTL_INTENA_W1C,
+                                       and enable sets USBDRD(0..1)_UCTL_INTENA_W1S. */
 
 /**
- * Register (NCB) usbh#_msix_pba#
+ * Enumeration usbdrd_uahc_dgcmd_cmdtype_e
  *
- * USBH MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table, the bit number is indexed by the USBH_INT_VEC_E enumeration.
+ * USBDRD UAHC Device Generic Command Enumeration
+ * Commands for USBDRD()_UAHC_DGCMD[CMDTYPE].
+ * Any command encodings that are not present are considered Reserved.
+ * INTERNAL: Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.6.1 for details.
+ */
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_ALL_FIFO_FLUSH (0xa) /**< Flush all FIFOs.
+                                       This command does not use the USBDRD()_UAHC_DGCMDPAR field. */
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_RUN_SOC_BUS_LOOPBACK_TEST (0x10) /**< When enabled, executes an SoC Bus Loopback test, which allows the data flow from transmit
+                                       to receive to be tested without any connection to a PHY.
+                                       
+                                       1. Configure EP0 as a non-stream capable Bulk OUT endpoint with the desired MaxPacketSize.
+                                       
+                                       2. Configure EP1 as a non-stream capable Bulk IN endpoint assigned to Tx-FIFO 0 with the
+                                          desired MaxPacketSize.
+                                       
+                                       3. Issue this command with Parameter[0] set to '1', enabling Loopback mode.
+                                       
+                                       4. Issue Start Transfer to EP0.
+                                       
+                                       5. Issue Start Transfer to EP1.
+                                       
+                                       6. The core reads data from the IN buffers and writes it back to the OUT buffers.
+                                          The IN and OUT must have an equal amount of data buffer. The Tx-FIFO 0 default value of
+                                          66 should be changed to 130 for loopback mode.
+                                       
+                                       USBDRD()_UAHC_DGCMDPAR[0] = When 1, enables loopback mode. When 0, disables loopback
+                                       mode. */
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SELECTED_FIFO_FLUSH (9) /**< Flush the selected FIFO.
+                                       _ USBDRD()_UAHC_DGCMDPAR[4:0] = FIFO Number.
+                                       _ USBDRD()_UAHC_DGCMDPAR[5]   = 1 for TX FIFO and 0 for RX FIFO. */
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_ENDPOINT_NRDY (0xc) /**< Issuing this command will make the core think that the given endpoint is in an NRDY state.
+                                       If there are buffers available in that endpoint, the core will immediately transmit an
+                                       ERDY.
+                                       _ USBDRD()_UAHC_DGCMDPAR[4:0] = Physical Endpoint Number. */
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_PERIODIC_PARAMETERS (2) /**< Allows the software to program the periodic parameters.
+                                       USBDRD()_UAHC_DGCMDPAR[9:0] = Software should set this to the same value programmed
+                                       by the host through the Set SEL device request, in microseconds.
+                                       The Set SEL control transfer has 6 bytes of data and contains 4 values; Refer to the USB
+                                       3.0 spec, Section 9.4.12.
+                                       
+                                       <pre>
+                                       Offset Name   Meaning
+                                       ------ -----  --------------------------
+                                       0      U1SEL  Time in s for U1 System Exit Latency
+                                       1      U1PEL  Time in s for U1 Device to Host Exit Latency
+                                       2      U2SEL  Time in s for U2 System Exit Latency
+                                       4      U2PEL  Time in s for U2 Device to Host Exit Latency
+                                       </pre>
+                                       
+                                       If the device is enabled for U1 and U2, then the U2PEL should be programmed. If the device
+                                       is enabled only for U1, then U1PEL should be programmed into this parameter.
+                                       If the value is greater than 125us, then the software must program a value of zero into
+                                       this register. */
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_H (5) /**< This command sets bits [63:32] of the external address of the scratchpad buffer
+                                       array used for save/restore to the value in USBDRD()_UAHC_DGCMDPAR.
+                                       If either this command or SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_L is issued while the
+                                       controller is stopped (USBDRD()_UAHC_DCTL[RS]=0), the
+                                       USBDRD()_UAHC_DGCMD[CMDIOC] bit must be set to 0.
+                                       
+                                       The device scratchpad buffer array has the same format as the xHCI scratchpad buffer
+                                       array; it contains an array of 64-bit pointers to data buffers that will be used to
+                                       save the controller's state. */
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_L (4) /**< This command sets bits [31:0] of the external address of the scratchpad buffer
+                                       array used for save/restore to the value in USBDRD()_UAHC_DGCMDPAR.
+                                       If either this command or SET_SCRATCHPAD_BUFFER_ARRAY_ADDR_H is issued while the
+                                       controller is stopped (USBDRD()_UAHC_DCTL[RS]=0), the
+                                       USBDRD()_UAHC_DGCMD[CMDIOC] bit must be set to 0.
+                                       
+                                       The device scratchpad buffer array has the same format as the xHCI scratchpad buffer
+                                       array; it contains an array of 64-bit pointers to data buffers that will be used to
+                                       save the controller's state. */
+#define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_TRANSMIT_DEVICE_NOTIFICATION (7) /**< This command allows any device notification to be transmitted, using the notification type
+                                       and notification parameters specified in the DGCMDPAR register.
+                                       
+                                       _ USBDRD()_UAHC_DGCMDPAR[3:0]  = Notification type.
+                                       
+                                       _ USBDRD()_UAHC_DGCMDPAR[31:4] = Notification parameters, depends on the
+                                         notification type.
+                                       
+                                       For example, to transmit a Function Wake, software sets
+                                       USBDRD()_UAHC_DGCMDPAR[3:0] to 1, and USBDRD()_UAHC_DGCMDPAR[10:4] to the
+                                       interface number.
+                                       
+                                       This field relates to the Notification Type Specific field in a Device Notification
+                                       Transaction Packet as described in Section 8.5.6 of the USB3 Specification. The
+                                       following bits of the DGCMDPAR register have been put into the corresponding
+                                       DWORD described in Section 8.5.6 of the USB3 Specification:
+                                       
+                                       _ USBDRD()_UAHC_DGCMDPAR[3:0]   into DWORD 1[7:4]  (Notification Type).
+                                       _ USBDRD()_UAHC_DGCMDPAR[27:4]  into DWORD 1[31:8] (Notification Type Specific).
+                                       + USBDRD()_UAHC_DGCMDPAR[31:28] into DWORD 2[3:0]  (Notification Type Specific).
+                                       
+                                       There is one exception for the Bus Interval Adjustment Device Notification:
+                                       USBDRD()_UAHC_DGCMDPAR[19:4] represents the Bus Interval Adjustment field;
+                                       however, in the USB3 specification, the Bus Interval Adjustment field is
+                                       actually at 31:16 of DWORD 1.
+                                       
+                                       In the case of Host Role Request, USBDRD()_UAHC_DGCMDPAR[3:0] = 4, and
+                                       USBDRD()_UAHC_DGCMDPAR[5:4] = RSP Phase. */
+
+/**
+ * Register (NCB) usbdrd#_msix_pba#
+ *
+ * USBDRD MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table, the bit number is indexed by the USBDRD_INT_VEC_E
+ * enumeration.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_msix_pbax_s
+    struct bdk_usbdrdx_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated USBH_MSIX_VEC()_CTL, enumerated by USBH_INT_VEC_E.
-                                                                 Bits that have no associated USBH_INT_VEC_E are zero. */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated USBDRD_MSIX_VEC()_CTL, enumerated by USBDRD_INT_VEC_E.
+                                                                 Bits that have no associated USBDRD_INT_VEC_E are zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated USBH_MSIX_VEC()_CTL, enumerated by USBH_INT_VEC_E.
-                                                                 Bits that have no associated USBH_INT_VEC_E are zero. */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated USBDRD_MSIX_VEC()_CTL, enumerated by USBDRD_INT_VEC_E.
+                                                                 Bits that have no associated USBDRD_INT_VEC_E are zero. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_msix_pbax_s cn; */
-} bdk_usbhx_msix_pbax_t;
+    /* struct bdk_usbdrdx_msix_pbax_s cn; */
+} bdk_usbdrdx_msix_pbax_t;
 
-static inline uint64_t BDK_USBHX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_MSIX_PBAX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x8680002f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_MSIX_PBAX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x8680002f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_MSIX_PBAX(a,b) bdk_usbhx_msix_pbax_t
-#define bustype_BDK_USBHX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_MSIX_PBAX(a,b) "USBHX_MSIX_PBAX"
-#define device_bar_BDK_USBHX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
-#define busnum_BDK_USBHX_MSIX_PBAX(a,b) (a)
-#define arguments_BDK_USBHX_MSIX_PBAX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_MSIX_PBAX(a,b) bdk_usbdrdx_msix_pbax_t
+#define bustype_BDK_USBDRDX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_MSIX_PBAX(a,b) "USBDRDX_MSIX_PBAX"
+#define device_bar_BDK_USBDRDX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_USBDRDX_MSIX_PBAX(a,b) (a)
+#define arguments_BDK_USBDRDX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) usbh#_msix_vec#_addr
+ * Register (NCB) usbdrd#_msix_vec#_addr
  *
- * USBH MSI-X Vector Table Address Registers
- * This register is the MSI-X vector table, indexed by the USBH_INT_VEC_E enumeration.
+ * USBDRD MSI-X Vector Table Address Registers
+ * This register is the MSI-X vector table, indexed by the USBDRD_INT_VEC_E enumeration.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_msix_vecx_addr_s
+    struct bdk_usbdrdx_msix_vecx_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's USBH()_MSIX_VEC()_ADDR, USBH()_MSIX_VEC()_CTL, and
+                                                                 1 = This vector's USBDRD()_MSIX_VEC()_ADDR, USBDRD()_MSIX_VEC()_CTL, and
                                                                  corresponding
-                                                                 bit of USBH()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 bit of USBDRD()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world.
 
-                                                                 If PCCPF_USBH()_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 If PCCPF_USBDRD()_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's USBH()_MSIX_VEC()_ADDR, USBH()_MSIX_VEC()_CTL, and
+                                                                 1 = This vector's USBDRD()_MSIX_VEC()_ADDR, USBDRD()_MSIX_VEC()_CTL, and
                                                                  corresponding
-                                                                 bit of USBH()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 bit of USBDRD()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world.
 
-                                                                 If PCCPF_USBH()_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 If PCCPF_USBDRD()_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_msix_vecx_addr_s cn; */
-} bdk_usbhx_msix_vecx_addr_t;
+    /* struct bdk_usbdrdx_msix_vecx_addr_s cn; */
+} bdk_usbdrdx_msix_vecx_addr_t;
 
-static inline uint64_t BDK_USBHX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
         return 0x868000200000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
-    __bdk_csr_fatal("USBHX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x868000200000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("USBDRDX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_MSIX_VECX_ADDR(a,b) bdk_usbhx_msix_vecx_addr_t
-#define bustype_BDK_USBHX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_MSIX_VECX_ADDR(a,b) "USBHX_MSIX_VECX_ADDR"
-#define device_bar_BDK_USBHX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
-#define busnum_BDK_USBHX_MSIX_VECX_ADDR(a,b) (a)
-#define arguments_BDK_USBHX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_MSIX_VECX_ADDR(a,b) bdk_usbdrdx_msix_vecx_addr_t
+#define bustype_BDK_USBDRDX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_MSIX_VECX_ADDR(a,b) "USBDRDX_MSIX_VECX_ADDR"
+#define device_bar_BDK_USBDRDX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_USBDRDX_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_BDK_USBDRDX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) usbh#_msix_vec#_ctl
+ * Register (NCB) usbdrd#_msix_vec#_ctl
  *
- * USBH MSI-X Vector Table Control and Data Registers
- * This register is the MSI-X vector table, indexed by the USBH_INT_VEC_E enumeration.
+ * USBDRD MSI-X Vector Table Control and Data Registers
+ * This register is the MSI-X vector table, indexed by the USBDRD_INT_VEC_E enumeration.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_msix_vecx_ctl_s
+    struct bdk_usbdrdx_msix_vecx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
@@ -277,26 +303,28 @@ typedef union
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_msix_vecx_ctl_s cn; */
-} bdk_usbhx_msix_vecx_ctl_t;
+    /* struct bdk_usbdrdx_msix_vecx_ctl_s cn; */
+} bdk_usbdrdx_msix_vecx_ctl_t;
 
-static inline uint64_t BDK_USBHX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
         return 0x868000200008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
-    __bdk_csr_fatal("USBHX_MSIX_VECX_CTL", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x868000200008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("USBDRDX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_MSIX_VECX_CTL(a,b) bdk_usbhx_msix_vecx_ctl_t
-#define bustype_BDK_USBHX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_MSIX_VECX_CTL(a,b) "USBHX_MSIX_VECX_CTL"
-#define device_bar_BDK_USBHX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
-#define busnum_BDK_USBHX_MSIX_VECX_CTL(a,b) (a)
-#define arguments_BDK_USBHX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_MSIX_VECX_CTL(a,b) bdk_usbdrdx_msix_vecx_ctl_t
+#define bustype_BDK_USBDRDX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_MSIX_VECX_CTL(a,b) "USBDRDX_MSIX_VECX_CTL"
+#define device_bar_BDK_USBDRDX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_USBDRDX_MSIX_VECX_CTL(a,b) (a)
+#define arguments_BDK_USBDRDX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_caplength
+ * Register (NCB32b) usbdrd#_uahc_caplength
  *
  * XHCI Capability Length Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.1.
@@ -304,7 +332,7 @@ static inline uint64_t BDK_USBHX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_caplength_s
+    struct bdk_usbdrdx_uahc_caplength_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t hciversion            : 16; /**< [ 31: 16](RO) Host controller interface version number. */
@@ -316,39 +344,41 @@ typedef union
         uint32_t hciversion            : 16; /**< [ 31: 16](RO) Host controller interface version number. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_caplength_s cn; */
-} bdk_usbhx_uahc_caplength_t;
+    /* struct bdk_usbdrdx_uahc_caplength_s cn; */
+} bdk_usbdrdx_uahc_caplength_t;
 
-static inline uint64_t BDK_USBHX_UAHC_CAPLENGTH(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_CAPLENGTH(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_CAPLENGTH(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_CAPLENGTH(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000000ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_CAPLENGTH", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000000ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_CAPLENGTH", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_CAPLENGTH(a) bdk_usbhx_uahc_caplength_t
-#define bustype_BDK_USBHX_UAHC_CAPLENGTH(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_CAPLENGTH(a) "USBHX_UAHC_CAPLENGTH"
-#define device_bar_BDK_USBHX_UAHC_CAPLENGTH(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_CAPLENGTH(a) (a)
-#define arguments_BDK_USBHX_UAHC_CAPLENGTH(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_CAPLENGTH(a) bdk_usbdrdx_uahc_caplength_t
+#define bustype_BDK_USBDRDX_UAHC_CAPLENGTH(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_CAPLENGTH(a) "USBDRDX_UAHC_CAPLENGTH"
+#define device_bar_BDK_USBDRDX_UAHC_CAPLENGTH(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_CAPLENGTH(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_CAPLENGTH(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_config
+ * Register (NCB32b) usbdrd#_uahc_config
  *
  * XHCI Configuration Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.7.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_config_s
+    struct bdk_usbdrdx_uahc_config_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -358,39 +388,41 @@ typedef union
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_config_s cn; */
-} bdk_usbhx_uahc_config_t;
+    /* struct bdk_usbdrdx_uahc_config_s cn; */
+} bdk_usbdrdx_uahc_config_t;
 
-static inline uint64_t BDK_USBHX_UAHC_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_CONFIG(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_CONFIG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000058ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_CONFIG", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000058ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_CONFIG", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_CONFIG(a) bdk_usbhx_uahc_config_t
-#define bustype_BDK_USBHX_UAHC_CONFIG(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_CONFIG(a) "USBHX_UAHC_CONFIG"
-#define device_bar_BDK_USBHX_UAHC_CONFIG(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_CONFIG(a) (a)
-#define arguments_BDK_USBHX_UAHC_CONFIG(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_CONFIG(a) bdk_usbdrdx_uahc_config_t
+#define bustype_BDK_USBDRDX_UAHC_CONFIG(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_CONFIG(a) "USBDRDX_UAHC_CONFIG"
+#define device_bar_BDK_USBDRDX_UAHC_CONFIG(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_CONFIG(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_CONFIG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uahc_crcr
+ * Register (NCB) usbdrd#_uahc_crcr
  *
  * XHCI Command Ring Control Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.5.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uahc_crcr_s
+    struct bdk_usbdrdx_uahc_crcr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t cmd_ring_ptr          : 58; /**< [ 63:  6](WO) Command ring pointer. */
@@ -408,41 +440,128 @@ typedef union
         uint64_t cmd_ring_ptr          : 58; /**< [ 63:  6](WO) Command ring pointer. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_crcr_s cn; */
-} bdk_usbhx_uahc_crcr_t;
+    /* struct bdk_usbdrdx_uahc_crcr_s cn; */
+} bdk_usbdrdx_uahc_crcr_t;
 
-static inline uint64_t BDK_USBHX_UAHC_CRCR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_CRCR(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_CRCR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_CRCR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000038ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_CRCR", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000038ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_CRCR", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_CRCR(a) bdk_usbhx_uahc_crcr_t
-#define bustype_BDK_USBHX_UAHC_CRCR(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_CRCR(a) "USBHX_UAHC_CRCR"
-#define device_bar_BDK_USBHX_UAHC_CRCR(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_CRCR(a) (a)
-#define arguments_BDK_USBHX_UAHC_CRCR(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_CRCR(a) bdk_usbdrdx_uahc_crcr_t
+#define bustype_BDK_USBDRDX_UAHC_CRCR(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UAHC_CRCR(a) "USBDRDX_UAHC_CRCR"
+#define device_bar_BDK_USBDRDX_UAHC_CRCR(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_CRCR(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_CRCR(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_db#
+ * Register (NCB32b) usbdrd#_uahc_dalepena
+ *
+ * Device Active USB Endpoint Enable Register
+ * This register indicates whether a USB endpoint is active in a given configuration or
+ * interface.
+ *
+ * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST] or
+ * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
+ * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
+ * USBDRD()_UAHC_DCTL[CSFTRST].
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.1.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_dalepena_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t usbactep              : 32; /**< [ 31:  0](R/W) This field indicates if a USB endpoint is active in the current configuration
+                                                                 and interface. It applies to USB IN endpoints 0-15 and OUT endpoints 0-15,
+                                                                 with one bit for each of the 32 possible endpoints. Even numbers are for
+                                                                 USB OUT endpoints, and odd numbers are for USB IN endpoints, as
+                                                                 follows:
+
+                                                                  <0> = USB EP0-OUT.
+                                                                  <1> = USB EP0-IN.
+                                                                  <2> = USB EP1-OUT.
+                                                                  <3> = USB EP1-IN.
+
+                                                                 The entity programming this register must set bits 0 and 1 because they
+                                                                 enable control endpoints that map to physical endpoints (resources) after
+                                                                 USBReset.
+
+                                                                 Application software clears these bits for all endpoints (other than EP0-OUT
+                                                                 and EP0-IN) after detecting a USB reset. After receiving SetConfiguration
+                                                                 and SetInterface requests, the application must program endpoint registers
+                                                                 accordingly and set these bits.
+                                                                 INTERNAL: For more information, see 'Flexible Endpoint Mapping' on Synopsys DWC_usb3
+                                                                 Databook v2.80a, page 82. */
+#else /* Word 0 - Little Endian */
+        uint32_t usbactep              : 32; /**< [ 31:  0](R/W) This field indicates if a USB endpoint is active in the current configuration
+                                                                 and interface. It applies to USB IN endpoints 0-15 and OUT endpoints 0-15,
+                                                                 with one bit for each of the 32 possible endpoints. Even numbers are for
+                                                                 USB OUT endpoints, and odd numbers are for USB IN endpoints, as
+                                                                 follows:
+
+                                                                  <0> = USB EP0-OUT.
+                                                                  <1> = USB EP0-IN.
+                                                                  <2> = USB EP1-OUT.
+                                                                  <3> = USB EP1-IN.
+
+                                                                 The entity programming this register must set bits 0 and 1 because they
+                                                                 enable control endpoints that map to physical endpoints (resources) after
+                                                                 USBReset.
+
+                                                                 Application software clears these bits for all endpoints (other than EP0-OUT
+                                                                 and EP0-IN) after detecting a USB reset. After receiving SetConfiguration
+                                                                 and SetInterface requests, the application must program endpoint registers
+                                                                 accordingly and set these bits.
+                                                                 INTERNAL: For more information, see 'Flexible Endpoint Mapping' on Synopsys DWC_usb3
+                                                                 Databook v2.80a, page 82. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_dalepena_s cn; */
+} bdk_usbdrdx_uahc_dalepena_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_DALEPENA(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DALEPENA(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86800000c720ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c720ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_DALEPENA", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_DALEPENA(a) bdk_usbdrdx_uahc_dalepena_t
+#define bustype_BDK_USBDRDX_UAHC_DALEPENA(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DALEPENA(a) "USBDRDX_UAHC_DALEPENA"
+#define device_bar_BDK_USBDRDX_UAHC_DALEPENA(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DALEPENA(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_DALEPENA(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_db#
  *
  * XHCI Doorbell Registers
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.6.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  *
- * INTERNAL: xHCI spec, page 32: there are USBH()_UAHC_HCSPARAMS1[MAXSLOTS]+1 doorbell registers.
+ * INTERNAL: xHCI spec, page 32: there are USBDRD()_UAHC_HCSPARAMS1[MAXSLOTS]+1 doorbell
+ * registers.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_dbx_s
+    struct bdk_usbdrdx_uahc_dbx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dbstreamid            : 16; /**< [ 31: 16](WO) Doorbell stream ID. */
@@ -454,26 +573,28 @@ typedef union
         uint32_t dbstreamid            : 16; /**< [ 31: 16](WO) Doorbell stream ID. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_dbx_s cn; */
-} bdk_usbhx_uahc_dbx_t;
+    /* struct bdk_usbdrdx_uahc_dbx_s cn; */
+} bdk_usbdrdx_uahc_dbx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_DBX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_DBX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_DBX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DBX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=64)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=64)))
         return 0x868000000480ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x7f);
-    __bdk_csr_fatal("USBHX_UAHC_DBX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=64)))
+        return 0x868000000480ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x7f);
+    __bdk_csr_fatal("USBDRDX_UAHC_DBX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_DBX(a,b) bdk_usbhx_uahc_dbx_t
-#define bustype_BDK_USBHX_UAHC_DBX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_DBX(a,b) "USBHX_UAHC_DBX"
-#define device_bar_BDK_USBHX_UAHC_DBX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_DBX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_DBX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_DBX(a,b) bdk_usbdrdx_uahc_dbx_t
+#define bustype_BDK_USBDRDX_UAHC_DBX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DBX(a,b) "USBDRDX_UAHC_DBX"
+#define device_bar_BDK_USBDRDX_UAHC_DBX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DBX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_DBX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_dboff
+ * Register (NCB32b) usbdrd#_uahc_dboff
  *
  * XHCI Doorbell Array Offset Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.7.
@@ -481,7 +602,7 @@ static inline uint64_t BDK_USBHX_UAHC_DBX(unsigned long a, unsigned long b)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_dboff_s
+    struct bdk_usbdrdx_uahc_dboff_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dboff                 : 30; /**< [ 31:  2](RO) Doorbell array offset. */
@@ -491,39 +612,41 @@ typedef union
         uint32_t dboff                 : 30; /**< [ 31:  2](RO) Doorbell array offset. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_dboff_s cn; */
-} bdk_usbhx_uahc_dboff_t;
+    /* struct bdk_usbdrdx_uahc_dboff_s cn; */
+} bdk_usbdrdx_uahc_dboff_t;
 
-static inline uint64_t BDK_USBHX_UAHC_DBOFF(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_DBOFF(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_DBOFF(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DBOFF(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000014ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_DBOFF", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000014ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_DBOFF", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_DBOFF(a) bdk_usbhx_uahc_dboff_t
-#define bustype_BDK_USBHX_UAHC_DBOFF(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_DBOFF(a) "USBHX_UAHC_DBOFF"
-#define device_bar_BDK_USBHX_UAHC_DBOFF(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_DBOFF(a) (a)
-#define arguments_BDK_USBHX_UAHC_DBOFF(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_DBOFF(a) bdk_usbdrdx_uahc_dboff_t
+#define bustype_BDK_USBDRDX_UAHC_DBOFF(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DBOFF(a) "USBDRDX_UAHC_DBOFF"
+#define device_bar_BDK_USBDRDX_UAHC_DBOFF(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DBOFF(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_DBOFF(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uahc_dcbaap
+ * Register (NCB) usbdrd#_uahc_dcbaap
  *
  * XHCI Device Context Base-Address-Array Pointer Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.6.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uahc_dcbaap_s
+    struct bdk_usbdrdx_uahc_dcbaap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dcbaap                : 58; /**< [ 63:  6](R/W) Device context base address array pointer. */
@@ -533,39 +656,1229 @@ typedef union
         uint64_t dcbaap                : 58; /**< [ 63:  6](R/W) Device context base address array pointer. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_dcbaap_s cn; */
-} bdk_usbhx_uahc_dcbaap_t;
+    /* struct bdk_usbdrdx_uahc_dcbaap_s cn; */
+} bdk_usbdrdx_uahc_dcbaap_t;
 
-static inline uint64_t BDK_USBHX_UAHC_DCBAAP(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_DCBAAP(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_DCBAAP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DCBAAP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000050ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_DCBAAP", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000050ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_DCBAAP", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_DCBAAP(a) bdk_usbhx_uahc_dcbaap_t
-#define bustype_BDK_USBHX_UAHC_DCBAAP(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_DCBAAP(a) "USBHX_UAHC_DCBAAP"
-#define device_bar_BDK_USBHX_UAHC_DCBAAP(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_DCBAAP(a) (a)
-#define arguments_BDK_USBHX_UAHC_DCBAAP(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_DCBAAP(a) bdk_usbdrdx_uahc_dcbaap_t
+#define bustype_BDK_USBDRDX_UAHC_DCBAAP(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UAHC_DCBAAP(a) "USBDRDX_UAHC_DCBAAP"
+#define device_bar_BDK_USBDRDX_UAHC_DCBAAP(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DCBAAP(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_DCBAAP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_dnctrl
+ * Register (NCB32b) usbdrd#_uahc_dcfg
+ *
+ * Device Configuration Register
+ * This register configures the core in Device mode after power-on or after certain control
+ * commands or enumeration. Do not make changes to this register after initial programming.
+ *
+ * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST].
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.1.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_dcfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t ignorestreampp        : 1;  /**< [ 23: 23](R/W) This bit only affects stream-capable bulk endpoints.
+                                                                 When this bit is set to 0x0 and the controller receives a Data Packet with the
+                                                                 Packet Pending (PP) bit set to 0 for OUT endpoints, or it receives an ACK
+                                                                 with the NumP field set to 0 and PP set to 0 for IN endpoints, the core
+                                                                 attempts to search for another stream (CStream) to initiate to the host.
+
+                                                                 However, there are two situations where this behavior is not optimal:
+
+                                                                 * When the host is setting PP=0 even though it has not finished the
+                                                                 stream, or
+
+                                                                 * When the endpoint on the device is configured with one transfer
+                                                                 resource and therefore does not have any other streams to initiate to the
+                                                                 host.
+
+                                                                 When this bit is set to 0x1, the core ignores the Packet Pending bit for the
+                                                                 purposes of stream selection and does not search for another stream when
+                                                                 it receives DP(PP=0) or ACK(NumP=0, PP=0). This can enhance the
+                                                                 performance when the device system bus bandwidth is low */
+        uint32_t lpmcap                : 1;  /**< [ 22: 22](R/W) LPM capable.
+                                                                 The application uses this bit to control the controller's core LPM
+                                                                 capabilities. If the core operates as a non-LPM-capable device, it cannot
+                                                                 respond to LPM transactions.
+                                                                   0x0 = LPM capability is not enabled.
+                                                                   0x1 = LPM capability is enabled. */
+        uint32_t nump                  : 5;  /**< [ 21: 17](R/W) Number of receive buffers.
+                                                                 This bit indicates the number of receive buffers to be reported in the ACK
+                                                                 TP.
+                                                                 The DWC_usb3 controller uses this field if USBDRD()_UAHC_GRXTHRCFG[USBRXPKTCNTSEL]
+                                                                 is set to 0x0. The application can program this value based on RxFIFO size,
+                                                                 buffer sizes programmed in descriptors, and system latency.
+                                                                 For an OUT endpoint, this field controls the number of receive buffers
+                                                                 reported in the NumP field of the ACK TP transmitted by the core.
+                                                                 INTERNAL: Note: This bit is used in host mode when Debug Capability is enabled. */
+        uint32_t intrnum               : 5;  /**< [ 16: 12](R/W) Interrupt number.
+                                                                 Indicates interrupt/EventQ number on which non-endpoint-specific device-related
+                                                                 interrupts (see DEVT) are generated. */
+        uint32_t reserved_10_11        : 2;
+        uint32_t devaddr               : 7;  /**< [  9:  3](R/W) Device address.
+                                                                 The application must perform the following:
+                                                                  * Program this field after every SetAddress request.
+                                                                  * Reset this field to zero after USB reset. */
+        uint32_t devspd                : 3;  /**< [  2:  0](R/W) Device speed.
+                                                                 Indicates the speed at which the application requires the core to connect, or
+                                                                 the maximum speed the application can support. However, the actual bus
+                                                                 speed is determined only after the chirp sequence is completed, and is
+                                                                 based on the speed of the USB host to which the core is connected.
+                                                                   0x0 = High-speed (USB 2.0 PHY clock is 30 MHz or 60 MHz).
+                                                                   0x1 = Full-speed (USB 2.0 PHY clock is 30 MHz or 60 MHz).
+                                                                   0x4 = SuperSpeed (USB 3.0 PHY clock is 125 MHz or 250 MHz). */
+#else /* Word 0 - Little Endian */
+        uint32_t devspd                : 3;  /**< [  2:  0](R/W) Device speed.
+                                                                 Indicates the speed at which the application requires the core to connect, or
+                                                                 the maximum speed the application can support. However, the actual bus
+                                                                 speed is determined only after the chirp sequence is completed, and is
+                                                                 based on the speed of the USB host to which the core is connected.
+                                                                   0x0 = High-speed (USB 2.0 PHY clock is 30 MHz or 60 MHz).
+                                                                   0x1 = Full-speed (USB 2.0 PHY clock is 30 MHz or 60 MHz).
+                                                                   0x4 = SuperSpeed (USB 3.0 PHY clock is 125 MHz or 250 MHz). */
+        uint32_t devaddr               : 7;  /**< [  9:  3](R/W) Device address.
+                                                                 The application must perform the following:
+                                                                  * Program this field after every SetAddress request.
+                                                                  * Reset this field to zero after USB reset. */
+        uint32_t reserved_10_11        : 2;
+        uint32_t intrnum               : 5;  /**< [ 16: 12](R/W) Interrupt number.
+                                                                 Indicates interrupt/EventQ number on which non-endpoint-specific device-related
+                                                                 interrupts (see DEVT) are generated. */
+        uint32_t nump                  : 5;  /**< [ 21: 17](R/W) Number of receive buffers.
+                                                                 This bit indicates the number of receive buffers to be reported in the ACK
+                                                                 TP.
+                                                                 The DWC_usb3 controller uses this field if USBDRD()_UAHC_GRXTHRCFG[USBRXPKTCNTSEL]
+                                                                 is set to 0x0. The application can program this value based on RxFIFO size,
+                                                                 buffer sizes programmed in descriptors, and system latency.
+                                                                 For an OUT endpoint, this field controls the number of receive buffers
+                                                                 reported in the NumP field of the ACK TP transmitted by the core.
+                                                                 INTERNAL: Note: This bit is used in host mode when Debug Capability is enabled. */
+        uint32_t lpmcap                : 1;  /**< [ 22: 22](R/W) LPM capable.
+                                                                 The application uses this bit to control the controller's core LPM
+                                                                 capabilities. If the core operates as a non-LPM-capable device, it cannot
+                                                                 respond to LPM transactions.
+                                                                   0x0 = LPM capability is not enabled.
+                                                                   0x1 = LPM capability is enabled. */
+        uint32_t ignorestreampp        : 1;  /**< [ 23: 23](R/W) This bit only affects stream-capable bulk endpoints.
+                                                                 When this bit is set to 0x0 and the controller receives a Data Packet with the
+                                                                 Packet Pending (PP) bit set to 0 for OUT endpoints, or it receives an ACK
+                                                                 with the NumP field set to 0 and PP set to 0 for IN endpoints, the core
+                                                                 attempts to search for another stream (CStream) to initiate to the host.
+
+                                                                 However, there are two situations where this behavior is not optimal:
+
+                                                                 * When the host is setting PP=0 even though it has not finished the
+                                                                 stream, or
+
+                                                                 * When the endpoint on the device is configured with one transfer
+                                                                 resource and therefore does not have any other streams to initiate to the
+                                                                 host.
+
+                                                                 When this bit is set to 0x1, the core ignores the Packet Pending bit for the
+                                                                 purposes of stream selection and does not search for another stream when
+                                                                 it receives DP(PP=0) or ACK(NumP=0, PP=0). This can enhance the
+                                                                 performance when the device system bus bandwidth is low */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_dcfg_s cn; */
+} bdk_usbdrdx_uahc_dcfg_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_DCFG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DCFG(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86800000c700ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c700ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_DCFG", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_DCFG(a) bdk_usbdrdx_uahc_dcfg_t
+#define bustype_BDK_USBDRDX_UAHC_DCFG(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DCFG(a) "USBDRDX_UAHC_DCFG"
+#define device_bar_BDK_USBDRDX_UAHC_DCFG(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DCFG(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_DCFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_dctl
+ *
+ * Device Control Register
+ * This register controls devlice mode.
+ *
+ * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST].
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.2.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_dctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rs                    : 1;  /**< [ 31: 31](R/W) Run/Stop.
+                                                                 The software writes 1 to this bit to start the device controller operation.
+                                                                 To stop the device controller operation, the software must remove any active
+                                                                 transfers and write 0 to this bit. When the controller is stopped, it sets the
+                                                                 USBDRD()_UAHC_DSTS[DEVCTRLHLT] bit when the core is idle and the lower layer finishes
+                                                                 the disconnect process.
+
+                                                                 The Run/Stop bit must be used in following cases as specified:
+
+                                                                    1. After power-on reset and CSR initialization, the software must write 1 to this bit
+                                                                    to start the device controller. The controller does not signal connect to the host
+                                                                    until this bit is set.
+
+                                                                    2. The software uses this bit to control the device controller to perform a soft
+                                                                    disconnect. When the software writes 0 to this bit, the host does not see that
+                                                                    the device is connected. The device controller stays in the disconnected state
+                                                                    until the software writes 1 to this bit. The minimum duration of keeping this bit
+                                                                    cleared is 30ms in SuperSpeed and 10ms in High/Full/LowSpeed.
+
+                                                                    If the software attempts a connect after the soft disconnect or detects a
+                                                                    disconnect event, it must set USBDRD()_UAHC_DCTL[ULSTCHNGREQ] to
+                                                                    "Rx.Detect" before reasserting the Run/Stop bit.
+
+                                                                    INTERNAL: 3. When the USB or Link is in a lower power state and the Two Power Rails
+                                                                    configuration is selected, software writes 0 to this bit to indicate that it is going
+                                                                    to turn off the Core Power Rail. After the software turns on the Core Power Rail
+                                                                    again and re-initializes the device controller, it must set this bit to start the
+                                                                    device controller. For more details, see Low Power Operation on page 599. */
+        uint32_t csftrst               : 1;  /**< [ 30: 30](R/W1S/H) Core Soft Reset.
+                                                                 Resets the all clock domains as follows:
+                                                                 * Clears the interrupts and all the CSRs except the following registers:
+                                                                   GCTL, GUCTL, GSTS, GSNPSID, GGPIO, GUID, GUSB2PHYCFGn registers,
+                                                                   GUSB3PIPECTLn registers, DCFG, DCTL, DEVTEN, DSTS
+
+                                                                 * All module state machines (except the SoC Bus Slave Unit) are reset to the
+                                                                    IDLE state, and all the TxFIFOs and the RxFIFO are flushed.
+
+                                                                 * Any transactions on the SoC bus Master are terminated as soon as possible,
+                                                                   after gracefully completing the last data phase of a SoC bus transfer. Any
+                                                                   transactions on the USB are terminated immediately.
+
+                                                                 The application can write this bit at any time to reset the core. This is a self-clearing
+                                                                 bit; the core clears this bit after all necessary logic is reset in the core,
+                                                                 which may take several clocks depending on the corefs current state. Once this
+                                                                 bit is cleared, the software must wait at least 3 PHY clocks before accessing the
+                                                                 PHY domain (synchronization delay). Typically, software reset is used during
+                                                                 software development and also when you dynamically change the PHY selection
+                                                                 bits in the USB configuration registers listed above. When you change the PHY,
+                                                                 the corresponding clock for the PHY is selected and used in the PHY domain.
+                                                                 Once a new clock is selected, the PHY domain must be reset for proper
+                                                                 operation. */
+        uint32_t reserved_29           : 1;
+        uint32_t hird_thres            : 5;  /**< [ 28: 24](R/W) HIRD Threshold.
+                                                                 The core asserts output signals utmi_l1_suspend_n and utmi_sleep_n on the basis of this
+                                                                 signal:
+
+                                                                 * The core asserts utmi_l1_suspend_n to put the PHY into Deep Low-Power
+                                                                   mode in L1 when both of the following are true:
+                                                                   - HIRD value is greater than or equal to the value in HIRD_Thres[3:0]
+                                                                   - HIRD_Thres[4] is set to 1'b1.
+
+                                                                 * The core asserts utmi_sleep_n on L1 when one of the following is true:
+                                                                   - If the HIRD value is less than HIRD_Thres[3:0] or
+                                                                   - HIRD_Thres[4] is set to 1'b0. */
+        uint32_t appl1res              : 1;  /**< [ 23: 23](R/W) LPM Response Programmed by Application.
+                                                                 Handshake response to LPM token specified by device application. Response
+                                                                 depends on USBDRD()_UAHC_DCFG[LPMCAP].
+
+                                                                  LPMCAP is 0x0 - The core always responds with Timeout (that is, no
+                                                                  response).
+
+                                                                  LPMCAP is 0x1 and this bit is 0:
+                                                                  The core responds with an ACK upon a successful LPM transaction,
+                                                                      which requires all of the following are satisfied:
+
+                                                                      * There are no PID/CRC5 errors in both the EXT token and the LPM token
+                                                                      (if not true, inactivity results in a timeout ERROR)
+
+                                                                      * A valid bLinkState = 0001B (L1) is received in the LPM transaction (else
+                                                                      STALL)
+
+                                                                      * No data is pending in the Transmit FIFO and OUT endpoints not in flow
+                                                                      controlled state (else NYET)
+
+                                                                  LPMCAP is 0x1 and this bit is 1:
+                                                                 The core responds with an ACK upon a successful LPM, independent
+                                                                     of transmit FIFO status and OUT endpoint flow control state. The LPM
+                                                                     transaction is successful if all of the following are satisfied:
+
+                                                                     * There are no PID/CRC5 errors in both the EXT token and the LPM token
+                                                                     (else ERROR)
+
+                                                                     * A valid bLinkState = 0001B (L1) is received in the LPM transaction (else
+                                                                     STALL) */
+        uint32_t reserved_20_22        : 3;
+        uint32_t keepconnect           : 1;  /**< [ 19: 19](WO) Always write 0.
+                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+        uint32_t l1hibernationen       : 1;  /**< [ 18: 18](WO) Always write 0.
+                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+        uint32_t crs                   : 1;  /**< [ 17: 17](WO) Controller Restore State.
+                                                                 This command is similar to the USBDRD()_UAHC_USBCMD[CRS] bit in host mode and
+                                                                 initiates the restore process. When software sets this bit to 1, the controller
+                                                                 immediately sets USBDRD()_UAHC_DSTS[RSS] to 1. When the controller has finished
+                                                                 the restore process, it sets USBDRD()_UAHC_DSTS[RSS] to 0.
+                                                                 Note: When read, this field always returns 0. */
+        uint32_t css                   : 1;  /**< [ 16: 16](WO) Controller Save State.
+                                                                 This command is similar to the USBDRD()_UAHC_USBCMD[CSS] bit in host mode and
+                                                                 initiates the restore process. When software sets this bit to 1, the controller
+                                                                 immediately sets USBDRD()_UAHC_DSTS[SSS] to 1. When the controller has finished
+                                                                 the save process, it sets USBDRD()_UAHC_DSTS[SSS] to 0.
+                                                                 Note: When read, this field always returns 0. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t initu2ena             : 1;  /**< [ 12: 12](R/W) Initiate U2 Enable.
+                                                                  0 = May not initiate U2 (default).
+                                                                  1 = May initiate U2.
+
+                                                                 On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
+                                                                 SetFeature(U2_ENABLE), and clears this bit when ClearFeature(U2_ENABLE) is
+                                                                 received.
+
+                                                                 If USBDRD()_UAHC_DCTL[ACCEPTU2ENA] is 0, the link immediately exits U2 state. */
+        uint32_t acceptu2ena           : 1;  /**< [ 11: 11](R/W) Accept U2 Enable.
+                                                                  0 = Reject U2 except when Force_LinkPM_Accept bit is set (default).
+                                                                  1 = Core accepts transition to U2 state if nothing is pending on the
+                                                                     application side.
+
+                                                                 On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
+                                                                 a SetConfiguration command. */
+        uint32_t initu1ena             : 1;  /**< [ 10: 10](R/W) Initiate U1 Enable.
+                                                                  0 = May not initiate U1 (default).
+                                                                  1 = May initiate U1.
+
+                                                                 On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
+                                                                 SetFeature(U1_ENABLE), and clears this bit when ClearFeature(U1_ENABLE) is
+                                                                 received.
+
+                                                                 If USBDRD()_UAHC_DCTL[ACCEPTU1ENA] is 0, the link immediately exits U1 state. */
+        uint32_t acceptu1ena           : 1;  /**< [  9:  9](R/W) Accept U1 Enable.
+                                                                  0 = Reject U1 except when Force_LinkPM_Accept bit is set (default)
+                                                                  1 = Core accepts transition to U1 state if nothing is pending on the
+                                                                     application side.
+
+                                                                 On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
+                                                                 a SetConfiguration command. */
+        uint32_t ulstchngreq           : 4;  /**< [  8:  5](WO) USB/Link State Change Request.
+                                                                 Software writes this field to issue a USB/Link state change request. A change in
+                                                                 this field indicates a new request to the core. If software wants to issue the same
+                                                                 request back-to-back, it must write a 0 to this field between the two requests. The
+                                                                 result of the state change request is reflected in USBDRD()_UAHC_DSTS[USBLNKST].
+                                                                 These bits are self-cleared on the MAC Layer exiting suspended state.
+
+                                                                 If software is updating other fields of the USBDRD()_UAHC_DCTL register and not
+                                                                 intending to force any link state change, then it must write a 0 to this field.
+                                                                 SuperSpeed Compliance mode is normally entered and controlled by the remote link
+                                                                 partner. Refer to the USB3 specification. Alternatively, you can force the local link
+                                                                 directly into Compliance mode, by resetting the SuperSpeed link with the
+                                                                 USBDRD()_UAHC_DCTL[RS] bit set to zero. If you then write 0xA to the ULSTCHNGREQ
+                                                                 field and 1 to USBDRD()_UAHC_DCTL[RS], the Link will go to Compliance. Once you
+                                                                 are in Compliance, you may alternately write 0x0 and 0xA to this field to advance
+                                                                 the compliance pattern.
+
+                                                                 In SS mode:
+                                                                     0x0 = No Action.
+                                                                     0x4 = SS.Disabled.
+                                                                     0x5 = Rx.Detect.
+                                                                     0x6 = SS.Inactive.
+                                                                     0x8 = Recovery.
+                                                                     0xA = Compliance.
+                                                                     Others = Reserved.
+
+                                                                 In HS/FS/LS mode:
+
+                                                                     0x8 = Remote wakeup request.
+                                                                     The Remote wakeup request should be issued 2us after the device goes into
+                                                                     suspend state (USBDRD()_UAHC_DSTS[USBLNKST] is 0x3).
+                                                                     Others = Reserved. */
+        uint32_t tstctl                : 4;  /**< [  4:  1](R/W) Test Control.
+                                                                 0x0 = Test mode disabled.
+                                                                 0x1 = Test_J mode.
+                                                                 0x2 = Test_K mode.
+                                                                 0x3 = Test_SE0_NAK mode.
+                                                                 0x4 = Test_Packet mode.
+                                                                 0x5 = Test_Force_Enable.
+                                                                 Others = Reserved. */
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t tstctl                : 4;  /**< [  4:  1](R/W) Test Control.
+                                                                 0x0 = Test mode disabled.
+                                                                 0x1 = Test_J mode.
+                                                                 0x2 = Test_K mode.
+                                                                 0x3 = Test_SE0_NAK mode.
+                                                                 0x4 = Test_Packet mode.
+                                                                 0x5 = Test_Force_Enable.
+                                                                 Others = Reserved. */
+        uint32_t ulstchngreq           : 4;  /**< [  8:  5](WO) USB/Link State Change Request.
+                                                                 Software writes this field to issue a USB/Link state change request. A change in
+                                                                 this field indicates a new request to the core. If software wants to issue the same
+                                                                 request back-to-back, it must write a 0 to this field between the two requests. The
+                                                                 result of the state change request is reflected in USBDRD()_UAHC_DSTS[USBLNKST].
+                                                                 These bits are self-cleared on the MAC Layer exiting suspended state.
+
+                                                                 If software is updating other fields of the USBDRD()_UAHC_DCTL register and not
+                                                                 intending to force any link state change, then it must write a 0 to this field.
+                                                                 SuperSpeed Compliance mode is normally entered and controlled by the remote link
+                                                                 partner. Refer to the USB3 specification. Alternatively, you can force the local link
+                                                                 directly into Compliance mode, by resetting the SuperSpeed link with the
+                                                                 USBDRD()_UAHC_DCTL[RS] bit set to zero. If you then write 0xA to the ULSTCHNGREQ
+                                                                 field and 1 to USBDRD()_UAHC_DCTL[RS], the Link will go to Compliance. Once you
+                                                                 are in Compliance, you may alternately write 0x0 and 0xA to this field to advance
+                                                                 the compliance pattern.
+
+                                                                 In SS mode:
+                                                                     0x0 = No Action.
+                                                                     0x4 = SS.Disabled.
+                                                                     0x5 = Rx.Detect.
+                                                                     0x6 = SS.Inactive.
+                                                                     0x8 = Recovery.
+                                                                     0xA = Compliance.
+                                                                     Others = Reserved.
+
+                                                                 In HS/FS/LS mode:
+
+                                                                     0x8 = Remote wakeup request.
+                                                                     The Remote wakeup request should be issued 2us after the device goes into
+                                                                     suspend state (USBDRD()_UAHC_DSTS[USBLNKST] is 0x3).
+                                                                     Others = Reserved. */
+        uint32_t acceptu1ena           : 1;  /**< [  9:  9](R/W) Accept U1 Enable.
+                                                                  0 = Reject U1 except when Force_LinkPM_Accept bit is set (default)
+                                                                  1 = Core accepts transition to U1 state if nothing is pending on the
+                                                                     application side.
+
+                                                                 On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
+                                                                 a SetConfiguration command. */
+        uint32_t initu1ena             : 1;  /**< [ 10: 10](R/W) Initiate U1 Enable.
+                                                                  0 = May not initiate U1 (default).
+                                                                  1 = May initiate U1.
+
+                                                                 On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
+                                                                 SetFeature(U1_ENABLE), and clears this bit when ClearFeature(U1_ENABLE) is
+                                                                 received.
+
+                                                                 If USBDRD()_UAHC_DCTL[ACCEPTU1ENA] is 0, the link immediately exits U1 state. */
+        uint32_t acceptu2ena           : 1;  /**< [ 11: 11](R/W) Accept U2 Enable.
+                                                                  0 = Reject U2 except when Force_LinkPM_Accept bit is set (default).
+                                                                  1 = Core accepts transition to U2 state if nothing is pending on the
+                                                                     application side.
+
+                                                                 On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
+                                                                 a SetConfiguration command. */
+        uint32_t initu2ena             : 1;  /**< [ 12: 12](R/W) Initiate U2 Enable.
+                                                                  0 = May not initiate U2 (default).
+                                                                  1 = May initiate U2.
+
+                                                                 On USB reset, hardware clears this bit to 0. Software sets this bit after receiving
+                                                                 SetFeature(U2_ENABLE), and clears this bit when ClearFeature(U2_ENABLE) is
+                                                                 received.
+
+                                                                 If USBDRD()_UAHC_DCTL[ACCEPTU2ENA] is 0, the link immediately exits U2 state. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t css                   : 1;  /**< [ 16: 16](WO) Controller Save State.
+                                                                 This command is similar to the USBDRD()_UAHC_USBCMD[CSS] bit in host mode and
+                                                                 initiates the restore process. When software sets this bit to 1, the controller
+                                                                 immediately sets USBDRD()_UAHC_DSTS[SSS] to 1. When the controller has finished
+                                                                 the save process, it sets USBDRD()_UAHC_DSTS[SSS] to 0.
+                                                                 Note: When read, this field always returns 0. */
+        uint32_t crs                   : 1;  /**< [ 17: 17](WO) Controller Restore State.
+                                                                 This command is similar to the USBDRD()_UAHC_USBCMD[CRS] bit in host mode and
+                                                                 initiates the restore process. When software sets this bit to 1, the controller
+                                                                 immediately sets USBDRD()_UAHC_DSTS[RSS] to 1. When the controller has finished
+                                                                 the restore process, it sets USBDRD()_UAHC_DSTS[RSS] to 0.
+                                                                 Note: When read, this field always returns 0. */
+        uint32_t l1hibernationen       : 1;  /**< [ 18: 18](WO) Always write 0.
+                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+        uint32_t keepconnect           : 1;  /**< [ 19: 19](WO) Always write 0.
+                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+        uint32_t reserved_20_22        : 3;
+        uint32_t appl1res              : 1;  /**< [ 23: 23](R/W) LPM Response Programmed by Application.
+                                                                 Handshake response to LPM token specified by device application. Response
+                                                                 depends on USBDRD()_UAHC_DCFG[LPMCAP].
+
+                                                                  LPMCAP is 0x0 - The core always responds with Timeout (that is, no
+                                                                  response).
+
+                                                                  LPMCAP is 0x1 and this bit is 0:
+                                                                  The core responds with an ACK upon a successful LPM transaction,
+                                                                      which requires all of the following are satisfied:
+
+                                                                      * There are no PID/CRC5 errors in both the EXT token and the LPM token
+                                                                      (if not true, inactivity results in a timeout ERROR)
+
+                                                                      * A valid bLinkState = 0001B (L1) is received in the LPM transaction (else
+                                                                      STALL)
+
+                                                                      * No data is pending in the Transmit FIFO and OUT endpoints not in flow
+                                                                      controlled state (else NYET)
+
+                                                                  LPMCAP is 0x1 and this bit is 1:
+                                                                 The core responds with an ACK upon a successful LPM, independent
+                                                                     of transmit FIFO status and OUT endpoint flow control state. The LPM
+                                                                     transaction is successful if all of the following are satisfied:
+
+                                                                     * There are no PID/CRC5 errors in both the EXT token and the LPM token
+                                                                     (else ERROR)
+
+                                                                     * A valid bLinkState = 0001B (L1) is received in the LPM transaction (else
+                                                                     STALL) */
+        uint32_t hird_thres            : 5;  /**< [ 28: 24](R/W) HIRD Threshold.
+                                                                 The core asserts output signals utmi_l1_suspend_n and utmi_sleep_n on the basis of this
+                                                                 signal:
+
+                                                                 * The core asserts utmi_l1_suspend_n to put the PHY into Deep Low-Power
+                                                                   mode in L1 when both of the following are true:
+                                                                   - HIRD value is greater than or equal to the value in HIRD_Thres[3:0]
+                                                                   - HIRD_Thres[4] is set to 1'b1.
+
+                                                                 * The core asserts utmi_sleep_n on L1 when one of the following is true:
+                                                                   - If the HIRD value is less than HIRD_Thres[3:0] or
+                                                                   - HIRD_Thres[4] is set to 1'b0. */
+        uint32_t reserved_29           : 1;
+        uint32_t csftrst               : 1;  /**< [ 30: 30](R/W1S/H) Core Soft Reset.
+                                                                 Resets the all clock domains as follows:
+                                                                 * Clears the interrupts and all the CSRs except the following registers:
+                                                                   GCTL, GUCTL, GSTS, GSNPSID, GGPIO, GUID, GUSB2PHYCFGn registers,
+                                                                   GUSB3PIPECTLn registers, DCFG, DCTL, DEVTEN, DSTS
+
+                                                                 * All module state machines (except the SoC Bus Slave Unit) are reset to the
+                                                                    IDLE state, and all the TxFIFOs and the RxFIFO are flushed.
+
+                                                                 * Any transactions on the SoC bus Master are terminated as soon as possible,
+                                                                   after gracefully completing the last data phase of a SoC bus transfer. Any
+                                                                   transactions on the USB are terminated immediately.
+
+                                                                 The application can write this bit at any time to reset the core. This is a self-clearing
+                                                                 bit; the core clears this bit after all necessary logic is reset in the core,
+                                                                 which may take several clocks depending on the corefs current state. Once this
+                                                                 bit is cleared, the software must wait at least 3 PHY clocks before accessing the
+                                                                 PHY domain (synchronization delay). Typically, software reset is used during
+                                                                 software development and also when you dynamically change the PHY selection
+                                                                 bits in the USB configuration registers listed above. When you change the PHY,
+                                                                 the corresponding clock for the PHY is selected and used in the PHY domain.
+                                                                 Once a new clock is selected, the PHY domain must be reset for proper
+                                                                 operation. */
+        uint32_t rs                    : 1;  /**< [ 31: 31](R/W) Run/Stop.
+                                                                 The software writes 1 to this bit to start the device controller operation.
+                                                                 To stop the device controller operation, the software must remove any active
+                                                                 transfers and write 0 to this bit. When the controller is stopped, it sets the
+                                                                 USBDRD()_UAHC_DSTS[DEVCTRLHLT] bit when the core is idle and the lower layer finishes
+                                                                 the disconnect process.
+
+                                                                 The Run/Stop bit must be used in following cases as specified:
+
+                                                                    1. After power-on reset and CSR initialization, the software must write 1 to this bit
+                                                                    to start the device controller. The controller does not signal connect to the host
+                                                                    until this bit is set.
+
+                                                                    2. The software uses this bit to control the device controller to perform a soft
+                                                                    disconnect. When the software writes 0 to this bit, the host does not see that
+                                                                    the device is connected. The device controller stays in the disconnected state
+                                                                    until the software writes 1 to this bit. The minimum duration of keeping this bit
+                                                                    cleared is 30ms in SuperSpeed and 10ms in High/Full/LowSpeed.
+
+                                                                    If the software attempts a connect after the soft disconnect or detects a
+                                                                    disconnect event, it must set USBDRD()_UAHC_DCTL[ULSTCHNGREQ] to
+                                                                    "Rx.Detect" before reasserting the Run/Stop bit.
+
+                                                                    INTERNAL: 3. When the USB or Link is in a lower power state and the Two Power Rails
+                                                                    configuration is selected, software writes 0 to this bit to indicate that it is going
+                                                                    to turn off the Core Power Rail. After the software turns on the Core Power Rail
+                                                                    again and re-initializes the device controller, it must set this bit to start the
+                                                                    device controller. For more details, see Low Power Operation on page 599. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_dctl_s cn; */
+} bdk_usbdrdx_uahc_dctl_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_DCTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DCTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86800000c704ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c704ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_DCTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_DCTL(a) bdk_usbdrdx_uahc_dctl_t
+#define bustype_BDK_USBDRDX_UAHC_DCTL(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DCTL(a) "USBDRDX_UAHC_DCTL"
+#define device_bar_BDK_USBDRDX_UAHC_DCTL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DCTL(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_DCTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_depcmd#
+ *
+ * Device Physical Endpoint-n Command Register
+ * This register enables software to issue physical endpoint-specific commands. This register
+ * contains command, control, and status fields relevant to the current generic command,
+ * while the USBDRD()_UAHC_DEPCMDPAR* registers provide command parameters and return
+ * status information.
+ *
+ * Several fields (including CMDTYPE) are write-only, so their read values are undefined. After
+ * power-on, prior to issuing the first endpoint command, the read value of this register is
+ * undefined. In particular, the CMDACT bit may be set after power-on. In this case, it is safe
+ * to issue an endpoint command.
+ *
+ * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST] or
+ * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
+ * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
+ * USBDRD()_UAHC_DCTL[CSFTRST].
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.5.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_depcmdx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t commandparam          : 16; /**< [ 31: 16](R/W) Command or Event Parameters.
+                                                                 When this register is written:
+
+                                                                   Command Parameters:
+
+                                                                     For Start Transfer command:
+                                                                     _  - [31:16]: StreamID. The USB StreamID assigned to this transfer
+
+                                                                     For Start Transfer command applied to an isochronous endpoint:
+                                                                     _  - [31:16]: StartMicroFramNum: Indicates the (micro)frame number to
+                                                                       which the first TRB applies
+
+                                                                     For Update Transfer, End Transfer, and Start New Configuration
+                                                                     commands:
+                                                                     _  - [22:16]: Transfer Resource Index (XferRscIdx). The hardware-assigned
+                                                                       transfer resource index for the transfer, which was returned
+                                                                       in response to the Start Transfer command. The application
+                                                                       software-assigned transfer resource index for a Start New
+                                                                       Configuration command.
+
+                                                                   When this register is read:
+
+                                                                     For XferNotReady, XferComplete, and Stream events on Bulk Endpoints:
+                                                                     _  - [31:16]: StreamID. Applies only to bulk endpoints that support streams. This
+                                                                                  indicates the StreamID of the transfer for which the event is
+                                                                                  generated
+                                                                     For XferInProgress:
+                                                                     _  - [31:16]: Isochronous Microframe Number (IsocMicroFrameNum): Indicates the
+                                                                                  microframe number of the beginning of the interval that generated
+                                                                                  the XferInProgress event (debug purposes only)
+                                                                     For XferNotReady events on Isochronous Endpoints:
+                                                                     _  - [31:16]: Isochronous Microframe Number (IsocMicroFrameNum). Indicates the
+                                                                                  microframe number during which the endpoint was not ready
+
+                                                                       Note: controller core represents USB bus time as a 14-bit value on the bus and also
+                                                                       in the DSTS register (USBDRD()_UAHC_DSTS[SOFFN]), but as a 16-bit value in the
+                                                                       XferNotReady event. Use the 16-bit value to interact with Isochronous endpoints via
+                                                                       the StartXfer command. The extra two bits that the controller core produces will be
+                                                                       necessary for handling wrap-around conditions in the interaction between software
+                                                                       and hardware.
+
+                                                                    For all EPCmdCmplt events
+                                                                    _  - [27:24]: Command Type. The command type that completed (Valid only in a DEPEVT
+                                                                                    event. Undefined when read from the
+                                                                                    USBDRD()_UAHC_DEPCMD()[COMMANDPARAM] field).
+
+                                                                    For EPCmdCmplt event in response to Start Transfer command:
+                                                                    _  - [22:16]: Transfer Resource Index (XferRscIdx). The internal hardware transfer
+                                                                                    resource index assigned to this transfer. This index must be used in
+                                                                                    all Update Transfer and End Transfer commands. */
+        uint32_t cmdstatus             : 4;  /**< [ 15: 12](R/W) Command Completion Status.
+                                                                 Additional information about the completion of this command is available in
+                                                                 this field.
+
+                                                                 Within an XferNotReady event:
+                                                                 _ [15]: Indicates the reason why the XferNotReady event is generated:
+                                                                 _ [15] = 0: XferNotActive: Host initiated a transfer, but the requested transfer is not
+                                                                       present in the hardware.
+                                                                 _ [15] = 1: XferActive: Host initiated a transfer, the transfer is present, but no valid
+                                                                 TRBs
+                                                                       are available
+                                                                 _ [14]: Not Used
+                                                                 _ [13:12]: For control endpoints, indicates what stage was requested when the transfer was
+                                                                   not ready:
+                                                                 _ [13:12] = 0x1: Control Data Request
+                                                                 _ [13:12] = 0x2: Control Status Request
+
+                                                                 Within an XferComplete or XferInProgress event:
+                                                                 _ [15]: LST bit of the completed TRB (XferComplete only)
+                                                                 _ [15]: MissedIsoc: Indicates the interval did not complete successfully (XferInProgress
+                                                                   only)
+                                                                 _ [14]: IOC bit of the TRB that completed.
+                                                                 _ [13]: Indicates the TRB completed with a short packet reception or the last packet of an
+                                                                   isochronous interval
+                                                                 _ [12]: Reserved.
+                                                                   If the host aborts the data stage of a control transfer, software may receive a
+                                                                   XferComplete event with the EventStatus field equal to 0. This is a valid event
+                                                                   that must be processed as a part of the Control Transfer Programming Model.
+
+                                                                 Within a Stream Event:
+                                                                 _ [15:12] = 0x2: StreamNotFound: This stream event is issued when the stream-capable
+                                                                 endpoint
+                                                                       performed a search in its transfer resource cache, but could not find an active
+                                                                       and ready stream.
+                                                                 _ [15:12] = 0x1: StreamFound: This stream event is issued when the stream-capable endpoint
+                                                                 found
+                                                                       an active and ready stream in its transfer resource cache, and initiated traffic for
+                                                                       that stream to the host. The ID of the selected Stream is in the EventParam field.
+
+                                                                     In response to a Start Transfer command:
+                                                                 _ [15:12] = 0x2: Indicates expiry of the bus time reflected in the Start Transfer command.
+                                                                 _ [15:12] = 0x1: Indicates there is no transfer resource available on the endpoint.
+
+                                                                 In response to a Set Transfer Resource (DEPXFERCFG) command:
+                                                                 _ [15:12] = 0x1: Indicates an error has occurred because software is requesting more
+                                                                 transfer
+                                                                       resources to be assigned than have been configured in the hardware.
+
+                                                                 In response to a End Transfer command:
+                                                                 _ [15:12] = 0x1: Indicates an invalid transfer resource was specified.
+                                                                 INTERNAL: For abort handling, see also Synopsys DWC_usb3 Databook v2.80a, Section 8.4. */
+        uint32_t hipri_forcerm         : 1;  /**< [ 11: 11](R/W) HighPriority: Only valid for Start Transfer command.
+                                                                 ForceRM: Only valid for End Transfer command. */
+        uint32_t cmdact                : 1;  /**< [ 10: 10](R/W) Software sets this bit to 1 to enable the device endpoint controller to
+                                                                 execute the generic command.
+                                                                 The device controller sets this bit to 0 when the CMDSTATUS field is valid and
+                                                                 the endpoint is ready to accept another command. This does not imply that
+                                                                 all the effects of the previously-issued command have taken place. */
+        uint32_t reserved_9            : 1;
+        uint32_t cmdioc                : 1;  /**< [  8:  8](R/W) Command Interrupt on Complete.
+                                                                 When this bit is set, the device controller issues a generic Endpoint
+                                                                 Command Complete event after executing the command. Note that this
+                                                                 interrupt is mapped to DEPCFG.IntrNum. When the DEPCFG command is
+                                                                 executed, the command interrupt on completion goes to the interrupt
+                                                                 pointed by the USBDRD()_UAHC_DCFG[INTRNUM] in the current command.
+                                                                 Note: This field must not set to 1 if the USBDRD()_UAHC_DCTL[RS] field is 0. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t cmdtyp                : 4;  /**< [  3:  0](R/W) Command Type.
+                                                                 Specifies the type of command the software driver is requesting the core to
+                                                                 perform.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = Set Endpoint Configuration (64 or 96-bit Parameter).
+                                                                 0x2 = Set Endpoint Transfer Resource Configuration (32-bit Parameter).
+                                                                 0x3 = Get Endpoint State (No Parameter Needed).
+                                                                 0x4 = Set Stall (No Parameter Needed).
+                                                                 0x5 = Clear Stall (see Set Stall, No Parameter Needed).
+                                                                 0x6 = Start Transfer (64-bit Parameter).
+                                                                 0x7 = Update Transfer (No Parameter Needed).
+                                                                 0x8 = End Transfer (No Parameter Needed).
+                                                                 0x9 = Start New Configuration (No Parameter Needed). */
+#else /* Word 0 - Little Endian */
+        uint32_t cmdtyp                : 4;  /**< [  3:  0](R/W) Command Type.
+                                                                 Specifies the type of command the software driver is requesting the core to
+                                                                 perform.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = Set Endpoint Configuration (64 or 96-bit Parameter).
+                                                                 0x2 = Set Endpoint Transfer Resource Configuration (32-bit Parameter).
+                                                                 0x3 = Get Endpoint State (No Parameter Needed).
+                                                                 0x4 = Set Stall (No Parameter Needed).
+                                                                 0x5 = Clear Stall (see Set Stall, No Parameter Needed).
+                                                                 0x6 = Start Transfer (64-bit Parameter).
+                                                                 0x7 = Update Transfer (No Parameter Needed).
+                                                                 0x8 = End Transfer (No Parameter Needed).
+                                                                 0x9 = Start New Configuration (No Parameter Needed). */
+        uint32_t reserved_4_7          : 4;
+        uint32_t cmdioc                : 1;  /**< [  8:  8](R/W) Command Interrupt on Complete.
+                                                                 When this bit is set, the device controller issues a generic Endpoint
+                                                                 Command Complete event after executing the command. Note that this
+                                                                 interrupt is mapped to DEPCFG.IntrNum. When the DEPCFG command is
+                                                                 executed, the command interrupt on completion goes to the interrupt
+                                                                 pointed by the USBDRD()_UAHC_DCFG[INTRNUM] in the current command.
+                                                                 Note: This field must not set to 1 if the USBDRD()_UAHC_DCTL[RS] field is 0. */
+        uint32_t reserved_9            : 1;
+        uint32_t cmdact                : 1;  /**< [ 10: 10](R/W) Software sets this bit to 1 to enable the device endpoint controller to
+                                                                 execute the generic command.
+                                                                 The device controller sets this bit to 0 when the CMDSTATUS field is valid and
+                                                                 the endpoint is ready to accept another command. This does not imply that
+                                                                 all the effects of the previously-issued command have taken place. */
+        uint32_t hipri_forcerm         : 1;  /**< [ 11: 11](R/W) HighPriority: Only valid for Start Transfer command.
+                                                                 ForceRM: Only valid for End Transfer command. */
+        uint32_t cmdstatus             : 4;  /**< [ 15: 12](R/W) Command Completion Status.
+                                                                 Additional information about the completion of this command is available in
+                                                                 this field.
+
+                                                                 Within an XferNotReady event:
+                                                                 _ [15]: Indicates the reason why the XferNotReady event is generated:
+                                                                 _ [15] = 0: XferNotActive: Host initiated a transfer, but the requested transfer is not
+                                                                       present in the hardware.
+                                                                 _ [15] = 1: XferActive: Host initiated a transfer, the transfer is present, but no valid
+                                                                 TRBs
+                                                                       are available
+                                                                 _ [14]: Not Used
+                                                                 _ [13:12]: For control endpoints, indicates what stage was requested when the transfer was
+                                                                   not ready:
+                                                                 _ [13:12] = 0x1: Control Data Request
+                                                                 _ [13:12] = 0x2: Control Status Request
+
+                                                                 Within an XferComplete or XferInProgress event:
+                                                                 _ [15]: LST bit of the completed TRB (XferComplete only)
+                                                                 _ [15]: MissedIsoc: Indicates the interval did not complete successfully (XferInProgress
+                                                                   only)
+                                                                 _ [14]: IOC bit of the TRB that completed.
+                                                                 _ [13]: Indicates the TRB completed with a short packet reception or the last packet of an
+                                                                   isochronous interval
+                                                                 _ [12]: Reserved.
+                                                                   If the host aborts the data stage of a control transfer, software may receive a
+                                                                   XferComplete event with the EventStatus field equal to 0. This is a valid event
+                                                                   that must be processed as a part of the Control Transfer Programming Model.
+
+                                                                 Within a Stream Event:
+                                                                 _ [15:12] = 0x2: StreamNotFound: This stream event is issued when the stream-capable
+                                                                 endpoint
+                                                                       performed a search in its transfer resource cache, but could not find an active
+                                                                       and ready stream.
+                                                                 _ [15:12] = 0x1: StreamFound: This stream event is issued when the stream-capable endpoint
+                                                                 found
+                                                                       an active and ready stream in its transfer resource cache, and initiated traffic for
+                                                                       that stream to the host. The ID of the selected Stream is in the EventParam field.
+
+                                                                     In response to a Start Transfer command:
+                                                                 _ [15:12] = 0x2: Indicates expiry of the bus time reflected in the Start Transfer command.
+                                                                 _ [15:12] = 0x1: Indicates there is no transfer resource available on the endpoint.
+
+                                                                 In response to a Set Transfer Resource (DEPXFERCFG) command:
+                                                                 _ [15:12] = 0x1: Indicates an error has occurred because software is requesting more
+                                                                 transfer
+                                                                       resources to be assigned than have been configured in the hardware.
+
+                                                                 In response to a End Transfer command:
+                                                                 _ [15:12] = 0x1: Indicates an invalid transfer resource was specified.
+                                                                 INTERNAL: For abort handling, see also Synopsys DWC_usb3 Databook v2.80a, Section 8.4. */
+        uint32_t commandparam          : 16; /**< [ 31: 16](R/W) Command or Event Parameters.
+                                                                 When this register is written:
+
+                                                                   Command Parameters:
+
+                                                                     For Start Transfer command:
+                                                                     _  - [31:16]: StreamID. The USB StreamID assigned to this transfer
+
+                                                                     For Start Transfer command applied to an isochronous endpoint:
+                                                                     _  - [31:16]: StartMicroFramNum: Indicates the (micro)frame number to
+                                                                       which the first TRB applies
+
+                                                                     For Update Transfer, End Transfer, and Start New Configuration
+                                                                     commands:
+                                                                     _  - [22:16]: Transfer Resource Index (XferRscIdx). The hardware-assigned
+                                                                       transfer resource index for the transfer, which was returned
+                                                                       in response to the Start Transfer command. The application
+                                                                       software-assigned transfer resource index for a Start New
+                                                                       Configuration command.
+
+                                                                   When this register is read:
+
+                                                                     For XferNotReady, XferComplete, and Stream events on Bulk Endpoints:
+                                                                     _  - [31:16]: StreamID. Applies only to bulk endpoints that support streams. This
+                                                                                  indicates the StreamID of the transfer for which the event is
+                                                                                  generated
+                                                                     For XferInProgress:
+                                                                     _  - [31:16]: Isochronous Microframe Number (IsocMicroFrameNum): Indicates the
+                                                                                  microframe number of the beginning of the interval that generated
+                                                                                  the XferInProgress event (debug purposes only)
+                                                                     For XferNotReady events on Isochronous Endpoints:
+                                                                     _  - [31:16]: Isochronous Microframe Number (IsocMicroFrameNum). Indicates the
+                                                                                  microframe number during which the endpoint was not ready
+
+                                                                       Note: controller core represents USB bus time as a 14-bit value on the bus and also
+                                                                       in the DSTS register (USBDRD()_UAHC_DSTS[SOFFN]), but as a 16-bit value in the
+                                                                       XferNotReady event. Use the 16-bit value to interact with Isochronous endpoints via
+                                                                       the StartXfer command. The extra two bits that the controller core produces will be
+                                                                       necessary for handling wrap-around conditions in the interaction between software
+                                                                       and hardware.
+
+                                                                    For all EPCmdCmplt events
+                                                                    _  - [27:24]: Command Type. The command type that completed (Valid only in a DEPEVT
+                                                                                    event. Undefined when read from the
+                                                                                    USBDRD()_UAHC_DEPCMD()[COMMANDPARAM] field).
+
+                                                                    For EPCmdCmplt event in response to Start Transfer command:
+                                                                    _  - [22:16]: Transfer Resource Index (XferRscIdx). The internal hardware transfer
+                                                                                    resource index assigned to this transfer. This index must be used in
+                                                                                    all Update Transfer and End Transfer commands. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_depcmdx_s cn; */
+} bdk_usbdrdx_uahc_depcmdx_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=15)))
+        return 0x86800000c80cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
+        return 0x86800000c80cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
+    __bdk_csr_fatal("USBDRDX_UAHC_DEPCMDX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_DEPCMDX(a,b) bdk_usbdrdx_uahc_depcmdx_t
+#define bustype_BDK_USBDRDX_UAHC_DEPCMDX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DEPCMDX(a,b) "USBDRDX_UAHC_DEPCMDX"
+#define device_bar_BDK_USBDRDX_UAHC_DEPCMDX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DEPCMDX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_DEPCMDX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_depcmdpar0_#
+ *
+ * Device Physical Endpoint-n Command Parameter 0 Register
+ * This register indicates the physical endpoint command Parameter 0. It must be programmed
+ * before issuing the command.
+ *
+ * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST] or
+ * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
+ * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
+ * USBDRD()_UAHC_DCTL[CSFTRST].
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.4.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_depcmdpar0_x_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t param0                : 32; /**< [ 31:  0](R/W) Physical endpoint command Parameter 0 */
+#else /* Word 0 - Little Endian */
+        uint32_t param0                : 32; /**< [ 31:  0](R/W) Physical endpoint command Parameter 0 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_depcmdpar0_x_s cn; */
+} bdk_usbdrdx_uahc_depcmdpar0_x_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR0_X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR0_X(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=15)))
+        return 0x86800000c808ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
+        return 0x86800000c808ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
+    __bdk_csr_fatal("USBDRDX_UAHC_DEPCMDPAR0_X", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_DEPCMDPAR0_X(a,b) bdk_usbdrdx_uahc_depcmdpar0_x_t
+#define bustype_BDK_USBDRDX_UAHC_DEPCMDPAR0_X(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DEPCMDPAR0_X(a,b) "USBDRDX_UAHC_DEPCMDPAR0_X"
+#define device_bar_BDK_USBDRDX_UAHC_DEPCMDPAR0_X(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DEPCMDPAR0_X(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_DEPCMDPAR0_X(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_depcmdpar1_#
+ *
+ * Device Physical Endpoint-n Command Parameter 1 Register
+ * This register indicates the physical endpoint command Parameter 1. It must be programmed
+ * before issuing the command.
+ *
+ * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST] or
+ * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
+ * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
+ * USBDRD()_UAHC_DCTL[CSFTRST].
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.3.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_depcmdpar1_x_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t param1                : 32; /**< [ 31:  0](R/W) Physical endpoint command Parameter 1 */
+#else /* Word 0 - Little Endian */
+        uint32_t param1                : 32; /**< [ 31:  0](R/W) Physical endpoint command Parameter 1 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_depcmdpar1_x_s cn; */
+} bdk_usbdrdx_uahc_depcmdpar1_x_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR1_X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR1_X(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=15)))
+        return 0x86800000c804ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
+        return 0x86800000c804ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
+    __bdk_csr_fatal("USBDRDX_UAHC_DEPCMDPAR1_X", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_DEPCMDPAR1_X(a,b) bdk_usbdrdx_uahc_depcmdpar1_x_t
+#define bustype_BDK_USBDRDX_UAHC_DEPCMDPAR1_X(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DEPCMDPAR1_X(a,b) "USBDRDX_UAHC_DEPCMDPAR1_X"
+#define device_bar_BDK_USBDRDX_UAHC_DEPCMDPAR1_X(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DEPCMDPAR1_X(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_DEPCMDPAR1_X(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_depcmdpar2_#
+ *
+ * Device Physical Endpoint-n Command Parameter 2 Register
+ * This register indicates the physical endpoint command Parameter 2. It must be programmed
+ * before issuing the command.
+ *
+ * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST] or
+ * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
+ * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
+ * USBDRD()_UAHC_DCTL[CSFTRST].
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.2.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_depcmdpar2_x_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t param2                : 32; /**< [ 31:  0](R/W) Physical endpoint command Parameter 2 */
+#else /* Word 0 - Little Endian */
+        uint32_t param2                : 32; /**< [ 31:  0](R/W) Physical endpoint command Parameter 2 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_depcmdpar2_x_s cn; */
+} bdk_usbdrdx_uahc_depcmdpar2_x_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR2_X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR2_X(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=15)))
+        return 0x86800000c800ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
+        return 0x86800000c800ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
+    __bdk_csr_fatal("USBDRDX_UAHC_DEPCMDPAR2_X", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_DEPCMDPAR2_X(a,b) bdk_usbdrdx_uahc_depcmdpar2_x_t
+#define bustype_BDK_USBDRDX_UAHC_DEPCMDPAR2_X(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DEPCMDPAR2_X(a,b) "USBDRDX_UAHC_DEPCMDPAR2_X"
+#define device_bar_BDK_USBDRDX_UAHC_DEPCMDPAR2_X(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DEPCMDPAR2_X(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_DEPCMDPAR2_X(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_devten
+ *
+ * Device Event Enable Register
+ * This register controls the generation of Device-Specific events.
+ * If an enable bit is set to 0, the event will not be generated.
+ *
+ * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST].
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.2.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_devten_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_13_31        : 19;
+        uint32_t vndrdevtstrcveden     : 1;  /**< [ 12: 12](R/W) Vendor Device Test LMP Received Event. */
+        uint32_t reserved_10_11        : 2;
+        uint32_t errticerren           : 1;  /**< [  9:  9](R/W) Erratic Error Event Enable. */
+        uint32_t reserved_8            : 1;
+        uint32_t sofen                 : 1;  /**< [  7:  7](R/W) Start of (micro)Frame Enable.
+                                                                 For debug purposes only; normally software must disable this event. */
+        uint32_t u3l2l1suspen          : 1;  /**< [  6:  6](R/W) U3/L2-L1 Suspend Event Enable. */
+        uint32_t hibernationreqevten   : 1;  /**< [  5:  5](R/W) This bit enables/disables the generation of the Hibernation Request Event.
+                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+        uint32_t wkupevten             : 1;  /**< [  4:  4](R/W) Resume/Remote Wakeup Detected Event Enable. */
+        uint32_t ulstcngen             : 1;  /**< [  3:  3](R/W) USB/Link State Change Event Enable. */
+        uint32_t connectdoneen         : 1;  /**< [  2:  2](R/W) Connection Done Enable. */
+        uint32_t usbrsten              : 1;  /**< [  1:  1](R/W) USB Reset Enable. */
+        uint32_t disconnevten          : 1;  /**< [  0:  0](R/W) Disconnect Detected Event Enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t disconnevten          : 1;  /**< [  0:  0](R/W) Disconnect Detected Event Enable. */
+        uint32_t usbrsten              : 1;  /**< [  1:  1](R/W) USB Reset Enable. */
+        uint32_t connectdoneen         : 1;  /**< [  2:  2](R/W) Connection Done Enable. */
+        uint32_t ulstcngen             : 1;  /**< [  3:  3](R/W) USB/Link State Change Event Enable. */
+        uint32_t wkupevten             : 1;  /**< [  4:  4](R/W) Resume/Remote Wakeup Detected Event Enable. */
+        uint32_t hibernationreqevten   : 1;  /**< [  5:  5](R/W) This bit enables/disables the generation of the Hibernation Request Event.
+                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+        uint32_t u3l2l1suspen          : 1;  /**< [  6:  6](R/W) U3/L2-L1 Suspend Event Enable. */
+        uint32_t sofen                 : 1;  /**< [  7:  7](R/W) Start of (micro)Frame Enable.
+                                                                 For debug purposes only; normally software must disable this event. */
+        uint32_t reserved_8            : 1;
+        uint32_t errticerren           : 1;  /**< [  9:  9](R/W) Erratic Error Event Enable. */
+        uint32_t reserved_10_11        : 2;
+        uint32_t vndrdevtstrcveden     : 1;  /**< [ 12: 12](R/W) Vendor Device Test LMP Received Event. */
+        uint32_t reserved_13_31        : 19;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_devten_s cn; */
+} bdk_usbdrdx_uahc_devten_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_DEVTEN(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DEVTEN(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86800000c708ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c708ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_DEVTEN", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_DEVTEN(a) bdk_usbdrdx_uahc_devten_t
+#define bustype_BDK_USBDRDX_UAHC_DEVTEN(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DEVTEN(a) "USBDRDX_UAHC_DEVTEN"
+#define device_bar_BDK_USBDRDX_UAHC_DEVTEN(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DEVTEN(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_DEVTEN(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_dgcmd
+ *
+ * Device Generic Command Register
+ * This register enables software to program the core using a single generic command interface to
+ * send link management packets and notifications. This register contains command, control, and
+ * status fields relevant to the current generic command, while the USBDRD()_UAHC_DGCMDPAR
+ * register provides the command parameter.
+ *
+ * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST] or
+ * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
+ * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
+ * USBDRD()_UAHC_DCTL[CSFTRST].
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.5.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_dgcmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t cmdstatus             : 1;  /**< [ 15: 15](RO) Command Status.
+                                                                  0 = Indicates command success.
+                                                                  1 = CmdErr - Indicates that the device controller encountered an error
+                                                                     while processing the command. */
+        uint32_t reserved_11_14        : 4;
+        uint32_t cmdact                : 1;  /**< [ 10: 10](R/W1S/H) Command Active.
+                                                                 The software sets this bit to 1 to enable the device controller to execute the
+                                                                 generic command.
+                                                                 The device controller sets this bit to 0 after executing the command. */
+        uint32_t reserved_9            : 1;
+        uint32_t cmdioc                : 1;  /**< [  8:  8](WO) Command Interrupt on Complete.
+                                                                 When this bit is set, the device controller issues a Generic Command
+                                                                 Completion event after executing the command. Note that this interrupt is
+                                                                 mapped to USBDRD()_UAHC_DCFG[INTRNUM].
+                                                                 Note: This field must not set to 1 if the USBDRD()_UAHC_DCTL[RS] field is 0. */
+        uint32_t cmdtyp                : 8;  /**< [  7:  0](WO) Specifies the type of command the software driver is requesting the core to
+                                                                 perform. See USBDRD_UAHC_DGCMD_CMDTYPE_E for encodings and usage. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmdtyp                : 8;  /**< [  7:  0](WO) Specifies the type of command the software driver is requesting the core to
+                                                                 perform. See USBDRD_UAHC_DGCMD_CMDTYPE_E for encodings and usage. */
+        uint32_t cmdioc                : 1;  /**< [  8:  8](WO) Command Interrupt on Complete.
+                                                                 When this bit is set, the device controller issues a Generic Command
+                                                                 Completion event after executing the command. Note that this interrupt is
+                                                                 mapped to USBDRD()_UAHC_DCFG[INTRNUM].
+                                                                 Note: This field must not set to 1 if the USBDRD()_UAHC_DCTL[RS] field is 0. */
+        uint32_t reserved_9            : 1;
+        uint32_t cmdact                : 1;  /**< [ 10: 10](R/W1S/H) Command Active.
+                                                                 The software sets this bit to 1 to enable the device controller to execute the
+                                                                 generic command.
+                                                                 The device controller sets this bit to 0 after executing the command. */
+        uint32_t reserved_11_14        : 4;
+        uint32_t cmdstatus             : 1;  /**< [ 15: 15](RO) Command Status.
+                                                                  0 = Indicates command success.
+                                                                  1 = CmdErr - Indicates that the device controller encountered an error
+                                                                     while processing the command. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_dgcmd_s cn; */
+} bdk_usbdrdx_uahc_dgcmd_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_DGCMD(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DGCMD(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86800000c714ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c714ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_DGCMD", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_DGCMD(a) bdk_usbdrdx_uahc_dgcmd_t
+#define bustype_BDK_USBDRDX_UAHC_DGCMD(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DGCMD(a) "USBDRDX_UAHC_DGCMD"
+#define device_bar_BDK_USBDRDX_UAHC_DGCMD(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DGCMD(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_DGCMD(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_dgcmdpar
+ *
+ * Device Generic Command Parameter Register
+ * This register indicates the device command parameter.
+ * This must be programmed before or along with USBDRD()_UAHC_DGCMD.
+ *
+ * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST] or
+ * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
+ * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
+ * USBDRD()_UAHC_DCTL[CSFTRST].
+ *
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.4.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_dgcmdpar_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t param                 : 32; /**< [ 31:  0](R/W) Device Generic Command Parameter.
+                                                                 Usage depends on which USBDRD()_UAHC_DGCMD[CMDTYPE] is used,
+                                                                 see usage notes in USBDRD_UAHC_DGCMD_CMDTYPE_E descriptions. */
+#else /* Word 0 - Little Endian */
+        uint32_t param                 : 32; /**< [ 31:  0](R/W) Device Generic Command Parameter.
+                                                                 Usage depends on which USBDRD()_UAHC_DGCMD[CMDTYPE] is used,
+                                                                 see usage notes in USBDRD_UAHC_DGCMD_CMDTYPE_E descriptions. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_dgcmdpar_s cn; */
+} bdk_usbdrdx_uahc_dgcmdpar_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_DGCMDPAR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DGCMDPAR(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86800000c710ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c710ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_DGCMDPAR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_DGCMDPAR(a) bdk_usbdrdx_uahc_dgcmdpar_t
+#define bustype_BDK_USBDRDX_UAHC_DGCMDPAR(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DGCMDPAR(a) "USBDRDX_UAHC_DGCMDPAR"
+#define device_bar_BDK_USBDRDX_UAHC_DGCMDPAR(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DGCMDPAR(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_DGCMDPAR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_dnctrl
  *
  * XHCI Device Notification Control Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.4.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_dnctrl_s
+    struct bdk_usbdrdx_uahc_dnctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -575,39 +1888,242 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_dnctrl_s cn; */
-} bdk_usbhx_uahc_dnctrl_t;
+    /* struct bdk_usbdrdx_uahc_dnctrl_s cn; */
+} bdk_usbdrdx_uahc_dnctrl_t;
 
-static inline uint64_t BDK_USBHX_UAHC_DNCTRL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_DNCTRL(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_DNCTRL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DNCTRL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000034ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_DNCTRL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000034ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_DNCTRL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_DNCTRL(a) bdk_usbhx_uahc_dnctrl_t
-#define bustype_BDK_USBHX_UAHC_DNCTRL(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_DNCTRL(a) "USBHX_UAHC_DNCTRL"
-#define device_bar_BDK_USBHX_UAHC_DNCTRL(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_DNCTRL(a) (a)
-#define arguments_BDK_USBHX_UAHC_DNCTRL(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_DNCTRL(a) bdk_usbdrdx_uahc_dnctrl_t
+#define bustype_BDK_USBDRDX_UAHC_DNCTRL(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DNCTRL(a) "USBDRDX_UAHC_DNCTRL"
+#define device_bar_BDK_USBDRDX_UAHC_DNCTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DNCTRL(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_DNCTRL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uahc_erdp#
+ * Register (NCB32b) usbdrd#_uahc_dsts
+ *
+ * Device Status Register
+ * This register indicates the status of the device controller with respect to USB-related
+ * events.
+ *
+ * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST].
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.3.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_dsts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t dcnrd                 : 1;  /**< [ 29: 29](RO/H) Device Controller Not Ready.
+                                                                 Will always read-as-zero.
+                                                                 INTERNAL: Bit is only used with hibernation. */
+        uint32_t sre                   : 1;  /**< [ 28: 28](R/W1C/H) Save/Restore Error.
+                                                                 This bit is currently not supported. */
+        uint32_t reserved_26_27        : 2;
+        uint32_t rss                   : 1;  /**< [ 25: 25](RO) Restore State Status.
+                                                                 This bit is similar to the USBDRD()_USBSTS[RSS] in host mode.
+                                                                 When the controller has finished the restore process, it will complete the
+                                                                 command by setting RSS to 0.
+
+                                                                 Will always read-as-zero.
+                                                                 INTERNAL: Bit is only used with hibernation. */
+        uint32_t sss                   : 1;  /**< [ 24: 24](RO) Save State Status.
+                                                                 This bit is similar to the USBDRD()_UAHC_USBSTS[SSS] in host mode.
+                                                                 When the controller has finished the save process, it will complete the
+                                                                 command by setting SSS to 0.
+
+                                                                 Will always read-as-zero.
+                                                                 INTERNAL: Bit is only used with hibernation. */
+        uint32_t coreidle              : 1;  /**< [ 23: 23](RO/H) Core Idle.
+                                                                 The bit indicates that the core finished transferring all RxFIFO data to
+                                                                 system memory, writing out all completed descriptors, and all Event Counts
+                                                                 are zero.
+
+                                                                 Note: While testing for Reset values, mask out the read value. This bit
+                                                                 represents the changing state of the core and does not hold a static value. */
+        uint32_t devctrlhlt            : 1;  /**< [ 22: 22](RO/H) Device Controller Halted.
+                                                                 When 1, the core does not generate Device events.
+                                                                 - This bit is set to 0 when the USBDRD()_UAHC_DCTL[RS] register is set to 1.
+                                                                 - The core sets this bit to 1 when, after software sets USBDRD()_UAHC_DCTL[RS] to 0,
+                                                                 the core is
+                                                                   idle and the lower layer finishes the disconnect process. */
+        uint32_t usblnkst              : 4;  /**< [ 21: 18](RO/H) USB/Link State.
+                                                                 In SuperSpeed mode, uses LTSSM State:
+                                                                    0x0 = U0.
+                                                                    0x1 = U1.
+                                                                    0x2 = U2.
+                                                                    0x3 = U3.
+                                                                    0x4 = SS_DIS.
+                                                                    0x5 = RX_DET.
+                                                                    0x6 = SS_INACT.
+                                                                    0x7 = POLL.
+                                                                    0x8 = RECOV.
+                                                                    0x9 = HRESET.
+                                                                    0xa = CMPLY.
+                                                                    0xb = LPBK.
+                                                                    0xf = Resume/Reset.
+                                                                    others: Reserved.
+
+                                                                 In High/Full/LowSpeed mode:
+                                                                    0x0 = On state.
+                                                                    0x2 = Sleep (L1) state.
+                                                                    0x3 = Suspend (L2) state.
+                                                                    0x4 = Disconnected state (Default state).
+                                                                    0x5 = Early Suspend state.
+                                                                    others: Reserved.
+
+                                                                 The link state Resume/Reset indicates that the core received a resume or
+                                                                 USB reset request from the host while the link was in hibernation. Software
+                                                                 must write '8' (Recovery) to the USBDRD()_UAHC_DCTL[ULSTCHNGREQ] field to acknowledge
+                                                                 the resume/reset request. */
+        uint32_t rxfifoempty           : 1;  /**< [ 17: 17](RO/H) RxFIFO Empty Indication. */
+        uint32_t soffn                 : 14; /**< [ 16:  3](RO/H) Frame/MicroFrame Number of the Received SOF.
+
+                                                                 When the core is operating at high-speed,
+                                                                   <16:6> = Frame number.
+                                                                   <5:3> = Microframe number.
+
+                                                                 When the core is operating at full-speed,
+                                                                   <16:14> = Not used, software can ignore these 3 bits.
+                                                                   <13:3> = Frame number. */
+        uint32_t connectspd            : 3;  /**< [  2:  0](RO/H) Connected Speed.
+                                                                 Indicates the speed at which the controller core has come up after speed
+                                                                 detection through a chirp sequence.
+                                                                  0x0 = High-speed (PHY clock is running at 60 MHz).
+                                                                  0x1 = Full-speed (PHY clock is running at 60 MHz).
+                                                                  0x2 = Low-speed  (not supported).
+                                                                  0x3 = Full-speed (PHY clock is running at 48 MHz).
+                                                                  0x4 = SuperSpeed (PHY clock is running at 125 or 250 MHz). */
+#else /* Word 0 - Little Endian */
+        uint32_t connectspd            : 3;  /**< [  2:  0](RO/H) Connected Speed.
+                                                                 Indicates the speed at which the controller core has come up after speed
+                                                                 detection through a chirp sequence.
+                                                                  0x0 = High-speed (PHY clock is running at 60 MHz).
+                                                                  0x1 = Full-speed (PHY clock is running at 60 MHz).
+                                                                  0x2 = Low-speed  (not supported).
+                                                                  0x3 = Full-speed (PHY clock is running at 48 MHz).
+                                                                  0x4 = SuperSpeed (PHY clock is running at 125 or 250 MHz). */
+        uint32_t soffn                 : 14; /**< [ 16:  3](RO/H) Frame/MicroFrame Number of the Received SOF.
+
+                                                                 When the core is operating at high-speed,
+                                                                   <16:6> = Frame number.
+                                                                   <5:3> = Microframe number.
+
+                                                                 When the core is operating at full-speed,
+                                                                   <16:14> = Not used, software can ignore these 3 bits.
+                                                                   <13:3> = Frame number. */
+        uint32_t rxfifoempty           : 1;  /**< [ 17: 17](RO/H) RxFIFO Empty Indication. */
+        uint32_t usblnkst              : 4;  /**< [ 21: 18](RO/H) USB/Link State.
+                                                                 In SuperSpeed mode, uses LTSSM State:
+                                                                    0x0 = U0.
+                                                                    0x1 = U1.
+                                                                    0x2 = U2.
+                                                                    0x3 = U3.
+                                                                    0x4 = SS_DIS.
+                                                                    0x5 = RX_DET.
+                                                                    0x6 = SS_INACT.
+                                                                    0x7 = POLL.
+                                                                    0x8 = RECOV.
+                                                                    0x9 = HRESET.
+                                                                    0xa = CMPLY.
+                                                                    0xb = LPBK.
+                                                                    0xf = Resume/Reset.
+                                                                    others: Reserved.
+
+                                                                 In High/Full/LowSpeed mode:
+                                                                    0x0 = On state.
+                                                                    0x2 = Sleep (L1) state.
+                                                                    0x3 = Suspend (L2) state.
+                                                                    0x4 = Disconnected state (Default state).
+                                                                    0x5 = Early Suspend state.
+                                                                    others: Reserved.
+
+                                                                 The link state Resume/Reset indicates that the core received a resume or
+                                                                 USB reset request from the host while the link was in hibernation. Software
+                                                                 must write '8' (Recovery) to the USBDRD()_UAHC_DCTL[ULSTCHNGREQ] field to acknowledge
+                                                                 the resume/reset request. */
+        uint32_t devctrlhlt            : 1;  /**< [ 22: 22](RO/H) Device Controller Halted.
+                                                                 When 1, the core does not generate Device events.
+                                                                 - This bit is set to 0 when the USBDRD()_UAHC_DCTL[RS] register is set to 1.
+                                                                 - The core sets this bit to 1 when, after software sets USBDRD()_UAHC_DCTL[RS] to 0,
+                                                                 the core is
+                                                                   idle and the lower layer finishes the disconnect process. */
+        uint32_t coreidle              : 1;  /**< [ 23: 23](RO/H) Core Idle.
+                                                                 The bit indicates that the core finished transferring all RxFIFO data to
+                                                                 system memory, writing out all completed descriptors, and all Event Counts
+                                                                 are zero.
+
+                                                                 Note: While testing for Reset values, mask out the read value. This bit
+                                                                 represents the changing state of the core and does not hold a static value. */
+        uint32_t sss                   : 1;  /**< [ 24: 24](RO) Save State Status.
+                                                                 This bit is similar to the USBDRD()_UAHC_USBSTS[SSS] in host mode.
+                                                                 When the controller has finished the save process, it will complete the
+                                                                 command by setting SSS to 0.
+
+                                                                 Will always read-as-zero.
+                                                                 INTERNAL: Bit is only used with hibernation. */
+        uint32_t rss                   : 1;  /**< [ 25: 25](RO) Restore State Status.
+                                                                 This bit is similar to the USBDRD()_USBSTS[RSS] in host mode.
+                                                                 When the controller has finished the restore process, it will complete the
+                                                                 command by setting RSS to 0.
+
+                                                                 Will always read-as-zero.
+                                                                 INTERNAL: Bit is only used with hibernation. */
+        uint32_t reserved_26_27        : 2;
+        uint32_t sre                   : 1;  /**< [ 28: 28](R/W1C/H) Save/Restore Error.
+                                                                 This bit is currently not supported. */
+        uint32_t dcnrd                 : 1;  /**< [ 29: 29](RO/H) Device Controller Not Ready.
+                                                                 Will always read-as-zero.
+                                                                 INTERNAL: Bit is only used with hibernation. */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_dsts_s cn; */
+} bdk_usbdrdx_uahc_dsts_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_DSTS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_DSTS(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86800000c70cll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c70cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_DSTS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_DSTS(a) bdk_usbdrdx_uahc_dsts_t
+#define bustype_BDK_USBDRDX_UAHC_DSTS(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_DSTS(a) "USBDRDX_UAHC_DSTS"
+#define device_bar_BDK_USBDRDX_UAHC_DSTS(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_DSTS(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_DSTS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbdrd#_uahc_erdp#
  *
  * XHCI Event Ring Dequeue Pointer Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.5.2.3.3.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uahc_erdpx_s
+    struct bdk_usbdrdx_uahc_erdpx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t erdp                  : 60; /**< [ 63:  4](R/W) Event ring dequeue pointer bits <63:4>. */
@@ -619,39 +2135,41 @@ typedef union
         uint64_t erdp                  : 60; /**< [ 63:  4](R/W) Event ring dequeue pointer bits <63:4>. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_erdpx_s cn; */
-} bdk_usbhx_uahc_erdpx_t;
+    /* struct bdk_usbdrdx_uahc_erdpx_s cn; */
+} bdk_usbdrdx_uahc_erdpx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_ERDPX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_ERDPX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_ERDPX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_ERDPX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000000478ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UAHC_ERDPX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x868000000478ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_ERDPX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_ERDPX(a,b) bdk_usbhx_uahc_erdpx_t
-#define bustype_BDK_USBHX_UAHC_ERDPX(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_ERDPX(a,b) "USBHX_UAHC_ERDPX"
-#define device_bar_BDK_USBHX_UAHC_ERDPX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_ERDPX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_ERDPX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_ERDPX(a,b) bdk_usbdrdx_uahc_erdpx_t
+#define bustype_BDK_USBDRDX_UAHC_ERDPX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UAHC_ERDPX(a,b) "USBDRDX_UAHC_ERDPX"
+#define device_bar_BDK_USBDRDX_UAHC_ERDPX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_ERDPX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_ERDPX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) usbh#_uahc_erstba#
+ * Register (NCB) usbdrd#_uahc_erstba#
  *
  * XHCI Event-Ring Segment-Table Base-Address Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.5.2.3.2.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uahc_erstbax_s
+    struct bdk_usbdrdx_uahc_erstbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t erstba                : 58; /**< [ 63:  6](R/W) Event-ring segment-table base-address bits<63:6>. */
@@ -661,39 +2179,41 @@ typedef union
         uint64_t erstba                : 58; /**< [ 63:  6](R/W) Event-ring segment-table base-address bits<63:6>. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_erstbax_s cn; */
-} bdk_usbhx_uahc_erstbax_t;
+    /* struct bdk_usbdrdx_uahc_erstbax_s cn; */
+} bdk_usbdrdx_uahc_erstbax_t;
 
-static inline uint64_t BDK_USBHX_UAHC_ERSTBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_ERSTBAX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_ERSTBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_ERSTBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000000470ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UAHC_ERSTBAX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x868000000470ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_ERSTBAX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_ERSTBAX(a,b) bdk_usbhx_uahc_erstbax_t
-#define bustype_BDK_USBHX_UAHC_ERSTBAX(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_ERSTBAX(a,b) "USBHX_UAHC_ERSTBAX"
-#define device_bar_BDK_USBHX_UAHC_ERSTBAX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_ERSTBAX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_ERSTBAX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_ERSTBAX(a,b) bdk_usbdrdx_uahc_erstbax_t
+#define bustype_BDK_USBDRDX_UAHC_ERSTBAX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UAHC_ERSTBAX(a,b) "USBDRDX_UAHC_ERSTBAX"
+#define device_bar_BDK_USBDRDX_UAHC_ERSTBAX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_ERSTBAX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_ERSTBAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_erstsz#
+ * Register (NCB32b) usbdrd#_uahc_erstsz#
  *
  * XHCI Event-Ring Segment-Table Size Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.5.2.3.1.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_erstszx_s
+    struct bdk_usbdrdx_uahc_erstszx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -703,91 +2223,97 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_erstszx_s cn; */
-} bdk_usbhx_uahc_erstszx_t;
+    /* struct bdk_usbdrdx_uahc_erstszx_s cn; */
+} bdk_usbdrdx_uahc_erstszx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_ERSTSZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_ERSTSZX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_ERSTSZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_ERSTSZX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000000468ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UAHC_ERSTSZX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x868000000468ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_ERSTSZX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_ERSTSZX(a,b) bdk_usbhx_uahc_erstszx_t
-#define bustype_BDK_USBHX_UAHC_ERSTSZX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_ERSTSZX(a,b) "USBHX_UAHC_ERSTSZX"
-#define device_bar_BDK_USBHX_UAHC_ERSTSZX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_ERSTSZX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_ERSTSZX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_ERSTSZX(a,b) bdk_usbdrdx_uahc_erstszx_t
+#define bustype_BDK_USBDRDX_UAHC_ERSTSZX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_ERSTSZX(a,b) "USBDRDX_UAHC_ERSTSZX"
+#define device_bar_BDK_USBDRDX_UAHC_ERSTSZX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_ERSTSZX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_ERSTSZX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) usbh#_uahc_gbuserraddr
+ * Register (NCB) usbdrd#_uahc_gbuserraddr
  *
  * UAHC Bus-Error-Address Register
  * When the AXI Master Bus returns Error response, the SoC Bus Error is generated. In the host
  * mode, the host_system_err port indicates this condition. In addition, it is also indicated in
- * USBH()_UAHC_USBSTS[HSE]. Due to the nature of AXI, it is possible that multiple AXI
+ * USBDRD()_UAHC_USBSTS[HSE]. Due to the nature of AXI, it is possible that multiple AXI
  * transactions
  * are active at a time. The host controller does not keep track of the start address of all
  * outstanding transactions. Instead, it keeps track of the start address of the DMA transfer
  * associated with all active transactions. It is this address that is reported in
- * USBH()_UAHC_GBUSERRADDR when a bus error occurs. For example, if the host controller initiates
+ * USBDRD()_UAHC_GBUSERRADDR when a bus error occurs. For example, if the host controller
+ * initiates
  * a DMA
  * transfer to write 1k of packet data starting at buffer address 0xABCD0000, and this DMA is
  * broken up into multiple 256B bursts on the AXI, then if a bus error occurs on any of these
- * associated AXI transfers, USBH()_UAHC_GBUSERRADDR reflects the DMA start address of 0xABCD0000
+ * associated AXI transfers, USBDRD()_UAHC_GBUSERRADDR reflects the DMA start address of
+ * 0xABCD0000
  * regardless of which AXI transaction received the error.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uahc_gbuserraddr_s
+    struct bdk_usbdrdx_uahc_gbuserraddr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t busaddr               : 64; /**< [ 63:  0](RO/H) Bus address. Contains the first bus address that encountered an SoC bus error. It is valid
-                                                                 when the USBH()_UAHC_GSTS[BUSERRADDRVLD] = 1. It can only be cleared by resetting the
+                                                                 when the USBDRD()_UAHC_GSTS[BUSERRADDRVLD] = 1. It can only be cleared by resetting the
                                                                  core. */
 #else /* Word 0 - Little Endian */
         uint64_t busaddr               : 64; /**< [ 63:  0](RO/H) Bus address. Contains the first bus address that encountered an SoC bus error. It is valid
-                                                                 when the USBH()_UAHC_GSTS[BUSERRADDRVLD] = 1. It can only be cleared by resetting the
+                                                                 when the USBDRD()_UAHC_GSTS[BUSERRADDRVLD] = 1. It can only be cleared by resetting the
                                                                  core. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gbuserraddr_s cn; */
-} bdk_usbhx_uahc_gbuserraddr_t;
+    /* struct bdk_usbdrdx_uahc_gbuserraddr_s cn; */
+} bdk_usbdrdx_uahc_gbuserraddr_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GBUSERRADDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GBUSERRADDR(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GBUSERRADDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GBUSERRADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c130ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GBUSERRADDR", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c130ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GBUSERRADDR", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GBUSERRADDR(a) bdk_usbhx_uahc_gbuserraddr_t
-#define bustype_BDK_USBHX_UAHC_GBUSERRADDR(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_GBUSERRADDR(a) "USBHX_UAHC_GBUSERRADDR"
-#define device_bar_BDK_USBHX_UAHC_GBUSERRADDR(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GBUSERRADDR(a) (a)
-#define arguments_BDK_USBHX_UAHC_GBUSERRADDR(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GBUSERRADDR(a) bdk_usbdrdx_uahc_gbuserraddr_t
+#define bustype_BDK_USBDRDX_UAHC_GBUSERRADDR(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UAHC_GBUSERRADDR(a) "USBDRDX_UAHC_GBUSERRADDR"
+#define device_bar_BDK_USBDRDX_UAHC_GBUSERRADDR(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GBUSERRADDR(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GBUSERRADDR(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gctl
+ * Register (NCB32b) usbdrd#_uahc_gctl
  *
  * UAHC Control Register
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.5.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gctl_s
+    struct bdk_usbdrdx_uahc_gctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t pwrdnscale            : 13; /**< [ 31: 19](R/W) Power down scale. The USB3 suspend-clock input replaces pipe3_rx_pclk as a clock source to
@@ -817,7 +2343,15 @@ typedef union
                                                                  needs to programmed is: Power Down Scale = 10500/16 = 657 (rounded up; and fastest
                                                                  frequency used). */
         uint32_t masterfiltbypass      : 1;  /**< [ 18: 18](R/W) Master filter bypass. Not relevant for Cavium's configuration. */
-        uint32_t reserved_16_17        : 2;
+        uint32_t bypssetaddr           : 1;  /**< [ 17: 17](R/W) Bypass SetAddress in Device Mode.
+                                                                 Always set to 0.
+                                                                 INTERNAL: When set, core uses the value in USBDRD()_UAHC_DCFG[DEVADDR] directly
+                                                                 for comparing the device address tokens. In simulation, this can be used to avoid
+                                                                 sending a SET_ADDRESS command. */
+        uint32_t u2rstecn              : 1;  /**< [ 16: 16](R/W) If the SuperSpeed commenction fails during POLL or LMP exchange, the device connects
+                                                                 at non-SuperSpeed mode. If this bit is set, then device attemps three more times to
+                                                                 connect at SuperSpeed, even if it previously failed to operate in SuperSpeed mode.
+                                                                 This bit is only applicable in device mode. */
         uint32_t frmscldwn             : 2;  /**< [ 15: 14](R/W) Frame scale down. Scales down device view of a SOF/USOF/ITP duration.
                                                                  For SuperSpeed/high-speed mode:
                                                                  0x0 = Interval is 125 us.
@@ -826,22 +2360,23 @@ typedef union
                                                                  0x3 = Interval is 15.625 us.
 
                                                                  For full-speed mode, the scale-down value is multiplied by 8. */
-        uint32_t prtcapdir             : 2;  /**< [ 13: 12](R/W) Port capability direction. Always keep set to 0x1. */
+        uint32_t prtcapdir             : 2;  /**< [ 13: 12](R/W) 0x1 = for Host configurations.
+                                                                 0x2 = for Device configurations. */
         uint32_t coresoftreset         : 1;  /**< [ 11: 11](R/W) Core soft reset: 1 = soft reset to core, 0 = no soft reset.
-                                                                 Clears the interrupts and all the USBH()_UAHC_* CSRs except the
-                                                                 following registers: USBH()_UAHC_GCTL, USBH()_UAHC_GUCTL, USBH()_UAHC_GSTS,
-                                                                 USBH()_UAHC_GRLSID, USBH()_UAHC_GGPIO, USBH()_UAHC_GUID, USBH()_UAHC_GUSB2PHYCFG(),
-                                                                 USBH()_UAHC_GUSB3PIPECTL().
+                                                                 Clears the interrupts and all the USBDRD()_UAHC_* CSRs except the
+                                                                 following registers: USBDRD()_UAHC_GCTL, USBDRD()_UAHC_GUCTL, USBDRD()_UAHC_GSTS,
+                                                                 USBDRD()_UAHC_GRLSID, USBDRD()_UAHC_GGPIO, USBDRD()_UAHC_GUID,
+                                                                 USBDRD()_UAHC_GUSB2PHYCFG(),
+                                                                 USBDRD()_UAHC_GUSB3PIPECTL().
 
-                                                                 When you reset PHYs (using USBH()_UAHC_GUSB2PHYCFG() or USBH()_UAHC_GUSB3PIPECTL()), you
-                                                                 must keep the
-                                                                 core in reset state until PHY clocks are stable. This controls the bus, RAM, and MAC
-                                                                 domain resets.
+                                                                 When you reset PHYs (using USBDRD()_UAHC_GUSB2PHYCFG() or
+                                                                 USBDRD()_UAHC_GUSB3PIPECTL()), you must keep the core in reset state until PHY
+                                                                 clocks are stable. This controls the bus, RAM, and MAC domain resets.
 
                                                                  INTERNAL: Refer to Reset Generation on Synopsys Databook page 250.
-                                                                 Under soft reset, accesses to USBH()_UAHC_* CSRs other than USBH()_UAHC_GCTL may fail
+                                                                 Under soft reset, accesses to USBDRD()_UAHC_* CSRs other than USBDRD()_UAHC_GCTL may fail
                                                                  (timeout).
-                                                                 This bit is for debug purposes only. Use USBH()_UAHC_USBCMD[HCRST] for soft reset. */
+                                                                 This bit is for debug purposes only. Use USBDRD()_UAHC_USBCMD[HCRST] for soft reset. */
         uint32_t sofitpsync            : 1;  /**< [ 10: 10](R/W) Synchronize ITP to reference clock. In host mode, if this bit is set to:
                                                                  0 = The core keeps the UTMI/ULPI PHY on the first port in non-suspended state whenever
                                                                  there is a SuperSpeed port that is not in Rx.Detect, SS.Disable, and U3 state.
@@ -851,31 +2386,31 @@ typedef union
                                                                  This feature is useful because it saves power by suspending UTMI/ULPI when SuperSpeed only
                                                                  is active and it helps resolve when the PHY does not transmit a host resume unless it is
                                                                  placed in suspend state.
-                                                                 USBH()_UAHC_GUSB2PHYCFG()[SUSPHY] eventually decides to put the UTMI/ULPI PHY in to
+                                                                 USBDRD()_UAHC_GUSB2PHYCFG()[SUSPHY] eventually decides to put the UTMI/ULPI PHY in to
                                                                  suspend
                                                                  state. In addition, when this bit is set to 1, the core generates ITP off of the REF_CLK-
                                                                  based counter. Otherwise, ITP and SOF are generated off of UTMI/ULPI_CLK[0] based counter.
 
                                                                  To program the reference clock period inside the core, refer to
-                                                                 USBH()_UAHC_GUCTL[REFCLKPER].
+                                                                 USBDRD()_UAHC_GUCTL[REFCLKPER].
 
                                                                  If you do not plan to ever use this feature or the
-                                                                 USBH()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL]
+                                                                 USBDRD()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL]
                                                                  feature, the minimum frequency for the ref_clk can be as low as 32KHz. You can connect the
                                                                  SUSPEND_CLK (as low as 32 KHz) to REF_CLK.
 
                                                                  If you plan to enable hardware-based LPM (PORTPMSC[HLE] = 1), this feature cannot be used.
                                                                  Turn off this feature by setting this bit to zero and use the
-                                                                 USBH()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature.
+                                                                 USBDRD()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature.
 
-                                                                 If you set this bit to 1, the USBH()_UAHC_GUSB2PHYCFG() [U2_FREECLK_EXISTS] bit must be
+                                                                 If you set this bit to 1, the USBDRD()_UAHC_GUSB2PHYCFG() [U2_FREECLK_EXISTS] bit must be
                                                                  set to
                                                                  0. */
         uint32_t u1u2timerscale        : 1;  /**< [  9:  9](R/W) Disable U1/U2 timer scaledown. If set to 1, along with SCALEDOWN = 0x1, disables the scale
                                                                  down of U1/U2 inactive timer values.
                                                                  This is for simulation mode only. */
         uint32_t debugattach           : 1;  /**< [  8:  8](R/W) Debug attach. When this bit is set:
-                                                                 * SuperSpeed link proceeds directly to the polling-link state (USBH()_UAHC_DCTL[RS] = 1)
+                                                                 * SuperSpeed link proceeds directly to the polling-link state (USBDRD()_UAHC_DCTL[RS] = 1)
                                                                  without checking remote termination.
                                                                  * Link LFPS polling timeout is infinite
                                                                  * Polling timeout during TS1 is infinite (in case link is waiting for TXEQ to finish). */
@@ -891,7 +2426,7 @@ typedef union
                                                                  * HNP/SRP
                                                                  * Suspend and resume
 
-                                                                 0x2 = N/A.
+                                                                 0x2 = N/A
                                                                  0x3 = Enables bits <0> and <1> scale-down timing values.
 
                                                                  SuperSpeed mode:
@@ -945,7 +2480,7 @@ typedef union
                                                                  * HNP/SRP
                                                                  * Suspend and resume
 
-                                                                 0x2 = N/A.
+                                                                 0x2 = N/A
                                                                  0x3 = Enables bits <0> and <1> scale-down timing values.
 
                                                                  SuperSpeed mode:
@@ -961,7 +2496,7 @@ typedef union
                                                                  0x3 = Enables bits<0> and <1> scale-down timing values. */
         uint32_t ramclksel             : 2;  /**< [  7:  6](R/W) RAM clock select. Always keep set to 0x0. */
         uint32_t debugattach           : 1;  /**< [  8:  8](R/W) Debug attach. When this bit is set:
-                                                                 * SuperSpeed link proceeds directly to the polling-link state (USBH()_UAHC_DCTL[RS] = 1)
+                                                                 * SuperSpeed link proceeds directly to the polling-link state (USBDRD()_UAHC_DCTL[RS] = 1)
                                                                  without checking remote termination.
                                                                  * Link LFPS polling timeout is infinite
                                                                  * Polling timeout during TS1 is infinite (in case link is waiting for TXEQ to finish). */
@@ -977,42 +2512,43 @@ typedef union
                                                                  This feature is useful because it saves power by suspending UTMI/ULPI when SuperSpeed only
                                                                  is active and it helps resolve when the PHY does not transmit a host resume unless it is
                                                                  placed in suspend state.
-                                                                 USBH()_UAHC_GUSB2PHYCFG()[SUSPHY] eventually decides to put the UTMI/ULPI PHY in to
+                                                                 USBDRD()_UAHC_GUSB2PHYCFG()[SUSPHY] eventually decides to put the UTMI/ULPI PHY in to
                                                                  suspend
                                                                  state. In addition, when this bit is set to 1, the core generates ITP off of the REF_CLK-
                                                                  based counter. Otherwise, ITP and SOF are generated off of UTMI/ULPI_CLK[0] based counter.
 
                                                                  To program the reference clock period inside the core, refer to
-                                                                 USBH()_UAHC_GUCTL[REFCLKPER].
+                                                                 USBDRD()_UAHC_GUCTL[REFCLKPER].
 
                                                                  If you do not plan to ever use this feature or the
-                                                                 USBH()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL]
+                                                                 USBDRD()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL]
                                                                  feature, the minimum frequency for the ref_clk can be as low as 32KHz. You can connect the
                                                                  SUSPEND_CLK (as low as 32 KHz) to REF_CLK.
 
                                                                  If you plan to enable hardware-based LPM (PORTPMSC[HLE] = 1), this feature cannot be used.
                                                                  Turn off this feature by setting this bit to zero and use the
-                                                                 USBH()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature.
+                                                                 USBDRD()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature.
 
-                                                                 If you set this bit to 1, the USBH()_UAHC_GUSB2PHYCFG() [U2_FREECLK_EXISTS] bit must be
+                                                                 If you set this bit to 1, the USBDRD()_UAHC_GUSB2PHYCFG() [U2_FREECLK_EXISTS] bit must be
                                                                  set to
                                                                  0. */
         uint32_t coresoftreset         : 1;  /**< [ 11: 11](R/W) Core soft reset: 1 = soft reset to core, 0 = no soft reset.
-                                                                 Clears the interrupts and all the USBH()_UAHC_* CSRs except the
-                                                                 following registers: USBH()_UAHC_GCTL, USBH()_UAHC_GUCTL, USBH()_UAHC_GSTS,
-                                                                 USBH()_UAHC_GRLSID, USBH()_UAHC_GGPIO, USBH()_UAHC_GUID, USBH()_UAHC_GUSB2PHYCFG(),
-                                                                 USBH()_UAHC_GUSB3PIPECTL().
+                                                                 Clears the interrupts and all the USBDRD()_UAHC_* CSRs except the
+                                                                 following registers: USBDRD()_UAHC_GCTL, USBDRD()_UAHC_GUCTL, USBDRD()_UAHC_GSTS,
+                                                                 USBDRD()_UAHC_GRLSID, USBDRD()_UAHC_GGPIO, USBDRD()_UAHC_GUID,
+                                                                 USBDRD()_UAHC_GUSB2PHYCFG(),
+                                                                 USBDRD()_UAHC_GUSB3PIPECTL().
 
-                                                                 When you reset PHYs (using USBH()_UAHC_GUSB2PHYCFG() or USBH()_UAHC_GUSB3PIPECTL()), you
-                                                                 must keep the
-                                                                 core in reset state until PHY clocks are stable. This controls the bus, RAM, and MAC
-                                                                 domain resets.
+                                                                 When you reset PHYs (using USBDRD()_UAHC_GUSB2PHYCFG() or
+                                                                 USBDRD()_UAHC_GUSB3PIPECTL()), you must keep the core in reset state until PHY
+                                                                 clocks are stable. This controls the bus, RAM, and MAC domain resets.
 
                                                                  INTERNAL: Refer to Reset Generation on Synopsys Databook page 250.
-                                                                 Under soft reset, accesses to USBH()_UAHC_* CSRs other than USBH()_UAHC_GCTL may fail
+                                                                 Under soft reset, accesses to USBDRD()_UAHC_* CSRs other than USBDRD()_UAHC_GCTL may fail
                                                                  (timeout).
-                                                                 This bit is for debug purposes only. Use USBH()_UAHC_USBCMD[HCRST] for soft reset. */
-        uint32_t prtcapdir             : 2;  /**< [ 13: 12](R/W) Port capability direction. Always keep set to 0x1. */
+                                                                 This bit is for debug purposes only. Use USBDRD()_UAHC_USBCMD[HCRST] for soft reset. */
+        uint32_t prtcapdir             : 2;  /**< [ 13: 12](R/W) 0x1 = for Host configurations.
+                                                                 0x2 = for Device configurations. */
         uint32_t frmscldwn             : 2;  /**< [ 15: 14](R/W) Frame scale down. Scales down device view of a SOF/USOF/ITP duration.
                                                                  For SuperSpeed/high-speed mode:
                                                                  0x0 = Interval is 125 us.
@@ -1021,7 +2557,15 @@ typedef union
                                                                  0x3 = Interval is 15.625 us.
 
                                                                  For full-speed mode, the scale-down value is multiplied by 8. */
-        uint32_t reserved_16_17        : 2;
+        uint32_t u2rstecn              : 1;  /**< [ 16: 16](R/W) If the SuperSpeed commenction fails during POLL or LMP exchange, the device connects
+                                                                 at non-SuperSpeed mode. If this bit is set, then device attemps three more times to
+                                                                 connect at SuperSpeed, even if it previously failed to operate in SuperSpeed mode.
+                                                                 This bit is only applicable in device mode. */
+        uint32_t bypssetaddr           : 1;  /**< [ 17: 17](R/W) Bypass SetAddress in Device Mode.
+                                                                 Always set to 0.
+                                                                 INTERNAL: When set, core uses the value in USBDRD()_UAHC_DCFG[DEVADDR] directly
+                                                                 for comparing the device address tokens. In simulation, this can be used to avoid
+                                                                 sending a SET_ADDRESS command. */
         uint32_t masterfiltbypass      : 1;  /**< [ 18: 18](R/W) Master filter bypass. Not relevant for Cavium's configuration. */
         uint32_t pwrdnscale            : 13; /**< [ 31: 19](R/W) Power down scale. The USB3 suspend-clock input replaces pipe3_rx_pclk as a clock source to
                                                                  a small part of the USB3 core that operates when the SuperSpeed PHY is in its lowest power
@@ -1051,38 +2595,40 @@ typedef union
                                                                  frequency used). */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gctl_s cn; */
-} bdk_usbhx_uahc_gctl_t;
+    /* struct bdk_usbdrdx_uahc_gctl_s cn; */
+} bdk_usbdrdx_uahc_gctl_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GCTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GCTL(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GCTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GCTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c110ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GCTL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c110ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GCTL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GCTL(a) bdk_usbhx_uahc_gctl_t
-#define bustype_BDK_USBHX_UAHC_GCTL(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GCTL(a) "USBHX_UAHC_GCTL"
-#define device_bar_BDK_USBHX_UAHC_GCTL(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GCTL(a) (a)
-#define arguments_BDK_USBHX_UAHC_GCTL(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GCTL(a) bdk_usbdrdx_uahc_gctl_t
+#define bustype_BDK_USBDRDX_UAHC_GCTL(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GCTL(a) "USBDRDX_UAHC_GCTL"
+#define device_bar_BDK_USBDRDX_UAHC_GCTL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GCTL(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GCTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gdbgbmu
+ * Register (NCB32b) usbdrd#_uahc_gdbgbmu
  *
  * UAHC BMU Debug Register
- * See description in USBH()_UAHC_GDBGFIFOSPACE.
+ * See description in USBDRD()_UAHC_GDBGFIFOSPACE.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.5.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gdbgbmu_s
+    struct bdk_usbdrdx_uahc_gdbgbmu_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t bmu_bcu_dbg           : 24; /**< [ 31:  8](RO/H) BMU_BCU debug information. */
@@ -1094,36 +2640,38 @@ typedef union
         uint32_t bmu_bcu_dbg           : 24; /**< [ 31:  8](RO/H) BMU_BCU debug information. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gdbgbmu_s cn; */
-} bdk_usbhx_uahc_gdbgbmu_t;
+    /* struct bdk_usbdrdx_uahc_gdbgbmu_s cn; */
+} bdk_usbdrdx_uahc_gdbgbmu_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GDBGBMU(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GDBGBMU(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGBMU(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGBMU(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c16cll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GDBGBMU", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c16cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GDBGBMU", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GDBGBMU(a) bdk_usbhx_uahc_gdbgbmu_t
-#define bustype_BDK_USBHX_UAHC_GDBGBMU(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GDBGBMU(a) "USBHX_UAHC_GDBGBMU"
-#define device_bar_BDK_USBHX_UAHC_GDBGBMU(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GDBGBMU(a) (a)
-#define arguments_BDK_USBHX_UAHC_GDBGBMU(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GDBGBMU(a) bdk_usbdrdx_uahc_gdbgbmu_t
+#define bustype_BDK_USBDRDX_UAHC_GDBGBMU(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GDBGBMU(a) "USBDRDX_UAHC_GDBGBMU"
+#define device_bar_BDK_USBDRDX_UAHC_GDBGBMU(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GDBGBMU(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GDBGBMU(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uahc_gdbgepinfo
+ * Register (NCB) usbdrd#_uahc_gdbgepinfo
  *
  * UAHC Endpoint Information Debug Register
- * See description in USBH()_UAHC_GDBGFIFOSPACE.
+ * See description in USBDRD()_UAHC_GDBGFIFOSPACE.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uahc_gdbgepinfo_s
+    struct bdk_usbdrdx_uahc_gdbgepinfo_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t endpt_dbg             : 64; /**< [ 63:  0](RO/H) Endpoint debug information. */
@@ -1131,26 +2679,28 @@ typedef union
         uint64_t endpt_dbg             : 64; /**< [ 63:  0](RO/H) Endpoint debug information. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gdbgepinfo_s cn; */
-} bdk_usbhx_uahc_gdbgepinfo_t;
+    /* struct bdk_usbdrdx_uahc_gdbgepinfo_s cn; */
+} bdk_usbdrdx_uahc_gdbgepinfo_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GDBGEPINFO(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GDBGEPINFO(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGEPINFO(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGEPINFO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c178ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GDBGEPINFO", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c178ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GDBGEPINFO", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GDBGEPINFO(a) bdk_usbhx_uahc_gdbgepinfo_t
-#define bustype_BDK_USBHX_UAHC_GDBGEPINFO(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_GDBGEPINFO(a) "USBHX_UAHC_GDBGEPINFO"
-#define device_bar_BDK_USBHX_UAHC_GDBGEPINFO(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GDBGEPINFO(a) (a)
-#define arguments_BDK_USBHX_UAHC_GDBGEPINFO(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GDBGEPINFO(a) bdk_usbdrdx_uahc_gdbgepinfo_t
+#define bustype_BDK_USBDRDX_UAHC_GDBGEPINFO(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UAHC_GDBGEPINFO(a) "USBDRDX_UAHC_GDBGEPINFO"
+#define device_bar_BDK_USBDRDX_UAHC_GDBGEPINFO(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GDBGEPINFO(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GDBGEPINFO(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gdbgfifospace
+ * Register (NCB32b) usbdrd#_uahc_gdbgfifospace
  *
  * UAHC Debug FIFO Space Available Register
  * This register is for debug purposes. It provides debug information on the internal status and
@@ -1159,7 +2709,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGEPINFO(unsigned long a)
  * purposes. These registers are not intended to be used by the customer. If any debug assistance
  * is needed for the silicon, contact customer support with a dump of these registers.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.2.
  * INTERNAL: Contact Synopsys directly.
@@ -1167,7 +2717,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGEPINFO(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gdbgfifospace_s
+    struct bdk_usbdrdx_uahc_gdbgfifospace_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t spaceavailable        : 16; /**< [ 31: 16](RO/H) Space available in the selected FIFO. */
@@ -1185,7 +2735,7 @@ typedef union
                                                                  0xA1: EventQ.
                                                                  0xA2: ProtocolStatusQ.
 
-                                                                 Port-select: <3:0> selects the port-number when accessing USBH()_UAHC_GDBGLTSSM. */
+                                                                 Port-select: <3:0> selects the port-number when accessing USBDRD()_UAHC_GDBGLTSSM. */
 #else /* Word 0 - Little Endian */
         uint32_t select                : 9;  /**< [  8:  0](R/W) FIFO/queue select/port-select.
                                                                  FIFO/queue select: <7:5> indicates the FIFO/queue type; <4:0> indicates the FIFO/queue
@@ -1200,86 +2750,90 @@ typedef union
                                                                  0xA1: EventQ.
                                                                  0xA2: ProtocolStatusQ.
 
-                                                                 Port-select: <3:0> selects the port-number when accessing USBH()_UAHC_GDBGLTSSM. */
+                                                                 Port-select: <3:0> selects the port-number when accessing USBDRD()_UAHC_GDBGLTSSM. */
         uint32_t reserved_9_15         : 7;
         uint32_t spaceavailable        : 16; /**< [ 31: 16](RO/H) Space available in the selected FIFO. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gdbgfifospace_s cn; */
-} bdk_usbhx_uahc_gdbgfifospace_t;
+    /* struct bdk_usbdrdx_uahc_gdbgfifospace_s cn; */
+} bdk_usbdrdx_uahc_gdbgfifospace_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GDBGFIFOSPACE(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GDBGFIFOSPACE(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGFIFOSPACE(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGFIFOSPACE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c160ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GDBGFIFOSPACE", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c160ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GDBGFIFOSPACE", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) bdk_usbhx_uahc_gdbgfifospace_t
-#define bustype_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) "USBHX_UAHC_GDBGFIFOSPACE"
-#define device_bar_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) (a)
-#define arguments_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GDBGFIFOSPACE(a) bdk_usbdrdx_uahc_gdbgfifospace_t
+#define bustype_BDK_USBDRDX_UAHC_GDBGFIFOSPACE(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GDBGFIFOSPACE(a) "USBDRDX_UAHC_GDBGFIFOSPACE"
+#define device_bar_BDK_USBDRDX_UAHC_GDBGFIFOSPACE(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GDBGFIFOSPACE(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GDBGFIFOSPACE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gdbglnmcc
+ * Register (NCB32b) usbdrd#_uahc_gdbglnmcc
  *
  * UAHC LNMCC Debug Register
- * See description in USBH()_UAHC_GDBGFIFOSPACE.
+ * See description in USBDRD()_UAHC_GDBGFIFOSPACE.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.4.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gdbglnmcc_s
+    struct bdk_usbdrdx_uahc_gdbglnmcc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
         uint32_t lnmcc_berc            : 9;  /**< [  8:  0](RO/H) This field indicates the bit-error-rate information for the port selected in
-                                                                 USBH()_UAHC_GDBGFIFOSPACE[SELECT] (port-select).
+                                                                 USBDRD()_UAHC_GDBGFIFOSPACE[SELECT] (port-select).
                                                                  This field is for debug purposes only. */
 #else /* Word 0 - Little Endian */
         uint32_t lnmcc_berc            : 9;  /**< [  8:  0](RO/H) This field indicates the bit-error-rate information for the port selected in
-                                                                 USBH()_UAHC_GDBGFIFOSPACE[SELECT] (port-select).
+                                                                 USBDRD()_UAHC_GDBGFIFOSPACE[SELECT] (port-select).
                                                                  This field is for debug purposes only. */
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gdbglnmcc_s cn; */
-} bdk_usbhx_uahc_gdbglnmcc_t;
+    /* struct bdk_usbdrdx_uahc_gdbglnmcc_s cn; */
+} bdk_usbdrdx_uahc_gdbglnmcc_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GDBGLNMCC(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GDBGLNMCC(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGLNMCC(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGLNMCC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c168ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GDBGLNMCC", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c168ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GDBGLNMCC", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GDBGLNMCC(a) bdk_usbhx_uahc_gdbglnmcc_t
-#define bustype_BDK_USBHX_UAHC_GDBGLNMCC(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GDBGLNMCC(a) "USBHX_UAHC_GDBGLNMCC"
-#define device_bar_BDK_USBHX_UAHC_GDBGLNMCC(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GDBGLNMCC(a) (a)
-#define arguments_BDK_USBHX_UAHC_GDBGLNMCC(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GDBGLNMCC(a) bdk_usbdrdx_uahc_gdbglnmcc_t
+#define bustype_BDK_USBDRDX_UAHC_GDBGLNMCC(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GDBGLNMCC(a) "USBDRDX_UAHC_GDBGLNMCC"
+#define device_bar_BDK_USBDRDX_UAHC_GDBGLNMCC(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GDBGLNMCC(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GDBGLNMCC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gdbglsp
+ * Register (NCB32b) usbdrd#_uahc_gdbglsp
  *
  * UAHC LSP Debug Register
- * See description in USBH()_UAHC_GDBGFIFOSPACE.
+ * See description in USBDRD()_UAHC_GDBGFIFOSPACE.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gdbglsp_s
+    struct bdk_usbdrdx_uahc_gdbglsp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lsp_dbg               : 32; /**< [ 31:  0](RO/H) LSP debug information. */
@@ -1287,31 +2841,33 @@ typedef union
         uint32_t lsp_dbg               : 32; /**< [ 31:  0](RO/H) LSP debug information. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gdbglsp_s cn; */
-} bdk_usbhx_uahc_gdbglsp_t;
+    /* struct bdk_usbdrdx_uahc_gdbglsp_s cn; */
+} bdk_usbdrdx_uahc_gdbglsp_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGLSP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGLSP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c174ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GDBGLSP", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c174ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GDBGLSP", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GDBGLSP(a) bdk_usbhx_uahc_gdbglsp_t
-#define bustype_BDK_USBHX_UAHC_GDBGLSP(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GDBGLSP(a) "USBHX_UAHC_GDBGLSP"
-#define device_bar_BDK_USBHX_UAHC_GDBGLSP(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GDBGLSP(a) (a)
-#define arguments_BDK_USBHX_UAHC_GDBGLSP(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GDBGLSP(a) bdk_usbdrdx_uahc_gdbglsp_t
+#define bustype_BDK_USBDRDX_UAHC_GDBGLSP(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GDBGLSP(a) "USBDRDX_UAHC_GDBGLSP"
+#define device_bar_BDK_USBDRDX_UAHC_GDBGLSP(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GDBGLSP(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GDBGLSP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gdbglspmux
+ * Register (NCB32b) usbdrd#_uahc_gdbglspmux
  *
  * UAHC LSP Multiplexer Debug Register
- * See description in USBH()_UAHC_GDBGFIFOSPACE.
+ * See description in USBDRD()_UAHC_GDBGFIFOSPACE.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.6.
  * INTERNAL: This register is for Synopsys internal use only.
@@ -1319,7 +2875,7 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gdbglspmux_s
+    struct bdk_usbdrdx_uahc_gdbglspmux_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -1332,9 +2888,9 @@ typedef union
                                                                  information presented in the GDBGLSP register.
                                                                  INTERNAL: Note this can only be used if DebugCapabaility was enabled at compile. */
         uint32_t reserved_14           : 1;
-        uint32_t hostselect            : 14; /**< [ 13:  0](R/W) Host select. Selects the LSP debug information presented in USBH()_UAHC_GDBGLSP. */
+        uint32_t hostselect            : 14; /**< [ 13:  0](R/W) Host select. Selects the LSP debug information presented in USBDRD()_UAHC_GDBGLSP. */
 #else /* Word 0 - Little Endian */
-        uint32_t hostselect            : 14; /**< [ 13:  0](R/W) Host select. Selects the LSP debug information presented in USBH()_UAHC_GDBGLSP. */
+        uint32_t hostselect            : 14; /**< [ 13:  0](R/W) Host select. Selects the LSP debug information presented in USBDRD()_UAHC_GDBGLSP. */
         uint32_t reserved_14           : 1;
         uint32_t endbc                 : 1;  /**< [ 15: 15](R/W) Enable debugging of the debug capability LSP. Use HOSTSELECT to select the DbC LSP debug
                                                                  information presented in the GDBGLSP register.
@@ -1347,41 +2903,43 @@ typedef union
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gdbglspmux_s cn; */
-} bdk_usbhx_uahc_gdbglspmux_t;
+    /* struct bdk_usbdrdx_uahc_gdbglspmux_s cn; */
+} bdk_usbdrdx_uahc_gdbglspmux_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GDBGLSPMUX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GDBGLSPMUX(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGLSPMUX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGLSPMUX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c170ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GDBGLSPMUX", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c170ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GDBGLSPMUX", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GDBGLSPMUX(a) bdk_usbhx_uahc_gdbglspmux_t
-#define bustype_BDK_USBHX_UAHC_GDBGLSPMUX(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GDBGLSPMUX(a) "USBHX_UAHC_GDBGLSPMUX"
-#define device_bar_BDK_USBHX_UAHC_GDBGLSPMUX(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GDBGLSPMUX(a) (a)
-#define arguments_BDK_USBHX_UAHC_GDBGLSPMUX(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GDBGLSPMUX(a) bdk_usbdrdx_uahc_gdbglspmux_t
+#define bustype_BDK_USBDRDX_UAHC_GDBGLSPMUX(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GDBGLSPMUX(a) "USBDRDX_UAHC_GDBGLSPMUX"
+#define device_bar_BDK_USBDRDX_UAHC_GDBGLSPMUX(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GDBGLSPMUX(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GDBGLSPMUX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gdbgltssm
+ * Register (NCB32b) usbdrd#_uahc_gdbgltssm
  *
  * UAHC LTSSM Debug Register
  * In multiport host configuration, the port number is defined by
- * USBH()_UAHC_GDBGFIFOSPACE[SELECT]<3:0>. Value of this register may change immediately after
+ * USBDRD()_UAHC_GDBGFIFOSPACE[SELECT]<3:0>. Value of this register may change immediately after
  * reset.
- * See description in USBH()_UAHC_GDBGFIFOSPACE.
+ * See description in USBDRD()_UAHC_GDBGFIFOSPACE.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.3.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gdbgltssm_s
+    struct bdk_usbdrdx_uahc_gdbgltssm_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_27_31        : 5;
@@ -1394,7 +2952,7 @@ typedef union
                                                                  _ <15> RX polarity.
                                                                  _ <14> TX Detect RX/loopback.
                                                                  _ <13:11> LTSSM PHY command state.
-                                                                 _ 0x0 = PHY_IDLE (PHY command state is in IDLE. No PHY request is pending).
+                                                                 _ 0x0 = PHY_IDLE (PHY command state is in IDLE. No PHY request is pending.)
                                                                  _ 0x1 = PHY_DET (Request to start receiver detection).
                                                                  _ 0x2 = PHY_DET_3 (Wait for Phy_Status (receiver detection)).
                                                                  _ 0x3 = PHY_PWR_DLY (delay Pipe3_PowerDown P0 -> P1/P2/P3 request).
@@ -1422,7 +2980,7 @@ typedef union
                                                                  _ <15> RX polarity.
                                                                  _ <14> TX Detect RX/loopback.
                                                                  _ <13:11> LTSSM PHY command state.
-                                                                 _ 0x0 = PHY_IDLE (PHY command state is in IDLE. No PHY request is pending).
+                                                                 _ 0x0 = PHY_IDLE (PHY command state is in IDLE. No PHY request is pending.)
                                                                  _ 0x1 = PHY_DET (Request to start receiver detection).
                                                                  _ 0x2 = PHY_DET_3 (Wait for Phy_Status (receiver detection)).
                                                                  _ 0x3 = PHY_PWR_DLY (delay Pipe3_PowerDown P0 -> P1/P2/P3 request).
@@ -1449,26 +3007,28 @@ typedef union
         uint32_t reserved_27_31        : 5;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gdbgltssm_s cn; */
-} bdk_usbhx_uahc_gdbgltssm_t;
+    /* struct bdk_usbdrdx_uahc_gdbgltssm_s cn; */
+} bdk_usbdrdx_uahc_gdbgltssm_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GDBGLTSSM(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GDBGLTSSM(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGLTSSM(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GDBGLTSSM(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c164ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GDBGLTSSM", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c164ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GDBGLTSSM", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GDBGLTSSM(a) bdk_usbhx_uahc_gdbgltssm_t
-#define bustype_BDK_USBHX_UAHC_GDBGLTSSM(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GDBGLTSSM(a) "USBHX_UAHC_GDBGLTSSM"
-#define device_bar_BDK_USBHX_UAHC_GDBGLTSSM(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GDBGLTSSM(a) (a)
-#define arguments_BDK_USBHX_UAHC_GDBGLTSSM(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GDBGLTSSM(a) bdk_usbdrdx_uahc_gdbgltssm_t
+#define bustype_BDK_USBDRDX_UAHC_GDBGLTSSM(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GDBGLTSSM(a) "USBDRDX_UAHC_GDBGLTSSM"
+#define device_bar_BDK_USBDRDX_UAHC_GDBGLTSSM(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GDBGLTSSM(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GDBGLTSSM(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gdmahlratio
+ * Register (NCB32b) usbdrd#_uahc_gdmahlratio
  *
  * UAHC DMA High/Low Ratio Register
  * This register specifies the relative priority of the SuperSpeed FIFOs with respect to the
@@ -1490,14 +3050,14 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLTSSM(unsigned long a)
  * If there is a valid request on either SuperSpeed or high-speed/full-speed/low-speed, a grant
  * is always awarded; there is no idle.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.5.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gdmahlratio_s
+    struct bdk_usbdrdx_uahc_gdmahlratio_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_13_31        : 19;
@@ -1511,26 +3071,199 @@ typedef union
         uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gdmahlratio_s cn; */
-} bdk_usbhx_uahc_gdmahlratio_t;
+    /* struct bdk_usbdrdx_uahc_gdmahlratio_s cn; */
+} bdk_usbdrdx_uahc_gdmahlratio_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GDMAHLRATIO(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GDMAHLRATIO(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GDMAHLRATIO(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GDMAHLRATIO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c624ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GDMAHLRATIO", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c624ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GDMAHLRATIO", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GDMAHLRATIO(a) bdk_usbhx_uahc_gdmahlratio_t
-#define bustype_BDK_USBHX_UAHC_GDMAHLRATIO(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GDMAHLRATIO(a) "USBHX_UAHC_GDMAHLRATIO"
-#define device_bar_BDK_USBHX_UAHC_GDMAHLRATIO(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GDMAHLRATIO(a) (a)
-#define arguments_BDK_USBHX_UAHC_GDMAHLRATIO(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GDMAHLRATIO(a) bdk_usbdrdx_uahc_gdmahlratio_t
+#define bustype_BDK_USBDRDX_UAHC_GDMAHLRATIO(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GDMAHLRATIO(a) "USBDRDX_UAHC_GDMAHLRATIO"
+#define device_bar_BDK_USBDRDX_UAHC_GDMAHLRATIO(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GDMAHLRATIO(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GDMAHLRATIO(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gfladj
+ * Register (NCB) usbdrd#_uahc_gevntadr#
+ *
+ * Global Event Buffer Address Register
+ * This register holds the Event Buffer DMA Address pointer. Software must initialize this
+ * address once during power-on initialization. Software must not change the value of this
+ * register after it is initialized.
+ * Software must only use the GEVNTCOUNTn register for event processing. The lower n bits of the
+ * address must be USBDRD()_UAHC_GEVNTSIZ()[EVNTSIZ]-aligned.
+ *
+ * This register can be reset by IOI reset,
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
+ *
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.2.7.1.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_usbdrdx_uahc_gevntadrx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t evntadr               : 64; /**< [ 63:  0](R/W/H) Holds the start address of the external memory
+                                                                 for the Event Buffer. During operation, hardware does not update
+                                                                 this address. */
+#else /* Word 0 - Little Endian */
+        uint64_t evntadr               : 64; /**< [ 63:  0](R/W/H) Holds the start address of the external memory
+                                                                 for the Event Buffer. During operation, hardware does not update
+                                                                 this address. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_gevntadrx_s cn; */
+} bdk_usbdrdx_uahc_gevntadrx_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_GEVNTADRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GEVNTADRX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
+        return 0x86800000c400ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x86800000c400ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_GEVNTADRX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_GEVNTADRX(a,b) bdk_usbdrdx_uahc_gevntadrx_t
+#define bustype_BDK_USBDRDX_UAHC_GEVNTADRX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UAHC_GEVNTADRX(a,b) "USBDRDX_UAHC_GEVNTADRX"
+#define device_bar_BDK_USBDRDX_UAHC_GEVNTADRX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GEVNTADRX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_GEVNTADRX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_gevntcount#
+ *
+ * Global Event Buffer Count Register
+ * This register holds the number of valid bytes in the Event Buffer. During initialization,
+ * software must initialize the count by writing 0 to the Event Count field. Each time the
+ * hardware writes a new event to the Event Buffer, it increments this count. Most events
+ * are four bytes, but some events may span over multiple four byte entries. Whenever the
+ * count is greater than zero, the hardware raises the corresponding interrupt
+ * line (depending on the USBDRD()_UAHC_GEVNTSIZ()[EVNTINTMASK]). On an interrupt, software
+ * processes one or more events out of the Event Buffer. Afterwards, software must write the
+ * Event Count field with the number of bytes it processed.
+ *
+ * Clock crossing delays may result in the interrupt's continual assertion after software
+ * acknowledges the last event. Therefore, when the interrupt line is asserted, software must
+ * read the GEVNTCOUNT register and only process events if the GEVNTCOUNT is greater than 0.
+ *
+ * This register can be reset by IOI reset,
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
+ *
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.2.7.3.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_gevntcountx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t evntcount             : 16; /**< [ 15:  0](R/W/H) When read, returns the number of valid events in the Event Buffer (in bytes).
+                                                                 When written, hardware decrements the count by the value written.
+                                                                 The interrupt line remains high when count is not 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t evntcount             : 16; /**< [ 15:  0](R/W/H) When read, returns the number of valid events in the Event Buffer (in bytes).
+                                                                 When written, hardware decrements the count by the value written.
+                                                                 The interrupt line remains high when count is not 0. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_gevntcountx_s cn; */
+} bdk_usbdrdx_uahc_gevntcountx_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_GEVNTCOUNTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GEVNTCOUNTX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
+        return 0x86800000c40cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x86800000c40cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_GEVNTCOUNTX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_GEVNTCOUNTX(a,b) bdk_usbdrdx_uahc_gevntcountx_t
+#define bustype_BDK_USBDRDX_UAHC_GEVNTCOUNTX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GEVNTCOUNTX(a,b) "USBDRDX_UAHC_GEVNTCOUNTX"
+#define device_bar_BDK_USBDRDX_UAHC_GEVNTCOUNTX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GEVNTCOUNTX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_GEVNTCOUNTX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_gevntsiz#
+ *
+ * Global Event Buffer Size Register
+ * This register holds the Event Buffer Size and the Event Interrupt Mask bit. During power-on
+ * initialization, software must initialize the size with the number of bytes allocated for
+ * the Event Buffer. The Event Interrupt Mask will mask the interrupt, but events are still
+ * queued. After configuration, software must preserve the Event Buffer Size value when
+ * changing the Event Interrupt Mask.
+ *
+ * This register can be reset by IOI reset,
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
+ *
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.2.7.2.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_gevntsizx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t evntintmask           : 1;  /**< [ 31: 31](R/W) When set to 1, this prevents the interrupt from being generated.
+                                                                 However, even when the mask is set, the events are queued. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t evntsiz               : 16; /**< [ 15:  0](R/W) Holds the size of the Event Buffer in bytes; must be a multiple of
+                                                                 four. This is programmed by software once during initialization.
+                                                                 The minimum size of the event buffer is 32 bytes. */
+#else /* Word 0 - Little Endian */
+        uint32_t evntsiz               : 16; /**< [ 15:  0](R/W) Holds the size of the Event Buffer in bytes; must be a multiple of
+                                                                 four. This is programmed by software once during initialization.
+                                                                 The minimum size of the event buffer is 32 bytes. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t evntintmask           : 1;  /**< [ 31: 31](R/W) When set to 1, this prevents the interrupt from being generated.
+                                                                 However, even when the mask is set, the events are queued. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_gevntsizx_s cn; */
+} bdk_usbdrdx_uahc_gevntsizx_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_GEVNTSIZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GEVNTSIZX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
+        return 0x86800000c408ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x86800000c408ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_GEVNTSIZX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_GEVNTSIZX(a,b) bdk_usbdrdx_uahc_gevntsizx_t
+#define bustype_BDK_USBDRDX_UAHC_GEVNTSIZX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GEVNTSIZX(a,b) "USBDRDX_UAHC_GEVNTSIZX"
+#define device_bar_BDK_USBDRDX_UAHC_GEVNTSIZX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GEVNTSIZX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_GEVNTSIZX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_gfladj
  *
  * UAHC Global Frame Length Adjustment Register
  * This register provides options for the software to control the core behavior with respect to
@@ -1540,14 +3273,14 @@ static inline uint64_t BDK_USBHX_UAHC_GDMAHLRATIO(unsigned long a)
  * This facilitates hardware LPM in host mode with the SOF or ITP counters being run off of the
  * REF_CLK signal.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.6.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gfladj_s
+    struct bdk_usbdrdx_uahc_gfladj_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t gfladj_refclk_240mhzdecr_pls1 : 1;/**< [ 31: 31](R/W) This field indicates that the decrement value that the controller applies for each REF_CLK
@@ -1558,12 +3291,12 @@ typedef union
                                                                  Example:
 
                                                                  If the REF_CLK is 19.2 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 52.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 52.
                                                                  * GFLADJ_REFCLK_240MHZ_DECR = (240/19.2) = 12.5.
                                                                  * GFLADJ_REFCLK_240MHZDECR_PLS1 = 1.
 
                                                                  If the REF_CLK is 24 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 41.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 41.
                                                                  * GFLADJ_REFCLK_240MHZ_DECR = (240/24) = 10.
                                                                  * GFLADJ_REFCLK_240MHZDECR_PLS1 = 0. */
         uint32_t gfladj_refclk_240mhz_decr : 7;/**< [ 30: 24](R/W) This field indicates the decrement value that the controller applies for each REF_CLK in
@@ -1576,32 +3309,32 @@ typedef union
                                                                  Examples:
 
                                                                  If the REF_CLK is 24 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 41.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 41.
                                                                  * GFLADJ_REFCLK_240MHZ_DECR = 240/24 = 10.
 
                                                                  If the REF_CLK is 48 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 20.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 20.
                                                                  * GFLADJ_REFCLK_240MHZ_DECR = 240/48 = 5.
 
                                                                  If the REF_CLK is 17 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 58.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 58.
                                                                  * GFLADJ_REFCLK_240MHZ_DECR = 240/17 = 14. */
         uint32_t gfladj_refclk_lpm_sel : 1;  /**< [ 23: 23](R/W) This bit enables the functionality of running SOF/ITP counters on the REF_CLK.
-                                                                 This bit must not be set to 1 if USBH()_UAHC_GCTL[SOFITPSYNC] = 1. Similarly, if
-                                                                 GFLADJ_REFCLK_LPM_SEL = 1, USBH()_UAHC_GCTL[SOFITPSYNC] must not be set to 1.
+                                                                 This bit must not be set to 1 if USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1. Similarly, if
+                                                                 GFLADJ_REFCLK_LPM_SEL = 1, USBDRD()_UAHC_GCTL[SOFITPSYNC] must not be set to 1.
                                                                  When GFLADJ_REFCLK_LPM_SEL = 1 the overloading of the suspend control of the USB 2.0 first
                                                                  port PHY (UTMI) with USB 3.0 port states is removed. Note that the REF_CLK frequencies
                                                                  supported in this mode are 16/17/19.2/20/24/39.7/40 MHz.
                                                                  INTERNAL: The utmi_clk[0] signal of the core must be connected to the FREECLK of the PHY.
-                                                                 If you set this bit to 1, USBH()_UAHC_GUSB2PHYCFG()[U2_FREECLK_EXISTS] must be set to 0. */
+                                                                 If you set this bit to 1, USBDRD()_UAHC_GUSB2PHYCFG()[U2_FREECLK_EXISTS] must be set to 0. */
         uint32_t reserved_22           : 1;
         uint32_t gfladj_refclk_fladj   : 14; /**< [ 21:  8](R/W) This field indicates the frame length adjustment to be applied when SOF/ITP counter is
                                                                  running off of the REF_CLK. This register value is used to adjust:.
-                                                                 * ITP interval when USBH()_UAHC_GCTL[SOFITPSYNC] = 1
+                                                                 * ITP interval when USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1
                                                                  * both SOF and ITP interval when GFLADJ_REFCLK_LPM_SEL = 1.
 
                                                                  This field must be programmed to a non-zero value only if GFLADJ_REFCLK_LPM_SEL = 1 or
-                                                                 USBH()_UAHC_GCTL[SOFITPSYNC] = 1.
+                                                                 USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1.
 
                                                                  The value is derived as below:
 
@@ -1610,18 +3343,18 @@ typedef union
 
                                                                  where,
                                                                  * the ref_clk_period_integer is the integer value of the REF_CLK period got by truncating
-                                                                 the decimal (fractional) value that is programmed in USBH()_UAHC_GUCTL[REFCLKPER].
+                                                                 the decimal (fractional) value that is programmed in USBDRD()_UAHC_GUCTL[REFCLKPER].
                                                                  * the ref_clk_period is the REF_CLK period including the fractional value.
 
                                                                  Examples:
 
                                                                  If the REF_CLK is 24 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 41.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 41.
                                                                  * GLADJ_REFCLK_FLADJ = ((125000/41) -
                                                                  (125000/41.6666)) * 41.6666 = 2032 (ignoring the fractional value).
 
                                                                  If the REF_CLK is 48 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 20.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 20.
                                                                  * GLADJ_REFCLK_FLADJ = ((125000/20) -
                                                                  (125000/20.8333)) * 20.8333 = 5208 (ignoring the fractional value). */
         uint32_t gfladj_30mhz_reg_sel  : 1;  /**< [  7:  7](R/W) This field selects whether to use the input signal fladj_30mhz_reg or the GFLADJ_30MHZ to
@@ -1633,7 +3366,7 @@ typedef union
                                                                  frame length adjustment in case the input signal fladj_30mhz_reg is connected to a wrong
                                                                  value or is not valid. The controller uses this value if GFLADJ_30MHZ_REG_SEL = 1 and the
                                                                  SOF/ITP counters are running off of UTMI(ULPI) clock (GFLADJ_REFCLK_LPM_SEL = 0 and
-                                                                 USBH()_UAHC_GCTL[SOFITPSYNC] is 1 or 0). For details on how to set this value, refer to
+                                                                 USBDRD()_UAHC_GCTL[SOFITPSYNC] is 1 or 0). For details on how to set this value, refer to
                                                                  section 5.2.4 Frame Length Adjustment Register (FLADJ) of the xHCI Specification. */
 #else /* Word 0 - Little Endian */
         uint32_t gfladj_30mhz          : 6;  /**< [  5:  0](R/W) This field indicates the value that is used for frame length adjustment instead of
@@ -1641,7 +3374,7 @@ typedef union
                                                                  frame length adjustment in case the input signal fladj_30mhz_reg is connected to a wrong
                                                                  value or is not valid. The controller uses this value if GFLADJ_30MHZ_REG_SEL = 1 and the
                                                                  SOF/ITP counters are running off of UTMI(ULPI) clock (GFLADJ_REFCLK_LPM_SEL = 0 and
-                                                                 USBH()_UAHC_GCTL[SOFITPSYNC] is 1 or 0). For details on how to set this value, refer to
+                                                                 USBDRD()_UAHC_GCTL[SOFITPSYNC] is 1 or 0). For details on how to set this value, refer to
                                                                  section 5.2.4 Frame Length Adjustment Register (FLADJ) of the xHCI Specification. */
         uint32_t reserved_6            : 1;
         uint32_t gfladj_30mhz_reg_sel  : 1;  /**< [  7:  7](R/W) This field selects whether to use the input signal fladj_30mhz_reg or the GFLADJ_30MHZ to
@@ -1649,11 +3382,11 @@ typedef union
                                                                  GFLADJ_30MHZ value 0x0, the controller uses the input signal fladj_30mhz_reg value. */
         uint32_t gfladj_refclk_fladj   : 14; /**< [ 21:  8](R/W) This field indicates the frame length adjustment to be applied when SOF/ITP counter is
                                                                  running off of the REF_CLK. This register value is used to adjust:.
-                                                                 * ITP interval when USBH()_UAHC_GCTL[SOFITPSYNC] = 1
+                                                                 * ITP interval when USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1
                                                                  * both SOF and ITP interval when GFLADJ_REFCLK_LPM_SEL = 1.
 
                                                                  This field must be programmed to a non-zero value only if GFLADJ_REFCLK_LPM_SEL = 1 or
-                                                                 USBH()_UAHC_GCTL[SOFITPSYNC] = 1.
+                                                                 USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1.
 
                                                                  The value is derived as below:
 
@@ -1662,29 +3395,29 @@ typedef union
 
                                                                  where,
                                                                  * the ref_clk_period_integer is the integer value of the REF_CLK period got by truncating
-                                                                 the decimal (fractional) value that is programmed in USBH()_UAHC_GUCTL[REFCLKPER].
+                                                                 the decimal (fractional) value that is programmed in USBDRD()_UAHC_GUCTL[REFCLKPER].
                                                                  * the ref_clk_period is the REF_CLK period including the fractional value.
 
                                                                  Examples:
 
                                                                  If the REF_CLK is 24 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 41.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 41.
                                                                  * GLADJ_REFCLK_FLADJ = ((125000/41) -
                                                                  (125000/41.6666)) * 41.6666 = 2032 (ignoring the fractional value).
 
                                                                  If the REF_CLK is 48 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 20.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 20.
                                                                  * GLADJ_REFCLK_FLADJ = ((125000/20) -
                                                                  (125000/20.8333)) * 20.8333 = 5208 (ignoring the fractional value). */
         uint32_t reserved_22           : 1;
         uint32_t gfladj_refclk_lpm_sel : 1;  /**< [ 23: 23](R/W) This bit enables the functionality of running SOF/ITP counters on the REF_CLK.
-                                                                 This bit must not be set to 1 if USBH()_UAHC_GCTL[SOFITPSYNC] = 1. Similarly, if
-                                                                 GFLADJ_REFCLK_LPM_SEL = 1, USBH()_UAHC_GCTL[SOFITPSYNC] must not be set to 1.
+                                                                 This bit must not be set to 1 if USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1. Similarly, if
+                                                                 GFLADJ_REFCLK_LPM_SEL = 1, USBDRD()_UAHC_GCTL[SOFITPSYNC] must not be set to 1.
                                                                  When GFLADJ_REFCLK_LPM_SEL = 1 the overloading of the suspend control of the USB 2.0 first
                                                                  port PHY (UTMI) with USB 3.0 port states is removed. Note that the REF_CLK frequencies
                                                                  supported in this mode are 16/17/19.2/20/24/39.7/40 MHz.
                                                                  INTERNAL: The utmi_clk[0] signal of the core must be connected to the FREECLK of the PHY.
-                                                                 If you set this bit to 1, USBH()_UAHC_GUSB2PHYCFG()[U2_FREECLK_EXISTS] must be set to 0. */
+                                                                 If you set this bit to 1, USBDRD()_UAHC_GUSB2PHYCFG()[U2_FREECLK_EXISTS] must be set to 0. */
         uint32_t gfladj_refclk_240mhz_decr : 7;/**< [ 30: 24](R/W) This field indicates the decrement value that the controller applies for each REF_CLK in
                                                                  order to derive a frame timer in terms of a 240-MHz clock. This field must be programmed
                                                                  to a non-zero value only if GFLADJ_REFCLK_LPM_SEL is set to 1.
@@ -1695,15 +3428,15 @@ typedef union
                                                                  Examples:
 
                                                                  If the REF_CLK is 24 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 41.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 41.
                                                                  * GFLADJ_REFCLK_240MHZ_DECR = 240/24 = 10.
 
                                                                  If the REF_CLK is 48 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 20.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 20.
                                                                  * GFLADJ_REFCLK_240MHZ_DECR = 240/48 = 5.
 
                                                                  If the REF_CLK is 17 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 58.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 58.
                                                                  * GFLADJ_REFCLK_240MHZ_DECR = 240/17 = 14. */
         uint32_t gfladj_refclk_240mhzdecr_pls1 : 1;/**< [ 31: 31](R/W) This field indicates that the decrement value that the controller applies for each REF_CLK
                                                                  must be GFLADJ_REFCLK_240MHZ_DECR and GFLADJ_REFCLK_240MHZ_DECR +1 alternatively on each
@@ -1713,49 +3446,51 @@ typedef union
                                                                  Example:
 
                                                                  If the REF_CLK is 19.2 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 52.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 52.
                                                                  * GFLADJ_REFCLK_240MHZ_DECR = (240/19.2) = 12.5.
                                                                  * GFLADJ_REFCLK_240MHZDECR_PLS1 = 1.
 
                                                                  If the REF_CLK is 24 MHz then,
-                                                                 * USBH()_UAHC_GUCTL[REFCLKPER] = 41.
+                                                                 * USBDRD()_UAHC_GUCTL[REFCLKPER] = 41.
                                                                  * GFLADJ_REFCLK_240MHZ_DECR = (240/24) = 10.
                                                                  * GFLADJ_REFCLK_240MHZDECR_PLS1 = 0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gfladj_s cn; */
-} bdk_usbhx_uahc_gfladj_t;
+    /* struct bdk_usbdrdx_uahc_gfladj_s cn; */
+} bdk_usbdrdx_uahc_gfladj_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GFLADJ(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GFLADJ(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GFLADJ(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GFLADJ(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c630ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GFLADJ", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c630ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GFLADJ", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GFLADJ(a) bdk_usbhx_uahc_gfladj_t
-#define bustype_BDK_USBHX_UAHC_GFLADJ(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GFLADJ(a) "USBHX_UAHC_GFLADJ"
-#define device_bar_BDK_USBHX_UAHC_GFLADJ(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GFLADJ(a) (a)
-#define arguments_BDK_USBHX_UAHC_GFLADJ(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GFLADJ(a) bdk_usbdrdx_uahc_gfladj_t
+#define bustype_BDK_USBDRDX_UAHC_GFLADJ(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GFLADJ(a) "USBDRDX_UAHC_GFLADJ"
+#define device_bar_BDK_USBDRDX_UAHC_GFLADJ(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GFLADJ(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GFLADJ(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_ggpio
+ * Register (NCB32b) usbdrd#_uahc_ggpio
  *
  * UAHC Core General-Purpose I/O Register
  * The application can use this register for general purpose input and output ports or for
  * debugging.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.9.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_ggpio_s
+    struct bdk_usbdrdx_uahc_ggpio_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t gpo                   : 16; /**< [ 31: 16](R/W) General purpose output. These outputs are not connected to anything. Can be used as scratch. */
@@ -1765,26 +3500,28 @@ typedef union
         uint32_t gpo                   : 16; /**< [ 31: 16](R/W) General purpose output. These outputs are not connected to anything. Can be used as scratch. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_ggpio_s cn; */
-} bdk_usbhx_uahc_ggpio_t;
+    /* struct bdk_usbdrdx_uahc_ggpio_s cn; */
+} bdk_usbdrdx_uahc_ggpio_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GGPIO(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GGPIO(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GGPIO(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GGPIO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c124ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GGPIO", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c124ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GGPIO", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GGPIO(a) bdk_usbhx_uahc_ggpio_t
-#define bustype_BDK_USBHX_UAHC_GGPIO(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GGPIO(a) "USBHX_UAHC_GGPIO"
-#define device_bar_BDK_USBHX_UAHC_GGPIO(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GGPIO(a) (a)
-#define arguments_BDK_USBHX_UAHC_GGPIO(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GGPIO(a) bdk_usbdrdx_uahc_ggpio_t
+#define bustype_BDK_USBDRDX_UAHC_GGPIO(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GGPIO(a) "USBDRDX_UAHC_GGPIO"
+#define device_bar_BDK_USBDRDX_UAHC_GGPIO(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GGPIO(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GGPIO(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_ghwparams0
+ * Register (NCB32b) usbdrd#_uahc_ghwparams0
  *
  * UAHC Hardware Parameters Register 0
  * This register contains the hardware configuration options selected at compile-time.
@@ -1794,7 +3531,7 @@ static inline uint64_t BDK_USBHX_UAHC_GGPIO(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_ghwparams0_s
+    struct bdk_usbdrdx_uahc_ghwparams0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t awidth                : 8;  /**< [ 31: 24](RO) USB core bus-address width. */
@@ -1802,9 +3539,9 @@ typedef union
         uint32_t mdwidth               : 8;  /**< [ 15:  8](RO) USB core bus master-data width. */
         uint32_t sbus_type             : 2;  /**< [  7:  6](RO) USB core bus slave type: AXI. */
         uint32_t mbus_type             : 3;  /**< [  5:  3](RO) USB core bus master type: AXI. */
-        uint32_t mode                  : 3;  /**< [  2:  0](RO) Operation mode: 0x1: host-only. */
+        uint32_t mode                  : 3;  /**< [  2:  0](RO) Operation mode: 0x2: Dual-role device. */
 #else /* Word 0 - Little Endian */
-        uint32_t mode                  : 3;  /**< [  2:  0](RO) Operation mode: 0x1: host-only. */
+        uint32_t mode                  : 3;  /**< [  2:  0](RO) Operation mode: 0x2: Dual-role device. */
         uint32_t mbus_type             : 3;  /**< [  5:  3](RO) USB core bus master type: AXI. */
         uint32_t sbus_type             : 2;  /**< [  7:  6](RO) USB core bus slave type: AXI. */
         uint32_t mdwidth               : 8;  /**< [ 15:  8](RO) USB core bus master-data width. */
@@ -1812,26 +3549,28 @@ typedef union
         uint32_t awidth                : 8;  /**< [ 31: 24](RO) USB core bus-address width. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_ghwparams0_s cn; */
-} bdk_usbhx_uahc_ghwparams0_t;
+    /* struct bdk_usbdrdx_uahc_ghwparams0_s cn; */
+} bdk_usbdrdx_uahc_ghwparams0_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS0(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c140ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS0", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c140ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS0", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GHWPARAMS0(a) bdk_usbhx_uahc_ghwparams0_t
-#define bustype_BDK_USBHX_UAHC_GHWPARAMS0(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GHWPARAMS0(a) "USBHX_UAHC_GHWPARAMS0"
-#define device_bar_BDK_USBHX_UAHC_GHWPARAMS0(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GHWPARAMS0(a) (a)
-#define arguments_BDK_USBHX_UAHC_GHWPARAMS0(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GHWPARAMS0(a) bdk_usbdrdx_uahc_ghwparams0_t
+#define bustype_BDK_USBDRDX_UAHC_GHWPARAMS0(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GHWPARAMS0(a) "USBDRDX_UAHC_GHWPARAMS0"
+#define device_bar_BDK_USBDRDX_UAHC_GHWPARAMS0(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GHWPARAMS0(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GHWPARAMS0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_ghwparams1
+ * Register (NCB32b) usbdrd#_uahc_ghwparams1
  *
  * UAHC Hardware Parameters Register 1
  * This register contains the hardware configuration options selected at compile-time.
@@ -1841,10 +3580,10 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS0(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_ghwparams1_s
+    struct bdk_usbdrdx_uahc_ghwparams1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t en_dbc                : 1;  /**< [ 31: 31](RO) Enable debug capability. */
+        uint32_t en_dbc                : 1;  /**< [ 31: 31](RAZ) Enable debug capability. */
         uint32_t rm_opt_features       : 1;  /**< [ 30: 30](RO) Remove optional features. */
         uint32_t sync_rst              : 1;  /**< [ 29: 29](RO) Synchronous reset coding. */
         uint32_t ram_bus_clks_sync     : 1;  /**< [ 28: 28](RO) RAM_CLK and BUS_CLK are synchronous. INTERNAL: (appears to be orthogonal from the
@@ -1880,29 +3619,31 @@ typedef union
                                                                  RAM_CLK_TO_BUS_CLK parameter) */
         uint32_t sync_rst              : 1;  /**< [ 29: 29](RO) Synchronous reset coding. */
         uint32_t rm_opt_features       : 1;  /**< [ 30: 30](RO) Remove optional features. */
-        uint32_t en_dbc                : 1;  /**< [ 31: 31](RO) Enable debug capability. */
+        uint32_t en_dbc                : 1;  /**< [ 31: 31](RAZ) Enable debug capability. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_ghwparams1_s cn; */
-} bdk_usbhx_uahc_ghwparams1_t;
+    /* struct bdk_usbdrdx_uahc_ghwparams1_s cn; */
+} bdk_usbdrdx_uahc_ghwparams1_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS1(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c144ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS1", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c144ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS1", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GHWPARAMS1(a) bdk_usbhx_uahc_ghwparams1_t
-#define bustype_BDK_USBHX_UAHC_GHWPARAMS1(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GHWPARAMS1(a) "USBHX_UAHC_GHWPARAMS1"
-#define device_bar_BDK_USBHX_UAHC_GHWPARAMS1(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GHWPARAMS1(a) (a)
-#define arguments_BDK_USBHX_UAHC_GHWPARAMS1(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GHWPARAMS1(a) bdk_usbdrdx_uahc_ghwparams1_t
+#define bustype_BDK_USBDRDX_UAHC_GHWPARAMS1(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GHWPARAMS1(a) "USBDRDX_UAHC_GHWPARAMS1"
+#define device_bar_BDK_USBDRDX_UAHC_GHWPARAMS1(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GHWPARAMS1(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GHWPARAMS1(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_ghwparams2
+ * Register (NCB32b) usbdrd#_uahc_ghwparams2
  *
  * UAHC Core GHW Parameters Register 2
  * This register contains the hardware configuration options selected at compile-time.
@@ -1912,7 +3653,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS1(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_ghwparams2_s
+    struct bdk_usbdrdx_uahc_ghwparams2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t userid                : 32; /**< [ 31:  0](RO) User ID. */
@@ -1920,26 +3661,28 @@ typedef union
         uint32_t userid                : 32; /**< [ 31:  0](RO) User ID. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_ghwparams2_s cn; */
-} bdk_usbhx_uahc_ghwparams2_t;
+    /* struct bdk_usbdrdx_uahc_ghwparams2_s cn; */
+} bdk_usbdrdx_uahc_ghwparams2_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS2(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c148ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS2", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c148ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS2", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GHWPARAMS2(a) bdk_usbhx_uahc_ghwparams2_t
-#define bustype_BDK_USBHX_UAHC_GHWPARAMS2(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GHWPARAMS2(a) "USBHX_UAHC_GHWPARAMS2"
-#define device_bar_BDK_USBHX_UAHC_GHWPARAMS2(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GHWPARAMS2(a) (a)
-#define arguments_BDK_USBHX_UAHC_GHWPARAMS2(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GHWPARAMS2(a) bdk_usbdrdx_uahc_ghwparams2_t
+#define bustype_BDK_USBDRDX_UAHC_GHWPARAMS2(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GHWPARAMS2(a) "USBDRDX_UAHC_GHWPARAMS2"
+#define device_bar_BDK_USBDRDX_UAHC_GHWPARAMS2(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GHWPARAMS2(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GHWPARAMS2(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_ghwparams3
+ * Register (NCB32b) usbdrd#_uahc_ghwparams3
  *
  * UAHC GHW Parameters Register 3
  * This register contains the hardware configuration options selected at compile-time.
@@ -1949,13 +3692,13 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS2(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_ghwparams3_s
+    struct bdk_usbdrdx_uahc_ghwparams3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t cache_total_xfer_resources : 8;/**< [ 30: 23](RO) Maximum number of transfer resources in the core. */
-        uint32_t num_in_eps            : 5;  /**< [ 22: 18](RO) Maximum number of device-mode (unsupported) IN endpoints active. */
-        uint32_t num_eps               : 6;  /**< [ 17: 12](RO) Number of device-mode (unsupported) single-directional endpoints. */
+        uint32_t num_in_eps            : 5;  /**< [ 22: 18](RO) Maximum number of device-mode IN endpoints active. */
+        uint32_t num_eps               : 6;  /**< [ 17: 12](RO) Number of device-mode single-directional endpoints. */
         uint32_t ulpi_carkit           : 1;  /**< [ 11: 11](RO) ULPI Carkit is not supported. */
         uint32_t vendor_ctl_interface  : 1;  /**< [ 10: 10](RO) UTMI+ PHY vendor control interface enabled. */
         uint32_t reserved_8_9          : 2;
@@ -1971,32 +3714,34 @@ typedef union
         uint32_t reserved_8_9          : 2;
         uint32_t vendor_ctl_interface  : 1;  /**< [ 10: 10](RO) UTMI+ PHY vendor control interface enabled. */
         uint32_t ulpi_carkit           : 1;  /**< [ 11: 11](RO) ULPI Carkit is not supported. */
-        uint32_t num_eps               : 6;  /**< [ 17: 12](RO) Number of device-mode (unsupported) single-directional endpoints. */
-        uint32_t num_in_eps            : 5;  /**< [ 22: 18](RO) Maximum number of device-mode (unsupported) IN endpoints active. */
+        uint32_t num_eps               : 6;  /**< [ 17: 12](RO) Number of device-mode single-directional endpoints. */
+        uint32_t num_in_eps            : 5;  /**< [ 22: 18](RO) Maximum number of device-mode IN endpoints active. */
         uint32_t cache_total_xfer_resources : 8;/**< [ 30: 23](RO) Maximum number of transfer resources in the core. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_ghwparams3_s cn; */
-} bdk_usbhx_uahc_ghwparams3_t;
+    /* struct bdk_usbdrdx_uahc_ghwparams3_s cn; */
+} bdk_usbdrdx_uahc_ghwparams3_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS3(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS3(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c14cll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS3", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c14cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS3", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GHWPARAMS3(a) bdk_usbhx_uahc_ghwparams3_t
-#define bustype_BDK_USBHX_UAHC_GHWPARAMS3(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GHWPARAMS3(a) "USBHX_UAHC_GHWPARAMS3"
-#define device_bar_BDK_USBHX_UAHC_GHWPARAMS3(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GHWPARAMS3(a) (a)
-#define arguments_BDK_USBHX_UAHC_GHWPARAMS3(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GHWPARAMS3(a) bdk_usbdrdx_uahc_ghwparams3_t
+#define bustype_BDK_USBDRDX_UAHC_GHWPARAMS3(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GHWPARAMS3(a) "USBDRDX_UAHC_GHWPARAMS3"
+#define device_bar_BDK_USBDRDX_UAHC_GHWPARAMS3(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GHWPARAMS3(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GHWPARAMS3(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_ghwparams4
+ * Register (NCB32b) usbdrd#_uahc_ghwparams4
  *
  * UAHC GHW Parameters Register 4
  * This register contains the hardware configuration options selected at compile-time.
@@ -2006,7 +3751,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS3(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_ghwparams4_s
+    struct bdk_usbdrdx_uahc_ghwparams4_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t bmu_lsp_depth         : 4;  /**< [ 31: 28](RO) Depth of the BMU-LSP status buffer. */
@@ -2030,26 +3775,28 @@ typedef union
         uint32_t bmu_lsp_depth         : 4;  /**< [ 31: 28](RO) Depth of the BMU-LSP status buffer. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_ghwparams4_s cn; */
-} bdk_usbhx_uahc_ghwparams4_t;
+    /* struct bdk_usbdrdx_uahc_ghwparams4_s cn; */
+} bdk_usbdrdx_uahc_ghwparams4_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS4(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS4(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS4(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS4(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c150ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS4", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c150ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS4", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GHWPARAMS4(a) bdk_usbhx_uahc_ghwparams4_t
-#define bustype_BDK_USBHX_UAHC_GHWPARAMS4(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GHWPARAMS4(a) "USBHX_UAHC_GHWPARAMS4"
-#define device_bar_BDK_USBHX_UAHC_GHWPARAMS4(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GHWPARAMS4(a) (a)
-#define arguments_BDK_USBHX_UAHC_GHWPARAMS4(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GHWPARAMS4(a) bdk_usbdrdx_uahc_ghwparams4_t
+#define bustype_BDK_USBDRDX_UAHC_GHWPARAMS4(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GHWPARAMS4(a) "USBDRDX_UAHC_GHWPARAMS4"
+#define device_bar_BDK_USBDRDX_UAHC_GHWPARAMS4(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GHWPARAMS4(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GHWPARAMS4(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_ghwparams5
+ * Register (NCB32b) usbdrd#_uahc_ghwparams5
  *
  * UAHC GHW Parameters Register 5
  * This register contains the hardware configuration options selected at compile-time.
@@ -2059,7 +3806,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS4(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_ghwparams5_s
+    struct bdk_usbdrdx_uahc_ghwparams5_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -2077,26 +3824,28 @@ typedef union
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_ghwparams5_s cn; */
-} bdk_usbhx_uahc_ghwparams5_t;
+    /* struct bdk_usbdrdx_uahc_ghwparams5_s cn; */
+} bdk_usbdrdx_uahc_ghwparams5_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS5(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS5(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS5(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS5(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c154ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS5", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c154ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS5", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GHWPARAMS5(a) bdk_usbhx_uahc_ghwparams5_t
-#define bustype_BDK_USBHX_UAHC_GHWPARAMS5(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GHWPARAMS5(a) "USBHX_UAHC_GHWPARAMS5"
-#define device_bar_BDK_USBHX_UAHC_GHWPARAMS5(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GHWPARAMS5(a) (a)
-#define arguments_BDK_USBHX_UAHC_GHWPARAMS5(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GHWPARAMS5(a) bdk_usbdrdx_uahc_ghwparams5_t
+#define bustype_BDK_USBDRDX_UAHC_GHWPARAMS5(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GHWPARAMS5(a) "USBDRDX_UAHC_GHWPARAMS5"
+#define device_bar_BDK_USBDRDX_UAHC_GHWPARAMS5(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GHWPARAMS5(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GHWPARAMS5(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_ghwparams6
+ * Register (NCB32b) usbdrd#_uahc_ghwparams6
  *
  * UAHC GHW Parameters Register 6
  * This register contains the hardware configuration options selected at compile-time.
@@ -2106,11 +3855,11 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS5(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_ghwparams6_s
+    struct bdk_usbdrdx_uahc_ghwparams6_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ram0_depth            : 16; /**< [ 31: 16](RO) RAM0 Depth. */
-        uint32_t en_bus_filters        : 1;  /**< [ 15: 15](RO) Enable VBus filters support. */
+        uint32_t en_bus_filters        : 1;  /**< [ 15: 15](RO) VBus filters support. */
         uint32_t en_bc                 : 1;  /**< [ 14: 14](RO) Enable battery-charging support. */
         uint32_t en_otg_ss             : 1;  /**< [ 13: 13](RO) Enable OTG SuperSpeed support. */
         uint32_t en_adp                : 1;  /**< [ 12: 12](RO) Enable ADP support. */
@@ -2130,30 +3879,32 @@ typedef union
         uint32_t en_adp                : 1;  /**< [ 12: 12](RO) Enable ADP support. */
         uint32_t en_otg_ss             : 1;  /**< [ 13: 13](RO) Enable OTG SuperSpeed support. */
         uint32_t en_bc                 : 1;  /**< [ 14: 14](RO) Enable battery-charging support. */
-        uint32_t en_bus_filters        : 1;  /**< [ 15: 15](RO) Enable VBus filters support. */
+        uint32_t en_bus_filters        : 1;  /**< [ 15: 15](RO) VBus filters support. */
         uint32_t ram0_depth            : 16; /**< [ 31: 16](RO) RAM0 Depth. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_ghwparams6_s cn; */
-} bdk_usbhx_uahc_ghwparams6_t;
+    /* struct bdk_usbdrdx_uahc_ghwparams6_s cn; */
+} bdk_usbdrdx_uahc_ghwparams6_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS6(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS6(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS6(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS6(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c158ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS6", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c158ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS6", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GHWPARAMS6(a) bdk_usbhx_uahc_ghwparams6_t
-#define bustype_BDK_USBHX_UAHC_GHWPARAMS6(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GHWPARAMS6(a) "USBHX_UAHC_GHWPARAMS6"
-#define device_bar_BDK_USBHX_UAHC_GHWPARAMS6(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GHWPARAMS6(a) (a)
-#define arguments_BDK_USBHX_UAHC_GHWPARAMS6(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GHWPARAMS6(a) bdk_usbdrdx_uahc_ghwparams6_t
+#define bustype_BDK_USBDRDX_UAHC_GHWPARAMS6(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GHWPARAMS6(a) "USBDRDX_UAHC_GHWPARAMS6"
+#define device_bar_BDK_USBDRDX_UAHC_GHWPARAMS6(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GHWPARAMS6(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GHWPARAMS6(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_ghwparams7
+ * Register (NCB32b) usbdrd#_uahc_ghwparams7
  *
  * UAHC GHW Parameters Register 7
  * This register contains the hardware configuration options selected at compile-time.
@@ -2163,7 +3914,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS6(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_ghwparams7_s
+    struct bdk_usbdrdx_uahc_ghwparams7_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ram2_depth            : 16; /**< [ 31: 16](RO) RAM2 depth. */
@@ -2173,26 +3924,28 @@ typedef union
         uint32_t ram2_depth            : 16; /**< [ 31: 16](RO) RAM2 depth. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_ghwparams7_s cn; */
-} bdk_usbhx_uahc_ghwparams7_t;
+    /* struct bdk_usbdrdx_uahc_ghwparams7_s cn; */
+} bdk_usbdrdx_uahc_ghwparams7_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS7(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS7(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS7(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS7(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c15cll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS7", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c15cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS7", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GHWPARAMS7(a) bdk_usbhx_uahc_ghwparams7_t
-#define bustype_BDK_USBHX_UAHC_GHWPARAMS7(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GHWPARAMS7(a) "USBHX_UAHC_GHWPARAMS7"
-#define device_bar_BDK_USBHX_UAHC_GHWPARAMS7(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GHWPARAMS7(a) (a)
-#define arguments_BDK_USBHX_UAHC_GHWPARAMS7(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GHWPARAMS7(a) bdk_usbdrdx_uahc_ghwparams7_t
+#define bustype_BDK_USBDRDX_UAHC_GHWPARAMS7(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GHWPARAMS7(a) "USBDRDX_UAHC_GHWPARAMS7"
+#define device_bar_BDK_USBDRDX_UAHC_GHWPARAMS7(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GHWPARAMS7(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GHWPARAMS7(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_ghwparams8
+ * Register (NCB32b) usbdrd#_uahc_ghwparams8
  *
  * UAHC GHW Parameters Register 8
  * This register contains the hardware configuration options selected at compile-time.
@@ -2202,7 +3955,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS7(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_ghwparams8_s
+    struct bdk_usbdrdx_uahc_ghwparams8_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t dcache_depth_info     : 32; /**< [ 31:  0](RO) Dcache depth. */
@@ -2210,26 +3963,28 @@ typedef union
         uint32_t dcache_depth_info     : 32; /**< [ 31:  0](RO) Dcache depth. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_ghwparams8_s cn; */
-} bdk_usbhx_uahc_ghwparams8_t;
+    /* struct bdk_usbdrdx_uahc_ghwparams8_s cn; */
+} bdk_usbdrdx_uahc_ghwparams8_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS8(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS8(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS8(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS8(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c600ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS8", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c600ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GHWPARAMS8", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GHWPARAMS8(a) bdk_usbhx_uahc_ghwparams8_t
-#define bustype_BDK_USBHX_UAHC_GHWPARAMS8(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GHWPARAMS8(a) "USBHX_UAHC_GHWPARAMS8"
-#define device_bar_BDK_USBHX_UAHC_GHWPARAMS8(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GHWPARAMS8(a) (a)
-#define arguments_BDK_USBHX_UAHC_GHWPARAMS8(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GHWPARAMS8(a) bdk_usbdrdx_uahc_ghwparams8_t
+#define bustype_BDK_USBDRDX_UAHC_GHWPARAMS8(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GHWPARAMS8(a) "USBDRDX_UAHC_GHWPARAMS8"
+#define device_bar_BDK_USBDRDX_UAHC_GHWPARAMS8(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GHWPARAMS8(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GHWPARAMS8(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gpmsts
+ * Register (NCB32b) usbdrd#_uahc_gpmsts
  *
  * UAHC Global Power Management Status Register
  * This debug register gives information on which event caused the hibernation exit. These
@@ -2238,7 +3993,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS8(unsigned long a)
  * debugging purposes. These registers are not intended to be used by the customer. If any debug
  * assistance is needed for the silicon, contact Customer Support with a dump of these registers.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.1.
  * INTERNAL: Contact Synopsys directly.
@@ -2246,7 +4001,7 @@ static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS8(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gpmsts_s
+    struct bdk_usbdrdx_uahc_gpmsts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t portsel               : 4;  /**< [ 31: 28](WO) This field selects the port number. Always 0x0. */
@@ -2292,26 +4047,28 @@ typedef union
         uint32_t portsel               : 4;  /**< [ 31: 28](WO) This field selects the port number. Always 0x0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gpmsts_s cn; */
-} bdk_usbhx_uahc_gpmsts_t;
+    /* struct bdk_usbdrdx_uahc_gpmsts_s cn; */
+} bdk_usbdrdx_uahc_gpmsts_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GPMSTS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GPMSTS(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GPMSTS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GPMSTS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c114ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GPMSTS", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c114ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GPMSTS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GPMSTS(a) bdk_usbhx_uahc_gpmsts_t
-#define bustype_BDK_USBHX_UAHC_GPMSTS(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GPMSTS(a) "USBHX_UAHC_GPMSTS"
-#define device_bar_BDK_USBHX_UAHC_GPMSTS(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GPMSTS(a) (a)
-#define arguments_BDK_USBHX_UAHC_GPMSTS(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GPMSTS(a) bdk_usbdrdx_uahc_gpmsts_t
+#define bustype_BDK_USBDRDX_UAHC_GPMSTS(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GPMSTS(a) "USBDRDX_UAHC_GPMSTS"
+#define device_bar_BDK_USBDRDX_UAHC_GPMSTS(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GPMSTS(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GPMSTS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uahc_gprtbimap
+ * Register (NCB) usbdrd#_uahc_gprtbimap
  *
  * UAHC SuperSpeed Port-to-Bus Instance Mapping Register
  * This register specifies the SuperSpeed USB instance number to which each USB 3.0 port is
@@ -2320,14 +4077,14 @@ static inline uint64_t BDK_USBHX_UAHC_GPMSTS(unsigned long a)
  * SuperSpeed USB instances. The UAHC only implements one SuperSpeed bus-instance, so this
  * register should always be 0.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.2.1.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uahc_gprtbimap_s
+    struct bdk_usbdrdx_uahc_gprtbimap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -2337,26 +4094,28 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gprtbimap_s cn; */
-} bdk_usbhx_uahc_gprtbimap_t;
+    /* struct bdk_usbdrdx_uahc_gprtbimap_s cn; */
+} bdk_usbdrdx_uahc_gprtbimap_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c138ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GPRTBIMAP", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c138ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GPRTBIMAP", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GPRTBIMAP(a) bdk_usbhx_uahc_gprtbimap_t
-#define bustype_BDK_USBHX_UAHC_GPRTBIMAP(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_GPRTBIMAP(a) "USBHX_UAHC_GPRTBIMAP"
-#define device_bar_BDK_USBHX_UAHC_GPRTBIMAP(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GPRTBIMAP(a) (a)
-#define arguments_BDK_USBHX_UAHC_GPRTBIMAP(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GPRTBIMAP(a) bdk_usbdrdx_uahc_gprtbimap_t
+#define bustype_BDK_USBDRDX_UAHC_GPRTBIMAP(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UAHC_GPRTBIMAP(a) "USBDRDX_UAHC_GPRTBIMAP"
+#define device_bar_BDK_USBDRDX_UAHC_GPRTBIMAP(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GPRTBIMAP(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GPRTBIMAP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uahc_gprtbimap_fs
+ * Register (NCB) usbdrd#_uahc_gprtbimap_fs
  *
  * UAHC Full/LowSpeed Port-to-Bus Instance Mapping Register
  * This register specifies the full-speed/low-speed USB instance number to which each USB 1.1
@@ -2365,14 +4124,14 @@ static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP(unsigned long a)
  * connected to full-speed/low-speed USB instances. The UAHC only implements one full-speed/
  * low-speed bus-instance, so this register should always be 0x0.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.3.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uahc_gprtbimap_fs_s
+    struct bdk_usbdrdx_uahc_gprtbimap_fs_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -2382,26 +4141,28 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gprtbimap_fs_s cn; */
-} bdk_usbhx_uahc_gprtbimap_fs_t;
+    /* struct bdk_usbdrdx_uahc_gprtbimap_fs_s cn; */
+} bdk_usbdrdx_uahc_gprtbimap_fs_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP_FS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP_FS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c188ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GPRTBIMAP_FS", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c188ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GPRTBIMAP_FS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) bdk_usbhx_uahc_gprtbimap_fs_t
-#define bustype_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) "USBHX_UAHC_GPRTBIMAP_FS"
-#define device_bar_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) (a)
-#define arguments_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GPRTBIMAP_FS(a) bdk_usbdrdx_uahc_gprtbimap_fs_t
+#define bustype_BDK_USBDRDX_UAHC_GPRTBIMAP_FS(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UAHC_GPRTBIMAP_FS(a) "USBDRDX_UAHC_GPRTBIMAP_FS"
+#define device_bar_BDK_USBDRDX_UAHC_GPRTBIMAP_FS(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GPRTBIMAP_FS(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GPRTBIMAP_FS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uahc_gprtbimap_hs
+ * Register (NCB) usbdrd#_uahc_gprtbimap_hs
  *
  * UAHC High-Speed Port-to-Bus Instance Mapping Register
  * This register specifies the high-speed USB instance number to which each USB 2.0 port is
@@ -2410,14 +4171,14 @@ static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long a)
  * high-speed USB instances. The UAHC only implements one high-speed bus-instance, so this
  * register should always be 0.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uahc_gprtbimap_hs_s
+    struct bdk_usbdrdx_uahc_gprtbimap_hs_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -2427,26 +4188,28 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gprtbimap_hs_s cn; */
-} bdk_usbhx_uahc_gprtbimap_hs_t;
+    /* struct bdk_usbdrdx_uahc_gprtbimap_hs_s cn; */
+} bdk_usbdrdx_uahc_gprtbimap_hs_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP_HS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP_HS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c180ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GPRTBIMAP_HS", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c180ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GPRTBIMAP_HS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) bdk_usbhx_uahc_gprtbimap_hs_t
-#define bustype_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) "USBHX_UAHC_GPRTBIMAP_HS"
-#define device_bar_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a)
-#define arguments_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GPRTBIMAP_HS(a) bdk_usbdrdx_uahc_gprtbimap_hs_t
+#define bustype_BDK_USBDRDX_UAHC_GPRTBIMAP_HS(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UAHC_GPRTBIMAP_HS(a) "USBDRDX_UAHC_GPRTBIMAP_HS"
+#define device_bar_BDK_USBDRDX_UAHC_GPRTBIMAP_HS(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GPRTBIMAP_HS(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GPRTBIMAP_HS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_grlsid
+ * Register (NCB32b) usbdrd#_uahc_grlsid
  *
  * UAHC Release ID Register
  * This is a read-only register that contains the release number of the core.
@@ -2456,7 +4219,7 @@ static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_grlsid_s
+    struct bdk_usbdrdx_uahc_grlsid_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t releaseid             : 32; /**< [ 31:  0](RO) Software can use this register to configure release-specific features in the driver.
@@ -2472,26 +4235,28 @@ typedef union
                                                                   * SynopsysID[15:0] indicates the release number. Current Release is 2.50a. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_grlsid_s cn; */
-} bdk_usbhx_uahc_grlsid_t;
+    /* struct bdk_usbdrdx_uahc_grlsid_s cn; */
+} bdk_usbdrdx_uahc_grlsid_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GRLSID(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GRLSID(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GRLSID(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GRLSID(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c120ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GRLSID", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c120ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GRLSID", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GRLSID(a) bdk_usbhx_uahc_grlsid_t
-#define bustype_BDK_USBHX_UAHC_GRLSID(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GRLSID(a) "USBHX_UAHC_GRLSID"
-#define device_bar_BDK_USBHX_UAHC_GRLSID(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GRLSID(a) (a)
-#define arguments_BDK_USBHX_UAHC_GRLSID(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GRLSID(a) bdk_usbdrdx_uahc_grlsid_t
+#define bustype_BDK_USBDRDX_UAHC_GRLSID(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GRLSID(a) "USBDRDX_UAHC_GRLSID"
+#define device_bar_BDK_USBDRDX_UAHC_GRLSID(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GRLSID(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GRLSID(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_grxfifoprihst
+ * Register (NCB32b) usbdrd#_uahc_grxfifoprihst
  *
  * UAHC RX FIFOs DMA Priority Register
  * This register specifies the relative DMA priority level among the host RXFIFOs (one per USB
@@ -2508,21 +4273,21 @@ static inline uint64_t BDK_USBHX_UAHC_GRLSID(unsigned long a)
  *
  * The RX DMA arbiter prioritizes the SuperSpeed group or high-speed/full-speed/low-speed group
  * according to the ratio programmed in
- * USBH()_UAHC_GDMAHLRATIO.
+ * USBDRD()_UAHC_GDMAHLRATIO.
  *
  * For scatter-gather packets, the arbiter grants successive DMA requests to the same FIFO until
  * the entire packet is completed. The register size corresponds to the number of configured USB
  * bus instances; for example, in the default configuration, there are 3 USB bus instances (1
  * SuperSpeed, 1 high-speed, and 1 full-speed/low-speed).
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.3.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_grxfifoprihst_s
+    struct bdk_usbdrdx_uahc_grxfifoprihst_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
@@ -2532,26 +4297,28 @@ typedef union
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_grxfifoprihst_s cn; */
-} bdk_usbhx_uahc_grxfifoprihst_t;
+    /* struct bdk_usbdrdx_uahc_grxfifoprihst_s cn; */
+} bdk_usbdrdx_uahc_grxfifoprihst_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GRXFIFOPRIHST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GRXFIFOPRIHST(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c61cll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GRXFIFOPRIHST", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c61cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GRXFIFOPRIHST", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) bdk_usbhx_uahc_grxfifoprihst_t
-#define bustype_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) "USBHX_UAHC_GRXFIFOPRIHST"
-#define device_bar_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) (a)
-#define arguments_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GRXFIFOPRIHST(a) bdk_usbdrdx_uahc_grxfifoprihst_t
+#define bustype_BDK_USBDRDX_UAHC_GRXFIFOPRIHST(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GRXFIFOPRIHST(a) "USBDRDX_UAHC_GRXFIFOPRIHST"
+#define device_bar_BDK_USBDRDX_UAHC_GRXFIFOPRIHST(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GRXFIFOPRIHST(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GRXFIFOPRIHST(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_grxfifosiz#
+ * Register (NCB32b) usbdrd#_uahc_grxfifosiz#
  *
  * UAHC RX FIFO Size Register
  * The application can program the internal RAM start address/depth of the each RxFIFO as shown
@@ -2560,7 +4327,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long a)
  *
  * Reset values = 0:{0x0000_0084} 1:{0x0084_0104} 2:{0x0188_0180}.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.2.
  * INTERNAL: For more information, see the BMU section in Block Descriptions on Synopsys Databook
@@ -2569,7 +4336,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_grxfifosizx_s
+    struct bdk_usbdrdx_uahc_grxfifosizx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rxfstaddr             : 16; /**< [ 31: 16](R/W) RxFIFOn RAM start address. This field contains the memory start address for RxFIFOn. The
@@ -2589,26 +4356,28 @@ typedef union
                                                                  reset value is derived from configuration parameters. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_grxfifosizx_s cn; */
-} bdk_usbhx_uahc_grxfifosizx_t;
+    /* struct bdk_usbdrdx_uahc_grxfifosizx_s cn; */
+} bdk_usbdrdx_uahc_grxfifosizx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
         return 0x86800000c380ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
-    __bdk_csr_fatal("USBHX_UAHC_GRXFIFOSIZX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=2)))
+        return 0x86800000c380ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
+    __bdk_csr_fatal("USBDRDX_UAHC_GRXFIFOSIZX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) bdk_usbhx_uahc_grxfifosizx_t
-#define bustype_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) "USBHX_UAHC_GRXFIFOSIZX"
-#define device_bar_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GRXFIFOSIZX(a,b) bdk_usbdrdx_uahc_grxfifosizx_t
+#define bustype_BDK_USBDRDX_UAHC_GRXFIFOSIZX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GRXFIFOSIZX(a,b) "USBDRDX_UAHC_GRXFIFOSIZX"
+#define device_bar_BDK_USBDRDX_UAHC_GRXFIFOSIZX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GRXFIFOSIZX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_GRXFIFOSIZX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_grxthrcfg
+ * Register (NCB32b) usbdrd#_uahc_grxthrcfg
  *
  * UAHC RX Threshold Control Register
  * In a normal case, an RX burst starts as soon as 1-packet space is available. This works well
@@ -2629,14 +4398,14 @@ static inline uint64_t BDK_USBHX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned long
  * retry due to underrun. Setting threshold and burst size guarantees this.
  * A larger RX threshold affects the performance since the scheduler is idle during this time.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.4.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_grxthrcfg_s
+    struct bdk_usbdrdx_uahc_grxthrcfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
@@ -2646,7 +4415,11 @@ typedef union
                                                                  one packet.
                                                                  1 = the core can only start reception on the USB when the RX FIFO has space for at least
                                                                  USBRXPKTCNT amount of packets.
-                                                                 This mode is only used for SuperSpeed. */
+                                                                 This mode is only used for SuperSpeed.
+
+                                                                 In device mode, setting this bit to 1 also enables the functionality of reporting
+                                                                 NUMP in the ACK TP based on the RX FIFO space instead of reporting a fixed NUMP derived
+                                                                 from USBDRD()_UAHC_DCFG[NUMP]. */
         uint32_t reserved_28           : 1;
         uint32_t usbrxpktcnt           : 4;  /**< [ 27: 24](R/W) USB receive-packet count. In host-mode, specifies space (in number of packets) that must
                                                                  be available in the RX FIFO before the core can start the corresponding USB RX transaction
@@ -2684,11 +4457,15 @@ typedef union
                                                                  one packet.
                                                                  1 = the core can only start reception on the USB when the RX FIFO has space for at least
                                                                  USBRXPKTCNT amount of packets.
-                                                                 This mode is only used for SuperSpeed. */
+                                                                 This mode is only used for SuperSpeed.
+
+                                                                 In device mode, setting this bit to 1 also enables the functionality of reporting
+                                                                 NUMP in the ACK TP based on the RX FIFO space instead of reporting a fixed NUMP derived
+                                                                 from USBDRD()_UAHC_DCFG[NUMP]. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_usbhx_uahc_grxthrcfg_cn
+    struct bdk_usbdrdx_uahc_grxthrcfg_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
@@ -2698,7 +4475,11 @@ typedef union
                                                                  one packet.
                                                                  1 = the core can only start reception on the USB when the RX FIFO has space for at least
                                                                  USBRXPKTCNT amount of packets.
-                                                                 This mode is only used for SuperSpeed. */
+                                                                 This mode is only used for SuperSpeed.
+
+                                                                 In device mode, setting this bit to 1 also enables the functionality of reporting
+                                                                 NUMP in the ACK TP based on the RX FIFO space instead of reporting a fixed NUMP derived
+                                                                 from USBDRD()_UAHC_DCFG[NUMP]. */
         uint32_t reserved_28           : 1;
         uint32_t usbrxpktcnt           : 4;  /**< [ 27: 24](R/W) USB receive-packet count. In host-mode, specifies space (in number of packets) that must
                                                                  be available in the RX FIFO before the core can start the corresponding USB RX transaction
@@ -2742,29 +4523,35 @@ typedef union
                                                                  one packet.
                                                                  1 = the core can only start reception on the USB when the RX FIFO has space for at least
                                                                  USBRXPKTCNT amount of packets.
-                                                                 This mode is only used for SuperSpeed. */
+                                                                 This mode is only used for SuperSpeed.
+
+                                                                 In device mode, setting this bit to 1 also enables the functionality of reporting
+                                                                 NUMP in the ACK TP based on the RX FIFO space instead of reporting a fixed NUMP derived
+                                                                 from USBDRD()_UAHC_DCFG[NUMP]. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } cn;
-} bdk_usbhx_uahc_grxthrcfg_t;
+} bdk_usbdrdx_uahc_grxthrcfg_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GRXTHRCFG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GRXTHRCFG(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GRXTHRCFG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GRXTHRCFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c10cll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GRXTHRCFG", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c10cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GRXTHRCFG", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GRXTHRCFG(a) bdk_usbhx_uahc_grxthrcfg_t
-#define bustype_BDK_USBHX_UAHC_GRXTHRCFG(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GRXTHRCFG(a) "USBHX_UAHC_GRXTHRCFG"
-#define device_bar_BDK_USBHX_UAHC_GRXTHRCFG(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GRXTHRCFG(a) (a)
-#define arguments_BDK_USBHX_UAHC_GRXTHRCFG(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GRXTHRCFG(a) bdk_usbdrdx_uahc_grxthrcfg_t
+#define bustype_BDK_USBDRDX_UAHC_GRXTHRCFG(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GRXTHRCFG(a) "USBDRDX_UAHC_GRXTHRCFG"
+#define device_bar_BDK_USBDRDX_UAHC_GRXTHRCFG(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GRXTHRCFG(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GRXTHRCFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gsbuscfg0
+ * Register (NCB32b) usbdrd#_uahc_gsbuscfg0
  *
  * UAHC Bus Configuration Register 0
  * This register can be used to configure the core after power-on or a change in mode of
@@ -2773,7 +4560,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRXTHRCFG(unsigned long a)
  * before starting any transactions on AXI. When INCRBRSTENA is enabled, it has the highest
  * priority over other burst lengths. The core always performs the largest burst when enabled.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: The AXI cache signals are not connected in Cavium's hookup, so the *REQINFO fields
  * can be ignored.
@@ -2782,7 +4569,7 @@ static inline uint64_t BDK_USBHX_UAHC_GRXTHRCFG(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gsbuscfg0_s
+    struct bdk_usbdrdx_uahc_gsbuscfg0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t datrdreqinfo          : 4;  /**< [ 31: 28](R/W) AXI-cache for data-read operations. Always set to 0x0. */
@@ -2791,11 +4578,11 @@ typedef union
         uint32_t deswrreqinfo          : 4;  /**< [ 19: 16](R/W) AXI-cache for descriptor-write operations. Always set to 0x0. */
         uint32_t reserved_12_15        : 4;
         uint32_t datbigend             : 1;  /**< [ 11: 11](R/W) Data access is big-endian. Keep this set to 0 (little-endian) and use the
-                                                                 USBH()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
+                                                                 USBDRD()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
 
                                                                  For diagnostic use only, drivers should be written assuming little-endian. */
         uint32_t descbigend            : 1;  /**< [ 10: 10](R/W) Descriptor access is big-endian. Keep this set to 0 (little-endian) and use the
-                                                                 USBH()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
+                                                                 USBDRD()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
 
                                                                  For diagnostic use only, drivers should be written assuming little-endian. */
         uint32_t reserved_8_9          : 2;
@@ -2834,11 +4621,11 @@ typedef union
         uint32_t incr256brstena        : 1;  /**< [  7:  7](R/W) INCR256 burst-type enable. Always set to 0. */
         uint32_t reserved_8_9          : 2;
         uint32_t descbigend            : 1;  /**< [ 10: 10](R/W) Descriptor access is big-endian. Keep this set to 0 (little-endian) and use the
-                                                                 USBH()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
+                                                                 USBDRD()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
 
                                                                  For diagnostic use only, drivers should be written assuming little-endian. */
         uint32_t datbigend             : 1;  /**< [ 11: 11](R/W) Data access is big-endian. Keep this set to 0 (little-endian) and use the
-                                                                 USBH()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
+                                                                 USBDRD()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
 
                                                                  For diagnostic use only, drivers should be written assuming little-endian. */
         uint32_t reserved_12_15        : 4;
@@ -2848,26 +4635,28 @@ typedef union
         uint32_t datrdreqinfo          : 4;  /**< [ 31: 28](R/W) AXI-cache for data-read operations. Always set to 0x0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gsbuscfg0_s cn; */
-} bdk_usbhx_uahc_gsbuscfg0_t;
+    /* struct bdk_usbdrdx_uahc_gsbuscfg0_s cn; */
+} bdk_usbdrdx_uahc_gsbuscfg0_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG0(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GSBUSCFG0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GSBUSCFG0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c100ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GSBUSCFG0", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c100ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GSBUSCFG0", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GSBUSCFG0(a) bdk_usbhx_uahc_gsbuscfg0_t
-#define bustype_BDK_USBHX_UAHC_GSBUSCFG0(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GSBUSCFG0(a) "USBHX_UAHC_GSBUSCFG0"
-#define device_bar_BDK_USBHX_UAHC_GSBUSCFG0(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GSBUSCFG0(a) (a)
-#define arguments_BDK_USBHX_UAHC_GSBUSCFG0(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GSBUSCFG0(a) bdk_usbdrdx_uahc_gsbuscfg0_t
+#define bustype_BDK_USBDRDX_UAHC_GSBUSCFG0(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GSBUSCFG0(a) "USBDRDX_UAHC_GSBUSCFG0"
+#define device_bar_BDK_USBDRDX_UAHC_GSBUSCFG0(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GSBUSCFG0(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GSBUSCFG0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gsbuscfg1
+ * Register (NCB32b) usbdrd#_uahc_gsbuscfg1
  *
  * UAHC Bus Configuration Register 1
  * This register can be used to configure the core after power-on or a change in mode of
@@ -2875,14 +4664,14 @@ static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG0(unsigned long a)
  * change this register after the initial programming. The application must program this register
  * before starting any transactions on AXI.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.2.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gsbuscfg1_s
+    struct bdk_usbdrdx_uahc_gsbuscfg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_13_31        : 19;
@@ -2922,36 +4711,38 @@ typedef union
         uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gsbuscfg1_s cn; */
-} bdk_usbhx_uahc_gsbuscfg1_t;
+    /* struct bdk_usbdrdx_uahc_gsbuscfg1_s cn; */
+} bdk_usbdrdx_uahc_gsbuscfg1_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG1(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GSBUSCFG1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GSBUSCFG1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c104ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GSBUSCFG1", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c104ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GSBUSCFG1", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GSBUSCFG1(a) bdk_usbhx_uahc_gsbuscfg1_t
-#define bustype_BDK_USBHX_UAHC_GSBUSCFG1(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GSBUSCFG1(a) "USBHX_UAHC_GSBUSCFG1"
-#define device_bar_BDK_USBHX_UAHC_GSBUSCFG1(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GSBUSCFG1(a) (a)
-#define arguments_BDK_USBHX_UAHC_GSBUSCFG1(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GSBUSCFG1(a) bdk_usbdrdx_uahc_gsbuscfg1_t
+#define bustype_BDK_USBDRDX_UAHC_GSBUSCFG1(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GSBUSCFG1(a) "USBDRDX_UAHC_GSBUSCFG1"
+#define device_bar_BDK_USBDRDX_UAHC_GSBUSCFG1(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GSBUSCFG1(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GSBUSCFG1(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gsts
+ * Register (NCB32b) usbdrd#_uahc_gsts
  *
  * UAHC Core Status Register
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.6.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gsts_s
+    struct bdk_usbdrdx_uahc_gsts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t cbelt                 : 12; /**< [ 31: 20](RO/H) Current BELT value. In host mode, indicates the minimum value of all received device BELT
@@ -2959,23 +4750,23 @@ typedef union
         uint32_t reserved_8_19         : 12;
         uint32_t host_ip               : 1;  /**< [  7:  7](RO/H) Host interrupt pending. Indicates that there is a pending interrupt pertaining to xHC in
                                                                  the host-event queue. */
-        uint32_t reserved_6            : 1;
+        uint32_t device_ip             : 1;  /**< [  6:  6](RO/H) Device interrupt pending. Indicates that there is a pending interrupt pertaining to
+                                                                 peripheral (device) operation in the Device event queue. */
         uint32_t csrtimeout            : 1;  /**< [  5:  5](R/W1C/H) CSR timeout. When set to 1, indicates that software performed a write or read operation to
                                                                  a core register that could not be completed within 0xFFFF controller-clock cycles. */
-        uint32_t buserraddrvld         : 1;  /**< [  4:  4](R/W1C/H) Bus-error address valid. Indicates that USBH()_UAHC_GBUSERRADDR is valid and reports the
+        uint32_t buserraddrvld         : 1;  /**< [  4:  4](R/W1C/H) Bus-error address valid. Indicates that USBDRD()_UAHC_GBUSERRADDR is valid and reports the
                                                                  first bus address that encounters a bus error. */
         uint32_t reserved_2_3          : 2;
-        uint32_t curmod                : 2;  /**< [  1:  0](RO) Current mode of operation. Always 0x1. INTERNAL: May vary from 0x1 if you write
-                                                                 USBH()_UAHC_GCTL[PRTCAPDIR]!=0x1. */
+        uint32_t curmod                : 2;  /**< [  1:  0](RO/H) Current mode of operation. 0x0 for device, 0x1 for host. */
 #else /* Word 0 - Little Endian */
-        uint32_t curmod                : 2;  /**< [  1:  0](RO) Current mode of operation. Always 0x1. INTERNAL: May vary from 0x1 if you write
-                                                                 USBH()_UAHC_GCTL[PRTCAPDIR]!=0x1. */
+        uint32_t curmod                : 2;  /**< [  1:  0](RO/H) Current mode of operation. 0x0 for device, 0x1 for host. */
         uint32_t reserved_2_3          : 2;
-        uint32_t buserraddrvld         : 1;  /**< [  4:  4](R/W1C/H) Bus-error address valid. Indicates that USBH()_UAHC_GBUSERRADDR is valid and reports the
+        uint32_t buserraddrvld         : 1;  /**< [  4:  4](R/W1C/H) Bus-error address valid. Indicates that USBDRD()_UAHC_GBUSERRADDR is valid and reports the
                                                                  first bus address that encounters a bus error. */
         uint32_t csrtimeout            : 1;  /**< [  5:  5](R/W1C/H) CSR timeout. When set to 1, indicates that software performed a write or read operation to
                                                                  a core register that could not be completed within 0xFFFF controller-clock cycles. */
-        uint32_t reserved_6            : 1;
+        uint32_t device_ip             : 1;  /**< [  6:  6](RO/H) Device interrupt pending. Indicates that there is a pending interrupt pertaining to
+                                                                 peripheral (device) operation in the Device event queue. */
         uint32_t host_ip               : 1;  /**< [  7:  7](RO/H) Host interrupt pending. Indicates that there is a pending interrupt pertaining to xHC in
                                                                  the host-event queue. */
         uint32_t reserved_8_19         : 12;
@@ -2983,26 +4774,28 @@ typedef union
                                                                  values and the BELT value that is set by the set latency tolerance value command. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gsts_s cn; */
-} bdk_usbhx_uahc_gsts_t;
+    /* struct bdk_usbdrdx_uahc_gsts_s cn; */
+} bdk_usbdrdx_uahc_gsts_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GSTS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GSTS(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GSTS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GSTS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c118ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GSTS", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c118ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GSTS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GSTS(a) bdk_usbhx_uahc_gsts_t
-#define bustype_BDK_USBHX_UAHC_GSTS(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GSTS(a) "USBHX_UAHC_GSTS"
-#define device_bar_BDK_USBHX_UAHC_GSTS(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GSTS(a) (a)
-#define arguments_BDK_USBHX_UAHC_GSTS(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GSTS(a) bdk_usbdrdx_uahc_gsts_t
+#define bustype_BDK_USBDRDX_UAHC_GSTS(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GSTS(a) "USBDRDX_UAHC_GSTS"
+#define device_bar_BDK_USBDRDX_UAHC_GSTS(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GSTS(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GSTS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gtxfifoprihst
+ * Register (NCB32b) usbdrd#_uahc_gtxfifopridev
  *
  * UAHC TX FIFOs DMA Priority Register
  * This register specifies the relative DMA priority level among the host TXFIFOs (one per USB
@@ -3020,21 +4813,21 @@ static inline uint64_t BDK_USBHX_UAHC_GSTS(unsigned long a)
  *
  * The TX DMA arbiter prioritizes the SuperSpeed group or high-speed/full-speed/low-speed group
  * according to the ratio programmed in
- * USBH()_UAHC_GDMAHLRATIO.
+ * USBDRD()_UAHC_GDMAHLRATIO.
  *
  * For scatter-gather packets, the arbiter grants successive DMA requests to the same FIFO until
  * the entire packet is completed. The register size corresponds to the number of configured USB
  * bus instances; for example, in the default configuration, there are 3 USB bus instances (1
  * SuperSpeed, 1 high-speed, and 1 full-speed/low-speed).
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.2.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gtxfifoprihst_s
+    struct bdk_usbdrdx_uahc_gtxfifopridev_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
@@ -3046,26 +4839,94 @@ typedef union
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gtxfifoprihst_s cn; */
-} bdk_usbhx_uahc_gtxfifoprihst_t;
+    /* struct bdk_usbdrdx_uahc_gtxfifopridev_s cn; */
+} bdk_usbdrdx_uahc_gtxfifopridev_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOPRIDEV(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOPRIDEV(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
-        return 0x86800000c618ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GTXFIFOPRIHST", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86800000c610ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c610ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GTXFIFOPRIDEV", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) bdk_usbhx_uahc_gtxfifoprihst_t
-#define bustype_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) "USBHX_UAHC_GTXFIFOPRIHST"
-#define device_bar_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) (a)
-#define arguments_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GTXFIFOPRIDEV(a) bdk_usbdrdx_uahc_gtxfifopridev_t
+#define bustype_BDK_USBDRDX_UAHC_GTXFIFOPRIDEV(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GTXFIFOPRIDEV(a) "USBDRDX_UAHC_GTXFIFOPRIDEV"
+#define device_bar_BDK_USBDRDX_UAHC_GTXFIFOPRIDEV(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GTXFIFOPRIDEV(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GTXFIFOPRIDEV(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gtxfifosiz#
+ * Register (NCB32b) usbdrd#_uahc_gtxfifoprihst
+ *
+ * Global Host TX FIFO DMA Priority Register
+ * This register specifies the relative DMA priority level among the Host TXFIFOs (one per USB
+ * bus instance) within the associated speed group (SuperSpeed or HighSpeed/FullSpeed/LowSpeed).
+ * When multiple TXFIFOs compete for DMA service at a given time, the TXDMA arbiter grants access
+ * on a packet-basis in the following manner:
+ *
+ *   1. Among the FIFOs in the same speed group (SuperSpeed or HighSpeed/FullSpeed/LowSpeed):
+ *
+ * _   a. High-priority TXFIFOs are granted access using round-robin arbitration
+ *
+ * _   b. Low-priority TXFIFOs are granted access using round-robin arbitration only after the
+ *        high priority TXFIFOs have no further processing to do (i.e., either the TXQs are empty
+ *        or thecorresponding TXFIFOs are full).
+ *
+ *   2. The TX DMA arbiter prioritizes the SuperSpeed group or HighSpeed/FullSpeed/LowSpeed group
+ *      according to the ratio programmed in the USBDRD()_UAHC_GDMAHLRATIO register.
+ *
+ * For scatter-gather packets, the arbiter grants successive DMA requests to the same FIFO until
+ * the entire packet is completed.
+ * The register size corresponds to the number of configured USB bus instances; for example, in
+ * the default configuration, there are 3 USB bus instances (1 SuperSpeed, 1 HighSpeed, and 1
+ * FullSpeed/LowSpeed).
+ *
+ * This register can be reset by IOI reset or with USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET].
+ *
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.2.9.2.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbdrdx_uahc_gtxfifoprihst_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t tx_priority           : 3;  /**< [  2:  0](R/W) Each register bit n controls the priority (1: high, 0: low) of TX FIFO<n> within a speed
+                                                                 group. */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_priority           : 3;  /**< [  2:  0](R/W) Each register bit n controls the priority (1: high, 0: low) of TX FIFO<n> within a speed
+                                                                 group. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbdrdx_uahc_gtxfifoprihst_s cn; */
+} bdk_usbdrdx_uahc_gtxfifoprihst_t;
+
+static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOPRIHST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOPRIHST(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86800000c618ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c618ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GTXFIFOPRIHST", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBDRDX_UAHC_GTXFIFOPRIHST(a) bdk_usbdrdx_uahc_gtxfifoprihst_t
+#define bustype_BDK_USBDRDX_UAHC_GTXFIFOPRIHST(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GTXFIFOPRIHST(a) "USBDRDX_UAHC_GTXFIFOPRIHST"
+#define device_bar_BDK_USBDRDX_UAHC_GTXFIFOPRIHST(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GTXFIFOPRIHST(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GTXFIFOPRIHST(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) usbdrd#_uahc_gtxfifosiz#
  *
  * UAHC TX FIFO Size Registers
  * This register holds the internal RAM start address/depth of each TxFIFO implemented. Unless
@@ -3075,7 +4936,7 @@ static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long a)
  *
  * Reset values = 0:{0x0000_0082} 1:{0x0082_0103} 2:{0x0185_0205}.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.1.
  * INTERNAL: For more information, refer to the BMU section in Block Descriptions on Synopsys
@@ -3084,7 +4945,7 @@ static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gtxfifosizx_s
+    struct bdk_usbdrdx_uahc_gtxfifosizx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t txfstaddr             : 16; /**< [ 31: 16](R/W) Transmit FIFOn RAM start address. Contains the memory start address for TxFIFOn. The reset
@@ -3104,26 +4965,28 @@ typedef union
                                                                  is value derived from configuration parameters. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gtxfifosizx_s cn; */
-} bdk_usbhx_uahc_gtxfifosizx_t;
+    /* struct bdk_usbdrdx_uahc_gtxfifosizx_s cn; */
+} bdk_usbdrdx_uahc_gtxfifosizx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
         return 0x86800000c300ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
-    __bdk_csr_fatal("USBHX_UAHC_GTXFIFOSIZX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x86800000c300ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
+    __bdk_csr_fatal("USBDRDX_UAHC_GTXFIFOSIZX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) bdk_usbhx_uahc_gtxfifosizx_t
-#define bustype_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) "USBHX_UAHC_GTXFIFOSIZX"
-#define device_bar_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GTXFIFOSIZX(a,b) bdk_usbdrdx_uahc_gtxfifosizx_t
+#define bustype_BDK_USBDRDX_UAHC_GTXFIFOSIZX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GTXFIFOSIZX(a,b) "USBDRDX_UAHC_GTXFIFOSIZX"
+#define device_bar_BDK_USBDRDX_UAHC_GTXFIFOSIZX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GTXFIFOSIZX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_GTXFIFOSIZX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gtxthrcfg
+ * Register (NCB32b) usbdrd#_uahc_gtxthrcfg
  *
  * UAHC TX Threshold Control Register
  * In a normal case, a TX burst starts as soon as one packet is prefetched. This works well as
@@ -3141,14 +5004,14 @@ static inline uint64_t BDK_USBHX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned long
  * there is no functional issue.
  * * A larger threshold affects the performance, since the scheduler is idle during this time.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.3.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gtxthrcfg_s
+    struct bdk_usbdrdx_uahc_gtxthrcfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
@@ -3196,7 +5059,7 @@ typedef union
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_usbhx_uahc_gtxthrcfg_cn
+    struct bdk_usbdrdx_uahc_gtxthrcfg_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
@@ -3248,44 +5111,47 @@ typedef union
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } cn;
-} bdk_usbhx_uahc_gtxthrcfg_t;
+} bdk_usbdrdx_uahc_gtxthrcfg_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GTXTHRCFG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GTXTHRCFG(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GTXTHRCFG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GTXTHRCFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c108ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GTXTHRCFG", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c108ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GTXTHRCFG", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GTXTHRCFG(a) bdk_usbhx_uahc_gtxthrcfg_t
-#define bustype_BDK_USBHX_UAHC_GTXTHRCFG(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GTXTHRCFG(a) "USBHX_UAHC_GTXTHRCFG"
-#define device_bar_BDK_USBHX_UAHC_GTXTHRCFG(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GTXTHRCFG(a) (a)
-#define arguments_BDK_USBHX_UAHC_GTXTHRCFG(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GTXTHRCFG(a) bdk_usbdrdx_uahc_gtxthrcfg_t
+#define bustype_BDK_USBDRDX_UAHC_GTXTHRCFG(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GTXTHRCFG(a) "USBDRDX_UAHC_GTXTHRCFG"
+#define device_bar_BDK_USBDRDX_UAHC_GTXTHRCFG(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GTXTHRCFG(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GTXTHRCFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_guctl
+ * Register (NCB32b) usbdrd#_uahc_guctl
  *
  * UAHC Core User-Control Register
  * This register provides a few options for the software to control the core behavior in the host
  * mode. Most of the options are used to improve host inter-operability with different devices.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.11.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_guctl_s
+    struct bdk_usbdrdx_uahc_guctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t refclkper             : 10; /**< [ 31: 22](R/W) Reference-clock period. Indicates (in terms of ns) the period of REF_CLK. The default
                                                                  value is set to 0x8
                                                                  (8 ns/125 MHz). This field must be updated during power on initialization if
-                                                                 USBH()_UAHC_GCTL[SOFITPSYNC] = 1 or USBH()_UAHC_GFLADJ [GFLADJ_REFCLK_LPM_SEL] = 1. The
+                                                                 USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1 or USBDRD()_UAHC_GFLADJ [GFLADJ_REFCLK_LPM_SEL] = 1.
+                                                                 The
                                                                  programmable maximum value 62 ns, and the minimum value is 8 ns. You use a reference clock
                                                                  with a period that is a integer multiple, so that ITP can meet the jitter margin of 32 ns.
                                                                  The allowable REF_CLK frequencies whose period is not integer multiples are
@@ -3326,8 +5192,10 @@ typedef union
 
                                                                  The xHCI compliance requires this bit to be set to 1. The 0 mode is for debug purpose
                                                                  only. This allows you to easily identify a device connected to a port in the Lecroy or
-                                                                 Eliisys trace during hardware debug. */
-        uint32_t usbhstinautoretryen   : 1;  /**< [ 14: 14](R/W) Host IN auto-retry enable. When set, this field enables the auto-retry feature. For IN
+                                                                 Eliisys trace during hardware debug.
+
+                                                                 This bit is used in host mode only. */
+        uint32_t usbdrdstinautoretryen : 1;  /**< [ 14: 14](R/W) Host IN auto-retry enable. When set, this field enables the auto-retry feature. For IN
                                                                  transfers (non-isochronous) that encounter data packets with CRC errors or internal
                                                                  overrun scenarios, the auto-retry feature causes the host core to reply to the device with
                                                                  a non-terminating retry ACK (i.e. an ACK transaction packet with Retry = 1 and NumP != 0).
@@ -3341,9 +5209,11 @@ typedef union
                                                                  done to handle the case where the LFPS glitch causes the link to start exiting from the
                                                                  low power state. Looking for the LFPS overlap makes sure that the link partner also sees
                                                                  the LFPS. */
-        uint32_t extcapsupten          : 1;  /**< [ 12: 12](R/W) External extended capability support enable. If disabled, a read USBH()_UAHC_SUPTPRT3_DW0
+        uint32_t extcapsupten          : 1;  /**< [ 12: 12](R/W) External extended capability support enable. If disabled, a read
+                                                                 USBDRD()_UAHC_SUPTPRT3_DW0
                                                                  [NEXTCAPPTR] returns 0 in the next capability pointer field. This indicates there are no
-                                                                 more capabilities. If enabled, a read to USBH()_UAHC_SUPTPRT3_DW0[NEXTCAPPTR] returns 4 in
+                                                                 more capabilities. If enabled, a read to USBDRD()_UAHC_SUPTPRT3_DW0[NEXTCAPPTR] returns 4
+                                                                 in
                                                                  the
                                                                  next capability pointer field.
                                                                  Always set to 0x0. */
@@ -3412,9 +5282,11 @@ typedef union
                                                                  devices.
                                                                  1 = Host inserts about 12 us extra delay between consecutive bulk OUT transactions to an
                                                                  full-speed endpoint to work around the device issue. */
-        uint32_t extcapsupten          : 1;  /**< [ 12: 12](R/W) External extended capability support enable. If disabled, a read USBH()_UAHC_SUPTPRT3_DW0
+        uint32_t extcapsupten          : 1;  /**< [ 12: 12](R/W) External extended capability support enable. If disabled, a read
+                                                                 USBDRD()_UAHC_SUPTPRT3_DW0
                                                                  [NEXTCAPPTR] returns 0 in the next capability pointer field. This indicates there are no
-                                                                 more capabilities. If enabled, a read to USBH()_UAHC_SUPTPRT3_DW0[NEXTCAPPTR] returns 4 in
+                                                                 more capabilities. If enabled, a read to USBDRD()_UAHC_SUPTPRT3_DW0[NEXTCAPPTR] returns 4
+                                                                 in
                                                                  the
                                                                  next capability pointer field.
                                                                  Always set to 0x0. */
@@ -3426,7 +5298,7 @@ typedef union
                                                                  done to handle the case where the LFPS glitch causes the link to start exiting from the
                                                                  low power state. Looking for the LFPS overlap makes sure that the link partner also sees
                                                                  the LFPS. */
-        uint32_t usbhstinautoretryen   : 1;  /**< [ 14: 14](R/W) Host IN auto-retry enable. When set, this field enables the auto-retry feature. For IN
+        uint32_t usbdrdstinautoretryen : 1;  /**< [ 14: 14](R/W) Host IN auto-retry enable. When set, this field enables the auto-retry feature. For IN
                                                                  transfers (non-isochronous) that encounter data packets with CRC errors or internal
                                                                  overrun scenarios, the auto-retry feature causes the host core to reply to the device with
                                                                  a non-terminating retry ACK (i.e. an ACK transaction packet with Retry = 1 and NumP != 0).
@@ -3439,7 +5311,9 @@ typedef union
 
                                                                  The xHCI compliance requires this bit to be set to 1. The 0 mode is for debug purpose
                                                                  only. This allows you to easily identify a device connected to a port in the Lecroy or
-                                                                 Eliisys trace during hardware debug. */
+                                                                 Eliisys trace during hardware debug.
+
+                                                                 This bit is used in host mode only. */
         uint32_t resbwhseps            : 1;  /**< [ 16: 16](R/W) Reserving 85% bandwidth for high-speed periodic EPs. By default, host controller reserves
                                                                  80% of the bandwidth for periodic EPs. If this bit is set, the bandwidth is relaxed to 85%
                                                                  to accommodate two high-speed, high-bandwidth ISOC EPs.
@@ -3469,7 +5343,8 @@ typedef union
         uint32_t refclkper             : 10; /**< [ 31: 22](R/W) Reference-clock period. Indicates (in terms of ns) the period of REF_CLK. The default
                                                                  value is set to 0x8
                                                                  (8 ns/125 MHz). This field must be updated during power on initialization if
-                                                                 USBH()_UAHC_GCTL[SOFITPSYNC] = 1 or USBH()_UAHC_GFLADJ [GFLADJ_REFCLK_LPM_SEL] = 1. The
+                                                                 USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1 or USBDRD()_UAHC_GFLADJ [GFLADJ_REFCLK_LPM_SEL] = 1.
+                                                                 The
                                                                  programmable maximum value 62 ns, and the minimum value is 8 ns. You use a reference clock
                                                                  with a period that is a integer multiple, so that ITP can meet the jitter margin of 32 ns.
                                                                  The allowable REF_CLK frequencies whose period is not integer multiples are
@@ -3479,36 +5354,38 @@ typedef union
                                                                  then you need to set this field to 0x8, the default value. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_guctl_s cn; */
-} bdk_usbhx_uahc_guctl_t;
+    /* struct bdk_usbdrdx_uahc_guctl_s cn; */
+} bdk_usbdrdx_uahc_guctl_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GUCTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GUCTL(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GUCTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GUCTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c12cll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GUCTL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c12cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GUCTL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GUCTL(a) bdk_usbhx_uahc_guctl_t
-#define bustype_BDK_USBHX_UAHC_GUCTL(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GUCTL(a) "USBHX_UAHC_GUCTL"
-#define device_bar_BDK_USBHX_UAHC_GUCTL(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GUCTL(a) (a)
-#define arguments_BDK_USBHX_UAHC_GUCTL(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GUCTL(a) bdk_usbdrdx_uahc_guctl_t
+#define bustype_BDK_USBDRDX_UAHC_GUCTL(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GUCTL(a) "USBDRDX_UAHC_GUCTL"
+#define device_bar_BDK_USBDRDX_UAHC_GUCTL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GUCTL(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GUCTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_guctl1
+ * Register (NCB32b) usbdrd#_uahc_guctl1
  *
  * UAHC Global User Control Register 1
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.7.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_guctl1_s
+    struct bdk_usbdrdx_uahc_guctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_18_31        : 14;
@@ -3590,26 +5467,28 @@ typedef union
         uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_guctl1_s cn; */
-} bdk_usbhx_uahc_guctl1_t;
+    /* struct bdk_usbdrdx_uahc_guctl1_s cn; */
+} bdk_usbdrdx_uahc_guctl1_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GUCTL1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GUCTL1(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GUCTL1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GUCTL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c11cll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GUCTL1", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c11cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GUCTL1", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GUCTL1(a) bdk_usbhx_uahc_guctl1_t
-#define bustype_BDK_USBHX_UAHC_GUCTL1(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GUCTL1(a) "USBHX_UAHC_GUCTL1"
-#define device_bar_BDK_USBHX_UAHC_GUCTL1(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GUCTL1(a) (a)
-#define arguments_BDK_USBHX_UAHC_GUCTL1(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GUCTL1(a) bdk_usbdrdx_uahc_guctl1_t
+#define bustype_BDK_USBDRDX_UAHC_GUCTL1(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GUCTL1(a) "USBDRDX_UAHC_GUCTL1"
+#define device_bar_BDK_USBDRDX_UAHC_GUCTL1(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GUCTL1(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GUCTL1(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_guid
+ * Register (NCB32b) usbdrd#_uahc_guid
  *
  * UAHC Core User ID Register
  * This is a read/write register containing the User ID. The power-on value for this register is
@@ -3619,14 +5498,14 @@ static inline uint64_t BDK_USBHX_UAHC_GUCTL1(unsigned long a)
  * * To store hardware configurations that are outside of the core.
  * * As a scratch register.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.10.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_guid_s
+    struct bdk_usbdrdx_uahc_guid_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t userid                : 32; /**< [ 31:  0](R/W) User ID. Application-programmable ID field. */
@@ -3634,38 +5513,40 @@ typedef union
         uint32_t userid                : 32; /**< [ 31:  0](R/W) User ID. Application-programmable ID field. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_guid_s cn; */
-} bdk_usbhx_uahc_guid_t;
+    /* struct bdk_usbdrdx_uahc_guid_s cn; */
+} bdk_usbdrdx_uahc_guid_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GUID(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GUID(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_GUID(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GUID(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000c128ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GUID", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000c128ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_GUID", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GUID(a) bdk_usbhx_uahc_guid_t
-#define bustype_BDK_USBHX_UAHC_GUID(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GUID(a) "USBHX_UAHC_GUID"
-#define device_bar_BDK_USBHX_UAHC_GUID(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GUID(a) (a)
-#define arguments_BDK_USBHX_UAHC_GUID(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GUID(a) bdk_usbdrdx_uahc_guid_t
+#define bustype_BDK_USBDRDX_UAHC_GUID(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GUID(a) "USBDRDX_UAHC_GUID"
+#define device_bar_BDK_USBDRDX_UAHC_GUID(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GUID(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_GUID(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gusb2i2cctl#
+ * Register (NCB32b) usbdrd#_uahc_gusb2i2cctl#
  *
  * UAHC USB2 I2C Control Register
  * This register is reserved for future use.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.2.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gusb2i2cctlx_s
+    struct bdk_usbdrdx_uahc_gusb2i2cctlx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_0_31         : 32;
@@ -3673,26 +5554,28 @@ typedef union
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gusb2i2cctlx_s cn; */
-} bdk_usbhx_uahc_gusb2i2cctlx_t;
+    /* struct bdk_usbdrdx_uahc_gusb2i2cctlx_s cn; */
+} bdk_usbdrdx_uahc_gusb2i2cctlx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x86800000c240ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UAHC_GUSB2I2CCTLX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x86800000c240ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_GUSB2I2CCTLX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) bdk_usbhx_uahc_gusb2i2cctlx_t
-#define bustype_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) "USBHX_UAHC_GUSB2I2CCTLX"
-#define device_bar_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GUSB2I2CCTLX(a,b) bdk_usbdrdx_uahc_gusb2i2cctlx_t
+#define bustype_BDK_USBDRDX_UAHC_GUSB2I2CCTLX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GUSB2I2CCTLX(a,b) "USBDRDX_UAHC_GUSB2I2CCTLX"
+#define device_bar_BDK_USBDRDX_UAHC_GUSB2I2CCTLX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GUSB2I2CCTLX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_GUSB2I2CCTLX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gusb2phycfg#
+ * Register (NCB32b) usbdrd#_uahc_gusb2phycfg#
  *
  * UAHC USB2 PHY-Configuration Register
  * This register is used to configure the core after power-on. It contains USB 2.0 and USB 2.0
@@ -3702,14 +5585,14 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned lon
  *
  * Do not make changes to this register after the initial programming.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.1.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gusb2phycfgx_s
+    struct bdk_usbdrdx_uahc_gusb2phycfgx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) PHY soft reset. Causes the usb2phy_reset signal to be asserted to reset a UTMI PHY. */
@@ -3722,7 +5605,8 @@ typedef union
                                                                  1 = USB 2.0 free clock exists.
 
                                                                  This field must be set to zero if you enable ITP generation based on the REF_CLK
-                                                                 counter, USBH()_UAHC_GCTL[SOFITPSYNC] = 1, or USBH()_UAHC_GFLADJ [GFLADJ_REFCLK_LPM_SEL] =
+                                                                 counter, USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1, or USBDRD()_UAHC_GFLADJ
+                                                                 [GFLADJ_REFCLK_LPM_SEL] =
                                                                  1. */
         uint32_t ulpi_lpm_with_opmode_chk : 1;/**< [ 29: 29](R/W) Support the LPM over ULPI without NOPID token to the ULPI PHY. Always 0x0. */
         uint32_t hsic_con_width_adj    : 2;  /**< [ 28: 27](RO) This bit is used in the HSIC device mode of operation. Always 0x0 */
@@ -3739,7 +5623,13 @@ typedef union
                                                                  USB turnaround time is a critical certification criteria when using long cables and five
                                                                  hub levels.
                                                                  When the MAC interface is 8-bit UTMI+/ULPI, the required values for this field is 0x9. */
-        uint32_t reserved_9            : 1;
+        uint32_t xcvrdly               : 1;  /**< [  9:  9](R/W) Transceiver delay.
+                                                                 Enables a delay between the assertion of the UTMI Transceiver Select signal (for
+                                                                 HighSpeed) and the assertion of the TxValid signal during a HighSpeed Chirp.
+                                                                 When this bit is set to 1, a delay of approximately 2.5us is introduced from
+                                                                 the time when the Transceiver Select is set to 0x0, to the time when the TxValid
+                                                                 is driven to 0 for sending the chirp-K. This delay is required for some UTMI PHYs.
+                                                                 This bit is only valid in device mode. */
         uint32_t enblslpm              : 1;  /**< [  8:  8](R/W) Enable utmi_sleep_n and utmi_l1_suspend_n. The application uses this field to control
                                                                  utmi_sleep_n and utmi_l1_suspend_n assertion to the PHY in the L1 state.
                                                                  0 = utmi_sleep_n and utmi_l1_suspend_n assertion from the core is not transferred to the
@@ -3819,7 +5709,13 @@ typedef union
                                                                  external PHY.
 
                                                                  When hardware LPM is enabled, this bit should be set high for Port0. */
-        uint32_t reserved_9            : 1;
+        uint32_t xcvrdly               : 1;  /**< [  9:  9](R/W) Transceiver delay.
+                                                                 Enables a delay between the assertion of the UTMI Transceiver Select signal (for
+                                                                 HighSpeed) and the assertion of the TxValid signal during a HighSpeed Chirp.
+                                                                 When this bit is set to 1, a delay of approximately 2.5us is introduced from
+                                                                 the time when the Transceiver Select is set to 0x0, to the time when the TxValid
+                                                                 is driven to 0 for sending the chirp-K. This delay is required for some UTMI PHYs.
+                                                                 This bit is only valid in device mode. */
         uint32_t usbtrdtim             : 4;  /**< [ 13: 10](R/W) USB 2.0 turnaround time. Sets the turnaround time in PHY clock cycles. Specifies the
                                                                  response time for a MAC request to the packet FIFO controller (PFC) to fetch data from the
                                                                  DFIFO (SPRAM).
@@ -3844,12 +5740,13 @@ typedef union
                                                                  1 = USB 2.0 free clock exists.
 
                                                                  This field must be set to zero if you enable ITP generation based on the REF_CLK
-                                                                 counter, USBH()_UAHC_GCTL[SOFITPSYNC] = 1, or USBH()_UAHC_GFLADJ [GFLADJ_REFCLK_LPM_SEL] =
+                                                                 counter, USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1, or USBDRD()_UAHC_GFLADJ
+                                                                 [GFLADJ_REFCLK_LPM_SEL] =
                                                                  1. */
         uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) PHY soft reset. Causes the usb2phy_reset signal to be asserted to reset a UTMI PHY. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_usbhx_uahc_gusb2phycfgx_cn
+    struct bdk_usbdrdx_uahc_gusb2phycfgx_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) PHY soft reset. Causes the usb2phy_reset signal to be asserted to reset a UTMI PHY. */
@@ -3862,7 +5759,8 @@ typedef union
                                                                  1 = USB 2.0 free clock exists.
 
                                                                  This field must be set to zero if you enable ITP generation based on the REF_CLK
-                                                                 counter, USBH()_UAHC_GCTL[SOFITPSYNC] = 1, or USBH()_UAHC_GFLADJ [GFLADJ_REFCLK_LPM_SEL] =
+                                                                 counter, USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1, or USBDRD()_UAHC_GFLADJ
+                                                                 [GFLADJ_REFCLK_LPM_SEL] =
                                                                  1. */
         uint32_t ulpi_lpm_with_opmode_chk : 1;/**< [ 29: 29](R/W) Support the LPM over ULPI without NOPID token to the ULPI PHY. Always 0x0. */
         uint32_t hsic_con_width_adj    : 2;  /**< [ 28: 27](RO) This bit is used in the HSIC device mode of operation. Always 0x0 */
@@ -3880,7 +5778,13 @@ typedef union
                                                                  USB turnaround time is a critical certification criteria when using long cables and five
                                                                  hub levels.
                                                                  When the MAC interface is 8-bit UTMI+/ULPI, the required values for this field is 0x9. */
-        uint32_t reserved_9            : 1;
+        uint32_t xcvrdly               : 1;  /**< [  9:  9](R/W) Transceiver delay.
+                                                                 Enables a delay between the assertion of the UTMI Transceiver Select signal (for
+                                                                 HighSpeed) and the assertion of the TxValid signal during a HighSpeed Chirp.
+                                                                 When this bit is set to 1, a delay of approximately 2.5us is introduced from
+                                                                 the time when the Transceiver Select is set to 0x0, to the time when the TxValid
+                                                                 is driven to 0 for sending the chirp-K. This delay is required for some UTMI PHYs.
+                                                                 This bit is only valid in device mode. */
         uint32_t enblslpm              : 1;  /**< [  8:  8](R/W) Enable utmi_sleep_n and utmi_l1_suspend_n. The application uses this field to control
                                                                  utmi_sleep_n and utmi_l1_suspend_n assertion to the PHY in the L1 state.
                                                                  0 = utmi_sleep_n and utmi_l1_suspend_n assertion from the core is not transferred to the
@@ -3960,7 +5864,13 @@ typedef union
                                                                  external PHY.
 
                                                                  When hardware LPM is enabled, this bit should be set high for Port0. */
-        uint32_t reserved_9            : 1;
+        uint32_t xcvrdly               : 1;  /**< [  9:  9](R/W) Transceiver delay.
+                                                                 Enables a delay between the assertion of the UTMI Transceiver Select signal (for
+                                                                 HighSpeed) and the assertion of the TxValid signal during a HighSpeed Chirp.
+                                                                 When this bit is set to 1, a delay of approximately 2.5us is introduced from
+                                                                 the time when the Transceiver Select is set to 0x0, to the time when the TxValid
+                                                                 is driven to 0 for sending the chirp-K. This delay is required for some UTMI PHYs.
+                                                                 This bit is only valid in device mode. */
         uint32_t usbtrdtim             : 4;  /**< [ 13: 10](R/W) USB 2.0 turnaround time. Sets the turnaround time in PHY clock cycles. Specifies the
                                                                  response time for a MAC request to the packet FIFO controller (PFC) to fetch data from the
                                                                  DFIFO (SPRAM).
@@ -3986,30 +5896,33 @@ typedef union
                                                                  1 = USB 2.0 free clock exists.
 
                                                                  This field must be set to zero if you enable ITP generation based on the REF_CLK
-                                                                 counter, USBH()_UAHC_GCTL[SOFITPSYNC] = 1, or USBH()_UAHC_GFLADJ [GFLADJ_REFCLK_LPM_SEL] =
+                                                                 counter, USBDRD()_UAHC_GCTL[SOFITPSYNC] = 1, or USBDRD()_UAHC_GFLADJ
+                                                                 [GFLADJ_REFCLK_LPM_SEL] =
                                                                  1. */
         uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) PHY soft reset. Causes the usb2phy_reset signal to be asserted to reset a UTMI PHY. */
 #endif /* Word 0 - End */
     } cn;
-} bdk_usbhx_uahc_gusb2phycfgx_t;
+} bdk_usbdrdx_uahc_gusb2phycfgx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x86800000c200ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UAHC_GUSB2PHYCFGX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x86800000c200ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_GUSB2PHYCFGX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) bdk_usbhx_uahc_gusb2phycfgx_t
-#define bustype_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) "USBHX_UAHC_GUSB2PHYCFGX"
-#define device_bar_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GUSB2PHYCFGX(a,b) bdk_usbdrdx_uahc_gusb2phycfgx_t
+#define bustype_BDK_USBDRDX_UAHC_GUSB2PHYCFGX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GUSB2PHYCFGX(a,b) "USBDRDX_UAHC_GUSB2PHYCFGX"
+#define device_bar_BDK_USBDRDX_UAHC_GUSB2PHYCFGX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GUSB2PHYCFGX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_GUSB2PHYCFGX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_gusb3pipectl#
+ * Register (NCB32b) usbdrd#_uahc_gusb3pipectl#
  *
  * UAHC USB3 Pipe-Control Register
  * This register is used to configure the core after power-on. It contains USB 3.0 and USB 3.0
@@ -4019,14 +5932,14 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned lon
  *
  * Do not make changes to this register after the initial programming.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.4.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_gusb3pipectlx_s
+    struct bdk_usbdrdx_uahc_gusb3pipectlx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) USB3 PHY soft reset (PHYSoftRst). When set to 1, initiates a PHY soft reset. After setting
@@ -4041,15 +5954,15 @@ typedef union
 
                                                                  The sequence for using this functionality is as follows:
                                                                  * Disconnect any plugged-in devices.
-                                                                 * Set USBH()_UAHC_USBCMD[HCRST] = 1 or power-on-chip reset.
-                                                                 * Set USBH()_UAHC_PORTSC()[PP] = 0.
+                                                                 * Set USBDRD()_UAHC_USBCMD[HCRST] = 1 or power-on-chip reset.
+                                                                 * Set USBDRD()_UAHC_PORTSC()[PP] = 0.
                                                                  * Set HSTPRTCMPL = 1. This places the link into compliance state.
 
                                                                  To advance the compliance pattern, follow this sequence (toggle HSTPRTCMPL):
                                                                  * Set HSTPRTCMPL = 0.
                                                                  * Set HSTPRTCMPL = 1. This advances the link to the next compliance pattern.
 
-                                                                 To exit from the compliance state, set USBH()_UAHC_USBCMD[HCRST] = 1 or power-on-chip
+                                                                 To exit from the compliance state, set USBDRD()_UAHC_USBCMD[HCRST] = 1 or power-on-chip
                                                                  reset. */
         uint32_t u2ssinactp3ok         : 1;  /**< [ 29: 29](R/W) P3 OK for U2/SS.Inactive:
                                                                  0 = During link state U2/SS.Inactive, put PHY in P2 (default).
@@ -4286,40 +6199,42 @@ typedef union
 
                                                                  The sequence for using this functionality is as follows:
                                                                  * Disconnect any plugged-in devices.
-                                                                 * Set USBH()_UAHC_USBCMD[HCRST] = 1 or power-on-chip reset.
-                                                                 * Set USBH()_UAHC_PORTSC()[PP] = 0.
+                                                                 * Set USBDRD()_UAHC_USBCMD[HCRST] = 1 or power-on-chip reset.
+                                                                 * Set USBDRD()_UAHC_PORTSC()[PP] = 0.
                                                                  * Set HSTPRTCMPL = 1. This places the link into compliance state.
 
                                                                  To advance the compliance pattern, follow this sequence (toggle HSTPRTCMPL):
                                                                  * Set HSTPRTCMPL = 0.
                                                                  * Set HSTPRTCMPL = 1. This advances the link to the next compliance pattern.
 
-                                                                 To exit from the compliance state, set USBH()_UAHC_USBCMD[HCRST] = 1 or power-on-chip
+                                                                 To exit from the compliance state, set USBDRD()_UAHC_USBCMD[HCRST] = 1 or power-on-chip
                                                                  reset. */
         uint32_t physoftrst            : 1;  /**< [ 31: 31](R/W) USB3 PHY soft reset (PHYSoftRst). When set to 1, initiates a PHY soft reset. After setting
                                                                  this bit to 1, the software needs to clear this bit. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_gusb3pipectlx_s cn; */
-} bdk_usbhx_uahc_gusb3pipectlx_t;
+    /* struct bdk_usbdrdx_uahc_gusb3pipectlx_s cn; */
+} bdk_usbdrdx_uahc_gusb3pipectlx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x86800000c2c0ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UAHC_GUSB3PIPECTLX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x86800000c2c0ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_GUSB3PIPECTLX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) bdk_usbhx_uahc_gusb3pipectlx_t
-#define bustype_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) "USBHX_UAHC_GUSB3PIPECTLX"
-#define device_bar_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_GUSB3PIPECTLX(a,b) bdk_usbdrdx_uahc_gusb3pipectlx_t
+#define bustype_BDK_USBDRDX_UAHC_GUSB3PIPECTLX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_GUSB3PIPECTLX(a,b) "USBDRDX_UAHC_GUSB3PIPECTLX"
+#define device_bar_BDK_USBDRDX_UAHC_GUSB3PIPECTLX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_GUSB3PIPECTLX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_GUSB3PIPECTLX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_hccparams
+ * Register (NCB32b) usbdrd#_uahc_hccparams
  *
  * XHCI Controller Capability Parameters Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.6.
@@ -4327,7 +6242,7 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned lo
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_hccparams_s
+    struct bdk_usbdrdx_uahc_hccparams_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t xecp                  : 16; /**< [ 31: 16](RO) xHCI extended capabilities pointer. */
@@ -4340,7 +6255,7 @@ typedef union
         uint32_t ltc                   : 1;  /**< [  6:  6](RO) Latency tolerance messaging capability. */
         uint32_t lhrc                  : 1;  /**< [  5:  5](RO) Light HC reset capability. */
         uint32_t pind                  : 1;  /**< [  4:  4](RO) Port indicators. */
-        uint32_t ppc                   : 1;  /**< [  3:  3](RO) Port power control. Value is based on USBH()_UCTL_HOST_CFG[PPC_EN]. */
+        uint32_t ppc                   : 1;  /**< [  3:  3](RO) Port power control. Value is based on USBDRD()_UCTL_HOST_CFG[PPC_EN]. */
         uint32_t csz                   : 1;  /**< [  2:  2](RO) Context size. */
         uint32_t bnc                   : 1;  /**< [  1:  1](RO) BW negotiation capability. */
         uint32_t ac64                  : 1;  /**< [  0:  0](RO) 64-bit addressing capability. */
@@ -4348,7 +6263,7 @@ typedef union
         uint32_t ac64                  : 1;  /**< [  0:  0](RO) 64-bit addressing capability. */
         uint32_t bnc                   : 1;  /**< [  1:  1](RO) BW negotiation capability. */
         uint32_t csz                   : 1;  /**< [  2:  2](RO) Context size. */
-        uint32_t ppc                   : 1;  /**< [  3:  3](RO) Port power control. Value is based on USBH()_UCTL_HOST_CFG[PPC_EN]. */
+        uint32_t ppc                   : 1;  /**< [  3:  3](RO) Port power control. Value is based on USBDRD()_UCTL_HOST_CFG[PPC_EN]. */
         uint32_t pind                  : 1;  /**< [  4:  4](RO) Port indicators. */
         uint32_t lhrc                  : 1;  /**< [  5:  5](RO) Light HC reset capability. */
         uint32_t ltc                   : 1;  /**< [  6:  6](RO) Latency tolerance messaging capability. */
@@ -4361,26 +6276,28 @@ typedef union
         uint32_t xecp                  : 16; /**< [ 31: 16](RO) xHCI extended capabilities pointer. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_hccparams_s cn; */
-} bdk_usbhx_uahc_hccparams_t;
+    /* struct bdk_usbdrdx_uahc_hccparams_s cn; */
+} bdk_usbdrdx_uahc_hccparams_t;
 
-static inline uint64_t BDK_USBHX_UAHC_HCCPARAMS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_HCCPARAMS(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_HCCPARAMS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_HCCPARAMS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000010ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_HCCPARAMS", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000010ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_HCCPARAMS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_HCCPARAMS(a) bdk_usbhx_uahc_hccparams_t
-#define bustype_BDK_USBHX_UAHC_HCCPARAMS(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_HCCPARAMS(a) "USBHX_UAHC_HCCPARAMS"
-#define device_bar_BDK_USBHX_UAHC_HCCPARAMS(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_HCCPARAMS(a) (a)
-#define arguments_BDK_USBHX_UAHC_HCCPARAMS(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_HCCPARAMS(a) bdk_usbdrdx_uahc_hccparams_t
+#define bustype_BDK_USBDRDX_UAHC_HCCPARAMS(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_HCCPARAMS(a) "USBDRDX_UAHC_HCCPARAMS"
+#define device_bar_BDK_USBDRDX_UAHC_HCCPARAMS(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_HCCPARAMS(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_HCCPARAMS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_hcsparams1
+ * Register (NCB32b) usbdrd#_uahc_hcsparams1
  *
  * XHCI Controller Structural Parameters Register 1
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.3.
@@ -4388,7 +6305,7 @@ static inline uint64_t BDK_USBHX_UAHC_HCCPARAMS(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_hcsparams1_s
+    struct bdk_usbdrdx_uahc_hcsparams1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t maxports              : 8;  /**< [ 31: 24](RO) Maximum number of ports. */
@@ -4402,26 +6319,28 @@ typedef union
         uint32_t maxports              : 8;  /**< [ 31: 24](RO) Maximum number of ports. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_hcsparams1_s cn; */
-} bdk_usbhx_uahc_hcsparams1_t;
+    /* struct bdk_usbdrdx_uahc_hcsparams1_s cn; */
+} bdk_usbdrdx_uahc_hcsparams1_t;
 
-static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS1(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_HCSPARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_HCSPARAMS1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000004ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_HCSPARAMS1", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000004ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_HCSPARAMS1", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_HCSPARAMS1(a) bdk_usbhx_uahc_hcsparams1_t
-#define bustype_BDK_USBHX_UAHC_HCSPARAMS1(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_HCSPARAMS1(a) "USBHX_UAHC_HCSPARAMS1"
-#define device_bar_BDK_USBHX_UAHC_HCSPARAMS1(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_HCSPARAMS1(a) (a)
-#define arguments_BDK_USBHX_UAHC_HCSPARAMS1(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_HCSPARAMS1(a) bdk_usbdrdx_uahc_hcsparams1_t
+#define bustype_BDK_USBDRDX_UAHC_HCSPARAMS1(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_HCSPARAMS1(a) "USBDRDX_UAHC_HCSPARAMS1"
+#define device_bar_BDK_USBDRDX_UAHC_HCSPARAMS1(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_HCSPARAMS1(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_HCSPARAMS1(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_hcsparams2
+ * Register (NCB32b) usbdrd#_uahc_hcsparams2
  *
  * XHCI Controller Structural Parameters Register 2
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.4.
@@ -4429,7 +6348,7 @@ static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS1(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_hcsparams2_s
+    struct bdk_usbdrdx_uahc_hcsparams2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t maxscratchpadbufs_l   : 5;  /**< [ 31: 27](RO) Maximum number of scratchpad buffers[4:0]. */
@@ -4447,26 +6366,28 @@ typedef union
         uint32_t maxscratchpadbufs_l   : 5;  /**< [ 31: 27](RO) Maximum number of scratchpad buffers[4:0]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_hcsparams2_s cn; */
-} bdk_usbhx_uahc_hcsparams2_t;
+    /* struct bdk_usbdrdx_uahc_hcsparams2_s cn; */
+} bdk_usbdrdx_uahc_hcsparams2_t;
 
-static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS2(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_HCSPARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_HCSPARAMS2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000008ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_HCSPARAMS2", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000008ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_HCSPARAMS2", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_HCSPARAMS2(a) bdk_usbhx_uahc_hcsparams2_t
-#define bustype_BDK_USBHX_UAHC_HCSPARAMS2(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_HCSPARAMS2(a) "USBHX_UAHC_HCSPARAMS2"
-#define device_bar_BDK_USBHX_UAHC_HCSPARAMS2(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_HCSPARAMS2(a) (a)
-#define arguments_BDK_USBHX_UAHC_HCSPARAMS2(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_HCSPARAMS2(a) bdk_usbdrdx_uahc_hcsparams2_t
+#define bustype_BDK_USBDRDX_UAHC_HCSPARAMS2(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_HCSPARAMS2(a) "USBDRDX_UAHC_HCSPARAMS2"
+#define device_bar_BDK_USBDRDX_UAHC_HCSPARAMS2(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_HCSPARAMS2(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_HCSPARAMS2(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_hcsparams3
+ * Register (NCB32b) usbdrd#_uahc_hcsparams3
  *
  * XHCI Controller Structural Parameters Register 3
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.5.
@@ -4474,7 +6395,7 @@ static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS2(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_hcsparams3_s
+    struct bdk_usbdrdx_uahc_hcsparams3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t u2_device_exit_latency : 16;/**< [ 31: 16](RO) U2 device exit latency. */
@@ -4486,39 +6407,41 @@ typedef union
         uint32_t u2_device_exit_latency : 16;/**< [ 31: 16](RO) U2 device exit latency. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_hcsparams3_s cn; */
-} bdk_usbhx_uahc_hcsparams3_t;
+    /* struct bdk_usbdrdx_uahc_hcsparams3_s cn; */
+} bdk_usbdrdx_uahc_hcsparams3_t;
 
-static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS3(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS3(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_HCSPARAMS3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_HCSPARAMS3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000000cll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_HCSPARAMS3", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000000cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_HCSPARAMS3", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_HCSPARAMS3(a) bdk_usbhx_uahc_hcsparams3_t
-#define bustype_BDK_USBHX_UAHC_HCSPARAMS3(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_HCSPARAMS3(a) "USBHX_UAHC_HCSPARAMS3"
-#define device_bar_BDK_USBHX_UAHC_HCSPARAMS3(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_HCSPARAMS3(a) (a)
-#define arguments_BDK_USBHX_UAHC_HCSPARAMS3(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_HCSPARAMS3(a) bdk_usbdrdx_uahc_hcsparams3_t
+#define bustype_BDK_USBDRDX_UAHC_HCSPARAMS3(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_HCSPARAMS3(a) "USBDRDX_UAHC_HCSPARAMS3"
+#define device_bar_BDK_USBDRDX_UAHC_HCSPARAMS3(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_HCSPARAMS3(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_HCSPARAMS3(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_iman#
+ * Register (NCB32b) usbdrd#_uahc_iman#
  *
  * XHCI Interrupt Management Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.5.2.1.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_imanx_s
+    struct bdk_usbdrdx_uahc_imanx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_2_31         : 30;
@@ -4530,39 +6453,41 @@ typedef union
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_imanx_s cn; */
-} bdk_usbhx_uahc_imanx_t;
+    /* struct bdk_usbdrdx_uahc_imanx_s cn; */
+} bdk_usbdrdx_uahc_imanx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_IMANX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_IMANX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_IMANX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_IMANX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000000460ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UAHC_IMANX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x868000000460ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_IMANX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_IMANX(a,b) bdk_usbhx_uahc_imanx_t
-#define bustype_BDK_USBHX_UAHC_IMANX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_IMANX(a,b) "USBHX_UAHC_IMANX"
-#define device_bar_BDK_USBHX_UAHC_IMANX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_IMANX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_IMANX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_IMANX(a,b) bdk_usbdrdx_uahc_imanx_t
+#define bustype_BDK_USBDRDX_UAHC_IMANX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_IMANX(a,b) "USBDRDX_UAHC_IMANX"
+#define device_bar_BDK_USBDRDX_UAHC_IMANX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_IMANX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_IMANX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_imod#
+ * Register (NCB32b) usbdrd#_uahc_imod#
  *
  * XHCI Interrupt Moderation Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.5.2.2.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_imodx_s
+    struct bdk_usbdrdx_uahc_imodx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t imodc                 : 16; /**< [ 31: 16](R/W) Interrupt moderation counter. */
@@ -4572,39 +6497,41 @@ typedef union
         uint32_t imodc                 : 16; /**< [ 31: 16](R/W) Interrupt moderation counter. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_imodx_s cn; */
-} bdk_usbhx_uahc_imodx_t;
+    /* struct bdk_usbdrdx_uahc_imodx_s cn; */
+} bdk_usbdrdx_uahc_imodx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_IMODX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_IMODX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_IMODX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_IMODX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000000464ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UAHC_IMODX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x868000000464ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_IMODX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_IMODX(a,b) bdk_usbhx_uahc_imodx_t
-#define bustype_BDK_USBHX_UAHC_IMODX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_IMODX(a,b) "USBHX_UAHC_IMODX"
-#define device_bar_BDK_USBHX_UAHC_IMODX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_IMODX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_IMODX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_IMODX(a,b) bdk_usbdrdx_uahc_imodx_t
+#define bustype_BDK_USBDRDX_UAHC_IMODX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_IMODX(a,b) "USBDRDX_UAHC_IMODX"
+#define device_bar_BDK_USBDRDX_UAHC_IMODX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_IMODX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_IMODX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_mfindex
+ * Register (NCB32b) usbdrd#_uahc_mfindex
  *
  * XHCI Microframe Index Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.5.1.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_mfindex_s
+    struct bdk_usbdrdx_uahc_mfindex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_14_31        : 18;
@@ -4614,26 +6541,28 @@ typedef union
         uint32_t reserved_14_31        : 18;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_mfindex_s cn; */
-} bdk_usbhx_uahc_mfindex_t;
+    /* struct bdk_usbdrdx_uahc_mfindex_s cn; */
+} bdk_usbdrdx_uahc_mfindex_t;
 
-static inline uint64_t BDK_USBHX_UAHC_MFINDEX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_MFINDEX(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_MFINDEX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_MFINDEX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000440ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_MFINDEX", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000440ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_MFINDEX", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_MFINDEX(a) bdk_usbhx_uahc_mfindex_t
-#define bustype_BDK_USBHX_UAHC_MFINDEX(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_MFINDEX(a) "USBHX_UAHC_MFINDEX"
-#define device_bar_BDK_USBHX_UAHC_MFINDEX(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_MFINDEX(a) (a)
-#define arguments_BDK_USBHX_UAHC_MFINDEX(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_MFINDEX(a) bdk_usbdrdx_uahc_mfindex_t
+#define bustype_BDK_USBDRDX_UAHC_MFINDEX(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_MFINDEX(a) "USBDRDX_UAHC_MFINDEX"
+#define device_bar_BDK_USBDRDX_UAHC_MFINDEX(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_MFINDEX(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_MFINDEX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_pagesize
+ * Register (NCB32b) usbdrd#_uahc_pagesize
  *
  * XHCI Page-Size Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.3.
@@ -4641,7 +6570,7 @@ static inline uint64_t BDK_USBHX_UAHC_MFINDEX(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_pagesize_s
+    struct bdk_usbdrdx_uahc_pagesize_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -4651,45 +6580,47 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_pagesize_s cn; */
-} bdk_usbhx_uahc_pagesize_t;
+    /* struct bdk_usbdrdx_uahc_pagesize_s cn; */
+} bdk_usbdrdx_uahc_pagesize_t;
 
-static inline uint64_t BDK_USBHX_UAHC_PAGESIZE(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_PAGESIZE(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_PAGESIZE(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_PAGESIZE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000028ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_PAGESIZE", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000028ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_PAGESIZE", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_PAGESIZE(a) bdk_usbhx_uahc_pagesize_t
-#define bustype_BDK_USBHX_UAHC_PAGESIZE(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_PAGESIZE(a) "USBHX_UAHC_PAGESIZE"
-#define device_bar_BDK_USBHX_UAHC_PAGESIZE(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_PAGESIZE(a) (a)
-#define arguments_BDK_USBHX_UAHC_PAGESIZE(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_PAGESIZE(a) bdk_usbdrdx_uahc_pagesize_t
+#define bustype_BDK_USBDRDX_UAHC_PAGESIZE(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_PAGESIZE(a) "USBDRDX_UAHC_PAGESIZE"
+#define device_bar_BDK_USBDRDX_UAHC_PAGESIZE(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_PAGESIZE(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_PAGESIZE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_porthlpmc_20#
+ * Register (NCB32b) usbdrd#_uahc_porthlpmc_20#
  *
  * XHCI Port Hardware LPM Control (High-Speed) Register
  * For information on this register, refer to the xHCI Specification, v1.1, section 5.4.11.2.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_porthlpmc_20x_s
+    struct bdk_usbdrdx_uahc_porthlpmc_20x_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_14_31        : 18;
         uint32_t hirdd                 : 4;  /**< [ 13: 10](R/W) See section 5.4.11.2 of the XHCI Spec 1.1.
-                                                                 If USBH()_UAHC_SUPTPRT2_DW2[BLC] = 0, then HIRD timing is applied to this field.
-                                                                 If USBH()_UAHC_SUPTPRT2_DW2[BLC] = 1, then BESL timing is applied to this field. */
+                                                                 If USBDRD()_UAHC_SUPTPRT2_DW2[BLC] = 0, then HIRD timing is applied to this field.
+                                                                 If USBDRD()_UAHC_SUPTPRT2_DW2[BLC] = 1, then BESL timing is applied to this field. */
         uint32_t l1_timeout            : 8;  /**< [  9:  2](R/W) Timeout value for the L1 inactivity timer (LPM Timer). This field is set to 0x0 by the
                                                                  assertion of PR to 1. Refer to section 4.23.5.1.1.1 (in XHCI spec 1.1) for more
                                                                  information on L1 Timeout operation.
@@ -4714,45 +6645,47 @@ typedef union
                                                                  _ ...
                                                                  0xFF =  65280 us. */
         uint32_t hirdd                 : 4;  /**< [ 13: 10](R/W) See section 5.4.11.2 of the XHCI Spec 1.1.
-                                                                 If USBH()_UAHC_SUPTPRT2_DW2[BLC] = 0, then HIRD timing is applied to this field.
-                                                                 If USBH()_UAHC_SUPTPRT2_DW2[BLC] = 1, then BESL timing is applied to this field. */
+                                                                 If USBDRD()_UAHC_SUPTPRT2_DW2[BLC] = 0, then HIRD timing is applied to this field.
+                                                                 If USBDRD()_UAHC_SUPTPRT2_DW2[BLC] = 1, then BESL timing is applied to this field. */
         uint32_t reserved_14_31        : 18;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_porthlpmc_20x_s cn; */
-} bdk_usbhx_uahc_porthlpmc_20x_t;
+    /* struct bdk_usbdrdx_uahc_porthlpmc_20x_s cn; */
+} bdk_usbdrdx_uahc_porthlpmc_20x_t;
 
-static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_20X(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_PORTHLPMC_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_PORTHLPMC_20X(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UAHC_PORTHLPMC_20X", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_PORTHLPMC_20X", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) bdk_usbhx_uahc_porthlpmc_20x_t
-#define bustype_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) "USBHX_UAHC_PORTHLPMC_20X"
-#define device_bar_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_PORTHLPMC_20X(a,b) bdk_usbdrdx_uahc_porthlpmc_20x_t
+#define bustype_BDK_USBDRDX_UAHC_PORTHLPMC_20X(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_PORTHLPMC_20X(a,b) "USBDRDX_UAHC_PORTHLPMC_20X"
+#define device_bar_BDK_USBDRDX_UAHC_PORTHLPMC_20X(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_PORTHLPMC_20X(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_PORTHLPMC_20X(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_porthlpmc_ss#
+ * Register (NCB32b) usbdrd#_uahc_porthlpmc_ss#
  *
  * XHCI Port Hardware LPM Control (SuperSpeed) Register
  * The USB3 Port Hardware LPM Control register is reserved and shall be treated as RsvdP by
  * software. See xHCI specification v1.1 section 5.4.11.1.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_porthlpmc_ssx_s
+    struct bdk_usbdrdx_uahc_porthlpmc_ssx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_0_31         : 32;
@@ -4760,26 +6693,28 @@ typedef union
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_porthlpmc_ssx_s cn; */
-} bdk_usbhx_uahc_porthlpmc_ssx_t;
+    /* struct bdk_usbdrdx_uahc_porthlpmc_ssx_s cn; */
+} bdk_usbdrdx_uahc_porthlpmc_ssx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==1)))
         return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_PORTHLPMC_SSX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==1)))
+        return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_PORTHLPMC_SSX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) bdk_usbhx_uahc_porthlpmc_ssx_t
-#define bustype_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) "USBHX_UAHC_PORTHLPMC_SSX"
-#define device_bar_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_PORTHLPMC_SSX(a,b) bdk_usbdrdx_uahc_porthlpmc_ssx_t
+#define bustype_BDK_USBDRDX_UAHC_PORTHLPMC_SSX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_PORTHLPMC_SSX(a,b) "USBDRDX_UAHC_PORTHLPMC_SSX"
+#define device_bar_BDK_USBDRDX_UAHC_PORTHLPMC_SSX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_PORTHLPMC_SSX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_PORTHLPMC_SSX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_portli_20#
+ * Register (NCB32b) usbdrd#_uahc_portli_20#
  *
  * XHCI Port Link (High-Speed) Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.10.
@@ -4787,7 +6722,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned lo
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_portli_20x_s
+    struct bdk_usbdrdx_uahc_portli_20x_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_0_31         : 32;
@@ -4795,26 +6730,28 @@ typedef union
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_portli_20x_s cn; */
-} bdk_usbhx_uahc_portli_20x_t;
+    /* struct bdk_usbdrdx_uahc_portli_20x_s cn; */
+} bdk_usbdrdx_uahc_portli_20x_t;
 
-static inline uint64_t BDK_USBHX_UAHC_PORTLI_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_PORTLI_20X(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_PORTLI_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_PORTLI_20X(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UAHC_PORTLI_20X", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_PORTLI_20X", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_PORTLI_20X(a,b) bdk_usbhx_uahc_portli_20x_t
-#define bustype_BDK_USBHX_UAHC_PORTLI_20X(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_PORTLI_20X(a,b) "USBHX_UAHC_PORTLI_20X"
-#define device_bar_BDK_USBHX_UAHC_PORTLI_20X(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_PORTLI_20X(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_PORTLI_20X(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_PORTLI_20X(a,b) bdk_usbdrdx_uahc_portli_20x_t
+#define bustype_BDK_USBDRDX_UAHC_PORTLI_20X(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_PORTLI_20X(a,b) "USBDRDX_UAHC_PORTLI_20X"
+#define device_bar_BDK_USBDRDX_UAHC_PORTLI_20X(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_PORTLI_20X(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_PORTLI_20X(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_portli_ss#
+ * Register (NCB32b) usbdrd#_uahc_portli_ss#
  *
  * XHCI Port Link (SuperSpeed) Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.10.
@@ -4822,7 +6759,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTLI_20X(unsigned long a, unsigned long 
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_portli_ssx_s
+    struct bdk_usbdrdx_uahc_portli_ssx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
@@ -4832,39 +6769,41 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_portli_ssx_s cn; */
-} bdk_usbhx_uahc_portli_ssx_t;
+    /* struct bdk_usbdrdx_uahc_portli_ssx_s cn; */
+} bdk_usbdrdx_uahc_portli_ssx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_PORTLI_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_PORTLI_SSX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_PORTLI_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_PORTLI_SSX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==1)))
         return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_PORTLI_SSX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==1)))
+        return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_PORTLI_SSX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_PORTLI_SSX(a,b) bdk_usbhx_uahc_portli_ssx_t
-#define bustype_BDK_USBHX_UAHC_PORTLI_SSX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_PORTLI_SSX(a,b) "USBHX_UAHC_PORTLI_SSX"
-#define device_bar_BDK_USBHX_UAHC_PORTLI_SSX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_PORTLI_SSX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_PORTLI_SSX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_PORTLI_SSX(a,b) bdk_usbdrdx_uahc_portli_ssx_t
+#define bustype_BDK_USBDRDX_UAHC_PORTLI_SSX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_PORTLI_SSX(a,b) "USBDRDX_UAHC_PORTLI_SSX"
+#define device_bar_BDK_USBDRDX_UAHC_PORTLI_SSX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_PORTLI_SSX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_PORTLI_SSX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_portpmsc_20#
+ * Register (NCB32b) usbdrd#_uahc_portpmsc_20#
  *
  * XHCI Port Power Management Status/Control (High-Speed) Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.9.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_portpmsc_20x_s
+    struct bdk_usbdrdx_uahc_portpmsc_20x_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t port_test_control     : 4;  /**< [ 31: 28](R/W) Port test control. */
@@ -4884,39 +6823,41 @@ typedef union
         uint32_t port_test_control     : 4;  /**< [ 31: 28](R/W) Port test control. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_portpmsc_20x_s cn; */
-} bdk_usbhx_uahc_portpmsc_20x_t;
+    /* struct bdk_usbdrdx_uahc_portpmsc_20x_s cn; */
+} bdk_usbdrdx_uahc_portpmsc_20x_t;
 
-static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_20X(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_PORTPMSC_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_PORTPMSC_20X(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UAHC_PORTPMSC_20X", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UAHC_PORTPMSC_20X", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) bdk_usbhx_uahc_portpmsc_20x_t
-#define bustype_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) "USBHX_UAHC_PORTPMSC_20X"
-#define device_bar_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_PORTPMSC_20X(a,b) bdk_usbdrdx_uahc_portpmsc_20x_t
+#define bustype_BDK_USBDRDX_UAHC_PORTPMSC_20X(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_PORTPMSC_20X(a,b) "USBDRDX_UAHC_PORTPMSC_20X"
+#define device_bar_BDK_USBDRDX_UAHC_PORTPMSC_20X(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_PORTPMSC_20X(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_PORTPMSC_20X(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_portpmsc_ss#
+ * Register (NCB32b) usbdrd#_uahc_portpmsc_ss#
  *
  * XHCI Port Power Management Status/Control (SuperSpeed) Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.9.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_portpmsc_ssx_s
+    struct bdk_usbdrdx_uahc_portpmsc_ssx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_17_31        : 15;
@@ -4930,40 +6871,42 @@ typedef union
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_portpmsc_ssx_s cn; */
-} bdk_usbhx_uahc_portpmsc_ssx_t;
+    /* struct bdk_usbdrdx_uahc_portpmsc_ssx_s cn; */
+} bdk_usbdrdx_uahc_portpmsc_ssx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_SSX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_PORTPMSC_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_PORTPMSC_SSX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==1)))
         return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_PORTPMSC_SSX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==1)))
+        return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_PORTPMSC_SSX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) bdk_usbhx_uahc_portpmsc_ssx_t
-#define bustype_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) "USBHX_UAHC_PORTPMSC_SSX"
-#define device_bar_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_PORTPMSC_SSX(a,b) bdk_usbdrdx_uahc_portpmsc_ssx_t
+#define bustype_BDK_USBDRDX_UAHC_PORTPMSC_SSX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_PORTPMSC_SSX(a,b) "USBDRDX_UAHC_PORTPMSC_SSX"
+#define device_bar_BDK_USBDRDX_UAHC_PORTPMSC_SSX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_PORTPMSC_SSX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_PORTPMSC_SSX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_portsc#
+ * Register (NCB32b) usbdrd#_uahc_portsc#
  *
  * XHCI Port Status and Control Registers
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.8. Port 1
  * is USB3.0 SuperSpeed link, Port 0 is USB2.0 high-speed/full-speed/low-speed link.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_portscx_s
+    struct bdk_usbdrdx_uahc_portscx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t wpr                   : 1;  /**< [ 31: 31](WO) Warm port reset. */
@@ -5017,26 +6960,28 @@ typedef union
         uint32_t wpr                   : 1;  /**< [ 31: 31](WO) Warm port reset. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_portscx_s cn; */
-} bdk_usbhx_uahc_portscx_t;
+    /* struct bdk_usbdrdx_uahc_portscx_s cn; */
+} bdk_usbdrdx_uahc_portscx_t;
 
-static inline uint64_t BDK_USBHX_UAHC_PORTSCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_PORTSCX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UAHC_PORTSCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_PORTSCX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
         return 0x868000000420ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_PORTSCX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
+        return 0x868000000420ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_PORTSCX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_PORTSCX(a,b) bdk_usbhx_uahc_portscx_t
-#define bustype_BDK_USBHX_UAHC_PORTSCX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_PORTSCX(a,b) "USBHX_UAHC_PORTSCX"
-#define device_bar_BDK_USBHX_UAHC_PORTSCX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_PORTSCX(a,b) (a)
-#define arguments_BDK_USBHX_UAHC_PORTSCX(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UAHC_PORTSCX(a,b) bdk_usbdrdx_uahc_portscx_t
+#define bustype_BDK_USBDRDX_UAHC_PORTSCX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_PORTSCX(a,b) "USBDRDX_UAHC_PORTSCX"
+#define device_bar_BDK_USBDRDX_UAHC_PORTSCX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_PORTSCX(a,b) (a)
+#define arguments_BDK_USBDRDX_UAHC_PORTSCX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_rtsoff
+ * Register (NCB32b) usbdrd#_uahc_rtsoff
  *
  * XHCI Runtime Register-Space Offset Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.3.8.
@@ -5044,7 +6989,7 @@ static inline uint64_t BDK_USBHX_UAHC_PORTSCX(unsigned long a, unsigned long b)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_rtsoff_s
+    struct bdk_usbdrdx_uahc_rtsoff_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rtsoff                : 27; /**< [ 31:  5](RO) Runtime register-space offset. */
@@ -5054,26 +6999,28 @@ typedef union
         uint32_t rtsoff                : 27; /**< [ 31:  5](RO) Runtime register-space offset. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_rtsoff_s cn; */
-} bdk_usbhx_uahc_rtsoff_t;
+    /* struct bdk_usbdrdx_uahc_rtsoff_s cn; */
+} bdk_usbdrdx_uahc_rtsoff_t;
 
-static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_RTSOFF(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_RTSOFF(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000018ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_RTSOFF", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000018ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_RTSOFF", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_RTSOFF(a) bdk_usbhx_uahc_rtsoff_t
-#define bustype_BDK_USBHX_UAHC_RTSOFF(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_RTSOFF(a) "USBHX_UAHC_RTSOFF"
-#define device_bar_BDK_USBHX_UAHC_RTSOFF(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_RTSOFF(a) (a)
-#define arguments_BDK_USBHX_UAHC_RTSOFF(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_RTSOFF(a) bdk_usbdrdx_uahc_rtsoff_t
+#define bustype_BDK_USBDRDX_UAHC_RTSOFF(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_RTSOFF(a) "USBDRDX_UAHC_RTSOFF"
+#define device_bar_BDK_USBDRDX_UAHC_RTSOFF(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_RTSOFF(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_RTSOFF(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_suptprt2_dw0
+ * Register (NCB32b) usbdrd#_uahc_suptprt2_dw0
  *
  * XHCI Supported-Protocol-Capability (USB 2.0) Register 0
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
@@ -5081,7 +7028,7 @@ static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_suptprt2_dw0_s
+    struct bdk_usbdrdx_uahc_suptprt2_dw0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t majorrev              : 8;  /**< [ 31: 24](RO) Major revision. */
@@ -5095,26 +7042,28 @@ typedef union
         uint32_t majorrev              : 8;  /**< [ 31: 24](RO) Major revision. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_suptprt2_dw0_s cn; */
-} bdk_usbhx_uahc_suptprt2_dw0_t;
+    /* struct bdk_usbdrdx_uahc_suptprt2_dw0_s cn; */
+} bdk_usbdrdx_uahc_suptprt2_dw0_t;
 
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW0(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000890ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT2_DW0", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000890ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT2_DW0", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) bdk_usbhx_uahc_suptprt2_dw0_t
-#define bustype_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) "USBHX_UAHC_SUPTPRT2_DW0"
-#define device_bar_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) (a)
-#define arguments_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_SUPTPRT2_DW0(a) bdk_usbdrdx_uahc_suptprt2_dw0_t
+#define bustype_BDK_USBDRDX_UAHC_SUPTPRT2_DW0(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_SUPTPRT2_DW0(a) "USBDRDX_UAHC_SUPTPRT2_DW0"
+#define device_bar_BDK_USBDRDX_UAHC_SUPTPRT2_DW0(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_SUPTPRT2_DW0(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_SUPTPRT2_DW0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_suptprt2_dw1
+ * Register (NCB32b) usbdrd#_uahc_suptprt2_dw1
  *
  * XHCI Supported-Protocol-Capability (USB 2.0) Register 1
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
@@ -5122,7 +7071,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW0(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_suptprt2_dw1_s
+    struct bdk_usbdrdx_uahc_suptprt2_dw1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t name                  : 32; /**< [ 31:  0](RO) Name string: 'USB'. */
@@ -5130,26 +7079,28 @@ typedef union
         uint32_t name                  : 32; /**< [ 31:  0](RO) Name string: 'USB'. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_suptprt2_dw1_s cn; */
-} bdk_usbhx_uahc_suptprt2_dw1_t;
+    /* struct bdk_usbdrdx_uahc_suptprt2_dw1_s cn; */
+} bdk_usbdrdx_uahc_suptprt2_dw1_t;
 
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW1(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000894ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT2_DW1", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000894ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT2_DW1", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) bdk_usbhx_uahc_suptprt2_dw1_t
-#define bustype_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) "USBHX_UAHC_SUPTPRT2_DW1"
-#define device_bar_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) (a)
-#define arguments_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_SUPTPRT2_DW1(a) bdk_usbdrdx_uahc_suptprt2_dw1_t
+#define bustype_BDK_USBDRDX_UAHC_SUPTPRT2_DW1(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_SUPTPRT2_DW1(a) "USBDRDX_UAHC_SUPTPRT2_DW1"
+#define device_bar_BDK_USBDRDX_UAHC_SUPTPRT2_DW1(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_SUPTPRT2_DW1(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_SUPTPRT2_DW1(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_suptprt2_dw2
+ * Register (NCB32b) usbdrd#_uahc_suptprt2_dw2
  *
  * XHCI Supported-Protocol-Capability (USB 2.0) Register 2
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
@@ -5157,7 +7108,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW1(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_suptprt2_dw2_s
+    struct bdk_usbdrdx_uahc_suptprt2_dw2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t psic                  : 4;  /**< [ 31: 28](RO) Protocol speed ID count. */
@@ -5181,26 +7132,28 @@ typedef union
         uint32_t psic                  : 4;  /**< [ 31: 28](RO) Protocol speed ID count. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_suptprt2_dw2_s cn; */
-} bdk_usbhx_uahc_suptprt2_dw2_t;
+    /* struct bdk_usbdrdx_uahc_suptprt2_dw2_s cn; */
+} bdk_usbdrdx_uahc_suptprt2_dw2_t;
 
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW2(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000898ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT2_DW2", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000898ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT2_DW2", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) bdk_usbhx_uahc_suptprt2_dw2_t
-#define bustype_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) "USBHX_UAHC_SUPTPRT2_DW2"
-#define device_bar_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) (a)
-#define arguments_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_SUPTPRT2_DW2(a) bdk_usbdrdx_uahc_suptprt2_dw2_t
+#define bustype_BDK_USBDRDX_UAHC_SUPTPRT2_DW2(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_SUPTPRT2_DW2(a) "USBDRDX_UAHC_SUPTPRT2_DW2"
+#define device_bar_BDK_USBDRDX_UAHC_SUPTPRT2_DW2(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_SUPTPRT2_DW2(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_SUPTPRT2_DW2(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_suptprt2_dw3
+ * Register (NCB32b) usbdrd#_uahc_suptprt2_dw3
  *
  * XHCI Supported-Protocol-Capability (USB 2.0) Register 3
  * For information on this register, refer to the xHCI Specification, v1.1, section 7.2.
@@ -5208,7 +7161,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW2(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_suptprt2_dw3_s
+    struct bdk_usbdrdx_uahc_suptprt2_dw3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_5_31         : 27;
@@ -5218,26 +7171,28 @@ typedef union
         uint32_t reserved_5_31         : 27;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_suptprt2_dw3_s cn; */
-} bdk_usbhx_uahc_suptprt2_dw3_t;
+    /* struct bdk_usbdrdx_uahc_suptprt2_dw3_s cn; */
+} bdk_usbdrdx_uahc_suptprt2_dw3_t;
 
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW3(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW3(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT2_DW3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x86800000089cll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT2_DW3", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x86800000089cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT2_DW3", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) bdk_usbhx_uahc_suptprt2_dw3_t
-#define bustype_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) "USBHX_UAHC_SUPTPRT2_DW3"
-#define device_bar_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) (a)
-#define arguments_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_SUPTPRT2_DW3(a) bdk_usbdrdx_uahc_suptprt2_dw3_t
+#define bustype_BDK_USBDRDX_UAHC_SUPTPRT2_DW3(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_SUPTPRT2_DW3(a) "USBDRDX_UAHC_SUPTPRT2_DW3"
+#define device_bar_BDK_USBDRDX_UAHC_SUPTPRT2_DW3(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_SUPTPRT2_DW3(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_SUPTPRT2_DW3(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_suptprt3_dw0
+ * Register (NCB32b) usbdrd#_uahc_suptprt3_dw0
  *
  * XHCI Supported-Protocol-Capability (USB 3.0) Register 0
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
@@ -5245,44 +7200,48 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW3(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_suptprt3_dw0_s
+    struct bdk_usbdrdx_uahc_suptprt3_dw0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t majorrev              : 8;  /**< [ 31: 24](RO) Major revision. */
         uint32_t minorrev              : 8;  /**< [ 23: 16](RO) Minor revision. */
-        uint32_t nextcapptr            : 8;  /**< [ 15:  8](RO/H) Next capability pointer. Value depends on USBH()_UAHC_GUCTL[EXTCAPSUPTEN]. If EXTCAPSUPTEN
+        uint32_t nextcapptr            : 8;  /**< [ 15:  8](RO/H) Next capability pointer. Value depends on USBDRD()_UAHC_GUCTL[EXTCAPSUPTEN]. If
+                                                                 EXTCAPSUPTEN
                                                                  =
                                                                  0, value is 0x0. If EXTCAPSUPTEN = 1, value is 0x4. */
         uint32_t capid                 : 8;  /**< [  7:  0](RO) Capability ID = supported protocol. */
 #else /* Word 0 - Little Endian */
         uint32_t capid                 : 8;  /**< [  7:  0](RO) Capability ID = supported protocol. */
-        uint32_t nextcapptr            : 8;  /**< [ 15:  8](RO/H) Next capability pointer. Value depends on USBH()_UAHC_GUCTL[EXTCAPSUPTEN]. If EXTCAPSUPTEN
+        uint32_t nextcapptr            : 8;  /**< [ 15:  8](RO/H) Next capability pointer. Value depends on USBDRD()_UAHC_GUCTL[EXTCAPSUPTEN]. If
+                                                                 EXTCAPSUPTEN
                                                                  =
                                                                  0, value is 0x0. If EXTCAPSUPTEN = 1, value is 0x4. */
         uint32_t minorrev              : 8;  /**< [ 23: 16](RO) Minor revision. */
         uint32_t majorrev              : 8;  /**< [ 31: 24](RO) Major revision. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_suptprt3_dw0_s cn; */
-} bdk_usbhx_uahc_suptprt3_dw0_t;
+    /* struct bdk_usbdrdx_uahc_suptprt3_dw0_s cn; */
+} bdk_usbdrdx_uahc_suptprt3_dw0_t;
 
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW0(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680000008a0ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT3_DW0", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x8680000008a0ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT3_DW0", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) bdk_usbhx_uahc_suptprt3_dw0_t
-#define bustype_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) "USBHX_UAHC_SUPTPRT3_DW0"
-#define device_bar_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) (a)
-#define arguments_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_SUPTPRT3_DW0(a) bdk_usbdrdx_uahc_suptprt3_dw0_t
+#define bustype_BDK_USBDRDX_UAHC_SUPTPRT3_DW0(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_SUPTPRT3_DW0(a) "USBDRDX_UAHC_SUPTPRT3_DW0"
+#define device_bar_BDK_USBDRDX_UAHC_SUPTPRT3_DW0(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_SUPTPRT3_DW0(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_SUPTPRT3_DW0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_suptprt3_dw1
+ * Register (NCB32b) usbdrd#_uahc_suptprt3_dw1
  *
  * XHCI Supported-Protocol-Capability (USB 3.0) Register 1
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
@@ -5290,7 +7249,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW0(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_suptprt3_dw1_s
+    struct bdk_usbdrdx_uahc_suptprt3_dw1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t name                  : 32; /**< [ 31:  0](RO) Name string: 'USB'. */
@@ -5298,26 +7257,28 @@ typedef union
         uint32_t name                  : 32; /**< [ 31:  0](RO) Name string: 'USB'. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_suptprt3_dw1_s cn; */
-} bdk_usbhx_uahc_suptprt3_dw1_t;
+    /* struct bdk_usbdrdx_uahc_suptprt3_dw1_s cn; */
+} bdk_usbdrdx_uahc_suptprt3_dw1_t;
 
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW1(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680000008a4ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT3_DW1", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x8680000008a4ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT3_DW1", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) bdk_usbhx_uahc_suptprt3_dw1_t
-#define bustype_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) "USBHX_UAHC_SUPTPRT3_DW1"
-#define device_bar_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) (a)
-#define arguments_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_SUPTPRT3_DW1(a) bdk_usbdrdx_uahc_suptprt3_dw1_t
+#define bustype_BDK_USBDRDX_UAHC_SUPTPRT3_DW1(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_SUPTPRT3_DW1(a) "USBDRDX_UAHC_SUPTPRT3_DW1"
+#define device_bar_BDK_USBDRDX_UAHC_SUPTPRT3_DW1(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_SUPTPRT3_DW1(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_SUPTPRT3_DW1(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_suptprt3_dw2
+ * Register (NCB32b) usbdrd#_uahc_suptprt3_dw2
  *
  * XHCI Supported-Protocol-Capability (USB 3.0) Register 2
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.2.
@@ -5325,7 +7286,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW1(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_suptprt3_dw2_s
+    struct bdk_usbdrdx_uahc_suptprt3_dw2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t psic                  : 4;  /**< [ 31: 28](RO) Protocol speed ID count. */
@@ -5339,26 +7300,28 @@ typedef union
         uint32_t psic                  : 4;  /**< [ 31: 28](RO) Protocol speed ID count. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_suptprt3_dw2_s cn; */
-} bdk_usbhx_uahc_suptprt3_dw2_t;
+    /* struct bdk_usbdrdx_uahc_suptprt3_dw2_s cn; */
+} bdk_usbdrdx_uahc_suptprt3_dw2_t;
 
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW2(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680000008a8ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT3_DW2", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x8680000008a8ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT3_DW2", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) bdk_usbhx_uahc_suptprt3_dw2_t
-#define bustype_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) "USBHX_UAHC_SUPTPRT3_DW2"
-#define device_bar_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) (a)
-#define arguments_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_SUPTPRT3_DW2(a) bdk_usbdrdx_uahc_suptprt3_dw2_t
+#define bustype_BDK_USBDRDX_UAHC_SUPTPRT3_DW2(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_SUPTPRT3_DW2(a) "USBDRDX_UAHC_SUPTPRT3_DW2"
+#define device_bar_BDK_USBDRDX_UAHC_SUPTPRT3_DW2(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_SUPTPRT3_DW2(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_SUPTPRT3_DW2(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_suptprt3_dw3
+ * Register (NCB32b) usbdrd#_uahc_suptprt3_dw3
  *
  * XHCI Supported-Protocol-Capability (USB 3.0) Register 3
  * For information on this register, refer to the xHCI Specification, v1.1, section 7.2.
@@ -5366,7 +7329,7 @@ static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW2(unsigned long a)
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_suptprt3_dw3_s
+    struct bdk_usbdrdx_uahc_suptprt3_dw3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_5_31         : 27;
@@ -5376,39 +7339,41 @@ typedef union
         uint32_t reserved_5_31         : 27;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_suptprt3_dw3_s cn; */
-} bdk_usbhx_uahc_suptprt3_dw3_t;
+    /* struct bdk_usbdrdx_uahc_suptprt3_dw3_s cn; */
+} bdk_usbdrdx_uahc_suptprt3_dw3_t;
 
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW3(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW3(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_SUPTPRT3_DW3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680000008acll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT3_DW3", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x8680000008acll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_SUPTPRT3_DW3", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) bdk_usbhx_uahc_suptprt3_dw3_t
-#define bustype_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) "USBHX_UAHC_SUPTPRT3_DW3"
-#define device_bar_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) (a)
-#define arguments_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_SUPTPRT3_DW3(a) bdk_usbdrdx_uahc_suptprt3_dw3_t
+#define bustype_BDK_USBDRDX_UAHC_SUPTPRT3_DW3(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_SUPTPRT3_DW3(a) "USBDRDX_UAHC_SUPTPRT3_DW3"
+#define device_bar_BDK_USBDRDX_UAHC_SUPTPRT3_DW3(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_SUPTPRT3_DW3(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_SUPTPRT3_DW3(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_usbcmd
+ * Register (NCB32b) usbdrd#_uahc_usbcmd
  *
  * XHCI Command Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.1.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_usbcmd_s
+    struct bdk_usbdrdx_uahc_usbcmd_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
@@ -5436,55 +7401,57 @@ typedef union
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_usbcmd_s cn; */
-} bdk_usbhx_uahc_usbcmd_t;
+    /* struct bdk_usbdrdx_uahc_usbcmd_s cn; */
+} bdk_usbdrdx_uahc_usbcmd_t;
 
-static inline uint64_t BDK_USBHX_UAHC_USBCMD(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_USBCMD(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_USBCMD(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_USBCMD(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000020ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_USBCMD", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000020ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_USBCMD", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_USBCMD(a) bdk_usbhx_uahc_usbcmd_t
-#define bustype_BDK_USBHX_UAHC_USBCMD(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_USBCMD(a) "USBHX_UAHC_USBCMD"
-#define device_bar_BDK_USBHX_UAHC_USBCMD(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_USBCMD(a) (a)
-#define arguments_BDK_USBHX_UAHC_USBCMD(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_USBCMD(a) bdk_usbdrdx_uahc_usbcmd_t
+#define bustype_BDK_USBDRDX_UAHC_USBCMD(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_USBCMD(a) "USBDRDX_UAHC_USBCMD"
+#define device_bar_BDK_USBDRDX_UAHC_USBCMD(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_USBCMD(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_USBCMD(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_usblegctlsts
+ * Register (NCB32b) usbdrd#_uahc_usblegctlsts
  *
  * XHCI Legacy Support Control/Status Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.1.2. Note
  * that the SMI interrupts are not connected to anything in a CNXXXX configuration.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_usblegctlsts_s
+    struct bdk_usbdrdx_uahc_usblegctlsts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t smi_on_bar            : 1;  /**< [ 31: 31](R/W1C/H) System management interrupt on BAR. Never generated. */
         uint32_t smi_on_pci_command    : 1;  /**< [ 30: 30](R/W1C/H) System management interrupt on PCI command. Never generated. */
         uint32_t smi_on_os_ownership   : 1;  /**< [ 29: 29](R/W1C/H) System management interrupt on OS ownership change. This bit is set to 1 whenever
-                                                                 USBH()_UAHC_USBLEGSUP[HC_OS_OWNED_SEMAPHORES] transitions. */
+                                                                 USBDRD()_UAHC_USBLEGSUP[HC_OS_OWNED_SEMAPHORES] transitions. */
         uint32_t reserved_21_28        : 8;
-        uint32_t smi_on_hostsystemerr  : 1;  /**< [ 20: 20](RO/H) System-management interrupt on host-system error. Shadow bit of USBH()_UAHC_USBSTS[HSE].
+        uint32_t smi_on_hostsystemerr  : 1;  /**< [ 20: 20](RO/H) System-management interrupt on host-system error. Shadow bit of USBDRD()_UAHC_USBSTS[HSE].
                                                                  Refer to
                                                                  xHCI Section 5.4.2 for definition and effects of the events associated with this bit being
                                                                  set to 1.
 
-                                                                 To clear this bit to a 0, system software must write a 1 to USBH()_UAHC_USBSTS[HSE]. */
+                                                                 To clear this bit to a 0, system software must write a 1 to USBDRD()_UAHC_USBSTS[HSE]. */
         uint32_t reserved_17_19        : 3;
-        uint32_t smi_on_event_interrupt : 1; /**< [ 16: 16](RO/H) System-management interrupt on event interrupt. Shadow bit of USBH()_UAHC_USBSTS[EINT].
+        uint32_t smi_on_event_interrupt : 1; /**< [ 16: 16](RO/H) System-management interrupt on event interrupt. Shadow bit of USBDRD()_UAHC_USBSTS[EINT].
                                                                  Refer to
                                                                  xHCI Section 5.4.2 for definition. This bit automatically clears when [EINT] clears and
                                                                  sets when [EINT] sets. */
@@ -5503,57 +7470,59 @@ typedef union
         uint32_t smi_on_os_ownership_en : 1; /**< [ 13: 13](R/W) System-management interrupt on OS ownership enable. */
         uint32_t smi_on_pci_command_en : 1;  /**< [ 14: 14](R/W) System-management interrupt on PCI command enable. */
         uint32_t smi_on_bar_en         : 1;  /**< [ 15: 15](R/W) System-management interrupt on BAR enable. */
-        uint32_t smi_on_event_interrupt : 1; /**< [ 16: 16](RO/H) System-management interrupt on event interrupt. Shadow bit of USBH()_UAHC_USBSTS[EINT].
+        uint32_t smi_on_event_interrupt : 1; /**< [ 16: 16](RO/H) System-management interrupt on event interrupt. Shadow bit of USBDRD()_UAHC_USBSTS[EINT].
                                                                  Refer to
                                                                  xHCI Section 5.4.2 for definition. This bit automatically clears when [EINT] clears and
                                                                  sets when [EINT] sets. */
         uint32_t reserved_17_19        : 3;
-        uint32_t smi_on_hostsystemerr  : 1;  /**< [ 20: 20](RO/H) System-management interrupt on host-system error. Shadow bit of USBH()_UAHC_USBSTS[HSE].
+        uint32_t smi_on_hostsystemerr  : 1;  /**< [ 20: 20](RO/H) System-management interrupt on host-system error. Shadow bit of USBDRD()_UAHC_USBSTS[HSE].
                                                                  Refer to
                                                                  xHCI Section 5.4.2 for definition and effects of the events associated with this bit being
                                                                  set to 1.
 
-                                                                 To clear this bit to a 0, system software must write a 1 to USBH()_UAHC_USBSTS[HSE]. */
+                                                                 To clear this bit to a 0, system software must write a 1 to USBDRD()_UAHC_USBSTS[HSE]. */
         uint32_t reserved_21_28        : 8;
         uint32_t smi_on_os_ownership   : 1;  /**< [ 29: 29](R/W1C/H) System management interrupt on OS ownership change. This bit is set to 1 whenever
-                                                                 USBH()_UAHC_USBLEGSUP[HC_OS_OWNED_SEMAPHORES] transitions. */
+                                                                 USBDRD()_UAHC_USBLEGSUP[HC_OS_OWNED_SEMAPHORES] transitions. */
         uint32_t smi_on_pci_command    : 1;  /**< [ 30: 30](R/W1C/H) System management interrupt on PCI command. Never generated. */
         uint32_t smi_on_bar            : 1;  /**< [ 31: 31](R/W1C/H) System management interrupt on BAR. Never generated. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_usblegctlsts_s cn; */
-} bdk_usbhx_uahc_usblegctlsts_t;
+    /* struct bdk_usbdrdx_uahc_usblegctlsts_s cn; */
+} bdk_usbdrdx_uahc_usblegctlsts_t;
 
-static inline uint64_t BDK_USBHX_UAHC_USBLEGCTLSTS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_USBLEGCTLSTS(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_USBLEGCTLSTS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_USBLEGCTLSTS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000884ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_USBLEGCTLSTS", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000884ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_USBLEGCTLSTS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_USBLEGCTLSTS(a) bdk_usbhx_uahc_usblegctlsts_t
-#define bustype_BDK_USBHX_UAHC_USBLEGCTLSTS(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_USBLEGCTLSTS(a) "USBHX_UAHC_USBLEGCTLSTS"
-#define device_bar_BDK_USBHX_UAHC_USBLEGCTLSTS(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_USBLEGCTLSTS(a) (a)
-#define arguments_BDK_USBHX_UAHC_USBLEGCTLSTS(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_USBLEGCTLSTS(a) bdk_usbdrdx_uahc_usblegctlsts_t
+#define bustype_BDK_USBDRDX_UAHC_USBLEGCTLSTS(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_USBLEGCTLSTS(a) "USBDRDX_UAHC_USBLEGCTLSTS"
+#define device_bar_BDK_USBDRDX_UAHC_USBLEGCTLSTS(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_USBLEGCTLSTS(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_USBLEGCTLSTS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_usblegsup
+ * Register (NCB32b) usbdrd#_uahc_usblegsup
  *
  * XHCI Legacy Support Capability Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 7.1.1.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_usblegsup_s
+    struct bdk_usbdrdx_uahc_usblegsup_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_25_31        : 7;
@@ -5571,39 +7540,41 @@ typedef union
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_usblegsup_s cn; */
-} bdk_usbhx_uahc_usblegsup_t;
+    /* struct bdk_usbdrdx_uahc_usblegsup_s cn; */
+} bdk_usbdrdx_uahc_usblegsup_t;
 
-static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_USBLEGSUP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_USBLEGSUP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000880ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_USBLEGSUP", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000880ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_USBLEGSUP", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_USBLEGSUP(a) bdk_usbhx_uahc_usblegsup_t
-#define bustype_BDK_USBHX_UAHC_USBLEGSUP(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_USBLEGSUP(a) "USBHX_UAHC_USBLEGSUP"
-#define device_bar_BDK_USBHX_UAHC_USBLEGSUP(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_USBLEGSUP(a) (a)
-#define arguments_BDK_USBHX_UAHC_USBLEGSUP(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_USBLEGSUP(a) bdk_usbdrdx_uahc_usblegsup_t
+#define bustype_BDK_USBDRDX_UAHC_USBLEGSUP(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_USBLEGSUP(a) "USBDRDX_UAHC_USBLEGSUP"
+#define device_bar_BDK_USBDRDX_UAHC_USBLEGSUP(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_USBLEGSUP(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_USBLEGSUP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_usbsts
+ * Register (NCB32b) usbdrd#_uahc_usbsts
  *
  * XHCI Status Register
  * For information on this register, refer to the xHCI Specification, v1.0, section 5.4.2.
  *
  * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ * or USBDRD()_UCTL_CTL[UAHC_RST],
+ * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
+ * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_usbhx_uahc_usbsts_s
+    struct bdk_usbdrdx_uahc_usbsts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_13_31        : 19;
@@ -5633,35 +7604,38 @@ typedef union
         uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uahc_usbsts_s cn; */
-} bdk_usbhx_uahc_usbsts_t;
+    /* struct bdk_usbdrdx_uahc_usbsts_s cn; */
+} bdk_usbdrdx_uahc_usbsts_t;
 
-static inline uint64_t BDK_USBHX_UAHC_USBSTS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_USBSTS(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UAHC_USBSTS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UAHC_USBSTS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000000024ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_USBSTS", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000000024ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UAHC_USBSTS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UAHC_USBSTS(a) bdk_usbhx_uahc_usbsts_t
-#define bustype_BDK_USBHX_UAHC_USBSTS(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_USBSTS(a) "USBHX_UAHC_USBSTS"
-#define device_bar_BDK_USBHX_UAHC_USBSTS(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UAHC_USBSTS(a) (a)
-#define arguments_BDK_USBHX_UAHC_USBSTS(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UAHC_USBSTS(a) bdk_usbdrdx_uahc_usbsts_t
+#define bustype_BDK_USBDRDX_UAHC_USBSTS(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBDRDX_UAHC_USBSTS(a) "USBDRDX_UAHC_USBSTS"
+#define device_bar_BDK_USBDRDX_UAHC_USBSTS(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UAHC_USBSTS(a) (a)
+#define arguments_BDK_USBDRDX_UAHC_USBSTS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_bist_status
+ * Register (NCB) usbdrd#_uctl_bist_status
  *
  * UCTL BIST Status Register
- * This register indicates the results from the built-in self-test (BIST) runs of USBH memories.
+ * This register indicates the results from the built-in self-test (BIST) runs of USBDRD
+ * memories.
  * A 0 indicates pass or never run, a 1 indicates fail. This register can be reset by NCB reset.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_bist_status_s
+    struct bdk_usbdrdx_uctl_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
@@ -5695,26 +7669,28 @@ typedef union
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_bist_status_s cn; */
-} bdk_usbhx_uctl_bist_status_t;
+    /* struct bdk_usbdrdx_uctl_bist_status_s cn; */
+} bdk_usbdrdx_uctl_bist_status_t;
 
-static inline uint64_t BDK_USBHX_UCTL_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_BIST_STATUS(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UCTL_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_BIST_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000100008ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UCTL_BIST_STATUS", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000100008ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UCTL_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_BIST_STATUS(a) bdk_usbhx_uctl_bist_status_t
-#define bustype_BDK_USBHX_UCTL_BIST_STATUS(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_BIST_STATUS(a) "USBHX_UCTL_BIST_STATUS"
-#define device_bar_BDK_USBHX_UCTL_BIST_STATUS(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_BIST_STATUS(a) (a)
-#define arguments_BDK_USBHX_UCTL_BIST_STATUS(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UCTL_BIST_STATUS(a) bdk_usbdrdx_uctl_bist_status_t
+#define bustype_BDK_USBDRDX_UCTL_BIST_STATUS(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_BIST_STATUS(a) "USBDRDX_UCTL_BIST_STATUS"
+#define device_bar_BDK_USBDRDX_UCTL_BIST_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_BIST_STATUS(a) (a)
+#define arguments_BDK_USBDRDX_UCTL_BIST_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_ctl
+ * Register (NCB) usbdrd#_uctl_ctl
  *
  * UCTL Control Register
  * This register controls clocks, resets, power, and BIST.
@@ -5724,10 +7700,11 @@ static inline uint64_t BDK_USBHX_UCTL_BIST_STATUS(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_ctl_s
+    struct bdk_usbdrdx_uctl_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t clear_bist            : 1;  /**< [ 63: 63](R/W) BIST fast-clear mode select. A BIST run with this bit set clears all entries in USBH RAMs
+        uint64_t clear_bist            : 1;  /**< [ 63: 63](R/W) BIST fast-clear mode select. A BIST run with this bit set clears all entries in USBDRD
+                                                                 RAMs
                                                                  to 0x0.
 
                                                                  There are two major modes of BIST: full and clear. Full BIST is run by the BIST state
@@ -5737,16 +7714,17 @@ typedef union
                                                                  To avoid race conditions, software must first perform a CSR write operation that puts the
                                                                  CLEAR_BIST setting into the correct state and then perform another CSR write operation to
                                                                  set the BIST trigger (keeping the CLEAR_BIST state constant).
-                                                                 CLEAR BIST completion is indicated by USBH()_UCTL_BIST_STATUS. A BIST clear operation
+                                                                 CLEAR BIST completion is indicated by USBDRD()_UCTL_BIST_STATUS. A BIST clear operation
                                                                  takes almost 2,000 controller-clock cycles for the largest RAM. */
-        uint64_t start_bist            : 1;  /**< [ 62: 62](R/W) Rising edge starts BIST on the memories in USBH.
+        uint64_t start_bist            : 1;  /**< [ 62: 62](R/W) Rising edge starts BIST on the memories in USBDRD.
                                                                  To run BIST, the controller clock must be both configured and enabled, and should be
                                                                  configured to the maximum available frequency given the available coprocessor clock and
                                                                  dividers.
                                                                  Also, the UCTL, UAHC, and UPHY should be held in software- initiated reset (using
                                                                  UPHY_RST, UAHC_RST, UCTL_RST) until BIST is complete.
                                                                  BIST defect status can be checked after FULL BIST completion, both of which are indicated
-                                                                 in USBH()_UCTL_BIST_STATUS. The full BIST run takes almost 80,000 controller-clock cycles
+                                                                 in USBDRD()_UCTL_BIST_STATUS. The full BIST run takes almost 80,000 controller-clock
+                                                                 cycles
                                                                  for
                                                                  the largest RAM. */
         uint64_t ref_clk_sel           : 2;  /**< [ 61: 60](R/W) Reference clock select. Choose reference-clock source for the SuperSpeed and high-speed
@@ -5787,12 +7765,68 @@ typedef union
 
                                                                  [55:53]: modulus - 1,
                                                                  [52:47]: 2's complement push amount
+                                                                 A value of 0x0 means this feature is disabled.
+                                                                 The legal values are:
+                                                                   If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                     0x0 is the only legal value.
+                                                                   If REF_CLK_SEL = 0x2 or 0x3, then:
+                                                                     0x0:   if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                            MPLL_MULTIPLIER description).
+                                                                 All other values are reserved.
 
-                                                                 Must leave at reset value of 0x0.
-                                                                 This value may only be changed during UPHY_RST. */
-        uint64_t mpll_multiplier       : 7;  /**< [ 46: 40](R/W) Multiplies the reference clock to a frequency suitable for intended operating speed. Must
-                                                                 leave at reset value of 0x0. This value may only be changed during UPHY_RST.
-                                                                 This value is superseded by the REF_CLK_FSEL<5:3> selection. */
+                                                                 This value may only be changed during UPHY_RST.
+
+                                                                 Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+                                                                 must all be programmed to the same frequency setting.
+                                                                   INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                               0x0 is the only legal value.
+                                                                             If REF_CLK_SEL = 0x2 or 0x3, then:
+                                                                               0x108: if DLMC_REF_CLK* is 19.2MHz, 24MHz, 26MHz, 38.4MHz, 48MHz,
+                                                                                                 52MHz, 76.8MHz, 96MHz, 104MHz.
+                                                                               0x0:   if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                                      MPLL_MULTIPLIER description). */
+        uint64_t mpll_multiplier       : 7;  /**< [ 46: 40](R/W) Multiplies the reference clock to a frequency suitable for intended operating speed. The
+                                                                  legal values are:
+
+                                                                    If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                      0x19 = 100  MHz on DLMC_REF_CLK*
+
+                                                                    If REF_CLK_SEL = 0x2 or 0x3, then:
+
+                                                                      0x32 =  50  MHz on DLMC_REF_CLK*
+                                                                      0x19 =  100 MHz on DLMC_REF_CLK*
+                                                                      0x28 =  125 MHz on DLMC_REF_CLK*
+
+                                                                  All other values are reserved.
+
+                                                                  This value may only be changed during UPHY_RST.
+
+                                                                  Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+                                                                  must all be programmed to the same frequency setting.
+                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                                 0x19 = 100  MHz on DLMC_REF_CLK*
+                                                                                 0x68 =  24  MHz on DLMC_REF_CLK*
+                                                                                 0x7D =  20  MHz on DLMC_REF_CLK*
+                                                                                 0x02 =  19.2MHz on DLMC_REF_CLK*
+                                                                              If REF_CLK_SEL = 0x2 or 0x3, then:
+                                                                                 0x02 =  19.2MHz on DLMC_REF_CLK*
+                                                                                 0x7D =  20  MHz on DLMC_REF_CLK*
+                                                                                 0x68 =  24  MHz on DLMC_REF_CLK*
+                                                                                 0x64 =  25  MHz on DLMC_REF_CLK*
+                                                                                 0x60 =  26  MHz on DLMC_REF_CLK*
+                                                                                 0x41 =  38.4MHz on DLMC_REF_CLK*
+                                                                                 0x7D =  40  MHz on DLMC_REF_CLK*
+                                                                                 0x34 =  48  MHz on DLMC_REF_CLK*
+                                                                                 0x32 =  50  MHz on DLMC_REF_CLK*
+                                                                                 0x30 =  52  MHz on DLMC_REF_CLK*
+                                                                                 0x41 =  76.8MHz on DLMC_REF_CLK*
+                                                                                 0x1A =  96  MHz on DLMC_REF_CLK*
+                                                                                 0x19 =  100 MHz on DLMC_REF_CLK*
+                                                                                 0x30 =  104 MHz on DLMC_REF_CLK* if REF_CLK_DIV2 = 0x1
+                                                                                 0x18 =  104 MHz on DLMC_REF_CLK* if REF_CLK_DIV2 = 0x0
+                                                                                 0x28 =  125 MHz on DLMC_REF_CLK*
+                                                                                 0x19 =  200 MHz on DLMC_REF_CLK* */
         uint64_t ref_ssp_en            : 1;  /**< [ 39: 39](R/W) Enables reference clock to the prescaler for SuperSpeed function. This should always be
                                                                  enabled since this output clock is used to drive the UAHC suspend-mode clock during
                                                                  low-power states.
@@ -5800,19 +7834,57 @@ typedef union
                                                                  This value can be changed only during UPHY_RST or during low-power states.
                                                                  The reference clock must be running and stable before UPHY_RST is deasserted and before
                                                                  REF_SSP_EN is asserted. */
-        uint64_t ref_clk_div2          : 1;  /**< [ 38: 38](R/W) Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider. Must
-                                                                 leave at reset value of 0x0.
+        uint64_t ref_clk_div2          : 1;  /**< [ 38: 38](R/W) Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider.
+                                                                  The legal values are:
 
-                                                                 This value can be changed only during UPHY_RST. */
-        uint64_t ref_clk_fsel          : 6;  /**< [ 37: 32](R/W) Selects the reference clock frequency for the SuperSpeed and high-speed PLL blocks. The
-                                                                 legal values are as follows:
-                                                                 0x27 = External reference clock 100 MHz.
+                                                                    If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                      all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
 
-                                                                 All other values are reserved.
-                                                                 This value may only be changed during UPHY_RST.
-                                                                 INTERNAL: 0x2A = External reference clock 24 MHz.
-                                                                 0x31 = External reference clock 20 MHz.
-                                                                 0x38 = External reference clock 19.2 MHz. */
+                                                                    If REF_CLK_SEL = 0x2 or 0x3, then:
+
+                                                                      0x1: if DLMC_REF_CLK* is 125MHz.
+
+                                                                      0x0: if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                           MPLL_MULTIPLIER description).
+
+                                                                  This value can be changed only during UPHY_RST.
+
+                                                                  Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+                                                                  must all be programmed to the same frequency setting.
+                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                                all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
+                                                                              If REF_CLK_SEL = 0x2 or 0x3, then:
+                                                                                0x1: if DLMC_REF_CLK* is 125MHz.
+                                                                                0x1: if DLMC_REF_CLK* is 40MHz, 76.8MHz, or 200MHz.
+                                                                                0x0 or 0x1 if DLMC_REF_CLK* is 104MHz (depending on MPLL_MULTIPLIER
+                                                                 setting)
+                                                                                0x0: if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                                     MPLL_MULTIPLIER description). */
+        uint64_t ref_clk_fsel          : 6;  /**< [ 37: 32](R/W) Selects the reference clock frequency for the SuperSpeed and high-speed PLL blocks.
+
+                                                                  The legal values are:
+
+                                                                    If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                      0x27 = 100  MHz on DLMC_REF_CLK*
+
+                                                                    If REF_CLK_SEL = 0x2 or 0x3, then:
+
+                                                                      0x07 is the only legal value.
+
+                                                                  All other values are reserved.
+
+                                                                  This value may only be changed during UPHY_RST.
+                                                                  Note: When REF_CLK_SEL = 0x2 or 0x3, the MPLL_MULTIPLIER, REF_CLK_DIV2, and
+                                                                  SSC_REF_CLK_SEL settings are used to configure the SuperSpeed reference clock
+                                                                  multiplier.
+                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                                0x27 = 100  MHz on DLMC_REF_CLK*
+                                                                                0x2A =  24  MHz on DLMC_REF_CLK*
+                                                                                0x31 =  20  MHz on DLMC_REF_CLK*
+                                                                                0x38 =  19.2MHz on DLMC_REF_CLK*
+                                                                              If REF_CLK_SEL = 0x2 or 0x3, then:
+                                                                                0x07 is the only legal value. */
         uint64_t reserved_31           : 1;
         uint64_t h_clk_en              : 1;  /**< [ 30: 30](R/W) Controller-clock enable. When set to 1, the controller clock is generated. This also
                                                                  enables access to UCTL registers 0x30-0xF8. */
@@ -5843,22 +7915,32 @@ typedef union
                                                                  0x6 = divide by 24.
                                                                  0x7 = divide by 32.
 
-                                                                 For USB3:
-                                                                 * The controller-clock frequency must be at or above 125 MHz for any USB3 operation.
-                                                                 * The controller-clock frequency must be at or above
-                                                                 150 MHz for full-rate USB3 operation.
+                                                                 The hclk frequency must be at or below 300MHz.
+                                                                 The hclk frequency must be at or above 150MHz for full-rate USB3
+                                                                 operation.
+                                                                 The hclk frequency must be at or above 125MHz for any USB3
+                                                                 functionality.
 
-                                                                 For USB2:
-                                                                 * The controller-clock frequency must be at or above 62.5 MHz for any USB2 operation.
-                                                                 * The controller-clock frequency must be at or above
-                                                                 90 MHz for full-rate USB2 operation.
+                                                                 If DRD_MODE = DEVICE, the hclk frequency must be at or above 125MHz for
+                                                                 correct USB2 functionality.
+
+                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 90MHz
+                                                                 for full-rate USB2 operation.
+
+                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 62.5MHz
+                                                                 for any USB2 operation.
 
                                                                  This field can be changed only when H_CLKDIV_RST = 1.
-                                                                 INTERNAL: 150MHz is from the maximum of Synopsys DWC_usb3 Databook v2.50a, table A-16, row
-                                                                 1, col 12. Synopsys DWC_usb3 Databook v2.50a, table A-17, row 7, col 9. Synopsys DWC_usb3
-                                                                 Databook v2.50a, table A-16, row 7, col 9. HOST2>62.5MHz in HOST mode is from Synopsys
-                                                                 DWC_usb3 Databook v2.50a, section A.12.5, 3rd bullet in Note on page 894. HOST2>90MHz was
-                                                                 arrived at from some math: 62.5MHz + (diff between row 1 and 2, col 12 of table A-16). */
+
+                                                                 INTERNAL: 150MHz is from the maximum of:
+                                                                             Synopsys DWC_usb3 Databook v2.80a, table A-16, row 1, col 12.
+                                                                             Synopsys DWC_usb3 Databook v2.80a, table A-17, row 7, col 9.
+                                                                             Synopsys DWC_usb3 Databook v2.80a, table A-16, row 7, col 9.
+                                                                           DEVICE>125MHz is from Synopsys DWC_usb3 Databook v2.80a, section A.12.4.
+                                                                           HOST2>62.5MHz in HOST mode is from Synopsys DWC_usb3 Databook v2.80a,
+                                                                             section A.12.5, 3rd bullet in Note on page 894.
+                                                                           HOST2>90MHz was arrived at from some math: 62.5MHz +
+                                                                             (diff between row 1 and 2, col 12 of table A-16). */
         uint64_t reserved_22_23        : 2;
         uint64_t usb3_port_perm_attach : 1;  /**< [ 21: 21](R/W) Indicates this port is permanently attached. This is a strap signal; it should be modified
                                                                  only when UPHY_RST is asserted. */
@@ -5869,7 +7951,7 @@ typedef union
                                                                  reporting connect/disconnect events on the port and keeps the port in disabled state. This
                                                                  could be used for security reasons where hardware can disable a port regardless of whether
                                                                  xHCI driver enables a port or not.
-                                                                 USBH()_UAHC_HCSPARAMS1[MAXPORTS] is not affected by this signal.
+                                                                 USBDRD()_UAHC_HCSPARAMS1[MAXPORTS] is not affected by this signal.
 
                                                                  This is a strap signal; it should be modified only when UPHY_RST is asserted. */
         uint64_t reserved_17           : 1;
@@ -5877,7 +7959,7 @@ typedef union
                                                                  signal stops reporting connect/disconnect events on the port and keeps the port in
                                                                  disabled state. This could be used for security reasons where hardware can disable a port
                                                                  regardless of whether xHCI driver enables a port or not.
-                                                                 USBH()_UAHC_HCSPARAMS1[MAXPORTS] is not affected by this signal.
+                                                                 USBDRD()_UAHC_HCSPARAMS1[MAXPORTS] is not affected by this signal.
 
                                                                  This is a strap signal; it should only be modified when UPHY_RST is asserted.
                                                                  If Port0 is required to be disabled, ensure that the utmi_clk[0] is running at the normal
@@ -5891,7 +7973,9 @@ typedef union
         uint64_t reserved_5_11         : 7;
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the USB UCTL interface clock (coprocessor clock). This enables access to UAHC
                                                                  and UCTL registers starting from 0x30. */
-        uint64_t reserved_3            : 1;
+        uint64_t drd_mode              : 1;  /**< [  3:  3](R/W) Switches between Host or Device mode for USBDRD.
+                                                                  0 = Host.
+                                                                  1 = Device. */
         uint64_t uphy_rst              : 1;  /**< [  2:  2](R/W) PHY reset; resets UPHY; active-high. */
         uint64_t uahc_rst              : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
                                                                  INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
@@ -5915,7 +7999,9 @@ typedef union
                                                                  INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
                                                                  or NCB protocols. */
         uint64_t uphy_rst              : 1;  /**< [  2:  2](R/W) PHY reset; resets UPHY; active-high. */
-        uint64_t reserved_3            : 1;
+        uint64_t drd_mode              : 1;  /**< [  3:  3](R/W) Switches between Host or Device mode for USBDRD.
+                                                                  0 = Host.
+                                                                  1 = Device. */
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the USB UCTL interface clock (coprocessor clock). This enables access to UAHC
                                                                  and UCTL registers starting from 0x30. */
         uint64_t reserved_5_11         : 7;
@@ -5929,7 +8015,7 @@ typedef union
                                                                  signal stops reporting connect/disconnect events on the port and keeps the port in
                                                                  disabled state. This could be used for security reasons where hardware can disable a port
                                                                  regardless of whether xHCI driver enables a port or not.
-                                                                 USBH()_UAHC_HCSPARAMS1[MAXPORTS] is not affected by this signal.
+                                                                 USBDRD()_UAHC_HCSPARAMS1[MAXPORTS] is not affected by this signal.
 
                                                                  This is a strap signal; it should only be modified when UPHY_RST is asserted.
                                                                  If Port0 is required to be disabled, ensure that the utmi_clk[0] is running at the normal
@@ -5939,7 +8025,7 @@ typedef union
                                                                  reporting connect/disconnect events on the port and keeps the port in disabled state. This
                                                                  could be used for security reasons where hardware can disable a port regardless of whether
                                                                  xHCI driver enables a port or not.
-                                                                 USBH()_UAHC_HCSPARAMS1[MAXPORTS] is not affected by this signal.
+                                                                 USBDRD()_UAHC_HCSPARAMS1[MAXPORTS] is not affected by this signal.
 
                                                                  This is a strap signal; it should be modified only when UPHY_RST is asserted. */
         uint64_t reserved_19           : 1;
@@ -5960,22 +8046,32 @@ typedef union
                                                                  0x6 = divide by 24.
                                                                  0x7 = divide by 32.
 
-                                                                 For USB3:
-                                                                 * The controller-clock frequency must be at or above 125 MHz for any USB3 operation.
-                                                                 * The controller-clock frequency must be at or above
-                                                                 150 MHz for full-rate USB3 operation.
+                                                                 The hclk frequency must be at or below 300MHz.
+                                                                 The hclk frequency must be at or above 150MHz for full-rate USB3
+                                                                 operation.
+                                                                 The hclk frequency must be at or above 125MHz for any USB3
+                                                                 functionality.
 
-                                                                 For USB2:
-                                                                 * The controller-clock frequency must be at or above 62.5 MHz for any USB2 operation.
-                                                                 * The controller-clock frequency must be at or above
-                                                                 90 MHz for full-rate USB2 operation.
+                                                                 If DRD_MODE = DEVICE, the hclk frequency must be at or above 125MHz for
+                                                                 correct USB2 functionality.
+
+                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 90MHz
+                                                                 for full-rate USB2 operation.
+
+                                                                 If DRD_MODE = HOST, the hclk frequency must be at or above 62.5MHz
+                                                                 for any USB2 operation.
 
                                                                  This field can be changed only when H_CLKDIV_RST = 1.
-                                                                 INTERNAL: 150MHz is from the maximum of Synopsys DWC_usb3 Databook v2.50a, table A-16, row
-                                                                 1, col 12. Synopsys DWC_usb3 Databook v2.50a, table A-17, row 7, col 9. Synopsys DWC_usb3
-                                                                 Databook v2.50a, table A-16, row 7, col 9. HOST2>62.5MHz in HOST mode is from Synopsys
-                                                                 DWC_usb3 Databook v2.50a, section A.12.5, 3rd bullet in Note on page 894. HOST2>90MHz was
-                                                                 arrived at from some math: 62.5MHz + (diff between row 1 and 2, col 12 of table A-16). */
+
+                                                                 INTERNAL: 150MHz is from the maximum of:
+                                                                             Synopsys DWC_usb3 Databook v2.80a, table A-16, row 1, col 12.
+                                                                             Synopsys DWC_usb3 Databook v2.80a, table A-17, row 7, col 9.
+                                                                             Synopsys DWC_usb3 Databook v2.80a, table A-16, row 7, col 9.
+                                                                           DEVICE>125MHz is from Synopsys DWC_usb3 Databook v2.80a, section A.12.4.
+                                                                           HOST2>62.5MHz in HOST mode is from Synopsys DWC_usb3 Databook v2.80a,
+                                                                             section A.12.5, 3rd bullet in Note on page 894.
+                                                                           HOST2>90MHz was arrived at from some math: 62.5MHz +
+                                                                             (diff between row 1 and 2, col 12 of table A-16). */
         uint64_t reserved_27           : 1;
         uint64_t h_clkdiv_rst          : 1;  /**< [ 28: 28](R/W) Controller-clock divider reset. Divided clocks are not generated while the divider is
                                                                  being reset.
@@ -5994,19 +8090,57 @@ typedef union
         uint64_t h_clk_en              : 1;  /**< [ 30: 30](R/W) Controller-clock enable. When set to 1, the controller clock is generated. This also
                                                                  enables access to UCTL registers 0x30-0xF8. */
         uint64_t reserved_31           : 1;
-        uint64_t ref_clk_fsel          : 6;  /**< [ 37: 32](R/W) Selects the reference clock frequency for the SuperSpeed and high-speed PLL blocks. The
-                                                                 legal values are as follows:
-                                                                 0x27 = External reference clock 100 MHz.
+        uint64_t ref_clk_fsel          : 6;  /**< [ 37: 32](R/W) Selects the reference clock frequency for the SuperSpeed and high-speed PLL blocks.
 
-                                                                 All other values are reserved.
-                                                                 This value may only be changed during UPHY_RST.
-                                                                 INTERNAL: 0x2A = External reference clock 24 MHz.
-                                                                 0x31 = External reference clock 20 MHz.
-                                                                 0x38 = External reference clock 19.2 MHz. */
-        uint64_t ref_clk_div2          : 1;  /**< [ 38: 38](R/W) Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider. Must
-                                                                 leave at reset value of 0x0.
+                                                                  The legal values are:
 
-                                                                 This value can be changed only during UPHY_RST. */
+                                                                    If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                      0x27 = 100  MHz on DLMC_REF_CLK*
+
+                                                                    If REF_CLK_SEL = 0x2 or 0x3, then:
+
+                                                                      0x07 is the only legal value.
+
+                                                                  All other values are reserved.
+
+                                                                  This value may only be changed during UPHY_RST.
+                                                                  Note: When REF_CLK_SEL = 0x2 or 0x3, the MPLL_MULTIPLIER, REF_CLK_DIV2, and
+                                                                  SSC_REF_CLK_SEL settings are used to configure the SuperSpeed reference clock
+                                                                  multiplier.
+                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                                0x27 = 100  MHz on DLMC_REF_CLK*
+                                                                                0x2A =  24  MHz on DLMC_REF_CLK*
+                                                                                0x31 =  20  MHz on DLMC_REF_CLK*
+                                                                                0x38 =  19.2MHz on DLMC_REF_CLK*
+                                                                              If REF_CLK_SEL = 0x2 or 0x3, then:
+                                                                                0x07 is the only legal value. */
+        uint64_t ref_clk_div2          : 1;  /**< [ 38: 38](R/W) Divides the reference clock by 2 before feeding it into the REF_CLK_FSEL divider.
+                                                                  The legal values are:
+
+                                                                    If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                      all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
+
+                                                                    If REF_CLK_SEL = 0x2 or 0x3, then:
+
+                                                                      0x1: if DLMC_REF_CLK* is 125MHz.
+
+                                                                      0x0: if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                           MPLL_MULTIPLIER description).
+
+                                                                  This value can be changed only during UPHY_RST.
+
+                                                                  Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+                                                                  must all be programmed to the same frequency setting.
+                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                                all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
+                                                                              If REF_CLK_SEL = 0x2 or 0x3, then:
+                                                                                0x1: if DLMC_REF_CLK* is 125MHz.
+                                                                                0x1: if DLMC_REF_CLK* is 40MHz, 76.8MHz, or 200MHz.
+                                                                                0x0 or 0x1 if DLMC_REF_CLK* is 104MHz (depending on MPLL_MULTIPLIER
+                                                                 setting)
+                                                                                0x0: if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                                     MPLL_MULTIPLIER description). */
         uint64_t ref_ssp_en            : 1;  /**< [ 39: 39](R/W) Enables reference clock to the prescaler for SuperSpeed function. This should always be
                                                                  enabled since this output clock is used to drive the UAHC suspend-mode clock during
                                                                  low-power states.
@@ -6014,17 +8148,73 @@ typedef union
                                                                  This value can be changed only during UPHY_RST or during low-power states.
                                                                  The reference clock must be running and stable before UPHY_RST is deasserted and before
                                                                  REF_SSP_EN is asserted. */
-        uint64_t mpll_multiplier       : 7;  /**< [ 46: 40](R/W) Multiplies the reference clock to a frequency suitable for intended operating speed. Must
-                                                                 leave at reset value of 0x0. This value may only be changed during UPHY_RST.
-                                                                 This value is superseded by the REF_CLK_FSEL<5:3> selection. */
+        uint64_t mpll_multiplier       : 7;  /**< [ 46: 40](R/W) Multiplies the reference clock to a frequency suitable for intended operating speed. The
+                                                                  legal values are:
+
+                                                                    If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                      0x19 = 100  MHz on DLMC_REF_CLK*
+
+                                                                    If REF_CLK_SEL = 0x2 or 0x3, then:
+
+                                                                      0x32 =  50  MHz on DLMC_REF_CLK*
+                                                                      0x19 =  100 MHz on DLMC_REF_CLK*
+                                                                      0x28 =  125 MHz on DLMC_REF_CLK*
+
+                                                                  All other values are reserved.
+
+                                                                  This value may only be changed during UPHY_RST.
+
+                                                                  Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+                                                                  must all be programmed to the same frequency setting.
+                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                                 0x19 = 100  MHz on DLMC_REF_CLK*
+                                                                                 0x68 =  24  MHz on DLMC_REF_CLK*
+                                                                                 0x7D =  20  MHz on DLMC_REF_CLK*
+                                                                                 0x02 =  19.2MHz on DLMC_REF_CLK*
+                                                                              If REF_CLK_SEL = 0x2 or 0x3, then:
+                                                                                 0x02 =  19.2MHz on DLMC_REF_CLK*
+                                                                                 0x7D =  20  MHz on DLMC_REF_CLK*
+                                                                                 0x68 =  24  MHz on DLMC_REF_CLK*
+                                                                                 0x64 =  25  MHz on DLMC_REF_CLK*
+                                                                                 0x60 =  26  MHz on DLMC_REF_CLK*
+                                                                                 0x41 =  38.4MHz on DLMC_REF_CLK*
+                                                                                 0x7D =  40  MHz on DLMC_REF_CLK*
+                                                                                 0x34 =  48  MHz on DLMC_REF_CLK*
+                                                                                 0x32 =  50  MHz on DLMC_REF_CLK*
+                                                                                 0x30 =  52  MHz on DLMC_REF_CLK*
+                                                                                 0x41 =  76.8MHz on DLMC_REF_CLK*
+                                                                                 0x1A =  96  MHz on DLMC_REF_CLK*
+                                                                                 0x19 =  100 MHz on DLMC_REF_CLK*
+                                                                                 0x30 =  104 MHz on DLMC_REF_CLK* if REF_CLK_DIV2 = 0x1
+                                                                                 0x18 =  104 MHz on DLMC_REF_CLK* if REF_CLK_DIV2 = 0x0
+                                                                                 0x28 =  125 MHz on DLMC_REF_CLK*
+                                                                                 0x19 =  200 MHz on DLMC_REF_CLK* */
         uint64_t ssc_ref_clk_sel       : 9;  /**< [ 55: 47](R/W) Enables non-standard oscillator frequencies to generate targeted MPLL output rates. Input
                                                                  corresponds to the frequency-synthesis coefficient.
 
                                                                  [55:53]: modulus - 1,
                                                                  [52:47]: 2's complement push amount
+                                                                 A value of 0x0 means this feature is disabled.
+                                                                 The legal values are:
+                                                                   If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                     0x0 is the only legal value.
+                                                                   If REF_CLK_SEL = 0x2 or 0x3, then:
+                                                                     0x0:   if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                            MPLL_MULTIPLIER description).
+                                                                 All other values are reserved.
 
-                                                                 Must leave at reset value of 0x0.
-                                                                 This value may only be changed during UPHY_RST. */
+                                                                 This value may only be changed during UPHY_RST.
+
+                                                                 Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
+                                                                 must all be programmed to the same frequency setting.
+                                                                   INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+                                                                               0x0 is the only legal value.
+                                                                             If REF_CLK_SEL = 0x2 or 0x3, then:
+                                                                               0x108: if DLMC_REF_CLK* is 19.2MHz, 24MHz, 26MHz, 38.4MHz, 48MHz,
+                                                                                                 52MHz, 76.8MHz, 96MHz, 104MHz.
+                                                                               0x0:   if DLMC_REF_CLK* is another supported frequency (see list in
+                                                                                      MPLL_MULTIPLIER description). */
         uint64_t ssc_range             : 3;  /**< [ 58: 56](R/W) Spread-spectrum clock range. Selects the range of spread-spectrum modulation when SSC_EN
                                                                  is asserted and the PHY is spreading the SuperSpeed transmit clocks.
                                                                  Applies a fixed offset to the phase accumulator.
@@ -6058,17 +8248,19 @@ typedef union
                                                                  INTERNAL: For the 0x1 selection, reference clock source for SuperSpeed PLL is from the USB
                                                                  pads, reference clock source for HighSpeed PLL is PLL_REF_CLK. But in 78xx, PLL_REF_CLK
                                                                  cannot be routed to USB without violating jitter requirements */
-        uint64_t start_bist            : 1;  /**< [ 62: 62](R/W) Rising edge starts BIST on the memories in USBH.
+        uint64_t start_bist            : 1;  /**< [ 62: 62](R/W) Rising edge starts BIST on the memories in USBDRD.
                                                                  To run BIST, the controller clock must be both configured and enabled, and should be
                                                                  configured to the maximum available frequency given the available coprocessor clock and
                                                                  dividers.
                                                                  Also, the UCTL, UAHC, and UPHY should be held in software- initiated reset (using
                                                                  UPHY_RST, UAHC_RST, UCTL_RST) until BIST is complete.
                                                                  BIST defect status can be checked after FULL BIST completion, both of which are indicated
-                                                                 in USBH()_UCTL_BIST_STATUS. The full BIST run takes almost 80,000 controller-clock cycles
+                                                                 in USBDRD()_UCTL_BIST_STATUS. The full BIST run takes almost 80,000 controller-clock
+                                                                 cycles
                                                                  for
                                                                  the largest RAM. */
-        uint64_t clear_bist            : 1;  /**< [ 63: 63](R/W) BIST fast-clear mode select. A BIST run with this bit set clears all entries in USBH RAMs
+        uint64_t clear_bist            : 1;  /**< [ 63: 63](R/W) BIST fast-clear mode select. A BIST run with this bit set clears all entries in USBDRD
+                                                                 RAMs
                                                                  to 0x0.
 
                                                                  There are two major modes of BIST: full and clear. Full BIST is run by the BIST state
@@ -6078,30 +8270,32 @@ typedef union
                                                                  To avoid race conditions, software must first perform a CSR write operation that puts the
                                                                  CLEAR_BIST setting into the correct state and then perform another CSR write operation to
                                                                  set the BIST trigger (keeping the CLEAR_BIST state constant).
-                                                                 CLEAR BIST completion is indicated by USBH()_UCTL_BIST_STATUS. A BIST clear operation
+                                                                 CLEAR BIST completion is indicated by USBDRD()_UCTL_BIST_STATUS. A BIST clear operation
                                                                  takes almost 2,000 controller-clock cycles for the largest RAM. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_ctl_s cn; */
-} bdk_usbhx_uctl_ctl_t;
+    /* struct bdk_usbdrdx_uctl_ctl_s cn; */
+} bdk_usbdrdx_uctl_ctl_t;
 
-static inline uint64_t BDK_USBHX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_CTL(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000100000ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UCTL_CTL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000100000ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UCTL_CTL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_CTL(a) bdk_usbhx_uctl_ctl_t
-#define bustype_BDK_USBHX_UCTL_CTL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_CTL(a) "USBHX_UCTL_CTL"
-#define device_bar_BDK_USBHX_UCTL_CTL(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_CTL(a) (a)
-#define arguments_BDK_USBHX_UCTL_CTL(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UCTL_CTL(a) bdk_usbdrdx_uctl_ctl_t
+#define bustype_BDK_USBDRDX_UCTL_CTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_CTL(a) "USBDRDX_UCTL_CTL"
+#define device_bar_BDK_USBDRDX_UCTL_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_CTL(a) (a)
+#define arguments_BDK_USBDRDX_UCTL_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_ecc
+ * Register (NCB) usbdrd#_uctl_ecc
  *
  * UCTL ECC Control Register
  * This register can be used to disable ECC correction, insert ECC errors, and debug ECC
@@ -6122,12 +8316,12 @@ static inline uint64_t BDK_USBHX_UCTL_CTL(unsigned long a)
  *
  * This register is accessible only when USB()_UCTL_CTL[H_CLK_EN] = 1.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UCTL_RST].
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_ecc_s
+    struct bdk_usbdrdx_uctl_ecc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
@@ -6165,26 +8359,28 @@ typedef union
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_ecc_s cn; */
-} bdk_usbhx_uctl_ecc_t;
+    /* struct bdk_usbdrdx_uctl_ecc_s cn; */
+} bdk_usbdrdx_uctl_ecc_t;
 
-static inline uint64_t BDK_USBHX_UCTL_ECC(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_ECC(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UCTL_ECC(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_ECC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680001000f0ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UCTL_ECC", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x8680001000f0ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UCTL_ECC", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_ECC(a) bdk_usbhx_uctl_ecc_t
-#define bustype_BDK_USBHX_UCTL_ECC(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_ECC(a) "USBHX_UCTL_ECC"
-#define device_bar_BDK_USBHX_UCTL_ECC(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_ECC(a) (a)
-#define arguments_BDK_USBHX_UCTL_ECC(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UCTL_ECC(a) bdk_usbdrdx_uctl_ecc_t
+#define bustype_BDK_USBDRDX_UCTL_ECC(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_ECC(a) "USBDRDX_UCTL_ECC"
+#define device_bar_BDK_USBDRDX_UCTL_ECC(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_ECC(a) (a)
+#define arguments_BDK_USBDRDX_UCTL_ECC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_host_cfg
+ * Register (NCB) usbdrd#_uctl_host_cfg
  *
  * UCTL Host Controller Configuration Register
  * This register allows configuration of various host controller (UAHC) features. Most of these
@@ -6192,12 +8388,12 @@ static inline uint64_t BDK_USBHX_UCTL_ECC(unsigned long a)
  *
  * This register is accessible only when USB()_UCTL_CTL[H_CLK_EN] = 1.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UCTL_RST].
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_host_cfg_s
+    struct bdk_usbdrdx_uctl_host_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
@@ -6236,8 +8432,9 @@ typedef union
                                                                  This is a strap signal; it should only be modified when UAHC is in reset (soft-reset
                                                                  okay). */
         uint64_t ppc_en                : 1;  /**< [ 25: 25](R/W) Port-power-control enable.
-                                                                 0 = USBH()_UAHC_HCCPARAMS[PPC] report port-power-control feature is unavailable.
-                                                                 1 = USBH()_UAHC_HCCPARAMS[PPC] reports port-power-control feature is available. PPC output
+                                                                 0 = USBDRD()_UAHC_HCCPARAMS[PPC] report port-power-control feature is unavailable.
+                                                                 1 = USBDRD()_UAHC_HCCPARAMS[PPC] reports port-power-control feature is available. PPC
+                                                                 output
                                                                  from UAHC is taken to the GPIO signals and sense-converted based on PPC_ACTIVE_HIGH_EN.
 
                                                                  The MIO GPIO multiplexer must be programmed accordingly.
@@ -6262,8 +8459,9 @@ typedef union
                                                                  This is a strap signal; it should only be modified when either the UCTL_CTL[UAHC] or
                                                                  UAHC_GCTL[CoreSoftReset] is asserted. */
         uint64_t ppc_en                : 1;  /**< [ 25: 25](R/W) Port-power-control enable.
-                                                                 0 = USBH()_UAHC_HCCPARAMS[PPC] report port-power-control feature is unavailable.
-                                                                 1 = USBH()_UAHC_HCCPARAMS[PPC] reports port-power-control feature is available. PPC output
+                                                                 0 = USBDRD()_UAHC_HCCPARAMS[PPC] report port-power-control feature is unavailable.
+                                                                 1 = USBDRD()_UAHC_HCCPARAMS[PPC] reports port-power-control feature is available. PPC
+                                                                 output
                                                                  from UAHC is taken to the GPIO signals and sense-converted based on PPC_ACTIVE_HIGH_EN.
 
                                                                  The MIO GPIO multiplexer must be programmed accordingly.
@@ -6307,26 +8505,28 @@ typedef union
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_host_cfg_s cn; */
-} bdk_usbhx_uctl_host_cfg_t;
+    /* struct bdk_usbdrdx_uctl_host_cfg_s cn; */
+} bdk_usbdrdx_uctl_host_cfg_t;
 
-static inline uint64_t BDK_USBHX_UCTL_HOST_CFG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_HOST_CFG(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UCTL_HOST_CFG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_HOST_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680001000e0ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UCTL_HOST_CFG", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x8680001000e0ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UCTL_HOST_CFG", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_HOST_CFG(a) bdk_usbhx_uctl_host_cfg_t
-#define bustype_BDK_USBHX_UCTL_HOST_CFG(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_HOST_CFG(a) "USBHX_UCTL_HOST_CFG"
-#define device_bar_BDK_USBHX_UCTL_HOST_CFG(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_HOST_CFG(a) (a)
-#define arguments_BDK_USBHX_UCTL_HOST_CFG(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UCTL_HOST_CFG(a) bdk_usbdrdx_uctl_host_cfg_t
+#define bustype_BDK_USBDRDX_UCTL_HOST_CFG(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_HOST_CFG(a) "USBDRDX_UCTL_HOST_CFG"
+#define device_bar_BDK_USBDRDX_UCTL_HOST_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_HOST_CFG(a) (a)
+#define arguments_BDK_USBDRDX_UCTL_HOST_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_intena_w1c
+ * Register (NCB) usbdrd#_uctl_intena_w1c
  *
  * UCTL Interrupt Status Register
  * This register clears interrupt enable bits.
@@ -6334,70 +8534,72 @@ static inline uint64_t BDK_USBHX_UCTL_HOST_CFG(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_intena_w1c_s
+    struct bdk_usbdrdx_uctl_intena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_30_63        : 34;
-        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
-        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
-        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
-        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
         uint64_t reserved_22_25        : 4;
-        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
-        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
-        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
-        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
-        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
-        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
+        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
+        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
+        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
+        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
+        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
+        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
         uint64_t reserved_8_15         : 8;
-        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
-        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
         uint64_t reserved_3_5          : 3;
-        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
-        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
-        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
         uint64_t reserved_3_5          : 3;
-        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
-        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
         uint64_t reserved_8_15         : 8;
-        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
-        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
-        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
-        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
-        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
-        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
+        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
+        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
+        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
+        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
+        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
+        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
         uint64_t reserved_22_25        : 4;
-        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
-        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
-        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
-        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for USBH(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for USBDRD(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_intena_w1c_s cn; */
-} bdk_usbhx_uctl_intena_w1c_t;
+    /* struct bdk_usbdrdx_uctl_intena_w1c_s cn; */
+} bdk_usbdrdx_uctl_intena_w1c_t;
 
-static inline uint64_t BDK_USBHX_UCTL_INTENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_INTENA_W1C(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UCTL_INTENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_INTENA_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000100040ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UCTL_INTENA_W1C", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000100040ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UCTL_INTENA_W1C", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_INTENA_W1C(a) bdk_usbhx_uctl_intena_w1c_t
-#define bustype_BDK_USBHX_UCTL_INTENA_W1C(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_INTENA_W1C(a) "USBHX_UCTL_INTENA_W1C"
-#define device_bar_BDK_USBHX_UCTL_INTENA_W1C(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_INTENA_W1C(a) (a)
-#define arguments_BDK_USBHX_UCTL_INTENA_W1C(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UCTL_INTENA_W1C(a) bdk_usbdrdx_uctl_intena_w1c_t
+#define bustype_BDK_USBDRDX_UCTL_INTENA_W1C(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_INTENA_W1C(a) "USBDRDX_UCTL_INTENA_W1C"
+#define device_bar_BDK_USBDRDX_UCTL_INTENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_INTENA_W1C(a) (a)
+#define arguments_BDK_USBDRDX_UCTL_INTENA_W1C(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_intena_w1s
+ * Register (NCB) usbdrd#_uctl_intena_w1s
  *
  * UCTL Interrupt Status Register
  * This register sets interrupt enable bits.
@@ -6405,81 +8607,82 @@ static inline uint64_t BDK_USBHX_UCTL_INTENA_W1C(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_intena_w1s_s
+    struct bdk_usbdrdx_uctl_intena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_30_63        : 34;
-        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
-        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
-        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
-        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
         uint64_t reserved_22_25        : 4;
-        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
-        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
-        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
-        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
-        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
-        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
+        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
+        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
+        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
+        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
+        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
+        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
         uint64_t reserved_8_15         : 8;
-        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
-        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
         uint64_t reserved_3_5          : 3;
-        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
-        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
-        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
         uint64_t reserved_3_5          : 3;
-        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
-        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
         uint64_t reserved_8_15         : 8;
-        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
-        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
-        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
-        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
-        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
-        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
+        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
+        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
+        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
+        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
+        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
+        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
         uint64_t reserved_22_25        : 4;
-        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
-        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
-        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
-        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for USBH(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for USBDRD(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_intena_w1s_s cn; */
-} bdk_usbhx_uctl_intena_w1s_t;
+    /* struct bdk_usbdrdx_uctl_intena_w1s_s cn; */
+} bdk_usbdrdx_uctl_intena_w1s_t;
 
-static inline uint64_t BDK_USBHX_UCTL_INTENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_INTENA_W1S(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UCTL_INTENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_INTENA_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000100048ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UCTL_INTENA_W1S", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000100048ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UCTL_INTENA_W1S", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_INTENA_W1S(a) bdk_usbhx_uctl_intena_w1s_t
-#define bustype_BDK_USBHX_UCTL_INTENA_W1S(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_INTENA_W1S(a) "USBHX_UCTL_INTENA_W1S"
-#define device_bar_BDK_USBHX_UCTL_INTENA_W1S(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_INTENA_W1S(a) (a)
-#define arguments_BDK_USBHX_UCTL_INTENA_W1S(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UCTL_INTENA_W1S(a) bdk_usbdrdx_uctl_intena_w1s_t
+#define bustype_BDK_USBDRDX_UCTL_INTENA_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_INTENA_W1S(a) "USBDRDX_UCTL_INTENA_W1S"
+#define device_bar_BDK_USBDRDX_UCTL_INTENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_INTENA_W1S(a) (a)
+#define arguments_BDK_USBDRDX_UCTL_INTENA_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_intstat
+ * Register (NCB) usbdrd#_uctl_intstat
  *
  * UCTL Interrupt Status Register
  * This register provides a summary of interrupts. DBEs are detected and
- * SBE are corrected. For debugging output for ECC DBEs/SBEs, see USBH()_UCTL_ECC. This register
- * can
- * be reset by NCB reset.
+ * SBE are corrected. For debugging output for ECC DBEs/SBEs, see USBDRD()_UCTL_ECC. This
+ * register can be reset by NCB reset.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_intstat_s
+    struct bdk_usbdrdx_uctl_intstat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_30_63        : 34;
@@ -6499,30 +8702,30 @@ typedef union
         uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Received DMA write response error from NCBO */
         uint64_t reserved_3_5          : 3;
         uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1C/H) Detected bad DMA access from UAHC to NCB. Error information is logged in
-                                                                 USBH()_UCTL_SHIM_CFG[XM_BAD_DMA_*]. Received a DMA request from UAHC that violates the
+                                                                 USBDRD()_UCTL_SHIM_CFG[XM_BAD_DMA_*]. Received a DMA request from UAHC that violates the
                                                                  assumptions made by the AXI-to-NCB shim. Such scenarios include: illegal length/size
                                                                  combinations and address out-of-bounds.
 
                                                                  For more information on exact failures, see the description in
-                                                                 USBH()_UCTL_SHIM_CFG[XM_BAD_DMA_TYPE]. The hardware does not translate the request
+                                                                 USBDRD()_UCTL_SHIM_CFG[XM_BAD_DMA_TYPE]. The hardware does not translate the request
                                                                  correctly
                                                                  and results may violate NCB protocols. */
         uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1C/H) Detected out-of-bound register access to UAHC over NCB. The UAHC defines 1MB of register
                                                                  space, starting at offset 0x0. Any accesses outside of this register space cause this bit
-                                                                 to be set to 1. Error information is logged in USBH()_UCTL_SHIM_CFG[XS_NCB_OOB_*]. */
+                                                                 to be set to 1. Error information is logged in USBDRD()_UCTL_SHIM_CFG[XS_NCB_OOB_*]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1C/H) Detected out-of-bound register access to UAHC over NCB. The UAHC defines 1MB of register
                                                                  space, starting at offset 0x0. Any accesses outside of this register space cause this bit
-                                                                 to be set to 1. Error information is logged in USBH()_UCTL_SHIM_CFG[XS_NCB_OOB_*]. */
+                                                                 to be set to 1. Error information is logged in USBDRD()_UCTL_SHIM_CFG[XS_NCB_OOB_*]. */
         uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1C/H) Detected bad DMA access from UAHC to NCB. Error information is logged in
-                                                                 USBH()_UCTL_SHIM_CFG[XM_BAD_DMA_*]. Received a DMA request from UAHC that violates the
+                                                                 USBDRD()_UCTL_SHIM_CFG[XM_BAD_DMA_*]. Received a DMA request from UAHC that violates the
                                                                  assumptions made by the AXI-to-NCB shim. Such scenarios include: illegal length/size
                                                                  combinations and address out-of-bounds.
 
                                                                  For more information on exact failures, see the description in
-                                                                 USBH()_UCTL_SHIM_CFG[XM_BAD_DMA_TYPE]. The hardware does not translate the request
+                                                                 USBDRD()_UCTL_SHIM_CFG[XM_BAD_DMA_TYPE]. The hardware does not translate the request
                                                                  correctly
                                                                  and results may violate NCB protocols. */
         uint64_t reserved_3_5          : 3;
@@ -6543,26 +8746,28 @@ typedef union
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_intstat_s cn; */
-} bdk_usbhx_uctl_intstat_t;
+    /* struct bdk_usbdrdx_uctl_intstat_s cn; */
+} bdk_usbdrdx_uctl_intstat_t;
 
-static inline uint64_t BDK_USBHX_UCTL_INTSTAT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_INTSTAT(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UCTL_INTSTAT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_INTSTAT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000100030ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UCTL_INTSTAT", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000100030ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UCTL_INTSTAT", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_INTSTAT(a) bdk_usbhx_uctl_intstat_t
-#define bustype_BDK_USBHX_UCTL_INTSTAT(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_INTSTAT(a) "USBHX_UCTL_INTSTAT"
-#define device_bar_BDK_USBHX_UCTL_INTSTAT(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_INTSTAT(a) (a)
-#define arguments_BDK_USBHX_UCTL_INTSTAT(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UCTL_INTSTAT(a) bdk_usbdrdx_uctl_intstat_t
+#define bustype_BDK_USBDRDX_UCTL_INTSTAT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_INTSTAT(a) "USBDRDX_UCTL_INTSTAT"
+#define device_bar_BDK_USBDRDX_UCTL_INTSTAT(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_INTSTAT(a) (a)
+#define arguments_BDK_USBDRDX_UCTL_INTSTAT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_intstat_w1s
+ * Register (NCB) usbdrd#_uctl_intstat_w1s
  *
  * UCTL Interrupt Status Register
  * This register sets interrupt bits.
@@ -6570,70 +8775,72 @@ static inline uint64_t BDK_USBHX_UCTL_INTSTAT(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_intstat_w1s_s
+    struct bdk_usbdrdx_uctl_intstat_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_30_63        : 34;
-        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
-        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
-        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
-        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
         uint64_t reserved_22_25        : 4;
-        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
-        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
-        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
-        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
-        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
-        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
+        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
+        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
+        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
+        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
+        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
+        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
         uint64_t reserved_8_15         : 8;
-        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
-        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
         uint64_t reserved_3_5          : 3;
-        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
-        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
-        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
         uint64_t reserved_3_5          : 3;
-        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
-        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
         uint64_t reserved_8_15         : 8;
-        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
-        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
-        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
-        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
-        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
-        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
+        uint64_t ram0_sbe              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM0_SBE]. */
+        uint64_t ram0_dbe              : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM0_DBE]. */
+        uint64_t ram1_sbe              : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM1_SBE]. */
+        uint64_t ram1_dbe              : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM1_DBE]. */
+        uint64_t ram2_sbe              : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM2_SBE]. */
+        uint64_t ram2_dbe              : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[RAM2_DBE]. */
         uint64_t reserved_22_25        : 4;
-        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
-        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
-        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
-        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets USBH(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets USBDRD(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_intstat_w1s_s cn; */
-} bdk_usbhx_uctl_intstat_w1s_t;
+    /* struct bdk_usbdrdx_uctl_intstat_w1s_s cn; */
+} bdk_usbdrdx_uctl_intstat_w1s_t;
 
-static inline uint64_t BDK_USBHX_UCTL_INTSTAT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_INTSTAT_W1S(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UCTL_INTSTAT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_INTSTAT_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000100038ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UCTL_INTSTAT_W1S", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000100038ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UCTL_INTSTAT_W1S", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_INTSTAT_W1S(a) bdk_usbhx_uctl_intstat_w1s_t
-#define bustype_BDK_USBHX_UCTL_INTSTAT_W1S(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_INTSTAT_W1S(a) "USBHX_UCTL_INTSTAT_W1S"
-#define device_bar_BDK_USBHX_UCTL_INTSTAT_W1S(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_INTSTAT_W1S(a) (a)
-#define arguments_BDK_USBHX_UCTL_INTSTAT_W1S(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UCTL_INTSTAT_W1S(a) bdk_usbdrdx_uctl_intstat_w1s_t
+#define bustype_BDK_USBDRDX_UCTL_INTSTAT_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_INTSTAT_W1S(a) "USBDRDX_UCTL_INTSTAT_W1S"
+#define device_bar_BDK_USBDRDX_UCTL_INTSTAT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_INTSTAT_W1S(a) (a)
+#define arguments_BDK_USBDRDX_UCTL_INTSTAT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_port#_cfg_hs
+ * Register (NCB) usbdrd#_uctl_port#_cfg_hs
  *
  * UCTL Port Configuration HighSpeed Register
  * This register controls configuration and test controls for the HS port 0 PHY.
@@ -6648,7 +8855,7 @@ static inline uint64_t BDK_USBHX_UCTL_INTSTAT_W1S(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_portx_cfg_hs_s
+    struct bdk_usbdrdx_uctl_portx_cfg_hs_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
@@ -6718,7 +8925,15 @@ typedef union
 
                                                                  The default bit setting is intended to create a HighSpeed transmit
                                                                  DC level of approximately 400mV. */
-        uint64_t reserved_4_31         : 28;
+        uint64_t reserved_7_31         : 25;
+        uint64_t otgtune               : 3;  /**< [  6:  4](R/W) "VBUS Valid Threshold Adjustment.
+                                                                 This bus adjusts the voltage level for the VBUS<#>
+                                                                 valid threshold. To enable tuning at the board level, connect this
+                                                                 bus to a register.
+                                                                 Note: A positive binary bit setting change results in a +3%
+                                                                 incremental change in threshold voltage level, while a negative
+                                                                 binary bit setting change results in a -3% incremental change
+                                                                 in threshold voltage level. " */
         uint64_t vatest_enable         : 2;  /**< [  3:  2](R/W) Analog test-pin select. Enables analog test voltages to be placed on the ID0 pin.
                                                                  0x0 = test functionality disabled.
                                                                  0x1 = test functionality enabled.
@@ -6748,7 +8963,15 @@ typedef union
                                                                  0x2, 0x3 = reserved, invalid settings.
 
                                                                  See also the PHY databook for details on how to select which analog test voltage. */
-        uint64_t reserved_4_31         : 28;
+        uint64_t otgtune               : 3;  /**< [  6:  4](R/W) "VBUS Valid Threshold Adjustment.
+                                                                 This bus adjusts the voltage level for the VBUS<#>
+                                                                 valid threshold. To enable tuning at the board level, connect this
+                                                                 bus to a register.
+                                                                 Note: A positive binary bit setting change results in a +3%
+                                                                 incremental change in threshold voltage level, while a negative
+                                                                 binary bit setting change results in a -3% incremental change
+                                                                 in threshold voltage level. " */
+        uint64_t reserved_7_31         : 25;
         uint64_t tx_vref_tune          : 4;  /**< [ 35: 32](R/W) High-speed DC voltage-level adjustment. Adjusts the high-speed DC level voltage.
                                                                  A positive binary-bit-setting change results in a +1.25% incremental change in high-speed
                                                                  DC voltage level, while a negative binary-bit-setting change results in a -1.25%
@@ -6818,40 +9041,42 @@ typedef union
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_portx_cfg_hs_s cn; */
-} bdk_usbhx_uctl_portx_cfg_hs_t;
+    /* struct bdk_usbdrdx_uctl_portx_cfg_hs_s cn; */
+} bdk_usbdrdx_uctl_portx_cfg_hs_t;
 
-static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000100050ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UCTL_PORTX_CFG_HS", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x868000100050ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UCTL_PORTX_CFG_HS", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) bdk_usbhx_uctl_portx_cfg_hs_t
-#define bustype_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) "USBHX_UCTL_PORTX_CFG_HS"
-#define device_bar_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) (a)
-#define arguments_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UCTL_PORTX_CFG_HS(a,b) bdk_usbdrdx_uctl_portx_cfg_hs_t
+#define bustype_BDK_USBDRDX_UCTL_PORTX_CFG_HS(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_PORTX_CFG_HS(a,b) "USBDRDX_UCTL_PORTX_CFG_HS"
+#define device_bar_BDK_USBDRDX_UCTL_PORTX_CFG_HS(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_PORTX_CFG_HS(a,b) (a)
+#define arguments_BDK_USBDRDX_UCTL_PORTX_CFG_HS(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_port#_cfg_ss
+ * Register (NCB) usbdrd#_uctl_port#_cfg_ss
  *
  * UCTL Port Configuration SuperSpeed Register
  * This register controls configuration and test controls for the SS port 0 PHY.
  *
  * This register is accessible only when USB()_UCTL_CTL[H_CLK_EN] = 1.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UCTL_RST].
  *
  * INTERNAL: All these settings are for high-speed functionality, connect on DVDD power domain.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_portx_cfg_ss_s
+    struct bdk_usbdrdx_uctl_portx_cfg_ss_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t tx_vboost_lvl         : 3;  /**< [ 63: 61](R/W) TX voltage-boost level. Sets the boosted transmit launch amplitude (mVppd). The default
@@ -6889,7 +9114,7 @@ typedef union
                                                                  short, non-compliant LFPS glitches sent by a noncompliant host.
 
                                                                  For normal operation, set to a targeted mask interval of 10us (value = 10us / Tref_clk).
-                                                                 If the USBH()_UCTL_CTL[REF_CLK_DIV2] is used, then
+                                                                 If the USBDRD()_UCTL_CTL[REF_CLK_DIV2] is used, then
                                                                  (value = 10us / (2 * Tref_clk)). These equations are based on the SuperSpeed reference
                                                                  clock frequency. The value of PCS_RX_LOS_MASK_VAL should be as follows:
 
@@ -7009,7 +9234,7 @@ typedef union
                                                                  short, non-compliant LFPS glitches sent by a noncompliant host.
 
                                                                  For normal operation, set to a targeted mask interval of 10us (value = 10us / Tref_clk).
-                                                                 If the USBH()_UCTL_CTL[REF_CLK_DIV2] is used, then
+                                                                 If the USBDRD()_UCTL_CTL[REF_CLK_DIV2] is used, then
                                                                  (value = 10us / (2 * Tref_clk)). These equations are based on the SuperSpeed reference
                                                                  clock frequency. The value of PCS_RX_LOS_MASK_VAL should be as follows:
 
@@ -7067,26 +9292,28 @@ typedef union
                                                                  All others values are invalid. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_portx_cfg_ss_s cn; */
-} bdk_usbhx_uctl_portx_cfg_ss_t;
+    /* struct bdk_usbdrdx_uctl_portx_cfg_ss_s cn; */
+} bdk_usbdrdx_uctl_portx_cfg_ss_t;
 
-static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000100058ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UCTL_PORTX_CFG_SS", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x868000100058ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UCTL_PORTX_CFG_SS", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) bdk_usbhx_uctl_portx_cfg_ss_t
-#define bustype_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) "USBHX_UCTL_PORTX_CFG_SS"
-#define device_bar_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) (a)
-#define arguments_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UCTL_PORTX_CFG_SS(a,b) bdk_usbdrdx_uctl_portx_cfg_ss_t
+#define bustype_BDK_USBDRDX_UCTL_PORTX_CFG_SS(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_PORTX_CFG_SS(a,b) "USBDRDX_UCTL_PORTX_CFG_SS"
+#define device_bar_BDK_USBDRDX_UCTL_PORTX_CFG_SS(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_PORTX_CFG_SS(a,b) (a)
+#define arguments_BDK_USBDRDX_UCTL_PORTX_CFG_SS(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_port#_cr_dbg_cfg
+ * Register (NCB) usbdrd#_uctl_port#_cr_dbg_cfg
  *
  * UCTL Port Debug Configuration Register
  * This register allows indirect access to the configuration and test controls for the port 0
@@ -7094,7 +9321,7 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned lon
  *
  * This register is accessible only when USB()_UCTL_CTL[H_CLK_EN] = 1.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UCTL_RST].
  *
  * INTERNAL: (In body of HRM)
  * To access the PHY registers indirectly through the CR interface, the HCLK must be running,
@@ -7154,7 +9381,7 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned lon
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_portx_cr_dbg_cfg_s
+    struct bdk_usbdrdx_uctl_portx_cr_dbg_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
@@ -7174,26 +9401,28 @@ typedef union
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_portx_cr_dbg_cfg_s cn; */
-} bdk_usbhx_uctl_portx_cr_dbg_cfg_t;
+    /* struct bdk_usbdrdx_uctl_portx_cr_dbg_cfg_s cn; */
+} bdk_usbdrdx_uctl_portx_cr_dbg_cfg_t;
 
-static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000100060ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UCTL_PORTX_CR_DBG_CFG", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x868000100060ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UCTL_PORTX_CR_DBG_CFG", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) bdk_usbhx_uctl_portx_cr_dbg_cfg_t
-#define bustype_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) "USBHX_UCTL_PORTX_CR_DBG_CFG"
-#define device_bar_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) (a)
-#define arguments_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UCTL_PORTX_CR_DBG_CFG(a,b) bdk_usbdrdx_uctl_portx_cr_dbg_cfg_t
+#define bustype_BDK_USBDRDX_UCTL_PORTX_CR_DBG_CFG(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_PORTX_CR_DBG_CFG(a,b) "USBDRDX_UCTL_PORTX_CR_DBG_CFG"
+#define device_bar_BDK_USBDRDX_UCTL_PORTX_CR_DBG_CFG(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_PORTX_CR_DBG_CFG(a,b) (a)
+#define arguments_BDK_USBDRDX_UCTL_PORTX_CR_DBG_CFG(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_port#_cr_dbg_status
+ * Register (NCB) usbdrd#_uctl_port#_cr_dbg_status
  *
  * UCTL Port Debug Status Register
  * This register allows indirect access to the configuration and test controls for the port 0
@@ -7201,12 +9430,12 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsigned
  *
  * This register is accessible only when USB()_UCTL_CTL[H_CLK_EN] = 1.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UCTL_RST].
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_portx_cr_dbg_status_s
+    struct bdk_usbdrdx_uctl_portx_cr_dbg_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
@@ -7220,26 +9449,28 @@ typedef union
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_portx_cr_dbg_status_s cn; */
-} bdk_usbhx_uctl_portx_cr_dbg_status_t;
+    /* struct bdk_usbdrdx_uctl_portx_cr_dbg_status_s cn; */
+} bdk_usbdrdx_uctl_portx_cr_dbg_status_t;
 
-static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, unsigned long b)
+static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
         return 0x868000100068ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
-    __bdk_csr_fatal("USBHX_UCTL_PORTX_CR_DBG_STATUS", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x868000100068ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBDRDX_UCTL_PORTX_CR_DBG_STATUS", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) bdk_usbhx_uctl_portx_cr_dbg_status_t
-#define bustype_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) "USBHX_UCTL_PORTX_CR_DBG_STATUS"
-#define device_bar_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) (a)
-#define arguments_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) (a),(b),-1,-1
+#define typedef_BDK_USBDRDX_UCTL_PORTX_CR_DBG_STATUS(a,b) bdk_usbdrdx_uctl_portx_cr_dbg_status_t
+#define bustype_BDK_USBDRDX_UCTL_PORTX_CR_DBG_STATUS(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_PORTX_CR_DBG_STATUS(a,b) "USBDRDX_UCTL_PORTX_CR_DBG_STATUS"
+#define device_bar_BDK_USBDRDX_UCTL_PORTX_CR_DBG_STATUS(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_PORTX_CR_DBG_STATUS(a,b) (a)
+#define arguments_BDK_USBDRDX_UCTL_PORTX_CR_DBG_STATUS(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_shim_cfg
+ * Register (NCB) usbdrd#_uctl_shim_cfg
  *
  * UCTL Shim Configuration Register
  * This register allows configuration of various shim (UCTL) features. The fields XS_NCB_OOB_*
@@ -7249,12 +9480,12 @@ static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, unsig
  *
  * This register is accessible only when USB()_UCTL_CTL[H_CLK_EN] = 1.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UCTL_RST].
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_shim_cfg_s
+    struct bdk_usbdrdx_uctl_shim_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t xs_ncb_oob_wrn        : 1;  /**< [ 63: 63](RO/H) Read/write error log for out-of-bound UAHC register access.
@@ -7267,7 +9498,7 @@ typedef union
                                                                  <56:51> = Core/NCB-device number. Note that for NCB devices, <56> is always 0.
                                                                  <50:48> = SubID. */
         uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from UAHC.
-                                                                 0 = read error log, 1 = write error log. */
+                                                                 0 = read error log, 1 = write error log */
         uint64_t reserved_44_46        : 3;
         uint64_t xm_bad_dma_type       : 4;  /**< [ 43: 40](RO/H) ErrType error log for bad DMA access from UAHC. Encodes the type of error encountered
                                                                  (error largest encoded value has priority). See UCTL_XM_BAD_DMA_TYPE_E. */
@@ -7286,7 +9517,7 @@ typedef union
                                                                  (error largest encoded value has priority). See UCTL_XM_BAD_DMA_TYPE_E. */
         uint64_t reserved_44_46        : 3;
         uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from UAHC.
-                                                                 0 = read error log, 1 = write error log. */
+                                                                 0 = read error log, 1 = write error log */
         uint64_t xs_ncb_oob_osrc       : 12; /**< [ 59: 48](RO/H) SRCID error log for out-of-bound UAHC register access. The NCB outbound SRCID for the OOB
                                                                  error.
                                                                  <59:58> = chipID.
@@ -7298,94 +9529,102 @@ typedef union
                                                                  0 = read, 1 = write. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_shim_cfg_s cn; */
-} bdk_usbhx_uctl_shim_cfg_t;
+    /* struct bdk_usbdrdx_uctl_shim_cfg_s cn; */
+} bdk_usbdrdx_uctl_shim_cfg_t;
 
-static inline uint64_t BDK_USBHX_UCTL_SHIM_CFG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_SHIM_CFG(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UCTL_SHIM_CFG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_SHIM_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680001000e8ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UCTL_SHIM_CFG", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x8680001000e8ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UCTL_SHIM_CFG", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_SHIM_CFG(a) bdk_usbhx_uctl_shim_cfg_t
-#define bustype_BDK_USBHX_UCTL_SHIM_CFG(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_SHIM_CFG(a) "USBHX_UCTL_SHIM_CFG"
-#define device_bar_BDK_USBHX_UCTL_SHIM_CFG(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_SHIM_CFG(a) (a)
-#define arguments_BDK_USBHX_UCTL_SHIM_CFG(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UCTL_SHIM_CFG(a) bdk_usbdrdx_uctl_shim_cfg_t
+#define bustype_BDK_USBDRDX_UCTL_SHIM_CFG(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_SHIM_CFG(a) "USBDRDX_UCTL_SHIM_CFG"
+#define device_bar_BDK_USBDRDX_UCTL_SHIM_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_SHIM_CFG(a) (a)
+#define arguments_BDK_USBDRDX_UCTL_SHIM_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_spare0
+ * Register (NCB) usbdrd#_uctl_spare0
  *
- * UCTL Spare Register 0
+ * INTERNAL: UCTL Spare Register 0
+ *
  * This register is a spare register. This register can be reset by NCB reset.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_spare0_s
+    struct bdk_usbdrdx_uctl_spare0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Spare. */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) INTERNAL: Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Spare. */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) INTERNAL: Reserved for ECO usage. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_spare0_s cn; */
-} bdk_usbhx_uctl_spare0_t;
+    /* struct bdk_usbdrdx_uctl_spare0_s cn; */
+} bdk_usbdrdx_uctl_spare0_t;
 
-static inline uint64_t BDK_USBHX_UCTL_SPARE0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_SPARE0(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UCTL_SPARE0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_SPARE0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x868000100010ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UCTL_SPARE0", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x868000100010ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UCTL_SPARE0", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_SPARE0(a) bdk_usbhx_uctl_spare0_t
-#define bustype_BDK_USBHX_UCTL_SPARE0(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_SPARE0(a) "USBHX_UCTL_SPARE0"
-#define device_bar_BDK_USBHX_UCTL_SPARE0(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_SPARE0(a) (a)
-#define arguments_BDK_USBHX_UCTL_SPARE0(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UCTL_SPARE0(a) bdk_usbdrdx_uctl_spare0_t
+#define bustype_BDK_USBDRDX_UCTL_SPARE0(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_SPARE0(a) "USBDRDX_UCTL_SPARE0"
+#define device_bar_BDK_USBDRDX_UCTL_SPARE0(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_SPARE0(a) (a)
+#define arguments_BDK_USBDRDX_UCTL_SPARE0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) usbh#_uctl_spare1
+ * Register (NCB) usbdrd#_uctl_spare1
  *
- * UCTL Spare Register 1
+ * INTERNAL: UCTL Spare Register 1
+ *
  * This register is accessible only when USB()_UCTL_CTL[H_CLK_EN] = 1.
  *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UCTL_RST].
+ * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UCTL_RST].
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_usbhx_uctl_spare1_s
+    struct bdk_usbdrdx_uctl_spare1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Spare. */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) INTERNAL: Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Spare. */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) INTERNAL: Reserved for ECO usage. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_usbhx_uctl_spare1_s cn; */
-} bdk_usbhx_uctl_spare1_t;
+    /* struct bdk_usbdrdx_uctl_spare1_s cn; */
+} bdk_usbdrdx_uctl_spare1_t;
 
-static inline uint64_t BDK_USBHX_UCTL_SPARE1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UCTL_SPARE1(unsigned long a)
+static inline uint64_t BDK_USBDRDX_UCTL_SPARE1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBDRDX_UCTL_SPARE1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x8680001000f8ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UCTL_SPARE1", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x8680001000f8ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBDRDX_UCTL_SPARE1", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_USBHX_UCTL_SPARE1(a) bdk_usbhx_uctl_spare1_t
-#define bustype_BDK_USBHX_UCTL_SPARE1(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UCTL_SPARE1(a) "USBHX_UCTL_SPARE1"
-#define device_bar_BDK_USBHX_UCTL_SPARE1(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_USBHX_UCTL_SPARE1(a) (a)
-#define arguments_BDK_USBHX_UCTL_SPARE1(a) (a),-1,-1,-1
+#define typedef_BDK_USBDRDX_UCTL_SPARE1(a) bdk_usbdrdx_uctl_spare1_t
+#define bustype_BDK_USBDRDX_UCTL_SPARE1(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBDRDX_UCTL_SPARE1(a) "USBDRDX_UCTL_SPARE1"
+#define device_bar_BDK_USBDRDX_UCTL_SPARE1(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_USBDRDX_UCTL_SPARE1(a) (a)
+#define arguments_BDK_USBDRDX_UCTL_SPARE1(a) (a),-1,-1,-1
 
-#endif /* __BDK_CSRS_USBH_H__ */
+#endif /* __BDK_CSRS_USBDRD_H__ */
