@@ -1,16 +1,5 @@
 #include <bdk.h>
 
-/* Board specific early and late initialization.
- *
- * Uncomment the functions below and add your board specific code.
- */
-
-/*
-void board_init_early()
-{
-}
-*/
-
 void board_init_late()
 {
     /* Initialize IO expander U29 to set SFP_TX_DISABLE_0=0 and SFP_TX_DISABLE_1=0 */

@@ -12,7 +12,6 @@
 /* Weakly bound default functions. Can be overwritten by board specific
  * functions in board/$(BOARD_TYPE)/board_init.c
  */
-extern void board_init_early() BDK_WEAK;
 extern void board_init_late() BDK_WEAK;
 
 /* How long to wait for selection of diagnostics (seconds) */
@@ -287,10 +286,6 @@ int main(void)
 
     /* Enable watchdog */
     bdk_watchdog_set(0);
-
-    if (board_init_early)
-        board_init_early();     /* Do board specific early initialization */
-
 
     /* Send status to the BMC: Started boot stub */
     bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_STARTING);
