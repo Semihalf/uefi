@@ -888,7 +888,7 @@ int bdk_readline_getkey(uint64_t timeout_us)
     tcsetattr(fileno(stdin), TCSANOW, &orig_termios);
     return -1;
 #else
-    uint64_t stop_time = gettime() + timeout_us;
+    uint64_t stop_time = (timeout_us == (uint64_t)-1) ? timeout_us : gettime() + timeout_us;
 
     do
     {
