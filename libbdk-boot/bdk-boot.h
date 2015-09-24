@@ -20,6 +20,7 @@
 #include "bdk-boot-pcie.h"
 #include "bdk-boot-qlm.h"
 #include "bdk-boot-status.h"
+#include "bdk-boot-twsi.h"
 #include "bdk-boot-usb.h"
 #include "bdk-image.h"
 #include "bdk-watchdog.h"

@@ -84,6 +84,7 @@ extern void bdk_showenv(void);
 #define BDK_BRD_CFG_QLM_MODE_AUTO_CONFIG    "BRD.CFG.QLM_MODE_AUTO_CONFIG"
 #define BDK_BRD_CFG_WATCHDOG_TIMEOUT        "BRD.CFG.WATCHDOG_TIMEOUT"
 #define BDK_BRD_CFG_DRAM_NODE               "BRD.CFG.DRAM.N%d"
+#define BDK_BRD_CFG_TWSI_WRITE              "BRD-CFG-TWSI-WRITE-%d"
 
 /*
  * Definitions controlling how EYE diagrams are captured from a QLM

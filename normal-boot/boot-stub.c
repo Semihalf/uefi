@@ -328,6 +328,7 @@ int main(void)
     bdk_watchdog_poke();
 
     bdk_boot_pcie();
+    bdk_boot_twsi();
     if (board_init_late)
         board_init_late();
 
