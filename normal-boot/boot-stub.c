@@ -216,42 +216,35 @@ static void slt_boot_image(bdk_node_t node)
             "\n"
             "Boot Menu\n"
             "=========\n"
-            " 1) Load image from MMC, eMMC, or SD\n"
-            " 2) Load image from SPI\n"
-            " 3) Load ATF image from MMC, eMMC or SD\n"
-            " 4) BIST Check\n"
-            " 5) Do USB BIST check\n");
+            " 1) Load image from boot device\n"
+            " 2) Load ATF image from boot device\n"
+            " 3) BIST Check\n"
+            " 4) Do USB BIST check\n");
     const char *input;
     input = bdk_readline("Menu choice: ", NULL, 0);
     int option = atoi(input);
-    static char boot_device_name[48] = { 0 };
     switch (option)
     {
 
         case 1:
-            choose_image("MMC0:");
+            choose_image("BOOT:");
             break;
         case 2:
-            choose_image("SPI0:");
-            break;
-        case 3:
-            sprintf(boot_device_name, "/dev/n%d.mmc0", node);
             /* Try to load ATF image from raw flash */
             BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
-            bdk_image_boot(boot_device_name, ATF_ADDRESS);
+            bdk_image_boot("/boot", ATF_ADDRESS);
             bdk_error("Unable to load image\n");
             break;
-        case 4:
+        case 3:
             bdk_bist_check();
             break;
-        case 5:
+        case 4:
             usb_bist(0,0,0);
             usb_bist(0,0,1);
             usb_bist(0,1,0);
             usb_bist(0,1,1);
             printf("\nUSB BIST CHECK COMPLETE\n");
             break;
-
     }
 }
 

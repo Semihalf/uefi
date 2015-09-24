@@ -413,11 +413,9 @@ int main(void)
             "Boot Menu\n"
             "=========\n"
             " 1) Change baud rate and flow control\n"
-            " 2) Load image from MMC, eMMC, or SD\n"
-            " 3) Load image from SPI\n"
-            " 4) Write image to MMC, eMMC, or SD using Xmodem\n"
-            " 5) Write image to SPI EEPROM or NOR using Xmodem\n"
-            " 6) Soft reset chip\n");
+            " 2) Load image from boot device\n"
+            " 3) Write image to boot device using Xmodem\n"
+            " 4) Soft reset chip\n");
         const char *input;
         if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
             input = "2"; /* Skip menu on the emulator */
@@ -444,22 +442,14 @@ int main(void)
                 printf("Baudrate is now %d\n", baudrate);
                 break;
             }
-            case 2: /* eMMC / SD */
+            case 2:
             {
                 /* no need for '/fatfs/' prefix. choose_image() uses raw FATFS
                  * API. */
-                choose_image("MMC0:");
+                choose_image("BOOT:");
                 break;
             }
-            case 3: /* SPI */
-            {
-                /* no need for '/fatfs/' prefix. choose_image() uses raw FATFS
-                 * API. */
-                choose_image("SPI0:");
-                break;
-            }
-            case 4: /* eMMC / SD upload */
-            case 5: /* SPI upload */
+            case 3: /* upload */
             {
                 const char *filename = bdk_readline("Filename: ", NULL, 0);
                 if (!filename || 0 == strlen(filename))
@@ -471,12 +461,11 @@ int main(void)
                 printf("\n");
 
                 char name[_MAX_LFN +1];
-                char *vol = option == 5 ? "SPI0:" : "MMC0:";
-                snprintf(name, sizeof(name), "/fatfs/%s/%s", vol, filename);
+                snprintf(name, sizeof(name), "/fatfs/%s", filename);
                 do_upload(name);
                 break;
             }
-            case 6: /* Soft reset */
+            case 4: /* Soft reset */
                 printf("Performing a soft reset\n");
                 bdk_reset_chip(node);
                 break;
