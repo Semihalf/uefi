@@ -8,12 +8,6 @@
 #define DIAGS_ADDRESS 0x00080000
 /* Address of ATF in flash */
 #define ATF_ADDRESS 0x00400000
-
-/* Weakly bound default functions. Can be overwritten by board specific
- * functions in board/$(BOARD_TYPE)/board_init.c
- */
-extern void board_init_late() BDK_WEAK;
-
 /* How long to wait for selection of diagnostics (seconds) */
 #define DIAGS_TIMEOUT 3
 /* How long to wait for selection of safe boot (seconds) */
@@ -330,8 +324,6 @@ int main(void)
     bdk_boot_pcie();
     bdk_boot_twsi();
     bdk_boot_mdio();
-    if (board_init_late)
-        board_init_late();
 
     /* Select ATF or diagnostics image */
     int use_atf = 1;
