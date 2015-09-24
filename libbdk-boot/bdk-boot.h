@@ -17,6 +17,7 @@
 #include "bdk-boot-ccpi.h"
 #include "bdk-boot-dram.h"
 #include "bdk-boot-info.h"
+#include "bdk-boot-mdio.h"
 #include "bdk-boot-pcie.h"
 #include "bdk-boot-qlm.h"
 #include "bdk-boot-status.h"

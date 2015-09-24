@@ -329,6 +329,7 @@ int main(void)
 
     bdk_boot_pcie();
     bdk_boot_twsi();
+    bdk_boot_mdio();
     if (board_init_late)
         board_init_late();
 
