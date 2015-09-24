@@ -65,6 +65,7 @@ int bdk_jump_address(uint64_t paddress, uint64_t arg0);
 int __bdk_fs_check_break(void);
 
 /* Prototypes for the init functions for all file systems */
+extern int __bdk_fs_boot_init(void) BDK_WEAK;
 extern int __bdk_fs_fatfs_init(void) BDK_WEAK;
 extern int __bdk_fs_mem_init(void) BDK_WEAK;
 extern int __bdk_fs_mmc_init(void) BDK_WEAK;

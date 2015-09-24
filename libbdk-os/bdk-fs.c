@@ -68,6 +68,8 @@ int __bdk_fs_init_late(void)
 {
     int result = 0;
     /* Init all filesystems where their init function was linked in */
+    if (__bdk_fs_boot_init)
+        result |= __bdk_fs_boot_init();
     if (__bdk_fs_mem_init)
         result |= __bdk_fs_mem_init();
     if (__bdk_fs_mmc_init)

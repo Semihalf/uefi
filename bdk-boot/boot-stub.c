@@ -10,6 +10,7 @@
  */
 void __bdk_require_depends(void)
 {
+    BDK_REQUIRE(FS_BOOT);
     BDK_REQUIRE(FS_FATFS);
     BDK_REQUIRE(FS_MMC);
     BDK_REQUIRE(FS_MPI);
