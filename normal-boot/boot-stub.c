@@ -388,12 +388,11 @@ int main(void)
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_LOADING_DIAGNOSTICS);
 
     /* Transfer control to next image */
-    const char *boot_device_name = bdk_boot_info_bootdev();
     if (use_atf)
     {
         /* Try to load ATF image from raw flash */
         BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
-        bdk_image_boot(boot_device_name, ATF_ADDRESS);
+        bdk_image_boot("/boot", ATF_ADDRESS);
         bdk_error("Unable to load image\n");
         printf("Trying diagnostics\n");
     }
@@ -404,7 +403,7 @@ int main(void)
 
     /* Loading stage 1 from FAT fs failed. Try raw flash */
     bdk_error("Failed to load Diagnostics from FAT fs. Trying raw flash.\n");
-    bdk_image_boot(boot_device_name, DIAGS_ADDRESS);
+    bdk_image_boot("/boot", DIAGS_ADDRESS);
     bdk_error("Image load failed\n");
 }
 

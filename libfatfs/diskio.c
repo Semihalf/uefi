@@ -12,8 +12,7 @@
 
 
 /* Physical drive numbers. Passed into diskio API as pdrv. */
-#define DRV_SPI		0
-#define DRV_MMC		1
+#define DRV_BOOT	0
 
 PARTITION VolToPart[] =
 {
@@ -30,8 +29,7 @@ PARTITION VolToPart[] =
 	 *   Logical primary partition number of drive (1-4).
 	 *   No extended partitions are supported.
 	 */
-	{ DRV_SPI, 1 },	/* SPI0 - device 0, partition 1, logical drive 0 */
-	{ DRV_MMC, 1 },	/* MMC0 - device 1, partition 1, logical drive 1 */
+	{ DRV_BOOT, 1 }, /* /boot - device 0, partition 1, logical drive 0 */
 };
 
 
@@ -47,17 +45,7 @@ static struct drv_list_d
 	int dev_init; /* used internally, initialize as 0 */
 } drv_list[] = {
 	{
-		/* Default device string for SPI. Will be overwritten if we booted form
-		 * SPI.
-		 */
-		"/dev/n0.mpi0/cs-l,2wire,idle-h,msb,24bit,12",
-		512,
-		0x00000,
-		NULL,
-		0
-	},
-	{
-		"/dev/n0.mmc0",
+		"/boot",
 		512,
 		0x00000,
 		NULL,
@@ -72,70 +60,9 @@ static struct drv_list_d
 #define DRV_FP(drv)          (drv_list[drv].fp)
 #define DRV_INIT(drv)        (drv_list[drv].dev_init)
 
-static void fatfs_set_spi_device_name(int boot_method)
-{
-	char spi_dev[48] = { 0 };
-
-	bdk_node_t node = bdk_numa_local();
-	BDK_CSR_INIT(mpi_cfg, node, BDK_MPI_CFG);
-	int chip_select = 0;
-	int address_width;
-	int active_high = mpi_cfg.s.cshi;
-	int idle_mode = (mpi_cfg.s.idleclks) ? 'r' : (mpi_cfg.s.idlelo) ? 'l' : 'h';
-	int is_msb = !mpi_cfg.s.lsbfirst;
-	int freq_mhz = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (2 * mpi_cfg.s.clkdiv) / 1000000;
-
-	if (boot_method == BDK_RST_BOOT_METHOD_E_SPI24)
-		address_width = 24;
-	else
-		address_width = 32;
-
-	snprintf(spi_dev, sizeof(spi_dev), "/dev/n%d.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
-				node,
-				chip_select,
-				(active_high) ? 'h' : 'l',
-				idle_mode,
-				(is_msb) ? 'm' : 'l',
-				address_width,
-				freq_mhz);
-
-	DRV_DEVSTR(DRV_SPI) = strdup(spi_dev); /* Note: this will leak if
-											  fatfs_set_spi_device_name is
-											  called again. */
-}
-
 int fatfs_diskio_init()
 {
-	FRESULT res = FR_OK;
-	bdk_node_t node = bdk_numa_local();
-
-	/* Determine how we booted */
-	int boot_method;
-	BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
-	BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
-
-	switch (boot_method)
-	{
-		case BDK_RST_BOOT_METHOD_E_EMMC_LS:
-		case BDK_RST_BOOT_METHOD_E_EMMC_SS:
-			/* Set the default volume to MMC */
-			res = f_chvol(DRV_MMC);
-			break;
-
-		case BDK_RST_BOOT_METHOD_E_SPI24:
-		case BDK_RST_BOOT_METHOD_E_SPI32:
-			/* For the SPI boot method we overwrite the default device name with a name
-			 * derived from the SPI controller registers. These registers have been set
-			 * by the boot code and are known to work as we just bootet from SPI.
-			 */
-			fatfs_set_spi_device_name(boot_method);
-			res = f_chvol(DRV_SPI);
-			break;
-
-		default:
-			break;
-    }
-	return res ? -1 : 0;
+        return f_chvol(DRV_BOOT);
 }
 
 
@@ -153,10 +80,7 @@ DSTATUS disk_status (
 
 	switch(pdrv)
 	{
-	case DRV_SPI:
-		stat = RES_OK;
-		break;
-	case DRV_MMC:
+	case DRV_BOOT:
 		stat = RES_OK;
 		break;
 	default:
@@ -191,8 +115,7 @@ DSTATUS disk_initialize (
 
 	switch (pdrv)
 	{
-	case DRV_SPI:
-	case DRV_MMC:
+	case DRV_BOOT:
 		if (!DRV_INIT(pdrv))
 			DRV_INIT(pdrv) = 1;
 		break;
