@@ -63,7 +63,7 @@ void boot_menu(void)
                 bdk_image_boot("/fatfs/diagnostics.bin", 0);
                 break;
             case 'F':
-                bdk_error("Not implemented yet\n");
+                bdk_image_choose("BOOT:");
                 break;
             case 'X':
             {
