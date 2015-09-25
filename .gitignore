@@ -12,6 +12,7 @@
 *.orig
 tags
 cscope.out
+/apps/boot/app
 /bdk.vpwhistu
 /bdk.vtg
 /csr-tool/output

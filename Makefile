@@ -11,6 +11,7 @@ all: version
 	$(MAKE) -C libc
 	$(MAKE) -C libbdk
 	$(MAKE) -C utils
+	$(MAKE) -C apps
 	$(MAKE) -C bdk-boot
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-1s
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-2s
@@ -36,6 +37,7 @@ docs:
 clean:
 	$(MAKE) -C libbdk clean
 	$(MAKE) -C utils clean
+	$(MAKE) -C apps clean
 	$(MAKE) -C bdk-boot clean
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-1s clean
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-2s clean
