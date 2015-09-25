@@ -13,18 +13,7 @@ all: version
 	$(MAKE) -C utils
 	$(MAKE) -C apps
 	$(MAKE) -C bdk-boot
-	$(MAKE) -C normal-boot BOARD_TYPE=crb-1s
-	$(MAKE) -C normal-boot BOARD_TYPE=crb-2s
-	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800
-	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804
-	$(MAKE) -C normal-boot BOARD_TYPE=ebb8604
-
-.PHONY: mfg-screen
-mfg-screen: all
-	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 # REMOVE-RELEASE
-	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8804 # REMOVE-RELEASE
-	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8604 # REMOVE-RELEASE
-
+	$(MAKE) -C normal-boot
 
 #
 # Split docs out from all to allow build to reach tftp when docs fails.
@@ -39,19 +28,9 @@ clean:
 	$(MAKE) -C utils clean
 	$(MAKE) -C apps clean
 	$(MAKE) -C bdk-boot clean
-	$(MAKE) -C normal-boot BOARD_TYPE=crb-1s clean
-	$(MAKE) -C normal-boot BOARD_TYPE=crb-2s clean
-	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800 clean
-	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804 clean
-	$(MAKE) -C normal-boot BOARD_TYPE=ebb8604 clean
+	$(MAKE) -C normal-boot clean
 	$(MAKE) -C docs clean
 	rm -f target-bin/*.bin
-
-.PHONY: mfg-screen-clean
-mfg-screen-clean: clean
-	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 clean # REMOVE-RELEASE
-	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8804 clean # REMOVE-RELEASE
-	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8604 clean # REMOVE-RELEASE
 
 .PHONY: distclean
 distclean: clean

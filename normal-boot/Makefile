@@ -1,74 +1,43 @@
-include $(BDK_ROOT)/libbdk/bdk.mk
+#
+# This is the list of boards to make images for. Add new boards here
+# and create directories for them.
+#
+BOARDS=
+BOARDS+=crb-1s
+BOARDS+=crb-2s
+BOARDS+=ebb8604
+BOARDS+=ebb8800
+BOARDS+=ebb8804
+BOARDS+=screen-ebb8604
+BOARDS+=screen-ebb8800
+BOARDS+=screen-ebb8804
 
-DIR=$(BDK_ROOT)/target-bin
+#
+# This variable is the command line needed to pack all the files
+# needed for an image into the image. The "$${b}" will be replaced
+# by the board name on execution. Currently bdk-create-fatfs-image
+# can't be run in parallel due to a FatFS temporary file.
+#
+CREATE_COMMAND="$(BDK_ROOT)/bin/bdk-create-fatfs-image"
+CREATE_COMMAND+=-o "$(BDK_ROOT)/target-bin/normal-$${b}.bin"
+CREATE_COMMAND+=-0 "$(BDK_ROOT)/apps/boot/boot.bin"
+CREATE_COMMAND+=-1 "$(BDK_ROOT)/apps/init/init.bin"
+CREATE_COMMAND+=-2 "$(BDK_ROOT)/apps/diagnostics/diagnostics.bin"
+CREATE_COMMAND+=-c "$${b}/default.cfg"
+CREATE_COMMAND+=-l "lua-common/*.lua $${b}/lua/*.lua"
 
-# Board specific modules and includes
-ifndef BOARD_TYPE
-$(info ********************************************************************************)
-$(info * BOARD_TYPE not defined. Using default 'crb-2s')
-$(info ********************************************************************************)
-BOARD_TYPE=crb-2s
-endif
-BOARD_ROOT	= $(BOARD_TYPE)
-BOARD_SRC	:= $(wildcard $(BOARD_ROOT)/*.c)
-BOARD_OBJS	:= $(addsuffix .o, $(basename $(BOARD_SRC)))
-CPPFLAGS 	+= -I $(BOARD_ROOT)
-
-COMMON_SRC	:= $(wildcard *.c)
-COMMON_OBJS	:= $(addsuffix .o, $(basename $(COMMON_SRC)))
-COMMON_OBJS := $(foreach o,$(COMMON_OBJS),$(BOARD_ROOT)/$(o))
-
-CFG_FILES  = $(BOARD_TYPE)/*.cfg
-
-FATFS_IMG  = $(BOARD_ROOT)/fatfs.bin
-STAGE0_BIN = $(BOARD_ROOT)/stage0.bin
-STAGE1_BIN = $(BOARD_ROOT)/stage1.bin
-STAGE2_BIN = $(BOARD_ROOT)/stage2.bin
-
-CHAINLOADER     = $(BOARD_ROOT)/chainloader
-CHAINLOADER_BIN = $(BOARD_ROOT)/chainloader.bin
-BOOT_STUB       = $(BOARD_ROOT)/boot-stub
-BOOT_STUB_BIN   = $(BOARD_ROOT)/boot-stub.bin
-DIAGNOSTICS     = $(BOARD_ROOT)/diagnostics
-DIAGNOSTICS_BIN = $(BOARD_ROOT)/diagnostics.bin
-
-IMAGE_NAME=normal-$(BOARD_TYPE)
-
+#
+# The all target calls CREATE_COMMAND for each board in BOARDS
+#
 .PHONY: all
-all: $(DIR)/$(IMAGE_NAME).bin
+all:
+	for b in $(BOARDS); do \
+	    $(CREATE_COMMAND); \
+	done
 
 #
-# Rules for node 0 boot stub
+# This assumes that all binaries in target-bin that match our naming
+# pattern should be deleted.
 #
-$(DIR)/$(IMAGE_NAME).bin: $(IMAGE_NAME).bin
-	cp $(IMAGE_NAME).bin $(DIR)/$(IMAGE_NAME).bin
-
-# Initial stage 0 chainloader
-$(STAGE0_BIN): $(CHAINLOADER_BIN)
-	if [ `stat -c %s $^` -gt 196608 ]; then echo "ERROR: $^ image must be 192KB or less";exit 1;fi
-	cp $(CHAINLOADER_BIN) $(STAGE0_BIN)
-
-# BDK image
-$(STAGE1_BIN): $(BOOT_STUB_BIN)
-	cp $(BOOT_STUB_BIN) $(STAGE1_BIN)
-
-# Diagnostics image
-$(STAGE2_BIN): $(DIAGNOSTICS_BIN)
-	cp $(DIAGNOSTICS_BIN) $(STAGE2_BIN)
-
-$(IMAGE_NAME).bin: $(STAGE0_BIN) $(STAGE1_BIN) $(STAGE2_BIN) lua-common/*.lua $(BOARD_ROOT)/lua/*.lua $(BOARD_ROOT)/default.cfg
-	cp $(BOARD_ROOT)/default.cfg safe-mode.cfg
-	$(BDK_ROOT)/bin/bdk-create-fatfs-image -o $@ \
-	    -0 $(STAGE0_BIN) -1 $(STAGE1_BIN) -2 $(STAGE2_BIN) \
-	    -l "lua-common/*.lua $(BOARD_ROOT)/lua/*.lua" -c "$(BOARD_ROOT)/default.cfg safe-mode.cfg"
-	rm safe-mode.cfg
-
-$(CHAINLOADER): $(BOARD_ROOT)/chainloader.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
-$(DIAGNOSTICS): $(BOARD_ROOT)/diagnostics.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
-$(BOOT_STUB):   $(BOARD_ROOT)/boot-stub.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
-
-$(COMMON_OBJS): $(BOARD_ROOT)/%.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-
 clean:
-	rm -f $(BOARD_ROOT)/*.o $(BOARD_ROOT)/*.map $(BOARD_ROOT)/*.bin $(CHAINLOADER) $(DIAGNOSTICS) $(BOOT_STUB) $(IMAGE_NAME).bin $(DIR)/$(IMAGE_NAME).bin
+	rm -f $(BDK_ROOT)/target-bin/normal-*.bin
