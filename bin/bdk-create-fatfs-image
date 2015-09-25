@@ -38,7 +38,6 @@ if [ "${STAGE0}" == "" ]; then usage; fi
 if [ "${STAGE1}" == "" ]; then usage; fi
 if [ "${STAGE2}" == "" ]; then usage; fi
 if [ "${LUA_FILES}" == "" ]; then usage; fi
-if [ "${CONFIG_FILES}" == "" ]; then usage; fi
 
 #
 # Determine where fdisk is
@@ -81,7 +80,9 @@ ${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} mkdir /lua || exit 1
 ${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${LUA_FILES} /lua || exit 1
 
 # Add the config files to the FAT fs
-${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${CONFIG_FILES} / || exit 1
+if [ "${CONFIG_FILES}" != "" ]; then
+    ${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${CONFIG_FILES} / || exit 1
+fi
 
 #
 # Combine all the images

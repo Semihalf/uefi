@@ -12,7 +12,6 @@ all: version
 	$(MAKE) -C libbdk
 	$(MAKE) -C utils
 	$(MAKE) -C apps
-	$(MAKE) -C bdk-boot
 	$(MAKE) -C normal-boot
 
 #
@@ -27,7 +26,6 @@ clean:
 	$(MAKE) -C libbdk clean
 	$(MAKE) -C utils clean
 	$(MAKE) -C apps clean
-	$(MAKE) -C bdk-boot clean
 	$(MAKE) -C normal-boot clean
 	$(MAKE) -C docs clean
 	rm -f target-bin/*.bin
@@ -49,7 +47,7 @@ suid: all
 # User targets to run Asim
 #
 
-.PHONY: run # Runs bdk.bin
+.PHONY: run # Runs normal-generic.bin
 run: run-asim
 
 .PHONY: run-normal # Runs normal-ebb8800.bin
@@ -61,8 +59,8 @@ run-normal: run-asim
 # Defines controlling the command line for Asim
 #
 ASIM_CHIP ?= CN88XX:2.0
-ASIM_IMAGE = $(BDK_ROOT)/target-bin/bdk.bin
-ASIM_ELF = $(BDK_ROOT)/bdk-boot/diagnostics
+ASIM_IMAGE = $(BDK_ROOT)/target-bin/normal-generic.bin
+ASIM_ELF = $(BDK_ROOT)/apps/diagnostics/app
 ASIM_ENV = ASIM_CHIP=$(ASIM_CHIP)
 ASIM_ENV += UART0PORT=2000
 ASIM_ENV += UART1PORT=2001
@@ -164,7 +162,6 @@ release: all docs
 	cp -a utils $(RELEASE_DIR)/
 	grep -E -v "REMOVE-RELEASE|mfg-screen" Makefile > $(RELEASE_DIR)/Makefile
 	# Copy boot stubs
-	cp -a bdk-boot $(RELEASE_DIR)/
 	cp -a normal-boot $(RELEASE_DIR)/
 	# Copy lua-modules dir
 	cp -a lua-modules $(RELEASE_DIR)/
@@ -183,7 +180,7 @@ release: all docs
 
 .PHONY: emu
 emu:
-	od -Ax -vtx1 -w1 target-bin/bdk.bin | cut -d " " -f 2 > thunder-emmc-ascii.img
+	od -Ax -vtx1 -w1 target-bin/normal-generic.bin | cut -d " " -f 2 > thunder-emmc-ascii.img
 	scp thunder-emmc-ascii.img dev001:emulator_images/
 	ssh dev001 chmod o+r emulator_images/thunder-emmc-ascii.img
 
