@@ -25,5 +25,6 @@
 #include "bdk-boot-usb.h"
 #include "bdk-image.h"
 #include "bdk-watchdog.h"
+#include "bdk-xmodem.h"
 
 #endif
