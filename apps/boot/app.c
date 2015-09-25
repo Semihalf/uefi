@@ -63,9 +63,22 @@ void boot_menu(void)
                 bdk_image_boot("/fatfs/diagnostics.bin", 0);
                 break;
             case 'F':
-            case 'X':
                 bdk_error("Not implemented yet\n");
                 break;
+            case 'X':
+            {
+                const char *filename = bdk_readline("Filename: ", NULL, 0);
+                if (!filename || 0 == strlen(filename))
+                {
+                    bdk_error("Illegal filename\n");
+                    break;
+                }
+
+                char name[_MAX_LFN +1];
+                snprintf(name, sizeof(name), "/fatfs/%s", filename);
+                bdk_xmodem_upload(name, 0);
+                break;
+            }
             default:
                 bdk_error("Invalid choice\n");
                 break;
