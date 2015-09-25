@@ -92,73 +92,6 @@ static int list_images(const char *path, int max_images, char *image_names[])
 }
 
 /**
- * Boot an image from a device file at the specified location
- *
- * @param path
- *               Device file to read image from
- */
-static void boot_image(const char *path)
-{
-    void *image = NULL;
-
-    FILE *inf = fopen(path, "rb");
-    if (!inf)
-    {
-        bdk_error("Failed to open %s\n", path);
-        return;
-    }
-
-    printf("    Loading image %s\n", path);
-
-    bdk_image_header_t header;
-    int status = bdk_image_read_header(inf, &header);
-    if (status != 0)
-    {
-        bdk_error("Image header is corrupt\n");
-        goto out;
-    }
-
-    /* Must be 4KB alight for ADRP to work */
-    image = memalign(4096, header.length);
-    if (image == NULL)
-    {
-        bdk_error("Failed to allocate %d bytes for image\n", header.length);
-        goto out;
-    }
-    memcpy(image, &header, sizeof(header));
-    int count = fread(image + sizeof(header), header.length - sizeof(header), 1, inf);
-    if (count != 1)
-    {
-        bdk_error("Failed read image\n");
-        goto out;
-    }
-
-    printf("    Verifying image\n");
-    if (bdk_image_verify(image))
-    {
-        bdk_error("Image CRC32 is incorrect\n");
-        goto out;
-    }
-
-    BDK_TRACE(INIT, "Putting all cores except this one in reset\n");
-    bdk_reset_cores(bdk_numa_local(), -2);
-
-    printf("    Jumping to image at %p\n---\n", image);
-    fflush(NULL);
-    BDK_MB;
-    if (bdk_jump_address(bdk_ptr_to_phys(image), 0))
-    {
-        bdk_error("Failed to jump to image\n");
-        goto out;
-    }
-
-out:
-    if (image)
-        free(image);
-    fclose(inf);
-}
-
-/**
  * Display a list of images the user can boot from a device file and let
  * them choose oen to boot.
  *
@@ -200,7 +133,7 @@ static void choose_image(const char *path)
     }
     else
         printf("One image found, automatically loading\n");
-    boot_image(image_names[use_image]);
+    bdk_image_boot(image_names[use_image], 0);
 }
 
 /**
