@@ -27,8 +27,8 @@ UART0PORT = str(pipe_w)
 UART1PORT = "1"
 os.environ["UART0PORT"] = UART0PORT
 os.environ["UART1PORT"] = UART1PORT
-os.environ["BIN_IMAGE"] = BDK_ROOT + "/target-bin/bdk.bin"
-os.environ["SYMBOL_IMAGE"] = BDK_ROOT + "/bdk-boot/diagnostics"
+os.environ["BIN_IMAGE"] = BDK_ROOT + "/target-bin/normal-ebb8800.bin"
+os.environ["SYMBOL_IMAGE"] = BDK_ROOT + "/apps/diagnostics/app"
 if not "ASIM_CHIP" in os.environ:
     os.environ["ASIM_CHIP"] = "CN88XX:1.0" # Asim doesn't model new BGX yet
 
@@ -66,29 +66,31 @@ assert sim.command("start 0")
 
 wait_for("Cavium THUNDERX")
 wait_for("PASS: CRC32 verification")
-wait_for("BDK version:")
-wait_for("===============")
-wait_for("BDK Stage1 Boot")
-wait_for("===============")
+wait_for("=========================")
+wait_for("Cavium THUNDERX Boot Stub")
+wait_for("=========================")
+wait_for("Version:")
+wait_for("Node:  0")
 wait_for("Chip:  0xa")
+wait_for("L2:    16384 KB")
 wait_for("RCLK:  2500 Mhz")
 wait_for("SCLK:  800 Mhz")
 wait_for("Boot:  SPI24(5)")
 wait_for("VRM:   Enabled")
 wait_for("Trust: Disabled")
-wait_for("Boot Menu")
-wait_for("=========")
-wait_for(" 1) Change baud rate and flow control")
-wait_for(" 2) Load image from boot device")
-wait_for(" 3) Write image to boot device using Xmodem")
-wait_for(" 4) Soft reset chip")
-wait_for("(INS)Menu choice:")
+wait_for("Press 'ESC' within 3 seconds for boot menu")
+send("\033")
+wait_for("============")
+wait_for("Boot Options")
+wait_for("============")
+wait_for("S) Enter Setup")
+wait_for("E) Enter Diagnostics, skipping Setup")
+wait_for("F) Select Image from Flash")
+wait_for("X) Upload File using Xmodem")
+wait_for("Choice:")
 
-send("2")
-wait_for("Looking for images in BOOT:")
-wait_for("  1) /fatfs/BOOT:/diagnostics.bin: diagnostics.bin, version")
-wait_for("One image found, automatically loading")
-wait_for("    Loading image /fatfs/BOOT:/diagnostics.bin")
+send("e")
+wait_for("Loading image file '/fatfs/diagnostics.bin'")
 wait_for("    Verifying image")
 wait_for("    Jumping to image at")
 wait_for("---")
@@ -96,7 +98,7 @@ wait_for("Cavium THUNDERX")
 wait_for("PASS: CRC32 verification")
 wait_for("Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio")
 
-wait_for("THUNDERX Bringup and Diagnostic Kit")
+wait_for("THUNDERX Diagnostic")
 wait_for("Copyright (C) 2010-2015 Cavium Inc.")
 wait_for("Version")
 
