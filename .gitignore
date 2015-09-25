@@ -13,6 +13,7 @@
 tags
 cscope.out
 /apps/boot/app
+/apps/diagnostics/app
 /bdk.vpwhistu
 /bdk.vtg
 /csr-tool/output
