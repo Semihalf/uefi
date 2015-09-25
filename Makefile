@@ -12,7 +12,7 @@ all: version
 	$(MAKE) -C libbdk
 	$(MAKE) -C utils
 	$(MAKE) -C apps
-	$(MAKE) -C normal-boot
+	$(MAKE) -C boards
 
 #
 # Split docs out from all to allow build to reach tftp when docs fails.
@@ -26,7 +26,7 @@ clean:
 	$(MAKE) -C libbdk clean
 	$(MAKE) -C utils clean
 	$(MAKE) -C apps clean
-	$(MAKE) -C normal-boot clean
+	$(MAKE) -C boards clean
 	$(MAKE) -C docs clean
 	rm -f target-bin/*.bin
 
@@ -52,7 +52,7 @@ run: run-asim
 
 .PHONY: run-normal # Runs normal-ebb8800.bin
 run-normal: ASIM_IMAGE=$(BDK_ROOT)/target-bin/normal-ebb8800.bin
-run-normal: ASIM_ELF=$(BDK_ROOT)/normal-boot/ebb8800/diagnostics
+run-normal: ASIM_ELF=$(BDK_ROOT)/apps/diagnostics/app
 run-normal: run-asim
 
 #
@@ -162,7 +162,7 @@ release: all docs
 	cp -a utils $(RELEASE_DIR)/
 	grep -E -v "REMOVE-RELEASE|mfg-screen" Makefile > $(RELEASE_DIR)/Makefile
 	# Copy boot stubs
-	cp -a normal-boot $(RELEASE_DIR)/
+	cp -a boards $(RELEASE_DIR)/
 	# Copy lua-modules dir
 	cp -a lua-modules $(RELEASE_DIR)/
 	rm $(RELEASE_DIR)/lua-modules/*.luadoc
