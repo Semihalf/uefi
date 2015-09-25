@@ -3,6 +3,7 @@
 # and create directories for them.
 #
 BOARDS=
+BOARDS+=generic
 BOARDS+=crb-1s
 BOARDS+=crb-2s
 BOARDS+=ebb8604
