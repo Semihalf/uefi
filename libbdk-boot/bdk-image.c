@@ -157,3 +157,125 @@ out:
     fclose(inf);
     return -1;
 }
+
+
+/**
+ * Search the FatFS and return a list of BDK images
+ * available. The images will also be displayed on the console.
+ *
+ * @param path
+ *                   Device file to search
+ * @param max_images Max number of images to return
+ * @param image_names
+ *                   List of image names
+ *
+ * @return Number of images found
+ */
+static int list_images(const char *path, int max_images, char *image_names[])
+{
+    int num_images = 0;
+    DIR dp;
+
+    printf("\nLooking for images in %s\n\n", path);
+    FRESULT res = f_opendir(&dp, path);
+    if (res)
+    {
+        bdk_warn("Target directory %s does not exist (res:%d). Aborting.\n", path, res);
+        return 0;
+    }
+
+    FILINFO info;
+#if _USE_LFN
+    char lfn[_MAX_LFN + 1] = {0};
+    info.lfname = lfn;
+    info.lfsize = sizeof(lfn);
+#endif
+    res = f_findfirst(&dp, &info, path, "*.bin");
+    while (FR_OK == res && info.fname[0] && num_images < max_images)
+    {
+        char fullpath[_MAX_LFN + 1];
+        char *dirstr = info.fattrib & AM_DIR ? "/" : "";
+        char *pd = path[strlen(path)-1] == '/' ? "" : "/";
+#if _USE_LFN
+        /* Note:
+         * We have to add the "/fatfs/" prefix as WE are working directly on
+         * the FATFS API while the calling code works on libc file operation
+         * API.
+         *
+         * Also, the strdup() below will leak mem. We don't really care...
+         */
+        if (info.lfname[0])
+            snprintf(fullpath, sizeof(fullpath), "/fatfs/%s%s%s%s", path, pd, info.lfname, dirstr);
+        else
+            snprintf(fullpath, sizeof(fullpath), "/fatfs/%s%s%s%s", path, pd, info.fname, dirstr);
+#else
+        snprintf(fullpath, sizeof(fullpath), "/fatfs/%s%s%s%s", path, pd, info.fname, dirstr);
+#endif
+
+        bdk_image_header_t header;
+        FILE *fp = fopen(fullpath, "rb");
+        if (fp)
+        {
+            fseek(fp, 0, SEEK_SET);
+            int status = bdk_image_read_header(fp, &header);
+            if (status == 0)
+            {
+                printf("  %d) %s: %s, version %s, %u bytes\n",
+                    num_images+1, fullpath, header.name, header.version, header.length);
+                image_names[num_images] = strdup(fullpath);
+                num_images++;
+            }
+            fclose(fp);
+        }
+        res = f_findnext(&dp, &info);
+    }
+
+    f_closedir(&dp);
+    return num_images;
+}
+
+/**
+ * Display a list of images the user can boot from a device file and let
+ * them choose one to boot.
+ *
+ * @param path
+ *               Device file to search
+ */
+void bdk_image_choose(const char *path)
+{
+    const int MAX_IMAGES = 20;
+    char *image_names[MAX_IMAGES];
+    int num_images = list_images(path, MAX_IMAGES, image_names);
+
+    if (num_images == 0)
+    {
+        printf("No images found\n");
+        return;
+    }
+
+    /* If DRAM is enabled, unlock the L2 cache for use by later
+     * applications.  Note this only handles the local node.
+     */
+    if (__bdk_is_dram_enabled(bdk_numa_local()))
+    {
+        BDK_TRACE(INIT, "Unlocking L2 before loading image with DRAM enabled.\n");
+        uint64_t l2_size = bdk_l2c_get_cache_size_bytes(bdk_numa_local());
+        bdk_l2c_unlock_mem_region(bdk_numa_local(), 0, l2_size);
+    }
+    int use_image = 0;
+    if (num_images > 1)
+    {
+        const char *input = bdk_readline("Image to load: ", NULL, 0);
+        use_image = atoi(input);
+        if ((use_image < 1) || (use_image > num_images))
+        {
+            printf("Not a valid image number\n");
+            return;
+        }
+        use_image--;
+    }
+    else
+        printf("One image found, automatically loading\n");
+    bdk_image_boot(image_names[use_image], 0);
+}
+

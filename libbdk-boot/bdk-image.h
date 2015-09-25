@@ -57,4 +57,13 @@ extern int bdk_image_read_header(FILE *handle, bdk_image_header_t *header);
  */
 extern int bdk_image_boot(const char *filename, uint64_t loc);
 
+/**
+ * Display a list of images the user can boot from a device file and let
+ * them choose one to boot.
+ *
+ * @param path
+ *               Device file to search
+ */
+extern void bdk_image_choose(const char *path);
+
 /** @} */
