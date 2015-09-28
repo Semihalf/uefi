@@ -9,11 +9,47 @@
  * @{
  */
 
-/* This is the external interface for callers */
+/**
+ * Flags to pass to DRAM tests to control behavior
+ */
+typedef enum
+{
+    /* Which nodes to check. If none are specified, default to all */
+    BDK_DRAM_TEST_NODE0         = 1 << BDK_NODE_0,
+    BDK_DRAM_TEST_NODE1         = 1 << BDK_NODE_1,
+    BDK_DRAM_TEST_NODE2         = 1 << BDK_NODE_2,
+    BDK_DRAM_TEST_NODE3         = 1 << BDK_NODE_3,
+    BDK_DRAM_TEST_NO_STOP_ERROR = 1 << 8,  /**< Don't stop running tests on errors, continue counting all errors */
+    BDK_DRAM_TEST_NO_PROGRESS   = 1 << 9,  /**< Don't report progress percentage during run, for batch runs */
+    BDK_DRAM_TEST_NO_STATS      = 1 << 10, /**< Don't report usage status for LMC, or CCPI with USE_CCPI */
+    BDK_DRAM_TEST_USE_CCPI      = 1 << 11, /**< Test using other node across CCPI. Use to verify CCPI. This
+                                            automatically enables CCPI usage reporting unless NO_STATS is
+                                            also specified */
+} bdk_dram_test_flags_t;
+
+/**
+ * Convert a test enumeration into a string
+ *
+ * @param test   Test to convert
+ *
+ * @return String for display
+ */
 extern const char* bdk_dram_get_test_name(int test);
-extern int bdk_dram_test(int test, uint64_t start_address, uint64_t length);
-extern int bdk_dram_get_batch_mode(void);
-extern void bdk_dram_set_batch_mode(int mode);
+
+/**
+ * Perform a memory test.
+ *
+ * @param test   Test type to run
+ * @param start_address
+ *               Physical address to start at
+ * @param length Length of memory block
+ * @param flags  Flags to control memory test options. Zero defaults to testing all
+ *               node with statistics and progress output.
+ *
+ * @return Number of errors found. Zero is success. Negative means the test
+ *         did not run due to some other failure.
+ */
+extern int bdk_dram_test(int test, uint64_t start_address, uint64_t length, bdk_dram_test_flags_t flags);
 
 /**
  * Given a physical DRAM address, extract information about the node, LMC, DIMM,

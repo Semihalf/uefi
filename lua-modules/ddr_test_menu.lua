@@ -3,21 +3,19 @@
 require("strict")
 require("utils")
 require("menu")
+local bit64 = require("bit64")
 
 local range_repeat = 1
 local range_start = 0
 local range_length = -1
-
-local abort_on_error = 1
-cavium.c.bdk_dram_set_abort_mode(abort_on_error)
+local test_flags = 0
 
 local function toggle_abort_on_error()
-    abort_on_error = 1 - abort_on_error
-    cavium.c.bdk_dram_set_abort_mode(abort_on_error)
+    test_flags = bit64.bxor(test_flags, cavium.DRAM_TEST_NO_STOP_ERROR)
 end
 
-local function set_batch_mode(mode)
-    cavium.c.bdk_dram_set_batch_mode(mode)
+local function toggle_batch_mode()
+    test_flags = bit64.bxor(test_flags, cavium.DRAM_TEST_NO_PROGRESS)
 end
 
 local function set_range_repeat()
@@ -52,7 +50,7 @@ local function run_one_test(test_number)
     if length == -1 then
         length = 0x10000000000
     end
-    return cavium.c.bdk_dram_test(test_number, range_start, length)
+    return cavium.c.bdk_dram_test(test_number, range_start, length, test_flags)
 end
 
 local function run_all_tests()
@@ -66,7 +64,7 @@ local function run_all_tests()
         end
         one_errors = run_one_test(test_number)
 	errors = errors + one_errors
-        if (one_errors ~= 0) and (abort_on_error == 1) then
+        if (one_errors ~= 0) and not bit64.btest(test_flags, cavium.DRAM_TEST_NO_STOP_ERROR) then
 	    break
         end
     end
@@ -95,7 +93,7 @@ local function run_special_tests()
         end
         one_errors = run_one_test(test_number)
 	errors = errors + one_errors
-        if (one_errors ~= 0) and (abort_on_error == 1) then
+        if (one_errors ~= 0) and not bit64.btest(test_flags, cavium.DRAM_TEST_NO_STOP_ERROR) then
 	    break
         end
     end
@@ -133,7 +131,7 @@ local function do_test(test_func, arg)
         if (count < total) and (sum_errors ~= 0) then
             printf("Testing has run %d passes with %d total errors\n", count, sum_errors)
         end
-        if (errors ~= 0) and (abort_on_error == 1) then
+        if (errors ~= 0) and not bit64.btest(test_flags, cavium.DRAM_TEST_NO_STOP_ERROR) then
             break
         end
     end
@@ -173,16 +171,16 @@ repeat
     end
     m:item("spec", "Run special DRAM tests", do_test, run_special_tests, nil)
 
-    if abort_on_error == 1 then
-        m:item("abort", "Abort on Errors (Currently ON)", toggle_abort_on_error)
-    else
+    if bit64.btest(test_flags, cavium.DRAM_TEST_NO_STOP_ERROR) then
         m:item("abort", "Abort on Errors (Currently OFF)", toggle_abort_on_error)
+    else
+        m:item("abort", "Abort on Errors (Currently ON)", toggle_abort_on_error)
     end
 
-    if cavium.c.bdk_dram_get_batch_mode() == 1 then
-        m:item("batch", "Batch mode (Currently ON)", set_batch_mode, 0)
+    if bit64.btest(test_flags, cavium.DRAM_TEST_NO_PROGRESS) then
+        m:item("batch", "Batch mode (Currently ON)", toggle_batch_mode)
     else
-        m:item("batch", "Batch mode (Currently OFF)", set_batch_mode, 1)
+        m:item("batch", "Batch mode (Currently OFF)", toggle_batch_mode)
     end
 
     m:item("quit", "Main menu")

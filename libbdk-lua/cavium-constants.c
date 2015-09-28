@@ -93,6 +93,12 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_SATA_BIST_SW_RETIMED);
     push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY);
 
+    /* DRAM testing flags */
+    push_bdk_enum(BDK_DRAM_TEST_NO_STOP_ERROR);
+    push_bdk_enum(BDK_DRAM_TEST_NO_PROGRESS);
+    push_bdk_enum(BDK_DRAM_TEST_NO_STATS);
+    push_bdk_enum(BDK_DRAM_TEST_USE_CCPI);
+
     lua_pushnumber(L, bdk_numa_master());
     lua_setfield(L, -2, "MASTER_NODE");
 #endif

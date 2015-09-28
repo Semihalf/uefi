@@ -69,7 +69,7 @@ void bdk_boot_dram(bdk_node_t node, int prompt_for_speed)
         /* Wake up one core on the other node */
         bdk_init_cores(node, 1);
         /* Run the address test to make sure DRAM works */
-        if (bdk_dram_test(13, 0, 0x10000000000ull))
+        if (bdk_dram_test(13, 0, 0x10000000000ull, BDK_DRAM_TEST_NO_STATS))
             bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
         /* Put other node core back in reset */
         BDK_CSR_WRITE(node, BDK_RST_PP_RESET, -1);
