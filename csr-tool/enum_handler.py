@@ -37,6 +37,7 @@ def _parseEnum(root, yaml, chip, block):
             "name",          # Value name (text)
             "value",         # Value (number or equation)
             "attributes",    # Optional attributes (sub tree)
+            "internal",      # Optional internal (text)
             "description"])  # Optional description (text)
         # Enum values are upper case
         name = getChild(v, "name").upper()

@@ -72,6 +72,7 @@ def _parseStruct(root, yaml, chip, block):
             "name",          # Field name (text)
             "description",   # Optional description (text)
             "bits",          # w#(#) or w#(#..#)
+            "internal",      # Optional internal (text)
             "attributes"])   # Optional attributes (sub tree)
         name = getChild(f, "name").lower()
         bits = _parseBits(f)
