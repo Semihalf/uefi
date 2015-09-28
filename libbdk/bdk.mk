@@ -10,18 +10,6 @@ SHELL=/bin/bash
 #
 # Optional compile time flags for the BDK
 #
-ifdef BDK_DRAM_CONFIG
-    # User supplied a single exact memory config
-    override BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG=$(BDK_DRAM_CONFIG)
-else
-    # No config was specified, include them all in the main BDK, but not in
-    # the boot stub
-    override BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG=ebb8800
-    override BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG2=ebb8804
-    override BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG3=crb_1s
-    override BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG4=crb_2s_V3
-    override BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG5=ebb8604
-endif
 #override BDK_EXTRA_CPPFLAGS += -DBDK_SHOW_BOOT_BANNERS=0
 
 #

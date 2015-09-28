@@ -2,58 +2,28 @@
 
 BDK_REQUIRE_DEFINE(DRAM_CONFIG);
 
-/* DRAM is configured by matching it against a string name. The BDK supports
-   loading up to four different DRAM configs by using the defines
-   BDK_DRAM_CONFIG, BDK_DRAM_CONFIG2, BDK_DRAM_CONFIG3, BDK_DRAM_CONFIG4, and
-   BDK_DRAM_CONFIG5. More can be easily added if necessary */
+/* DRAM is configured by matching it against a string name */
 
 #define _CONFIG_FUNC_NAME(n) dram_get_config_ ## n
 #define CONFIG_FUNC_NAME(n) _CONFIG_FUNC_NAME(n)
 
-#ifndef BDK_DRAM_CONFIG
-/* No DRAM config was specified, pick the ebb8800 as a default so at
-   least one configuration is avaialable */
-#define BDK_DRAM_CONFIG ebb8800
-#warning No DRAM config specified, defaulting to ebb8800
-#endif
-
 typedef const dram_config_t* (*config_func_t)();
 
 /* These externs pull in configs defined in other files */
-#ifdef BDK_DRAM_CONFIG
-extern const dram_config_t *CONFIG_FUNC_NAME(BDK_DRAM_CONFIG)();
-#endif
-#ifdef BDK_DRAM_CONFIG2
-extern const dram_config_t *CONFIG_FUNC_NAME(BDK_DRAM_CONFIG2)();
-#endif
-#ifdef BDK_DRAM_CONFIG3
-extern const dram_config_t *CONFIG_FUNC_NAME(BDK_DRAM_CONFIG3)();
-#endif
-#ifdef BDK_DRAM_CONFIG4
-extern const dram_config_t *CONFIG_FUNC_NAME(BDK_DRAM_CONFIG4)();
-#endif
-#ifdef BDK_DRAM_CONFIG5
-extern const dram_config_t *CONFIG_FUNC_NAME(BDK_DRAM_CONFIG5)();
-#endif
+extern const dram_config_t* CONFIG_FUNC_NAME(ebb8800)();
+extern const dram_config_t* CONFIG_FUNC_NAME(ebb8804)();
+extern const dram_config_t* CONFIG_FUNC_NAME(ebb8604)();
+extern const dram_config_t* CONFIG_FUNC_NAME(crb_1s)();
+extern const dram_config_t* CONFIG_FUNC_NAME(crb_2s_V3)();
 
 /* This table is the list of supported DRAM configs */
 static const config_func_t dram_table[] =
 {
-#ifdef BDK_DRAM_CONFIG
-    CONFIG_FUNC_NAME(BDK_DRAM_CONFIG),
-#endif
-#ifdef BDK_DRAM_CONFIG2
-    CONFIG_FUNC_NAME(BDK_DRAM_CONFIG2),
-#endif
-#ifdef BDK_DRAM_CONFIG3
-    CONFIG_FUNC_NAME(BDK_DRAM_CONFIG3),
-#endif
-#ifdef BDK_DRAM_CONFIG4
-    CONFIG_FUNC_NAME(BDK_DRAM_CONFIG4),
-#endif
-#ifdef BDK_DRAM_CONFIG5
-    CONFIG_FUNC_NAME(BDK_DRAM_CONFIG5),
-#endif
+    CONFIG_FUNC_NAME(ebb8800),
+    CONFIG_FUNC_NAME(ebb8804),
+    CONFIG_FUNC_NAME(ebb8604),
+    CONFIG_FUNC_NAME(crb_1s),
+    CONFIG_FUNC_NAME(crb_2s_V3),
     NULL /* Table must end in NULL */
 };
 
