@@ -5433,7 +5433,11 @@ typedef union
 static inline uint64_t BDK_DTX_SATAX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_BCST_RSP(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0fe880080ll + 0x8000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x87e0fe880080ll + 0x8000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x87e0fe880080ll + 0x8000ll * ((a) & 0xf);
     __bdk_csr_fatal("DTX_SATAX_BCST_RSP", 1, a, 0, 0, 0);
 }
@@ -5478,7 +5482,11 @@ typedef union
 static inline uint64_t BDK_DTX_SATAX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_CTL(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0fe880060ll + 0x8000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x87e0fe880060ll + 0x8000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x87e0fe880060ll + 0x8000ll * ((a) & 0xf);
     __bdk_csr_fatal("DTX_SATAX_CTL", 1, a, 0, 0, 0);
 }
@@ -5515,7 +5523,11 @@ typedef union
 static inline uint64_t BDK_DTX_SATAX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_DATX(unsigned long a, unsigned long b)
 {
-    if ((a<=15) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e0fe880040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=5) && (b<=1)))
+        return 0x87e0fe880040ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=15) && (b<=1)))
         return 0x87e0fe880040ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_SATAX_DATX", 2, a, b, 0, 0);
 }
@@ -5552,7 +5564,11 @@ typedef union
 static inline uint64_t BDK_DTX_SATAX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_ENAX(unsigned long a, unsigned long b)
 {
-    if ((a<=15) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e0fe880020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=5) && (b<=1)))
+        return 0x87e0fe880020ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=15) && (b<=1)))
         return 0x87e0fe880020ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_SATAX_ENAX", 2, a, b, 0, 0);
 }
@@ -5587,7 +5603,11 @@ typedef union
 static inline uint64_t BDK_DTX_SATAX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_SELX(unsigned long a, unsigned long b)
 {
-    if ((a<=15) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e0fe880000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=5) && (b<=1)))
+        return 0x87e0fe880000ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=15) && (b<=1)))
         return 0x87e0fe880000ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_SATAX_SELX", 2, a, b, 0, 0);
 }

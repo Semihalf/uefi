@@ -3707,17 +3707,17 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
 
                                                                  INTERNAL: REB memories:
-                                                                   <31:26> = Reserved.
-                                                                   <25>  =
-                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
-                                                                 mem_128x128.
-                                                                   <24>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <23:16>  =
+                                                                   <31>  =
+                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
+                                                                 mem_256x128.
+                                                                   <30>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <29:20>  =
                                                                  nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <15:8>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                   <19:10>  =
+                                                                 nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
+                                                                   <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
                                                                    <15:0> = Reserved. */
@@ -3749,17 +3749,17 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
 
                                                                  INTERNAL: REB memories:
-                                                                   <31:26> = Reserved.
-                                                                   <25>  =
-                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
-                                                                 mem_128x128.
-                                                                   <24>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <23:16>  =
+                                                                   <31>  =
+                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
+                                                                 mem_256x128.
+                                                                   <30>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <29:20>  =
                                                                  nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <15:8>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                   <19:10>  =
+                                                                 nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
+                                                                   <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
     } cn81xx;
@@ -4408,17 +4408,17 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
 
                                                                  INTERNAL: REB memories:
-                                                                   <31:26> = Reserved.
-                                                                   <25>  =
-                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
-                                                                 mem_128x128.
-                                                                   <24>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <23:16>  =
+                                                                   <31>  =
+                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
+                                                                 mem_256x128.
+                                                                   <30>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <29:20>  =
                                                                  nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <15:8>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                   <19:10>  =
+                                                                 nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
+                                                                   <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
                                                                    <15:0> = Reserved. */
@@ -4450,17 +4450,17 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
 
                                                                  INTERNAL: REB memories:
-                                                                   <31:26> = Reserved.
-                                                                   <25>  =
-                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
-                                                                 mem_128x128.
-                                                                   <24>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <23:16>  =
+                                                                   <31>  =
+                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
+                                                                 mem_256x128.
+                                                                   <30>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <29:20>  =
                                                                  nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <15:8>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                   <19:10>  =
+                                                                 nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
+                                                                   <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
     } cn81xx;
@@ -4830,17 +4830,17 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
 
                                                                  INTERNAL: REB memories:
-                                                                   <31:26> = Reserved.
-                                                                   <25>  =
-                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
-                                                                 mem_128x128.
-                                                                   <24>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <23:16>  =
+                                                                   <31>  =
+                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
+                                                                 mem_256x128.
+                                                                   <30>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <29:20>  =
                                                                  nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <15:8>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                   <19:10>  =
+                                                                 nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
+                                                                   <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
                                                                    <15:0> = Reserved. */
@@ -4872,17 +4872,17 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
 
                                                                  INTERNAL: REB memories:
-                                                                   <31:26> = Reserved.
-                                                                   <25>  =
-                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
-                                                                 mem_128x128.
-                                                                   <24>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <23:16>  =
+                                                                   <31>  =
+                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
+                                                                 mem_256x128.
+                                                                   <30>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   <29:20>  =
                                                                  nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <15:8>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                   <19:10>  =
+                                                                 nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
+                                                                   <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
     } cn81xx;
@@ -5481,9 +5481,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
-                                                                   <15:10> = Reserved.
-                                                                   <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
-                                                                 c_rrm_ptrmem.
+                                                                   <15:7> = Reserved.
+                                                                   <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -5520,9 +5519,8 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
         uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
-                                                                   <15:10> = Reserved.
-                                                                   <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
-                                                                 c_rrm_ptrmem.
+                                                                   <15:7> = Reserved.
+                                                                   <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -5890,9 +5888,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
-                                                                   <15:10> = Reserved.
-                                                                   <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
-                                                                 c_rrm_ptrmem.
+                                                                   <15:7> = Reserved.
+                                                                   <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -5929,9 +5926,8 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
         uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
-                                                                   <15:10> = Reserved.
-                                                                   <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
-                                                                 c_rrm_ptrmem.
+                                                                   <15:7> = Reserved.
+                                                                   <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -6146,9 +6142,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
-                                                                   <15:10> = Reserved.
-                                                                   <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
-                                                                 c_rrm_ptrmem.
+                                                                   <15:7> = Reserved.
+                                                                   <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -6185,9 +6180,8 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
         uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
-                                                                   <15:10> = Reserved.
-                                                                   <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
-                                                                 c_rrm_ptrmem.
+                                                                   <15:7> = Reserved.
+                                                                   <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
                                                                    <4> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_shadow_regs.
                                                                    <3> = nic_l.core.rrm.nic_rrm_rbdr_wrap.nic_rrm_r_mod_w_block.r_mod_w_regs.
@@ -6498,7 +6492,56 @@ typedef union
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_nic_pf_ecc2_cdis_s cn; */
+    struct bdk_nic_pf_ecc2_cdis_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_50_63        : 14;
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+                                                                 <49:22> = Reserved.
+                                                                 <21>    = nic_u1.seb.mem.dmem.tso_crc.
+                                                                 <20>    = nic_u1.seb.mem.dmem.simm.
+                                                                 <19>    = nic_u1.seb.mem.dmem.sgth.
+                                                                 <18>    = nic_u1.seb.mem.dmem.dsze.
+                                                                 <17>    = nic_u1.seb.mem.dmem.lock_data.
+                                                                 <16>    = nic_u1.seb.mem.dmem.lock_be
+                                                                 <15>    = nic_u1.seb.mem.imem.crc_drf.
+                                                                 <14>    = nic_u1.seb.mem.imem.smem_drf.
+                                                                 <13>    = nic_u1.seb.ctx.lctx_dw0_drf.
+                                                                 <12>    = nic_u1.seb.ctx.lctx_dw1_drf.
+                                                                 <11>    = nic_u1.seb.ctx.eod_drf.
+                                                                 <10>    = nic_u1.seb.ctx.gctx_drf.
+                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context{1..0}.smem_cq_ctx.
+                                                                 <7>     = nic_u1.seb.smc.smem_cq_stdn.
+                                                                 <6>     = nic_u1.seb.ncx_intf.sgth_cmd.
+                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.tx_fifo.
+                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
+                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
+#else /* Word 0 - Little Endian */
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+                                                                 <49:22> = Reserved.
+                                                                 <21>    = nic_u1.seb.mem.dmem.tso_crc.
+                                                                 <20>    = nic_u1.seb.mem.dmem.simm.
+                                                                 <19>    = nic_u1.seb.mem.dmem.sgth.
+                                                                 <18>    = nic_u1.seb.mem.dmem.dsze.
+                                                                 <17>    = nic_u1.seb.mem.dmem.lock_data.
+                                                                 <16>    = nic_u1.seb.mem.dmem.lock_be
+                                                                 <15>    = nic_u1.seb.mem.imem.crc_drf.
+                                                                 <14>    = nic_u1.seb.mem.imem.smem_drf.
+                                                                 <13>    = nic_u1.seb.ctx.lctx_dw0_drf.
+                                                                 <12>    = nic_u1.seb.ctx.lctx_dw1_drf.
+                                                                 <11>    = nic_u1.seb.ctx.eod_drf.
+                                                                 <10>    = nic_u1.seb.ctx.gctx_drf.
+                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context{1..0}.smem_cq_ctx.
+                                                                 <7>     = nic_u1.seb.smc.smem_cq_stdn.
+                                                                 <6>     = nic_u1.seb.ncx_intf.sgth_cmd.
+                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.tx_fifo.
+                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
+                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
+        uint64_t reserved_50_63        : 14;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_ecc2_cdis_s cn88xx; */
+    /* struct bdk_nic_pf_ecc2_cdis_s cn83xx; */
 } bdk_nic_pf_ecc2_cdis_t;
 
 #define BDK_NIC_PF_ECC2_CDIS BDK_NIC_PF_ECC2_CDIS_FUNC()
@@ -6731,7 +6774,56 @@ typedef union
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_nic_pf_ecc2_flip0_s cn; */
+    struct bdk_nic_pf_ecc2_flip0_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_50_63        : 14;
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+                                                                 <49:22> = Reserved.
+                                                                 <21>    = nic_u1.seb.mem.dmem.tso_crc.
+                                                                 <20>    = nic_u1.seb.mem.dmem.simm.
+                                                                 <19>    = nic_u1.seb.mem.dmem.sgth.
+                                                                 <18>    = nic_u1.seb.mem.dmem.dsze.
+                                                                 <17>    = nic_u1.seb.mem.dmem.lock_data.
+                                                                 <16>    = nic_u1.seb.mem.dmem.lock_be
+                                                                 <15>    = nic_u1.seb.mem.imem.crc_drf.
+                                                                 <14>    = nic_u1.seb.mem.imem.smem_drf.
+                                                                 <13>    = nic_u1.seb.ctx.lctx_dw0_drf.
+                                                                 <12>    = nic_u1.seb.ctx.lctx_dw1_drf.
+                                                                 <11>    = nic_u1.seb.ctx.eod_drf.
+                                                                 <10>    = nic_u1.seb.ctx.gctx_drf.
+                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context{1..0}.smem_cq_ctx.
+                                                                 <7>     = nic_u1.seb.smc.smem_cq_stdn.
+                                                                 <6>     = nic_u1.seb.ncx_intf.sgth_cmd.
+                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.tx_fifo.
+                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
+                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
+#else /* Word 0 - Little Endian */
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+                                                                 <49:22> = Reserved.
+                                                                 <21>    = nic_u1.seb.mem.dmem.tso_crc.
+                                                                 <20>    = nic_u1.seb.mem.dmem.simm.
+                                                                 <19>    = nic_u1.seb.mem.dmem.sgth.
+                                                                 <18>    = nic_u1.seb.mem.dmem.dsze.
+                                                                 <17>    = nic_u1.seb.mem.dmem.lock_data.
+                                                                 <16>    = nic_u1.seb.mem.dmem.lock_be
+                                                                 <15>    = nic_u1.seb.mem.imem.crc_drf.
+                                                                 <14>    = nic_u1.seb.mem.imem.smem_drf.
+                                                                 <13>    = nic_u1.seb.ctx.lctx_dw0_drf.
+                                                                 <12>    = nic_u1.seb.ctx.lctx_dw1_drf.
+                                                                 <11>    = nic_u1.seb.ctx.eod_drf.
+                                                                 <10>    = nic_u1.seb.ctx.gctx_drf.
+                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context{1..0}.smem_cq_ctx.
+                                                                 <7>     = nic_u1.seb.smc.smem_cq_stdn.
+                                                                 <6>     = nic_u1.seb.ncx_intf.sgth_cmd.
+                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.tx_fifo.
+                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
+                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
+        uint64_t reserved_50_63        : 14;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_ecc2_flip0_s cn88xx; */
+    /* struct bdk_nic_pf_ecc2_flip0_s cn83xx; */
 } bdk_nic_pf_ecc2_flip0_t;
 
 #define BDK_NIC_PF_ECC2_FLIP0 BDK_NIC_PF_ECC2_FLIP0_FUNC()
@@ -6819,7 +6911,56 @@ typedef union
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_nic_pf_ecc2_flip1_s cn; */
+    struct bdk_nic_pf_ecc2_flip1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_50_63        : 14;
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+                                                                 <49:22> = Reserved.
+                                                                 <21>    = nic_u1.seb.mem.dmem.tso_crc.
+                                                                 <20>    = nic_u1.seb.mem.dmem.simm.
+                                                                 <19>    = nic_u1.seb.mem.dmem.sgth.
+                                                                 <18>    = nic_u1.seb.mem.dmem.dsze.
+                                                                 <17>    = nic_u1.seb.mem.dmem.lock_data.
+                                                                 <16>    = nic_u1.seb.mem.dmem.lock_be
+                                                                 <15>    = nic_u1.seb.mem.imem.crc_drf.
+                                                                 <14>    = nic_u1.seb.mem.imem.smem_drf.
+                                                                 <13>    = nic_u1.seb.ctx.lctx_dw0_drf.
+                                                                 <12>    = nic_u1.seb.ctx.lctx_dw1_drf.
+                                                                 <11>    = nic_u1.seb.ctx.eod_drf.
+                                                                 <10>    = nic_u1.seb.ctx.gctx_drf.
+                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context{1..0}.smem_cq_ctx.
+                                                                 <7>     = nic_u1.seb.smc.smem_cq_stdn.
+                                                                 <6>     = nic_u1.seb.ncx_intf.sgth_cmd.
+                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.tx_fifo.
+                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
+                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
+#else /* Word 0 - Little Endian */
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+                                                                 <49:22> = Reserved.
+                                                                 <21>    = nic_u1.seb.mem.dmem.tso_crc.
+                                                                 <20>    = nic_u1.seb.mem.dmem.simm.
+                                                                 <19>    = nic_u1.seb.mem.dmem.sgth.
+                                                                 <18>    = nic_u1.seb.mem.dmem.dsze.
+                                                                 <17>    = nic_u1.seb.mem.dmem.lock_data.
+                                                                 <16>    = nic_u1.seb.mem.dmem.lock_be
+                                                                 <15>    = nic_u1.seb.mem.imem.crc_drf.
+                                                                 <14>    = nic_u1.seb.mem.imem.smem_drf.
+                                                                 <13>    = nic_u1.seb.ctx.lctx_dw0_drf.
+                                                                 <12>    = nic_u1.seb.ctx.lctx_dw1_drf.
+                                                                 <11>    = nic_u1.seb.ctx.eod_drf.
+                                                                 <10>    = nic_u1.seb.ctx.gctx_drf.
+                                                                 <9:8>   = nic_u1.seb.smc.smem_cq_context{1..0}.smem_cq_ctx.
+                                                                 <7>     = nic_u1.seb.smc.smem_cq_stdn.
+                                                                 <6>     = nic_u1.seb.ncx_intf.sgth_cmd.
+                                                                 <5:4>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.tx_fifo.
+                                                                 <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
+                                                                 <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
+        uint64_t reserved_50_63        : 14;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_ecc2_flip1_s cn88xx; */
+    /* struct bdk_nic_pf_ecc2_flip1_s cn83xx; */
 } bdk_nic_pf_ecc2_flip1_t;
 
 #define BDK_NIC_PF_ECC2_FLIP1 BDK_NIC_PF_ECC2_FLIP1_FUNC()

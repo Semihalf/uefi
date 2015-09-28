@@ -108,6 +108,45 @@ typedef union
     struct bdk_mio_boot_bist_stat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t stat                  : 13; /**< [ 12:  0](RO/H) BIST status.
+                                                                 INTERNAL:
+                                                                   <0> = mio.mio_boot.mio_boot_fifo.mem.
+                                                                   <1> = mio.mio_boot.mio_boot_rsp.mem.
+                                                                   <2> = mio.mio_boot.mio_boot_dma.mem.
+                                                                   <3> = mio.mio_nbt.mio_nbt_fifo.mem.
+                                                                   <4> = mio.mio_emm.bufs.mem.mem.
+                                                                   <5> = mio.mio_nbr.ncbo_crd_fif_mem0.
+                                                                   <6> = mio.csr.csr_fifo.
+                                                                   <7> = mio_boot_rom/mio_boot_rom1 (internal bootroms).
+                                                                   <8> = mio.mio_rsl.mio_pcc.gpi_pcc.
+                                                                   <9> = mio.mio_pbus.mio_pbus_fifo.mem.
+                                                                  <10> = mio.mio_pbus.mio_pbus_rsp.mem.
+                                                                  <11> = mio.mio_ndf.mio_ndf_bufs.ndf_buf.
+                                                                  <12> = mio.mio_ndf.ndf_ncb_rcv_fif. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat                  : 13; /**< [ 12:  0](RO/H) BIST status.
+                                                                 INTERNAL:
+                                                                   <0> = mio.mio_boot.mio_boot_fifo.mem.
+                                                                   <1> = mio.mio_boot.mio_boot_rsp.mem.
+                                                                   <2> = mio.mio_boot.mio_boot_dma.mem.
+                                                                   <3> = mio.mio_nbt.mio_nbt_fifo.mem.
+                                                                   <4> = mio.mio_emm.bufs.mem.mem.
+                                                                   <5> = mio.mio_nbr.ncbo_crd_fif_mem0.
+                                                                   <6> = mio.csr.csr_fifo.
+                                                                   <7> = mio_boot_rom/mio_boot_rom1 (internal bootroms).
+                                                                   <8> = mio.mio_rsl.mio_pcc.gpi_pcc.
+                                                                   <9> = mio.mio_pbus.mio_pbus_fifo.mem.
+                                                                  <10> = mio.mio_pbus.mio_pbus_rsp.mem.
+                                                                  <11> = mio.mio_ndf.mio_ndf_bufs.ndf_buf.
+                                                                  <12> = mio.mio_ndf.ndf_ncb_rcv_fif. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_boot_bist_stat_s cn81xx; */
+    struct bdk_mio_boot_bist_stat_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t stat                  : 9;  /**< [  8:  0](RO/H) BIST status.
                                                                  INTERNAL:
@@ -134,8 +173,8 @@ typedef union
                                                                    <8> = mio.mio_rsl.mio_pcc.gpi_pcc. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_boot_bist_stat_s cn; */
+    } cn88xx;
+    /* struct bdk_mio_boot_bist_stat_s cn83xx; */
 } bdk_mio_boot_bist_stat_t;
 
 #define BDK_MIO_BOOT_BIST_STAT BDK_MIO_BOOT_BIST_STAT_FUNC()
@@ -268,6 +307,21 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
+        uint64_t fif_cnt               : 6;  /**< [ 13:  8](RO/H) Current FIFO count. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fif_thr               : 6;  /**< [  5:  0](R/W) NCB busy threshold. Should always read 0x19 (the only legal value). */
+#else /* Word 0 - Little Endian */
+        uint64_t fif_thr               : 6;  /**< [  5:  0](R/W) NCB busy threshold. Should always read 0x19 (the only legal value). */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fif_cnt               : 6;  /**< [ 13:  8](RO/H) Current FIFO count. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_boot_thr_s cn81xx; */
+    struct bdk_mio_boot_thr_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
         uint64_t fif_cnt               : 6;  /**< [ 13:  8](RO/H) Current NCB FIFO count. */
         uint64_t reserved_6_7          : 2;
         uint64_t fif_thr               : 6;  /**< [  5:  0](R/W) NCB busy threshold. Should always read 0x19 (the only legal value). */
@@ -277,8 +331,8 @@ typedef union
         uint64_t fif_cnt               : 6;  /**< [ 13:  8](RO/H) Current NCB FIFO count. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_boot_thr_s cn; */
+    } cn88xx;
+    /* struct bdk_mio_boot_thr_s cn83xx; */
 } bdk_mio_boot_thr_t;
 
 #define BDK_MIO_BOOT_THR BDK_MIO_BOOT_THR_FUNC()

@@ -164,7 +164,11 @@ typedef union
 static inline uint64_t BDK_SATAX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if ((a<=15) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
+        return 0x8100002f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=5) && (b==0)))
+        return 0x8100002f0000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=15) && (b==0)))
         return 0x8100002f0000ll + 0x1000000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("SATAX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -218,16 +222,80 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_satax_msix_vecx_addr_s cn; */
+    struct bdk_satax_msix_vecx_addr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's SATA()_MSIX_VEC()_ADDR, SATA()_MSIX_VEC()_CTL, and
+                                                                 corresponding
+                                                                 bit of SATA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_SATA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's SATA()_MSIX_VEC()_ADDR, SATA()_MSIX_VEC()_CTL, and
+                                                                 corresponding
+                                                                 bit of SATA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_SATA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_satax_msix_vecx_addr_s cn88xx; */
+    struct bdk_satax_msix_vecx_addr_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's SATA()_MSIX_VEC()_ADDR, SATA()_MSIX_VEC()_CTL, and
+                                                                 corresponding
+                                                                 bit of SATA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_SATA(0..5)_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's SATA()_MSIX_VEC()_ADDR, SATA()_MSIX_VEC()_CTL, and
+                                                                 corresponding
+                                                                 bit of SATA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_SATA(0..5)_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_satax_msix_vecx_addr_t;
 
 static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=15) && (b<=3)))
-        return 0x810000200000ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=15) && (b<=3)))
-        return 0x810000200000ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x810000200000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=5) && (b<=3)))
+        return 0x810000200000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((a<=15) && (b<=4)))
         return 0x810000200000ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=15) && (b<=3)))
@@ -272,10 +340,10 @@ typedef union
 static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=15) && (b<=3)))
-        return 0x810000200008ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=15) && (b<=3)))
-        return 0x810000200008ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x810000200008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=5) && (b<=3)))
+        return 0x810000200008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((a<=15) && (b<=4)))
         return 0x810000200008ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=15) && (b<=3)))
@@ -349,7 +417,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTAFR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTAFR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000a0ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000a0ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000a0ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_BISTAFR", 1, a, 0, 0, 0);
 }
@@ -432,7 +504,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000a4ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000a4ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000a4ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_BISTCR", 1, a, 0, 0, 0);
 }
@@ -471,7 +547,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTDECR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTDECR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000b0ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000b0ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000b0ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_BISTDECR", 1, a, 0, 0, 0);
 }
@@ -510,7 +590,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTFCTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTFCTR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000a8ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000a8ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000a8ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_BISTFCTR", 1, a, 0, 0, 0);
 }
@@ -549,7 +633,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTSR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000acll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000acll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000acll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_BISTSR", 1, a, 0, 0, 0);
 }
@@ -624,7 +712,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000000ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000000ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000000ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_CAP", 1, a, 0, 0, 0);
 }
@@ -671,7 +763,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP2(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000024ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000024ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000024ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_CAP2", 1, a, 0, 0, 0);
 }
@@ -714,7 +810,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_CTL(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000014ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000014ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000014ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_CCC_CTL", 1, a, 0, 0, 0);
 }
@@ -751,7 +851,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_PORTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_PORTS(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000018ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000018ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000018ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_CCC_PORTS", 1, a, 0, 0, 0);
 }
@@ -792,7 +896,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_GHC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_GHC(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000004ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000004ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000004ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_GHC", 1, a, 0, 0, 0);
 }
@@ -853,7 +961,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM1R(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM1R(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000e8ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000e8ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000e8ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_GPARAM1R", 1, a, 0, 0, 0);
 }
@@ -914,7 +1026,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000ecll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000ecll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000ecll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_GPARAM2R", 1, a, 0, 0, 0);
 }
@@ -949,7 +1065,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_IDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_IDR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000fcll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000fcll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000fcll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_IDR", 1, a, 0, 0, 0);
 }
@@ -986,7 +1106,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_IS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_IS(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000008ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000008ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000008ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_IS", 1, a, 0, 0, 0);
 }
@@ -1033,7 +1157,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_OOBR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_OOBR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000bcll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000bcll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000bcll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_OOBR", 1, a, 0, 0, 0);
 }
@@ -1070,7 +1198,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_PI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_PI(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x81000000000cll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x81000000000cll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x81000000000cll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_PI", 1, a, 0, 0, 0);
 }
@@ -1119,7 +1251,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_PPARAMR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_PPARAMR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000f0ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000f0ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000f0ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_PPARAMR", 1, a, 0, 0, 0);
 }
@@ -1160,7 +1296,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_TESTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_TESTR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000f4ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000f4ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000f4ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_TESTR", 1, a, 0, 0, 0);
 }
@@ -1197,7 +1337,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_TIMER1MS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_TIMER1MS(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000e0ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000e0ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000e0ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_TIMER1MS", 1, a, 0, 0, 0);
 }
@@ -1232,7 +1376,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_VERSIONR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_VERSIONR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100000000f8ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100000000f8ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100000000f8ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_VERSIONR", 1, a, 0, 0, 0);
 }
@@ -1269,7 +1417,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_VS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_VS(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000010ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000010ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000010ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_GBL_VS", 1, a, 0, 0, 0);
 }
@@ -1304,7 +1456,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_CI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_CI(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000138ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000138ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000138ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_CI", 1, a, 0, 0, 0);
 }
@@ -1341,7 +1497,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_CLB(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_CLB(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000100ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000100ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000100ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_CLB", 1, a, 0, 0, 0);
 }
@@ -1422,7 +1582,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_CMD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_CMD(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000118ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000118ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000118ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_CMD", 1, a, 0, 0, 0);
 }
@@ -1465,7 +1629,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_DMACR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_DMACR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000170ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000170ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000170ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_DMACR", 1, a, 0, 0, 0);
 }
@@ -1502,7 +1670,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_FB(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_FB(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000108ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000108ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000108ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_FB", 1, a, 0, 0, 0);
 }
@@ -1551,7 +1723,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_FBS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_FBS(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000140ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000140ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000140ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_FBS", 1, a, 0, 0, 0);
 }
@@ -1622,7 +1798,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_IE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_IE(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000114ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000114ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000114ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_IE", 1, a, 0, 0, 0);
 }
@@ -1693,7 +1873,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_IS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_IS(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000110ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000110ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000110ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_IS", 1, a, 0, 0, 0);
 }
@@ -1728,7 +1912,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYCR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000178ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000178ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000178ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_PHYCR", 1, a, 0, 0, 0);
 }
@@ -1763,7 +1951,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYSR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x81000000017cll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x81000000017cll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x81000000017cll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_PHYSR", 1, a, 0, 0, 0);
 }
@@ -1798,7 +1990,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SACT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SACT(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000134ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000134ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000134ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_SACT", 1, a, 0, 0, 0);
 }
@@ -1843,7 +2039,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SCTL(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x81000000012cll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x81000000012cll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x81000000012cll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_SCTL", 1, a, 0, 0, 0);
 }
@@ -1916,7 +2116,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SERR(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000130ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000130ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000130ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_SERR", 1, a, 0, 0, 0);
 }
@@ -1951,7 +2155,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SIG(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000124ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000124ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000124ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_SIG", 1, a, 0, 0, 0);
 }
@@ -1988,7 +2196,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SNTF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SNTF(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x81000000013cll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x81000000013cll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x81000000013cll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_SNTF", 1, a, 0, 0, 0);
 }
@@ -2029,7 +2241,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SSTS(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000128ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000128ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000128ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_SSTS", 1, a, 0, 0, 0);
 }
@@ -2068,7 +2284,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_TFD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_TFD(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000000120ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000000120ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000000120ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UAHC_P0_TFD", 1, a, 0, 0, 0);
 }
@@ -2136,7 +2356,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_BIST_STATUS(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000100008ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000100008ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000100008ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UCTL_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -2438,7 +2662,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_CTL(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000100000ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000100000ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000100000ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UCTL_CTL", 1, a, 0, 0, 0);
 }
@@ -2517,7 +2745,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_ECC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_ECC(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100001000f0ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100001000f0ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100001000f0ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UCTL_ECC", 1, a, 0, 0, 0);
 }
@@ -2574,13 +2806,89 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_satax_uctl_intena_w1c_s cn; */
+    struct bdk_satax_uctl_intena_w1c_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+#else /* Word 0 - Little Endian */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SATA(0..1)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_satax_uctl_intena_w1c_s cn88xx; */
+    struct bdk_satax_uctl_intena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XS_NCB_OOB]. */
+#else /* Word 0 - Little Endian */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SATA(0..5)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_satax_uctl_intena_w1c_t;
 
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1C(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000100040ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000100040ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000100040ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UCTL_INTENA_W1C", 1, a, 0, 0, 0);
 }
@@ -2637,13 +2945,89 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_satax_uctl_intena_w1s_s cn; */
+    struct bdk_satax_uctl_intena_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+#else /* Word 0 - Little Endian */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SATA(0..1)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_satax_uctl_intena_w1s_s cn88xx; */
+    struct bdk_satax_uctl_intena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XS_NCB_OOB]. */
+#else /* Word 0 - Little Endian */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SATA(0..5)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_satax_uctl_intena_w1s_t;
 
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1S(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000100048ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000100048ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000100048ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UCTL_INTENA_W1S", 1, a, 0, 0, 0);
 }
@@ -2734,7 +3118,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000100030ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000100030ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000100030ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UCTL_INTSTAT", 1, a, 0, 0, 0);
 }
@@ -2791,13 +3179,89 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_satax_uctl_intstat_w1s_s cn; */
+    struct bdk_satax_uctl_intstat_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+#else /* Word 0 - Little Endian */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SATA(0..1)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_satax_uctl_intstat_w1s_s cn88xx; */
+    struct bdk_satax_uctl_intstat_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XS_NCB_OOB]. */
+#else /* Word 0 - Little Endian */
+        uint64_t xs_ncb_oob            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XS_NCB_OOB]. */
+        uint64_t xm_bad_dma            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XM_BAD_DMA]. */
+        uint64_t xm_w_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XM_W_SBE]. */
+        uint64_t xm_w_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XM_W_DBE]. */
+        uint64_t xm_r_sbe              : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XM_R_SBE]. */
+        uint64_t xm_r_dbe              : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[XM_R_DBE]. */
+        uint64_t dma_wr_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[DMA_WR_ERR]. */
+        uint64_t dma_rd_err            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[DMA_RD_ERR]. */
+        uint64_t uahc_fb_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_FB_SBE]. */
+        uint64_t uahc_fb_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_FB_DBE]. */
+        uint64_t uahc_tx_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_TX_SBE]. */
+        uint64_t uahc_tx_dbe           : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_TX_DBE]. */
+        uint64_t uahc_rx_sbe           : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_RX_SBE]. */
+        uint64_t uahc_rx_dbe           : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SATA(0..5)_UCTL_INTSTAT[UAHC_RX_DBE]. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_satax_uctl_intstat_w1s_t;
 
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT_W1S(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000100038ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000100038ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000100038ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UCTL_INTSTAT_W1S", 1, a, 0, 0, 0);
 }
@@ -2878,7 +3342,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_SHIM_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_SHIM_CFG(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100001000e8ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100001000e8ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100001000e8ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UCTL_SHIM_CFG", 1, a, 0, 0, 0);
 }
@@ -2918,7 +3386,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_SPARE0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_SPARE0(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x810000100010ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x810000100010ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x810000100010ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UCTL_SPARE0", 1, a, 0, 0, 0);
 }
@@ -2958,7 +3430,11 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_SPARE1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_SPARE1(unsigned long a)
 {
-    if (a<=15)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x8100001000f8ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x8100001000f8ll + 0x1000000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=15))
         return 0x8100001000f8ll + 0x1000000000ll * ((a) & 0xf);
     __bdk_csr_fatal("SATAX_UCTL_SPARE1", 1, a, 0, 0, 0);
 }

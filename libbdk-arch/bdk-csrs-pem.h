@@ -592,6 +592,30 @@ typedef union
         uint64_t reserved_5_63         : 59;
         uint64_t laneswap              : 1;  /**< [  4:  4](R/W/H) Determines lane swapping. When set, lane swapping is
                                                                  performed to/from the SerDes. When clear, no lane swapping is performed. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t md                    : 2;  /**< [  1:  0](R/W/H) Determines the speed.
+                                                                   0x0 = Gen1 speed.
+                                                                   0x1 = Gen2 speed.
+                                                                   0x2 = Gen3 speed.
+                                                                   0x3 = Gen3 speed. */
+#else /* Word 0 - Little Endian */
+        uint64_t md                    : 2;  /**< [  1:  0](R/W/H) Determines the speed.
+                                                                   0x0 = Gen1 speed.
+                                                                   0x1 = Gen2 speed.
+                                                                   0x2 = Gen3 speed.
+                                                                   0x3 = Gen3 speed. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t laneswap              : 1;  /**< [  4:  4](R/W/H) Determines lane swapping. When set, lane swapping is
+                                                                 performed to/from the SerDes. When clear, no lane swapping is performed. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_pemx_cfg_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t laneswap              : 1;  /**< [  4:  4](R/W/H) Determines lane swapping. When set, lane swapping is
+                                                                 performed to/from the SerDes. When clear, no lane swapping is performed. */
         uint64_t lanes8                : 1;  /**< [  3:  3](R/W/H) Determines the number of lanes.
                                                                  When set, the PEM is configured for a maximum of 8 lanes. When clear, the PEM is
                                                                  configured for a maximum of 4 lanes. This value is used to set the maximum link width
@@ -621,8 +645,7 @@ typedef union
                                                                  performed to/from the SerDes. When clear, no lane swapping is performed. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_pemx_cfg_cn81xx cn88xx; */
+    } cn88xx;
     struct bdk_pemx_cfg_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

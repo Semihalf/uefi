@@ -1590,6 +1590,52 @@ typedef union
                                                                  exception level to which FIQ is routed.
 
                                                                  ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
+                                                                 "active and pending" means "active" only for CIM.
+
+                                                                 Changed in pass 3. */
+#else /* Word 0 - Little Endian */
+        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
+                                                                 Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
+                                                                 can depend on:
+
+                                                                 1. Whether the highest priority pending interrupt is configured as a group 0 or a group 1
+                                                                 interrupt.
+
+                                                                 2. Whether the register access is secure or nonsecure.
+
+                                                                 Reads of the CIM()_ICC_HPPIR0_EL1 that do not return a valid interrupt ID return a
+                                                                 spurrious interrupt ID, ID 1022 or 1023.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which FIQ is routed.
+
+                                                                 ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
+                                                                 "active and pending" means "active" only for CIM.
+
+                                                                 Changed in pass 3. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_cimx_icc_hppir0_el1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
+                                                                 Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
+                                                                 can depend on:
+
+                                                                 1. Whether the highest priority pending interrupt is configured as a group 0 or a group 1
+                                                                 interrupt.
+
+                                                                 2. Whether the register access is secure or nonsecure.
+
+                                                                 Reads of the CIM()_ICC_HPPIR0_EL1 that do not return a valid interrupt ID return a
+                                                                 spurrious interrupt ID, ID 1022 or 1023.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which FIQ is routed.
+
+                                                                 ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
                                                                  "active and pending" means "active" only for CIM. */
 #else /* Word 0 - Little Endian */
         uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
@@ -1611,8 +1657,9 @@ typedef union
                                                                  "active and pending" means "active" only for CIM. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cimx_icc_hppir0_el1_s cn; */
+    } cn81xx;
+    /* struct bdk_cimx_icc_hppir0_el1_s cn88xx; */
+    /* struct bdk_cimx_icc_hppir0_el1_cn81xx cn83xx; */
 } bdk_cimx_icc_hppir0_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_HPPIR0_EL1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1641,6 +1688,48 @@ typedef union
 {
     uint64_t u;
     struct bdk_cimx_icc_hppir1_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
+                                                                 Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
+                                                                 can depend on:
+
+                                                                 1. Whether the highest priority pending interrupt is configured as a group 0 or a group 1
+                                                                 interrupt.
+
+                                                                 2. Whether the register access is secure or nonsecure.
+
+                                                                 Reads of the CIM()_ICC_HPPIR0_EL1 that do not return a valid interrupt ID return a
+                                                                 spurious interrupt ID, ID 1022 or 1023.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which FIQ is routed.
+
+                                                                 ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
+                                                                 "active and pending" means "active" only for CIM. */
+#else /* Word 0 - Little Endian */
+        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
+                                                                 Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
+                                                                 can depend on:
+
+                                                                 1. Whether the highest priority pending interrupt is configured as a group 0 or a group 1
+                                                                 interrupt.
+
+                                                                 2. Whether the register access is secure or nonsecure.
+
+                                                                 Reads of the CIM()_ICC_HPPIR0_EL1 that do not return a valid interrupt ID return a
+                                                                 spurious interrupt ID, ID 1022 or 1023.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which FIQ is routed.
+
+                                                                 ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
+                                                                 "active and pending" means "active" only for CIM. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_cimx_icc_hppir1_el1_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
@@ -1681,8 +1770,9 @@ typedef union
                                                                  "active and pending" means "active" only for CIM. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cimx_icc_hppir1_el1_s cn; */
+    } cn81xx;
+    /* struct bdk_cimx_icc_hppir1_el1_s cn88xx; */
+    /* struct bdk_cimx_icc_hppir1_el1_cn81xx cn83xx; */
 } bdk_cimx_icc_hppir1_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_HPPIR1_EL1(unsigned long a) __attribute__ ((pure, always_inline));
