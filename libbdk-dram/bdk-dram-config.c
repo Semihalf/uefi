@@ -15,6 +15,7 @@ extern const dram_config_t* CONFIG_FUNC_NAME(ebb8804)();
 extern const dram_config_t* CONFIG_FUNC_NAME(ebb8604)();
 extern const dram_config_t* CONFIG_FUNC_NAME(crb_1s)();
 extern const dram_config_t* CONFIG_FUNC_NAME(crb_2s_V3)();
+extern const dram_config_t* CONFIG_FUNC_NAME(inv_p3e003)();
 
 /* This table is the list of supported DRAM configs */
 static const config_func_t dram_table[] =
@@ -24,6 +25,7 @@ static const config_func_t dram_table[] =
     CONFIG_FUNC_NAME(ebb8604),
     CONFIG_FUNC_NAME(crb_1s),
     CONFIG_FUNC_NAME(crb_2s_V3),
+    CONFIG_FUNC_NAME(inv_p3e003),
     NULL /* Table must end in NULL */
 };
 

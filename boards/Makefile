@@ -9,6 +9,7 @@ BOARDS+=crb-2s
 BOARDS+=ebb8604
 BOARDS+=ebb8800
 BOARDS+=ebb8804
+BOARDS+=inv-p3e003
 BOARDS+=screen-ebb8604
 BOARDS+=screen-ebb8800
 BOARDS+=screen-ebb8804
