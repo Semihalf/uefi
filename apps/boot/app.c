@@ -41,7 +41,8 @@ void boot_menu(void)
             printf("D) Enter Diagnostics\n"); // Hidden if no board configuration
         printf("E) Enter Diagnostics, skipping Setup\n");
         printf("F) Select Image from Flash\n");
-        printf("X) Upload File using Xmodem\n");
+        printf("X) Upload File to FatFS using Xmodem\n");
+        printf("W) Burn boot flash using Xmodem\n");
         printf("\n");
         printf("Choice: ");
         int key = bdk_readline_getkey(-1);
@@ -76,6 +77,11 @@ void boot_menu(void)
                 char name[_MAX_LFN +1];
                 snprintf(name, sizeof(name), "/fatfs/%s", filename);
                 bdk_xmodem_upload(name, 0);
+                break;
+            }
+            case 'W':
+            {
+                bdk_xmodem_upload("/boot", 0);
                 break;
             }
             default:
