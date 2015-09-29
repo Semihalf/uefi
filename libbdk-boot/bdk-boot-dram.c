@@ -10,7 +10,7 @@
  */
 void bdk_boot_dram(bdk_node_t node, int prompt_for_speed)
 {
-    /* Don't ru nfor nodes that don't exist */
+    /* Don't run for nodes that don't exist */
     if (!bdk_numa_exists(node))
         return;
 
@@ -57,32 +57,35 @@ void bdk_boot_dram(bdk_node_t node, int prompt_for_speed)
     freq = (freq + 500000) / 1000000;
     printf("Node %d: DRAM: %d MB, %u MHz\n", node, mbytes, freq);
 
+    /* See if we should test this node's DRAM during boot */
+    int test_dram = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DRAM_BOOT_TEST, node);
+    if (test_dram)
+    {
+        /* Wake up one core on the other node */
+        if (node != bdk_numa_master())
+            bdk_init_cores(node, 1);
+        /* Run the address test to make sure DRAM works */
+        if (bdk_dram_test(13, 0, 0x10000000000ull, BDK_DRAM_TEST_NO_STATS | (1<<node)))
+            bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
+        bdk_watchdog_poke();
+        /* Put other node core back in reset */
+        if (node != bdk_numa_master())
+            BDK_CSR_WRITE(node, BDK_RST_PP_RESET, -1);
+        /* Clear DRAM */
+        uint64_t skip = 0;
+        if (node == bdk_numa_master())
+            skip = bdk_dram_get_top_of_bdk();
+        void *base = bdk_phys_to_ptr(bdk_numa_get_address(node, skip));
+        bdk_zero_memory(base, ((uint64_t)mbytes << 20) - skip);
+        bdk_watchdog_poke();
+    }
+
+    /* Unlock L2 now that DRAM works */
     if (node == bdk_numa_master())
     {
-        /* Unlock L2 now that DRAM works */
         uint64_t l2_size = bdk_l2c_get_cache_size_bytes(node);
         BDK_TRACE(INIT, "Unlocking L2\n");
         bdk_l2c_unlock_mem_region(node, 0, l2_size);
-    }
-    else if (bdk_watchdog_is_running())
-    {
-        /* Wake up one core on the other node */
-        bdk_init_cores(node, 1);
-        /* Run the address test to make sure DRAM works */
-        if (bdk_dram_test(13, 0, 0x10000000000ull, BDK_DRAM_TEST_NO_STATS))
-            bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);
-        /* Put other node core back in reset */
-        BDK_CSR_WRITE(node, BDK_RST_PP_RESET, -1);
-        /* Clear DRAM on first node */
-        uint64_t skip = bdk_dram_get_top_of_bdk();
-        bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(bdk_numa_master(), skip)),
-            ((uint64_t)mbytes << 20) - skip);
-        /* Poke the watchdog */
         bdk_watchdog_poke();
-        /* Clear DRAM on second node */
-        bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, 0)), (uint64_t)mbytes << 20);
     }
-
-    /* Poke the watchdog */
-    bdk_watchdog_poke();
 }
