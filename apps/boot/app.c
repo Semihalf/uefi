@@ -43,6 +43,7 @@ void boot_menu(void)
         printf("F) Select Image from Flash\n");
         printf("X) Upload File to FatFS using Xmodem\n");
         printf("W) Burn boot flash using Xmodem\n");
+        printf("U) Change baud rate and flow control\n");
         printf("\n");
         printf("Choice: ");
         int key = bdk_readline_getkey(-1);
@@ -82,6 +83,24 @@ void boot_menu(void)
             case 'W':
             {
                 bdk_xmodem_upload("/boot", 0);
+                break;
+            }
+            case 'U':
+            {
+                const char *baud = bdk_readline("Baudrate: ", NULL, 0);
+                const char *flow = bdk_readline("Use hardware flow control [y/n]: ", NULL, 0);
+                int baudrate = atoi(baud);
+                if ((baudrate < 9600) || (baudrate > 4000000))
+                {
+                    bdk_error("Illegal baudrate\n");
+                    break;
+                }
+                int use_flow = (*flow == 'y');
+                printf("Changing baudrate to %d\n", baudrate);
+                fflush(NULL);
+                bdk_wait_usec(500000);
+                bdk_set_baudrate(bdk_numa_local(), 0, baudrate, use_flow);
+                printf("Baudrate is now %d\n", baudrate);
                 break;
             }
             default:
