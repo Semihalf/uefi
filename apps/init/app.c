@@ -250,35 +250,12 @@ int main(void)
 {
     bdk_node_t node = bdk_numa_local();
 
-    /* Check for safe mode boot.
-     *
-     * This allows the user to boot in safe mode in case the configuration file
-     * does not work on the system and prevents boot.
-     */
-    char *cfgfile;
-    int key = 0;
-    printf("Press X to boot in safe mode...\n");
-    if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
-        key = bdk_readline_getkey(SAFE_BOOT_TIMEOUT * 1000000);
-    if ((key == 'x') || (key == 'X'))
-    {
-        printf("=================================================\n"
-               "= BOOTING in SAFE MODE\n"
-               "=================================================\n");
-
-        /* Use the safe mode configuration file. */
-        cfgfile = BDK_ENV_CFG_FILE_NAME_SAFE_MODE;
-    }
-    else
-    {
-        cfgfile = NULL; /* NULL == default filename */
-    }
-
-    if (bdk_loadenv(cfgfile))
+    if (bdk_loadenv(NULL))
         bdk_warn("Could not read environment variables from config file. "
                  "Will use empty configuration...\n");
 
-    /* Enable watchdog */
+    /* Enable watchdog. Must be after loading the config so we know the
+       watchdog timeout */
     bdk_watchdog_set(0);
 
     /* Send status to the BMC: Started boot stub */
