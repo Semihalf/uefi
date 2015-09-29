@@ -141,12 +141,12 @@ int main(void)
     }
 
     int boot_timeout = bdk_brd_cfg_get_int(3, "BOOT-MENU-TIMEOUT");
-    printf("\nPress 'ESC' within %d seconds for boot menu\n", boot_timeout);
+    printf("\nPress 'B' within %d seconds for boot menu\n", boot_timeout);
     int key;
     do
     {
         key = bdk_readline_getkey(boot_timeout * 1000000);
-    } while ((key != -1) && (key != 27));
+    } while ((key != -1) && (key != 'B') && (key != 'b'));
 
     if (key == -1)
         bdk_image_boot("/fatfs/init.bin", 0, 0);
