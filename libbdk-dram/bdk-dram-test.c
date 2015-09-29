@@ -347,6 +347,16 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
             }
         }
     }
+
+    /* disable progress output when batch mode is ON  */
+    if (!(flags & BDK_DRAM_TEST_NO_PROGRESS)) {
+
+        /* Report progress percentage as complete */
+        printf("  %3d.%d%% complete, testing [0x%011lx:0x%011lx]\n",
+               100, 0,  start_address, end_address - 1);
+        fflush(stdout);
+    }
+
     if (!(flags & BDK_DRAM_TEST_NO_STATS))
     {
         /* Display LMC load */
