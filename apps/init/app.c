@@ -302,27 +302,11 @@ int main(void)
     bdk_boot_twsi();
     bdk_boot_mdio();
 
-    /* Select ATF or diagnostics image */
-    int use_atf = 1;
-
-    /* A GPIO can be used to select diagnostics without input */
-    int DIAGS_GPIO_VALUE = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_DIAGS_GPIO_VALUE);
-    if (-1 != DIAGS_GPIO_VALUE)
-    {
-        int DIAGS_GPIO = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DIAGS_GPIO);
-        int gpio = bdk_gpio_read(bdk_numa_master()) >> DIAGS_GPIO;
-        gpio &= 1;
-        if (gpio == DIAGS_GPIO_VALUE)
-        {
-            printf("\nStarting diagnostics based on GPIO%d\n", DIAGS_GPIO);
-            use_atf = 0;
-        }
-    }
-
     /* Poke the watchdog */
     bdk_watchdog_poke();
 
     /* Check for 'D' override */
+    int use_atf = 1;
     if (use_atf && (DIAGS_TIMEOUT > 0) && !bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
         printf("\nPress 'D' within %d seconds to boot diagnostics\n", DIAGS_TIMEOUT);
