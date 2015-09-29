@@ -246,7 +246,7 @@ static void slt_boot_image(bdk_node_t node)
  *
  * @return exit code
  */
-int main(void)
+int main(int argc, const char **argv)
 {
     bdk_node_t node = bdk_numa_local();
 
@@ -306,7 +306,7 @@ int main(void)
     bdk_watchdog_poke();
 
     /* Check for 'D' override */
-    int use_atf = 1;
+    int use_atf = ((long)argv != 1); /* argv=1 means jump to diagnsotics without prompting */
     if (use_atf && (DIAGS_TIMEOUT > 0) && !bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
         printf("\nPress 'D' within %d seconds to boot diagnostics\n", DIAGS_TIMEOUT);
