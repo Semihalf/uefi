@@ -102,8 +102,8 @@ void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_cont
         c.s.uarten = 1); /* Enable uart */
 }
 
-void __bdk_init(uint32_t image_crc) __attribute((noreturn));
-void __bdk_init(uint32_t image_crc)
+void __bdk_init(uint32_t image_crc, int argc, void *argv) __attribute((noreturn));
+void __bdk_init(uint32_t image_crc, int argc, void *argv)
 {
     extern void __bdk_exception_current_el_sync_sp0();
     BDK_MSR(VBAR_EL3, __bdk_exception_current_el_sync_sp0);
@@ -258,7 +258,7 @@ void __bdk_init(uint32_t image_crc)
     __bdk_init_exception_stack(exception_stack + EX_STACK_SIZE);
 
     bdk_atomic_add64(&__bdk_alive_coremask[node], bdk_core_to_mask());
-    bdk_thread_first(__bdk_init_main, 0, NULL, 0);
+    bdk_thread_first(__bdk_init_main, argc, argv, 0);
 }
 
 /**

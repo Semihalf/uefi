@@ -125,7 +125,7 @@ void __bdk_init_node(bdk_node_t node)
  * @param arg
  * @param arg1
  */
-void __bdk_init_main(int arg, void *arg1)
+void __bdk_init_main(int argc, void *argv)
 {
     const bdk_node_t node = bdk_numa_local();
     /* All cores start running threads here. Only the setup required to get
@@ -192,7 +192,7 @@ void __bdk_init_main(int arg, void *arg1)
             goes multicore later */
         extern int main(int argc, const char *argv);
         BDK_TRACE(INIT, "Switching to main\n");
-        if (bdk_thread_create(node, 0, (bdk_thread_func_t)main, arg, arg1, BDK_THREAD_MAIN_STACK_SIZE))
+        if (bdk_thread_create(node, 0, (bdk_thread_func_t)main, argc, argv, BDK_THREAD_MAIN_STACK_SIZE))
             bdk_fatal("Create of main thread failed\n");
 
         /* The following code doesn't do anything useful. It forces a link

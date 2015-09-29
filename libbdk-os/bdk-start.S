@@ -44,6 +44,8 @@ _start:
 .org 0x100
 __bdk_start:
     ic      ialluis
+    fmov    d30, x0 /* Save X0 in FPR for use later */
+    fmov    d31, x1 /* Save X1 in FPR for use later */
 #if BDK_GPIO_BOOT_DEBUG >= 0
     # Read RST_BOOT to fine the SCLK multiplier
     #define RST_BASE 0x87E006000000
@@ -223,6 +225,8 @@ __bdk_start_cores:
     str     x10, [x20, GPIO_CLK_OFFSET]
 #endif
 
+    fmov    x1, d30 /* The original X0 is now in X1, info from previous image */
+    fmov    x2, d31 /* The original X1 is now in X2, info from previous image */
     /* Jump to C code */
     bl      __bdk_init
 1:  b       1b              /* Infinite loop we should never reach */
