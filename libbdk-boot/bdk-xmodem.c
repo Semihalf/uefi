@@ -1,7 +1,7 @@
 #include <bdk.h>
 
 static int volatile write_needed = 0;
-static char write_buffer[1024];
+static char write_buffer[4096];
 static int volatile write_count = 0;
 static bdk_spinlock_t write_lock;
 
