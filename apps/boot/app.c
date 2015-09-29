@@ -50,17 +50,16 @@ void boot_menu(void)
         switch (key)
         {
             case 'B':
-                bdk_image_boot("/fatfs/init.bin", 0);
+                bdk_image_boot("/fatfs/init.bin", 0, 0); /* Boot normally */
                 break;
             case 'S':
-                bdk_image_boot("/fatfs/setup.bin", 0);
+                bdk_image_boot("/fatfs/setup.bin", 0, 0);
                 break;
             case 'D':
-                /* FIXME: Update config to boot diagnostics */
-                bdk_image_boot("/fatfs/init.bin", 0);
+                bdk_image_boot("/fatfs/init.bin", 0, 1); /* Boot diagnostics */
                 break;
             case 'E':
-                bdk_image_boot("/fatfs/diagnostics.bin", 0);
+                bdk_image_boot("/fatfs/diagnostics.bin", 0, 0);
                 break;
             case 'F':
                 bdk_image_choose("BOOT:");
@@ -150,7 +149,7 @@ int main(void)
     } while ((key != -1) && (key != 27));
 
     if (key == -1)
-        bdk_image_boot("/fatfs/init.bin", 0);
+        bdk_image_boot("/fatfs/init.bin", 0, 0);
 
 menu:
     boot_menu();

@@ -49,13 +49,14 @@ extern int bdk_image_read_header(FILE *handle, bdk_image_header_t *header);
 /**
  * Read a image from a file and boot it, replacing the current running BDK image
  *
- * @param filename File to read the image from
- * @param loc      Offset into file for image. This is normally zero for normal files. Device
- *                 files, such as /dev/mem, will use this to locate the image.
+ * @param filename   File to read the image from
+ * @param loc        Offset into file for image. This is normally zero for normal files. Device
+ *                   files, such as /dev/mem, will use this to locate the image.
+ * @param image_arg2 The second argument (X1) for the image. X0 is filled with the environment
  *
  * @return Negative on failure. On success this function never returns.
  */
-extern int bdk_image_boot(const char *filename, uint64_t loc);
+extern int bdk_image_boot(const char *filename, uint64_t loc, uint64_t image_arg2);
 
 /**
  * Display a list of images the user can boot from a device file and let

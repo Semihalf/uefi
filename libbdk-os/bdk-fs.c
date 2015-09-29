@@ -416,20 +416,19 @@ int _fstat(int handle, struct stat *st)
  *
  * @param paddress Physical address to jump to
  * @param arg0     Value to place in X0 before the jump
+ * @param arg1     Value to place in X1 before the jump
  *
  * @return Zero on success, negative on failure. Note that call most likely
  *         will never return.
  */
-int bdk_jump_address(uint64_t paddress, uint64_t arg0)
+int bdk_jump_address(uint64_t paddress, uint64_t arg0, uint64_t arg1)
 {
-    register uint64_t a0 asm("x0") = arg0;
-    int (*ptr)(void) = bdk_phys_to_ptr(paddress);
+    int (*ptr)(uint64_t arg0, uint64_t arg1) = bdk_phys_to_ptr(paddress);
     if (ptr == NULL)
     {
         errno = EBADF;
         return -1;
     }
-    asm volatile ("br %0\n" : : "r" (ptr), "r" (a0) : "memory");
-    return 0; // Not reached
+    return ptr(arg0, arg1);
 }
 
