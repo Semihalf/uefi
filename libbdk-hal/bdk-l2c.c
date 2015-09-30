@@ -33,6 +33,14 @@ int bdk_l2c_initialize(bdk_node_t node)
             BDK_CSR_MODIFY(c, node, BDK_L2C_CBCX_SCRATCH(i),
                 c.s.invdly = 1);
     }
+
+    // FIXME: Disable partial writes on pass 2 until it is debugged
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && !bdk_is_platform(BDK_PLATFORM_ASIM))
+    {
+        BDK_CSR_MODIFY(c, node, BDK_L2C_CTL,
+            c.s.dissblkdty = 1);
+    }
+
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
         /* The emulator requires L2C_CTL[DISSBLKDTY] to be set */
