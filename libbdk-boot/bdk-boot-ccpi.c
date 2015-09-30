@@ -43,7 +43,7 @@ void bdk_boot_ccpi_nodes(void)
         return;
 
     BDK_TRACE(INIT, "Initializing CCPI\n");
-    bdk_init_nodes(1, 0);
+    __bdk_init_ccpi_multinode();
     /* Reset if CCPI failed */
     if (bdk_numa_is_only_one() && bdk_watchdog_is_running())
         bdk_boot_status(BDK_BOOT_STATUS_REQUEST_POWER_CYCLE);

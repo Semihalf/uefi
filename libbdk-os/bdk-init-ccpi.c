@@ -971,12 +971,12 @@ skip_to_node_setup:
     if (node == 0)
     {
         BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
-        if (l2c_oci_ctl.s.enaoci == 0)
-        {
-            /* Do node assignments */
-            if (ccpi_setup_nodes(node))
-                return -1;
-        }
+        if (l2c_oci_ctl.s.enaoci)
+            return 0;
+
+        /* Do node assignments */
+        if (ccpi_setup_nodes(node))
+            return -1;
 
         for (bdk_node_t node = 0; node < BDK_NUMA_MAX_NODES; node++)
         {
@@ -1021,7 +1021,7 @@ int __bdk_init_ccpi_multinode(void)
     uint64_t node_exists = bdk_numa_get_exists_mask();
 
     /* This can only be run on the main node */
-    if (my_node != BDK_NODE_0)
+    if (my_node != bdk_numa_master())
         return -1;
 
     /* Tell local L2 that CCPI is good */
