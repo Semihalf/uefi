@@ -396,7 +396,7 @@ static void setup_node(bdk_node_t node)
     {
         /* Split across two links as HW currently only support 2 node */
         BDK_CSR_MODIFY(c, node, BDK_OCX_COM_DUAL_SORT,
-            c.s.sort = 1);
+            c.s.sort = 2);
     }
 
     /* Enable secure access to all of memory */
