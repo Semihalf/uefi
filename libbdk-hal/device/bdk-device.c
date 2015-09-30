@@ -76,8 +76,6 @@ static void populate_device(bdk_device_t *device)
         sctl.s.ea = 0; /* Disable use of EA */
     else
         sctl.s.ea = 1; /* Enable use of EA */
-    // FIXME: Disable use of EA until it is debugged
-    sctl.s.ea = 0;
     bdk_ecam_write32(device, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
 
     /* Read the Device ID */
