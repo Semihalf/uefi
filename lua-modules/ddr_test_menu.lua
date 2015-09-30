@@ -18,6 +18,10 @@ local function toggle_batch_mode()
     test_flags = bit64.bxor(test_flags, cavium.DRAM_TEST_NO_PROGRESS)
 end
 
+local function toggle_use_ccpi()
+    test_flags = bit64.bxor(test_flags, cavium.DRAM_TEST_USE_CCPI)
+end
+
 local function set_range_repeat()
     local count = menu.prompt_number("Number of times to repeat the test, or -1 for infinite", range_repeat)
     if (count < -1) or (count == 0) then
@@ -181,6 +185,14 @@ repeat
         m:item("batch", "Batch mode (Currently ON)", toggle_batch_mode)
     else
         m:item("batch", "Batch mode (Currently OFF)", toggle_batch_mode)
+    end
+
+    if cavium.c.bdk_numa_is_only_one() == 0 then
+        if bit64.btest(test_flags, cavium.DRAM_TEST_USE_CCPI) then
+            m:item("batch", "Use CCPI cross node (Currently ON)", toggle_use_ccpi)
+        else
+            m:item("batch", "Use CCPI cross node (Currently OFF)", toggle_use_ccpi)
+        end
     end
 
     m:item("quit", "Main menu")
