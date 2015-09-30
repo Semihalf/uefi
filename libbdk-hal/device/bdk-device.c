@@ -184,12 +184,15 @@ static void populate_device(bdk_device_t *device)
             cap_loc += 4;
             BDK_TRACE(DEVICE_SCAN, "%s:      Enhanced Allocation, %d entries\n",
                 device->name, ea_cap_hdr.s.num_entries);
-            cap = bdk_ecam_read32(device, cap_loc);
-            cap_loc += 4;
-            int fixed_secondary_bus = cap & 0xff;
-            int fixed_subordinate_bus = cap & 0xff;
-            BDK_TRACE(DEVICE_SCAN, "%s:      Fixed Secondary Bus:0x%02x Fixed Subordinate Bus:0x%02x\n",
-                device->name, fixed_secondary_bus, fixed_subordinate_bus);
+            if (isbridge)
+            {
+                cap = bdk_ecam_read32(device, cap_loc);
+                cap_loc += 4;
+                int fixed_secondary_bus = cap & 0xff;
+                int fixed_subordinate_bus = cap & 0xff;
+                BDK_TRACE(DEVICE_SCAN, "%s:      Fixed Secondary Bus:0x%02x Fixed Subordinate Bus:0x%02x\n",
+                    device->name, fixed_secondary_bus, fixed_subordinate_bus);
+            }
             for (int entry = 0; entry < ea_cap_hdr.s.num_entries; entry++)
             {
                 union bdk_pcc_ea_entry_s ea_entry;
@@ -210,7 +213,7 @@ static void populate_device(bdk_device_t *device)
                 if (ea_entry.s.entry_size > 1)
                 {
                     BDK_TRACE(DEVICE_SCAN, "%s:        MaxOffset:0x%08x 64bit:%d\n",
-                        device->name, ea_entry.s.offsetl << 2, ea_entry.s.offset64);
+                        device->name, (ea_entry.s.offsetl << 2) | 3, ea_entry.s.offset64);
                 }
                 if (ea_entry.s.entry_size > 2)
                 {
@@ -227,7 +230,7 @@ static void populate_device(bdk_device_t *device)
                     uint64_t base = (uint64_t)ea_entry.s.baseh << 32;
                     base |= ea_entry.s.basel << 2;
                     uint64_t offset = (uint64_t)ea_entry.s.offseth << 32;
-                    offset |= ea_entry.s.offsetl << 2;
+                    offset |= (ea_entry.s.offsetl << 2) | 3;
                     switch (ea_entry.s.bei)
                     {
                         case 0: /* BAR 0 */
@@ -236,7 +239,7 @@ static void populate_device(bdk_device_t *device)
                         {
                             int bar_index = ea_entry.s.bei/2;
                             device->bar[bar_index].address = base;
-                            device->bar[bar_index].size2 = bdk_dpop(offset - base);
+                            device->bar[bar_index].size2 = bdk_dpop(offset);
                             device->bar[bar_index].flags = ea_entry.s.base64 << 2;
                             BDK_TRACE(DEVICE_SCAN, "%s:        Updated BAR%d 0x%lx/%d flags=0x%x\n",
                                 device->name, bar_index, device->bar[bar_index].address,
