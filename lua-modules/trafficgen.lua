@@ -48,7 +48,7 @@ function TrafficGen.new()
     local transmit_time = 0
     local l2_stats_table = {}
     local show_l2_stats = false
-    local ccpi_stats = {{0,0,0}, {0,0,0}, {0,0,0}}
+    local ccpi_stats = {[0] = {{0,0,0}, {0,0,0}, {0,0,0}}, [1] = {{0,0,0}, {0,0,0}, {0,0,0}}}
     local tns_map = nil
     if cavium.is_model(cavium.CN88XX) and cavium.c.bdk_tns_profile_passthru then
         local status
@@ -994,32 +994,36 @@ function TrafficGen.new()
             ERASE_EOL);
         -- Show CCPI link load statistics
         if not cavium.is_platform(cavium.PLATFORM_EMULATOR) and cavium.is_model(cavium.CN88XX) then
-            local ccpi_load = {}
-            local ccpi_err = {}
-            for link=1,3 do
-                local data = cavium.csr.OCX_TLKX_STAT_DATA_CNT(link-1).read()
-                local idle = cavium.csr.OCX_TLKX_STAT_IDLE_CNT(link-1).read()
-                local err = cavium.csr.OCX_TLKX_STAT_ERR_CNT(link-1).read()
-                local total = data + idle + err
-                local old_total = ccpi_stats[link][1] + ccpi_stats[link][2] + ccpi_stats[link][3]
-                local interval = total - old_total
-                if interval > 0 then
-                    ccpi_load[link] = (data - ccpi_stats[link][1]) * 100 / interval
-                    ccpi_err[link] = err -- Show totals instead of interval for now
-                else
-                    ccpi_load[link] = 0
-                    ccpi_err[link] = 0
+            for node=0,1 do
+                if cavium.c.bdk_numa_exists(node) ~= 0 then
+                    local ccpi_load = {}
+                    local ccpi_err = {}
+                    for link=1,3 do
+                        local data = cavium.csr[node].OCX_TLKX_STAT_DATA_CNT(link-1).read()
+                        local idle = cavium.csr[node].OCX_TLKX_STAT_IDLE_CNT(link-1).read()
+                        local err = cavium.csr[node].OCX_TLKX_STAT_ERR_CNT(link-1).read()
+                        local total = data + idle + err
+                        local old_total = ccpi_stats[node][link][1] + ccpi_stats[node][link][2] + ccpi_stats[node][link][3]
+                        local interval = total - old_total
+                        if interval > 0 then
+                            ccpi_load[link] = (data - ccpi_stats[node][link][1]) * 100 / interval
+                            ccpi_err[link] = err -- Show totals instead of interval for now
+                        else
+                            ccpi_load[link] = 0
+                            ccpi_err[link] = 0
+                        end
+                        ccpi_stats[node][link][1] = data
+                        ccpi_stats[node][link][2] = idle
+                        ccpi_stats[node][link][3] = err
+                    end
+                    local ccpi_crc_errors = 0
+                    for lane=0,23 do
+                        ccpi_crc_errors = ccpi_crc_errors + cavium.csr[node].OCX_LNEX_STAT11(lane).crc32_err_cnt
+                    end
+                    printf("N%d: CCPI Link0 %3d%%(%d errors), Link1 %3d%%(%d errors), Link2 %3d%%(%d errors), Lane CRC errors %d%s\n",
+                        node, ccpi_load[1], ccpi_err[1], ccpi_load[2], ccpi_err[2], ccpi_load[3], ccpi_err[3], ccpi_crc_errors, ERASE_EOL);
                 end
-                ccpi_stats[link][1] = data
-                ccpi_stats[link][2] = idle
-                ccpi_stats[link][3] = err
             end
-            local ccpi_crc_errors = 0
-            for lane=0,23 do
-                ccpi_crc_errors = ccpi_crc_errors + cavium.csr.OCX_LNEX_STAT11(lane).crc32_err_cnt
-            end
-            printf("CCPI Link0 %3d%%(%d errors), Link1 %3d%%(%d errors), Link2 %3d%%(%d errors), Lane CRC errors %d%s\n",
-                ccpi_load[1], ccpi_err[1], ccpi_load[2], ccpi_err[2], ccpi_load[3], ccpi_err[3], ccpi_crc_errors, ERASE_EOL);
         end
         num_rows = num_rows + 1
         if show_l2_stats then
