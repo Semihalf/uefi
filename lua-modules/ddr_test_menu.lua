@@ -189,9 +189,9 @@ repeat
 
     if cavium.c.bdk_numa_is_only_one() == 0 then
         if bit64.btest(test_flags, cavium.DRAM_TEST_USE_CCPI) then
-            m:item("batch", "Use CCPI cross node (Currently ON)", toggle_use_ccpi)
+            m:item("ccpi", "Use CCPI cross node (Currently ON)", toggle_use_ccpi)
         else
-            m:item("batch", "Use CCPI cross node (Currently OFF)", toggle_use_ccpi)
+            m:item("ccpi", "Use CCPI cross node (Currently OFF)", toggle_use_ccpi)
         end
     end
 
