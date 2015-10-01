@@ -982,6 +982,12 @@ skip_to_node_setup:
         {
             if (bdk_numa_exists(node))
             {
+                /* Split across two links as HW currently only support 2 node */
+                BDK_CSR_INIT(dual_sort, node, BDK_OCX_COM_DUAL_SORT);
+                dual_sort.u = ocx_pp_read(node, BDK_OCX_COM_DUAL_SORT);
+                dual_sort.s.sort = 2;
+                ocx_pp_write(node, BDK_OCX_COM_DUAL_SORT, dual_sort.u);
+
                 BDK_TRACE(CCPI, "N%d: Clearing lane errors\n", node);
                 /* Enable the OCX lane counters across all lanes and clear existing errors */
                 for (int lane=0; lane<24; lane++)

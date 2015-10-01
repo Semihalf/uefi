@@ -394,13 +394,6 @@ int bdk_reset_cores(bdk_node_t node, uint64_t coremask)
 
 static void setup_node(bdk_node_t node)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-    {
-        /* Split across two links as HW currently only support 2 node */
-        BDK_CSR_MODIFY(c, node, BDK_OCX_COM_DUAL_SORT,
-            c.s.sort = 2);
-    }
-
     /* Enable secure access to all of memory */
     BDK_CSR_WRITE(node, BDK_L2C_ASC_REGIONX_START(0), 0);
     BDK_CSR_WRITE(node, BDK_L2C_ASC_REGIONX_END(0), -1);
