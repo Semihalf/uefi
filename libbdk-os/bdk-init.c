@@ -134,7 +134,9 @@ void __bdk_init(uint32_t image_crc, int argc, void *argv)
     bdk_node_t node = bdk_numa_local();
     bdk_numa_set_exists(node);
 
-    static const char BANNER_1[] = "\n\n\nCavium THUNDERX\n";
+    /* Default color, Reset scroll region and goto bottom */
+    static const char BANNER_1[] = "\33[0m\33[1;r\33[100;1H"
+                                   "\n\n\nCavium THUNDERX\n";
     static const char BANNER_2[] = "Locking L2 cache\n";
     static const char BANNER_CRC_RIGHT[] = "PASS: CRC32 verification\n";
     static const char BANNER_CRC_WRONG[] = "FAIL: CRC32 verification\n";
