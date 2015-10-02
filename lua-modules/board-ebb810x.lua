@@ -21,5 +21,3 @@ set_config(cavium.CONFIG_PHY_IF0_PORT3, 0xff000003)
 -- RGMII
 set_config(cavium.CONFIG_PHY_IF1_PORT0, 0xff000104)
 
-cavium.c.bdk_qlm_auto_config(cavium.MASTER_NODE)
-

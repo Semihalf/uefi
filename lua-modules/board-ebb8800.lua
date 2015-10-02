@@ -37,5 +37,3 @@ else
     set_config(cavium.CONFIG_PHY_IF1_PORT3, 0xff000107)
 end
 
-cavium.c.bdk_qlm_auto_config(cavium.MASTER_NODE)
-
