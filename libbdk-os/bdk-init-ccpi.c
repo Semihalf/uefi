@@ -202,10 +202,13 @@ static void ccpi_errata(bdk_node_t node, uint64_t gbaud)
         BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
             c.s.data_rate = data_rate);
 
-        /* Errata (OCX-22951) OCX AUTO_CLR of DROP fails to work on error */
-        BDK_CSR_MODIFY(c, node, BDK_OCX_COM_LINKX_CTL(link),
-            c.s.auto_clr = 0;
-            c.s.drop = 0);
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        {
+            /* Errata (OCX-22951) OCX AUTO_CLR of DROP fails to work on error */
+            BDK_CSR_MODIFY(c, node, BDK_OCX_COM_LINKX_CTL(link),
+                c.s.auto_clr = 0;
+                c.s.drop = 0);
+        }
     }
 
     /* Errata:(SMMU-22267) SMMU not propagating Global Sync completion. Write
@@ -931,9 +934,12 @@ int __bdk_init_ccpi_links(uint64_t gbaud)
     if (rst_ocx.s.rst_link)
         goto skip_to_node_setup;
 
-    /* Something is wrong, shutdown links before we make changes */
-    BDK_TRACE(CCPI, "N%d: Disabling CCPI links\n", node);
-    ccpi_set_link_enables(node, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        /* Something is wrong, shutdown links before we make changes */
+        BDK_TRACE(CCPI, "N%d: Disabling CCPI links\n", node);
+        ccpi_set_link_enables(node, 0, 0);
+    }
 
     /* Check if the QLMs are already up and running */
     int current_gbaud = bdk_qlm_get_gbaud_mhz(node, 8);
@@ -954,12 +960,16 @@ int __bdk_init_ccpi_links(uint64_t gbaud)
     BDK_TRACE(CCPI, "N%d: Applying CCPI errata fixes\n", node);
     ccpi_errata(node, gbaud);
 
-    ccpi_set_link_enables(node, 1, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        ccpi_set_link_enables(node, 1, 0);
     if (ccpi_wait_for_lanes(node))
         return -1;
 
-    BDK_TRACE(CCPI, "N%d: Enabling CCPI links\n", node);
-    ccpi_set_link_enables(node, 1, 1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        BDK_TRACE(CCPI, "N%d: Enabling CCPI links\n", node);
+        ccpi_set_link_enables(node, 1, 1);
+    }
 
     if (ccpi_wait_for_links(node))
         return -1;
