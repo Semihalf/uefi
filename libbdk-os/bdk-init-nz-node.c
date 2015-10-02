@@ -8,6 +8,7 @@
 /* The node number may change dynamically while this code is running. This
    variable contains its value after every update in the CCPI monitor loop */
 static bdk_node_t node;
+extern void __bdk_reset_thread(int arg1, void *arg2);
 
 /**
  * Delay for the specified microseconds
@@ -324,7 +325,6 @@ static void monitor_ccpi(void)
             if (WATCHDOG_TIMEOUT)
                 BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
             bdk_dbg_uart_str(" CCPI links up. Putting core in reset\r\n");
-            extern void __bdk_reset_thread(int arg1, void *arg2);
             __bdk_reset_thread(0, NULL);
         }
         else if (valid_links < 2)
@@ -398,12 +398,25 @@ void __bdk_init_incorrect_node(void)
     BDK_CSR_READ(node, BDK_UAAX_CR(uart));
 
     /* Power gate other cores */
-    BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -2);
+    BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -1);
 
     /* Spew out the node ID to uart0 as a hint that something is wrong */
     bdk_dbg_uart_str("\r\nNODE");
     bdk_dbg_uart_char('0' + node);
     bdk_dbg_uart_str("\r\n");
 
-    monitor_ccpi();
+    /* CN88XX pass 1.x needs software workaround for CCPI. This
+       call does those */
+    uint64_t model;
+    asm ("mrs %[rd],MIDR_EL1" : [rd] "=r" (model));
+    if ((CAVIUM_CN88XX_PASS1_X & 0xf0fff0) == (model & 0xf0fff0))
+        monitor_ccpi();
+
+    /* All other chips can use the hardware default CCPI init, so put the
+       core in reset and wait for the other node to take over */
+
+    /* Disable watchdog */
+    if (WATCHDOG_TIMEOUT)
+        BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
+    __bdk_reset_thread(0, NULL);
 }
