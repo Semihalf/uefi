@@ -227,6 +227,8 @@ static void populate_device(bdk_device_t *device)
                 {
                     uint64_t base = (uint64_t)ea_entry.s.baseh << 32;
                     base |= ea_entry.s.basel << 2;
+                    /* Make sure the node bits are correct in the address */
+                    BDK_INSERT(base, device->node, 44, 2);
                     uint64_t offset = (uint64_t)ea_entry.s.offseth << 32;
                     offset |= (ea_entry.s.offsetl << 2) | 3;
                     switch (ea_entry.s.bei)
