@@ -358,7 +358,6 @@ void __bdk_init_incorrect_node(void)
     __bdk_numa_master_node = node;
 
     /* Setup the uart using only inline C functons */
-    BDK_CSR_WRITE(node, BDK_GPIO_BIT_CFGX(0), 1);
     BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart),
         c.s.uaa_rst = 1;
         c.s.uctl_rst = 1);
