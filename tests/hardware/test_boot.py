@@ -25,7 +25,7 @@ def wait_for_bootstub_messages(cnx):
     except:
         cnx.match("VRM:   Enabled")
     cnx.match("Trust: Disabled")
-    cnx.match("Press 'ESC' within 3 seconds for boot menu")
+    cnx.match("Press 'B' within 3 seconds for boot menu")
     cnx.match("Loading image file '/fatfs/init.bin'")
     cnx.match("Verifying image")
     cnx.match("Jumping to image at")
@@ -34,7 +34,6 @@ def wait_for_bootstub_messages(cnx):
 
     cnx.waitfor("Cavium THUNDERX")
     cnx.match("PASS: CRC32 verification")
-    cnx.match("Press X to boot in safe mode...")
     cnx.match("=========================")
     cnx.match("Cavium THUNDERX Boot Stub")
     cnx.match("=========================")
@@ -53,7 +52,10 @@ def wait_for_bootstub_messages(cnx):
         cnx.matchRE("RCLK:  [0-9]+ Mhz")
         cnx.matchRE("SCLK:  [0-9]+ Mhz")
         cnx.match("Boot:  SPI24(5)")
-        cnx.match("VRM:   Disabled")
+        try:
+            cnx.match("VRM:   Disabled")
+        except:
+            cnx.match("VRM:   Enabled")
         cnx.match("Trust: Disabled")
         cnx.waitforRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=90)
     else:
@@ -66,7 +68,7 @@ def wait_for_bootstub_messages(cnx):
     cnx.waitfor("---")
 
 def wait_for_bdk_boot(cnx):
-    cnx.match("Cavium THUNDERX")
+    cnx.waitfor("Cavium THUNDERX")
     cnx.match("PASS: CRC32 verification")
     cnx.match("Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio")
     cnx.match("THUNDERX Diagnostics")

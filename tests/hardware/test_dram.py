@@ -44,6 +44,7 @@ def wait_for_test_menu(cnx):
     cnx.match("spec) Run special DRAM tests")
     cnx.match("abort) Abort on Errors (Currently ON)")
     cnx.match("batch) Batch mode (Currently OFF)")
+    cnx.match("ccpi) Use CCPI cross node (Currently OFF)")
     cnx.match("quit) Main menu")
     cnx.match("(INS)Menu choice []:")
 
