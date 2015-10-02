@@ -1,12 +1,6 @@
 #include <bdk.h>
 #include "bdk-qlm-common.h"
 
-/* Use a global variable to determine if we are in KR or XFI/XLAUI mode. We
-   used to use the training bit in BGX, but that require us to enable
-   training before the link was ready. Now BGX doesn't enable training
-   until much later */
-static uint8_t kr_mode[BDK_NUMA_MAX_NODES][4] = {{0,},};
-
 /**
  * Return the number of QLMs supported for the chip
  *
@@ -174,18 +168,19 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                 return BDK_QLM_MODE_DISABLED;
         }
         BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx, bgx_index));
+        BDK_CSR_INIT(txdir_ctrl_1, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm));
         switch (cmrx_config.s.lmac_type)
         {
             case 0x0: return BDK_QLM_MODE_SGMII_2X1;
             case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differntiate between XAUI and DXAUI */
             case 0x2: return BDK_QLM_MODE_RXAUI_1X2;
             case 0x3:
-                if (kr_mode[node][qlm])
+                if (txdir_ctrl_1.s.rx_precorr_chg_dir)
                     return BDK_QLM_MODE_10G_KR_2X1;
                 else
                     return BDK_QLM_MODE_XFI_2X1;
             case 0x4:
-                if (kr_mode[node][qlm])
+                if (txdir_ctrl_1.s.rx_precorr_chg_dir)
                     return BDK_QLM_MODE_40G_KR4_1X4;
                 else
                     return BDK_QLM_MODE_XLAUI_1X4;
@@ -549,9 +544,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 
     int measured_ref = bdk_qlm_measure_clock(node, qlm);
     int ref_clk = (mode == BDK_QLM_MODE_DISABLED) ? 0 : __bdk_qlm_round_refclock(measured_ref);
-
-    /* Clear the KR mode flag. It will be set below if necessary */
-    kr_mode[node][qlm] = 0;
+    int kr_mode = 0;
 
     switch (mode)
     {
@@ -689,12 +682,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("10G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
-            /* Remember we are in KR mode */
-            kr_mode[node][qlm] = 1;
-            /* Errata (GSER-26636) KR training coefficient update inverted */
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
-                c.s.rx_precorr_chg_dir = 1;
-                c.s.rx_tap1_chg_dir = 1);
+            kr_mode = 1;
             break;
         case BDK_QLM_MODE_40G_KR4_1X4:
             lmac_type = 4; /* 40G_R */
@@ -702,12 +690,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("40G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
-            /* Remember we are in KR mode */
-            kr_mode[node][qlm] = 1;
-            /* Errata (GSER-26636) KR training coefficient update inverted */
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
-                c.s.rx_precorr_chg_dir = 1;
-                c.s.rx_tap1_chg_dir = 1);
+            kr_mode = 1;
             break;
         case BDK_QLM_MODE_SATA_2X1:
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm), c.s.lmode = BDK_GSER_LMODE_E_R_8G_REFCLK100);
@@ -773,6 +756,11 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 
     /* Configure the gser pll */
     __bdk_qlm_init_mode_table(node, qlm);
+
+    /* Errata (GSER-26636) KR training coefficient update inverted */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
+        c.s.rx_precorr_chg_dir = kr_mode;
+        c.s.rx_tap1_chg_dir = kr_mode);
 
     if (!bdk_is_platform(BDK_PLATFORM_ASIM))
     {
