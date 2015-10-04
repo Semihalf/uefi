@@ -61,6 +61,9 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     bdk_lmcx_config_t  lmc_config;
     uint8_t nib_min[2], nib_max[2], nib_unl[2];
     int c;
+    // NOTE: these are for pass 2.x
+    int is_t88p2 = CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X);
+    int bit_start = (is_t88p2) ? 9 : 8;
     
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
 
@@ -92,8 +95,9 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 	nib_min[0] = 127; nib_min[1] = 127;
 	nib_max[0] = 0;   nib_max[1] = 0;
 	nib_unl[0] = 0;   nib_unl[1] = 0;
-        for (bit_num = 8; bit_num >= 0; --bit_num) {
-            if (bit_num == 4) continue;
+	for (bit_num = bit_start; bit_num >= 0; --bit_num) {	// NOTE: this is for pass 2.x
+	    if (bit_num == 4) continue;
+	    if ((bit_num == 5) && is_t88p2) continue;	// NOTE: this is for pass 2.x
 
 	    nib_num = (bit_num > 4) ? 1 : 0;
             //set byte lane and bit to read
@@ -3105,15 +3109,23 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         lmc_timing_params1.s.tras     = divide_roundup(tras, tclk_psecs) - 1;
 
-        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
-            /* Let .trcd=0 serve as a flag that the field has
-               overflowed. Must use Additive Latency mode as a
-               workaround. */
-            lmc_timing_params1.s.trcd     = (divide_roundup(trcd, tclk_psecs) > 15)
-                ? 0 : divide_roundup(trcd, tclk_psecs);
-        } else {
-            lmc_timing_params1.s.trcd     = divide_roundup(trcd, tclk_psecs);
-        }
+	// NOTE: this is reworked for pass 2.x
+	int temp_trcd = divide_roundup(trcd, tclk_psecs);
+	if (temp_trcd > 15) {
+	    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
+		/* Let .trcd=0 serve as a flag that the field has
+		   overflowed. Must use Additive Latency mode as a
+		   workaround. */
+		lmc_timing_params1.s.trcd     = 0;
+		lmc_timing_params1.s.trcd_ext = 0;
+	    } else {
+		lmc_timing_params1.s.trcd     = temp_trcd & 0x0f;
+		lmc_timing_params1.s.trcd_ext = (temp_trcd >> 4) & 1;
+	    }
+	} else {
+	    lmc_timing_params1.s.trcd     = temp_trcd;
+	    lmc_timing_params1.s.trcd_ext = 0; // was unused bit before T88 2.0
+	}
 
         lmc_timing_params1.s.twtr     = divide_roundup(twtr, tclk_psecs) - 1;
         lmc_timing_params1.s.trfc     = divide_roundup(trfc, 8*tclk_psecs);
@@ -3133,7 +3145,20 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ** tXP = max( 3nCK, 6.0 ns)     DDR3-2133  tCLK =  937 psec
         */
         txp = (tclk_psecs < 1875) ? 6000 : 7500;
-        lmc_timing_params1.s.txp      = divide_roundup(max(3*tclk_psecs, (unsigned)txp), tclk_psecs) - 1;
+	// NOTE: this is reworked for pass 2.x
+	int temp_txp = divide_roundup(max(3*tclk_psecs, (unsigned)txp), tclk_psecs) - 1;
+	if (temp_txp > 7) {
+	    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
+		lmc_timing_params1.s.txp      = 7; // max it out?
+		lmc_timing_params1.s.txp_ext  = 0;
+	    } else {
+		lmc_timing_params1.s.txp      = temp_txp & 7;
+		lmc_timing_params1.s.txp_ext  = (temp_txp >> 3) & 1;
+	    }
+	} else {
+	    lmc_timing_params1.s.txp      = temp_txp;
+	    lmc_timing_params1.s.txp_ext  = 0;
+	}
 
         lmc_timing_params1.s.twlmrd   = divide_roundup(DDR3_tWLMRD*tclk_psecs, 4*tclk_psecs);
         lmc_timing_params1.s.twldqsen = divide_roundup(DDR3_tWLDQSEN*tclk_psecs, 4*tclk_psecs);
@@ -4077,7 +4102,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
     }
 
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (spd_rdimm) && (ddr_type == DDR4_DRAM)) {
+    // NOTE: this must be done for pass 2.x and pass 1.x
+    if ((spd_rdimm) && (ddr_type == DDR4_DRAM)) {
 #if RUN_INIT_SEQ_1
         if (run_init_sequence_1) {
             ddr_print("Running init sequence 1\n");
@@ -6973,6 +6999,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         ddr_print("%-45s : 0x%08lx\n", "LMC_INT",
                   BDK_CSR_READ(node, BDK_LMCX_INT(ddr_interface_num)));
+
+	// NOTE: this must be done for pass 2.x
+	// must enable ECC interrupts to get ECC error info in LMCX_INT
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
+	    DRAM_CSR_WRITE(node, BDK_LMCX_INT_ENA_W1S(ddr_interface_num), -1ULL);
+	    BDK_CSR_INIT(lmc_int_ena_w1s, node, BDK_LMCX_INT_ENA_W1S(ddr_interface_num));
+	    ddr_print("%-45s : 0x%08lx\n", "LMC_INT_ENA_W1S", lmc_int_ena_w1s.u);
+	}
     }
 
     return(mem_size_mbytes);
