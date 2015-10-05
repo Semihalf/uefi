@@ -1150,6 +1150,15 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
         case BDK_QLM_MODE_10G_KR_4X1:
         case BDK_QLM_MODE_40G_KR4_1X4:
             return;
+        case BDK_QLM_MODE_OCI:
+        {
+            /* Skip tuning for CCPI running KR training as tuning overrides
+               the values found by training */
+            BDK_CSR_INIT(qlm_cfg, node, BDK_OCX_QLMX_CFG(qlm - 8));
+            if (qlm_cfg.s.trn_ena)
+                return;
+            break;
+        }
         default:
             break;
     }

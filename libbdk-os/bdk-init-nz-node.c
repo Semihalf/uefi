@@ -31,6 +31,12 @@ static void wait_usec(uint64_t usec)
  */
 static void qlm_tune(int qlm)
 {
+    /* Skip tuning for CCPI running KR training as tuning overrides
+       the values found by training */
+    BDK_CSR_INIT(qlm_cfg, node, BDK_OCX_QLMX_CFG(qlm - 8));
+    if (qlm_cfg.s.trn_ena)
+        return;
+
     int baud_mhz;
     /* Use the OCI strapping to find the speed. This will not work if
        the OCI is in SW_MODE */
