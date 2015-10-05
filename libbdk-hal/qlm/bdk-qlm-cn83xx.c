@@ -933,7 +933,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* Configure the gser pll */
     __bdk_qlm_init_mode_table(node, qlm);
 
-    /* Errata (GSER-26636) KR training coefficient update inverted */
+    /* Errata (GSER-26636) KR training coefficient update inverted. As of t88 pass 2
+       this is the hardware default. It doesn't hurt to write it anyway */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
         c.s.rx_precorr_chg_dir = kr_mode;
         c.s.rx_tap1_chg_dir = kr_mode);

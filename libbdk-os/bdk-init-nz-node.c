@@ -139,9 +139,16 @@ static void monitor_ccpi(void)
         BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
             c.s.lane_align_dis = 1);
 
-    /* Apply CCPI custom tuning */
     for (int qlm = 8; qlm < 14; qlm++)
+    {
+        /* Errata (GSER-26636) KR training coefficient update inverted. As of pass 2
+           this is the hardware default. It doesn't hurt to write it anyway */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
+            c.s.rx_precorr_chg_dir = 1;
+            c.s.rx_tap1_chg_dir = 1);
+        /* Apply CCPI custom tuning */
         qlm_tune(qlm);
+    }
 
     /* Loop forever trying to get CCPI links up */
     int loop_count = 0;
