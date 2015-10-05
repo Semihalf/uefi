@@ -1197,8 +1197,11 @@ static void qlm_init(bdk_node_t node)
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
         return;
 
-    /* Apply QLM tuning to active QLMs */
-    for (int qlm = 0; qlm < bdk_qlm_get_num(node); qlm++)
+    /* Apply QLM tuning to CCPI only. Other protocols will get
+       correct tuning when they are setup later. We can't probe the GSER
+       here because it doesn't reset with chip reset and may have bogus
+       values */
+    for (int qlm = 8; qlm < 14; qlm++)
     {
         BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
         if (gserx_phy_ctl.s.phy_reset == 0)
