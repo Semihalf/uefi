@@ -31,16 +31,19 @@ __bdk_reset_thread:
     orr     x0, x0, x1
     mov     x1, (RST_PP_RESET & 0xffff)
     orr     x0, x0, x1
+    mrs     x2, MPIDR_EL1   /* Node ID is [23:16] */
+    ubfx    x1, x2, 16, 8   /* Extract node ID */
+    bfi     x0, x1, 44, 2   /* Insert into IO address at [45:44] */
 
-    /* Create a bitmask representing this core */
-    mrs     x2, MPIDR_EL1   /* Core ID is split into bits [15:8] and [3:0] */
+    /* Core ID is split into bits [15:8] and [3:0] */
     ubfx    x3, x2, 0, 4    /* low = bits [3:0] */
     ubfx    x4, x2, 8, 8    /* high = bits [15:8] */
     lsl     x4, x4, 4       /* high = high << 4 */
     orr     x3, x3, x4      /* core = high | low */
+
+    /* Create a bitmask representing this core */
     mov     x2, 1           /* mask = 1 */
     lsl     x2, x2, x3      /* mask <<= core */
-
 
     /* Get the address to unlock the exception stack */
     adr     x3, __bdk_initial_stack_start
