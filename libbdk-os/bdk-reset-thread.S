@@ -18,12 +18,7 @@ __bdk_reset_thread:
     /* Free the thread context */
     mrs     x0, TPIDR_EL3
     bl      free
-
-    /* Unlock the exception stack */
-    adr     x0, __bdk_initial_stack_start
     dmb     sy
-    str     xzr, [x0]
-    sev
 
     /* Make sure the write buffer is idle and the dcache is empty */
     dsb     sy
@@ -46,11 +41,20 @@ __bdk_reset_thread:
     mov     x2, 1           /* mask = 1 */
     lsl     x2, x2, x3      /* mask <<= core */
 
-    /* Put the core in reset */
+
+    /* Get the address to unlock the exception stack */
+    adr     x3, __bdk_initial_stack_start
+
     ldr     x1, [x0]        /* Read current reset */
     orr     x1, x1, x2      /* add my core mask */
+    str     xzr, [x3]       /* Unlock the stack */
+    dmb     sy              /* Flush the write buffer */
     str     x1, [x0]        /* Write new reset */
+    /* Note: there is a small race condition between the unlock of the stack
+        and the write of the new reset mask. Hopefully this is small enough
+        that we never hit it */
 
     /* Spin until we die */
-1:  b       1b
+1:  wfi
+    b       1b
 
