@@ -42,9 +42,9 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     // assumption: the alternate refclk is setup for 100MHz
     // note: we only need to turn on the alternate refclk select bit in LMC0
     int ddr_refclk_hertz = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
-    str = getenv("ddr_100mhz_refclk");
-    if (str) { // if 100MHz selected, we also need to set the bit and wait a little...
-        ddr_refclk_hertz = 100000000; // FIXME: assumption of the frequency
+    int alt_refclk = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DDR_ALT_REFCLK, node);
+    if (alt_refclk) { // if alternate clock was selected, we also need to set the bit and wait a little...
+	ddr_refclk_hertz = alt_refclk * 1000000;
 	DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(0), c.s.dclk_alt_refclk_sel = 1);
 	bdk_wait_usec(1000); // wait 1 msec
     }
