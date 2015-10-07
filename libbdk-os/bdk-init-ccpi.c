@@ -1063,6 +1063,14 @@ int __bdk_init_ccpi_multinode(void)
             l2c_oci_ctl.s.iofrcl = 0;
             l2c_oci_ctl.s.enaoci = node_exists;
             ocx_pp_write(node, BDK_L2C_OCI_CTL, l2c_oci_ctl.u);
+            // FIXME: Disable partial writes on pass 2 until it is debugged
+            if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+            {
+                bdk_l2c_ctl_t l2c_ctl;
+                l2c_ctl.u = ocx_pp_read(node, BDK_L2C_CTL);
+                l2c_ctl.s.dissblkdty = 1;
+                ocx_pp_write(node, BDK_L2C_CTL, l2c_ctl.u);
+            }
         }
     }
     BDK_TRACE(CCPI, "CCPI is functional\n");
