@@ -67,11 +67,21 @@
  * GPIO MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_GPIO_INT_VEC_E_INTR_PINX(a) (0x30 + 2 * (a)) /**< GPIO general interrupts.
+#define BDK_GPIO_INT_VEC_E_INTR_PINX_CN81XX(a) (0x30 + 2 * (a)) /**< GPIO general interrupts.
+                                       See interrupt clears GPIO_INTR(0..47)[INTR],
+                                       interrupt sets GPIO_INTR(0..47)[INTR_W1S],
+                                       enable clears GPIO_INTR(0..47)[INTR_ENA_W1C],
+                                       and enable sets GPIO_INTR(0..47)[INTR_ENA_W1S]. */
+#define BDK_GPIO_INT_VEC_E_INTR_PINX_CN88XX(a) (0x30 + 2 * (a)) /**< GPIO general interrupts.
                                        See interrupt clears GPIO_INTR(0..50)[INTR],
                                        interrupt sets GPIO_INTR(0..50)[INTR_W1S],
                                        enable clears GPIO_INTR(0..50)[INTR_ENA_W1C],
                                        and enable sets GPIO_INTR(0..50)[INTR_ENA_W1S]. */
+#define BDK_GPIO_INT_VEC_E_INTR_PINX_CN83XX(a) (0x30 + 2 * (a)) /**< GPIO general interrupts.
+                                       See interrupt clears GPIO_INTR(0..79)[INTR],
+                                       interrupt sets GPIO_INTR(0..79)[INTR_W1S],
+                                       enable clears GPIO_INTR(0..79)[INTR_ENA_W1C],
+                                       and enable sets GPIO_INTR(0..79)[INTR_ENA_W1S]. */
 #define BDK_GPIO_INT_VEC_E_INTR_PINX_CLEAR(a) (0x31 + 2 * (a)) /**< Level sensitive interrupt clear vector. */
 #define BDK_GPIO_INT_VEC_E_MC_INTR_PPX(a) (0 + (a)) /**< GPIO multicast interrupts.
                                        All four pins 4..7 are collapsed onto the same vector.
@@ -182,24 +192,55 @@
 #define BDK_GPIO_PIN_SEL_E_SGPIO_SLOAD (0xc) /**< SGPIO SLOAD output; see SGPIO_TX_GP_CFG. */
 #define BDK_GPIO_PIN_SEL_E_SPI_CSX(a) (0x18 + (a)) /**< SPI/MPI_CS(2..3) output; see MPI_TX[CS_ID]. */
 #define BDK_GPIO_PIN_SEL_E_TIMER (0x8b) /**< Reserved.
-                                       INTERNAL: For CN83XX,
+                                       Internal:
+                                       For CN83XX,
                                        Timer coprocessor control input; see TIM chapter.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N(a) (0x84 + (a)) /**< UART_DCD_N input; see UAA(0..1)_FR[DCD].
+#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N_CN81XX(a) (0x84 + (a)) /**< UART_DCD_N input; see UAA()_FR[DCD].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DSR(a) (0x88 + (a)) /**< UART_DSR input; see UAA(0..1)_FR[DSR].
+#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N_CN88XX(a) (0x84 + (a)) /**< UART_DCD_N input; see UAA(0..1)_FR[DCD].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N_CN83XX(a) (0x84 + (a)) /**< UART_DCD_N input; see UAA()_FR[DCD].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN81XX(a) (0x88 + (a)) /**< UART_DSR input; see UAA()_FR[DSR].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN88XX(a) (0x88 + (a)) /**< UART_DSR input; see UAA(0..1)_FR[DSR].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN83XX(a) (0x88 + (a)) /**< UART_DSR input; see UAA()_FR[DSR].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
 #define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N(a) (9 + (a)) /**< UART_DTR_N output; see UAA()_CR[DTR]. */
-#define BDK_GPIO_PIN_SEL_E_UARTX_RI(a) (0x86 + (a)) /**< UART_RI input; see UAA(0..1)_FR[RI].
+#define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN81XX(a) (0x86 + (a)) /**< UART_RI input; see UAA()_FR[RI].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN88XX(a) (0x86 + (a)) /**< UART_RI input; see UAA(0..1)_FR[RI].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN83XX(a) (0x86 + (a)) /**< UART_RI input; see UAA()_FR[RI].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
@@ -221,6 +262,85 @@ typedef union
 {
     uint64_t u;
     struct bdk_gpio_bit_cfgx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t pin_sel               : 12; /**< [ 27: 16](R/W) Selects which signal is reported to GPIO output, or which signal GPIO input need to
+                                                                 connect. Each GPIO pin can be configured either input-only or output-only depending
+                                                                 function selected, as enumerated by GPIO_PIN_SEL_E. For GPIO input selects,
+                                                                 the GPIO signal used is after glitch filter and XOR inverter (GPIO_BIT_CFG()[PIN_XOR]). */
+        uint64_t reserved_13_15        : 3;
+        uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after  PIN_SEL mux
+                                                                 and [PIN_XOR] invertor.
+                                                                 When set, the pin output will connect to zero, and pin enable
+                                                                 will connect to original pin output.  With both TX_OD and PIN_XOR set, a transmit
+                                                                 of 1 will tristate the pin output driver to archive open-drain function. */
+        uint64_t fil_sel               : 4;  /**< [ 11:  8](R/W) Filter select. Global counter bit-select (controls sample rate).
+                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
+        uint64_t fil_cnt               : 4;  /**< [  7:  4](R/W) Filter count. Specifies the number of consecutive samples (FIL_CNT+1) to change state.
+                                                                 Zero to disable the filter.
+                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
+        uint64_t int_type              : 1;  /**< [  3:  3](R/W) Type of interrupt when pin is an input and [INT_EN] set. When set, rising edge
+                                                                 interrupt, else level interrupt. The GPIO signal used to generate interrupt is after
+                                                                 the filter as well XOR inverter. */
+        uint64_t int_en                : 1;  /**< [  2:  2](R/W) Pin controlls interrupt.
+
+                                                                 If set, assertions of this pin after [PIN_XOR] will set GPIO_INTR()[INTR].
+
+                                                                 If set and [INT_TYPE] is clear (level-sensitive), deassertions of this pin
+                                                                 after [PIN_XOR] will clear GPIO_INTR()[INTR].
+
+                                                                 This does NOT control if interrupts are enabled towards the MSI-X vector,
+                                                                 for that see GPIO_INTR()[INTR_ENA]. */
+        uint64_t pin_xor               : 1;  /**< [  1:  1](R/W) GPIO data inversion. When set, inverts the receiveing or transmitting GPIO signal.
+                                                                 For GPIO output, this inversion is after all GPIO PIN_SEL muxes. This inversion function
+                                                                 is applicable to any GPIO output mux signals, also used to control GPIO_RX_DAT.
+                                                                 For GPIO input, this inversion is before the GPIO PIN_SEL muxes, as used to control
+                                                                 GPIO interrupts. */
+        uint64_t tx_oe                 : 1;  /**< [  0:  0](R/W) Transmit output enable. When set to 1, the GPIO pin can be driven as an output pin
+                                                                 if GPIO_BIT_CFG()[PIN_SEL] selects GPIO_SW. TX_OE is only used along with GPIO_TX_SET
+                                                                 or GPIO_TX_CLR, and TX_OE function is before GPIO_BIT_CFG()[PIN_SEL] mux. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_oe                 : 1;  /**< [  0:  0](R/W) Transmit output enable. When set to 1, the GPIO pin can be driven as an output pin
+                                                                 if GPIO_BIT_CFG()[PIN_SEL] selects GPIO_SW. TX_OE is only used along with GPIO_TX_SET
+                                                                 or GPIO_TX_CLR, and TX_OE function is before GPIO_BIT_CFG()[PIN_SEL] mux. */
+        uint64_t pin_xor               : 1;  /**< [  1:  1](R/W) GPIO data inversion. When set, inverts the receiveing or transmitting GPIO signal.
+                                                                 For GPIO output, this inversion is after all GPIO PIN_SEL muxes. This inversion function
+                                                                 is applicable to any GPIO output mux signals, also used to control GPIO_RX_DAT.
+                                                                 For GPIO input, this inversion is before the GPIO PIN_SEL muxes, as used to control
+                                                                 GPIO interrupts. */
+        uint64_t int_en                : 1;  /**< [  2:  2](R/W) Pin controlls interrupt.
+
+                                                                 If set, assertions of this pin after [PIN_XOR] will set GPIO_INTR()[INTR].
+
+                                                                 If set and [INT_TYPE] is clear (level-sensitive), deassertions of this pin
+                                                                 after [PIN_XOR] will clear GPIO_INTR()[INTR].
+
+                                                                 This does NOT control if interrupts are enabled towards the MSI-X vector,
+                                                                 for that see GPIO_INTR()[INTR_ENA]. */
+        uint64_t int_type              : 1;  /**< [  3:  3](R/W) Type of interrupt when pin is an input and [INT_EN] set. When set, rising edge
+                                                                 interrupt, else level interrupt. The GPIO signal used to generate interrupt is after
+                                                                 the filter as well XOR inverter. */
+        uint64_t fil_cnt               : 4;  /**< [  7:  4](R/W) Filter count. Specifies the number of consecutive samples (FIL_CNT+1) to change state.
+                                                                 Zero to disable the filter.
+                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
+        uint64_t fil_sel               : 4;  /**< [ 11:  8](R/W) Filter select. Global counter bit-select (controls sample rate).
+                                                                 Filter are XOR inverter are also appliable to GPIO input muxing signals and interrupts. */
+        uint64_t tx_od                 : 1;  /**< [ 12: 12](R/W) GPIO output open-drain conversion. This function is after  PIN_SEL mux
+                                                                 and [PIN_XOR] invertor.
+                                                                 When set, the pin output will connect to zero, and pin enable
+                                                                 will connect to original pin output.  With both TX_OD and PIN_XOR set, a transmit
+                                                                 of 1 will tristate the pin output driver to archive open-drain function. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t pin_sel               : 12; /**< [ 27: 16](R/W) Selects which signal is reported to GPIO output, or which signal GPIO input need to
+                                                                 connect. Each GPIO pin can be configured either input-only or output-only depending
+                                                                 function selected, as enumerated by GPIO_PIN_SEL_E. For GPIO input selects,
+                                                                 the GPIO signal used is after glitch filter and XOR inverter (GPIO_BIT_CFG()[PIN_XOR]). */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_bit_cfgx_s cn81xx; */
+    struct bdk_gpio_bit_cfgx_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
@@ -297,14 +417,18 @@ typedef union
                                                                  the GPIO signal used is after glitch filter and XOR inverter (GPIO_BIT_CFG()[PIN_XOR]). */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_bit_cfgx_s cn; */
+    } cn88xx;
+    /* struct bdk_gpio_bit_cfgx_s cn83xx; */
 } bdk_gpio_bit_cfgx_t;
 
 static inline uint64_t BDK_GPIO_BIT_CFGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_BIT_CFGX(unsigned long a)
 {
-    if (a<=50)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=47))
+        return 0x803000000400ll + 8ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=79))
+        return 0x803000000400ll + 8ll * ((a) & 0x7f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=50))
         return 0x803000000400ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("GPIO_BIT_CFGX", 1, a, 0, 0, 0);
 }
@@ -515,7 +639,11 @@ typedef union
 static inline uint64_t BDK_GPIO_INTRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_INTRX(unsigned long a)
 {
-    if (a<=50)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=47))
+        return 0x803000000800ll + 8ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=79))
+        return 0x803000000800ll + 8ll * ((a) & 0x7f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=50))
         return 0x803000000800ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("GPIO_INTRX", 1, a, 0, 0, 0);
 }
@@ -709,7 +837,11 @@ typedef union
 static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a)
 {
-    if (a<=2)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x803000ff0000ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x803000ff0000ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x803000ff0000ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("GPIO_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -764,7 +896,11 @@ typedef union
 static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (a<=149)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=143))
+        return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=207))
+        return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=149))
         return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
     __bdk_csr_fatal("GPIO_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -805,7 +941,11 @@ typedef union
 static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a)
 {
-    if (a<=149)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=143))
+        return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=207))
+        return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=149))
         return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
     __bdk_csr_fatal("GPIO_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -901,6 +1041,48 @@ static inline uint64_t BDK_GPIO_OCLA_EXTEN_TRIG_FUNC(void)
 #define arguments_BDK_GPIO_OCLA_EXTEN_TRIG -1,-1,-1,-1
 
 /**
+ * Register (NCB) gpio_rx1_dat
+ *
+ * GPIO Receive Data Register
+ * This register contains the state of the GPIO pins, which is after glitch filter and XOR
+ * inverter (GPIO_BIT_CFG()[PIN_XOR]). GPIO inputs always report to GPIO_RX1_DAT despite of
+ * the value of GPIO_BIT_CFG()[PIN_SEL].
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_rx1_dat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_29_63        : 35;
+        uint64_t dat                   : 29; /**< [ 28:  0](RO/H) GPIO read data. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 29; /**< [ 28:  0](RO/H) GPIO read data. */
+        uint64_t reserved_29_63        : 35;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_rx1_dat_s cn; */
+} bdk_gpio_rx1_dat_t;
+
+#define BDK_GPIO_RX1_DAT BDK_GPIO_RX1_DAT_FUNC()
+static inline uint64_t BDK_GPIO_RX1_DAT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_RX1_DAT_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x803000001400ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x803000001400ll;
+    __bdk_csr_fatal("GPIO_RX1_DAT", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_RX1_DAT bdk_gpio_rx1_dat_t
+#define bustype_BDK_GPIO_RX1_DAT BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_RX1_DAT "GPIO_RX1_DAT"
+#define device_bar_BDK_GPIO_RX1_DAT 0x0 /* PF_BAR0 */
+#define busnum_BDK_GPIO_RX1_DAT 0
+#define arguments_BDK_GPIO_RX1_DAT -1,-1,-1,-1
+
+/**
  * Register (NCB) gpio_rx_dat
  *
  * GPIO Receive Data Register
@@ -914,14 +1096,32 @@ typedef union
     struct bdk_gpio_rx_dat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) GPIO read data. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) GPIO read data. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_gpio_rx_dat_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t dat                   : 48; /**< [ 47:  0](RO/H) GPIO read data. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 48; /**< [ 47:  0](RO/H) GPIO read data. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_gpio_rx_dat_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
         uint64_t dat                   : 51; /**< [ 50:  0](RO/H) GPIO read data. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 51; /**< [ 50:  0](RO/H) GPIO read data. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_rx_dat_s cn; */
+    } cn88xx;
+    /* struct bdk_gpio_rx_dat_s cn83xx; */
 } bdk_gpio_rx_dat_t;
 
 #define BDK_GPIO_RX_DAT BDK_GPIO_RX_DAT_FUNC()
@@ -950,14 +1150,32 @@ typedef union
     struct bdk_gpio_strap_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t strap                 : 64; /**< [ 63:  0](RO/H) GPIO strap data. */
+#else /* Word 0 - Little Endian */
+        uint64_t strap                 : 64; /**< [ 63:  0](RO/H) GPIO strap data. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_gpio_strap_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t strap                 : 48; /**< [ 47:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t strap                 : 48; /**< [ 47:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_gpio_strap_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
         uint64_t strap                 : 51; /**< [ 50:  0](RO/H) GPIO strap data. */
 #else /* Word 0 - Little Endian */
         uint64_t strap                 : 51; /**< [ 50:  0](RO/H) GPIO strap data. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_strap_s cn; */
+    } cn88xx;
+    /* struct bdk_gpio_strap_s cn83xx; */
 } bdk_gpio_strap_t;
 
 #define BDK_GPIO_STRAP BDK_GPIO_STRAP_FUNC()
@@ -975,6 +1193,138 @@ static inline uint64_t BDK_GPIO_STRAP_FUNC(void)
 #define arguments_BDK_GPIO_STRAP -1,-1,-1,-1
 
 /**
+ * Register (NCB) gpio_strap1
+ *
+ * GPIO Strap Value Register
+ * This register contains GPIO strap data captured at the rising edge of DC_OK.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_strap1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_29_63        : 35;
+        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data. */
+#else /* Word 0 - Little Endian */
+        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data. */
+        uint64_t reserved_29_63        : 35;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_gpio_strap1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_29_63        : 35;
+        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+        uint64_t reserved_29_63        : 35;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gpio_strap1_s cn83xx; */
+} bdk_gpio_strap1_t;
+
+#define BDK_GPIO_STRAP1 BDK_GPIO_STRAP1_FUNC()
+static inline uint64_t BDK_GPIO_STRAP1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_STRAP1_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x803000001418ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x803000001418ll;
+    __bdk_csr_fatal("GPIO_STRAP1", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_STRAP1 bdk_gpio_strap1_t
+#define bustype_BDK_GPIO_STRAP1 BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_STRAP1 "GPIO_STRAP1"
+#define device_bar_BDK_GPIO_STRAP1 0x0 /* PF_BAR0 */
+#define busnum_BDK_GPIO_STRAP1 0
+#define arguments_BDK_GPIO_STRAP1 -1,-1,-1,-1
+
+/**
+ * Register (NCB) gpio_tx1_clr
+ *
+ * GPIO Transmit Clear Mask Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_tx1_clr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_29_63        : 35;
+        uint64_t clr                   : 29; /**< [ 28:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX1_DAT bits to set to 0. When read, CLR
+                                                                 returns the GPIO_TX1_DAT storage. */
+#else /* Word 0 - Little Endian */
+        uint64_t clr                   : 29; /**< [ 28:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX1_DAT bits to set to 0. When read, CLR
+                                                                 returns the GPIO_TX1_DAT storage. */
+        uint64_t reserved_29_63        : 35;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_tx1_clr_s cn; */
+} bdk_gpio_tx1_clr_t;
+
+#define BDK_GPIO_TX1_CLR BDK_GPIO_TX1_CLR_FUNC()
+static inline uint64_t BDK_GPIO_TX1_CLR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_TX1_CLR_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x803000001410ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x803000001410ll;
+    __bdk_csr_fatal("GPIO_TX1_CLR", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_TX1_CLR bdk_gpio_tx1_clr_t
+#define bustype_BDK_GPIO_TX1_CLR BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_TX1_CLR "GPIO_TX1_CLR"
+#define device_bar_BDK_GPIO_TX1_CLR 0x0 /* PF_BAR0 */
+#define busnum_BDK_GPIO_TX1_CLR 0
+#define arguments_BDK_GPIO_TX1_CLR -1,-1,-1,-1
+
+/**
+ * Register (NCB) gpio_tx1_set
+ *
+ * GPIO Transmit Set Mask Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_tx1_set_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_29_63        : 35;
+        uint64_t set                   : 29; /**< [ 28:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX1_DAT bits to set to 1. When read, SET
+                                                                 returns the GPIO_TX1_DAT storage. */
+#else /* Word 0 - Little Endian */
+        uint64_t set                   : 29; /**< [ 28:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX1_DAT bits to set to 1. When read, SET
+                                                                 returns the GPIO_TX1_DAT storage. */
+        uint64_t reserved_29_63        : 35;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_tx1_set_s cn; */
+} bdk_gpio_tx1_set_t;
+
+#define BDK_GPIO_TX1_SET BDK_GPIO_TX1_SET_FUNC()
+static inline uint64_t BDK_GPIO_TX1_SET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_TX1_SET_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x803000001408ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x803000001408ll;
+    __bdk_csr_fatal("GPIO_TX1_SET", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_TX1_SET bdk_gpio_tx1_set_t
+#define bustype_BDK_GPIO_TX1_SET BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_TX1_SET "GPIO_TX1_SET"
+#define device_bar_BDK_GPIO_TX1_SET 0x0 /* PF_BAR0 */
+#define busnum_BDK_GPIO_TX1_SET 0
+#define arguments_BDK_GPIO_TX1_SET -1,-1,-1,-1
+
+/**
  * Register (NCB) gpio_tx_clr
  *
  * GPIO Transmit Clear Mask Register
@@ -985,6 +1335,28 @@ typedef union
     struct bdk_gpio_tx_clr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t clr                   : 64; /**< [ 63:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+                                                                 returns the GPIO_TX_DAT storage. */
+#else /* Word 0 - Little Endian */
+        uint64_t clr                   : 64; /**< [ 63:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+                                                                 returns the GPIO_TX_DAT storage. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_gpio_tx_clr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t clr                   : 48; /**< [ 47:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+                                                                 returns the GPIO_TX_DAT storage. */
+#else /* Word 0 - Little Endian */
+        uint64_t clr                   : 48; /**< [ 47:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+                                                                 returns the GPIO_TX_DAT storage. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_gpio_tx_clr_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
         uint64_t clr                   : 51; /**< [ 50:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
                                                                  returns the GPIO_TX_DAT storage. */
@@ -993,8 +1365,8 @@ typedef union
                                                                  returns the GPIO_TX_DAT storage. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_tx_clr_s cn; */
+    } cn88xx;
+    /* struct bdk_gpio_tx_clr_s cn83xx; */
 } bdk_gpio_tx_clr_t;
 
 #define BDK_GPIO_TX_CLR BDK_GPIO_TX_CLR_FUNC()
@@ -1022,6 +1394,28 @@ typedef union
     struct bdk_gpio_tx_set_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t set                   : 64; /**< [ 63:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+                                                                 returns the GPIO_TX_DAT storage. */
+#else /* Word 0 - Little Endian */
+        uint64_t set                   : 64; /**< [ 63:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+                                                                 returns the GPIO_TX_DAT storage. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_gpio_tx_set_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t set                   : 48; /**< [ 47:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+                                                                 returns the GPIO_TX_DAT storage. */
+#else /* Word 0 - Little Endian */
+        uint64_t set                   : 48; /**< [ 47:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+                                                                 returns the GPIO_TX_DAT storage. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_gpio_tx_set_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
         uint64_t set                   : 51; /**< [ 50:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
                                                                  returns the GPIO_TX_DAT storage. */
@@ -1030,8 +1424,8 @@ typedef union
                                                                  returns the GPIO_TX_DAT storage. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_tx_set_s cn; */
+    } cn88xx;
+    /* struct bdk_gpio_tx_set_s cn83xx; */
 } bdk_gpio_tx_set_t;
 
 #define BDK_GPIO_TX_SET BDK_GPIO_TX_SET_FUNC()

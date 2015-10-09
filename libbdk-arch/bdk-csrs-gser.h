@@ -864,7 +864,8 @@ typedef union
                                                                  When [BGX_QUAD] is set, GSER bundles all four lanes for one BGX controller.
                                                                  [BGX_QUAD] must only be set for the XAUI/DXAUI and XLAUI protocols.
 
-                                                                 INTERNAL: Not used in CCPI QLMs. */
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
         uint64_t bgx_dual              : 1;  /**< [  3:  3](R/W) When set, indicates the QLM is in BGX dual aggregation mode. [BGX_DUAL] must only be
                                                                  set when [BGX] is also set and [BGX_QUAD] is clear.
 
@@ -872,24 +873,28 @@ typedef union
                                                                  lanes 2 and 3 for another BGX controller. [BGX_DUAL] must only be set for the RXAUI
                                                                  protocol.
 
-                                                                 INTERNAL: Not used in CCPI QLMs. */
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
         uint64_t bgx                   : 1;  /**< [  2:  2](R/W) When set, indicates the GSER is configured for BGX mode. [BGX] must not be set
                                                                  when either of [PCIE,SATA] are set. For CCPI links, [BGX] must be clear.
 
                                                                  When [BGX] is set and both [BGX_DUAL,BGX_QUAD] are clear, GSER exposes each lane to an
                                                                  independent BGX controller.
 
-                                                                 INTERNAL: Not used in CCPI QLMs. */
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
         uint64_t ila                   : 1;  /**< [  1:  1](R/W) Reserved. */
         uint64_t pcie                  : 1;  /**< [  0:  0](R/W/H) When set, indicates the GSER is configured for PCIE mode. [PCIE] must not be
                                                                  set when either of [BGX,SATA] is set. For CCPI QLMs, [PCIE] must be clear.
 
-                                                                 INTERNAL: Not used in CCPI QLMs. */
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
 #else /* Word 0 - Little Endian */
         uint64_t pcie                  : 1;  /**< [  0:  0](R/W/H) When set, indicates the GSER is configured for PCIE mode. [PCIE] must not be
                                                                  set when either of [BGX,SATA] is set. For CCPI QLMs, [PCIE] must be clear.
 
-                                                                 INTERNAL: Not used in CCPI QLMs. */
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
         uint64_t ila                   : 1;  /**< [  1:  1](R/W) Reserved. */
         uint64_t bgx                   : 1;  /**< [  2:  2](R/W) When set, indicates the GSER is configured for BGX mode. [BGX] must not be set
                                                                  when either of [PCIE,SATA] are set. For CCPI links, [BGX] must be clear.
@@ -897,7 +902,8 @@ typedef union
                                                                  When [BGX] is set and both [BGX_DUAL,BGX_QUAD] are clear, GSER exposes each lane to an
                                                                  independent BGX controller.
 
-                                                                 INTERNAL: Not used in CCPI QLMs. */
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
         uint64_t bgx_dual              : 1;  /**< [  3:  3](R/W) When set, indicates the QLM is in BGX dual aggregation mode. [BGX_DUAL] must only be
                                                                  set when [BGX] is also set and [BGX_QUAD] is clear.
 
@@ -905,14 +911,16 @@ typedef union
                                                                  lanes 2 and 3 for another BGX controller. [BGX_DUAL] must only be set for the RXAUI
                                                                  protocol.
 
-                                                                 INTERNAL: Not used in CCPI QLMs. */
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
         uint64_t bgx_quad              : 1;  /**< [  4:  4](R/W) When set, indicates the QLM is in BGX quad aggregation mode. [BGX_QUAD] must only be
                                                                  set when [BGX] is set and [BGX_DUAL] is clear.
 
                                                                  When [BGX_QUAD] is set, GSER bundles all four lanes for one BGX controller.
                                                                  [BGX_QUAD] must only be set for the XAUI/DXAUI and XLAUI protocols.
 
-                                                                 INTERNAL: Not used in CCPI QLMs. */
+                                                                 Internal:
+                                                                 Not used in CCPI QLMs. */
         uint64_t sata                  : 1;  /**< [  5:  5](R/W) When set, indicates the GSER is configured for SATA mode. [SATA] must not be set
                                                                  when either of [BGX,PCIE] are set. */
         uint64_t reserved_6_63         : 58;
@@ -2467,26 +2475,42 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t tx_coeff_req          : 1;  /**< [ 15: 15](RO/H) Indicates current state of the MAC to PCS Tx Coefficient Request input.
-                                                                 INTERNAL: mac_pcs_txX_coeff_req. */
+                                                                 Internal:
+                                                                 mac_pcs_txX_coeff_req. */
         uint64_t tx_vboost_en          : 1;  /**< [ 14: 14](RO/H) Indicates current state of the MAC to PCS Tx Vboost Enable input.
-                                                                 INTERNAL: mac_pcs_txX_vboost_en. */
+                                                                 Internal:
+                                                                 mac_pcs_txX_vboost_en. */
         uint64_t tx_swing              : 5;  /**< [ 13:  9](RO/H) Indicates current state of the MAC to PCS Tx Equalizer Swing<4:0> input.
-                                                                 INTERNAL: mac_pcs_txX_swing[4:0]. */
+
+                                                                 Internal:
+                                                                 mac_pcs_txX_swing[4:0]. */
         uint64_t tx_pre                : 4;  /**< [  8:  5](RO/H) Indicates current state of the MAC to PCS Tx Equalizer Pre Emphasis<3:0> input.
-                                                                 INTERNAL: mac_pcs_txX_pre[3:0]. */
+
+                                                                 Internal:
+                                                                 mac_pcs_txX_pre[3:0]. */
         uint64_t tx_post               : 5;  /**< [  4:  0](RO/H) Indicates current state of the MAC to PCS Tx Equalizer Post Emphasis<4:0> input.
-                                                                 INTERNAL: mac_pcs_txX_post[4:0]. */
+
+                                                                 Internal:
+                                                                 mac_pcs_txX_post[4:0]. */
 #else /* Word 0 - Little Endian */
         uint64_t tx_post               : 5;  /**< [  4:  0](RO/H) Indicates current state of the MAC to PCS Tx Equalizer Post Emphasis<4:0> input.
-                                                                 INTERNAL: mac_pcs_txX_post[4:0]. */
+
+                                                                 Internal:
+                                                                 mac_pcs_txX_post[4:0]. */
         uint64_t tx_pre                : 4;  /**< [  8:  5](RO/H) Indicates current state of the MAC to PCS Tx Equalizer Pre Emphasis<3:0> input.
-                                                                 INTERNAL: mac_pcs_txX_pre[3:0]. */
+
+                                                                 Internal:
+                                                                 mac_pcs_txX_pre[3:0]. */
         uint64_t tx_swing              : 5;  /**< [ 13:  9](RO/H) Indicates current state of the MAC to PCS Tx Equalizer Swing<4:0> input.
-                                                                 INTERNAL: mac_pcs_txX_swing[4:0]. */
+
+                                                                 Internal:
+                                                                 mac_pcs_txX_swing[4:0]. */
         uint64_t tx_vboost_en          : 1;  /**< [ 14: 14](RO/H) Indicates current state of the MAC to PCS Tx Vboost Enable input.
-                                                                 INTERNAL: mac_pcs_txX_vboost_en. */
+                                                                 Internal:
+                                                                 mac_pcs_txX_vboost_en. */
         uint64_t tx_coeff_req          : 1;  /**< [ 15: 15](RO/H) Indicates current state of the MAC to PCS Tx Coefficient Request input.
-                                                                 INTERNAL: mac_pcs_txX_coeff_req. */
+                                                                 Internal:
+                                                                 mac_pcs_txX_coeff_req. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -3324,7 +3348,8 @@ typedef union
                                                                  simulations with the IBIS-AMI model supplied by Cavium when
                                                                  GSER()_LANE()_RX_CFG_5[RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL] are set.
 
-                                                                 INTERNAL: reset value may be reasonable default settings. */
+                                                                 Internal:
+                                                                 reset value may be reasonable default settings. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_sds_rx_agc_mval    : 10; /**< [  9:  0](R/W) AGC manual value used when GSERX_LANE()_RX_CFG_5[RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL]
                                                                  are set.
@@ -3353,7 +3378,8 @@ typedef union
                                                                  simulations with the IBIS-AMI model supplied by Cavium when
                                                                  GSER()_LANE()_RX_CFG_5[RX_AGC_MEN_OVRRD_EN,RX_AGC_MEN_OVRRD_VAL] are set.
 
-                                                                 INTERNAL: reset value may be reasonable default settings. */
+                                                                 Internal:
+                                                                 reset value may be reasonable default settings. */
         uint64_t reserved_10           : 1;
         uint64_t pcs_sds_rx_sampler_boost_en : 1;/**< [ 11: 11](R/W) Faster sampler c2q.
                                                                  For diagnostic use only. */
@@ -8455,23 +8481,25 @@ typedef union
                                                                  settings of the specific lane mode (LMODE) table entry to derive the correct link rate.
 
                                                                  <pre>
-                                                                 SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     1.25 Gb     R_125G_REFCLK15625_KX
-                                                                 0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
-                                                                 0x2:  100 MHz     5 Gb        R_5G_REFCLK100
-                                                                 0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  125 MHz     1.25 Gb     R_125G_REFCLK15625_KX
-                                                                 0x5:  125 MHz     2.5 Gb      R_25G_REFCLK125
-                                                                 0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0x7:  125 MHz     5 Gb        R_5G_REFCLK125
-                                                                 0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  2.5 Gb      R_25G_REFCLK100
-                                                                 0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
-                                                                 0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0xE:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
-                                                                 0xF:                          SW_MODE
+                                                                       REFCLK  Link Rate
+                                                                 SPD   (Mhz)   (Gb)      LMODE
+                                                                 ----  ------  ------    -----------------------
+                                                                 0x0:  100     1.25      R_125G_REFCLK15625_KX
+                                                                 0x1:  100     2.5       R_25G_REFCLK100
+                                                                 0x2:  100     5         R_5G_REFCLK100
+                                                                 0x3:  100     8         R_8G_REFCLK100
+                                                                 0x4:  125     1.25      R_125G_REFCLK15625_KX
+                                                                 0x5:  125     2.5       R_25G_REFCLK125
+                                                                 0x6:  125     3.125     R_3125G_REFCLK15625_XAUI
+                                                                 0x7:  125     5         R_5G_REFCLK125
+                                                                 0x8:  125     6.25      R_625G_REFCLK15625_RXAUI
+                                                                 0x9:  125     8         R_8G_REFCLK125
+                                                                 0xA:  156.25  2.5       R_25G_REFCLK100
+                                                                 0xB:  156.25  3.125     R_3125G_REFCLK15625_XAUI
+                                                                 0xC:  156.25  5         R_5G_REFCLK125
+                                                                 0xD:  156.25  6.25      R_625G_REFCLK15625_RXAUI
+                                                                 0xE:  156.25  10.3125   R_103125G_REFCLK15625_KR
+                                                                 0xF:                    SW_MODE
                                                                  </pre>
 
                                                                  Note that a value of 0xF is called SW_MODE. The CCPI link does not come up configured in
@@ -8497,23 +8525,25 @@ typedef union
                                                                  settings of the specific lane mode (LMODE) table entry to derive the correct link rate.
 
                                                                  <pre>
-                                                                 SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     1.25 Gb     R_125G_REFCLK15625_KX
-                                                                 0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
-                                                                 0x2:  100 MHz     5 Gb        R_5G_REFCLK100
-                                                                 0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  125 MHz     1.25 Gb     R_125G_REFCLK15625_KX
-                                                                 0x5:  125 MHz     2.5 Gb      R_25G_REFCLK125
-                                                                 0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0x7:  125 MHz     5 Gb        R_5G_REFCLK125
-                                                                 0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  2.5 Gb      R_25G_REFCLK100
-                                                                 0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
-                                                                 0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0xE:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
-                                                                 0xF:                          SW_MODE
+                                                                       REFCLK  Link Rate
+                                                                 SPD   (Mhz)   (Gb)      LMODE
+                                                                 ----  ------  ------    -----------------------
+                                                                 0x0:  100     1.25      R_125G_REFCLK15625_KX
+                                                                 0x1:  100     2.5       R_25G_REFCLK100
+                                                                 0x2:  100     5         R_5G_REFCLK100
+                                                                 0x3:  100     8         R_8G_REFCLK100
+                                                                 0x4:  125     1.25      R_125G_REFCLK15625_KX
+                                                                 0x5:  125     2.5       R_25G_REFCLK125
+                                                                 0x6:  125     3.125     R_3125G_REFCLK15625_XAUI
+                                                                 0x7:  125     5         R_5G_REFCLK125
+                                                                 0x8:  125     6.25      R_625G_REFCLK15625_RXAUI
+                                                                 0x9:  125     8         R_8G_REFCLK125
+                                                                 0xA:  156.25  2.5       R_25G_REFCLK100
+                                                                 0xB:  156.25  3.125     R_3125G_REFCLK15625_XAUI
+                                                                 0xC:  156.25  5         R_5G_REFCLK125
+                                                                 0xD:  156.25  6.25      R_625G_REFCLK15625_RXAUI
+                                                                 0xE:  156.25  10.3125   R_103125G_REFCLK15625_KR
+                                                                 0xF:                    SW_MODE
                                                                  </pre>
 
                                                                  Note that a value of 0xF is called SW_MODE. The CCPI link does not come up configured in
@@ -8638,25 +8668,30 @@ typedef union
                                                                  Changed in pass 2.
 
                                                                  <pre>
-                                                                 SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
-                                                                 0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
-                                                                 0x2:  100 MHz     5 Gb        R_5G_REFCLK100
-                                                                 0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0x7:  125 MHz     5 Gb        R_5G_REFCLK125
-                                                                 0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
-                                                                 0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
-                                                                 0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0xE:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
+                                                                       REFCLK  Link Rate
+                                                                 SPD   (Mhz)   (Gb)     Train  LMODE
+                                                                 ----  ------  ------   -----  -----------------------
+                                                                 0x0:  100     5        TS     R_5G_REFCLK100
+                                                                 0x1:  100     2.5      --     R_25G_REFCLK100
+                                                                 0x2:  100     5        --     R_5G_REFCLK100
+                                                                 0x3:  100     8        --     R_8G_REFCLK100
+                                                                 0x4:  100     8        TS     R_8G_REFCLK100
+                                                                 0x5:  100     8        KR     R_8G_REFCLK100
+                                                                 0x6:  125     3.125    --     R_3125G_REFCLK15625_XAUI
+                                                                 0x7:  125     5        --     R_5G_REFCLK125
+                                                                 0x8:  125     6.25     --     R_625G_REFCLK15625_RXAUI
+                                                                 0x9:  125     8        --     R_8G_REFCLK125
+                                                                 0xA:  156.25  10.3125  TS     R_103125G_REFCLK15625_KR
+                                                                 0xB:  156.25  3.125    --     R_3125G_REFCLK15625_XAUI
+                                                                 0xC:  156.25  5        TS     R_5G_REFCLK125
+                                                                 0xD:  156.25  6.25     TS     R_625G_REFCLK15625_RXAUI
+                                                                 0xE:  156.25  10.3125  KR     R_103125G_REFCLK15625_KR
                                                                  0xF:                          SW_MODE
                                                                  </pre>
 
+                                                                 Train column indicates training method.  TS indicates short training, i.e., local Rx
+                                                                 equalization only.  KR indicates KR training, i.e., local Rx equalization and link
+                                                                 partner Tx equalizer adaptation.  -- indicates not applicable.
                                                                  Note that a value of 0xF is called SW_MODE. The CCPI link does not come up configured in
                                                                  SW_MODE.
                                                                  (Software must do all the CCPI GSER configuration to use CCPI in the case of SW_MODE.)
@@ -8681,25 +8716,30 @@ typedef union
                                                                  Changed in pass 2.
 
                                                                  <pre>
-                                                                 SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
-                                                                 0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
-                                                                 0x2:  100 MHz     5 Gb        R_5G_REFCLK100
-                                                                 0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0x7:  125 MHz     5 Gb        R_5G_REFCLK125
-                                                                 0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
-                                                                 0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
-                                                                 0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0xE:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
+                                                                       REFCLK  Link Rate
+                                                                 SPD   (Mhz)   (Gb)     Train  LMODE
+                                                                 ----  ------  ------   -----  -----------------------
+                                                                 0x0:  100     5        TS     R_5G_REFCLK100
+                                                                 0x1:  100     2.5      --     R_25G_REFCLK100
+                                                                 0x2:  100     5        --     R_5G_REFCLK100
+                                                                 0x3:  100     8        --     R_8G_REFCLK100
+                                                                 0x4:  100     8        TS     R_8G_REFCLK100
+                                                                 0x5:  100     8        KR     R_8G_REFCLK100
+                                                                 0x6:  125     3.125    --     R_3125G_REFCLK15625_XAUI
+                                                                 0x7:  125     5        --     R_5G_REFCLK125
+                                                                 0x8:  125     6.25     --     R_625G_REFCLK15625_RXAUI
+                                                                 0x9:  125     8        --     R_8G_REFCLK125
+                                                                 0xA:  156.25  10.3125  TS     R_103125G_REFCLK15625_KR
+                                                                 0xB:  156.25  3.125    --     R_3125G_REFCLK15625_XAUI
+                                                                 0xC:  156.25  5        TS     R_5G_REFCLK125
+                                                                 0xD:  156.25  6.25     TS     R_625G_REFCLK15625_RXAUI
+                                                                 0xE:  156.25  10.3125  KR     R_103125G_REFCLK15625_KR
                                                                  0xF:                          SW_MODE
                                                                  </pre>
 
+                                                                 Train column indicates training method.  TS indicates short training, i.e., local Rx
+                                                                 equalization only.  KR indicates KR training, i.e., local Rx equalization and link
+                                                                 partner Tx equalizer adaptation.  -- indicates not applicable.
                                                                  Note that a value of 0xF is called SW_MODE. The CCPI link does not come up configured in
                                                                  SW_MODE.
                                                                  (Software must do all the CCPI GSER configuration to use CCPI in the case of SW_MODE.)

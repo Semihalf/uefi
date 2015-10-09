@@ -118,7 +118,7 @@
  *
  * TNS BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All memories listed below are TDMA memories used for both bypass and non-bypass operation.
  */
 typedef union
@@ -162,7 +162,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS_FUNC(void)
  *
  * TNS TDMA BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All TDMA memories listed below are used for non-bypass operation only.
  */
 typedef union
@@ -214,7 +214,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS1_FUNC(void)
  *
  * TNS SE BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
 typedef union
@@ -258,7 +258,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS10_FUNC(void)
  *
  * TNS TxQ BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
 typedef union
@@ -304,7 +304,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS11_FUNC(void)
  *
  * TNS RDMA BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All RDMA memories listed below are used only for non-bypass operation.
  */
 typedef union
@@ -378,7 +378,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS2_FUNC(void)
  *
  * TNS Packet Memory BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All Packet Memory memories listed below are used only for non-bypass operation.
  * Bypass will still operate correctly if any of the memories below has a BIST failure.
  * Each field is organized as: {8k[3],8k[2],8k[1],8k[0],16k[3],16k[2],16k[1],16k[0]}.
@@ -434,7 +434,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS3_FUNC(void)
  *
  * TNS SDE BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
 typedef union
@@ -480,7 +480,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS4_FUNC(void)
  *
  * TNS SDE BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
 typedef union
@@ -524,7 +524,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS5_FUNC(void)
  *
  * TNS SDE BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
 typedef union
@@ -564,7 +564,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS6_FUNC(void)
  *
  * TNS SDE BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
 typedef union
@@ -604,7 +604,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS7_FUNC(void)
  *
  * TNS SE BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
 typedef union
@@ -614,14 +614,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t se_tcam_cam           : 48; /**< [ 63: 16](RO/H) BIST failure for the SE TCAM CAM.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Due to the late addition of a multi-bank TCAM BIST controller, only a
                                                                  sub-set of the bits in this field will be set. Bug 20606. */
         uint64_t se_tcam               : 16; /**< [ 15:  0](RO/H) BIST failure for the SE TCAM RAM. */
 #else /* Word 0 - Little Endian */
         uint64_t se_tcam               : 16; /**< [ 15:  0](RO/H) BIST failure for the SE TCAM RAM. */
         uint64_t se_tcam_cam           : 48; /**< [ 63: 16](RO/H) BIST failure for the SE TCAM CAM.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Due to the late addition of a multi-bank TCAM BIST controller, only a
                                                                  sub-set of the bits in this field will be set. Bug 20606. */
 #endif /* Word 0 - End */
@@ -650,7 +650,7 @@ static inline uint64_t BDK_TNS_BIST_STATUS8_FUNC(void)
  *
  * TNS SE BIST Status Register
  * BIST status.
- * INTERNAL:
+ * Internal:
  * All memories listed below are used only for non-bypass operation.
  */
 typedef union
@@ -1029,22 +1029,26 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t lmac_bp_enable        : 2;  /**< [  3:  2](R/W) Enable sending of back pressure information to the LMACs.
                                                                  Bits correspond to {LMACs7..4, LMACs3..0}.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  Enables sending of Xon/Xoff back pressure calendar. */
         uint64_t nici_bp_enable        : 2;  /**< [  1:  0](R/W) Enable sending of back pressure information to the NIC Interfaces.
                                                                  Bits correspond to {NICI1, NICI0}.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  Enables sending of Xon/Xoff EBP back pressure calendar.
                                                                  Also enables sending of channel credit return messages to NIC Interface. */
 #else /* Word 0 - Little Endian */
         uint64_t nici_bp_enable        : 2;  /**< [  1:  0](R/W) Enable sending of back pressure information to the NIC Interfaces.
                                                                  Bits correspond to {NICI1, NICI0}.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  Enables sending of Xon/Xoff EBP back pressure calendar.
                                                                  Also enables sending of channel credit return messages to NIC Interface. */
         uint64_t lmac_bp_enable        : 2;  /**< [  3:  2](R/W) Enable sending of back pressure information to the LMACs.
                                                                  Bits correspond to {LMACs7..4, LMACs3..0}.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  Enables sending of Xon/Xoff back pressure calendar. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -3668,18 +3672,24 @@ typedef union
                                                                  0x2 = Level.
                                                                  0x3 = One shot. */
         uint64_t sel2                  : 8;  /**< [ 23: 16](R/W) Performance counter event select, third mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel1                  : 8;  /**< [ 15:  8](R/W) Performance counter event select, second mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel0                  : 8;  /**< [  7:  0](R/W) Performance counter event select, first mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
 #else /* Word 0 - Little Endian */
         uint64_t sel0                  : 8;  /**< [  7:  0](R/W) Performance counter event select, first mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel1                  : 8;  /**< [ 15:  8](R/W) Performance counter event select, second mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel2                  : 8;  /**< [ 23: 16](R/W) Performance counter event select, third mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t mode                  : 3;  /**< [ 26: 24](R/W) Performance counter mode.
 
                                                                  Bit<24>:
@@ -3987,18 +3997,24 @@ typedef union
                                                                  0x2 = Level.
                                                                  0x3 = One shot. */
         uint64_t sel2                  : 8;  /**< [ 23: 16](R/W) Performance counter event select, third mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel1                  : 8;  /**< [ 15:  8](R/W) Performance counter event select, second mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel0                  : 8;  /**< [  7:  0](R/W) Performance counter event select, first mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
 #else /* Word 0 - Little Endian */
         uint64_t sel0                  : 8;  /**< [  7:  0](R/W) Performance counter event select, first mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel1                  : 8;  /**< [ 15:  8](R/W) Performance counter event select, second mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel2                  : 8;  /**< [ 23: 16](R/W) Performance counter event select, third mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t mode                  : 3;  /**< [ 26: 24](R/W) Performance counter mode.
 
                                                                  Bit<24>:
@@ -4245,11 +4261,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t switch_capable        : 1;  /**< [  0:  0](RO/H) When 1, indicates this device is capable of performing network switching functions.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  This field comes from the rst_fus__tns_cripple pin. */
 #else /* Word 0 - Little Endian */
         uint64_t switch_capable        : 1;  /**< [  0:  0](RO/H) When 1, indicates this device is capable of performing network switching functions.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  This field comes from the rst_fus__tns_cripple pin. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
@@ -4406,54 +4422,58 @@ typedef union
                                                                  Packet and back pressure information are passed directly between NIC Interface 1 and BGX1.
                                                                  Software must guarantee that no packets are in flight from/to BGX1/NICI1 when this bit is
                                                                  flipped.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set. */
         uint64_t bypass0_ena           : 1;  /**< [  8:  8](R/W) BGX0 <-> NICI0 Bypass Enable.
                                                                  Packet and back pressure information are passed directly between NIC Interface 0 and BGX0.
                                                                  Software must guarantee that no packets are in flight from/to BGX0/NICI0 when this bit is
                                                                  flipped.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set. */
         uint64_t reserved_5_7          : 3;
         uint64_t csr_access_ena        : 1;  /**< [  4:  4](R/W) Enable access to network switch registers.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set. */
         uint64_t reserved_2_3          : 2;
         uint64_t clk_2x_ena            : 1;  /**< [  1:  1](R/W) Enable fast clock.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Enable conditional clock to non-bypass memories.
                                                                  This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set. */
         uint64_t clk_ena               : 1;  /**< [  0:  0](R/W) Enable slow clock.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Enable conditional clock to non-bypass logic.
                                                                  This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set.
                                                                  This field has no effect unless CLK_2X_ENA is set. */
 #else /* Word 0 - Little Endian */
         uint64_t clk_ena               : 1;  /**< [  0:  0](R/W) Enable slow clock.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Enable conditional clock to non-bypass logic.
                                                                  This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set.
                                                                  This field has no effect unless CLK_2X_ENA is set. */
         uint64_t clk_2x_ena            : 1;  /**< [  1:  1](R/W) Enable fast clock.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Enable conditional clock to non-bypass memories.
                                                                  This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set. */
         uint64_t reserved_2_3          : 2;
         uint64_t csr_access_ena        : 1;  /**< [  4:  4](R/W) Enable access to network switch registers.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set. */
         uint64_t reserved_5_7          : 3;
         uint64_t bypass0_ena           : 1;  /**< [  8:  8](R/W) BGX0 <-> NICI0 Bypass Enable.
                                                                  Packet and back pressure information are passed directly between NIC Interface 0 and BGX0.
                                                                  Software must guarantee that no packets are in flight from/to BGX0/NICI0 when this bit is
                                                                  flipped.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set. */
         uint64_t bypass1_ena           : 1;  /**< [  9:  9](R/W) BGX1 <-> NICI1 Bypass Enable.
                                                                  Packet and back pressure information are passed directly between NIC Interface 1 and BGX1.
                                                                  Software must guarantee that no packets are in flight from/to BGX1/NICI1 when this bit is
                                                                  flipped.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  This field can be set only if TNS_TDMA_CAP[SWITCH_CAPABLE] is set. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
@@ -5241,7 +5261,8 @@ typedef union
                                                                  To reset the data path, TNS_RDMA_NB_PATH_ENABLE, TNS_RDMA_NB_CONFIG[MASTER_EN],
                                                                  and this field must all be cleared before performing hardware auto-initialization.
                                                                  Usage of hardware AUTO_INIT will clear this field.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  Enables page pointers from the FPM to be allocated to RDMA for use. */
         uint64_t drain_pkts            : 11; /**< [ 62: 52](R/W) Discard packets destined towards a physical port.
                                                                  Rather than transmit a packet on its physical port the TDMA will drop the packet.
@@ -5253,7 +5274,8 @@ typedef union
                                                                  To begin initialization, software writes a 1 to this field.
                                                                  Upon completion of auto-initialization, hardware will clear this field
                                                                  and will also set TNS_TDMA_NB_STATUS[INIT_DONE].
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  Fills TDMA FPM to desired depth.
                                                                  Clears TDMA PRC counters to 0x0. */
         uint64_t reserved_50           : 1;
@@ -5263,7 +5285,8 @@ typedef union
                                                                  0x2 = Use 1/4 packet memory.
                                                                  0x3 = Use 1/8 packet memory.
                                                                  AUTO_INIT must be performed after changing this field.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  TNS has a 3MB packet memory. So...
                                                                  0x0 = 3MB.
                                                                  0x1 = 1.5MB.
@@ -5308,7 +5331,8 @@ typedef union
                                                                  0x2 = Use 1/4 packet memory.
                                                                  0x3 = Use 1/8 packet memory.
                                                                  AUTO_INIT must be performed after changing this field.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  TNS has a 3MB packet memory. So...
                                                                  0x0 = 3MB.
                                                                  0x1 = 1.5MB.
@@ -5319,7 +5343,8 @@ typedef union
                                                                  To begin initialization, software writes a 1 to this field.
                                                                  Upon completion of auto-initialization, hardware will clear this field
                                                                  and will also set TNS_TDMA_NB_STATUS[INIT_DONE].
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  Fills TDMA FPM to desired depth.
                                                                  Clears TDMA PRC counters to 0x0. */
         uint64_t drain_pkts            : 11; /**< [ 62: 52](R/W) Discard packets destined towards a physical port.
@@ -5332,7 +5357,8 @@ typedef union
                                                                  To reset the data path, TNS_RDMA_NB_PATH_ENABLE, TNS_RDMA_NB_CONFIG[MASTER_EN],
                                                                  and this field must all be cleared before performing hardware auto-initialization.
                                                                  Usage of hardware AUTO_INIT will clear this field.
-                                                                 INTERNAL:
+
+                                                                 Internal:
                                                                  Enables page pointers from the FPM to be allocated to RDMA for use. */
 #endif /* Word 0 - End */
     } s;
@@ -7233,18 +7259,24 @@ typedef union
                                                                  0x2 = Level.
                                                                  0x3 = One shot. */
         uint64_t sel2                  : 8;  /**< [ 23: 16](R/W) Performance counter event select, third mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel1                  : 8;  /**< [ 15:  8](R/W) Performance counter event select, second mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel0                  : 8;  /**< [  7:  0](R/W) Performance counter event select, first mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
 #else /* Word 0 - Little Endian */
         uint64_t sel0                  : 8;  /**< [  7:  0](R/W) Performance counter event select, first mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel1                  : 8;  /**< [ 15:  8](R/W) Performance counter event select, second mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel2                  : 8;  /**< [ 23: 16](R/W) Performance counter event select, third mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t mode                  : 3;  /**< [ 26: 24](R/W) Performance counter mode.
 
                                                                  Bit<24>:
@@ -7624,18 +7656,24 @@ typedef union
                                                                  0x2 = Level.
                                                                  0x3 = One shot. */
         uint64_t sel2                  : 8;  /**< [ 23: 16](R/W) Performance counter event select, third mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel1                  : 8;  /**< [ 15:  8](R/W) Performance counter event select, second mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel0                  : 8;  /**< [  7:  0](R/W) Performance counter event select, first mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
 #else /* Word 0 - Little Endian */
         uint64_t sel0                  : 8;  /**< [  7:  0](R/W) Performance counter event select, first mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel1                  : 8;  /**< [ 15:  8](R/W) Performance counter event select, second mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t sel2                  : 8;  /**< [ 23: 16](R/W) Performance counter event select, third mux.
-                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+                                                                 Internal:
+                                                                 For details of mapping of events to selects, see tns.perf. */
         uint64_t mode                  : 3;  /**< [ 26: 24](R/W) Performance counter mode.
 
                                                                  Bit<24>:

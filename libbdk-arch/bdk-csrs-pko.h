@@ -169,7 +169,9 @@
                                        created. (For example, can't double open a DQ). */
 #define BDK_PKO_DQSTATUS_E_DQBADSTATE (8) /**< PKO could not enqueue the descriptor because the queue was not ready to enqueue
                                        descriptors.
-                                       INTERNAL: Not used in hardware, currently. */
+                                       
+                                       Internal:
+                                       Not used in hardware, currently. */
 #define BDK_PKO_DQSTATUS_E_DQNOFPABUF (9) /**< PKO could not enqueue the descriptor because FPA could not allocate a free FPA buffer to
                                        hold the descriptor. IMPORTANT: This is a fatal error, and will require a reset. If this
                                        happens to a queue-open or queue-close command, the PDM internal state could be
@@ -481,7 +483,8 @@ union bdk_pko_send_aura_s
                                                                  If no PKO_SEND_AURA_S exists in a PKO SEND descriptor, all PKO frees
                                                                  while processing are to PKO_SEND_HDR_S[AURA].
 
-                                                                 INTERNAL: The upper two bits of [AURA] are a CCPI node number. */
+                                                                 Internal:
+                                                                 The upper two bits of [AURA] are a CCPI node number. */
         uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
         uint64_t alg                   : 4;  /**< [ 43: 40] Aura count adder algorithm. Combined with [OFFSET], determines the amount
                                                                  to decrement [AURA]'s aura count. Enumerated by PKO_AURAALG_E.
@@ -570,7 +573,8 @@ union bdk_pko_send_aura_s
                                                                  If no PKO_SEND_AURA_S exists in a PKO SEND descriptor, all PKO frees
                                                                  while processing are to PKO_SEND_HDR_S[AURA].
 
-                                                                 INTERNAL: The upper two bits of [AURA] are a CCPI node number. */
+                                                                 Internal:
+                                                                 The upper two bits of [AURA] are a CCPI node number. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -1088,7 +1092,9 @@ union bdk_pko_send_hdr_s
                                                                  count may be decremented by subsequent subdescriptors. The upper two bits must
                                                                  be zero. Until a PKO_SEND_AURA_S is present, [AURA] is used for all FPA frees
                                                                  needed while processing the PKO_SEND.
-                                                                 INTERNAL: The upper two bits are a CCPI node number. */
+
+                                                                 Internal:
+                                                                 The upper two bits are a CCPI node number. */
         uint64_t ckl4                  : 2;  /**< [ 47: 46] Checksum L4, enumerated by PKO_CKL4ALG_E. If nonzero (not NONE):
 
                                                                  * PKO hardware calculates the Layer 4 TCP/UDP/SCTP checksum for the packet and inserts it
@@ -1512,7 +1518,9 @@ union bdk_pko_send_hdr_s
                                                                  count may be decremented by subsequent subdescriptors. The upper two bits must
                                                                  be zero. Until a PKO_SEND_AURA_S is present, [AURA] is used for all FPA frees
                                                                  needed while processing the PKO_SEND.
-                                                                 INTERNAL: The upper two bits are a CCPI node number. */
+
+                                                                 Internal:
+                                                                 The upper two bits are a CCPI node number. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -1865,7 +1873,10 @@ union bdk_pko_send_mem_s
                                                                  on the physical interface. */
         uint64_t offset                : 8;  /**< [ 55: 48] Adder offset. Constant value to add or subtract or set. If the count being modified is to
                                                                  represent the true packet size, then the offset would represent the outside FCS appended
-                                                                 to the packet. INTERNAL: Note IOB hardware has a special encoding for atomic decrement,
+                                                                 to the packet.
+
+                                                                 Internal:
+                                                                 Note IOB hardware has a special encoding for atomic decrement,
                                                                  therefore a change of minus one is twice as IOB bandwidth efficient as adding/subtracting
                                                                  other values or setting. */
         uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Memory. Enumerated by PKO_SENDSUBDC_E::MEM. */
@@ -1881,7 +1892,10 @@ union bdk_pko_send_mem_s
         uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Memory. Enumerated by PKO_SENDSUBDC_E::MEM. */
         uint64_t offset                : 8;  /**< [ 55: 48] Adder offset. Constant value to add or subtract or set. If the count being modified is to
                                                                  represent the true packet size, then the offset would represent the outside FCS appended
-                                                                 to the packet. INTERNAL: Note IOB hardware has a special encoding for atomic decrement,
+                                                                 to the packet.
+
+                                                                 Internal:
+                                                                 Note IOB hardware has a special encoding for atomic decrement,
                                                                  therefore a change of minus one is twice as IOB bandwidth efficient as adding/subtracting
                                                                  other values or setting. */
         uint64_t alg                   : 4;  /**< [ 59: 56] Adder algorithm. How to modify the memory location, for example by setting or atomically
@@ -2039,14 +2053,22 @@ union bdk_pko_send_tso_s
                                                                  num_segs must be greater than 1 and must never exceed 128. [MSS] must
                                                                  be >= 576. [MSS] must be <= 1535 whenever PKO considers
                                                                  the length/type field selected by [L2LEN] to be a length field. */
-        uint64_t eom                   : 1;  /**< [  7:  7] Reserved. Must be zero. INTERNAL: End Of Message. PKO HW
+        uint64_t eom                   : 1;  /**< [  7:  7] Reserved. Must be zero.
+                                                                 Internal:
+                                                                 End Of Message. PKO HW
                                                                  sets [EOM] in the last replicated packet descriptor. */
-        uint64_t fn                    : 7;  /**< [  6:  0] Reserved. Must be zero. INTERNAL: Frame Number. PKO HW
+        uint64_t fn                    : 7;  /**< [  6:  0] Reserved. Must be zero.
+                                                                 Internal:
+                                                                 Frame Number. PKO HW
                                                                  increases [FN] in every replicated packet descriptor. */
 #else /* Word 0 - Little Endian */
-        uint64_t fn                    : 7;  /**< [  6:  0] Reserved. Must be zero. INTERNAL: Frame Number. PKO HW
+        uint64_t fn                    : 7;  /**< [  6:  0] Reserved. Must be zero.
+                                                                 Internal:
+                                                                 Frame Number. PKO HW
                                                                  increases [FN] in every replicated packet descriptor. */
-        uint64_t eom                   : 1;  /**< [  7:  7] Reserved. Must be zero. INTERNAL: End Of Message. PKO HW
+        uint64_t eom                   : 1;  /**< [  7:  7] Reserved. Must be zero.
+                                                                 Internal:
+                                                                 End Of Message. PKO HW
                                                                  sets [EOM] in the last replicated packet descriptor. */
         uint64_t mss                   : 16; /**< [ 23:  8] Message segment size. The maximum message header + frame payload size (FPS) for
                                                                  each segment. The number of segments that PKO creates (num_segs) is
@@ -2418,7 +2440,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved. INTERNAL:
+        uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved.
+                                                                 Internal:
                                                                  Node number of current chip, to ensure that the aura is on the local node. */
         uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA local-node aura to use for PKO command buffering allocations and frees. The
                                                                  FPA aura selected by LAURA must correspond to a pool where the buffers (after
@@ -2427,7 +2450,8 @@ typedef union
         uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA local-node aura to use for PKO command buffering allocations and frees. The
                                                                  FPA aura selected by LAURA must correspond to a pool where the buffers (after
                                                                  any FPA_POOL()_CFG[BUF_OFFSET]) are at least of size PKO_CONST[PDM_BUF_SIZE] (4KB). */
-        uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved. INTERNAL:
+        uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved.
+                                                                 Internal:
                                                                  Node number of current chip, to ensure that the aura is on the local node. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
@@ -7279,12 +7303,16 @@ typedef union
     struct bdk_pko_lut_ecc_dbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t c2q_lut_ram_dbe       : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for C2Q_LUT_RAM. INTERNAL: Instances:
+        uint64_t c2q_lut_ram_dbe       : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for C2Q_LUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
         uint64_t reserved_0_62         : 63;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_62         : 63;
-        uint64_t c2q_lut_ram_dbe       : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for C2Q_LUT_RAM. INTERNAL: Instances:
+        uint64_t c2q_lut_ram_dbe       : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for C2Q_LUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
 #endif /* Word 0 - End */
     } s;
@@ -7321,7 +7349,10 @@ typedef union
         uint64_t lut_dbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_LUT_ECC_DBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_LUT_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set.  INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
         uint64_t reserved_0_62         : 63;
 #else /* Word 0 - Little Endian */
@@ -7329,7 +7360,10 @@ typedef union
         uint64_t lut_dbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_LUT_ECC_DBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_LUT_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set.  INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
 #endif /* Word 0 - End */
     } s;
@@ -7363,12 +7397,16 @@ typedef union
     struct bdk_pko_lut_ecc_sbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t c2q_lut_ram_sbe       : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for C2Q_LUT_RAM. INTERNAL: Instances:
+        uint64_t c2q_lut_ram_sbe       : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for C2Q_LUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
         uint64_t reserved_0_62         : 63;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_62         : 63;
-        uint64_t c2q_lut_ram_sbe       : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for C2Q_LUT_RAM. INTERNAL: Instances:
+        uint64_t c2q_lut_ram_sbe       : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for C2Q_LUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
 #endif /* Word 0 - End */
     } s;
@@ -7405,7 +7443,10 @@ typedef union
         uint64_t lut_sbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_LUT_ECC_SBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_LUT_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set.  INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
         uint64_t reserved_0_62         : 63;
 #else /* Word 0 - Little Endian */
@@ -7413,7 +7454,10 @@ typedef union
         uint64_t lut_sbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_LUT_ECC_SBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_LUT_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set.  INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.pko_c2q_lut.pko_c2q_lut_ram_i */
 #endif /* Word 0 - End */
     } s;
@@ -7710,32 +7754,56 @@ typedef union
     struct bdk_pko_ncb_ecc_dbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ncbi_l2_out_ram_dbe   : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for NCBI_L2_OUT_RAM. INTERNAL: Instances:
+        uint64_t ncbi_l2_out_ram_dbe   : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for NCBI_L2_OUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.l2_out_fifo */
-        uint64_t ncbi_pp_out_ram_dbe   : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for NCBI_PP_OUT_RAM. INTERNAL: Instances:
+        uint64_t ncbi_pp_out_ram_dbe   : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for NCBI_PP_OUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.pp_out_fifo */
-        uint64_t ncbo_pdm_cmd_dat_ram_dbe : 1;/**< [ 61: 61](R/W1C/H) Double-bit error for NCBO_PDM_CMD_DAT_RAM. INTERNAL: Instances:
+        uint64_t ncbo_pdm_cmd_dat_ram_dbe : 1;/**< [ 61: 61](R/W1C/H) Double-bit error for NCBO_PDM_CMD_DAT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.ncb__pdm_cmnd_data_fifo */
-        uint64_t ncbi_l2_pdm_pref_ram_dbe : 1;/**< [ 60: 60](R/W1C/H) Double-bit error for NCBI_L2_PDM_PREF_RAM. INTERNAL: Instances:
+        uint64_t ncbi_l2_pdm_pref_ram_dbe : 1;/**< [ 60: 60](R/W1C/H) Double-bit error for NCBI_L2_PDM_PREF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_l2_pipe.pdm_prefbuf_fifo */
-        uint64_t ncbo_pp_fif_ram_dbe   : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for NCBO_PP_FIF_RAM. INTERNAL: Instances:
+        uint64_t ncbo_pp_fif_ram_dbe   : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for NCBO_PP_FIF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.pp_fifo */
-        uint64_t ncbo_skid_fif_ram_dbe : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for NCBO_SKID_FIF_RAM. INTERNAL: Instances:
+        uint64_t ncbo_skid_fif_ram_dbe : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for NCBO_SKID_FIF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.skid_fifo */
         uint64_t reserved_0_57         : 58;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_57         : 58;
-        uint64_t ncbo_skid_fif_ram_dbe : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for NCBO_SKID_FIF_RAM. INTERNAL: Instances:
+        uint64_t ncbo_skid_fif_ram_dbe : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for NCBO_SKID_FIF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.skid_fifo */
-        uint64_t ncbo_pp_fif_ram_dbe   : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for NCBO_PP_FIF_RAM. INTERNAL: Instances:
+        uint64_t ncbo_pp_fif_ram_dbe   : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for NCBO_PP_FIF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.pp_fifo */
-        uint64_t ncbi_l2_pdm_pref_ram_dbe : 1;/**< [ 60: 60](R/W1C/H) Double-bit error for NCBI_L2_PDM_PREF_RAM. INTERNAL: Instances:
+        uint64_t ncbi_l2_pdm_pref_ram_dbe : 1;/**< [ 60: 60](R/W1C/H) Double-bit error for NCBI_L2_PDM_PREF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_l2_pipe.pdm_prefbuf_fifo */
-        uint64_t ncbo_pdm_cmd_dat_ram_dbe : 1;/**< [ 61: 61](R/W1C/H) Double-bit error for NCBO_PDM_CMD_DAT_RAM. INTERNAL: Instances:
+        uint64_t ncbo_pdm_cmd_dat_ram_dbe : 1;/**< [ 61: 61](R/W1C/H) Double-bit error for NCBO_PDM_CMD_DAT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.ncb__pdm_cmnd_data_fifo */
-        uint64_t ncbi_pp_out_ram_dbe   : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for NCBI_PP_OUT_RAM. INTERNAL: Instances:
+        uint64_t ncbi_pp_out_ram_dbe   : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for NCBI_PP_OUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.pp_out_fifo */
-        uint64_t ncbi_l2_out_ram_dbe   : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for NCBI_L2_OUT_RAM. INTERNAL: Instances:
+        uint64_t ncbi_l2_out_ram_dbe   : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for NCBI_L2_OUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.l2_out_fifo */
 #endif /* Word 0 - End */
     } s;
@@ -7772,7 +7840,10 @@ typedef union
         uint64_t ncb_dbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_NCB_ECC_DBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_NCB_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set.  INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.l2_out_fifo
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.pp_out_fifo
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.ncb__pdm_cmnd_data_fifo
@@ -7785,7 +7856,10 @@ typedef union
         uint64_t ncb_dbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_NCB_ECC_DBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_NCB_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set.  INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.l2_out_fifo
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.pp_out_fifo
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.ncb__pdm_cmnd_data_fifo
@@ -7824,32 +7898,56 @@ typedef union
     struct bdk_pko_ncb_ecc_sbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ncbi_l2_out_ram_sbe   : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for NCBI_L2_OUT_RAM. INTERNAL: Instances:
+        uint64_t ncbi_l2_out_ram_sbe   : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for NCBI_L2_OUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.l2_out_fifo */
-        uint64_t ncbi_pp_out_ram_sbe   : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for NCBI_PP_OUT_RAM. INTERNAL: Instances:
+        uint64_t ncbi_pp_out_ram_sbe   : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for NCBI_PP_OUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.pp_out_fifo */
-        uint64_t ncbo_pdm_cmd_dat_ram_sbe : 1;/**< [ 61: 61](R/W1C/H) Single-bit error for NCBO_PDM_CMD_DAT_RAM. INTERNAL: Instances:
+        uint64_t ncbo_pdm_cmd_dat_ram_sbe : 1;/**< [ 61: 61](R/W1C/H) Single-bit error for NCBO_PDM_CMD_DAT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.ncb__pdm_cmnd_data_fifo */
-        uint64_t ncbi_l2_pdm_pref_ram_sbe : 1;/**< [ 60: 60](R/W1C/H) Single-bit error for NCBI_L2_PDM_PREF_RAM. INTERNAL: Instances:
+        uint64_t ncbi_l2_pdm_pref_ram_sbe : 1;/**< [ 60: 60](R/W1C/H) Single-bit error for NCBI_L2_PDM_PREF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_l2_pipe.pdm_prefbuf_fifo */
-        uint64_t ncbo_pp_fif_ram_sbe   : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for NCBO_PP_FIF_RAM. INTERNAL: Instances:
+        uint64_t ncbo_pp_fif_ram_sbe   : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for NCBO_PP_FIF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.pp_fifo */
-        uint64_t ncbo_skid_fif_ram_sbe : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for NCBO_PP_FIF_RAM. INTERNAL: Instances:
+        uint64_t ncbo_skid_fif_ram_sbe : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for NCBO_PP_FIF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.pp_fifo */
         uint64_t reserved_0_57         : 58;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_57         : 58;
-        uint64_t ncbo_skid_fif_ram_sbe : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for NCBO_PP_FIF_RAM. INTERNAL: Instances:
+        uint64_t ncbo_skid_fif_ram_sbe : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for NCBO_PP_FIF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.pp_fifo */
-        uint64_t ncbo_pp_fif_ram_sbe   : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for NCBO_PP_FIF_RAM. INTERNAL: Instances:
+        uint64_t ncbo_pp_fif_ram_sbe   : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for NCBO_PP_FIF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.pp_fifo */
-        uint64_t ncbi_l2_pdm_pref_ram_sbe : 1;/**< [ 60: 60](R/W1C/H) Single-bit error for NCBI_L2_PDM_PREF_RAM. INTERNAL: Instances:
+        uint64_t ncbi_l2_pdm_pref_ram_sbe : 1;/**< [ 60: 60](R/W1C/H) Single-bit error for NCBI_L2_PDM_PREF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_l2_pipe.pdm_prefbuf_fifo */
-        uint64_t ncbo_pdm_cmd_dat_ram_sbe : 1;/**< [ 61: 61](R/W1C/H) Single-bit error for NCBO_PDM_CMD_DAT_RAM. INTERNAL: Instances:
+        uint64_t ncbo_pdm_cmd_dat_ram_sbe : 1;/**< [ 61: 61](R/W1C/H) Single-bit error for NCBO_PDM_CMD_DAT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.ncb__pdm_cmnd_data_fifo */
-        uint64_t ncbi_pp_out_ram_sbe   : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for NCBI_PP_OUT_RAM. INTERNAL: Instances:
+        uint64_t ncbi_pp_out_ram_sbe   : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for NCBI_PP_OUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.pp_out_fifo */
-        uint64_t ncbi_l2_out_ram_sbe   : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for NCBI_L2_OUT_RAM. INTERNAL: Instances:
+        uint64_t ncbi_l2_out_ram_sbe   : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for NCBI_L2_OUT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.l2_out_fifo */
 #endif /* Word 0 - End */
     } s;
@@ -7886,7 +7984,10 @@ typedef union
         uint64_t ncb_sbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_NCB_ECC_SBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_NCB_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set.  INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.l2_out_fifo
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.pp_out_fifo
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.ncb__pdm_cmnd_data_fifo
@@ -7899,7 +8000,10 @@ typedef union
         uint64_t ncb_sbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_NCB_ECC_SBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_NCB_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set.  INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.l2_out_fifo
                                                                  pko_pnr2.nonpse.ncb.pko_ncbi_outb.ncbi_txr.pp_out_fifo
                                                                  pko_pnr2.nonpse.ncb.pko_ncbo_inb.splitter.ncb__pdm_cmnd_data_fifo
@@ -8292,11 +8396,17 @@ typedef union
         uint64_t reserved_32_63        : 32;
         uint64_t cp_stall_thrshld      : 32; /**< [ 31:  0](R/W) Program this register to the 32-bit number of cycles to test for the PDM(CP) stalled on
                                                                  inputs going into the ISRs. PKO_PDM_STS[CP_STALL_THRSHLD_HIT] indicates the threshold has
-                                                                 been hit. INTERNAL: Do not list field in HRM. For lab debug only. */
+                                                                 been hit.
+
+                                                                 Internal:
+                                                                 Do not list field in HRM. For lab debug only. */
 #else /* Word 0 - Little Endian */
         uint64_t cp_stall_thrshld      : 32; /**< [ 31:  0](R/W) Program this register to the 32-bit number of cycles to test for the PDM(CP) stalled on
                                                                  inputs going into the ISRs. PKO_PDM_STS[CP_STALL_THRSHLD_HIT] indicates the threshold has
-                                                                 been hit. INTERNAL: Do not list field in HRM. For lab debug only. */
+                                                                 been hit.
+
+                                                                 Internal:
+                                                                 Do not list field in HRM. For lab debug only. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -8745,104 +8855,200 @@ typedef union
     struct bdk_pko_pdm_ecc_dbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t flshb_cache_lo_ram_dbe : 1; /**< [ 63: 63](R/W1C/H) Double-bit error for FLSHB_CACHE_LO_RAM. INTERNAL: Instances:
+        uint64_t flshb_cache_lo_ram_dbe : 1; /**< [ 63: 63](R/W1C/H) Double-bit error for FLSHB_CACHE_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo */
-        uint64_t flshb_cache_hi_ram_dbe : 1; /**< [ 62: 62](R/W1C/H) Double-bit error for FLSHB_CACHE_HI_RAM. INTERNAL: Instances:
+        uint64_t flshb_cache_hi_ram_dbe : 1; /**< [ 62: 62](R/W1C/H) Double-bit error for FLSHB_CACHE_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi */
-        uint64_t isrm_ca_iinst_ram_dbe : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for ISRM_CA_IINST_RAM. INTERNAL: Instances:
+        uint64_t isrm_ca_iinst_ram_dbe : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for ISRM_CA_IINST_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif */
-        uint64_t isrm_ca_cm_ram_dbe    : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for ISRM_CA_CM_RAM. INTERNAL: Instances:
+        uint64_t isrm_ca_cm_ram_dbe    : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for ISRM_CA_CM_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.cred_accum_ctrlr_and_mem.cred_accum_spr */
-        uint64_t isrm_st_ram2_dbe      : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for ISRM_ST_RAM2. INTERNAL: Instances:
+        uint64_t isrm_st_ram2_dbe      : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for ISRM_ST_RAM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem2 */
-        uint64_t isrm_st_ram1_dbe      : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for ISRM_ST_RAM1. INTERNAL: Instances:
+        uint64_t isrm_st_ram1_dbe      : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for ISRM_ST_RAM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem1 */
-        uint64_t isrm_st_ram0_dbe      : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for ISRM_ST_RAM0. INTERNAL: Instances:
+        uint64_t isrm_st_ram0_dbe      : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for ISRM_ST_RAM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem0 */
-        uint64_t isrd_st_ram3_dbe      : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for ISRD_ST_RAM3. INTERNAL: Instances:
+        uint64_t isrd_st_ram3_dbe      : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for ISRD_ST_RAM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem3 */
-        uint64_t isrd_st_ram2_dbe      : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for ISRD_ST_RAM2. INTERNAL: Instances:
+        uint64_t isrd_st_ram2_dbe      : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for ISRD_ST_RAM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem2 */
-        uint64_t isrd_st_ram1_dbe      : 1;  /**< [ 54: 54](R/W1C/H) Double-bit error for ISRD_ST_RAM1. INTERNAL: Instances:
+        uint64_t isrd_st_ram1_dbe      : 1;  /**< [ 54: 54](R/W1C/H) Double-bit error for ISRD_ST_RAM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem1 */
-        uint64_t isrd_st_ram0_dbe      : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for ISRD_ST_RAM0. INTERNAL: Instances:
+        uint64_t isrd_st_ram0_dbe      : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for ISRD_ST_RAM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem0 */
-        uint64_t drp_hi_ram_dbe        : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for DRP_HI_RAM. INTERNAL: Instances:
+        uint64_t drp_hi_ram_dbe        : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for DRP_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_1 */
-        uint64_t drp_lo_ram_dbe        : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for DRP_LO_RAM. INTERNAL: Instances:
+        uint64_t drp_lo_ram_dbe        : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for DRP_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_2 */
-        uint64_t dwp_hi_ram_dbe        : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for DWP_HI_RAM. INTERNAL: Instances:
+        uint64_t dwp_hi_ram_dbe        : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for DWP_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_high */
-        uint64_t dwp_lo_ram_dbe        : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for DWP_LO_RAM. INTERNAL: Instances:
+        uint64_t dwp_lo_ram_dbe        : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for DWP_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_low */
-        uint64_t mwp_hi_ram_dbe        : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM2. INTERNAL: Instances:
+        uint64_t mwp_hi_ram_dbe        : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem2 */
-        uint64_t mwp_lo_ram_dbe        : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM0. INTERNAL: Instances:
+        uint64_t mwp_lo_ram_dbe        : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem0 */
-        uint64_t fillb_m_rsp_ram_hi_dbe : 1; /**< [ 46: 46](R/W1C/H) Double-bit error for FILLB_M_DAT_RAM_HI. INTERNAL: Instances:
+        uint64_t fillb_m_rsp_ram_hi_dbe : 1; /**< [ 46: 46](R/W1C/H) Double-bit error for FILLB_M_DAT_RAM_HI.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_hi */
-        uint64_t fillb_m_rsp_ram_lo_dbe : 1; /**< [ 45: 45](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_LO. INTERNAL: Instances:
+        uint64_t fillb_m_rsp_ram_lo_dbe : 1; /**< [ 45: 45](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_LO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_lo */
-        uint64_t fillb_d_rsp_ram_hi_dbe : 1; /**< [ 44: 44](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_HI. INTERNAL: Instances:
+        uint64_t fillb_d_rsp_ram_hi_dbe : 1; /**< [ 44: 44](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_HI.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_hi */
-        uint64_t fillb_d_rsp_ram_lo_dbe : 1; /**< [ 43: 43](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_LO. INTERNAL: Instances:
+        uint64_t fillb_d_rsp_ram_lo_dbe : 1; /**< [ 43: 43](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_LO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_lo */
-        uint64_t minpad_ram_dbe        : 1;  /**< [ 42: 42](R/W1C/H) Double-bit error for MINPAD_RAM. INTERNAL: Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
-        uint64_t mwp_hi_spt_ram_dbe    : 1;  /**< [ 41: 41](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM3. INTERNAL: Instances:
+        uint64_t minpad_ram_dbe        : 1;  /**< [ 42: 42](R/W1C/H) Double-bit error for MINPAD_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
+        uint64_t mwp_hi_spt_ram_dbe    : 1;  /**< [ 41: 41](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem3 */
-        uint64_t mwp_lo_spt_ram_dbe    : 1;  /**< [ 40: 40](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM1. INTERNAL: Instances:
+        uint64_t mwp_lo_spt_ram_dbe    : 1;  /**< [ 40: 40](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem1 */
         uint64_t buf_wm_ram_dbe        : 1;  /**< [ 39: 39](R/W1C/H) Double-bit error for BUF_WM_RAM. */
         uint64_t reserved_0_38         : 39;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_38         : 39;
         uint64_t buf_wm_ram_dbe        : 1;  /**< [ 39: 39](R/W1C/H) Double-bit error for BUF_WM_RAM. */
-        uint64_t mwp_lo_spt_ram_dbe    : 1;  /**< [ 40: 40](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM1. INTERNAL: Instances:
+        uint64_t mwp_lo_spt_ram_dbe    : 1;  /**< [ 40: 40](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem1 */
-        uint64_t mwp_hi_spt_ram_dbe    : 1;  /**< [ 41: 41](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM3. INTERNAL: Instances:
+        uint64_t mwp_hi_spt_ram_dbe    : 1;  /**< [ 41: 41](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem3 */
-        uint64_t minpad_ram_dbe        : 1;  /**< [ 42: 42](R/W1C/H) Double-bit error for MINPAD_RAM. INTERNAL: Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
-        uint64_t fillb_d_rsp_ram_lo_dbe : 1; /**< [ 43: 43](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_LO. INTERNAL: Instances:
+        uint64_t minpad_ram_dbe        : 1;  /**< [ 42: 42](R/W1C/H) Double-bit error for MINPAD_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
+        uint64_t fillb_d_rsp_ram_lo_dbe : 1; /**< [ 43: 43](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_LO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_lo */
-        uint64_t fillb_d_rsp_ram_hi_dbe : 1; /**< [ 44: 44](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_HI. INTERNAL: Instances:
+        uint64_t fillb_d_rsp_ram_hi_dbe : 1; /**< [ 44: 44](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_HI.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_hi */
-        uint64_t fillb_m_rsp_ram_lo_dbe : 1; /**< [ 45: 45](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_LO. INTERNAL: Instances:
+        uint64_t fillb_m_rsp_ram_lo_dbe : 1; /**< [ 45: 45](R/W1C/H) Double-bit error for FILLB_D_DAT_RAM_LO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_lo */
-        uint64_t fillb_m_rsp_ram_hi_dbe : 1; /**< [ 46: 46](R/W1C/H) Double-bit error for FILLB_M_DAT_RAM_HI. INTERNAL: Instances:
+        uint64_t fillb_m_rsp_ram_hi_dbe : 1; /**< [ 46: 46](R/W1C/H) Double-bit error for FILLB_M_DAT_RAM_HI.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_hi */
-        uint64_t mwp_lo_ram_dbe        : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM0. INTERNAL: Instances:
+        uint64_t mwp_lo_ram_dbe        : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem0 */
-        uint64_t mwp_hi_ram_dbe        : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM2. INTERNAL: Instances:
+        uint64_t mwp_hi_ram_dbe        : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for MWP_RAM_PBUF_MEM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem2 */
-        uint64_t dwp_lo_ram_dbe        : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for DWP_LO_RAM. INTERNAL: Instances:
+        uint64_t dwp_lo_ram_dbe        : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for DWP_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_low */
-        uint64_t dwp_hi_ram_dbe        : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for DWP_HI_RAM. INTERNAL: Instances:
+        uint64_t dwp_hi_ram_dbe        : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for DWP_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_high */
-        uint64_t drp_lo_ram_dbe        : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for DRP_LO_RAM. INTERNAL: Instances:
+        uint64_t drp_lo_ram_dbe        : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for DRP_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_2 */
-        uint64_t drp_hi_ram_dbe        : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for DRP_HI_RAM. INTERNAL: Instances:
+        uint64_t drp_hi_ram_dbe        : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for DRP_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_1 */
-        uint64_t isrd_st_ram0_dbe      : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for ISRD_ST_RAM0. INTERNAL: Instances:
+        uint64_t isrd_st_ram0_dbe      : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for ISRD_ST_RAM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem0 */
-        uint64_t isrd_st_ram1_dbe      : 1;  /**< [ 54: 54](R/W1C/H) Double-bit error for ISRD_ST_RAM1. INTERNAL: Instances:
+        uint64_t isrd_st_ram1_dbe      : 1;  /**< [ 54: 54](R/W1C/H) Double-bit error for ISRD_ST_RAM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem1 */
-        uint64_t isrd_st_ram2_dbe      : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for ISRD_ST_RAM2. INTERNAL: Instances:
+        uint64_t isrd_st_ram2_dbe      : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for ISRD_ST_RAM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem2 */
-        uint64_t isrd_st_ram3_dbe      : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for ISRD_ST_RAM3. INTERNAL: Instances:
+        uint64_t isrd_st_ram3_dbe      : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for ISRD_ST_RAM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem3 */
-        uint64_t isrm_st_ram0_dbe      : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for ISRM_ST_RAM0. INTERNAL: Instances:
+        uint64_t isrm_st_ram0_dbe      : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for ISRM_ST_RAM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem0 */
-        uint64_t isrm_st_ram1_dbe      : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for ISRM_ST_RAM1. INTERNAL: Instances:
+        uint64_t isrm_st_ram1_dbe      : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for ISRM_ST_RAM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem1 */
-        uint64_t isrm_st_ram2_dbe      : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for ISRM_ST_RAM2. INTERNAL: Instances:
+        uint64_t isrm_st_ram2_dbe      : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for ISRM_ST_RAM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem2 */
-        uint64_t isrm_ca_cm_ram_dbe    : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for ISRM_CA_CM_RAM. INTERNAL: Instances:
+        uint64_t isrm_ca_cm_ram_dbe    : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for ISRM_CA_CM_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.cred_accum_ctrlr_and_mem.cred_accum_spr */
-        uint64_t isrm_ca_iinst_ram_dbe : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for ISRM_CA_IINST_RAM. INTERNAL: Instances:
+        uint64_t isrm_ca_iinst_ram_dbe : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for ISRM_CA_IINST_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif */
-        uint64_t flshb_cache_hi_ram_dbe : 1; /**< [ 62: 62](R/W1C/H) Double-bit error for FLSHB_CACHE_HI_RAM. INTERNAL: Instances:
+        uint64_t flshb_cache_hi_ram_dbe : 1; /**< [ 62: 62](R/W1C/H) Double-bit error for FLSHB_CACHE_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi */
-        uint64_t flshb_cache_lo_ram_dbe : 1; /**< [ 63: 63](R/W1C/H) Double-bit error for FLSHB_CACHE_LO_RAM. INTERNAL: Instances:
+        uint64_t flshb_cache_lo_ram_dbe : 1; /**< [ 63: 63](R/W1C/H) Double-bit error for FLSHB_CACHE_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo */
 #endif /* Word 0 - End */
     } s;
@@ -8879,7 +9085,10 @@ typedef union
         uint64_t pdm_dbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PDM_ECC_DBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_PDM_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set. INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif
@@ -8907,7 +9116,10 @@ typedef union
         uint64_t pdm_dbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PDM_ECC_DBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_PDM_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set. INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif
@@ -8961,104 +9173,200 @@ typedef union
     struct bdk_pko_pdm_ecc_sbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t flshb_cache_lo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for FLSHB_CACHE_LO_RAM. INTERNAL: Instances:
+        uint64_t flshb_cache_lo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for FLSHB_CACHE_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo */
-        uint64_t flshb_cache_hi_ram_sbe : 1; /**< [ 62: 62](R/W1C/H) Single-bit error for FLSHB_CACHE_HI_RAM. INTERNAL: Instances:
+        uint64_t flshb_cache_hi_ram_sbe : 1; /**< [ 62: 62](R/W1C/H) Single-bit error for FLSHB_CACHE_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi */
-        uint64_t isrm_ca_iinst_ram_sbe : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for ISRM_CA_IINST_RAM. INTERNAL: Instances:
+        uint64_t isrm_ca_iinst_ram_sbe : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for ISRM_CA_IINST_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif */
-        uint64_t isrm_ca_cm_ram_sbe    : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for ISRM_CA_CM_RAM. INTERNAL: Instances:
+        uint64_t isrm_ca_cm_ram_sbe    : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for ISRM_CA_CM_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.cred_accum_ctrlr_and_mem.cred_accum_spr */
-        uint64_t isrm_st_ram2_sbe      : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for ISRM_ST_RAM2. INTERNAL: Instances:
+        uint64_t isrm_st_ram2_sbe      : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for ISRM_ST_RAM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem2 */
-        uint64_t isrm_st_ram1_sbe      : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for ISRM_ST_RAM1. INTERNAL: Instances:
+        uint64_t isrm_st_ram1_sbe      : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for ISRM_ST_RAM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem1 */
-        uint64_t isrm_st_ram0_sbe      : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for ISRM_ST_RAM0. INTERNAL: Instances:
+        uint64_t isrm_st_ram0_sbe      : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for ISRM_ST_RAM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem0 */
-        uint64_t isrd_st_ram3_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for ISRD_ST_RAM3. INTERNAL: Instances:
+        uint64_t isrd_st_ram3_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for ISRD_ST_RAM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem3 */
-        uint64_t isrd_st_ram2_sbe      : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for ISRD_ST_RAM2. INTERNAL: Instances:
+        uint64_t isrd_st_ram2_sbe      : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for ISRD_ST_RAM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem2 */
-        uint64_t isrd_st_ram1_sbe      : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for ISRD_ST_RAM1. INTERNAL: Instances:
+        uint64_t isrd_st_ram1_sbe      : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for ISRD_ST_RAM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem1 */
-        uint64_t isrd_st_ram0_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for ISRD_ST_RAM0. INTERNAL: Instances:
+        uint64_t isrd_st_ram0_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for ISRD_ST_RAM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem0 */
-        uint64_t drp_hi_ram_sbe        : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for DRP_HI_RAM. INTERNAL: Instances:
+        uint64_t drp_hi_ram_sbe        : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for DRP_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_1 */
-        uint64_t drp_lo_ram_sbe        : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for DRP_LO_RAM. INTERNAL: Instances:
+        uint64_t drp_lo_ram_sbe        : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for DRP_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_2 */
-        uint64_t dwp_hi_ram_sbe        : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for DWP_HI_RAM. INTERNAL: Instances:
+        uint64_t dwp_hi_ram_sbe        : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for DWP_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_high */
-        uint64_t dwp_lo_ram_sbe        : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for DWP_LO_RAM. INTERNAL: Instances:
+        uint64_t dwp_lo_ram_sbe        : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for DWP_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_low */
-        uint64_t mwp_hi_ram_sbe        : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM2. INTERNAL: Instances:
+        uint64_t mwp_hi_ram_sbe        : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem2 */
-        uint64_t mwp_lo_ram_sbe        : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM0. INTERNAL: Instances:
+        uint64_t mwp_lo_ram_sbe        : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem0 */
-        uint64_t fillb_m_rsp_ram_hi_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_HI. INTERNAL: Instances:
+        uint64_t fillb_m_rsp_ram_hi_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_HI.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_hi */
-        uint64_t fillb_m_rsp_ram_lo_sbe : 1; /**< [ 45: 45](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_LO. INTERNAL: Instances:
+        uint64_t fillb_m_rsp_ram_lo_sbe : 1; /**< [ 45: 45](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_LO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_lo */
-        uint64_t fillb_d_rsp_ram_hi_sbe : 1; /**< [ 44: 44](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_HI. INTERNAL: Instances:
+        uint64_t fillb_d_rsp_ram_hi_sbe : 1; /**< [ 44: 44](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_HI.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_hi */
-        uint64_t fillb_d_rsp_ram_lo_sbe : 1; /**< [ 43: 43](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_LO. INTERNAL: Instances:
+        uint64_t fillb_d_rsp_ram_lo_sbe : 1; /**< [ 43: 43](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_LO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_lo */
-        uint64_t minpad_ram_sbe        : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for MINPAD_RAM. INTERNAL: Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
-        uint64_t mwp_hi_spt_ram_sbe    : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM3. INTERNAL: Instances:
+        uint64_t minpad_ram_sbe        : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for MINPAD_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
+        uint64_t mwp_hi_spt_ram_sbe    : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem3 */
-        uint64_t mwp_lo_spt_ram_sbe    : 1;  /**< [ 40: 40](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM1. INTERNAL: Instances:
+        uint64_t mwp_lo_spt_ram_sbe    : 1;  /**< [ 40: 40](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem1 */
         uint64_t buf_wm_ram_sbe        : 1;  /**< [ 39: 39](R/W1C/H) Single-bit error for BUF_WM_RAM. */
         uint64_t reserved_0_38         : 39;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_38         : 39;
         uint64_t buf_wm_ram_sbe        : 1;  /**< [ 39: 39](R/W1C/H) Single-bit error for BUF_WM_RAM. */
-        uint64_t mwp_lo_spt_ram_sbe    : 1;  /**< [ 40: 40](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM1. INTERNAL: Instances:
+        uint64_t mwp_lo_spt_ram_sbe    : 1;  /**< [ 40: 40](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem1 */
-        uint64_t mwp_hi_spt_ram_sbe    : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM3. INTERNAL: Instances:
+        uint64_t mwp_hi_spt_ram_sbe    : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem3 */
-        uint64_t minpad_ram_sbe        : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for MINPAD_RAM. INTERNAL: Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
-        uint64_t fillb_d_rsp_ram_lo_sbe : 1; /**< [ 43: 43](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_LO. INTERNAL: Instances:
+        uint64_t minpad_ram_sbe        : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for MINPAD_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
+        uint64_t fillb_d_rsp_ram_lo_sbe : 1; /**< [ 43: 43](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_LO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_lo */
-        uint64_t fillb_d_rsp_ram_hi_sbe : 1; /**< [ 44: 44](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_HI. INTERNAL: Instances:
+        uint64_t fillb_d_rsp_ram_hi_sbe : 1; /**< [ 44: 44](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_HI.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_hi */
-        uint64_t fillb_m_rsp_ram_lo_sbe : 1; /**< [ 45: 45](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_LO. INTERNAL: Instances:
+        uint64_t fillb_m_rsp_ram_lo_sbe : 1; /**< [ 45: 45](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_LO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_lo */
-        uint64_t fillb_m_rsp_ram_hi_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_HI. INTERNAL: Instances:
+        uint64_t fillb_m_rsp_ram_hi_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_HI.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_hi */
-        uint64_t mwp_lo_ram_sbe        : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM0. INTERNAL: Instances:
+        uint64_t mwp_lo_ram_sbe        : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem0 */
-        uint64_t mwp_hi_ram_sbe        : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM2. INTERNAL: Instances:
+        uint64_t mwp_hi_ram_sbe        : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem2 */
-        uint64_t dwp_lo_ram_sbe        : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for DWP_LO_RAM. INTERNAL: Instances:
+        uint64_t dwp_lo_ram_sbe        : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for DWP_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_low */
-        uint64_t dwp_hi_ram_sbe        : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for DWP_HI_RAM. INTERNAL: Instances:
+        uint64_t dwp_hi_ram_sbe        : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for DWP_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_high */
-        uint64_t drp_lo_ram_sbe        : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for DRP_LO_RAM. INTERNAL: Instances:
+        uint64_t drp_lo_ram_sbe        : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for DRP_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_2 */
-        uint64_t drp_hi_ram_sbe        : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for DRP_HI_RAM. INTERNAL: Instances:
+        uint64_t drp_hi_ram_sbe        : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for DRP_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_1 */
-        uint64_t isrd_st_ram0_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for ISRD_ST_RAM0. INTERNAL: Instances:
+        uint64_t isrd_st_ram0_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for ISRD_ST_RAM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem0 */
-        uint64_t isrd_st_ram1_sbe      : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for ISRD_ST_RAM1. INTERNAL: Instances:
+        uint64_t isrd_st_ram1_sbe      : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for ISRD_ST_RAM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem1 */
-        uint64_t isrd_st_ram2_sbe      : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for ISRD_ST_RAM2. INTERNAL: Instances:
+        uint64_t isrd_st_ram2_sbe      : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for ISRD_ST_RAM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem2 */
-        uint64_t isrd_st_ram3_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for ISRD_ST_RAM3. INTERNAL: Instances:
+        uint64_t isrd_st_ram3_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for ISRD_ST_RAM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem3 */
-        uint64_t isrm_st_ram0_sbe      : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for ISRM_ST_RAM0. INTERNAL: Instances:
+        uint64_t isrm_st_ram0_sbe      : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for ISRM_ST_RAM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem0 */
-        uint64_t isrm_st_ram1_sbe      : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for ISRM_ST_RAM1. INTERNAL: Instances:
+        uint64_t isrm_st_ram1_sbe      : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for ISRM_ST_RAM1.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem1 */
-        uint64_t isrm_st_ram2_sbe      : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for ISRM_ST_RAM2. INTERNAL: Instances:
+        uint64_t isrm_st_ram2_sbe      : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for ISRM_ST_RAM2.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem2 */
-        uint64_t isrm_ca_cm_ram_sbe    : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for ISRM_CA_CM_RAM. INTERNAL: Instances:
+        uint64_t isrm_ca_cm_ram_sbe    : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for ISRM_CA_CM_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.cred_accum_ctrlr_and_mem.cred_accum_spr */
-        uint64_t isrm_ca_iinst_ram_sbe : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for ISRM_CA_IINST_RAM. INTERNAL: Instances:
+        uint64_t isrm_ca_iinst_ram_sbe : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for ISRM_CA_IINST_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif */
-        uint64_t flshb_cache_hi_ram_sbe : 1; /**< [ 62: 62](R/W1C/H) Single-bit error for FLSHB_CACHE_HI_RAM. INTERNAL: Instances:
+        uint64_t flshb_cache_hi_ram_sbe : 1; /**< [ 62: 62](R/W1C/H) Single-bit error for FLSHB_CACHE_HI_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi */
-        uint64_t flshb_cache_lo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for FLSHB_CACHE_LO_RAM. INTERNAL: Instances:
+        uint64_t flshb_cache_lo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for FLSHB_CACHE_LO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo */
 #endif /* Word 0 - End */
     } s;
@@ -9095,7 +9403,10 @@ typedef union
         uint64_t pdm_sbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PDM_ECC_SBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_PDM_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set. INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif
@@ -9123,7 +9434,10 @@ typedef union
         uint64_t pdm_sbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PDM_ECC_SBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_PDM_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set. INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo
                                                                  fc.core.roc.pko.pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif
@@ -10133,7 +10447,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_38_63        : 26;
-        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1C/H) Reserved. INTERNAL: This register is set to 1 if the PDM stalls the inputs for more than
+        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 This register is set to 1 if the PDM stalls the inputs for more than
                                                                  PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
         uint64_t reserved_35_36        : 2;
         uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Received signal that MWPBUF had data valid error. */
@@ -10222,7 +10538,9 @@ typedef union
         uint64_t drpbuf_data_val_err   : 1;  /**< [ 33: 33](R/W1C/H) Received signal that DRPBUF had data valid error. */
         uint64_t mwpbuf_data_val_err   : 1;  /**< [ 34: 34](R/W1C/H) Received signal that MWPBUF had data valid error. */
         uint64_t reserved_35_36        : 2;
-        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1C/H) Reserved. INTERNAL: This register is set to 1 if the PDM stalls the inputs for more than
+        uint64_t cp_stalled_thrshld_hit : 1; /**< [ 37: 37](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 This register is set to 1 if the PDM stalls the inputs for more than
                                                                  PKO_PDM_CFG_DBG[CP_STALL_THRSHLD]: Do not list field in HRM. For lab debug only. */
         uint64_t reserved_38_63        : 26;
 #endif /* Word 0 - End */
@@ -10501,98 +10819,182 @@ typedef union
     struct bdk_pko_peb_ecc_dbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t iobp1_uid_fifo_ram_dbe : 1; /**< [ 63: 63](R/W1C/H) Double-bit error for IOBP1_UID_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp1_uid_fifo_ram_dbe : 1; /**< [ 63: 63](R/W1C/H) Double-bit error for IOBP1_UID_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i */
-        uint64_t iobp0_fifo_ram_dbe    : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for IOBP0_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp0_fifo_ram_dbe    : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for IOBP0_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i */
-        uint64_t iobp1_fifo_ram_dbe    : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for IOBP1_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp1_fifo_ram_dbe    : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for IOBP1_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i */
-        uint64_t pdm_resp_buf_ram_dbe  : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for PDM_RESP_BUF_RAM. INTERNAL: Instances:
+        uint64_t pdm_resp_buf_ram_dbe  : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for PDM_RESP_BUF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pdm_resp_buf_i */
-        uint64_t pdm_pse_buf_ram_dbe   : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for PDM_PSE_BUF_RAM. INTERNAL: Instances:
+        uint64_t pdm_pse_buf_ram_dbe   : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for PDM_PSE_BUF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i */
         uint64_t reserved_58           : 1;
-        uint64_t peb_st_inf_ram_dbe    : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for PEB_ST_INF_RAM. INTERNAL: Instances:
+        uint64_t peb_st_inf_ram_dbe    : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for PEB_ST_INF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_state_info_mem_i */
-        uint64_t pd_bank3_ram_dbe      : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for PD_BANK3_RAM. INTERNAL: Instances:
+        uint64_t pd_bank3_ram_dbe      : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for PD_BANK3_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank3_i */
         uint64_t reserved_54_55        : 2;
-        uint64_t pd_bank0_ram_dbe      : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for PD_BANK0_RAM. INTERNAL: Instances:
+        uint64_t pd_bank0_ram_dbe      : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for PD_BANK0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank0_i */
-        uint64_t pd_var_bank_ram_dbe   : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for PD_VAR_BANK_RAM. INTERNAL: Instances:
+        uint64_t pd_var_bank_ram_dbe   : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for PD_VAR_BANK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_var_mem_bank_i */
-        uint64_t tx_fifo_crc_ram_dbe   : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for TX_FIFO_CRC_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_crc_ram_dbe   : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for TX_FIFO_CRC_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_crc_i */
-        uint64_t tx_fifo_hdr_ram_dbe   : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for TX_FIFO_HDR_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_hdr_ram_dbe   : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for TX_FIFO_HDR_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_hdr_i */
-        uint64_t tx_fifo_pkt_ram_dbe   : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for TX_FIFO_PKT_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_pkt_ram_dbe   : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for TX_FIFO_PKT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_pkt_i */
-        uint64_t add_work_fifo_dbe     : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for ADD_WORK_FIFO. INTERNAL: Instances:
+        uint64_t add_work_fifo_dbe     : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for ADD_WORK_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_add_work_fifo_i */
-        uint64_t send_mem_fifo_dbe     : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for SEND_MEM_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_fifo_dbe     : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for SEND_MEM_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_fifo_i */
-        uint64_t send_mem_stdn_fifo_dbe : 1; /**< [ 46: 46](R/W1C/H) Double-bit error for SEND_MEM_STDN_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_stdn_fifo_dbe : 1; /**< [ 46: 46](R/W1C/H) Double-bit error for SEND_MEM_STDN_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_stdn_fifo_i */
-        uint64_t send_mem_ts_fifo_dbe  : 1;  /**< [ 45: 45](R/W1C/H) Double-bit error for SEND_MEM_TS_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_ts_fifo_dbe  : 1;  /**< [ 45: 45](R/W1C/H) Double-bit error for SEND_MEM_TS_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_ts_fifo_i */
-        uint64_t nxt_link_ptr_ram_dbe  : 1;  /**< [ 44: 44](R/W1C/H) Double-bit error for NXT_LINK_PTR_RAM. INTERNAL: Instances:
+        uint64_t nxt_link_ptr_ram_dbe  : 1;  /**< [ 44: 44](R/W1C/H) Double-bit error for NXT_LINK_PTR_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_nxt_link_ptr_mem_i */
-        uint64_t pkt_mrk_ram_dbe       : 1;  /**< [ 43: 43](R/W1C/H) Double-bit error for PKT_MRK_RAM. INTERNAL: Instances:
+        uint64_t pkt_mrk_ram_dbe       : 1;  /**< [ 43: 43](R/W1C/H) Double-bit error for PKT_MRK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pkt_mrk_mem_i */
-        uint64_t ts_addwork_ram_dbe    : 1;  /**< [ 42: 42](R/W1C/H) Double-bit error for TS_ADDWORK_RAM. INTERNAL: Instances:
+        uint64_t ts_addwork_ram_dbe    : 1;  /**< [ 42: 42](R/W1C/H) Double-bit error for TS_ADDWORK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_ts_addwork_mem_i */
-        uint64_t state_mem0_dbe        : 1;  /**< [ 41: 41](R/W1C/H) Double-bit error for STATE_MEM0. INTERNAL: Instances:
+        uint64_t state_mem0_dbe        : 1;  /**< [ 41: 41](R/W1C/H) Double-bit error for STATE_MEM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank0_i */
         uint64_t reserved_39_40        : 2;
-        uint64_t state_mem3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) Double-bit error for STATE_MEM3. INTERNAL: Instances:
+        uint64_t state_mem3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) Double-bit error for STATE_MEM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank3_i */
         uint64_t reserved_0_37         : 38;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_37         : 38;
-        uint64_t state_mem3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) Double-bit error for STATE_MEM3. INTERNAL: Instances:
+        uint64_t state_mem3_dbe        : 1;  /**< [ 38: 38](R/W1C/H) Double-bit error for STATE_MEM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank3_i */
         uint64_t reserved_39_40        : 2;
-        uint64_t state_mem0_dbe        : 1;  /**< [ 41: 41](R/W1C/H) Double-bit error for STATE_MEM0. INTERNAL: Instances:
+        uint64_t state_mem0_dbe        : 1;  /**< [ 41: 41](R/W1C/H) Double-bit error for STATE_MEM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank0_i */
-        uint64_t ts_addwork_ram_dbe    : 1;  /**< [ 42: 42](R/W1C/H) Double-bit error for TS_ADDWORK_RAM. INTERNAL: Instances:
+        uint64_t ts_addwork_ram_dbe    : 1;  /**< [ 42: 42](R/W1C/H) Double-bit error for TS_ADDWORK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_ts_addwork_mem_i */
-        uint64_t pkt_mrk_ram_dbe       : 1;  /**< [ 43: 43](R/W1C/H) Double-bit error for PKT_MRK_RAM. INTERNAL: Instances:
+        uint64_t pkt_mrk_ram_dbe       : 1;  /**< [ 43: 43](R/W1C/H) Double-bit error for PKT_MRK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pkt_mrk_mem_i */
-        uint64_t nxt_link_ptr_ram_dbe  : 1;  /**< [ 44: 44](R/W1C/H) Double-bit error for NXT_LINK_PTR_RAM. INTERNAL: Instances:
+        uint64_t nxt_link_ptr_ram_dbe  : 1;  /**< [ 44: 44](R/W1C/H) Double-bit error for NXT_LINK_PTR_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_nxt_link_ptr_mem_i */
-        uint64_t send_mem_ts_fifo_dbe  : 1;  /**< [ 45: 45](R/W1C/H) Double-bit error for SEND_MEM_TS_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_ts_fifo_dbe  : 1;  /**< [ 45: 45](R/W1C/H) Double-bit error for SEND_MEM_TS_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_ts_fifo_i */
-        uint64_t send_mem_stdn_fifo_dbe : 1; /**< [ 46: 46](R/W1C/H) Double-bit error for SEND_MEM_STDN_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_stdn_fifo_dbe : 1; /**< [ 46: 46](R/W1C/H) Double-bit error for SEND_MEM_STDN_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_stdn_fifo_i */
-        uint64_t send_mem_fifo_dbe     : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for SEND_MEM_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_fifo_dbe     : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for SEND_MEM_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_fifo_i */
-        uint64_t add_work_fifo_dbe     : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for ADD_WORK_FIFO. INTERNAL: Instances:
+        uint64_t add_work_fifo_dbe     : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for ADD_WORK_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_add_work_fifo_i */
-        uint64_t tx_fifo_pkt_ram_dbe   : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for TX_FIFO_PKT_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_pkt_ram_dbe   : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for TX_FIFO_PKT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_pkt_i */
-        uint64_t tx_fifo_hdr_ram_dbe   : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for TX_FIFO_HDR_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_hdr_ram_dbe   : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for TX_FIFO_HDR_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_hdr_i */
-        uint64_t tx_fifo_crc_ram_dbe   : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for TX_FIFO_CRC_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_crc_ram_dbe   : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for TX_FIFO_CRC_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_crc_i */
-        uint64_t pd_var_bank_ram_dbe   : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for PD_VAR_BANK_RAM. INTERNAL: Instances:
+        uint64_t pd_var_bank_ram_dbe   : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for PD_VAR_BANK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_var_mem_bank_i */
-        uint64_t pd_bank0_ram_dbe      : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for PD_BANK0_RAM. INTERNAL: Instances:
+        uint64_t pd_bank0_ram_dbe      : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for PD_BANK0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank0_i */
         uint64_t reserved_54_55        : 2;
-        uint64_t pd_bank3_ram_dbe      : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for PD_BANK3_RAM. INTERNAL: Instances:
+        uint64_t pd_bank3_ram_dbe      : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for PD_BANK3_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank3_i */
-        uint64_t peb_st_inf_ram_dbe    : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for PEB_ST_INF_RAM. INTERNAL: Instances:
+        uint64_t peb_st_inf_ram_dbe    : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for PEB_ST_INF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_state_info_mem_i */
         uint64_t reserved_58           : 1;
-        uint64_t pdm_pse_buf_ram_dbe   : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for PDM_PSE_BUF_RAM. INTERNAL: Instances:
+        uint64_t pdm_pse_buf_ram_dbe   : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for PDM_PSE_BUF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i */
-        uint64_t pdm_resp_buf_ram_dbe  : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for PDM_RESP_BUF_RAM. INTERNAL: Instances:
+        uint64_t pdm_resp_buf_ram_dbe  : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for PDM_RESP_BUF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pdm_resp_buf_i */
-        uint64_t iobp1_fifo_ram_dbe    : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for IOBP1_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp1_fifo_ram_dbe    : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for IOBP1_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i */
-        uint64_t iobp0_fifo_ram_dbe    : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for IOBP0_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp0_fifo_ram_dbe    : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for IOBP0_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i */
-        uint64_t iobp1_uid_fifo_ram_dbe : 1; /**< [ 63: 63](R/W1C/H) Double-bit error for IOBP1_UID_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp1_uid_fifo_ram_dbe : 1; /**< [ 63: 63](R/W1C/H) Double-bit error for IOBP1_UID_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i */
 #endif /* Word 0 - End */
     } s;
@@ -10629,7 +11031,10 @@ typedef union
         uint64_t peb_dbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PEB_ECC_DBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_PEB_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set. INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i
@@ -10657,7 +11062,10 @@ typedef union
         uint64_t peb_dbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PEB_ECC_DBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_PEB_ECC_DBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set. INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i
@@ -10711,98 +11119,182 @@ typedef union
     struct bdk_pko_peb_ecc_sbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t iobp1_uid_fifo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for IOBP1_UID_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp1_uid_fifo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for IOBP1_UID_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i */
-        uint64_t iobp0_fifo_ram_sbe    : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for IOBP0_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp0_fifo_ram_sbe    : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for IOBP0_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i */
-        uint64_t iobp1_fifo_ram_sbe    : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for IOBP1_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp1_fifo_ram_sbe    : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for IOBP1_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i */
-        uint64_t pdm_resp_buf_ram_sbe  : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for PDM_RESP_BUF_RAM. INTERNAL: Instances:
+        uint64_t pdm_resp_buf_ram_sbe  : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for PDM_RESP_BUF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pdm_resp_buf_i */
-        uint64_t pdm_pse_buf_ram_sbe   : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PDM_PSE_BUF_RAM. INTERNAL: Instances:
+        uint64_t pdm_pse_buf_ram_sbe   : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PDM_PSE_BUF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i */
         uint64_t reserved_58           : 1;
-        uint64_t peb_st_inf_ram_sbe    : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PEB_ST_INF_RAM. INTERNAL: Instances:
+        uint64_t peb_st_inf_ram_sbe    : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PEB_ST_INF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_state_info_mem_i */
-        uint64_t pd_bank3_ram_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for PD_BANK3_RAM. INTERNAL: Instances:
+        uint64_t pd_bank3_ram_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for PD_BANK3_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank3_i */
         uint64_t reserved_54_55        : 2;
-        uint64_t pd_bank0_ram_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for PD_BANK0_RAM. INTERNAL: Instances:
+        uint64_t pd_bank0_ram_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for PD_BANK0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank0_i */
-        uint64_t pd_var_bank_ram_sbe   : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for PD_VAR_BANK_RAM. INTERNAL: Instances:
+        uint64_t pd_var_bank_ram_sbe   : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for PD_VAR_BANK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_var_mem_bank_i */
-        uint64_t tx_fifo_crc_ram_sbe   : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for TX_FIFO_CRC_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_crc_ram_sbe   : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for TX_FIFO_CRC_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_crc_i */
-        uint64_t tx_fifo_hdr_ram_sbe   : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for TX_FIFO_HDR_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_hdr_ram_sbe   : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for TX_FIFO_HDR_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_hdr_i */
-        uint64_t tx_fifo_pkt_ram_sbe   : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for TX_FIFO_PKT_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_pkt_ram_sbe   : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for TX_FIFO_PKT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_pkt_i */
-        uint64_t add_work_fifo_sbe     : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for ADD_WORK_FIFO. INTERNAL: Instances:
+        uint64_t add_work_fifo_sbe     : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for ADD_WORK_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_add_work_fifo_i */
-        uint64_t send_mem_fifo_sbe     : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for SEND_MEM_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_fifo_sbe     : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for SEND_MEM_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_fifo_i */
-        uint64_t send_mem_stdn_fifo_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for SEND_MEM_STDN_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_stdn_fifo_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for SEND_MEM_STDN_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_stdn_fifo_i */
-        uint64_t send_mem_ts_fifo_sbe  : 1;  /**< [ 45: 45](R/W1C/H) Single-bit error for SEND_MEM_TS_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_ts_fifo_sbe  : 1;  /**< [ 45: 45](R/W1C/H) Single-bit error for SEND_MEM_TS_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_ts_fifo_i */
-        uint64_t nxt_link_ptr_ram_sbe  : 1;  /**< [ 44: 44](R/W1C/H) Single-bit error for NXT_LINK_PTR_RAM. INTERNAL: Instances:
+        uint64_t nxt_link_ptr_ram_sbe  : 1;  /**< [ 44: 44](R/W1C/H) Single-bit error for NXT_LINK_PTR_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_nxt_link_ptr_mem_i */
-        uint64_t pkt_mrk_ram_sbe       : 1;  /**< [ 43: 43](R/W1C/H) Single-bit error for PKT_MRK_RAM. INTERNAL: Instances:
+        uint64_t pkt_mrk_ram_sbe       : 1;  /**< [ 43: 43](R/W1C/H) Single-bit error for PKT_MRK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pkt_mrk_mem_i */
-        uint64_t ts_addwork_ram_sbe    : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for TS_ADDWORK_RAM. INTERNAL: Instances:
+        uint64_t ts_addwork_ram_sbe    : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for TS_ADDWORK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_ts_addwork_mem_i */
-        uint64_t state_mem0_sbe        : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for STATE_MEM0. INTERNAL: Instances:
+        uint64_t state_mem0_sbe        : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for STATE_MEM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank0_i */
         uint64_t reserved_39_40        : 2;
-        uint64_t state_mem3_sbe        : 1;  /**< [ 38: 38](R/W1C/H) Single-bit error for STATE_MEM3. INTERNAL: Instances:
+        uint64_t state_mem3_sbe        : 1;  /**< [ 38: 38](R/W1C/H) Single-bit error for STATE_MEM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank3_i */
         uint64_t reserved_0_37         : 38;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_37         : 38;
-        uint64_t state_mem3_sbe        : 1;  /**< [ 38: 38](R/W1C/H) Single-bit error for STATE_MEM3. INTERNAL: Instances:
+        uint64_t state_mem3_sbe        : 1;  /**< [ 38: 38](R/W1C/H) Single-bit error for STATE_MEM3.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank3_i */
         uint64_t reserved_39_40        : 2;
-        uint64_t state_mem0_sbe        : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for STATE_MEM0. INTERNAL: Instances:
+        uint64_t state_mem0_sbe        : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for STATE_MEM0.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_proc_fifo_state_bank0_i */
-        uint64_t ts_addwork_ram_sbe    : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for TS_ADDWORK_RAM. INTERNAL: Instances:
+        uint64_t ts_addwork_ram_sbe    : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for TS_ADDWORK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_ts_addwork_mem_i */
-        uint64_t pkt_mrk_ram_sbe       : 1;  /**< [ 43: 43](R/W1C/H) Single-bit error for PKT_MRK_RAM. INTERNAL: Instances:
+        uint64_t pkt_mrk_ram_sbe       : 1;  /**< [ 43: 43](R/W1C/H) Single-bit error for PKT_MRK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pkt_mrk_mem_i */
-        uint64_t nxt_link_ptr_ram_sbe  : 1;  /**< [ 44: 44](R/W1C/H) Single-bit error for NXT_LINK_PTR_RAM. INTERNAL: Instances:
+        uint64_t nxt_link_ptr_ram_sbe  : 1;  /**< [ 44: 44](R/W1C/H) Single-bit error for NXT_LINK_PTR_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_nxt_link_ptr_mem_i */
-        uint64_t send_mem_ts_fifo_sbe  : 1;  /**< [ 45: 45](R/W1C/H) Single-bit error for SEND_MEM_TS_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_ts_fifo_sbe  : 1;  /**< [ 45: 45](R/W1C/H) Single-bit error for SEND_MEM_TS_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_ts_fifo_i */
-        uint64_t send_mem_stdn_fifo_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for SEND_MEM_STDN_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_stdn_fifo_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for SEND_MEM_STDN_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_stdn_fifo_i */
-        uint64_t send_mem_fifo_sbe     : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for SEND_MEM_FIFO. INTERNAL: Instances:
+        uint64_t send_mem_fifo_sbe     : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for SEND_MEM_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_sendmem_proc_i.pko_peb_send_mem_fifo_i */
-        uint64_t add_work_fifo_sbe     : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for ADD_WORK_FIFO. INTERNAL: Instances:
+        uint64_t add_work_fifo_sbe     : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for ADD_WORK_FIFO.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_addwork_proc_i.pko_peb_add_work_fifo_i */
-        uint64_t tx_fifo_pkt_ram_sbe   : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for TX_FIFO_PKT_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_pkt_ram_sbe   : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for TX_FIFO_PKT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_pkt_i */
-        uint64_t tx_fifo_hdr_ram_sbe   : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for TX_FIFO_HDR_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_hdr_ram_sbe   : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for TX_FIFO_HDR_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_hdr_i */
-        uint64_t tx_fifo_crc_ram_sbe   : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for TX_FIFO_CRC_RAM. INTERNAL: Instances:
+        uint64_t tx_fifo_crc_ram_sbe   : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for TX_FIFO_CRC_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_tx_fifo_i.pko_peb_tx_fifo_crc_i */
-        uint64_t pd_var_bank_ram_sbe   : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for PD_VAR_BANK_RAM. INTERNAL: Instances:
+        uint64_t pd_var_bank_ram_sbe   : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for PD_VAR_BANK_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_var_mem_bank_i */
-        uint64_t pd_bank0_ram_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for PD_BANK0_RAM. INTERNAL: Instances:
+        uint64_t pd_bank0_ram_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for PD_BANK0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank0_i */
         uint64_t reserved_54_55        : 2;
-        uint64_t pd_bank3_ram_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for PD_BANK3_RAM. INTERNAL: Instances:
+        uint64_t pd_bank3_ram_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for PD_BANK3_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_pd_mem_bank3_i */
-        uint64_t peb_st_inf_ram_sbe    : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PEB_ST_INF_RAM. INTERNAL: Instances:
+        uint64_t peb_st_inf_ram_sbe    : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PEB_ST_INF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_state_info_mem_i */
         uint64_t reserved_58           : 1;
-        uint64_t pdm_pse_buf_ram_sbe   : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PDM_PSE_BUF_RAM. INTERNAL: Instances:
+        uint64_t pdm_pse_buf_ram_sbe   : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PDM_PSE_BUF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pse_buf_i */
-        uint64_t pdm_resp_buf_ram_sbe  : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for PDM_RESP_BUF_RAM. INTERNAL: Instances:
+        uint64_t pdm_resp_buf_ram_sbe  : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for PDM_RESP_BUF_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_pdm_intf_i.pko_peb_pdm_resp_buf_i */
-        uint64_t iobp1_fifo_ram_sbe    : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for IOBP1_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp1_fifo_ram_sbe    : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for IOBP1_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i */
-        uint64_t iobp0_fifo_ram_sbe    : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for IOBP0_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp0_fifo_ram_sbe    : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for IOBP0_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i */
-        uint64_t iobp1_uid_fifo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for IOBP1_UID_FIFO_RAM. INTERNAL: Instances:
+        uint64_t iobp1_uid_fifo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for IOBP1_UID_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i */
 #endif /* Word 0 - End */
     } s;
@@ -10839,7 +11331,10 @@ typedef union
         uint64_t peb_sbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PEB_ECC_SBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_PEB_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set. INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i
@@ -10867,7 +11362,10 @@ typedef union
         uint64_t peb_sbe_cmb0          : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PEB_ECC_SBE_STS0. To clear this bit,
                                                                  software
                                                                  must clear bits in PKO_PEB_ECC_SBE_STS0. When this bit is set, the corresponding interrupt
-                                                                 is set. INTERNAL: Instances:
+                                                                 is set.
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_uid_fifo_i
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_state_mem_i.pko_peb_iobp0_fifo_i
                                                                  pko_pnr3.pko_pnr3_peb.pko_peb_proc_i.pko_peb_iobp1_fifo_i
@@ -10922,9 +11420,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -11693,8 +12193,8 @@ typedef union
 static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x854100001000ll + 0x100000ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854100001000ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_PF_VFX_GMCTL", 1, a, 0, 0, 0);
 }
 
@@ -12029,17 +12529,29 @@ typedef union
     struct bdk_pko_pse_dq_ecc_dbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dq_wt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for DQ_WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.wt_sram */
+        uint64_t dq_wt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for DQ_WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.wt_sram */
         uint64_t reserved_57_62        : 6;
-        uint64_t dq_rt1_dbe            : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for DQ_RT1_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.rt1 */
-        uint64_t dq_rt0_dbe            : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for DQ_RT0_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.rt0 */
+        uint64_t dq_rt1_dbe            : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for DQ_RT1_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.rt1 */
+        uint64_t dq_rt0_dbe            : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for DQ_RT0_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.rt0 */
         uint64_t reserved_0_54         : 55;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_54         : 55;
-        uint64_t dq_rt0_dbe            : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for DQ_RT0_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.rt0 */
-        uint64_t dq_rt1_dbe            : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for DQ_RT1_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.rt1 */
+        uint64_t dq_rt0_dbe            : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for DQ_RT0_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.rt0 */
+        uint64_t dq_rt1_dbe            : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for DQ_RT1_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.rt1 */
         uint64_t reserved_57_62        : 6;
-        uint64_t dq_wt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for DQ_WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.wt_sram */
+        uint64_t dq_wt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for DQ_WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.wt_sram */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_dq_ecc_dbe_sts0_s cn; */
@@ -12075,7 +12587,9 @@ typedef union
         uint64_t pse_dq_dbe_cmb0       : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_DQ_ECC_DBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_DQ_ECC_DBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_dq.wt_sram
                                                                  pko_pnr2.pko_pse.pse_dq.rt0
                                                                  pko_pnr2.pko_pse.pse_dq.rt1 */
@@ -12085,7 +12599,9 @@ typedef union
         uint64_t pse_dq_dbe_cmb0       : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_DQ_ECC_DBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_DQ_ECC_DBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_dq.wt_sram
                                                                  pko_pnr2.pko_pse.pse_dq.rt0
                                                                  pko_pnr2.pko_pse.pse_dq.rt1 */
@@ -12121,17 +12637,29 @@ typedef union
     struct bdk_pko_pse_dq_ecc_sbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dq_wt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for DQ_WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.wt_sram */
+        uint64_t dq_wt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for DQ_WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.wt_sram */
         uint64_t reserved_57_62        : 6;
-        uint64_t dq_rt1_sbe            : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for DQ_RT1_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.rt1 */
-        uint64_t dq_rt0_sbe            : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for DQ_RT0_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.rt0 */
+        uint64_t dq_rt1_sbe            : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for DQ_RT1_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.rt1 */
+        uint64_t dq_rt0_sbe            : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for DQ_RT0_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.rt0 */
         uint64_t reserved_0_54         : 55;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_54         : 55;
-        uint64_t dq_rt0_sbe            : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for DQ_RT0_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.rt0 */
-        uint64_t dq_rt1_sbe            : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for DQ_RT1_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.rt1 */
+        uint64_t dq_rt0_sbe            : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for DQ_RT0_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.rt0 */
+        uint64_t dq_rt1_sbe            : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for DQ_RT1_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.rt1 */
         uint64_t reserved_57_62        : 6;
-        uint64_t dq_wt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for DQ_WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_dq.wt_sram */
+        uint64_t dq_wt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for DQ_WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_dq.wt_sram */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_pse_dq_ecc_sbe_sts0_s cn; */
@@ -12167,7 +12695,9 @@ typedef union
         uint64_t pse_dq_sbe_cmb0       : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_DQ_ECC_SBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_DQ_ECC_SBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_dq.wt_sram
                                                                  pko_pnr2.pko_pse.pse_dq.rt0
                                                                  pko_pnr2.pko_pse.pse_dq.rt1
@@ -12178,7 +12708,9 @@ typedef union
         uint64_t pse_dq_sbe_cmb0       : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_DQ_ECC_SBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_DQ_ECC_SBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_dq.wt_sram
                                                                  pko_pnr2.pko_pse.pse_dq.rt0
                                                                  pko_pnr2.pko_pse.pse_dq.rt1
@@ -12342,32 +12874,56 @@ typedef union
     struct bdk_pko_pse_pq_ecc_dbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pq_cxs_ram_dbe        : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for PQ_CXS_RAM. INTERNAL: Instances:
+        uint64_t pq_cxs_ram_dbe        : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for PQ_CXS_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram */
-        uint64_t pq_cxd_ram_dbe        : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for PQ_CXD_RAM. INTERNAL: Instances:
+        uint64_t pq_cxd_ram_dbe        : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for PQ_CXD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram */
         uint64_t reserved_61           : 1;
-        uint64_t tp_sram_dbe           : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for TP_SRAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
-        uint64_t pq_std_ram_dbe        : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for PQ_STD_RAM. INTERNAL: Instances:
+        uint64_t tp_sram_dbe           : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for TP_SRAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
+        uint64_t pq_std_ram_dbe        : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for PQ_STD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.std_sram */
-        uint64_t pq_st_ram_dbe         : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for PQ_ST_RAM. INTERNAL: Instances:
+        uint64_t pq_st_ram_dbe         : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for PQ_ST_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.st_sram */
-        uint64_t pq_wmd_ram_dbe        : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for PQ_WMD_RAM. INTERNAL: Instances:
+        uint64_t pq_wmd_ram_dbe        : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for PQ_WMD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.wmd_sram */
         uint64_t reserved_0_56         : 57;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_56         : 57;
-        uint64_t pq_wmd_ram_dbe        : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for PQ_WMD_RAM. INTERNAL: Instances:
+        uint64_t pq_wmd_ram_dbe        : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for PQ_WMD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.wmd_sram */
-        uint64_t pq_st_ram_dbe         : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for PQ_ST_RAM. INTERNAL: Instances:
+        uint64_t pq_st_ram_dbe         : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for PQ_ST_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.st_sram */
-        uint64_t pq_std_ram_dbe        : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for PQ_STD_RAM. INTERNAL: Instances:
+        uint64_t pq_std_ram_dbe        : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for PQ_STD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.std_sram */
-        uint64_t tp_sram_dbe           : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for TP_SRAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
+        uint64_t tp_sram_dbe           : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for TP_SRAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
         uint64_t reserved_61           : 1;
-        uint64_t pq_cxd_ram_dbe        : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for PQ_CXD_RAM. INTERNAL: Instances:
+        uint64_t pq_cxd_ram_dbe        : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for PQ_CXD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram */
-        uint64_t pq_cxs_ram_dbe        : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for PQ_CXS_RAM. INTERNAL: Instances:
+        uint64_t pq_cxs_ram_dbe        : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for PQ_CXS_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram */
 #endif /* Word 0 - End */
     } s;
@@ -12404,7 +12960,9 @@ typedef union
         uint64_t pse_pq_dbe_cmb0       : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_PQ_ECC_DBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_PQ_ECC_DBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram
@@ -12417,7 +12975,9 @@ typedef union
         uint64_t pse_pq_dbe_cmb0       : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_PQ_ECC_DBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_PQ_ECC_DBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram
@@ -12456,32 +13016,56 @@ typedef union
     struct bdk_pko_pse_pq_ecc_sbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pq_cxs_ram_sbe        : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for PQ_CXS_RAM. INTERNAL: Instances:
+        uint64_t pq_cxs_ram_sbe        : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for PQ_CXS_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram */
-        uint64_t pq_cxd_ram_sbe        : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for PQ_CXD_RAM. INTERNAL: Instances:
+        uint64_t pq_cxd_ram_sbe        : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for PQ_CXD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram */
         uint64_t reserved_61           : 1;
-        uint64_t tp_sram_sbe           : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for TP_SRAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
-        uint64_t pq_std_ram_sbe        : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PQ_STD_RAM. INTERNAL: Instances:
+        uint64_t tp_sram_sbe           : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for TP_SRAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
+        uint64_t pq_std_ram_sbe        : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PQ_STD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.std_sram */
-        uint64_t pq_st_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for PQ_ST_RAM. INTERNAL: Instances:
+        uint64_t pq_st_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for PQ_ST_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.st_sram */
-        uint64_t pq_wmd_ram_sbe        : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PQ_WMD_RAM. INTERNAL: Instances:
+        uint64_t pq_wmd_ram_sbe        : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PQ_WMD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.wmd_sram */
         uint64_t reserved_0_56         : 57;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_56         : 57;
-        uint64_t pq_wmd_ram_sbe        : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PQ_WMD_RAM. INTERNAL: Instances:
+        uint64_t pq_wmd_ram_sbe        : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PQ_WMD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.wmd_sram */
-        uint64_t pq_st_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for PQ_ST_RAM. INTERNAL: Instances:
+        uint64_t pq_st_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for PQ_ST_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.st_sram */
-        uint64_t pq_std_ram_sbe        : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PQ_STD_RAM. INTERNAL: Instances:
+        uint64_t pq_std_ram_sbe        : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PQ_STD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.std_sram */
-        uint64_t tp_sram_sbe           : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for TP_SRAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
+        uint64_t tp_sram_sbe           : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for TP_SRAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
         uint64_t reserved_61           : 1;
-        uint64_t pq_cxd_ram_sbe        : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for PQ_CXD_RAM. INTERNAL: Instances:
+        uint64_t pq_cxd_ram_sbe        : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for PQ_CXD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram */
-        uint64_t pq_cxs_ram_sbe        : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for PQ_CXS_RAM. INTERNAL: Instances:
+        uint64_t pq_cxs_ram_sbe        : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for PQ_CXS_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram */
 #endif /* Word 0 - End */
     } s;
@@ -12518,7 +13102,9 @@ typedef union
         uint64_t pse_pq_sbe_cmb0       : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_PQ_ECC_SBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_PQ_ECC_SBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram
@@ -12531,7 +13117,9 @@ typedef union
         uint64_t pse_pq_sbe_cmb0       : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_PQ_ECC_SBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_PQ_ECC_SBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram
@@ -12792,62 +13380,114 @@ typedef union
     struct bdk_pko_pse_sq1_ecc_dbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cxs_ram_dbe           : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for CXS_RAM. INTERNAL: Instances:
+        uint64_t cxs_ram_dbe           : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for CXS_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxs_sram */
-        uint64_t cxd_ram_dbe           : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for CXD_RAM. INTERNAL: Instances:
+        uint64_t cxd_ram_dbe           : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for CXD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxd_sram */
         uint64_t reserved_61           : 1;
-        uint64_t vc0_sram_dbe          : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for VC0_SRAM. INTERNAL: Instances:
+        uint64_t vc0_sram_dbe          : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for VC0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.vc0_sram */
-        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.nt_sram */
-        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.pt_sram */
-        uint64_t rt_ram_dbe            : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.rt_sram */
-        uint64_t pc_ram_dbe            : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for PC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.pc_sram */
+        uint64_t rt_ram_dbe            : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.rt_sram */
+        uint64_t pc_ram_dbe            : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for PC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.pc_sram */
         uint64_t reserved_55           : 1;
-        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 54: 54](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 54: 54](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.tw_1.sq_fifo_sram */
         uint64_t reserved_53           : 1;
-        uint64_t tp0_sram_dbe          : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_dbe          : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.tp0_sram */
         uint64_t reserved_51           : 1;
-        uint64_t sts0_ram_dbe          : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_dbe          : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.sts0_sram */
         uint64_t reserved_49           : 1;
-        uint64_t std0_ram_dbe          : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t std0_ram_dbe          : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.std0_sram */
-        uint64_t wt_ram_dbe            : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.wt_sram */
-        uint64_t sc_ram_dbe            : 1;  /**< [ 46: 46](R/W1C/H) Double-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.sc_sram */
+        uint64_t wt_ram_dbe            : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.wt_sram */
+        uint64_t sc_ram_dbe            : 1;  /**< [ 46: 46](R/W1C/H) Double-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.sc_sram */
         uint64_t reserved_0_45         : 46;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_45         : 46;
-        uint64_t sc_ram_dbe            : 1;  /**< [ 46: 46](R/W1C/H) Double-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.sc_sram */
-        uint64_t wt_ram_dbe            : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.wt_sram */
-        uint64_t std0_ram_dbe          : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t sc_ram_dbe            : 1;  /**< [ 46: 46](R/W1C/H) Double-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.sc_sram */
+        uint64_t wt_ram_dbe            : 1;  /**< [ 47: 47](R/W1C/H) Double-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.wt_sram */
+        uint64_t std0_ram_dbe          : 1;  /**< [ 48: 48](R/W1C/H) Double-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.std0_sram */
         uint64_t reserved_49           : 1;
-        uint64_t sts0_ram_dbe          : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_dbe          : 1;  /**< [ 50: 50](R/W1C/H) Double-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.sts0_sram */
         uint64_t reserved_51           : 1;
-        uint64_t tp0_sram_dbe          : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_dbe          : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.tp0_sram */
         uint64_t reserved_53           : 1;
-        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 54: 54](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 54: 54](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.tw_1.sq_fifo_sram */
         uint64_t reserved_55           : 1;
-        uint64_t pc_ram_dbe            : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for PC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.pc_sram */
-        uint64_t rt_ram_dbe            : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.rt_sram */
-        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t pc_ram_dbe            : 1;  /**< [ 56: 56](R/W1C/H) Double-bit error for PC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.pc_sram */
+        uint64_t rt_ram_dbe            : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.rt_sram */
+        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 58: 58](R/W1C/H) Double-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.pt_sram */
-        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.nt_sram */
-        uint64_t vc0_sram_dbe          : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for VC0_SRAM. INTERNAL: Instances:
+        uint64_t vc0_sram_dbe          : 1;  /**< [ 60: 60](R/W1C/H) Double-bit error for VC0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.vc0_sram */
         uint64_t reserved_61           : 1;
-        uint64_t cxd_ram_dbe           : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for CXD_RAM. INTERNAL: Instances:
+        uint64_t cxd_ram_dbe           : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for CXD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxd_sram */
-        uint64_t cxs_ram_dbe           : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for CXS_RAM. INTERNAL: Instances:
+        uint64_t cxs_ram_dbe           : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for CXS_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxs_sram */
 #endif /* Word 0 - End */
     } s;
@@ -12884,7 +13524,9 @@ typedef union
         uint64_t pse_sq1_dbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ1_ECC_DBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ1_ECC_DBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxs_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxd_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.vc0_sram
@@ -12904,7 +13546,9 @@ typedef union
         uint64_t pse_sq1_dbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ1_ECC_DBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ1_ECC_DBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxs_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxd_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.vc0_sram
@@ -12950,62 +13594,114 @@ typedef union
     struct bdk_pko_pse_sq1_ecc_sbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cxs_ram_sbe           : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for CXS_RAM. INTERNAL: Instances:
+        uint64_t cxs_ram_sbe           : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for CXS_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxs_sram */
-        uint64_t cxd_ram_sbe           : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for CXD_RAM. INTERNAL: Instances:
+        uint64_t cxd_ram_sbe           : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for CXD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxd_sram */
         uint64_t reserved_61           : 1;
-        uint64_t vc0_sram_sbe          : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for VC0_SRAM. INTERNAL: Instances:
+        uint64_t vc0_sram_sbe          : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for VC0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.vc1_sram */
-        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.nt_sram */
-        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.pt_sram */
-        uint64_t rt_ram_sbe            : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.rt_sram */
-        uint64_t pc_ram_sbe            : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for PC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.pc_sram */
+        uint64_t rt_ram_sbe            : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.rt_sram */
+        uint64_t pc_ram_sbe            : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for PC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.pc_sram */
         uint64_t reserved_55           : 1;
-        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.tw_1.sq_fifo_sram */
         uint64_t reserved_53           : 1;
-        uint64_t tp0_sram_sbe          : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_sbe          : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.tp0_sram */
         uint64_t reserved_51           : 1;
-        uint64_t sts0_ram_sbe          : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_sbe          : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.sts1_sram */
         uint64_t reserved_49           : 1;
-        uint64_t std0_ram_sbe          : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t std0_ram_sbe          : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.std1_sram */
-        uint64_t wt_ram_sbe            : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.wt_sram */
-        uint64_t sc_ram_sbe            : 1;  /**< [ 46: 46](R/W1C/H) Single-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.sc_sram */
+        uint64_t wt_ram_sbe            : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.wt_sram */
+        uint64_t sc_ram_sbe            : 1;  /**< [ 46: 46](R/W1C/H) Single-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.sc_sram */
         uint64_t reserved_0_45         : 46;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_45         : 46;
-        uint64_t sc_ram_sbe            : 1;  /**< [ 46: 46](R/W1C/H) Single-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.sc_sram */
-        uint64_t wt_ram_sbe            : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.wt_sram */
-        uint64_t std0_ram_sbe          : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t sc_ram_sbe            : 1;  /**< [ 46: 46](R/W1C/H) Single-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.sc_sram */
+        uint64_t wt_ram_sbe            : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.wt_sram */
+        uint64_t std0_ram_sbe          : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.std1_sram */
         uint64_t reserved_49           : 1;
-        uint64_t sts0_ram_sbe          : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_sbe          : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.sts1_sram */
         uint64_t reserved_51           : 1;
-        uint64_t tp0_sram_sbe          : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_sbe          : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.tp0_sram */
         uint64_t reserved_53           : 1;
-        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.tw_1.sq_fifo_sram */
         uint64_t reserved_55           : 1;
-        uint64_t pc_ram_sbe            : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for PC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.pc_sram */
-        uint64_t rt_ram_sbe            : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.rt_sram */
-        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t pc_ram_sbe            : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for PC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.pc_sram */
+        uint64_t rt_ram_sbe            : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq1.rt_sram */
+        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.pt_sram */
-        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.nt_sram */
-        uint64_t vc0_sram_sbe          : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for VC0_SRAM. INTERNAL: Instances:
+        uint64_t vc0_sram_sbe          : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for VC0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.vc1_sram */
         uint64_t reserved_61           : 1;
-        uint64_t cxd_ram_sbe           : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for CXD_RAM. INTERNAL: Instances:
+        uint64_t cxd_ram_sbe           : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for CXD_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxd_sram */
-        uint64_t cxs_ram_sbe           : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for CXS_RAM. INTERNAL: Instances:
+        uint64_t cxs_ram_sbe           : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for CXS_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxs_sram */
 #endif /* Word 0 - End */
     } s;
@@ -13042,7 +13738,9 @@ typedef union
         uint64_t pse_sq1_sbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ1_ECC_SBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ1_ECC_SBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxs_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxd_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.vc0_sram
@@ -13062,7 +13760,9 @@ typedef union
         uint64_t pse_sq1_sbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ1_ECC_SBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ1_ECC_SBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxs_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.cxd_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.vc0_sram
@@ -13249,46 +13949,82 @@ typedef union
     struct bdk_pko_pse_sq2_ecc_dbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.nt_sram */
-        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.pt_sram */
-        uint64_t rt_ram_dbe            : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram */
+        uint64_t rt_ram_dbe            : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram */
         uint64_t reserved_60           : 1;
-        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.tw_0.sq_fifo_sram */
         uint64_t reserved_58           : 1;
-        uint64_t tp0_sram_dbe          : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_dbe          : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.tp0_sram */
         uint64_t reserved_56           : 1;
-        uint64_t sts0_ram_dbe          : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_dbe          : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.sts0_sram */
         uint64_t reserved_54           : 1;
-        uint64_t std0_ram_dbe          : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t std0_ram_dbe          : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.std0_sram */
-        uint64_t wt_ram_dbe            : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.wt_sram */
-        uint64_t sc_ram_dbe            : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.sc_sram */
+        uint64_t wt_ram_dbe            : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.wt_sram */
+        uint64_t sc_ram_dbe            : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.sc_sram */
         uint64_t reserved_0_50         : 51;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_50         : 51;
-        uint64_t sc_ram_dbe            : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.sc_sram */
-        uint64_t wt_ram_dbe            : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.wt_sram */
-        uint64_t std0_ram_dbe          : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t sc_ram_dbe            : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.sc_sram */
+        uint64_t wt_ram_dbe            : 1;  /**< [ 52: 52](R/W1C/H) Double-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.wt_sram */
+        uint64_t std0_ram_dbe          : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.std0_sram */
         uint64_t reserved_54           : 1;
-        uint64_t sts0_ram_dbe          : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_dbe          : 1;  /**< [ 55: 55](R/W1C/H) Double-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.sts0_sram */
         uint64_t reserved_56           : 1;
-        uint64_t tp0_sram_dbe          : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_dbe          : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.tp0_sram */
         uint64_t reserved_58           : 1;
-        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 59: 59](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.tw_0.sq_fifo_sram */
         uint64_t reserved_60           : 1;
-        uint64_t rt_ram_dbe            : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram */
-        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t rt_ram_dbe            : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram */
+        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.pt_sram */
-        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.nt_sram */
 #endif /* Word 0 - End */
     } s;
@@ -13325,7 +14061,9 @@ typedef union
         uint64_t pse_sq2_dbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ2_ECC_DBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ2_ECC_DBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.nt_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.pt_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram
@@ -13341,7 +14079,9 @@ typedef union
         uint64_t pse_sq2_dbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ2_ECC_DBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ2_ECC_DBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.nt_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.pt_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram
@@ -13383,46 +14123,82 @@ typedef union
     struct bdk_pko_pse_sq2_ecc_sbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.nt_sram */
-        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.pt_sram */
-        uint64_t rt_ram_sbe            : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram */
+        uint64_t rt_ram_sbe            : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram */
         uint64_t reserved_60           : 1;
-        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.tw_0.sq_fifo_sram */
         uint64_t reserved_58           : 1;
-        uint64_t tp0_sram_sbe          : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_sbe          : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.tp0_sram */
         uint64_t reserved_56           : 1;
-        uint64_t sts0_ram_sbe          : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_sbe          : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.sts0_sram */
         uint64_t reserved_54           : 1;
-        uint64_t std0_ram_sbe          : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t std0_ram_sbe          : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.std0_sram */
-        uint64_t wt_ram_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.wt_sram */
-        uint64_t sc_ram_sbe            : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.sc_sram */
+        uint64_t wt_ram_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.wt_sram */
+        uint64_t sc_ram_sbe            : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.sc_sram */
         uint64_t reserved_0_50         : 51;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_50         : 51;
-        uint64_t sc_ram_sbe            : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.sc_sram */
-        uint64_t wt_ram_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.wt_sram */
-        uint64_t std0_ram_sbe          : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t sc_ram_sbe            : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.sc_sram */
+        uint64_t wt_ram_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.wt_sram */
+        uint64_t std0_ram_sbe          : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.std0_sram */
         uint64_t reserved_54           : 1;
-        uint64_t sts0_ram_sbe          : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_sbe          : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.sts0_sram */
         uint64_t reserved_56           : 1;
-        uint64_t tp0_sram_sbe          : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_sbe          : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.tp0_sram */
         uint64_t reserved_58           : 1;
-        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.tw_0.sq_fifo_sram */
         uint64_t reserved_60           : 1;
-        uint64_t rt_ram_sbe            : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram */
-        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t rt_ram_sbe            : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram */
+        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.pt_sram */
-        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.nt_sram */
 #endif /* Word 0 - End */
     } s;
@@ -13459,7 +14235,9 @@ typedef union
         uint64_t pse_sq2_sbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ2_ECC_SBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ2_ECC_SBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.nt_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.pt_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram
@@ -13475,7 +14253,9 @@ typedef union
         uint64_t pse_sq2_sbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ2_ECC_SBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ2_ECC_SBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.nt_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq1.pt_sram
                                                                  pko_pnr2.pko_pse.pse_sq3_pq.sq2.rt_sram
@@ -13658,46 +14438,82 @@ typedef union
     struct bdk_pko_pse_sq3_ecc_dbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.nt_sram */
-        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.pt_sram */
-        uint64_t rt_ram_dbe            : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram */
+        uint64_t rt_ram_dbe            : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram */
         uint64_t reserved_58_60        : 3;
-        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.tw_0.sq_fifo_sram */
         uint64_t reserved_54_56        : 3;
-        uint64_t tp0_sram_dbe          : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_dbe          : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq3.tp0_sram */
         uint64_t reserved_50_52        : 3;
-        uint64_t sts0_ram_dbe          : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_dbe          : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.sts0_sram */
         uint64_t reserved_46_48        : 3;
-        uint64_t std0_ram_dbe          : 1;  /**< [ 45: 45](R/W1C/H) Double-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t std0_ram_dbe          : 1;  /**< [ 45: 45](R/W1C/H) Double-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.std0_sram */
-        uint64_t wt_ram_dbe            : 1;  /**< [ 44: 44](R/W1C/H) Double-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.wt_sram */
-        uint64_t sc_ram_dbe            : 1;  /**< [ 43: 43](R/W1C/H) Double-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.sc_sram */
+        uint64_t wt_ram_dbe            : 1;  /**< [ 44: 44](R/W1C/H) Double-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.wt_sram */
+        uint64_t sc_ram_dbe            : 1;  /**< [ 43: 43](R/W1C/H) Double-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.sc_sram */
         uint64_t reserved_0_42         : 43;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_42         : 43;
-        uint64_t sc_ram_dbe            : 1;  /**< [ 43: 43](R/W1C/H) Double-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.sc_sram */
-        uint64_t wt_ram_dbe            : 1;  /**< [ 44: 44](R/W1C/H) Double-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.wt_sram */
-        uint64_t std0_ram_dbe          : 1;  /**< [ 45: 45](R/W1C/H) Double-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t sc_ram_dbe            : 1;  /**< [ 43: 43](R/W1C/H) Double-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.sc_sram */
+        uint64_t wt_ram_dbe            : 1;  /**< [ 44: 44](R/W1C/H) Double-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.wt_sram */
+        uint64_t std0_ram_dbe          : 1;  /**< [ 45: 45](R/W1C/H) Double-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.std0_sram */
         uint64_t reserved_46_48        : 3;
-        uint64_t sts0_ram_dbe          : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_dbe          : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.sts0_sram */
         uint64_t reserved_50_52        : 3;
-        uint64_t tp0_sram_dbe          : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_dbe          : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq3.tp0_sram */
         uint64_t reserved_54_56        : 3;
-        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_dbe  : 1;  /**< [ 57: 57](R/W1C/H) Double-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.tw_0.sq_fifo_sram */
         uint64_t reserved_58_60        : 3;
-        uint64_t rt_ram_dbe            : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram */
-        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t rt_ram_dbe            : 1;  /**< [ 61: 61](R/W1C/H) Double-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram */
+        uint64_t sq_nt_ram_dbe         : 1;  /**< [ 62: 62](R/W1C/H) Double-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.pt_sram */
-        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_dbe         : 1;  /**< [ 63: 63](R/W1C/H) Double-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.nt_sram */
 #endif /* Word 0 - End */
     } s;
@@ -13734,7 +14550,9 @@ typedef union
         uint64_t pse_sq3_dbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ3_ECC_DBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ3_ECC_DBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.nt_sram
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.pt_sram
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram
@@ -13750,7 +14568,9 @@ typedef union
         uint64_t pse_sq3_dbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ3_ECC_DBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ3_ECC_DBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.nt_sram
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.pt_sram
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram
@@ -13792,46 +14612,82 @@ typedef union
     struct bdk_pko_pse_sq3_ecc_sbe_sts0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.nt_sram */
-        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.pt_sram */
-        uint64_t rt_ram_sbe            : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram */
+        uint64_t rt_ram_sbe            : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram */
         uint64_t reserved_58_60        : 3;
-        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.tw_0.sq_fifo_sram */
         uint64_t reserved_54_56        : 3;
-        uint64_t tp0_sram_sbe          : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_sbe          : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq3.tp0_sram */
         uint64_t reserved_50_52        : 3;
-        uint64_t sts0_ram_sbe          : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_sbe          : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.sts0_sram */
         uint64_t reserved_46_48        : 3;
-        uint64_t std0_ram_sbe          : 1;  /**< [ 45: 45](R/W1C/H) Single-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t std0_ram_sbe          : 1;  /**< [ 45: 45](R/W1C/H) Single-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.std0_sram */
-        uint64_t wt_ram_sbe            : 1;  /**< [ 44: 44](R/W1C/H) Single-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.wt_sram */
-        uint64_t sc_ram_sbe            : 1;  /**< [ 43: 43](R/W1C/H) Single-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.sc_sram */
+        uint64_t wt_ram_sbe            : 1;  /**< [ 44: 44](R/W1C/H) Single-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.wt_sram */
+        uint64_t sc_ram_sbe            : 1;  /**< [ 43: 43](R/W1C/H) Single-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.sc_sram */
         uint64_t reserved_0_42         : 43;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_42         : 43;
-        uint64_t sc_ram_sbe            : 1;  /**< [ 43: 43](R/W1C/H) Single-bit error for SC_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.sc_sram */
-        uint64_t wt_ram_sbe            : 1;  /**< [ 44: 44](R/W1C/H) Single-bit error for WT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.wt_sram */
-        uint64_t std0_ram_sbe          : 1;  /**< [ 45: 45](R/W1C/H) Single-bit error for STD0_RAM. INTERNAL: Instances:
+        uint64_t sc_ram_sbe            : 1;  /**< [ 43: 43](R/W1C/H) Single-bit error for SC_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.sc_sram */
+        uint64_t wt_ram_sbe            : 1;  /**< [ 44: 44](R/W1C/H) Single-bit error for WT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.wt_sram */
+        uint64_t std0_ram_sbe          : 1;  /**< [ 45: 45](R/W1C/H) Single-bit error for STD0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.std0_sram */
         uint64_t reserved_46_48        : 3;
-        uint64_t sts0_ram_sbe          : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for STS0_RAM. INTERNAL: Instances:
+        uint64_t sts0_ram_sbe          : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for STS0_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.sts0_sram */
         uint64_t reserved_50_52        : 3;
-        uint64_t tp0_sram_sbe          : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for TP0_SRAM. INTERNAL: Instances:
+        uint64_t tp0_sram_sbe          : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for TP0_SRAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq3.tp0_sram */
         uint64_t reserved_54_56        : 3;
-        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM. INTERNAL: Instances:
+        uint64_t tw0_cmd_fifo_ram_sbe  : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for TW0_CMD_FIFO_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.tw_0.sq_fifo_sram */
         uint64_t reserved_58_60        : 3;
-        uint64_t rt_ram_sbe            : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for RT_RAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram */
-        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for SQ_NT_RAM. INTERNAL: Instances:
+        uint64_t rt_ram_sbe            : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for RT_RAM.
+                                                                 Internal:
+                                                                 Instances: pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram */
+        uint64_t sq_nt_ram_sbe         : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for SQ_NT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.pt_sram */
-        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for SQ_PT_RAM. INTERNAL: Instances:
+        uint64_t sq_pt_ram_sbe         : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for SQ_PT_RAM.
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.nt_sram */
 #endif /* Word 0 - End */
     } s;
@@ -13868,7 +14724,9 @@ typedef union
         uint64_t pse_sq3_sbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ3_ECC_SBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ3_ECC_SBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.nt_sram
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.pt_sram
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram
@@ -13884,7 +14742,9 @@ typedef union
         uint64_t pse_sq3_sbe_cmb0      : 1;  /**< [ 63: 63](R/W1C/H) This bit is the logical OR of all bits in PKO_PSE_SQ3_ECC_SBE_STS0.
                                                                  To clear this bit, software must clear bits in PKO_PSE_SQ3_ECC_SBE_STS0.
                                                                  When this bit is set, the corresponding interrupt is set.
-                                                                 INTERNAL: Instances:
+
+                                                                 Internal:
+                                                                 Instances:
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.nt_sram
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq5.pt_sram
                                                                  pko_pnr2.pko_pse.pse_sq5_sq3.sq3.rt_sram
@@ -14882,8 +15742,8 @@ typedef union
 static inline uint64_t BDK_PKO_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) && (b==0)))
-        return 0x8547000f0000ll + 0x100000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
+        return 0x8547000f0000ll + 0x100000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("PKO_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
@@ -14927,8 +15787,8 @@ typedef union
 static inline uint64_t BDK_PKO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) && (b==0)))
-        return 0x854700000000ll + 0x100000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
+        return 0x854700000000ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("PKO_VFX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
@@ -14968,8 +15828,8 @@ typedef union
 static inline uint64_t BDK_PKO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) && (b==0)))
-        return 0x854700000008ll + 0x100000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
+        return 0x854700000008ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("PKO_VFX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 

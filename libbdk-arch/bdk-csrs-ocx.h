@@ -92,7 +92,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
         uint64_t status                : 36; /**< [ 35:  0](RO/H) BIST status.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  <35:34> = Link 2 VC12            RX FIFOs.
                                                                  <33:32> = Link 2 VC4/VC2         RX FIFOs.
                                                                  <31:30> = Link 2 VC10/VC8/VC6    RX FIFOs. (Reserved in pass 2)
@@ -113,7 +113,7 @@ typedef union
                                                                  <1:0>   = Link 0 VC11/VC9/VC7    RX FIFOs. (Reserved in pass 2) */
 #else /* Word 0 - Little Endian */
         uint64_t status                : 36; /**< [ 35:  0](RO/H) BIST status.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  <35:34> = Link 2 VC12            RX FIFOs.
                                                                  <33:32> = Link 2 VC4/VC2         RX FIFOs.
                                                                  <31:30> = Link 2 VC10/VC8/VC6    RX FIFOs. (Reserved in pass 2)
@@ -466,9 +466,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t cclk_dis              : 1;  /**< [  9:  9](R/W) Reserved.  INTERNAL:  Disable conditional clocking.  Set to force link clocks on
+        uint64_t cclk_dis              : 1;  /**< [  9:  9](R/W) Reserved.
+                                                                 Internal:
+                                                                 Disable conditional clocking.  Set to force link clocks on
                                                                  unconditionally. */
-        uint64_t loopback              : 1;  /**< [  8:  8](R/W) Reserved. INTERNAL: Diagnostic data loopback. Set to force outgoing link to inbound port.
+        uint64_t loopback              : 1;  /**< [  8:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic data loopback. Set to force outgoing link to inbound port.
                                                                  All data and link credits are returned and appear to come from link partner. Typically
                                                                  SerDes should be disabled during this operation. */
         uint64_t reinit                : 1;  /**< [  7:  7](R/W) Reinitialize link. Setting this bit forces link back into init state and sets the DROP
@@ -512,10 +516,14 @@ typedef union
                                                                  bit.
                                                                  Setting the bit also causes the link to transmit a REINIT request to the link partner.
                                                                  This bit must be cleared for link to operate normally. */
-        uint64_t loopback              : 1;  /**< [  8:  8](R/W) Reserved. INTERNAL: Diagnostic data loopback. Set to force outgoing link to inbound port.
+        uint64_t loopback              : 1;  /**< [  8:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic data loopback. Set to force outgoing link to inbound port.
                                                                  All data and link credits are returned and appear to come from link partner. Typically
                                                                  SerDes should be disabled during this operation. */
-        uint64_t cclk_dis              : 1;  /**< [  9:  9](R/W) Reserved.  INTERNAL:  Disable conditional clocking.  Set to force link clocks on
+        uint64_t cclk_dis              : 1;  /**< [  9:  9](R/W) Reserved.
+                                                                 Internal:
+                                                                 Disable conditional clocking.  Set to force link clocks on
                                                                  unconditionally. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
@@ -3837,7 +3845,8 @@ static inline uint64_t BDK_OCX_TLKX_LNK_VCX_CNT(unsigned long a, unsigned long b
  * This register controls which MCD bits are transported via the link. For proper operation
  * only one link must be enabled in both directions between each pair of link partners.
  *
- * INTERNAL: If N chips are connected over OCX, N-1 links should have MCD enabled.
+ * Internal:
+ * If N chips are connected over OCX, N-1 links should have MCD enabled.
  * A single "central" chip should connect all MCD buses and have a single MCD enabled link
  * to each of the other chips.  No MCD enabled links should connect between chips that don't
  * include the "central" chip.
@@ -3897,11 +3906,15 @@ typedef union
                                                                  and forces the receive side of the link parter to do likewise. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable data encryption.  When set this bit enables encryption on the
                                                                  transmitter and the receiving link partner.
-                                                                 INTERNAL: Encryption is non-functional on pass 1. */
+
+                                                                 Internal:
+                                                                 Encryption is non-functional on pass 1. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable data encryption.  When set this bit enables encryption on the
                                                                  transmitter and the receiving link partner.
-                                                                 INTERNAL: Encryption is non-functional on pass 1. */
+
+                                                                 Internal:
+                                                                 Encryption is non-functional on pass 1. */
         uint64_t load                  : 1;  /**< [  1:  1](WO) Seting this register loads the current set of keys written to the
                                                                  OCX_TLK()_KEY_LOW, OCX_TLK()_KEY_HIGH, OCX_TLK()_SALT_LOW, OCX_TLK()_SALT_HIGH
                                                                  and forces the receive side of the link parter to do likewise. */

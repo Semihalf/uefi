@@ -207,7 +207,8 @@ static inline uint64_t BDK_PBUS_DMA_CFGX(unsigned long a)
  *
  * PBUS DMA Engine Timing Registers
  * This register sets each DMA engine's timing.
- * INTERNAL:  Traditional DMACK_PI and DMARQ_PI have been eliminated
+ * Internal:
+ * Traditional DMACK_PI and DMARQ_PI have been eliminated
  * because the corresponding GPIO pin can use GPIO_BIT_CFG[PIN_XOR].
  */
 typedef union

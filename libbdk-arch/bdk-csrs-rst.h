@@ -94,25 +94,39 @@
  * RST Boot-strap Method Enumeration
  * Enumerates GPIO_STRAP<3:0>, which determines the method used to boot the cores.
  */
-#define BDK_RST_BOOT_METHOD_E_CCPI0_CN81XX (9) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
+#define BDK_RST_BOOT_METHOD_E_CCPI0_CN81XX (9) /**< Reserved.
+                                       Internal:
+                                       Load an image that is slaved from another CNXXXX attached to
                                        CCPI link 0. */
 #define BDK_RST_BOOT_METHOD_E_CCPI0_CN88XX (9) /**< Load an image that is slaved from another CNXXXX attached to CCPI link 0. */
-#define BDK_RST_BOOT_METHOD_E_CCPI0_CN83XX (9) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
+#define BDK_RST_BOOT_METHOD_E_CCPI0_CN83XX (9) /**< Reserved.
+                                       Internal:
+                                       Load an image that is slaved from another CNXXXX attached to
                                        CCPI link 0. */
-#define BDK_RST_BOOT_METHOD_E_CCPI1_CN81XX (0xa) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
+#define BDK_RST_BOOT_METHOD_E_CCPI1_CN81XX (0xa) /**< Reserved.
+                                       Internal:
+                                       Load an image that is slaved from another CNXXXX attached to
                                        CCPI link 1. */
 #define BDK_RST_BOOT_METHOD_E_CCPI1_CN88XX (0xa) /**< Load an image that is slaved from another CNXXXX attached to CCPI link 1. */
-#define BDK_RST_BOOT_METHOD_E_CCPI1_CN83XX (0xa) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
+#define BDK_RST_BOOT_METHOD_E_CCPI1_CN83XX (0xa) /**< Reserved.
+                                       Internal:
+                                       Load an image that is slaved from another CNXXXX attached to
                                        CCPI link 1. */
-#define BDK_RST_BOOT_METHOD_E_CCPI2_CN81XX (0xb) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
+#define BDK_RST_BOOT_METHOD_E_CCPI2_CN81XX (0xb) /**< Reserved.
+                                       Internal:
+                                       Load an image that is slaved from another CNXXXX attached to
                                        CCPI link 2. */
 #define BDK_RST_BOOT_METHOD_E_CCPI2_CN88XX (0xb) /**< Load an image that is slaved from another CNXXXX attached to CCPI link 2. */
-#define BDK_RST_BOOT_METHOD_E_CCPI2_CN83XX (0xb) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
+#define BDK_RST_BOOT_METHOD_E_CCPI2_CN83XX (0xb) /**< Reserved.
+                                       Internal:
+                                       Load an image that is slaved from another CNXXXX attached to
                                        CCPI link 2. */
 #define BDK_RST_BOOT_METHOD_E_EMMC_LS (3) /**< Load image from eMMC/SD. On failure, eMMC reset before retry. */
 #define BDK_RST_BOOT_METHOD_E_EMMC_SS (2) /**< Load image from eMMC/SD. On failure, no eMMC reset before retry. */
 #define BDK_RST_BOOT_METHOD_E_PCIE0_CN81XX (0xc) /**< Load image from PCIe 0. */
-#define BDK_RST_BOOT_METHOD_E_PCIE0_CN88XX (0xc) /**< Reserved. INTERNAL: For PCIe 0 boot. Trusted boot will be allowed in a CCPI-similar way. */
+#define BDK_RST_BOOT_METHOD_E_PCIE0_CN88XX (0xc) /**< Reserved.
+                                       Internal:
+                                       For PCIe 0 boot. Trusted boot will be allowed in a CCPI-similar way. */
 #define BDK_RST_BOOT_METHOD_E_PCIE0_CN83XX (0xc) /**< Load image from PCIe 0. */
 #define BDK_RST_BOOT_METHOD_E_PCIE2 (0xd) /**< Load image from PCIe 2. */
 #define BDK_RST_BOOT_METHOD_E_REMOTE (8) /**< Remote boot. Do not load image; leave all the cores in the reset state. External
@@ -120,7 +134,9 @@
                                        required.
                                        
                                        Remote boot is not allowed in trusted-mode.
-                                       INTERNAL: In RTL, when REMOTE and not trusted-mode, core 0 will not
+                                       
+                                       Internal:
+                                       In RTL, when REMOTE and not trusted-mode, core 0 will not
                                        be automatically released from reset. */
 #define BDK_RST_BOOT_METHOD_E_SPI24 (5) /**< Load image from the SPI with 24-bit addressing. */
 #define BDK_RST_BOOT_METHOD_E_SPI32 (6) /**< Load image from the SPI with 32-bit addressing. */
@@ -238,20 +254,27 @@ typedef union
         uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S) Disable scan. When written to 1, and FUSF_CTL[ROT_LCK] = 1, reads as 1 and scan is not
                                                                  allowed in the part.
                                                                  This state persists across soft and warm resets.
-                                                                 INTERNAL:  This state will persist across a simulation */
+
+                                                                 Internal:
+                                                                 This state will persist across a simulation */
         uint64_t reserved_47_54        : 8;
         uint64_t c_mul                 : 7;  /**< [ 46: 40](RO/H) Core-clock multiplier. C_MUL = (core-clock speed) / (ref-clock speed). The value
                                                                  ref-clock speed should always be 50 MHz.
-                                                                 INTERNAL:  C_MUL is set from the pi_pll_mul pins plus 6 and is limited by a set of
+
+                                                                 Internal:
+                                                                 C_MUL is set from the pi_pll_mul pins plus 6 and is limited by a set of
                                                                  fuses[127:123].  If the fuse value is > 0, it is compared with the pi_pll_mul[5:1]
                                                                  pins and the smaller value is used. */
         uint64_t reserved_39           : 1;
         uint64_t pnr_mul               : 6;  /**< [ 38: 33](RO/H) Coprocessor-clock multiplier. PNR_MUL = (coprocessor-clock speed) /(ref-clock speed).
                                                                  The value ref-clock speed should always be 50 MHz.
-                                                                 INTERNAL:  PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
+
+                                                                 Internal:
+                                                                 PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
                                                                  fuses[122:119].  If the fuse value is > 0, it is compared with the pi_pnr_pll_mul[4:1]
                                                                  pins and the smaller value is used. */
-        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved. INTERNAL:
+        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved.
+                                                                 Internal:
                                                                  Last boot cause mask for CCPI; resets only with PLL_DC_OK.
                                                                  <32> = Warm reset due to CCPI link 2 going down.
                                                                  <31> = Warm reset due to CCPI link 1 going down.
@@ -319,27 +342,34 @@ typedef union
                                                                  <19> = Warm reset due to PERST5_L pin.
                                                                  <18> = Warm reset due to PERST4_L pin. */
         uint64_t reserved_24_29        : 6;
-        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved. INTERNAL:
+        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved.
+                                                                 Internal:
                                                                  Last boot cause mask for CCPI; resets only with PLL_DC_OK.
                                                                  <32> = Warm reset due to CCPI link 2 going down.
                                                                  <31> = Warm reset due to CCPI link 1 going down.
                                                                  <30> = Warm reset due to CCPI link 0 going down. */
         uint64_t pnr_mul               : 6;  /**< [ 38: 33](RO/H) Coprocessor-clock multiplier. PNR_MUL = (coprocessor-clock speed) /(ref-clock speed).
                                                                  The value ref-clock speed should always be 50 MHz.
-                                                                 INTERNAL:  PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
+
+                                                                 Internal:
+                                                                 PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
                                                                  fuses[122:119].  If the fuse value is > 0, it is compared with the pi_pnr_pll_mul[4:1]
                                                                  pins and the smaller value is used. */
         uint64_t reserved_39           : 1;
         uint64_t c_mul                 : 7;  /**< [ 46: 40](RO/H) Core-clock multiplier. C_MUL = (core-clock speed) / (ref-clock speed). The value
                                                                  ref-clock speed should always be 50 MHz.
-                                                                 INTERNAL:  C_MUL is set from the pi_pll_mul pins plus 6 and is limited by a set of
+
+                                                                 Internal:
+                                                                 C_MUL is set from the pi_pll_mul pins plus 6 and is limited by a set of
                                                                  fuses[127:123].  If the fuse value is > 0, it is compared with the pi_pll_mul[5:1]
                                                                  pins and the smaller value is used. */
         uint64_t reserved_47_54        : 8;
         uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S) Disable scan. When written to 1, and FUSF_CTL[ROT_LCK] = 1, reads as 1 and scan is not
                                                                  allowed in the part.
                                                                  This state persists across soft and warm resets.
-                                                                 INTERNAL:  This state will persist across a simulation */
+
+                                                                 Internal:
+                                                                 This state will persist across a simulation */
         uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set FUSF_SSK(),
                                                                  FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
                                                                  Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
@@ -389,17 +419,23 @@ typedef union
         uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S) Disable scan. When written to 1, and FUSF_CTL[ROT_LCK] = 1, reads as 1 and scan is not
                                                                  allowed in the part.
                                                                  This state persists across soft and warm resets.
-                                                                 INTERNAL:  This state will persist across a simulation */
+
+                                                                 Internal:
+                                                                 This state will persist across a simulation */
         uint64_t reserved_47_54        : 8;
         uint64_t c_mul                 : 7;  /**< [ 46: 40](RO/H) Core-clock multiplier. C_MUL = (core-clock speed) / (ref-clock speed). The value
                                                                  ref-clock speed should always be 50 MHz.
-                                                                 INTERNAL:  C_MUL is set from the pi_pll_mul pins plus 6 and is limited by a set of
+
+                                                                 Internal:
+                                                                 C_MUL is set from the pi_pll_mul pins plus 6 and is limited by a set of
                                                                  fuses[127:123].  If the fuse value is > 0, it is compared with the pi_pll_mul[5:1]
                                                                  pins and the smaller value is used. */
         uint64_t reserved_39           : 1;
         uint64_t pnr_mul               : 6;  /**< [ 38: 33](RO/H) Coprocessor-clock multiplier. PNR_MUL = (coprocessor-clock speed) /(ref-clock speed).
                                                                  The value ref-clock speed should always be 50 MHz.
-                                                                 INTERNAL:  PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
+
+                                                                 Internal:
+                                                                 PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
                                                                  fuses[122:119].  If the fuse value is > 0, it is compared with the pi_pnr_pll_mul[4:1]
                                                                  pins and the smaller value is used. */
         uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Last boot cause mask for CCPI; resets only with PLL_DC_OK.
@@ -475,20 +511,26 @@ typedef union
                                                                  <30> = Warm reset due to CCPI link 0 going down. */
         uint64_t pnr_mul               : 6;  /**< [ 38: 33](RO/H) Coprocessor-clock multiplier. PNR_MUL = (coprocessor-clock speed) /(ref-clock speed).
                                                                  The value ref-clock speed should always be 50 MHz.
-                                                                 INTERNAL:  PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
+
+                                                                 Internal:
+                                                                 PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
                                                                  fuses[122:119].  If the fuse value is > 0, it is compared with the pi_pnr_pll_mul[4:1]
                                                                  pins and the smaller value is used. */
         uint64_t reserved_39           : 1;
         uint64_t c_mul                 : 7;  /**< [ 46: 40](RO/H) Core-clock multiplier. C_MUL = (core-clock speed) / (ref-clock speed). The value
                                                                  ref-clock speed should always be 50 MHz.
-                                                                 INTERNAL:  C_MUL is set from the pi_pll_mul pins plus 6 and is limited by a set of
+
+                                                                 Internal:
+                                                                 C_MUL is set from the pi_pll_mul pins plus 6 and is limited by a set of
                                                                  fuses[127:123].  If the fuse value is > 0, it is compared with the pi_pll_mul[5:1]
                                                                  pins and the smaller value is used. */
         uint64_t reserved_47_54        : 8;
         uint64_t dis_scan              : 1;  /**< [ 55: 55](R/W1S) Disable scan. When written to 1, and FUSF_CTL[ROT_LCK] = 1, reads as 1 and scan is not
                                                                  allowed in the part.
                                                                  This state persists across soft and warm resets.
-                                                                 INTERNAL:  This state will persist across a simulation */
+
+                                                                 Internal:
+                                                                 This state will persist across a simulation */
         uint64_t dis_huk               : 1;  /**< [ 56: 56](R/W1S) Disable HUK. Secure only and W1S set-only. When set FUSF_SSK(),
                                                                  FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
                                                                  Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
@@ -1328,7 +1370,18 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_rst_ocx_s cn; */
+    struct bdk_rst_ocx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t rst_link              : 3;  /**< [  2:  0](R/W) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t rst_link              : 3;  /**< [  2:  0](R/W) Reserved. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_rst_ocx_s cn88xx; */
+    /* struct bdk_rst_ocx_cn81xx cn83xx; */
 } bdk_rst_ocx_t;
 
 #define BDK_RST_OCX BDK_RST_OCX_FUNC()
@@ -1439,9 +1492,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t str                   : 3;  /**< [  2:  0](R/W) Reserved. INTERNAL: Internal power driver strength. Resets only on cold reset. */
+        uint64_t str                   : 3;  /**< [  2:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Internal power driver strength. Resets only on cold reset. */
 #else /* Word 0 - Little Endian */
-        uint64_t str                   : 3;  /**< [  2:  0](R/W) Reserved. INTERNAL: Internal power driver strength. Resets only on cold reset. */
+        uint64_t str                   : 3;  /**< [  2:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Internal power driver strength. Resets only on cold reset. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
@@ -1683,13 +1740,15 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t down                  : 48; /**< [ 47:  0](RO/H) Reserved.
-                                                                 INTERNAL: Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Internal:
+                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it. */
 #else /* Word 0 - Little Endian */
         uint64_t down                  : 48; /**< [ 47:  0](RO/H) Reserved.
-                                                                 INTERNAL: Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Internal:
+                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it. */
@@ -1701,13 +1760,15 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t down                  : 4;  /**< [  3:  0](RO/H) Reserved.
-                                                                 INTERNAL: Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Internal:
+                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it. */
 #else /* Word 0 - Little Endian */
         uint64_t down                  : 4;  /**< [  3:  0](RO/H) Reserved.
-                                                                 INTERNAL: Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Internal:
+                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it. */
@@ -1720,13 +1781,15 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
         uint64_t down                  : 24; /**< [ 23:  0](RO/H) Reserved.
-                                                                 INTERNAL: Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Internal:
+                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it. */
 #else /* Word 0 - Little Endian */
         uint64_t down                  : 24; /**< [ 23:  0](RO/H) Reserved.
-                                                                 INTERNAL: Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Internal:
+                                                                 Core Powerdown.  When set each bit indicates the core is currently powered down.
                                                                  Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
                                                                  If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it. */
@@ -1951,7 +2014,9 @@ typedef union
 
                                                                  When CNXXXX is configured to drive PERST*_L (i.e.
                                                                  RST_CTL()[RST_DRV] = 1), this controls the output value on PERST*_L.
-                                                                 INTERNAL:  This bit is also forced high if the corresponding PEM Cripple Fuse is set. */
+
+                                                                 Internal:
+                                                                 This bit is also forced high if the corresponding PEM Cripple Fuse is set. */
 #else /* Word 0 - Little Endian */
         uint64_t soft_prst             : 1;  /**< [  0:  0](R/W) Soft PCIe reset. Resets the PCIe logic and corresponding common logic associated with the
                                                                  SLI controller in
@@ -1961,7 +2026,9 @@ typedef union
 
                                                                  When CNXXXX is configured to drive PERST*_L (i.e.
                                                                  RST_CTL()[RST_DRV] = 1), this controls the output value on PERST*_L.
-                                                                 INTERNAL:  This bit is also forced high if the corresponding PEM Cripple Fuse is set. */
+
+                                                                 Internal:
+                                                                 This bit is also forced high if the corresponding PEM Cripple Fuse is set. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;

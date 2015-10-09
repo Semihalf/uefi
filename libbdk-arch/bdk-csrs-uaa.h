@@ -810,7 +810,8 @@ static inline uint64_t BDK_UAAX_LCR_H(unsigned long a)
  *
  * UART Masked Interrupt Status Register
  * Indicates state of interrupts after masking.
- * INTERNAL: Note this register was not present in SBSA 2.3, but is referenced
+ * Internal:
+ * Note this register was not present in SBSA 2.3, but is referenced
  * by the Linux driver, so has been defined here.
  */
 typedef union
@@ -1505,7 +1506,9 @@ typedef union
                                                                  changed unless H_CLKDIV_EN is disabled.
                                                                  The bypass clock can be selected and running even if the UART controller clock dividers
                                                                  are not running.
-                                                                 INTERNAL: Generally bypass is only used for scan purposes. */
+
+                                                                 Internal:
+                                                                 Generally bypass is only used for scan purposes. */
         uint64_t h_clkdiv_rst          : 1;  /**< [ 28: 28](R/W) UART controller clock divider reset. Divided clocks are not generated while the divider is
                                                                  being reset.
                                                                  This also resets the suspend-clock divider. */
@@ -1529,14 +1532,17 @@ typedef union
                                                                  This enables the UCTL registers starting from 0x30 via the RSL bus. */
         uint64_t reserved_2_3          : 2;
         uint64_t uaa_rst               : 1;  /**< [  1:  1](R/W) Software reset; resets UAA controller; active-high.
-                                                                 INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
+                                                                 Internal:
+                                                                 Note that soft-resetting the UAHC while it is active may cause violations of RSL
                                                                  protocols. */
         uint64_t uctl_rst              : 1;  /**< [  0:  0](R/W) Software reset; resets UCTL; active-high.
                                                                  Resets UCTL RSL registers 0x30-0xF8.
                                                                  Does not reset UCTL RSL registers 0x0-0x28.
                                                                  UCTL RSL registers starting from 0x30 can be accessed only after the UART controller clock
                                                                  is active and UCTL_RST is deasserted.
-                                                                 INTERNAL: Note that soft-resetting the UCTL while it is active may cause violations of
+
+                                                                 Internal:
+                                                                 Note that soft-resetting the UCTL while it is active may cause violations of
                                                                  RSL and CIB protocols. */
 #else /* Word 0 - Little Endian */
         uint64_t uctl_rst              : 1;  /**< [  0:  0](R/W) Software reset; resets UCTL; active-high.
@@ -1544,10 +1550,13 @@ typedef union
                                                                  Does not reset UCTL RSL registers 0x0-0x28.
                                                                  UCTL RSL registers starting from 0x30 can be accessed only after the UART controller clock
                                                                  is active and UCTL_RST is deasserted.
-                                                                 INTERNAL: Note that soft-resetting the UCTL while it is active may cause violations of
+
+                                                                 Internal:
+                                                                 Note that soft-resetting the UCTL while it is active may cause violations of
                                                                  RSL and CIB protocols. */
         uint64_t uaa_rst               : 1;  /**< [  1:  1](R/W) Software reset; resets UAA controller; active-high.
-                                                                 INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
+                                                                 Internal:
+                                                                 Note that soft-resetting the UAHC while it is active may cause violations of RSL
                                                                  protocols. */
         uint64_t reserved_2_3          : 2;
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the UCTL interface clock (coprocessor clock).
@@ -1581,7 +1590,9 @@ typedef union
                                                                  changed unless H_CLKDIV_EN is disabled.
                                                                  The bypass clock can be selected and running even if the UART controller clock dividers
                                                                  are not running.
-                                                                 INTERNAL: Generally bypass is only used for scan purposes. */
+
+                                                                 Internal:
+                                                                 Generally bypass is only used for scan purposes. */
         uint64_t h_clk_en              : 1;  /**< [ 30: 30](R/W) UART controller clock enable. When set to 1, the UART controller clock is generated. This
                                                                  also enables access to UCTL registers 0x30-0xF8. */
         uint64_t reserved_31_63        : 33;

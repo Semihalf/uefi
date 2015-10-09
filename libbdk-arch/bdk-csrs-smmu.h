@@ -143,10 +143,12 @@ typedef union
     struct bdk_smmux_active_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Counts the number of active core-clock cycles in the conditional clock domain. INTERNAL:
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Counts the number of active core-clock cycles in the conditional clock domain.
+                                                                 Internal:
                                                                  Values are duplicated across each SMMU that shares an IOB. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Counts the number of active core-clock cycles in the conditional clock domain. INTERNAL:
+        uint64_t cnt                   : 64; /**< [ 63:  0](RO/H) Counts the number of active core-clock cycles in the conditional clock domain.
+                                                                 Internal:
                                                                  Values are duplicated across each SMMU that shares an IOB. */
 #endif /* Word 0 - End */
     } s;
@@ -184,7 +186,9 @@ typedef union
     struct bdk_smmux_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t bist                  : 64; /**< [ 63:  0](RO) Memory BIST status. 0 = pass, 1 = fail. INTERNAL: Values are duplicated across each SMMU
+        uint64_t bist                  : 64; /**< [ 63:  0](RO) Memory BIST status. 0 = pass, 1 = fail.
+                                                                 Internal:
+                                                                 Values are duplicated across each SMMU
                                                                  that shares an IOB.
                                                                  <23> = CSR_VMID_CAM.
                                                                  <22> = CSR_ASID_CAM.
@@ -211,7 +215,9 @@ typedef union
                                                                  <1> = CB_MAIR0.
                                                                  <0> = CB_MAIR1. */
 #else /* Word 0 - Little Endian */
-        uint64_t bist                  : 64; /**< [ 63:  0](RO) Memory BIST status. 0 = pass, 1 = fail. INTERNAL: Values are duplicated across each SMMU
+        uint64_t bist                  : 64; /**< [ 63:  0](RO) Memory BIST status. 0 = pass, 1 = fail.
+                                                                 Internal:
+                                                                 Values are duplicated across each SMMU
                                                                  that shares an IOB.
                                                                  <23> = CSR_VMID_CAM.
                                                                  <22> = CSR_ASID_CAM.
@@ -2132,7 +2138,8 @@ typedef union
                                                                  This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
                                                                  SMMU()_IDR2[VMID16S] is clear.
 
-                                                                 INTERNAL: In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
+                                                                 Internal:
+                                                                 In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
                                                                  by zeroing the upper 8 bits. */
         uint32_t reserved_3_15         : 13;
         uint32_t e2hc                  : 1;  /**< [  2:  2](R/W) Reserved. */
@@ -2158,7 +2165,8 @@ typedef union
                                                                  This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
                                                                  SMMU()_IDR2[VMID16S] is clear.
 
-                                                                 INTERNAL: In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
+                                                                 Internal:
+                                                                 In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
                                                                  by zeroing the upper 8 bits. */
 #endif /* Word 0 - End */
     } s;
@@ -2171,7 +2179,8 @@ typedef union
                                                                  This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
                                                                  SMMU()_IDR2[VMID16S] is clear.
 
-                                                                 INTERNAL: In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
+                                                                 Internal:
+                                                                 In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
                                                                  by zeroing the upper 8 bits. */
         uint32_t reserved_3_15         : 13;
         uint32_t reserved_2            : 1;
@@ -2197,7 +2206,8 @@ typedef union
                                                                  This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
                                                                  SMMU()_IDR2[VMID16S] is clear.
 
-                                                                 INTERNAL: In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
+                                                                 Internal:
+                                                                 In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
                                                                  by zeroing the upper 8 bits. */
 #endif /* Word 0 - End */
     } cn81xx;
@@ -2242,12 +2252,18 @@ typedef union
 
                                                                  If CTYPE=0/2, reserved.
 
-                                                                 CNXXXX ignores the hint. INTERNAL: Requested filed with ARM to make RO. */
+                                                                 CNXXXX ignores the hint.
+
+                                                                 Internal:
+                                                                 Requested filed with ARM to make RO. */
         uint32_t racfg                 : 2;  /**< [ 21: 20](RO) If CTYPE=1 or 3, read allocate configuration hint.
 
                                                                  If CTYPE=0 or 2, reserved.
 
-                                                                 CNXXXX ignores the hint. INTERNAL: Requested filed with ARM to make RO. */
+                                                                 CNXXXX ignores the hint.
+
+                                                                 Internal:
+                                                                 Requested filed with ARM to make RO. */
         uint32_t bsu                   : 2;  /**< [ 19: 18](RO) Barrier sharability upgrade. Not implemented in CNXXXX. */
         uint32_t ctype                 : 2;  /**< [ 17: 16](R/W) Register type.   Indicates the context format. Enumerated by SMMU_CTYPE_E. */
         uint32_t memattr_cbndx4        : 4;  /**< [ 15: 12](R/W) Memory attributes, or context bank index <7:4>.
@@ -2363,12 +2379,18 @@ typedef union
 
                                                                  If CTYPE=0 or 2, reserved.
 
-                                                                 CNXXXX ignores the hint. INTERNAL: Requested filed with ARM to make RO. */
+                                                                 CNXXXX ignores the hint.
+
+                                                                 Internal:
+                                                                 Requested filed with ARM to make RO. */
         uint32_t wacfg                 : 2;  /**< [ 23: 22](RO) If CTYPE=1 or 3, write allocate configuration hint.
 
                                                                  If CTYPE=0/2, reserved.
 
-                                                                 CNXXXX ignores the hint. INTERNAL: Requested filed with ARM to make RO. */
+                                                                 CNXXXX ignores the hint.
+
+                                                                 Internal:
+                                                                 Requested filed with ARM to make RO. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
@@ -2409,13 +2431,19 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ssd_index             : 16; /**< [ 31: 16](SRO/H) SSD index of the transaction that caused the fault. Only accessible to configuration
                                                                  accesses by secure software, else RAZ/WI. For CNXXXX, set on a fault to always match
-                                                                 STREAMID. INTERNAL: Requested ARM extend this into <31>. */
+                                                                 STREAMID.
+
+                                                                 Internal:
+                                                                 Requested ARM extend this into <31>. */
         uint32_t streamid              : 16; /**< [ 15:  0](R/W/H) Stream ID of the transaction that caused the fault. */
 #else /* Word 0 - Little Endian */
         uint32_t streamid              : 16; /**< [ 15:  0](R/W/H) Stream ID of the transaction that caused the fault. */
         uint32_t ssd_index             : 16; /**< [ 31: 16](SRO/H) SSD index of the transaction that caused the fault. Only accessible to configuration
                                                                  accesses by secure software, else RAZ/WI. For CNXXXX, set on a fault to always match
-                                                                 STREAMID. INTERNAL: Requested ARM extend this into <31>. */
+                                                                 STREAMID.
+
+                                                                 Internal:
+                                                                 Requested ARM extend this into <31>. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_cbfrsynrax_s cn; */
@@ -2890,7 +2918,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t ram_cdis              : 21; /**< [ 20:  0](SR/W) RAM ECC correction disable. Each bit corresponds to a different RAM. INTERNAL: Bits
+        uint64_t ram_cdis              : 21; /**< [ 20:  0](SR/W) RAM ECC correction disable. Each bit corresponds to a different RAM.
+                                                                 Internal:
+                                                                 Bits
                                                                  do not match SMMU()_ERR_INT[RAM_SBE].
                                                                  <20> = WCTL.
                                                                  <19> = TCTL.
@@ -2914,7 +2944,9 @@ typedef union
                                                                  <1>  = CB_TTBR1.
                                                                  <0>  = CB_TCR. */
 #else /* Word 0 - Little Endian */
-        uint64_t ram_cdis              : 21; /**< [ 20:  0](SR/W) RAM ECC correction disable. Each bit corresponds to a different RAM. INTERNAL: Bits
+        uint64_t ram_cdis              : 21; /**< [ 20:  0](SR/W) RAM ECC correction disable. Each bit corresponds to a different RAM.
+                                                                 Internal:
+                                                                 Bits
                                                                  do not match SMMU()_ERR_INT[RAM_SBE].
                                                                  <20> = WCTL.
                                                                  <19> = TCTL.
@@ -2975,19 +3007,31 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
         uint64_t ram_flip1             : 21; /**< [ 52: 32](SR/W) Flip syndrome bits on write. Flip syndrome bit <1> on writes to the corresponding ram to
-                                                                 test single-bit or double-bit error handling. INTERNAL: Bits enumerated by
+                                                                 test single-bit or double-bit error handling.
+
+                                                                 Internal:
+                                                                 Bits enumerated by
                                                                  SMMU()_ECC_CTL_0[RAM_CDIS]. */
         uint64_t reserved_21_31        : 11;
         uint64_t ram_flip0             : 21; /**< [ 20:  0](SR/W) Flip syndrome bits on write. Flip syndrome bit <0> on writes to the corresponding ram to
-                                                                 test single-bit or double-bit error handling. INTERNAL: Bits enumerated by
+                                                                 test single-bit or double-bit error handling.
+
+                                                                 Internal:
+                                                                 Bits enumerated by
                                                                  SMMU()_ECC_CTL_0[RAM_CDIS]. */
 #else /* Word 0 - Little Endian */
         uint64_t ram_flip0             : 21; /**< [ 20:  0](SR/W) Flip syndrome bits on write. Flip syndrome bit <0> on writes to the corresponding ram to
-                                                                 test single-bit or double-bit error handling. INTERNAL: Bits enumerated by
+                                                                 test single-bit or double-bit error handling.
+
+                                                                 Internal:
+                                                                 Bits enumerated by
                                                                  SMMU()_ECC_CTL_0[RAM_CDIS]. */
         uint64_t reserved_21_31        : 11;
         uint64_t ram_flip1             : 21; /**< [ 52: 32](SR/W) Flip syndrome bits on write. Flip syndrome bit <1> on writes to the corresponding ram to
-                                                                 test single-bit or double-bit error handling. INTERNAL: Bits enumerated by
+                                                                 test single-bit or double-bit error handling.
+
+                                                                 Internal:
+                                                                 Bits enumerated by
                                                                  SMMU()_ECC_CTL_0[RAM_CDIS]. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
@@ -3027,13 +3071,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for SMMU(0..3)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for SMMU(0..3)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Reads or clears enable for SMMU(0..3)_ERR_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Reads or clears enable for SMMU(0..3)_ERR_INT[RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for SMMU(0..3)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for SMMU(0..3)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
@@ -3041,13 +3089,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for SMMU(0)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for SMMU(0)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Reads or clears enable for SMMU(0)_ERR_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Reads or clears enable for SMMU(0)_ERR_INT[RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for SMMU(0)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for SMMU(0)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -3087,13 +3139,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for SMMU(0..3)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for SMMU(0..3)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets enable for SMMU(0..3)_ERR_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets enable for SMMU(0..3)_ERR_INT[RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for SMMU(0..3)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for SMMU(0..3)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
@@ -3101,13 +3157,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for SMMU(0)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for SMMU(0)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets enable for SMMU(0)_ERR_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets enable for SMMU(0)_ERR_INT[RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for SMMU(0)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for SMMU(0)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -3149,7 +3209,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Double-bit error detected in internal RAM. INTERNAL: Bits enumerated by [RAM_SBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Double-bit error detected in internal RAM.
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Single-bit error detected in internal RAM.
                                                                  <20> = TCTL.
@@ -3197,7 +3259,9 @@ typedef union
                                                                  <1>  = CB_TTBR1.
                                                                  <0>  = CB_TCR. */
         uint64_t reserved_21_31        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Double-bit error detected in internal RAM. INTERNAL: Bits enumerated by [RAM_SBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Double-bit error detected in internal RAM.
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
@@ -3238,13 +3302,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets SMMU(0..3)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets SMMU(0..3)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets SMMU(0..3)_ERR_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets SMMU(0..3)_ERR_INT[RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets SMMU(0..3)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets SMMU(0..3)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
@@ -3252,13 +3320,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets SMMU(0)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets SMMU(0)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets SMMU(0)_ERR_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
         uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets SMMU(0)_ERR_INT[RAM_SBE]. */
         uint64_t reserved_21_31        : 11;
-        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets SMMU(0)_ERR_INT[RAM_DBE]. */
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets SMMU(0)_ERR_INT[RAM_DBE].
+                                                                 Internal:
+                                                                 Bits enumerated by [RAM_SBE]. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -4301,7 +4373,10 @@ typedef union
                                                                  maintenance operations from the wider system.
 
                                                                  CNXXXX honors this hint, but both the secure and non-secure version must be set for
-                                                                 private management. INTERNAL: Note when set SMMU always still sends a response for the
+                                                                 private management.
+
+                                                                 Internal:
+                                                                 Note when set SMMU always still sends a response for the
                                                                  invalidates, it just does not perform the invalidation action against the TLB/WCU. */
         uint32_t vmidpne               : 1;  /**< [ 11: 11](RO) Reserved. */
         uint32_t usfcfg                : 1;  /**< [ 10: 10](R/W) Unidentified stream fault configuration.
@@ -4418,7 +4493,10 @@ typedef union
                                                                  maintenance operations from the wider system.
 
                                                                  CNXXXX honors this hint, but both the secure and non-secure version must be set for
-                                                                 private management. INTERNAL: Note when set SMMU always still sends a response for the
+                                                                 private management.
+
+                                                                 Internal:
+                                                                 Note when set SMMU always still sends a response for the
                                                                  invalidates, it just does not perform the invalidation action against the TLB/WCU. */
         uint32_t fb                    : 1;  /**< [ 13: 13](R/W) Force broadcast of TLB and instruction cache maintenance operations. Applies to
                                                                  transactions bypassing the stream mapping table. Affects client TLB maintenance, BPIALL
@@ -4544,11 +4622,17 @@ typedef union
                                                                  In CNXXXX, StreamID compressed indexing is not implemented. */
         uint32_t reserved_16_28        : 13;
         uint32_t bpvmid                : 16; /**< [ 15:  0](RAZ) Bypass VMID. VMID field applied to client transactions that bypass the SMMU. In CNXXXX,
-                                                                 not supported. INTERNAL: If L2C adds support for QoS on a per VMID basis the L2C will also
+                                                                 not supported.
+
+                                                                 Internal:
+                                                                 If L2C adds support for QoS on a per VMID basis the L2C will also
                                                                  have a `secure' QoS setting, so this field should remain not required. */
 #else /* Word 0 - Little Endian */
         uint32_t bpvmid                : 16; /**< [ 15:  0](RAZ) Bypass VMID. VMID field applied to client transactions that bypass the SMMU. In CNXXXX,
-                                                                 not supported. INTERNAL: If L2C adds support for QoS on a per VMID basis the L2C will also
+                                                                 not supported.
+
+                                                                 Internal:
+                                                                 If L2C adds support for QoS on a per VMID basis the L2C will also
                                                                  have a `secure' QoS setting, so this field should remain not required. */
         uint32_t reserved_16_28        : 13;
         uint32_t compindexenable       : 1;  /**< [ 29: 29](RO) StreamID compressed index match enable.
@@ -5892,7 +5976,10 @@ typedef union
                                                                  maintenance operations from the wider system.
 
                                                                  CNXXXX honors this hint, but both the secure and non-secure version must be set for
-                                                                 private management. INTERNAL: Note when set SMMU always still sends a response for the
+                                                                 private management.
+
+                                                                 Internal:
+                                                                 Note when set SMMU always still sends a response for the
                                                                  invalidates, it just does not perform the invalidation action against the TLB/WCU. */
         uint32_t vmidpne               : 1;  /**< [ 11: 11](RO) Reserved. */
         uint32_t usfcfg                : 1;  /**< [ 10: 10](R/W) Unidentified stream fault configuration.
@@ -6009,7 +6096,10 @@ typedef union
                                                                  maintenance operations from the wider system.
 
                                                                  CNXXXX honors this hint, but both the secure and non-secure version must be set for
-                                                                 private management. INTERNAL: Note when set SMMU always still sends a response for the
+                                                                 private management.
+
+                                                                 Internal:
+                                                                 Note when set SMMU always still sends a response for the
                                                                  invalidates, it just does not perform the invalidation action against the TLB/WCU. */
         uint32_t fb                    : 1;  /**< [ 13: 13](R/W) Force broadcast of TLB and instruction cache maintenance operations. Applies to
                                                                  transactions bypassing the stream mapping table. Affects client TLB maintenance, BPIALL
@@ -6476,11 +6566,17 @@ typedef union
                                                                  In CNXXXX, StreamID compressed indexing is not implemented. */
         uint32_t reserved_16_28        : 13;
         uint32_t bpvmid                : 16; /**< [ 15:  0](RAZ) Bypass VMID. VMID field applied to client transactions that bypass the SMMU. In CNXXXX,
-                                                                 not supported. INTERNAL: If L2C adds support for QoS on a per VMID basis the L2C will also
+                                                                 not supported.
+
+                                                                 Internal:
+                                                                 If L2C adds support for QoS on a per VMID basis the L2C will also
                                                                  have a `secure' QoS setting, so this field should remain not required. */
 #else /* Word 0 - Little Endian */
         uint32_t bpvmid                : 16; /**< [ 15:  0](RAZ) Bypass VMID. VMID field applied to client transactions that bypass the SMMU. In CNXXXX,
-                                                                 not supported. INTERNAL: If L2C adds support for QoS on a per VMID basis the L2C will also
+                                                                 not supported.
+
+                                                                 Internal:
+                                                                 If L2C adds support for QoS on a per VMID basis the L2C will also
                                                                  have a `secure' QoS setting, so this field should remain not required. */
         uint32_t reserved_16_28        : 13;
         uint32_t compindexenable       : 1;  /**< [ 29: 29](RO) StreamID compressed index match enable.
@@ -7593,10 +7689,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t vmid                  : 16; /**< [ 15:  0](WO) The virtual machine identifier to use in the invalidate operation. INTERNAL: Bits 15:8
+        uint32_t vmid                  : 16; /**< [ 15:  0](WO) The virtual machine identifier to use in the invalidate operation.
+                                                                 Internal:
+                                                                 Bits 15:8
                                                                  defined by the large system extensions. */
 #else /* Word 0 - Little Endian */
-        uint32_t vmid                  : 16; /**< [ 15:  0](WO) The virtual machine identifier to use in the invalidate operation. INTERNAL: Bits 15:8
+        uint32_t vmid                  : 16; /**< [ 15:  0](WO) The virtual machine identifier to use in the invalidate operation.
+                                                                 Internal:
+                                                                 Bits 15:8
                                                                  defined by the large system extensions. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
@@ -7639,10 +7739,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t vmid                  : 16; /**< [ 15:  0](WO) The virtual machine identifier to use in the invalidate operation. INTERNAL: Bits 15:8
+        uint32_t vmid                  : 16; /**< [ 15:  0](WO) The virtual machine identifier to use in the invalidate operation.
+                                                                 Internal:
+                                                                 Bits 15:8
                                                                  defined by the large system extensions. */
 #else /* Word 0 - Little Endian */
-        uint32_t vmid                  : 16; /**< [ 15:  0](WO) The virtual machine identifier to use in the invalidate operation. INTERNAL: Bits 15:8
+        uint32_t vmid                  : 16; /**< [ 15:  0](WO) The virtual machine identifier to use in the invalidate operation.
+                                                                 Internal:
+                                                                 Bits 15:8
                                                                  defined by the large system extensions. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */

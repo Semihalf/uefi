@@ -79,10 +79,14 @@ union bdk_ecam_cfg_addr_s
         uint64_t reserved_46           : 1;
         uint64_t node                  : 2;  /**< [ 45: 44] CCPI node number. */
         uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..3) DID. 0x48 + ECAM number. */
-        uint64_t setup                 : 1;  /**< [ 35: 35] Reserved, MBZ. INTERNAL: Reserved for future use - Setup. Allow certain PCC
+        uint64_t setup                 : 1;  /**< [ 35: 35] Reserved, MBZ.
+                                                                 Internal:
+                                                                 Reserved for future use - Setup. Allow certain PCC
                                                                  configuration registers to be written for boot-time initialization. Treated as 0
                                                                  unless in secure mode. */
-        uint64_t bcst                  : 1;  /**< [ 34: 34] Reserved, MBZ. INTERNAL: Reserved for future use - Broadcast. Write to all PCC
+        uint64_t bcst                  : 1;  /**< [ 34: 34] Reserved, MBZ.
+                                                                 Internal:
+                                                                 Reserved for future use - Broadcast. Write to all PCC
                                                                  blocks for fast configuration. Treated as 0 unless in secure mode and SETUP is
                                                                  set. */
         uint64_t reserved_28_33        : 6;
@@ -96,10 +100,14 @@ union bdk_ecam_cfg_addr_s
                                                                  support ARI this contains both the device and function number. */
         uint64_t bus                   : 8;  /**< [ 27: 20] Bus number. */
         uint64_t reserved_28_33        : 6;
-        uint64_t bcst                  : 1;  /**< [ 34: 34] Reserved, MBZ. INTERNAL: Reserved for future use - Broadcast. Write to all PCC
+        uint64_t bcst                  : 1;  /**< [ 34: 34] Reserved, MBZ.
+                                                                 Internal:
+                                                                 Reserved for future use - Broadcast. Write to all PCC
                                                                  blocks for fast configuration. Treated as 0 unless in secure mode and SETUP is
                                                                  set. */
-        uint64_t setup                 : 1;  /**< [ 35: 35] Reserved, MBZ. INTERNAL: Reserved for future use - Setup. Allow certain PCC
+        uint64_t setup                 : 1;  /**< [ 35: 35] Reserved, MBZ.
+                                                                 Internal:
+                                                                 Reserved for future use - Setup. Allow certain PCC
                                                                  configuration registers to be written for boot-time initialization. Treated as 0
                                                                  unless in secure mode. */
         uint64_t did                   : 8;  /**< [ 43: 36] ECAM(0..3) DID. 0x48 + ECAM number. */
@@ -216,10 +224,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
         uint64_t ecams                 : 8;  /**< [  7:  0](RO) Number of ECAM units.
-                                                                 INTERNAL: FIXME after update unit count, need reset_matches_size: "ECAM()_CONST,a" */
+                                                                 Internal:
+                                                                 FIXME after update unit count, need reset_matches_size: "ECAM()_CONST,a" */
 #else /* Word 0 - Little Endian */
         uint64_t ecams                 : 8;  /**< [  7:  0](RO) Number of ECAM units.
-                                                                 INTERNAL: FIXME after update unit count, need reset_matches_size: "ECAM()_CONST,a" */
+                                                                 Internal:
+                                                                 FIXME after update unit count, need reset_matches_size: "ECAM()_CONST,a" */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;

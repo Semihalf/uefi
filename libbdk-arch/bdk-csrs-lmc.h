@@ -105,7 +105,7 @@
                                        LMC()_CONFIG[RANKMASK] selects the rank to be read-leveled. MR3 written in the
                                        selected rank. */
 #define BDK_LMC_SEQ_SEL_E_RW_TRAINING (0xe) /**< General read and/or write training sequence.
-                                       INTERNAL:
+                                       Internal:
                                        Configurable to run different modes of Data Buffer training on DDR4 LRDIMM.
                                        See LMC()_DBTRAIN_CTL for more detail. */
 #define BDK_LMC_SEQ_SEL_E_SREF_ENTRY (2) /**< Self-refresh entry sequence.
@@ -770,7 +770,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
-        uint64_t rclk_char_mode        : 1;  /**< [ 50: 50](R/W) Reserved. INTERNAL: Select RCLK characterization mode. */
+        uint64_t rclk_char_mode        : 1;  /**< [ 50: 50](R/W) Reserved.
+                                                                 Internal:
+                                                                 Select RCLK characterization mode. */
         uint64_t ddr__ptune            : 5;  /**< [ 49: 45](RO/H) DDR PCTL from compensation circuit. The encoded value provides debug information for the
                                                                  compensation impedance on P-pullup. */
         uint64_t ddr__ntune            : 5;  /**< [ 44: 40](RO/H) DDR NCTL from compensation circuit. The encoded value provides debug information for the
@@ -779,7 +781,9 @@ typedef union
                                                                  indicating addition and one indicating subtraction. */
         uint64_t ntune_offset          : 4;  /**< [ 35: 32](R/W) Ntune offset value. This is a signed value where the MSB is a sign bit, with zero
                                                                  indicating addition and one indicating subtraction. */
-        uint64_t m180                  : 1;  /**< [ 31: 31](R/W) Reserved; must be zero. INTERNAL: Cap impedance at 180 ohm, instead of 240 ohm. */
+        uint64_t m180                  : 1;  /**< [ 31: 31](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Cap impedance at 180 ohm, instead of 240 ohm. */
         uint64_t byp                   : 1;  /**< [ 30: 30](R/W) Bypass mode. When set, PTUNE,NTUNE are the compensation setting. When clear,
                                                                  DDR__PTUNE,DDR__NTUNE are the compensation setting. */
         uint64_t ptune                 : 5;  /**< [ 29: 25](R/W) PCTL impedance control in bypass mode. */
@@ -973,7 +977,9 @@ typedef union
         uint64_t ptune                 : 5;  /**< [ 29: 25](R/W) PCTL impedance control in bypass mode. */
         uint64_t byp                   : 1;  /**< [ 30: 30](R/W) Bypass mode. When set, PTUNE,NTUNE are the compensation setting. When clear,
                                                                  DDR__PTUNE,DDR__NTUNE are the compensation setting. */
-        uint64_t m180                  : 1;  /**< [ 31: 31](R/W) Reserved; must be zero. INTERNAL: Cap impedance at 180 ohm, instead of 240 ohm. */
+        uint64_t m180                  : 1;  /**< [ 31: 31](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Cap impedance at 180 ohm, instead of 240 ohm. */
         uint64_t ntune_offset          : 4;  /**< [ 35: 32](R/W) Ntune offset value. This is a signed value where the MSB is a sign bit, with zero
                                                                  indicating addition and one indicating subtraction. */
         uint64_t ptune_offset          : 4;  /**< [ 39: 36](R/W) Ptune offset value. This is a signed value where the MSB is a sign bit, with zero
@@ -982,7 +988,9 @@ typedef union
                                                                  compensation impedance on N-pulldown. */
         uint64_t ddr__ptune            : 5;  /**< [ 49: 45](RO/H) DDR PCTL from compensation circuit. The encoded value provides debug information for the
                                                                  compensation impedance on P-pullup. */
-        uint64_t rclk_char_mode        : 1;  /**< [ 50: 50](R/W) Reserved. INTERNAL: Select RCLK characterization mode. */
+        uint64_t rclk_char_mode        : 1;  /**< [ 50: 50](R/W) Reserved.
+                                                                 Internal:
+                                                                 Select RCLK characterization mode. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } s;
@@ -1030,35 +1038,44 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t lrdimm_ena            : 1;  /**< [ 63: 63](R/W) Reserved.
-                                                                 INTERNAL: Load Reduced DIMM Enable. When set allows the use of JEDEC DDR4 LRDIMMs. */
+                                                                 Internal:
+                                                                 Load Reduced DIMM Enable. When set allows the use of JEDEC DDR4 LRDIMMs. */
         uint64_t bg2_enable            : 1;  /**< [ 62: 62](R/W) BG1 enable bit. Only has an effect when LMC()_CONFIG[MODEDDR4] = 1.
                                                                  Set to 1 when using DDR4 x4 or x8 parts.
                                                                  Clear to 0 when using DDR4 x16 parts. */
         uint64_t mode_x4dev            : 1;  /**< [ 61: 61](R/W) DDR *4 device mode. */
         uint64_t mode32b               : 1;  /**< [ 60: 60](R/W) 32-bit datapath mode. When set, only 32 DQ pins are used. */
         uint64_t scrz                  : 1;  /**< [ 59: 59](R/W1S/H) Hide LMC()_SCRAMBLE_CFG0 and LMC()_SCRAMBLE_CFG1 when set. */
-        uint64_t early_unload_d1_r1    : 1;  /**< [ 58: 58](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for Rank 3 reads.
+        uint64_t early_unload_d1_r1    : 1;  /**< [ 58: 58](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 3 reads.
                                                                  The recommended EARLY_UNLOAD_D1_R1 value can be calculated after the final
                                                                  LMC()_RLEVEL_RANK3[BYTE*] values are selected (as part of read-leveling initialization).
                                                                  Then, determine the largest read-leveling setting for rank 3 (i.e. calculate
                                                                  maxset=MAX(LMC()_RLEVEL_RANK3[BYTEi]) across all i), then set EARLY_UNLOAD_D1_R1 when the
                                                                  low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D1_R1 = (maxset<1:0>
                                                                  !=3)). */
-        uint64_t early_unload_d1_r0    : 1;  /**< [ 57: 57](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for Rank 2 reads.
+        uint64_t early_unload_d1_r0    : 1;  /**< [ 57: 57](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 2 reads.
                                                                  The recommended EARLY_UNLOAD_D1_RO value can be calculated after the final
                                                                  LMC()_RLEVEL_RANK2[BYTE*] values are selected (as part of read-leveling initialization).
                                                                  Then, determine the largest read-leveling setting for rank 2 (i.e. calculate
                                                                  maxset=MAX(LMC()_RLEVEL_RANK2[BYTEi]) across all i), then set EARLY_UNLOAD_D1_RO when the
                                                                  low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D1_RO = (maxset<1:0>
                                                                  !=3)). */
-        uint64_t early_unload_d0_r1    : 1;  /**< [ 56: 56](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for Rank 1 reads.
+        uint64_t early_unload_d0_r1    : 1;  /**< [ 56: 56](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 1 reads.
                                                                  The recommended EARLY_UNLOAD_D0_R1 value can be calculated after the final
                                                                  LMC()_RLEVEL_RANK1[BYTE*] values are selected (as part of read-leveling initialization).
                                                                  Then, determine the largest read-leveling setting for rank 1 (i.e. calculate
                                                                  maxset=MAX(LMC()_RLEVEL_RANK1[BYTEi]) across all i), then set EARLY_UNLOAD_D0_R1 when the
                                                                  low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D0_R1 = (maxset<1:0>
                                                                  !=3)). */
-        uint64_t early_unload_d0_r0    : 1;  /**< [ 55: 55](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for Rank 0 reads.
+        uint64_t early_unload_d0_r0    : 1;  /**< [ 55: 55](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 0 reads.
                                                                  The recommended EARLY_UNLOAD_D0_R0 value can be calculated after the final
                                                                  LMC()_RLEVEL_RANK0[BYTE*] values are selected (as part of read-leveling initialization).
                                                                  Then, determine the largest read-leveling setting for rank 0 (i.e. calculate
@@ -1183,7 +1200,7 @@ typedef union
                                                                  With RANK_ENA = 0, PBANK_LSB = 2.
                                                                  With RANK_ENA = 1, PBANK_LSB = 3.
 
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  When interfacing with 8H 3DS, set this 0xA regardless of RANK_ENA value. */
         uint64_t row_lsb               : 3;  /**< [  4:  2](R/W) "Row address bit select.
                                                                  0x0 = Address bit 14 is LSB.
@@ -1291,7 +1308,7 @@ typedef union
                                                                  With RANK_ENA = 0, PBANK_LSB = 2.
                                                                  With RANK_ENA = 1, PBANK_LSB = 3.
 
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  When interfacing with 8H 3DS, set this 0xA regardless of RANK_ENA value. */
         uint64_t idlepower             : 3;  /**< [ 11:  9](R/W) Enter precharge power-down mode after the memory controller has been idle for
                                                                  2^(2+IDLEPOWER) CK cycles. 0 = disabled.
@@ -1386,28 +1403,36 @@ typedef union
                                                                  the INIT_STATUS bits will be set after successful initialization and after self-refresh
                                                                  exit. INIT_STATUS determines the chip-selects that assert during refresh, ZQCS, precharge
                                                                  power-down entry/exit, and self-refresh entry SEQ_SELs. */
-        uint64_t early_unload_d0_r0    : 1;  /**< [ 55: 55](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for Rank 0 reads.
+        uint64_t early_unload_d0_r0    : 1;  /**< [ 55: 55](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 0 reads.
                                                                  The recommended EARLY_UNLOAD_D0_R0 value can be calculated after the final
                                                                  LMC()_RLEVEL_RANK0[BYTE*] values are selected (as part of read-leveling initialization).
                                                                  Then, determine the largest read-leveling setting for rank 0 (i.e. calculate
                                                                  maxset=MAX(LMC()_RLEVEL_RANK0[BYTEi]) across all i), then set EARLY_UNLOAD_D0_R0 when the
                                                                  low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D0_R0 = (maxset<1:0>
                                                                  !=3)). */
-        uint64_t early_unload_d0_r1    : 1;  /**< [ 56: 56](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for Rank 1 reads.
+        uint64_t early_unload_d0_r1    : 1;  /**< [ 56: 56](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 1 reads.
                                                                  The recommended EARLY_UNLOAD_D0_R1 value can be calculated after the final
                                                                  LMC()_RLEVEL_RANK1[BYTE*] values are selected (as part of read-leveling initialization).
                                                                  Then, determine the largest read-leveling setting for rank 1 (i.e. calculate
                                                                  maxset=MAX(LMC()_RLEVEL_RANK1[BYTEi]) across all i), then set EARLY_UNLOAD_D0_R1 when the
                                                                  low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D0_R1 = (maxset<1:0>
                                                                  !=3)). */
-        uint64_t early_unload_d1_r0    : 1;  /**< [ 57: 57](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for Rank 2 reads.
+        uint64_t early_unload_d1_r0    : 1;  /**< [ 57: 57](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 2 reads.
                                                                  The recommended EARLY_UNLOAD_D1_RO value can be calculated after the final
                                                                  LMC()_RLEVEL_RANK2[BYTE*] values are selected (as part of read-leveling initialization).
                                                                  Then, determine the largest read-leveling setting for rank 2 (i.e. calculate
                                                                  maxset=MAX(LMC()_RLEVEL_RANK2[BYTEi]) across all i), then set EARLY_UNLOAD_D1_RO when the
                                                                  low two bits of this largest setting is not 3 (i.e. EARLY_UNLOAD_D1_RO = (maxset<1:0>
                                                                  !=3)). */
-        uint64_t early_unload_d1_r1    : 1;  /**< [ 58: 58](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle early for Rank 3 reads.
+        uint64_t early_unload_d1_r1    : 1;  /**< [ 58: 58](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle early for Rank 3 reads.
                                                                  The recommended EARLY_UNLOAD_D1_R1 value can be calculated after the final
                                                                  LMC()_RLEVEL_RANK3[BYTE*] values are selected (as part of read-leveling initialization).
                                                                  Then, determine the largest read-leveling setting for rank 3 (i.e. calculate
@@ -1421,7 +1446,8 @@ typedef union
                                                                  Set to 1 when using DDR4 x4 or x8 parts.
                                                                  Clear to 0 when using DDR4 x16 parts. */
         uint64_t lrdimm_ena            : 1;  /**< [ 63: 63](R/W) Reserved.
-                                                                 INTERNAL: Load Reduced DIMM Enable. When set allows the use of JEDEC DDR4 LRDIMMs. */
+                                                                 Internal:
+                                                                 Load Reduced DIMM Enable. When set allows the use of JEDEC DDR4 LRDIMMs. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_config_s cn; */
@@ -1507,7 +1533,9 @@ typedef union
                                                                  0x1 = 1 CK cycles.
                                                                  0x2 = 2 CK cycles.
                                                                  0x3 = Reserved." */
-        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero. INTERNAL: Enable the posted CAS feature of DDR3. This bit must be
+        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Enable the posted CAS feature of DDR3. This bit must be
                                                                  set whenever LMC()_MODEREG_PARAMS0[AL]!=0. */
         uint64_t ddr2t                 : 1;  /**< [  2:  2](R/W) Turn on the DDR 2T mode. 2 CK-cycle window for CMD and address. This mode helps relieve
                                                                  setup time pressure on the address and command bus which nominally have a very large
@@ -1528,7 +1556,9 @@ typedef union
                                                                  setup time pressure on the address and command bus which nominally have a very large
                                                                  fanout. Please refer to Micron's tech note tn_47_01 titled DDR2-533 Memory Design Guide
                                                                  for Two Dimm Unbuffered Systems for physical details. */
-        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero. INTERNAL: Enable the posted CAS feature of DDR3. This bit must be
+        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Enable the posted CAS feature of DDR3. This bit must be
                                                                  set whenever LMC()_MODEREG_PARAMS0[AL]!=0. */
         uint64_t fprch2                : 2;  /**< [  5:  4](R/W) "Front porch enable. When set, the turn-off time for the default DDR#_DQ* /DDR#_DQS_*_P/N
                                                                  drivers is FPRCH2 CKs earlier.
@@ -1636,7 +1666,9 @@ typedef union
                                                                  0x1 = 1 CK cycles.
                                                                  0x2 = 2 CK cycles.
                                                                  0x3 = Reserved." */
-        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero. INTERNAL: Enable the posted CAS feature of DDR3. This bit must be
+        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Enable the posted CAS feature of DDR3. This bit must be
                                                                  set whenever LMC()_MODEREG_PARAMS0[AL]!=0. */
         uint64_t ddr2t                 : 1;  /**< [  2:  2](R/W) Turn on the DDR 2T mode. 2 CK-cycle window for CMD and address. This mode helps relieve
                                                                  setup time pressure on the address and command bus which nominally have a very large
@@ -1657,7 +1689,9 @@ typedef union
                                                                  setup time pressure on the address and command bus which nominally have a very large
                                                                  fanout. Please refer to Micron's tech note tn_47_01 titled DDR2-533 Memory Design Guide
                                                                  for Two Dimm Unbuffered Systems for physical details. */
-        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero. INTERNAL: Enable the posted CAS feature of DDR3. This bit must be
+        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Enable the posted CAS feature of DDR3. This bit must be
                                                                  set whenever LMC()_MODEREG_PARAMS0[AL]!=0. */
         uint64_t fprch2                : 2;  /**< [  5:  4](R/W) "Front porch enable. When set, the turn-off time for the default DDR#_DQ* /DDR#_DQS_*_P/N
                                                                  drivers is FPRCH2 CKs earlier.
@@ -1769,7 +1803,9 @@ typedef union
                                                                  0x1 = 1 CK cycles.
                                                                  0x2 = 2 CK cycles.
                                                                  0x3 = Reserved." */
-        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero. INTERNAL: Enable the posted CAS feature of DDR3. This bit must be
+        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Enable the posted CAS feature of DDR3. This bit must be
                                                                  set whenever LMC()_MODEREG_PARAMS0[AL]!=0. */
         uint64_t ddr2t                 : 1;  /**< [  2:  2](R/W) Turn on the DDR 2T mode. 2 CK-cycle window for CMD and address. This mode helps relieve
                                                                  setup time pressure on the address and command bus which nominally have a very large
@@ -1790,7 +1826,9 @@ typedef union
                                                                  setup time pressure on the address and command bus which nominally have a very large
                                                                  fanout. Please refer to Micron's tech note tn_47_01 titled DDR2-533 Memory Design Guide
                                                                  for Two Dimm Unbuffered Systems for physical details. */
-        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero. INTERNAL: Enable the posted CAS feature of DDR3. This bit must be
+        uint64_t pocas                 : 1;  /**< [  3:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Enable the posted CAS feature of DDR3. This bit must be
                                                                  set whenever LMC()_MODEREG_PARAMS0[AL]!=0. */
         uint64_t fprch2                : 2;  /**< [  5:  4](R/W) "Front porch enable. When set, the turn-off time for the default DDR#_DQ* /DDR#_DQS_*_P/N
                                                                  drivers is FPRCH2 CKs earlier.
@@ -1872,7 +1910,7 @@ static inline uint64_t BDK_LMCX_CONTROL(unsigned long a)
  *
  * LMC Data Buffer Training Control Register
  * Reserved.
- * INTERNAL:
+ * Internal:
  * This register contains control bits that are used during the Data Buffer
  * training sequence in DDR4 LRDIMM mode. When one of the data buffer training
  * sequence is initiated, it uses the contents of this register to control
@@ -1888,7 +1926,7 @@ typedef union
         uint64_t lfsr_pattern_sel      : 1;  /**< [ 62: 62](RO) Reserved. */
         uint64_t cmd_count_ext         : 2;  /**< [ 61: 60](RO) Reserved. */
         uint64_t db_output_impedance   : 3;  /**< [ 59: 57](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., CONFIG[LRDIMM_ENA] = 1, SEQ_CTL[SEQ_SEL] = 0x6.
@@ -1897,7 +1935,7 @@ typedef union
                                                                  0x2 = RZQ/5 (48 ohm).
                                                                  0x3-0x7 = Reserved. */
         uint64_t db_sel                : 1;  /**< [ 56: 56](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Used when running Host Interface Write Leveling.
                                                                  0 = selects DIMM0's Data Buffer.
                                                                  1 = selects DIMM1's Data Buffer. */
@@ -1919,24 +1957,25 @@ typedef union
                                                                  The bit-wise comparison result gets stored in
                                                                  LMC()_MPR_DATA0[MPR_DATA]<63:0> and LMC()_MPR_DATA1[MPR_DATA]<7:0>. */
         uint64_t read_dq_count         : 7;  /**< [ 53: 47](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  The amount of cycles until a pulse is issued to sample the DQ into the
                                                                  MPR register. This bits control the timing of when to sample the data
                                                                  buffer training result. */
         uint64_t read_cmd_count        : 5;  /**< [ 46: 42](R/W) The amount of Read and Write Commands to be sent during R/W training.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  This can be set to zero in which case the sequence does not send any
                                                                  Read commands to accommodate for the DWL training mode. */
         uint64_t write_ena             : 1;  /**< [ 41: 41](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Enables the write operation. This is mainly used to accomplish the MWD
                                                                  training sequence of the data buffer.
                                                                  LMC()_DBTRAIN_CTL[ACTIVATE] must be set to 1 for this to take effect. */
         uint64_t activate              : 1;  /**< [ 40: 40](R/W) Reserved.
-                                                                 INTERNAL: Enables the activate command during the data buffer training sequence. */
+                                                                 Internal:
+                                                                 Enables the activate command during the data buffer training sequence. */
         uint64_t prank                 : 2;  /**< [ 39: 38](R/W) Physical Rank bits for Read/Write/Activate operation. */
         uint64_t lrank                 : 3;  /**< [ 37: 35](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Logical Rank bits for Read/Write/Activate operation during the data buffer
                                                                  training. */
         uint64_t row_a                 : 18; /**< [ 34: 17](R/W) The row address for the Activate command. */
@@ -1949,23 +1988,24 @@ typedef union
         uint64_t bg                    : 2;  /**< [ 16: 15](R/W) The bank group that the R/W commands are directed to. */
         uint64_t row_a                 : 18; /**< [ 34: 17](R/W) The row address for the Activate command. */
         uint64_t lrank                 : 3;  /**< [ 37: 35](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Logical Rank bits for Read/Write/Activate operation during the data buffer
                                                                  training. */
         uint64_t prank                 : 2;  /**< [ 39: 38](R/W) Physical Rank bits for Read/Write/Activate operation. */
         uint64_t activate              : 1;  /**< [ 40: 40](R/W) Reserved.
-                                                                 INTERNAL: Enables the activate command during the data buffer training sequence. */
+                                                                 Internal:
+                                                                 Enables the activate command during the data buffer training sequence. */
         uint64_t write_ena             : 1;  /**< [ 41: 41](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Enables the write operation. This is mainly used to accomplish the MWD
                                                                  training sequence of the data buffer.
                                                                  LMC()_DBTRAIN_CTL[ACTIVATE] must be set to 1 for this to take effect. */
         uint64_t read_cmd_count        : 5;  /**< [ 46: 42](R/W) The amount of Read and Write Commands to be sent during R/W training.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  This can be set to zero in which case the sequence does not send any
                                                                  Read commands to accommodate for the DWL training mode. */
         uint64_t read_dq_count         : 7;  /**< [ 53: 47](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  The amount of cycles until a pulse is issued to sample the DQ into the
                                                                  MPR register. This bits control the timing of when to sample the data
                                                                  buffer training result. */
@@ -1987,12 +2027,12 @@ typedef union
                                                                  Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requring
                                                                  this bit to be set. */
         uint64_t db_sel                : 1;  /**< [ 56: 56](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Used when running Host Interface Write Leveling.
                                                                  0 = selects DIMM0's Data Buffer.
                                                                  1 = selects DIMM1's Data Buffer. */
         uint64_t db_output_impedance   : 3;  /**< [ 59: 57](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., CONFIG[LRDIMM_ENA] = 1, SEQ_CTL[SEQ_SEL] = 0x6.
@@ -2017,7 +2057,7 @@ typedef union
         uint64_t cmd_count_ext         : 2;  /**< [ 61: 60](R/W) Extension bits to the field LMC()_DBTRAIN_CTL[READ_CMD_COUNT]. This enables
                                                                  up to 128 read and write commmands. */
         uint64_t db_output_impedance   : 3;  /**< [ 59: 57](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., CONFIG[LRDIMM_ENA] = 1, SEQ_CTL[SEQ_SEL] = 0x6.
@@ -2026,7 +2066,7 @@ typedef union
                                                                  0x2 = RZQ/5 (48 ohm).
                                                                  0x3-0x7 = Reserved. */
         uint64_t db_sel                : 1;  /**< [ 56: 56](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Used when running Host Interface Write Leveling.
                                                                  0 = selects DIMM0's Data Buffer.
                                                                  1 = selects DIMM1's Data Buffer. */
@@ -2048,24 +2088,25 @@ typedef union
                                                                  The bit-wise comparison result gets stored in
                                                                  LMC()_MPR_DATA0[MPR_DATA]<63:0> and LMC()_MPR_DATA1[MPR_DATA]<7:0>. */
         uint64_t read_dq_count         : 7;  /**< [ 53: 47](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  The amount of cycles until a pulse is issued to sample the DQ into the
                                                                  MPR register. This bits control the timing of when to sample the data
                                                                  buffer training result. */
         uint64_t read_cmd_count        : 5;  /**< [ 46: 42](R/W) The amount of Read and Write Commands to be sent during R/W training.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  This can be set to zero in which case the sequence does not send any
                                                                  Read commands to accommodate for the DWL training mode. */
         uint64_t write_ena             : 1;  /**< [ 41: 41](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Enables the write operation. This is mainly used to accomplish the MWD
                                                                  training sequence of the data buffer.
                                                                  LMC()_DBTRAIN_CTL[ACTIVATE] must be set to 1 for this to take effect. */
         uint64_t activate              : 1;  /**< [ 40: 40](R/W) Reserved.
-                                                                 INTERNAL: Enables the activate command during the data buffer training sequence. */
+                                                                 Internal:
+                                                                 Enables the activate command during the data buffer training sequence. */
         uint64_t prank                 : 2;  /**< [ 39: 38](R/W) Physical Rank bits for Read/Write/Activate operation. */
         uint64_t lrank                 : 3;  /**< [ 37: 35](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Logical Rank bits for Read/Write/Activate operation during the data buffer
                                                                  training. */
         uint64_t row_a                 : 18; /**< [ 34: 17](R/W) The row address for the Activate command. */
@@ -2078,23 +2119,24 @@ typedef union
         uint64_t bg                    : 2;  /**< [ 16: 15](R/W) The bank group that the R/W commands are directed to. */
         uint64_t row_a                 : 18; /**< [ 34: 17](R/W) The row address for the Activate command. */
         uint64_t lrank                 : 3;  /**< [ 37: 35](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Logical Rank bits for Read/Write/Activate operation during the data buffer
                                                                  training. */
         uint64_t prank                 : 2;  /**< [ 39: 38](R/W) Physical Rank bits for Read/Write/Activate operation. */
         uint64_t activate              : 1;  /**< [ 40: 40](R/W) Reserved.
-                                                                 INTERNAL: Enables the activate command during the data buffer training sequence. */
+                                                                 Internal:
+                                                                 Enables the activate command during the data buffer training sequence. */
         uint64_t write_ena             : 1;  /**< [ 41: 41](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Enables the write operation. This is mainly used to accomplish the MWD
                                                                  training sequence of the data buffer.
                                                                  LMC()_DBTRAIN_CTL[ACTIVATE] must be set to 1 for this to take effect. */
         uint64_t read_cmd_count        : 5;  /**< [ 46: 42](R/W) The amount of Read and Write Commands to be sent during R/W training.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  This can be set to zero in which case the sequence does not send any
                                                                  Read commands to accommodate for the DWL training mode. */
         uint64_t read_dq_count         : 7;  /**< [ 53: 47](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  The amount of cycles until a pulse is issued to sample the DQ into the
                                                                  MPR register. This bits control the timing of when to sample the data
                                                                  buffer training result. */
@@ -2116,12 +2158,12 @@ typedef union
                                                                  Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requring
                                                                  this bit to be set. */
         uint64_t db_sel                : 1;  /**< [ 56: 56](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Used when running Host Interface Write Leveling.
                                                                  0 = selects DIMM0's Data Buffer.
                                                                  1 = selects DIMM1's Data Buffer. */
         uint64_t db_output_impedance   : 3;  /**< [ 59: 57](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., CONFIG[LRDIMM_ENA] = 1, SEQ_CTL[SEQ_SEL] = 0x6.
@@ -2149,7 +2191,7 @@ typedef union
                                                                  Extension bits to the field LMC()_DBTRAIN_CTL[READ_CMD_COUNT]. This enables
                                                                  up to 128 read and write commmands. */
         uint64_t db_output_impedance   : 3;  /**< [ 59: 57](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., CONFIG[LRDIMM_ENA] = 1, SEQ_CTL[SEQ_SEL] = 0x6.
@@ -2158,7 +2200,7 @@ typedef union
                                                                  0x2 = RZQ/5 (48 ohm).
                                                                  0x3-0x7 = Reserved. */
         uint64_t db_sel                : 1;  /**< [ 56: 56](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Used when running Host Interface Write Leveling.
                                                                  0 = selects DIMM0's Data Buffer.
                                                                  1 = selects DIMM1's Data Buffer. */
@@ -2180,24 +2222,25 @@ typedef union
                                                                  The bit-wise comparison result gets stored in
                                                                  LMC()_MPR_DATA0[MPR_DATA]<63:0> and LMC()_MPR_DATA1[MPR_DATA]<7:0>. */
         uint64_t read_dq_count         : 7;  /**< [ 53: 47](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  The amount of cycles until a pulse is issued to sample the DQ into the
                                                                  MPR register. This bits control the timing of when to sample the data
                                                                  buffer training result. */
         uint64_t read_cmd_count        : 5;  /**< [ 46: 42](R/W) The amount of Read and Write Commands to be sent during R/W training.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  This can be set to zero in which case the sequence does not send any
                                                                  Read commands to accommodate for the DWL training mode. */
         uint64_t write_ena             : 1;  /**< [ 41: 41](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Enables the write operation. This is mainly used to accomplish the MWD
                                                                  training sequence of the data buffer.
                                                                  LMC()_DBTRAIN_CTL[ACTIVATE] must be set to 1 for this to take effect. */
         uint64_t activate              : 1;  /**< [ 40: 40](R/W) Reserved.
-                                                                 INTERNAL: Enables the activate command during the data buffer training sequence. */
+                                                                 Internal:
+                                                                 Enables the activate command during the data buffer training sequence. */
         uint64_t prank                 : 2;  /**< [ 39: 38](R/W) Physical Rank bits for Read/Write/Activate operation. */
         uint64_t lrank                 : 3;  /**< [ 37: 35](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Logical Rank bits for Read/Write/Activate operation during the data buffer
                                                                  training. */
         uint64_t row_a                 : 18; /**< [ 34: 17](R/W) The row address for the Activate command. */
@@ -2210,23 +2253,24 @@ typedef union
         uint64_t bg                    : 2;  /**< [ 16: 15](R/W) The bank group that the R/W commands are directed to. */
         uint64_t row_a                 : 18; /**< [ 34: 17](R/W) The row address for the Activate command. */
         uint64_t lrank                 : 3;  /**< [ 37: 35](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Logical Rank bits for Read/Write/Activate operation during the data buffer
                                                                  training. */
         uint64_t prank                 : 2;  /**< [ 39: 38](R/W) Physical Rank bits for Read/Write/Activate operation. */
         uint64_t activate              : 1;  /**< [ 40: 40](R/W) Reserved.
-                                                                 INTERNAL: Enables the activate command during the data buffer training sequence. */
+                                                                 Internal:
+                                                                 Enables the activate command during the data buffer training sequence. */
         uint64_t write_ena             : 1;  /**< [ 41: 41](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Enables the write operation. This is mainly used to accomplish the MWD
                                                                  training sequence of the data buffer.
                                                                  LMC()_DBTRAIN_CTL[ACTIVATE] must be set to 1 for this to take effect. */
         uint64_t read_cmd_count        : 5;  /**< [ 46: 42](R/W) The amount of Read and Write Commands to be sent during R/W training.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  This can be set to zero in which case the sequence does not send any
                                                                  Read commands to accommodate for the DWL training mode. */
         uint64_t read_dq_count         : 7;  /**< [ 53: 47](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  The amount of cycles until a pulse is issued to sample the DQ into the
                                                                  MPR register. This bits control the timing of when to sample the data
                                                                  buffer training result. */
@@ -2248,12 +2292,12 @@ typedef union
                                                                  Reads from Pages 1, 2 or 3 however must use tCCD_L, thereby requring
                                                                  this bit to be set. */
         uint64_t db_sel                : 1;  /**< [ 56: 56](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Used when running Host Interface Write Leveling.
                                                                  0 = selects DIMM0's Data Buffer.
                                                                  1 = selects DIMM1's Data Buffer. */
         uint64_t db_output_impedance   : 3;  /**< [ 59: 57](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., CONFIG[LRDIMM_ENA] = 1, SEQ_CTL[SEQ_SEL] = 0x6.
@@ -2338,7 +2382,7 @@ static inline uint64_t BDK_LMCX_DCLK_CNT(unsigned long a)
  * operations to the extended DDR4 control words in the JEDEC standard
  * registering clock driver on an RDIMM.
  *
- * INTERNAL:
+ * Internal:
  * Bits 22-27 is used only when LMC()_CONFIG[LRDIMM_ENA] = 1 AND
  * LMC()_MR_MPR_CTL[MR_WR_PBA_ENABLE] = 1.
  *
@@ -2353,26 +2397,26 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
         uint64_t rank_timing_enable    : 1;  /**< [ 27: 27](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Package Rank Timing Alignment Enable bit for the DDR4 LRDIMM Buffer Configuration Control
                                                                  Word F0BC1x DA[7]. Used during PBA BCW Write through the MRW sequence. */
         uint64_t bodt_trans_mode       : 1;  /**< [ 26: 26](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  BODT input handling in Transparent Mode for the DDR4 LRDIMM Buffer Conifguration Control
                                                                  Word F0BC1x. Used during PBA BCW Write through the MRW sequence. */
         uint64_t trans_mode_ena        : 1;  /**< [ 25: 25](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Transparent Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
                                                                  F0BC1x DA[5]. Used during PBA BCW Write through the MRW sequence. */
         uint64_t read_preamble_mode    : 1;  /**< [ 24: 24](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Read Preamble Training Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
                                                                  F0BC1x DA[4]. Used during PBA BCW Write through the MRW sequence. */
         uint64_t buff_config_da3       : 1;  /**< [ 23: 23](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Reserved setting value in F0BC1x DA3. Used during PBA BCW Write through the MRW sequence. */
         uint64_t mpr_over_ena          : 1;  /**< [ 22: 22](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  MPR Override Mode Enable bit for the DDR4 LRDIMM Buffer Configuration Control Word
                                                                  F0BC1x DA[1]. Used during PBA BCW Write through the MRW sequence. */
         uint64_t ddr4_dimm1_wmask      : 11; /**< [ 21: 11](R/W) DIMM1 write mask. If (DIMM1_WMASK[n] = 1), write DIMM1.RCn. */
@@ -2381,26 +2425,26 @@ typedef union
         uint64_t ddr4_dimm0_wmask      : 11; /**< [ 10:  0](R/W) DIMM0 write mask. If (DIMM0_WMASK[n] = 1), write DIMM0.RCn. */
         uint64_t ddr4_dimm1_wmask      : 11; /**< [ 21: 11](R/W) DIMM1 write mask. If (DIMM1_WMASK[n] = 1), write DIMM1.RCn. */
         uint64_t mpr_over_ena          : 1;  /**< [ 22: 22](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  MPR Override Mode Enable bit for the DDR4 LRDIMM Buffer Configuration Control Word
                                                                  F0BC1x DA[1]. Used during PBA BCW Write through the MRW sequence. */
         uint64_t buff_config_da3       : 1;  /**< [ 23: 23](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Reserved setting value in F0BC1x DA3. Used during PBA BCW Write through the MRW sequence. */
         uint64_t read_preamble_mode    : 1;  /**< [ 24: 24](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Read Preamble Training Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
                                                                  F0BC1x DA[4]. Used during PBA BCW Write through the MRW sequence. */
         uint64_t trans_mode_ena        : 1;  /**< [ 25: 25](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Transparent Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
                                                                  F0BC1x DA[5]. Used during PBA BCW Write through the MRW sequence. */
         uint64_t bodt_trans_mode       : 1;  /**< [ 26: 26](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  BODT input handling in Transparent Mode for the DDR4 LRDIMM Buffer Conifguration Control
                                                                  Word F0BC1x. Used during PBA BCW Write through the MRW sequence. */
         uint64_t rank_timing_enable    : 1;  /**< [ 27: 27](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Package Rank Timing Alignment Enable bit for the DDR4 LRDIMM Buffer Configuration Control
                                                                  Word F0BC1x DA[7]. Used during PBA BCW Write through the MRW sequence. */
         uint64_t reserved_28_63        : 36;
@@ -2469,7 +2513,9 @@ typedef union
         uint64_t pll_lock              : 1;  /**< [ 27: 27](RO/H) PLL LOCK indication. */
         uint64_t pll_rfslip            : 1;  /**< [ 26: 26](RO/H) PLL RFSLIP indication. */
         uint64_t clkr                  : 2;  /**< [ 25: 24](R/W) PLL post-divider control. */
-        uint64_t jtg_test_mode         : 1;  /**< [ 23: 23](R/W) Reserved; must be zero. INTERNAL: JTAG test mode. Clock alignment between DCLK & REFCLK as
+        uint64_t jtg_test_mode         : 1;  /**< [ 23: 23](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 JTAG test mode. Clock alignment between DCLK & REFCLK as
                                                                  well as FCLK & REFCLK can only be performed after the ddr_pll_divider_reset is deasserted.
                                                                  SW need to wait at least 10 reference clock cycles after deasserting pll_divider_reset
                                                                  before asserting LMC()_DDR_PLL_CTL[JTG_TEST_MODE]. During alignment (which can take up
@@ -2527,7 +2573,9 @@ typedef union
 
                                                                  DDR_PS_EN is not used when DDR_DIV_RESET = 1. */
         uint64_t ddr_div_reset         : 1;  /**< [ 22: 22](R/W) DDR postscalar divider reset. */
-        uint64_t jtg_test_mode         : 1;  /**< [ 23: 23](R/W) Reserved; must be zero. INTERNAL: JTAG test mode. Clock alignment between DCLK & REFCLK as
+        uint64_t jtg_test_mode         : 1;  /**< [ 23: 23](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 JTAG test mode. Clock alignment between DCLK & REFCLK as
                                                                  well as FCLK & REFCLK can only be performed after the ddr_pll_divider_reset is deasserted.
                                                                  SW need to wait at least 10 reference clock cycles after deasserting pll_divider_reset
                                                                  before asserting LMC()_DDR_PLL_CTL[JTG_TEST_MODE]. During alignment (which can take up
@@ -2858,14 +2906,18 @@ typedef union
                                                                  domain is
                                                                  (DRESET -OR- core-clock reset). */
         uint64_t quad_dll_ena          : 1;  /**< [ 13: 13](R/W) DLL enable. */
-        uint64_t byp_sel               : 4;  /**< [ 12:  9](R/W) Reserved; must be zero. INTERNAL: Bypass select.
+        uint64_t byp_sel               : 4;  /**< [ 12:  9](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Bypass select.
                                                                  0x0 = no byte.
                                                                  0x1 = byte 0.
                                                                  ...
                                                                  0x9 = byte 8.
                                                                  0xA = all bytes.
                                                                  0xB-0xF = Reserved. */
-        uint64_t byp_setting           : 9;  /**< [  8:  0](R/W) Reserved; must be zero. INTERNAL: Bypass setting.
+        uint64_t byp_setting           : 9;  /**< [  8:  0](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Bypass setting.
                                                                  DDR3-1600: 0x22.
                                                                  DDR3-1333: 0x32.
                                                                  DDR3-1066: 0x4B.
@@ -2873,14 +2925,18 @@ typedef union
                                                                  DDR3-667: 0x96.
                                                                  DDR3-600: 0xAC. */
 #else /* Word 0 - Little Endian */
-        uint64_t byp_setting           : 9;  /**< [  8:  0](R/W) Reserved; must be zero. INTERNAL: Bypass setting.
+        uint64_t byp_setting           : 9;  /**< [  8:  0](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Bypass setting.
                                                                  DDR3-1600: 0x22.
                                                                  DDR3-1333: 0x32.
                                                                  DDR3-1066: 0x4B.
                                                                  DDR3-800: 0x75.
                                                                  DDR3-667: 0x96.
                                                                  DDR3-600: 0xAC. */
-        uint64_t byp_sel               : 4;  /**< [ 12:  9](R/W) Reserved; must be zero. INTERNAL: Bypass select.
+        uint64_t byp_sel               : 4;  /**< [ 12:  9](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Bypass select.
                                                                  0x0 = no byte.
                                                                  0x1 = byte 0.
                                                                  ...
@@ -2947,62 +3003,102 @@ typedef union
                                                                  Also sets Vref bypass to off and deskew reuse setting to off. */
         uint64_t dclk90_fwd            : 1;  /**< [ 43: 43](WO) When set to one, clock-delay information is forwarded to the neighboring LMC. See LMC CK
                                                                  Locak Initialization step for the LMC bring-up sequence.
-                                                                 INTERNAL: Generate a one cycle pulse to forward setting. This is a oneshot and clears
+
+                                                                 Internal:
+                                                                 Generate a one cycle pulse to forward setting. This is a oneshot and clears
                                                                  itself each time it is set. */
-        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero. INTERNAL: Bypass DDR90_DLY in clock tree. */
+        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Bypass DDR90_DLY in clock tree. */
         uint64_t dclk90_recal_dis      : 1;  /**< [ 41: 41](R/W) Disable periodic recalibration of DDR90 delay line in. */
         uint64_t dclk90_byp_sel        : 1;  /**< [ 40: 40](R/W) Bypass setting select for DDR90 delay line. */
         uint64_t dclk90_byp_setting    : 9;  /**< [ 39: 31](R/W) Bypass setting for DDR90 delay line. */
-        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero. INTERNAL: DLL lock, 0=DLL locked. */
-        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero. INTERNAL: Encoded DLL settings. Works in conjunction with
+        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL lock, 0=DLL locked. */
+        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Encoded DLL settings. Works in conjunction with
                                                                  DLL90_BYTE_SEL. */
         uint64_t fine_tune_mode        : 1;  /**< [ 20: 20](R/W) DLL fine tune mode. 0 = disabled; 1 = enable. When enabled, calibrate internal PHY DLL
                                                                  every LMC()_CONFIG[REF_ZQCS_INT] CK cycles. */
-        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero. INTERNAL: DLL mode. */
+        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL mode. */
         uint64_t dll90_byte_sel        : 4;  /**< [ 18: 15](R/W) Observe DLL settings for selected byte.
                                                                  0x0 = byte 0.
                                                                  0x1 = byte 1.
                                                                  ...
                                                                  0x8: byte 8.
                                                                  0x9-0xF: reserved. */
-        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Offset enable. 1=enable. */
-        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero. INTERNAL: Load offset. 0=disable, 1=generate a one cycle pulse to
+        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Offset enable. 1=enable. */
+        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Load offset. 0=disable, 1=generate a one cycle pulse to
                                                                  the PHY. This field is a oneshot and clears itself each time it is set. */
-        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero. INTERNAL: Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
+        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
                                                                  write and read. */
-        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero. INTERNAL: Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
+        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
                                                                  byte 8, 0xA = all bytes, 0xB-0xF = Reserved. */
-        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero. INTERNAL: Write/read offset setting. <5:0>: offset (not
+        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Write/read offset setting. <5:0>: offset (not
                                                                  two's-complement), <5>: 0 = increment, 1 = decrement. */
 #else /* Word 0 - Little Endian */
-        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero. INTERNAL: Write/read offset setting. <5:0>: offset (not
+        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Write/read offset setting. <5:0>: offset (not
                                                                  two's-complement), <5>: 0 = increment, 1 = decrement. */
-        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero. INTERNAL: Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
+        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
                                                                  byte 8, 0xA = all bytes, 0xB-0xF = Reserved. */
-        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero. INTERNAL: Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
+        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
                                                                  write and read. */
-        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero. INTERNAL: Load offset. 0=disable, 1=generate a one cycle pulse to
+        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Load offset. 0=disable, 1=generate a one cycle pulse to
                                                                  the PHY. This field is a oneshot and clears itself each time it is set. */
-        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Offset enable. 1=enable. */
+        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Offset enable. 1=enable. */
         uint64_t dll90_byte_sel        : 4;  /**< [ 18: 15](R/W) Observe DLL settings for selected byte.
                                                                  0x0 = byte 0.
                                                                  0x1 = byte 1.
                                                                  ...
                                                                  0x8: byte 8.
                                                                  0x9-0xF: reserved. */
-        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero. INTERNAL: DLL mode. */
+        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL mode. */
         uint64_t fine_tune_mode        : 1;  /**< [ 20: 20](R/W) DLL fine tune mode. 0 = disabled; 1 = enable. When enabled, calibrate internal PHY DLL
                                                                  every LMC()_CONFIG[REF_ZQCS_INT] CK cycles. */
-        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero. INTERNAL: Encoded DLL settings. Works in conjunction with
+        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Encoded DLL settings. Works in conjunction with
                                                                  DLL90_BYTE_SEL. */
-        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero. INTERNAL: DLL lock, 0=DLL locked. */
+        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL lock, 0=DLL locked. */
         uint64_t dclk90_byp_setting    : 9;  /**< [ 39: 31](R/W) Bypass setting for DDR90 delay line. */
         uint64_t dclk90_byp_sel        : 1;  /**< [ 40: 40](R/W) Bypass setting select for DDR90 delay line. */
         uint64_t dclk90_recal_dis      : 1;  /**< [ 41: 41](R/W) Disable periodic recalibration of DDR90 delay line in. */
-        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero. INTERNAL: Bypass DDR90_DLY in clock tree. */
+        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Bypass DDR90_DLY in clock tree. */
         uint64_t dclk90_fwd            : 1;  /**< [ 43: 43](WO) When set to one, clock-delay information is forwarded to the neighboring LMC. See LMC CK
                                                                  Locak Initialization step for the LMC bring-up sequence.
-                                                                 INTERNAL: Generate a one cycle pulse to forward setting. This is a oneshot and clears
+
+                                                                 Internal:
+                                                                 Generate a one cycle pulse to forward setting. This is a oneshot and clears
                                                                  itself each time it is set. */
         uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit 0 - bit 8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
@@ -3041,62 +3137,102 @@ typedef union
                                                                  Also sets Vref bypass to off and deskew reuse setting to off. */
         uint64_t dclk90_fwd            : 1;  /**< [ 43: 43](WO) When set to one, clock-delay information is forwarded to the neighboring LMC. See LMC CK
                                                                  Locak Initialization step for the LMC bring-up sequence.
-                                                                 INTERNAL: Generate a one cycle pulse to forward setting. This is a oneshot and clears
+
+                                                                 Internal:
+                                                                 Generate a one cycle pulse to forward setting. This is a oneshot and clears
                                                                  itself each time it is set. */
-        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero. INTERNAL: Bypass DDR90_DLY in clock tree. */
+        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Bypass DDR90_DLY in clock tree. */
         uint64_t dclk90_recal_dis      : 1;  /**< [ 41: 41](R/W) Disable periodic recalibration of DDR90 delay line in. */
         uint64_t dclk90_byp_sel        : 1;  /**< [ 40: 40](R/W) Bypass setting select for DDR90 delay line. */
         uint64_t dclk90_byp_setting    : 9;  /**< [ 39: 31](R/W) Bypass setting for DDR90 delay line. */
-        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero. INTERNAL: DLL lock, 0=DLL locked. */
-        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero. INTERNAL: Encoded DLL settings. Works in conjunction with
+        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL lock, 0=DLL locked. */
+        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Encoded DLL settings. Works in conjunction with
                                                                  DLL90_BYTE_SEL. */
         uint64_t fine_tune_mode        : 1;  /**< [ 20: 20](R/W) DLL fine tune mode. 0 = disabled; 1 = enable. When enabled, calibrate internal PHY DLL
                                                                  every LMC()_CONFIG[REF_ZQCS_INT] CK cycles. */
-        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero. INTERNAL: DLL mode. */
+        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL mode. */
         uint64_t dll90_byte_sel        : 4;  /**< [ 18: 15](R/W) Observe DLL settings for selected byte.
                                                                  0x0 = byte 0.
                                                                  0x1 = byte 1.
                                                                  ...
                                                                  0x8: byte 8.
                                                                  0x9-0xF: reserved. */
-        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Offset enable. 1=enable. */
-        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero. INTERNAL: Load offset. 0=disable, 1=generate a one cycle pulse to
+        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Offset enable. 1=enable. */
+        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Load offset. 0=disable, 1=generate a one cycle pulse to
                                                                  the PHY. This field is a oneshot and clears itself each time it is set. */
-        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero. INTERNAL: Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
+        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
                                                                  write and read. */
-        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero. INTERNAL: Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
+        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
                                                                  byte 8, 0xA = all bytes, 0xB-0xF = Reserved. */
-        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero. INTERNAL: Write/read offset setting. <5:0>: offset (not
+        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Write/read offset setting. <5:0>: offset (not
                                                                  two's-complement), <5>: 0 = increment, 1 = decrement. */
 #else /* Word 0 - Little Endian */
-        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero. INTERNAL: Write/read offset setting. <5:0>: offset (not
+        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Write/read offset setting. <5:0>: offset (not
                                                                  two's-complement), <5>: 0 = increment, 1 = decrement. */
-        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero. INTERNAL: Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
+        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
                                                                  byte 8, 0xA = all bytes, 0xB-0xF = Reserved. */
-        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero. INTERNAL: Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
+        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
                                                                  write and read. */
-        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero. INTERNAL: Load offset. 0=disable, 1=generate a one cycle pulse to
+        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Load offset. 0=disable, 1=generate a one cycle pulse to
                                                                  the PHY. This field is a oneshot and clears itself each time it is set. */
-        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Offset enable. 1=enable. */
+        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Offset enable. 1=enable. */
         uint64_t dll90_byte_sel        : 4;  /**< [ 18: 15](R/W) Observe DLL settings for selected byte.
                                                                  0x0 = byte 0.
                                                                  0x1 = byte 1.
                                                                  ...
                                                                  0x8: byte 8.
                                                                  0x9-0xF: reserved. */
-        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero. INTERNAL: DLL mode. */
+        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL mode. */
         uint64_t fine_tune_mode        : 1;  /**< [ 20: 20](R/W) DLL fine tune mode. 0 = disabled; 1 = enable. When enabled, calibrate internal PHY DLL
                                                                  every LMC()_CONFIG[REF_ZQCS_INT] CK cycles. */
-        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero. INTERNAL: Encoded DLL settings. Works in conjunction with
+        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Encoded DLL settings. Works in conjunction with
                                                                  DLL90_BYTE_SEL. */
-        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero. INTERNAL: DLL lock, 0=DLL locked. */
+        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL lock, 0=DLL locked. */
         uint64_t dclk90_byp_setting    : 9;  /**< [ 39: 31](R/W) Bypass setting for DDR90 delay line. */
         uint64_t dclk90_byp_sel        : 1;  /**< [ 40: 40](R/W) Bypass setting select for DDR90 delay line. */
         uint64_t dclk90_recal_dis      : 1;  /**< [ 41: 41](R/W) Disable periodic recalibration of DDR90 delay line in. */
-        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero. INTERNAL: Bypass DDR90_DLY in clock tree. */
+        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Bypass DDR90_DLY in clock tree. */
         uint64_t dclk90_fwd            : 1;  /**< [ 43: 43](WO) When set to one, clock-delay information is forwarded to the neighboring LMC. See LMC CK
                                                                  Locak Initialization step for the LMC bring-up sequence.
-                                                                 INTERNAL: Generate a one cycle pulse to forward setting. This is a oneshot and clears
+
+                                                                 Internal:
+                                                                 Generate a one cycle pulse to forward setting. This is a oneshot and clears
                                                                  itself each time it is set. */
         uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit0-bit8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
@@ -3139,62 +3275,102 @@ typedef union
                                                                  Also sets Vref bypass to off and deskew reuse setting to off. */
         uint64_t dclk90_fwd            : 1;  /**< [ 43: 43](WO) When set to one, clock-delay information is forwarded to the neighboring LMC. See LMC CK
                                                                  Locak Initialization step for the LMC bring-up sequence.
-                                                                 INTERNAL: Generate a one cycle pulse to forward setting. This is a oneshot and clears
+
+                                                                 Internal:
+                                                                 Generate a one cycle pulse to forward setting. This is a oneshot and clears
                                                                  itself each time it is set. */
-        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero. INTERNAL: Bypass DDR90_DLY in clock tree. */
+        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Bypass DDR90_DLY in clock tree. */
         uint64_t dclk90_recal_dis      : 1;  /**< [ 41: 41](R/W) Disable periodic recalibration of DDR90 delay line in. */
         uint64_t dclk90_byp_sel        : 1;  /**< [ 40: 40](R/W) Bypass setting select for DDR90 delay line. */
         uint64_t dclk90_byp_setting    : 9;  /**< [ 39: 31](R/W) Bypass setting for DDR90 delay line. */
-        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero. INTERNAL: DLL lock, 0=DLL locked. */
-        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero. INTERNAL: Encoded DLL settings. Works in conjunction with
+        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL lock, 0=DLL locked. */
+        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Encoded DLL settings. Works in conjunction with
                                                                  DLL90_BYTE_SEL. */
         uint64_t fine_tune_mode        : 1;  /**< [ 20: 20](R/W) DLL fine tune mode. 0 = disabled; 1 = enable. When enabled, calibrate internal PHY DLL
                                                                  every LMC()_CONFIG[REF_ZQCS_INT] CK cycles. */
-        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero. INTERNAL: DLL mode. */
+        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL mode. */
         uint64_t dll90_byte_sel        : 4;  /**< [ 18: 15](R/W) Observe DLL settings for selected byte.
                                                                  0x0 = byte 0.
                                                                  0x1 = byte 1.
                                                                  ...
                                                                  0x8: byte 8.
                                                                  0x9-0xF: reserved. */
-        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Offset enable. 1=enable. */
-        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero. INTERNAL: Load offset. 0=disable, 1=generate a one cycle pulse to
+        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Offset enable. 1=enable. */
+        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Load offset. 0=disable, 1=generate a one cycle pulse to
                                                                  the PHY. This field is a oneshot and clears itself each time it is set. */
-        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero. INTERNAL: Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
+        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
                                                                  write and read. */
-        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero. INTERNAL: Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
+        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
                                                                  byte 8, 0xA = all bytes, 0xB-0xF = Reserved. */
-        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero. INTERNAL: Write/read offset setting. <5:0>: offset (not
+        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Write/read offset setting. <5:0>: offset (not
                                                                  two's-complement), <5>: 0 = increment, 1 = decrement. */
 #else /* Word 0 - Little Endian */
-        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero. INTERNAL: Write/read offset setting. <5:0>: offset (not
+        uint64_t offset                : 7;  /**< [  6:  0](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Write/read offset setting. <5:0>: offset (not
                                                                  two's-complement), <5>: 0 = increment, 1 = decrement. */
-        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero. INTERNAL: Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
+        uint64_t byte_sel              : 4;  /**< [ 10:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Byte select. 0x0 = no byte, 0x1 = byte 0, ..., 0x9 =
                                                                  byte 8, 0xA = all bytes, 0xB-0xF = Reserved. */
-        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero. INTERNAL: Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
+        uint64_t mode_sel              : 2;  /**< [ 12: 11](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Mode select. 0x0 = reset, 0x1 = write, 0x2 = read, 0x3 =
                                                                  write and read. */
-        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero. INTERNAL: Load offset. 0=disable, 1=generate a one cycle pulse to
+        uint64_t load_offset           : 1;  /**< [ 13: 13](WO) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Load offset. 0=disable, 1=generate a one cycle pulse to
                                                                  the PHY. This field is a oneshot and clears itself each time it is set. */
-        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Offset enable. 1=enable. */
+        uint64_t offset_ena            : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Offset enable. 1=enable. */
         uint64_t dll90_byte_sel        : 4;  /**< [ 18: 15](R/W) Observe DLL settings for selected byte.
                                                                  0x0 = byte 0.
                                                                  0x1 = byte 1.
                                                                  ...
                                                                  0x8: byte 8.
                                                                  0x9-0xF: reserved. */
-        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero. INTERNAL: DLL mode. */
+        uint64_t dll_mode              : 1;  /**< [ 19: 19](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL mode. */
         uint64_t fine_tune_mode        : 1;  /**< [ 20: 20](R/W) DLL fine tune mode. 0 = disabled; 1 = enable. When enabled, calibrate internal PHY DLL
                                                                  every LMC()_CONFIG[REF_ZQCS_INT] CK cycles. */
-        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero. INTERNAL: Encoded DLL settings. Works in conjunction with
+        uint64_t dll90_setting         : 9;  /**< [ 29: 21](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Encoded DLL settings. Works in conjunction with
                                                                  DLL90_BYTE_SEL. */
-        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero. INTERNAL: DLL lock, 0=DLL locked. */
+        uint64_t dll_fast              : 1;  /**< [ 30: 30](RO/H) Reserved; must be zero.
+                                                                 Internal:
+                                                                 DLL lock, 0=DLL locked. */
         uint64_t dclk90_byp_setting    : 9;  /**< [ 39: 31](R/W) Bypass setting for DDR90 delay line. */
         uint64_t dclk90_byp_sel        : 1;  /**< [ 40: 40](R/W) Bypass setting select for DDR90 delay line. */
         uint64_t dclk90_recal_dis      : 1;  /**< [ 41: 41](R/W) Disable periodic recalibration of DDR90 delay line in. */
-        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero. INTERNAL: Bypass DDR90_DLY in clock tree. */
+        uint64_t ddr_90_dly_byp        : 1;  /**< [ 42: 42](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Bypass DDR90_DLY in clock tree. */
         uint64_t dclk90_fwd            : 1;  /**< [ 43: 43](WO) When set to one, clock-delay information is forwarded to the neighboring LMC. See LMC CK
                                                                  Locak Initialization step for the LMC bring-up sequence.
-                                                                 INTERNAL: Generate a one cycle pulse to forward setting. This is a oneshot and clears
+
+                                                                 Internal:
+                                                                 Generate a one cycle pulse to forward setting. This is a oneshot and clears
                                                                  itself each time it is set. */
         uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) Changed in pass 2.0.
 
@@ -3465,7 +3641,7 @@ typedef union
                                                                  between ranks. When different size DIMMs are used, the DIMM with
                                                                  the higher capacity is mapped to the lower address space. */
         uint64_t dimm1_cid             : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  DIMM1 configuration bits that represent the number of Chip
                                                                  ID of the DRAM. This value is use for decoding address
                                                                  as well as routing Chip IDs to the appropriate output
@@ -3475,7 +3651,7 @@ typedef union
                                                                  0x2 = 2 Chip IDs (4H 3DS).
                                                                  0x3 = 3 Chip IDs (8H 3DS). */
         uint64_t dimm0_cid             : 2;  /**< [ 50: 49](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  DIMM0 configuration bits that represent the number of Chip
                                                                  ID of the DRAM. This value is use for decoding address
                                                                  as well as routing Chip IDs to the appropriate output
@@ -3544,21 +3720,37 @@ typedef union
                                                                  1 CK cycle) can be achieved by setting this field to a non-zero value. */
         uint64_t drive_ena_bprch       : 1;  /**< [  7:  7](R/W) Drive DQx for one cycle longer than normal during write operations. */
         uint64_t drive_ena_fprch       : 1;  /**< [  6:  6](R/W) Drive DQX starting one cycle earlier than normal during write operations. */
-        uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved. INTERNAL: DLC RAM flip syndrome control bits. */
-        uint64_t dlcram_cor_dis        : 1;  /**< [  3:  3](R/W) Reserved. INTERNAL: DLC RAM correction disable control. */
-        uint64_t dlc_nxm_rd            : 1;  /**< [  2:  2](R/W) When set, enable NXM events for HFA read operations. INTERNAL: Default is disabled, but
+        uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM flip syndrome control bits. */
+        uint64_t dlcram_cor_dis        : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM correction disable control. */
+        uint64_t dlc_nxm_rd            : 1;  /**< [  2:  2](R/W) When set, enable NXM events for HFA read operations.
+                                                                 Internal:
+                                                                 Default is disabled, but
                                                                  could be useful for debug of DLC/DFA accesses. */
-        uint64_t l2c_nxm_rd            : 1;  /**< [  1:  1](R/W) When set, enable NXM events for L2C read operations. INTERNAL: Default is disabled as L2C
+        uint64_t l2c_nxm_rd            : 1;  /**< [  1:  1](R/W) When set, enable NXM events for L2C read operations.
+                                                                 Internal:
+                                                                 Default is disabled as L2C
                                                                  NXM read operations are possible and expected during normal operation. */
         uint64_t l2c_nxm_wr            : 1;  /**< [  0:  0](R/W) When set, enable NXM events for L2C write operations. */
 #else /* Word 0 - Little Endian */
         uint64_t l2c_nxm_wr            : 1;  /**< [  0:  0](R/W) When set, enable NXM events for L2C write operations. */
-        uint64_t l2c_nxm_rd            : 1;  /**< [  1:  1](R/W) When set, enable NXM events for L2C read operations. INTERNAL: Default is disabled as L2C
+        uint64_t l2c_nxm_rd            : 1;  /**< [  1:  1](R/W) When set, enable NXM events for L2C read operations.
+                                                                 Internal:
+                                                                 Default is disabled as L2C
                                                                  NXM read operations are possible and expected during normal operation. */
-        uint64_t dlc_nxm_rd            : 1;  /**< [  2:  2](R/W) When set, enable NXM events for HFA read operations. INTERNAL: Default is disabled, but
+        uint64_t dlc_nxm_rd            : 1;  /**< [  2:  2](R/W) When set, enable NXM events for HFA read operations.
+                                                                 Internal:
+                                                                 Default is disabled, but
                                                                  could be useful for debug of DLC/DFA accesses. */
-        uint64_t dlcram_cor_dis        : 1;  /**< [  3:  3](R/W) Reserved. INTERNAL: DLC RAM correction disable control. */
-        uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved. INTERNAL: DLC RAM flip syndrome control bits. */
+        uint64_t dlcram_cor_dis        : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM correction disable control. */
+        uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM flip syndrome control bits. */
         uint64_t drive_ena_fprch       : 1;  /**< [  6:  6](R/W) Drive DQX starting one cycle earlier than normal during write operations. */
         uint64_t drive_ena_bprch       : 1;  /**< [  7:  7](R/W) Drive DQx for one cycle longer than normal during write operations. */
         uint64_t ref_int_lsbs          : 9;  /**< [ 16:  8](R/W) Refresh-interval value least-significant bits. The default is 0x0.
@@ -3620,7 +3812,7 @@ typedef union
                                                                  To enable the parity checking in RCD, set this bit first BEFORE issuing the RCW write RC0E
                                                                  DA0 = 1. */
         uint64_t dimm0_cid             : 2;  /**< [ 50: 49](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  DIMM0 configuration bits that represent the number of Chip
                                                                  ID of the DRAM. This value is use for decoding address
                                                                  as well as routing Chip IDs to the appropriate output
@@ -3630,7 +3822,7 @@ typedef union
                                                                  0x2 = 2 Chip IDs (4H 3DS).
                                                                  0x3 = 3 Chip IDs (8H 3DS). */
         uint64_t dimm1_cid             : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  DIMM1 configuration bits that represent the number of Chip
                                                                  ID of the DRAM. This value is use for decoding address
                                                                  as well as routing Chip IDs to the appropriate output
@@ -3682,8 +3874,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
         uint64_t bc4_dqs_ena           : 1;  /**< [ 60: 60](R/W) Reserved.
-                                                                 INTERNAL:
-                                                                   For diagnostic use only.
+                                                                 Internal:
+                                                                 For diagnostic use only.
                                                                    0 = LMC produces the full bursts of DQS transitions,
                                                                    even for BC4 Write ops.
                                                                    1 = LMC produces only 3 cycles of DQS transitions
@@ -3723,7 +3915,7 @@ typedef union
                                                                  between ranks. When different size DIMMs are used, the DIMM with
                                                                  the higher capacity is mapped to the lower address space. */
         uint64_t dimm1_cid             : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  DIMM1 configuration bits that represent the number of Chip
                                                                  ID of the DRAM. This value is use for decoding address
                                                                  as well as routing Chip IDs to the appropriate output
@@ -3733,7 +3925,7 @@ typedef union
                                                                  0x2 = 2 Chip IDs (4H 3DS).
                                                                  0x3 = 3 Chip IDs (8H 3DS). */
         uint64_t dimm0_cid             : 2;  /**< [ 50: 49](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  DIMM0 configuration bits that represent the number of Chip
                                                                  ID of the DRAM. This value is use for decoding address
                                                                  as well as routing Chip IDs to the appropriate output
@@ -3802,21 +3994,37 @@ typedef union
                                                                  1 CK cycle) can be achieved by setting this field to a non-zero value. */
         uint64_t drive_ena_bprch       : 1;  /**< [  7:  7](R/W) Drive DQx for one cycle longer than normal during write operations. */
         uint64_t drive_ena_fprch       : 1;  /**< [  6:  6](R/W) Drive DQX starting one cycle earlier than normal during write operations. */
-        uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved. INTERNAL: DLC RAM flip syndrome control bits. */
-        uint64_t dlcram_cor_dis        : 1;  /**< [  3:  3](R/W) Reserved. INTERNAL: DLC RAM correction disable control. */
-        uint64_t dlc_nxm_rd            : 1;  /**< [  2:  2](R/W) When set, enable NXM events for HFA read operations. INTERNAL: Default is disabled, but
+        uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM flip syndrome control bits. */
+        uint64_t dlcram_cor_dis        : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM correction disable control. */
+        uint64_t dlc_nxm_rd            : 1;  /**< [  2:  2](R/W) When set, enable NXM events for HFA read operations.
+                                                                 Internal:
+                                                                 Default is disabled, but
                                                                  could be useful for debug of DLC/DFA accesses. */
-        uint64_t l2c_nxm_rd            : 1;  /**< [  1:  1](R/W) When set, enable NXM events for L2C read operations. INTERNAL: Default is disabled as L2C
+        uint64_t l2c_nxm_rd            : 1;  /**< [  1:  1](R/W) When set, enable NXM events for L2C read operations.
+                                                                 Internal:
+                                                                 Default is disabled as L2C
                                                                  NXM read operations are possible and expected during normal operation. */
         uint64_t l2c_nxm_wr            : 1;  /**< [  0:  0](R/W) When set, enable NXM events for L2C write operations. */
 #else /* Word 0 - Little Endian */
         uint64_t l2c_nxm_wr            : 1;  /**< [  0:  0](R/W) When set, enable NXM events for L2C write operations. */
-        uint64_t l2c_nxm_rd            : 1;  /**< [  1:  1](R/W) When set, enable NXM events for L2C read operations. INTERNAL: Default is disabled as L2C
+        uint64_t l2c_nxm_rd            : 1;  /**< [  1:  1](R/W) When set, enable NXM events for L2C read operations.
+                                                                 Internal:
+                                                                 Default is disabled as L2C
                                                                  NXM read operations are possible and expected during normal operation. */
-        uint64_t dlc_nxm_rd            : 1;  /**< [  2:  2](R/W) When set, enable NXM events for HFA read operations. INTERNAL: Default is disabled, but
+        uint64_t dlc_nxm_rd            : 1;  /**< [  2:  2](R/W) When set, enable NXM events for HFA read operations.
+                                                                 Internal:
+                                                                 Default is disabled, but
                                                                  could be useful for debug of DLC/DFA accesses. */
-        uint64_t dlcram_cor_dis        : 1;  /**< [  3:  3](R/W) Reserved. INTERNAL: DLC RAM correction disable control. */
-        uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved. INTERNAL: DLC RAM flip syndrome control bits. */
+        uint64_t dlcram_cor_dis        : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM correction disable control. */
+        uint64_t dlcram_flip_synd      : 2;  /**< [  5:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 DLC RAM flip syndrome control bits. */
         uint64_t drive_ena_fprch       : 1;  /**< [  6:  6](R/W) Drive DQX starting one cycle earlier than normal during write operations. */
         uint64_t drive_ena_bprch       : 1;  /**< [  7:  7](R/W) Drive DQx for one cycle longer than normal during write operations. */
         uint64_t ref_int_lsbs          : 9;  /**< [ 16:  8](R/W) Refresh-interval value least-significant bits. The default is 0x0.
@@ -3878,7 +4086,7 @@ typedef union
                                                                  To enable the parity checking in RCD, set this bit first BEFORE issuing the RCW write RC0E
                                                                  DA0 = 1. */
         uint64_t dimm0_cid             : 2;  /**< [ 50: 49](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  DIMM0 configuration bits that represent the number of Chip
                                                                  ID of the DRAM. This value is use for decoding address
                                                                  as well as routing Chip IDs to the appropriate output
@@ -3888,7 +4096,7 @@ typedef union
                                                                  0x2 = 2 Chip IDs (4H 3DS).
                                                                  0x3 = 3 Chip IDs (8H 3DS). */
         uint64_t dimm1_cid             : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  DIMM1 configuration bits that represent the number of Chip
                                                                  ID of the DRAM. This value is use for decoding address
                                                                  as well as routing Chip IDs to the appropriate output
@@ -3932,8 +4140,8 @@ typedef union
                                                                  allow refresh sequence to start when LMC()_REF_STATUS[REF_COUNT] has
                                                                  reached the maximum value of 0x7. */
         uint64_t bc4_dqs_ena           : 1;  /**< [ 60: 60](R/W) Reserved.
-                                                                 INTERNAL:
-                                                                   For diagnostic use only.
+                                                                 Internal:
+                                                                 For diagnostic use only.
                                                                    0 = LMC produces the full bursts of DQS transitions,
                                                                    even for BC4 Write ops.
                                                                    1 = LMC produces only 3 cycles of DQS transitions
@@ -4007,11 +4215,19 @@ typedef union
         uint64_t macram_scrub          : 1;  /**< [  3:  3](WO) When set, the Maximum Activate Count memory will be scrubbed to all zero values. This
                                                                  should be done before enabling TRR mode by setting LMC()_EXT_CONFIG2[TRR_ON].
                                                                  This is a one-shot operation; it automatically returns to 0 after a write to 1. */
-        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved. INTERNAL: MAC RAM flip syndrome control bits. */
-        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved. INTERNAL: MAC RAM correction disable control. */
+        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM flip syndrome control bits. */
+        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM correction disable control. */
 #else /* Word 0 - Little Endian */
-        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved. INTERNAL: MAC RAM correction disable control. */
-        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved. INTERNAL: MAC RAM flip syndrome control bits. */
+        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM correction disable control. */
+        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM flip syndrome control bits. */
         uint64_t macram_scrub          : 1;  /**< [  3:  3](WO) When set, the Maximum Activate Count memory will be scrubbed to all zero values. This
                                                                  should be done before enabling TRR mode by setting LMC()_EXT_CONFIG2[TRR_ON].
                                                                  This is a one-shot operation; it automatically returns to 0 after a write to 1. */
@@ -4050,13 +4266,21 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+        uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R1]. */
-        uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+        uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R0]. */
-        uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+        uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D0_R1]. */
-        uint64_t delay_unload_r0       : 1;  /**< [ 17: 17](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+        uint64_t delay_unload_r0       : 1;  /**< [ 17: 17](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D0_R0]. */
         uint64_t early_dqx2            : 1;  /**< [ 16: 16](R/W) Similar to LMC()_CONFIG[EARLY_DQX]. This field provides an additional setting to send DQx
                                                                  signals one more CK cycle earlier on top of LMC()_CONFIG[EARLY_DQX]. */
@@ -4102,11 +4326,19 @@ typedef union
         uint64_t macram_scrub          : 1;  /**< [  3:  3](WO) When set, the Maximum Activate Count memory will be scrubbed to all zero values. This
                                                                  should be done before enabling TRR mode by setting LMC()_EXT_CONFIG2[TRR_ON].
                                                                  This is a one-shot operation; it automatically returns to 0 after a write to 1. */
-        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved. INTERNAL: MAC RAM flip syndrome control bits. */
-        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved. INTERNAL: MAC RAM correction disable control. */
+        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM flip syndrome control bits. */
+        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM correction disable control. */
 #else /* Word 0 - Little Endian */
-        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved. INTERNAL: MAC RAM correction disable control. */
-        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved. INTERNAL: MAC RAM flip syndrome control bits. */
+        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM correction disable control. */
+        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM flip syndrome control bits. */
         uint64_t macram_scrub          : 1;  /**< [  3:  3](WO) When set, the Maximum Activate Count memory will be scrubbed to all zero values. This
                                                                  should be done before enabling TRR mode by setting LMC()_EXT_CONFIG2[TRR_ON].
                                                                  This is a one-shot operation; it automatically returns to 0 after a write to 1. */
@@ -4151,13 +4383,21 @@ typedef union
                                                                  0xF: Reserved. */
         uint64_t early_dqx2            : 1;  /**< [ 16: 16](R/W) Similar to LMC()_CONFIG[EARLY_DQX]. This field provides an additional setting to send DQx
                                                                  signals one more CK cycle earlier on top of LMC()_CONFIG[EARLY_DQX]. */
-        uint64_t delay_unload_r0       : 1;  /**< [ 17: 17](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+        uint64_t delay_unload_r0       : 1;  /**< [ 17: 17](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D0_R0]. */
-        uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+        uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D0_R1]. */
-        uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+        uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R0]. */
-        uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+        uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Reserved, MBZ.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R1]. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
@@ -4168,25 +4408,25 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
         uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Reserved, MBZ.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R1]. */
         uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](R/W) Reserved, MBZ.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R0]. */
         uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](R/W) Reserved, MBZ.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D0_R1]. */
         uint64_t delay_unload_r0       : 1;  /**< [ 17: 17](R/W) Reserved, MBZ.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
@@ -4239,11 +4479,19 @@ typedef union
         uint64_t macram_scrub          : 1;  /**< [  3:  3](WO) When set, the Maximum Activate Count memory will be scrubbed to all zero values. This
                                                                  should be done before enabling TRR mode by setting LMC()_EXT_CONFIG2[TRR_ON].
                                                                  This is a one-shot operation; it automatically returns to 0 after a write to 1. */
-        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved. INTERNAL: MAC RAM flip syndrome control bits. */
-        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved. INTERNAL: MAC RAM correction disable control. */
+        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM flip syndrome control bits. */
+        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM correction disable control. */
 #else /* Word 0 - Little Endian */
-        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved. INTERNAL: MAC RAM correction disable control. */
-        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved. INTERNAL: MAC RAM flip syndrome control bits. */
+        uint64_t macram_cor_dis        : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM correction disable control. */
+        uint64_t macram_flip_synd      : 2;  /**< [  2:  1](R/W) Reserved.
+                                                                 Internal:
+                                                                 MAC RAM flip syndrome control bits. */
         uint64_t macram_scrub          : 1;  /**< [  3:  3](WO) When set, the Maximum Activate Count memory will be scrubbed to all zero values. This
                                                                  should be done before enabling TRR mode by setting LMC()_EXT_CONFIG2[TRR_ON].
                                                                  This is a one-shot operation; it automatically returns to 0 after a write to 1. */
@@ -4293,25 +4541,25 @@ typedef union
                                                                  Similar to LMC()_CONFIG[EARLY_DQX]. This field provides an additional setting to send DQx
                                                                  signals one more CK cycle earlier on top of LMC()_CONFIG[EARLY_DQX]. */
         uint64_t delay_unload_r0       : 1;  /**< [ 17: 17](R/W) Reserved, MBZ.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D0_R0]. */
         uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](R/W) Reserved, MBZ.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D0_R1]. */
         uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](R/W) Reserved, MBZ.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R0]. */
         uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Reserved, MBZ.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
@@ -4365,7 +4613,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_43_63        : 21;
         uint64_t fcid                  : 3;  /**< [ 42: 40](RO/H) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
                                                                  either
                                                                  LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is non-zero). Returns a value
@@ -4389,7 +4637,7 @@ typedef union
         uint64_t fdimm                 : 1;  /**< [ 37: 37](RO/H) Failing DIMM number. */
         uint64_t fill_order            : 2;  /**< [ 39: 38](RO/H) Fill order for failing transaction. */
         uint64_t fcid                  : 3;  /**< [ 42: 40](RO/H) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
                                                                  either
                                                                  LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is non-zero). Returns a value
@@ -4684,7 +4932,8 @@ static inline uint64_t BDK_LMCX_INT(unsigned long a)
  *
  * INTERNAL: LMC Legacy Interrupt Enable Register
  *
- * INTERNAL: Deprecated and unused CSR.
+ * Internal:
+ * Deprecated and unused CSR.
  */
 typedef union
 {
@@ -5065,13 +5314,15 @@ typedef union
         uint64_t reserved_28_63        : 36;
         uint64_t wrp_ext               : 1;  /**< [ 27: 27](R/W) A 1-bit extension to the WRP register. */
         uint64_t cl_ext                : 1;  /**< [ 26: 26](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the proposed CAS Latency spec change. The new
+                                                                 Internal:
+                                                                 The extended bit for the proposed CAS Latency spec change. The new
                                                                  CAS Latency in DDR4 DRAM is defined in MR0(A12,A6,A5,A4,A2). This bit sets
                                                                  the A12 bit.
 
                                                                  See LMC()_MODEREG_PARAMS0[CL]. */
         uint64_t al_ext                : 1;  /**< [ 25: 25](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the new Additive latency settings for DDR4 3DS.
+                                                                 Internal:
+                                                                 The extended bit for the new Additive latency settings for DDR4 3DS.
                                                                  Together with LMC()_MODEREG_PARAMS0[AL], this covers additive latency settings
                                                                  of up to CL-6.
 
@@ -5195,7 +5446,8 @@ typedef union
                                                                  LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK,INIT_STATUS] and
                                                                  LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
         uint64_t al                    : 2;  /**< [  8:  7](R/W) Reserved; must be zero.
-                                                                 INTERNAL: Additive latency:
+                                                                 Internal:
+                                                                 Additive latency:
                                                                  0x0: 0.
                                                                  0x1: CL-1.
                                                                  0x2: CL - 2.
@@ -5310,7 +5562,8 @@ typedef union
                                                                  operation. In DLL-off mode, CL/CWL must be programmed equal to 6/6, respectively, as per
                                                                  the JEDEC DDR3 specifications. */
         uint64_t al                    : 2;  /**< [  8:  7](R/W) Reserved; must be zero.
-                                                                 INTERNAL: Additive latency:
+                                                                 Internal:
+                                                                 Additive latency:
                                                                  0x0: 0.
                                                                  0x1: CL-1.
                                                                  0x2: CL - 2.
@@ -5439,7 +5692,8 @@ typedef union
                                                                  the MR0[PPD] value in all the DDR3/DDR4 parts attached to all ranks during normal
                                                                  operation. */
         uint64_t al_ext                : 1;  /**< [ 25: 25](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the new Additive latency settings for DDR4 3DS.
+                                                                 Internal:
+                                                                 The extended bit for the new Additive latency settings for DDR4 3DS.
                                                                  Together with LMC()_MODEREG_PARAMS0[AL], this covers additive latency settings
                                                                  of up to CL-6.
 
@@ -5448,7 +5702,8 @@ typedef union
 
                                                                  See LMC()_MODEREG_PARAMS0[AL]. */
         uint64_t cl_ext                : 1;  /**< [ 26: 26](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the proposed CAS Latency spec change. The new
+                                                                 Internal:
+                                                                 The extended bit for the proposed CAS Latency spec change. The new
                                                                  CAS Latency in DDR4 DRAM is defined in MR0(A12,A6,A5,A4,A2). This bit sets
                                                                  the A12 bit.
 
@@ -5463,13 +5718,15 @@ typedef union
         uint64_t reserved_28_63        : 36;
         uint64_t wrp_ext               : 1;  /**< [ 27: 27](RO) Reserved. */
         uint64_t cl_ext                : 1;  /**< [ 26: 26](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the proposed CAS Latency spec change. The new
+                                                                 Internal:
+                                                                 The extended bit for the proposed CAS Latency spec change. The new
                                                                  CAS Latency in DDR4 DRAM is defined in MR0(A12,A6,A5,A4,A2). This bit sets
                                                                  the A12 bit.
 
                                                                  See LMC()_MODEREG_PARAMS0[CL]. */
         uint64_t al_ext                : 1;  /**< [ 25: 25](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the new Additive latency settings for DDR4 3DS.
+                                                                 Internal:
+                                                                 The extended bit for the new Additive latency settings for DDR4 3DS.
                                                                  Together with LMC()_MODEREG_PARAMS0[AL], this covers additive latency settings
                                                                  of up to CL-6.
 
@@ -5593,7 +5850,8 @@ typedef union
                                                                  LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK,INIT_STATUS] and
                                                                  LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
         uint64_t al                    : 2;  /**< [  8:  7](R/W) Reserved; must be zero.
-                                                                 INTERNAL: Additive latency:
+                                                                 Internal:
+                                                                 Additive latency:
                                                                  0x0: 0.
                                                                  0x1: CL-1.
                                                                  0x2: CL - 2.
@@ -5708,7 +5966,8 @@ typedef union
                                                                  operation. In DLL-off mode, CL/CWL must be programmed equal to 6/6, respectively, as per
                                                                  the JEDEC DDR3 specifications. */
         uint64_t al                    : 2;  /**< [  8:  7](R/W) Reserved; must be zero.
-                                                                 INTERNAL: Additive latency:
+                                                                 Internal:
+                                                                 Additive latency:
                                                                  0x0: 0.
                                                                  0x1: CL-1.
                                                                  0x2: CL - 2.
@@ -5837,7 +6096,8 @@ typedef union
                                                                  the MR0[PPD] value in all the DDR3/DDR4 parts attached to all ranks during normal
                                                                  operation. */
         uint64_t al_ext                : 1;  /**< [ 25: 25](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the new Additive latency settings for DDR4 3DS.
+                                                                 Internal:
+                                                                 The extended bit for the new Additive latency settings for DDR4 3DS.
                                                                  Together with LMC()_MODEREG_PARAMS0[AL], this covers additive latency settings
                                                                  of up to CL-6.
 
@@ -5846,7 +6106,8 @@ typedef union
 
                                                                  See LMC()_MODEREG_PARAMS0[AL]. */
         uint64_t cl_ext                : 1;  /**< [ 26: 26](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the proposed CAS Latency spec change. The new
+                                                                 Internal:
+                                                                 The extended bit for the proposed CAS Latency spec change. The new
                                                                  CAS Latency in DDR4 DRAM is defined in MR0(A12,A6,A5,A4,A2). This bit sets
                                                                  the A12 bit.
 
@@ -5865,13 +6126,15 @@ typedef union
 
                                                                  A 1-bit extension to the WRP register. */
         uint64_t cl_ext                : 1;  /**< [ 26: 26](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the proposed CAS Latency spec change. The new
+                                                                 Internal:
+                                                                 The extended bit for the proposed CAS Latency spec change. The new
                                                                  CAS Latency in DDR4 DRAM is defined in MR0(A12,A6,A5,A4,A2). This bit sets
                                                                  the A12 bit.
 
                                                                  See LMC()_MODEREG_PARAMS0[CL]. */
         uint64_t al_ext                : 1;  /**< [ 25: 25](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the new Additive latency settings for DDR4 3DS.
+                                                                 Internal:
+                                                                 The extended bit for the new Additive latency settings for DDR4 3DS.
                                                                  Together with LMC()_MODEREG_PARAMS0[AL], this covers additive latency settings
                                                                  of up to CL-6.
 
@@ -5995,7 +6258,8 @@ typedef union
                                                                  LMC()_SEQ_CTL[SEQ_SEL,INIT_START] and LMC()_CONFIG[RANKMASK,INIT_STATUS] and
                                                                  LMC()_RESET_CTL[DDR3PWARM, DDR3PSOFT]. */
         uint64_t al                    : 2;  /**< [  8:  7](R/W) Reserved; must be zero.
-                                                                 INTERNAL: Additive latency:
+                                                                 Internal:
+                                                                 Additive latency:
                                                                  0x0: 0.
                                                                  0x1: CL-1.
                                                                  0x2: CL - 2.
@@ -6110,7 +6374,8 @@ typedef union
                                                                  operation. In DLL-off mode, CL/CWL must be programmed equal to 6/6, respectively, as per
                                                                  the JEDEC DDR3 specifications. */
         uint64_t al                    : 2;  /**< [  8:  7](R/W) Reserved; must be zero.
-                                                                 INTERNAL: Additive latency:
+                                                                 Internal:
+                                                                 Additive latency:
                                                                  0x0: 0.
                                                                  0x1: CL-1.
                                                                  0x2: CL - 2.
@@ -6239,7 +6504,8 @@ typedef union
                                                                  the MR0[PPD] value in all the DDR3/DDR4 parts attached to all ranks during normal
                                                                  operation. */
         uint64_t al_ext                : 1;  /**< [ 25: 25](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the new Additive latency settings for DDR4 3DS.
+                                                                 Internal:
+                                                                 The extended bit for the new Additive latency settings for DDR4 3DS.
                                                                  Together with LMC()_MODEREG_PARAMS0[AL], this covers additive latency settings
                                                                  of up to CL-6.
 
@@ -6248,7 +6514,8 @@ typedef union
 
                                                                  See LMC()_MODEREG_PARAMS0[AL]. */
         uint64_t cl_ext                : 1;  /**< [ 26: 26](R/W) Reserved; must be zero.
-                                                                 INTERNAL: The extended bit for the proposed CAS Latency spec change. The new
+                                                                 Internal:
+                                                                 The extended bit for the proposed CAS Latency spec change. The new
                                                                  CAS Latency in DDR4 DRAM is defined in MR0(A12,A6,A5,A4,A2). This bit sets
                                                                  the A12 bit.
 
@@ -6298,7 +6565,7 @@ typedef union
         uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](R/W) RTT_WR rank 1 extension bit for DDR4. */
         uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](R/W) RTT_WR rank 0 extension bit for DDR4. */
         uint64_t db_output_impedance   : 3;  /**< [ 50: 48](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., LMC()_CONFIG[LRDIMM_ENA] = 1, LMC()_SEQ_CTL[SEQ_SEL] = 0x6.
@@ -6572,7 +6839,7 @@ typedef union
                                                                  (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also
                                                                  allowed. */
         uint64_t db_output_impedance   : 3;  /**< [ 50: 48](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., LMC()_CONFIG[LRDIMM_ENA] = 1, LMC()_SEQ_CTL[SEQ_SEL] = 0x6.
@@ -6596,7 +6863,7 @@ typedef union
         uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](RO) Reserved. */
         uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](RO) Reserved. */
         uint64_t db_output_impedance   : 3;  /**< [ 50: 48](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., LMC()_CONFIG[LRDIMM_ENA] = 1, LMC()_SEQ_CTL[SEQ_SEL] = 0x6.
@@ -6870,7 +7137,7 @@ typedef union
                                                                  (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also
                                                                  allowed. */
         uint64_t db_output_impedance   : 3;  /**< [ 50: 48](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., LMC()_CONFIG[LRDIMM_ENA] = 1, LMC()_SEQ_CTL[SEQ_SEL] = 0x6.
@@ -6904,7 +7171,7 @@ typedef union
 
                                                                  RTT_WR rank 0 extension bit for DDR4. */
         uint64_t db_output_impedance   : 3;  /**< [ 50: 48](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., LMC()_CONFIG[LRDIMM_ENA] = 1, LMC()_SEQ_CTL[SEQ_SEL] = 0x6.
@@ -7178,7 +7445,7 @@ typedef union
                                                                  (RZQ/6) are allowed. Otherwise, values MR1[RTT_NOM] = 4 (RZQ/12) and 5 (RZQ/8) are also
                                                                  allowed. */
         uint64_t db_output_impedance   : 3;  /**< [ 50: 48](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., LMC()_CONFIG[LRDIMM_ENA] = 1, LMC()_SEQ_CTL[SEQ_SEL] = 0x6.
@@ -7301,11 +7568,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_39_63        : 25;
         uint64_t xrank_add_tccd_l      : 3;  /**< [ 38: 36](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Add additional cycles on top of the 4 cycles applied to tCCD_L
                                                                  when crossing logical rank (to the same bank group) of a 3DS DRAM. */
         uint64_t xrank_add_tccd_s      : 3;  /**< [ 35: 33](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Add additional cycles on top of the 4 cycles applied to tCCD_S
                                                                  when crossing logical rank (to a different bank group) of a 3DS DRAM. */
         uint64_t mpr_fmt               : 2;  /**< [ 32: 31](R/W) MPR format. */
@@ -7366,11 +7633,11 @@ typedef union
         uint64_t wr_cmd_lat            : 2;  /**< [ 30: 29](R/W) Write command latency when CRC and DM are both enabled. */
         uint64_t mpr_fmt               : 2;  /**< [ 32: 31](R/W) MPR format. */
         uint64_t xrank_add_tccd_s      : 3;  /**< [ 35: 33](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Add additional cycles on top of the 4 cycles applied to tCCD_S
                                                                  when crossing logical rank (to a different bank group) of a 3DS DRAM. */
         uint64_t xrank_add_tccd_l      : 3;  /**< [ 38: 36](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Add additional cycles on top of the 4 cycles applied to tCCD_L
                                                                  when crossing logical rank (to the same bank group) of a 3DS DRAM. */
         uint64_t reserved_39_63        : 25;
@@ -7592,12 +7859,14 @@ typedef union
         uint64_t pba_func_space        : 3;  /**< [ 59: 57](R/W) Set the Function Space Selector during PBA mode of the MRW
                                                                  sequence. */
         uint64_t mr_wr_bg1             : 1;  /**< [ 56: 56](R/W) BG1 part of the address select for MRS in DDR4 mode. */
-        uint64_t mpr_sample_dq_enable  : 1;  /**< [ 55: 55](R/W) Reserved. INTERNAL: No longer used due to logic change from
+        uint64_t mpr_sample_dq_enable  : 1;  /**< [ 55: 55](R/W) Reserved.
+                                                                 Internal:
+                                                                 No longer used due to logic change from
                                                                  initial design. */
         uint64_t pda_early_dqx         : 1;  /**< [ 54: 54](R/W) When set, it enables lmc_dqx early for PDA/PBA operation. */
         uint64_t mr_wr_pba_enable      : 1;  /**< [ 53: 53](R/W) Reserved.
-
-                                                                 INTERNAL: Per Buffer Addressability write enable. When set, MRW operations use PBA,
+                                                                 Internal:
+                                                                 Per Buffer Addressability write enable. When set, MRW operations use PBA,
                                                                  enabled by
                                                                  MR_WR_PDA_MASK per buffer.
                                                                  Only available for DDR4 LRDIMM. */
@@ -7605,8 +7874,12 @@ typedef union
                                                                  fields that would be used during initialization, rather that using the value in the
                                                                  LMC()_MR_MPR_CTL[MR_WR_ADDR]. Useful to rewrite the same value or to change single
                                                                  bits without having to compute a whole new value for the MR. */
-        uint64_t mpr_whole_byte_enable : 1;  /**< [ 51: 51](R/W) Reserved. INTERNAL: Select a whole byte of DRAM data to read when whole-byte mode enabled. */
-        uint64_t mpr_byte_select       : 4;  /**< [ 50: 47](R/W) Reserved. INTERNAL: Select a whole byte of DRAM data to read when whole-byte mode enabled. */
+        uint64_t mpr_whole_byte_enable : 1;  /**< [ 51: 51](R/W) Reserved.
+                                                                 Internal:
+                                                                 Select a whole byte of DRAM data to read when whole-byte mode enabled. */
+        uint64_t mpr_byte_select       : 4;  /**< [ 50: 47](R/W) Reserved.
+                                                                 Internal:
+                                                                 Select a whole byte of DRAM data to read when whole-byte mode enabled. */
         uint64_t mpr_bit_select        : 2;  /**< [ 46: 45](R/W) Select which of four bits to read for each nibble of DRAM data. Typically all four bits
                                                                  from a *4 device, or all eight bits from a *8 device, or all 16 bits from a *16 device
                                                                  carry the same data, but this field allows selection of which device bit will be used to
@@ -7648,20 +7921,26 @@ typedef union
                                                                  from a *4 device, or all eight bits from a *8 device, or all 16 bits from a *16 device
                                                                  carry the same data, but this field allows selection of which device bit will be used to
                                                                  read the MPR data. */
-        uint64_t mpr_byte_select       : 4;  /**< [ 50: 47](R/W) Reserved. INTERNAL: Select a whole byte of DRAM data to read when whole-byte mode enabled. */
-        uint64_t mpr_whole_byte_enable : 1;  /**< [ 51: 51](R/W) Reserved. INTERNAL: Select a whole byte of DRAM data to read when whole-byte mode enabled. */
+        uint64_t mpr_byte_select       : 4;  /**< [ 50: 47](R/W) Reserved.
+                                                                 Internal:
+                                                                 Select a whole byte of DRAM data to read when whole-byte mode enabled. */
+        uint64_t mpr_whole_byte_enable : 1;  /**< [ 51: 51](R/W) Reserved.
+                                                                 Internal:
+                                                                 Select a whole byte of DRAM data to read when whole-byte mode enabled. */
         uint64_t mr_wr_use_default_value : 1;/**< [ 52: 52](R/W) When set, write the value to the MR that is computed from the value set in various CSR
                                                                  fields that would be used during initialization, rather that using the value in the
                                                                  LMC()_MR_MPR_CTL[MR_WR_ADDR]. Useful to rewrite the same value or to change single
                                                                  bits without having to compute a whole new value for the MR. */
         uint64_t mr_wr_pba_enable      : 1;  /**< [ 53: 53](R/W) Reserved.
-
-                                                                 INTERNAL: Per Buffer Addressability write enable. When set, MRW operations use PBA,
+                                                                 Internal:
+                                                                 Per Buffer Addressability write enable. When set, MRW operations use PBA,
                                                                  enabled by
                                                                  MR_WR_PDA_MASK per buffer.
                                                                  Only available for DDR4 LRDIMM. */
         uint64_t pda_early_dqx         : 1;  /**< [ 54: 54](R/W) When set, it enables lmc_dqx early for PDA/PBA operation. */
-        uint64_t mpr_sample_dq_enable  : 1;  /**< [ 55: 55](R/W) Reserved. INTERNAL: No longer used due to logic change from
+        uint64_t mpr_sample_dq_enable  : 1;  /**< [ 55: 55](R/W) Reserved.
+                                                                 Internal:
+                                                                 No longer used due to logic change from
                                                                  initial design. */
         uint64_t mr_wr_bg1             : 1;  /**< [ 56: 56](R/W) BG1 part of the address select for MRS in DDR4 mode. */
         uint64_t pba_func_space        : 3;  /**< [ 59: 57](R/W) Set the Function Space Selector during PBA mode of the MRW
@@ -8002,14 +8281,14 @@ typedef union
                                                                  If DIMM1 is dual-sided, this should be set to
                                                                  NXM[MEM_MSB_D1_R0]. If CONFIG[RANK_ENA] is cleared, this field is ignored. */
         uint64_t mem_msb_d1_r0         : 4;  /**< [ 19: 16](R/W) Maximum row MSB for DIMM1, RANK0.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  if DIMM1 contains 3DS DRAMs, this would point to
                                                                  the logical rank's most significant bit. */
         uint64_t mem_msb_d0_r1         : 4;  /**< [ 15: 12](R/W) Maximum row MSB for DIMM0, RANK1/DIMM0 in single ranked.
                                                                  If DIMM0 is dual-sided, this should be set to
                                                                  NXM[MEM_MSB_D0_R0]. If CONFIG[RANK_ENA] is cleared, this field is ignored. */
         uint64_t mem_msb_d0_r0         : 4;  /**< [ 11:  8](R/W) Maximum row MSB for DIMM0, RANK0.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  If DIMM0 contains 3DS DRAMs, this would point to
                                                                  the logical rank's most significant bit. */
         uint64_t reserved_4_7          : 4;
@@ -8030,14 +8309,14 @@ typedef union
                                                                  [NXM_WRITE_EN]=1. */
         uint64_t reserved_4_7          : 4;
         uint64_t mem_msb_d0_r0         : 4;  /**< [ 11:  8](R/W) Maximum row MSB for DIMM0, RANK0.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  If DIMM0 contains 3DS DRAMs, this would point to
                                                                  the logical rank's most significant bit. */
         uint64_t mem_msb_d0_r1         : 4;  /**< [ 15: 12](R/W) Maximum row MSB for DIMM0, RANK1/DIMM0 in single ranked.
                                                                  If DIMM0 is dual-sided, this should be set to
                                                                  NXM[MEM_MSB_D0_R0]. If CONFIG[RANK_ENA] is cleared, this field is ignored. */
         uint64_t mem_msb_d1_r0         : 4;  /**< [ 19: 16](R/W) Maximum row MSB for DIMM1, RANK0.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  if DIMM1 contains 3DS DRAMs, this would point to
                                                                  the logical rank's most significant bit. */
         uint64_t mem_msb_d1_r1         : 4;  /**< [ 23: 20](R/W) Maximum row MSB for DIMM1, RANK1/DIMM1 in single ranked.
@@ -8184,12 +8463,16 @@ typedef union
         uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](RO) Reserved. */
         uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](RO) Reserved. */
         uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](RO) Reserved. */
-        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ data rate loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
                                                                  backed out through odd DQ at the same rate.
                                                                  When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
                                                                  DQ against each DQS edge seperately. This is done at the clock rate. */
-        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ shallow loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
                                                                  without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
                                                                  LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
@@ -8201,7 +8484,7 @@ typedef union
                                                                  on
                                                                  (MODEREG_PARAMS3[WR_DBI]=1). */
         uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C1 is not routed to any output pin.
                                                                  0x1 = C1 is routed to CS3.
                                                                  0x2 = C1 is routed to A17 address pin.
@@ -8209,35 +8492,53 @@ typedef union
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
         uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C0 is not routed to any output pin.
                                                                  0x1 = C0 is routed to CS2.
                                                                  0x2 = C0 is routed to TEN output pin.
                                                                  0x3 = C0 is not routed to any output pin.
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
-        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved. INTERNAL: Write to 1 to reset the PHY, one-shot operation, will automatically
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
                                                                  clear to value of 0. */
-        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved. INTERNAL: Indicates completion of a read operation, will clear to 0 when a read
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
                                                                  operation is started, then set to 1 when operation is complete. */
-        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved. INTERNAL: Data from a deskew read operation. Only valid when the
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
                                                                  LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
-        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved. INTERNAL: Write 1 to start deskew data read operation, will automatically clear
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
                                                                  to 0. Write to 1 will also clear the complete bit. */
-        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
                                                                  0x0 = Deskew read clock toggles every 4 DCLKs.
                                                                  0x1 = Deskew read clock toggles every 8 DCLKs.
                                                                  0x2 = Deskew read clock toggles every 12 DCLKs.
                                                                  0x3 = Deskew read clock toggles every 16 DCLKs. */
-        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
-        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug, select number of bits per byte lane.
                                                                  0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
                                                                  1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
                                                                  have to be set to 1. */
-        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
-        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug bit select for dsk read operation.
                                                                  0x0 = DQ0.
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
@@ -8250,26 +8551,47 @@ typedef union
                                                                  0x9 = DQ7. */
         uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
         uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
-        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
-        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: PHY DAC on. */
-        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
                                                                  when loopback is enabled. */
-        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: PHY loopback enable. */
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
         uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
                                                                  training sequence is in the idle state. */
         uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
         uint64_t phy_pwr_save_disable  : 1;  /**< [ 16: 16](R/W) DDR PHY power save disable. */
         uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
-        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Set to force read_enable to PHY active all the time.
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
                                                                  This bit MUST not be set when LMC initialization is in progress. Internal VREF and
                                                                  Deskew training requires normal operation on the dqx/s read_enable signals. */
-        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero. INTERNAL: Low Voltage Mode (1.35V.) */
-        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
         uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
-                                                                 INTERNAL: external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
                                                                  bits
                                                                  are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
                                                                  LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
@@ -8277,7 +8599,9 @@ typedef union
                                                                  LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
                                                                  flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
                                                                  loop-backed out after being flop'd by incoming DQS. */
-        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero. INTERNAL: Loopback pos mode. This works in conjunction with
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
                                                                  LMC()_PHY_CTL[LOOPBACK] mentioned above. */
         uint64_t ts_stagger            : 1;  /**< [  0:  0](R/W) TS stagger mode. This mode configures output drivers with two-stage drive strength to
                                                                  avoid undershoot issues on the bus when strong drivers are suddenly turned on. When this
@@ -8290,10 +8614,13 @@ typedef union
                                                                  mode is asserted, CNXXXX will configure output drivers to be weak drivers (60ohm output
                                                                  impedance) at the first CK cycle, and change drivers to the designated drive strengths
                                                                  specified in LMC()_COMP_CTL2[CMD_CTL/CK_CTL/DQX_CTL] starting at the following cycle. */
-        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero. INTERNAL: Loopback pos mode. This works in conjunction with
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
                                                                  LMC()_PHY_CTL[LOOPBACK] mentioned above. */
         uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
-                                                                 INTERNAL: external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
                                                                  bits
                                                                  are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
                                                                  LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
@@ -8301,12 +8628,24 @@ typedef union
                                                                  LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
                                                                  flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
                                                                  loop-backed out after being flop'd by incoming DQS. */
-        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero. INTERNAL: Low Voltage Mode (1.35V.) */
-        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Set to force read_enable to PHY active all the time.
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
                                                                  This bit MUST not be set when LMC initialization is in progress. Internal VREF and
                                                                  Deskew training requires normal operation on the dqx/s read_enable signals. */
         uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
@@ -8314,14 +8653,24 @@ typedef union
         uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
         uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
                                                                  training sequence is in the idle state. */
-        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: PHY loopback enable. */
-        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
                                                                  when loopback is enabled. */
-        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: PHY DAC on. */
-        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
         uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
         uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
-        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug bit select for dsk read operation.
                                                                  0x0 = DQ0.
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
@@ -8332,29 +8681,45 @@ typedef union
                                                                  0x7 = DQ5.
                                                                  0x8 = DQ6.
                                                                  0x9 = DQ7. */
-        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
-        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug, select number of bits per byte lane.
                                                                  0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
                                                                  1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
                                                                  have to be set to 1. */
-        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
-        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
                                                                  0x0 = Deskew read clock toggles every 4 DCLKs.
                                                                  0x1 = Deskew read clock toggles every 8 DCLKs.
                                                                  0x2 = Deskew read clock toggles every 12 DCLKs.
                                                                  0x3 = Deskew read clock toggles every 16 DCLKs. */
-        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved. INTERNAL: Write 1 to start deskew data read operation, will automatically clear
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
                                                                  to 0. Write to 1 will also clear the complete bit. */
-        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved. INTERNAL: Data from a deskew read operation. Only valid when the
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
                                                                  LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
-        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved. INTERNAL: Indicates completion of a read operation, will clear to 0 when a read
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
                                                                  operation is started, then set to 1 when operation is complete. */
-        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved. INTERNAL: Write to 1 to reset the PHY, one-shot operation, will automatically
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
                                                                  clear to value of 0. */
         uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C0 is not routed to any output pin.
                                                                  0x1 = C0 is routed to CS2.
                                                                  0x2 = C0 is routed to TEN output pin.
@@ -8362,7 +8727,7 @@ typedef union
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
         uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C1 is not routed to any output pin.
                                                                  0x1 = C1 is routed to CS3.
                                                                  0x2 = C1 is routed to A17 address pin.
@@ -8376,11 +8741,15 @@ typedef union
                                                                  Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
                                                                  on
                                                                  (MODEREG_PARAMS3[WR_DBI]=1). */
-        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ shallow loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
                                                                  without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
                                                                  LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
-        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ data rate loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
                                                                  backed out through odd DQ at the same rate.
                                                                  When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
@@ -8402,7 +8771,7 @@ typedef union
         uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](RO) Reserved. */
         uint64_t dm_disable            : 1;  /**< [ 55: 55](RO) Reserved. */
         uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C1 is not routed to any output pin.
                                                                  0x1 = C1 is routed to CS3.
                                                                  0x2 = C1 is routed to A17 address pin.
@@ -8410,34 +8779,52 @@ typedef union
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
         uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C0 is not routed to any output pin.
                                                                  0x1 = C0 is routed to CS2.
                                                                  0x2 = C0 is routed to TEN output pin.
                                                                  0x3 = C0 is not routed to any output pin.
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
-        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved. INTERNAL: Write to 1 to reset the PHY, one-shot operation, will automatically
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
                                                                  clear to value of 0. */
-        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved. INTERNAL: Indicates completion of a read operation, will clear to 0 when a read
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
                                                                  operation is started, then set to 1 when operation is complete. */
-        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved. INTERNAL: Data from a deskew read operation. Only valid when the
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
                                                                  LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
-        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved. INTERNAL: Write 1 to start deskew data read operation, will automatically clear
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
                                                                  to 0. Write to 1 will also clear the complete bit. */
-        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
                                                                  0x0 = Deskew read clock toggles every 4 DCLKs.
                                                                  0x1 = Deskew read clock toggles every 8 DCLKs.
                                                                  0x2 = Deskew read clock toggles every 12 DCLKs.
                                                                  0x3 = Deskew read clock toggles every 16 DCLKs. */
-        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
-        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug, select number of bits per byte lane.
                                                                  0 = 8 bits per byte lane, no DBI.
                                                                  1 = 9 bits per byte lane, including DBI. */
-        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
-        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug bit select for dsk read operation.
                                                                  0x0 = DQ0.
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
@@ -8449,26 +8836,47 @@ typedef union
                                                                  0x8 = DQ7. */
         uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
         uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
-        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
-        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: PHY DAC on. */
-        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
                                                                  when loopback is enabled. */
-        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: PHY loopback enable. */
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
         uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
                                                                  training sequence is in the idle state. */
         uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
         uint64_t phy_pwr_save_disable  : 1;  /**< [ 16: 16](R/W) DDR PHY power save disable. */
         uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
-        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Set to force read_enable to PHY active all the time.
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
                                                                  This bit MUST not be set when LMC initialization is in progress. Internal VREF and
                                                                  Deskew training requires normal operation on the dqx/s read_enable signals. */
-        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero. INTERNAL: Low Voltage Mode (1.35V.) */
-        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
         uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
-                                                                 INTERNAL: external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
                                                                  bits
                                                                  are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
                                                                  LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
@@ -8476,7 +8884,9 @@ typedef union
                                                                  LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
                                                                  flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
                                                                  loop-backed out after being flop'd by incoming DQS. */
-        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero. INTERNAL: Loopback pos mode. This works in conjunction with
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
                                                                  LMC()_PHY_CTL[LOOPBACK] mentioned above. */
         uint64_t ts_stagger            : 1;  /**< [  0:  0](R/W) TS stagger mode. This mode configures output drivers with two-stage drive strength to
                                                                  avoid undershoot issues on the bus when strong drivers are suddenly turned on. When this
@@ -8489,10 +8899,13 @@ typedef union
                                                                  mode is asserted, CNXXXX will configure output drivers to be weak drivers (60ohm output
                                                                  impedance) at the first CK cycle, and change drivers to the designated drive strengths
                                                                  specified in LMC()_COMP_CTL2[CMD_CTL/CK_CTL/DQX_CTL] starting at the following cycle. */
-        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero. INTERNAL: Loopback pos mode. This works in conjunction with
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
                                                                  LMC()_PHY_CTL[LOOPBACK] mentioned above. */
         uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
-                                                                 INTERNAL: external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
                                                                  bits
                                                                  are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
                                                                  LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
@@ -8500,12 +8913,24 @@ typedef union
                                                                  LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
                                                                  flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
                                                                  loop-backed out after being flop'd by incoming DQS. */
-        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero. INTERNAL: Low Voltage Mode (1.35V.) */
-        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Set to force read_enable to PHY active all the time.
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
                                                                  This bit MUST not be set when LMC initialization is in progress. Internal VREF and
                                                                  Deskew training requires normal operation on the dqx/s read_enable signals. */
         uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
@@ -8513,14 +8938,24 @@ typedef union
         uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
         uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
                                                                  training sequence is in the idle state. */
-        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: PHY loopback enable. */
-        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
                                                                  when loopback is enabled. */
-        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: PHY DAC on. */
-        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
         uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
         uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
-        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug bit select for dsk read operation.
                                                                  0x0 = DQ0.
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
@@ -8530,28 +8965,44 @@ typedef union
                                                                  0x6 = DQ5.
                                                                  0x7 = DQ6.
                                                                  0x8 = DQ7. */
-        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
-        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug, select number of bits per byte lane.
                                                                  0 = 8 bits per byte lane, no DBI.
                                                                  1 = 9 bits per byte lane, including DBI. */
-        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
-        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
                                                                  0x0 = Deskew read clock toggles every 4 DCLKs.
                                                                  0x1 = Deskew read clock toggles every 8 DCLKs.
                                                                  0x2 = Deskew read clock toggles every 12 DCLKs.
                                                                  0x3 = Deskew read clock toggles every 16 DCLKs. */
-        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved. INTERNAL: Write 1 to start deskew data read operation, will automatically clear
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
                                                                  to 0. Write to 1 will also clear the complete bit. */
-        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved. INTERNAL: Data from a deskew read operation. Only valid when the
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
                                                                  LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
-        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved. INTERNAL: Indicates completion of a read operation, will clear to 0 when a read
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
                                                                  operation is started, then set to 1 when operation is complete. */
-        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved. INTERNAL: Write to 1 to reset the PHY, one-shot operation, will automatically
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
                                                                  clear to value of 0. */
         uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C0 is not routed to any output pin.
                                                                  0x1 = C0 is routed to CS2.
                                                                  0x2 = C0 is routed to TEN output pin.
@@ -8559,7 +9010,7 @@ typedef union
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
         uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C1 is not routed to any output pin.
                                                                  0x1 = C1 is routed to CS3.
                                                                  0x2 = C1 is routed to A17 address pin.
@@ -8579,26 +9030,36 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
-        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set, LMC prevents PHY from loading the deskew shift
                                                                  registers with its internal settings. When Read Deskew sequence is kicked off
                                                                  by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
                                                                  whether or not to load the shift register with PHY's internal settings before
                                                                  the shifting process. */
-        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high, PHY selects all of the preloaded data
                                                                  when configuring the read deskew settings. */
-        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
                                                                  Overwrite sequence to shift out a 10-bits setting for a single DQ.
                                                                  Note that there are a total of 9 bytes and the chain structure are split into two
                                                                  halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
                                                                  ECC,3,2,1,0.
                                                                  Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
                                                                  DQ has 10-bits deskew setting. */
-        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ data rate loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
                                                                  backed out through odd DQ at the same rate.
                                                                  When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
                                                                  DQ against each DQS edge seperately. This is done at the clock rate. */
-        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ shallow loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
                                                                  without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
                                                                  LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
@@ -8610,7 +9071,7 @@ typedef union
                                                                  on
                                                                  (MODEREG_PARAMS3[WR_DBI]=1). */
         uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C1 is not routed to any output pin.
                                                                  0x1 = C1 is routed to CS3.
                                                                  0x2 = C1 is routed to A17 address pin.
@@ -8618,35 +9079,53 @@ typedef union
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
         uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C0 is not routed to any output pin.
                                                                  0x1 = C0 is routed to CS2.
                                                                  0x2 = C0 is routed to TEN output pin.
                                                                  0x3 = C0 is not routed to any output pin.
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
-        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved. INTERNAL: Write to 1 to reset the PHY, one-shot operation, will automatically
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
                                                                  clear to value of 0. */
-        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved. INTERNAL: Indicates completion of a read operation, will clear to 0 when a read
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
                                                                  operation is started, then set to 1 when operation is complete. */
-        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved. INTERNAL: Data from a deskew read operation. Only valid when the
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
                                                                  LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
-        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved. INTERNAL: Write 1 to start deskew data read operation, will automatically clear
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
                                                                  to 0. Write to 1 will also clear the complete bit. */
-        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
                                                                  0x0 = Deskew read clock toggles every 4 DCLKs.
                                                                  0x1 = Deskew read clock toggles every 8 DCLKs.
                                                                  0x2 = Deskew read clock toggles every 12 DCLKs.
                                                                  0x3 = Deskew read clock toggles every 16 DCLKs. */
-        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
-        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug, select number of bits per byte lane.
                                                                  0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
                                                                  1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
                                                                  have to be set to 1. */
-        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
-        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug bit select for dsk read operation.
                                                                  0x0 = DQ0.
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
@@ -8659,26 +9138,47 @@ typedef union
                                                                  0x9 = DQ7. */
         uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
         uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
-        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
-        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: PHY DAC on. */
-        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
                                                                  when loopback is enabled. */
-        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: PHY loopback enable. */
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
         uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
                                                                  training sequence is in the idle state. */
         uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
         uint64_t phy_pwr_save_disable  : 1;  /**< [ 16: 16](R/W) DDR PHY power save disable. */
         uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
-        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Set to force read_enable to PHY active all the time.
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
                                                                  This bit MUST not be set when LMC initialization is in progress. Internal VREF and
                                                                  Deskew training requires normal operation on the dqx/s read_enable signals. */
-        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero. INTERNAL: Low Voltage Mode (1.35V.) */
-        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
         uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
-                                                                 INTERNAL: external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
                                                                  bits
                                                                  are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
                                                                  LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
@@ -8686,7 +9186,9 @@ typedef union
                                                                  LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
                                                                  flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
                                                                  loop-backed out after being flop'd by incoming DQS. */
-        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero. INTERNAL: Loopback pos mode. This works in conjunction with
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
                                                                  LMC()_PHY_CTL[LOOPBACK] mentioned above. */
         uint64_t ts_stagger            : 1;  /**< [  0:  0](R/W) TS stagger mode. This mode configures output drivers with two-stage drive strength to
                                                                  avoid undershoot issues on the bus when strong drivers are suddenly turned on. When this
@@ -8699,10 +9201,13 @@ typedef union
                                                                  mode is asserted, CNXXXX will configure output drivers to be weak drivers (60ohm output
                                                                  impedance) at the first CK cycle, and change drivers to the designated drive strengths
                                                                  specified in LMC()_COMP_CTL2[CMD_CTL/CK_CTL/DQX_CTL] starting at the following cycle. */
-        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero. INTERNAL: Loopback pos mode. This works in conjunction with
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
                                                                  LMC()_PHY_CTL[LOOPBACK] mentioned above. */
         uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
-                                                                 INTERNAL: external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
                                                                  bits
                                                                  are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
                                                                  LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
@@ -8710,12 +9215,24 @@ typedef union
                                                                  LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
                                                                  flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
                                                                  loop-backed out after being flop'd by incoming DQS. */
-        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero. INTERNAL: Low Voltage Mode (1.35V.) */
-        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Set to force read_enable to PHY active all the time.
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
                                                                  This bit MUST not be set when LMC initialization is in progress. Internal VREF and
                                                                  Deskew training requires normal operation on the dqx/s read_enable signals. */
         uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
@@ -8723,14 +9240,24 @@ typedef union
         uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
         uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
                                                                  training sequence is in the idle state. */
-        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: PHY loopback enable. */
-        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
                                                                  when loopback is enabled. */
-        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: PHY DAC on. */
-        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
         uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
         uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
-        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug bit select for dsk read operation.
                                                                  0x0 = DQ0.
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
@@ -8741,29 +9268,45 @@ typedef union
                                                                  0x7 = DQ5.
                                                                  0x8 = DQ6.
                                                                  0x9 = DQ7. */
-        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
-        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug, select number of bits per byte lane.
                                                                  0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
                                                                  1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
                                                                  have to be set to 1. */
-        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
-        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
                                                                  0x0 = Deskew read clock toggles every 4 DCLKs.
                                                                  0x1 = Deskew read clock toggles every 8 DCLKs.
                                                                  0x2 = Deskew read clock toggles every 12 DCLKs.
                                                                  0x3 = Deskew read clock toggles every 16 DCLKs. */
-        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved. INTERNAL: Write 1 to start deskew data read operation, will automatically clear
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
                                                                  to 0. Write to 1 will also clear the complete bit. */
-        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved. INTERNAL: Data from a deskew read operation. Only valid when the
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
                                                                  LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
-        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved. INTERNAL: Indicates completion of a read operation, will clear to 0 when a read
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
                                                                  operation is started, then set to 1 when operation is complete. */
-        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved. INTERNAL: Write to 1 to reset the PHY, one-shot operation, will automatically
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
                                                                  clear to value of 0. */
         uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C0 is not routed to any output pin.
                                                                  0x1 = C0 is routed to CS2.
                                                                  0x2 = C0 is routed to TEN output pin.
@@ -8771,7 +9314,7 @@ typedef union
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
         uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C1 is not routed to any output pin.
                                                                  0x1 = C1 is routed to CS3.
                                                                  0x2 = C1 is routed to A17 address pin.
@@ -8785,25 +9328,35 @@ typedef union
                                                                  Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
                                                                  on
                                                                  (MODEREG_PARAMS3[WR_DBI]=1). */
-        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ shallow loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
                                                                  without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
                                                                  LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
-        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 Internal:
+                                                                 DQ data rate loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
                                                                  backed out through odd DQ at the same rate.
                                                                  When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
                                                                  DQ against each DQS edge seperately. This is done at the clock rate. */
-        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
                                                                  Overwrite sequence to shift out a 10-bits setting for a single DQ.
                                                                  Note that there are a total of 9 bytes and the chain structure are split into two
                                                                  halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
                                                                  ECC,3,2,1,0.
                                                                  Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
                                                                  DQ has 10-bits deskew setting. */
-        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set high, PHY selects all of the preloaded data
                                                                  when configuring the read deskew settings. */
-        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
+                                                                 Internal:
+                                                                 When set, LMC prevents PHY from loading the deskew shift
                                                                  registers with its internal settings. When Read Deskew sequence is kicked off
                                                                  by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
                                                                  whether or not to load the shift register with PHY's internal settings before
@@ -8817,7 +9370,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
         uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set, LMC prevents PHY from loading the deskew shift
@@ -8826,13 +9379,13 @@ typedef union
                                                                  whether or not to load the shift register with PHY's internal settings before
                                                                  the shifting process. */
         uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set high, PHY selects all of the preloaded data
                                                                  when configuring the read deskew settings. */
         uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
@@ -8843,7 +9396,7 @@ typedef union
                                                                  Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
                                                                  DQ has 10-bits deskew setting. */
         uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  DQ data rate loopback, working in conjunction with LOOPBACK assertion.
@@ -8852,7 +9405,7 @@ typedef union
                                                                  When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
                                                                  DQ against each DQS edge seperately. This is done at the clock rate. */
         uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  DQ shallow loopback, working in conjunction with LOOPBACK assertion.
@@ -8869,7 +9422,7 @@ typedef union
                                                                  on
                                                                  (MODEREG_PARAMS3[WR_DBI]=1). */
         uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C1 is not routed to any output pin.
                                                                  0x1 = C1 is routed to CS3.
                                                                  0x2 = C1 is routed to A17 address pin.
@@ -8877,40 +9430,54 @@ typedef union
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
         uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C0 is not routed to any output pin.
                                                                  0x1 = C0 is routed to CS2.
                                                                  0x2 = C0 is routed to TEN output pin.
                                                                  0x3 = C0 is not routed to any output pin.
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
-        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved. INTERNAL: Write to 1 to reset the PHY, one-shot operation, will automatically
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
                                                                  clear to value of 0. */
-        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved. INTERNAL: Indicates completion of a read operation, will clear to 0 when a read
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
                                                                  operation is started, then set to 1 when operation is complete. */
-        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved. INTERNAL: Data from a deskew read operation. Only valid when the
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
                                                                  LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
-        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved. INTERNAL: Write 1 to start deskew data read operation, will automatically clear
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
                                                                  to 0. Write to 1 will also clear the complete bit. */
-        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
                                                                  0x0 = Deskew read clock toggles every 4 DCLKs.
                                                                  0x1 = Deskew read clock toggles every 8 DCLKs.
                                                                  0x2 = Deskew read clock toggles every 12 DCLKs.
                                                                  0x3 = Deskew read clock toggles every 16 DCLKs. */
-        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
         uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Changed in pass 2.0.
 
                                                                  Deskew debug, select number of bits per byte lane.
                                                                  0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
                                                                  1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
                                                                  have to be set to 1. */
-        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
         uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Changed in pass 2.0.
 
                                                                  Deskew debug bit select for dsk read operation.
@@ -8926,26 +9493,47 @@ typedef union
                                                                  0x9 = DQ7. */
         uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
         uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
-        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
-        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: PHY DAC on. */
-        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
                                                                  when loopback is enabled. */
-        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: PHY loopback enable. */
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
         uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
                                                                  training sequence is in the idle state. */
         uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
         uint64_t phy_pwr_save_disable  : 1;  /**< [ 16: 16](R/W) DDR PHY power save disable. */
         uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
-        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Set to force read_enable to PHY active all the time.
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
                                                                  This bit MUST not be set when LMC initialization is in progress. Internal VREF and
                                                                  Deskew training requires normal operation on the dqx/s read_enable signals. */
-        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero. INTERNAL: Low Voltage Mode (1.35V.) */
-        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
         uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
-                                                                 INTERNAL: external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
                                                                  bits
                                                                  are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
                                                                  LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
@@ -8953,7 +9541,9 @@ typedef union
                                                                  LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
                                                                  flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
                                                                  loop-backed out after being flop'd by incoming DQS. */
-        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero. INTERNAL: Loopback pos mode. This works in conjunction with
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
                                                                  LMC()_PHY_CTL[LOOPBACK] mentioned above. */
         uint64_t ts_stagger            : 1;  /**< [  0:  0](R/W) TS stagger mode. This mode configures output drivers with two-stage drive strength to
                                                                  avoid undershoot issues on the bus when strong drivers are suddenly turned on. When this
@@ -8966,10 +9556,13 @@ typedef union
                                                                  mode is asserted, CNXXXX will configure output drivers to be weak drivers (60ohm output
                                                                  impedance) at the first CK cycle, and change drivers to the designated drive strengths
                                                                  specified in LMC()_COMP_CTL2[CMD_CTL/CK_CTL/DQX_CTL] starting at the following cycle. */
-        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero. INTERNAL: Loopback pos mode. This works in conjunction with
+        uint64_t loopback_pos          : 1;  /**< [  1:  1](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Loopback pos mode. This works in conjunction with
                                                                  LMC()_PHY_CTL[LOOPBACK] mentioned above. */
         uint64_t loopback              : 1;  /**< [  2:  2](R/W) Reserved; must be zero.
-                                                                 INTERNAL: external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
+                                                                 Internal:
+                                                                 external loopback enable. when asserted, Rx is on at DQS0 and data at even DQ
                                                                  bits
                                                                  are loop-backed out through odd DQ bits. For DQS, when LMC_PHY_CTL[PHY_DSK_BYP] and
                                                                  LMC_MEM_CFG0[MODE_X4DEV] are asserted along with LOOPBACK, DQS0 input of a given byte
@@ -8977,12 +9570,24 @@ typedef union
                                                                  LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is asserted, DQ bits are loop-backed out without being
                                                                  flop'd by incoming DQS. When LMC()_PHY_CTL[DQ_SHALLOW_LOOPBACK] is deasserted, DQ bits are
                                                                  loop-backed out after being flop'd by incoming DQS. */
-        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero. INTERNAL: Clock delay out. */
-        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero. INTERNAL: Clock tune. */
-        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero. INTERNAL: Low Voltage Mode (1.35V.) */
-        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero. INTERNAL: Set to force read_enable to PHY active all the time.
+        uint64_t ck_dlyout0            : 4;  /**< [  6:  3](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune0              : 1;  /**< [  7:  7](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t ck_dlyout1            : 4;  /**< [ 11:  8](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock delay out. */
+        uint64_t ck_tune1              : 1;  /**< [ 12: 12](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Clock tune. */
+        uint64_t lv_mode               : 1;  /**< [ 13: 13](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Low Voltage Mode (1.35V.) */
+        uint64_t rx_always_on          : 1;  /**< [ 14: 14](R/W) Reserved; must be zero.
+                                                                 Internal:
+                                                                 Set to force read_enable to PHY active all the time.
                                                                  This bit MUST not be set when LMC initialization is in progress. Internal VREF and
                                                                  Deskew training requires normal operation on the dqx/s read_enable signals. */
         uint64_t ten                   : 1;  /**< [ 15: 15](R/W) DDR PHY test enable pin. */
@@ -8990,15 +9595,23 @@ typedef union
         uint64_t phy_dsk_byp           : 1;  /**< [ 17: 17](R/W) PHY deskew bypass. */
         uint64_t phy_dsk_reset         : 1;  /**< [ 18: 18](R/W) PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew
                                                                  training sequence is in the idle state. */
-        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: PHY loopback enable. */
-        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
+        uint64_t int_phy_loopback_ena  : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY loopback enable. */
+        uint64_t int_pad_loopback_ena  : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
                                                                  when loopback is enabled. */
-        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: PHY DAC on. */
-        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
+        uint64_t dac_on                : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 PHY DAC on. */
+        uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Voltage reference pin enabled. */
         uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
         uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
         uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Changed in pass 2.0.
 
                                                                  Deskew debug bit select for dsk read operation.
@@ -9012,33 +9625,47 @@ typedef union
                                                                  0x7 = DQ5.
                                                                  0x8 = DQ6.
                                                                  0x9 = DQ7. */
-        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
+        uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved.
+                                                                 Internal:
+                                                                 Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
         uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Changed in pass 2.0.
 
                                                                  Deskew debug, select number of bits per byte lane.
                                                                  0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
                                                                  1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
                                                                  have to be set to 1. */
-        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
+        uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved.
+                                                                 Internal:
+                                                                 Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
-        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
+        uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved.
+                                                                 Internal:
+                                                                 Adjust clock toggle rate for reading deskew debug information:
                                                                  0x0 = Deskew read clock toggles every 4 DCLKs.
                                                                  0x1 = Deskew read clock toggles every 8 DCLKs.
                                                                  0x2 = Deskew read clock toggles every 12 DCLKs.
                                                                  0x3 = Deskew read clock toggles every 16 DCLKs. */
-        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved. INTERNAL: Write 1 to start deskew data read operation, will automatically clear
+        uint64_t dsk_dbg_rd_start      : 1;  /**< [ 38: 38](WO/H) Reserved.
+                                                                 Internal:
+                                                                 Write 1 to start deskew data read operation, will automatically clear
                                                                  to 0. Write to 1 will also clear the complete bit. */
-        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved. INTERNAL: Data from a deskew read operation. Only valid when the
+        uint64_t dsk_dbg_rd_data       : 10; /**< [ 48: 39](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Data from a deskew read operation. Only valid when the
                                                                  LMC()_PHY_CTL[DSK_DBG_RD_COMPLETE] bit is set. */
-        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved. INTERNAL: Indicates completion of a read operation, will clear to 0 when a read
+        uint64_t dsk_dbg_rd_complete   : 1;  /**< [ 49: 49](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Indicates completion of a read operation, will clear to 0 when a read
                                                                  operation is started, then set to 1 when operation is complete. */
-        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved. INTERNAL: Write to 1 to reset the PHY, one-shot operation, will automatically
+        uint64_t phy_reset             : 1;  /**< [ 50: 50](WO) Reserved.
+                                                                 Internal:
+                                                                 Write to 1 to reset the PHY, one-shot operation, will automatically
                                                                  clear to value of 0. */
         uint64_t c0_sel                : 2;  /**< [ 52: 51](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C0 is not routed to any output pin.
                                                                  0x1 = C0 is routed to CS2.
                                                                  0x2 = C0 is routed to TEN output pin.
@@ -9046,7 +9673,7 @@ typedef union
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
         uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  0x0 = C1 is not routed to any output pin.
                                                                  0x1 = C1 is routed to CS3.
                                                                  0x2 = C1 is routed to A17 address pin.
@@ -9063,7 +9690,7 @@ typedef union
                                                                  on
                                                                  (MODEREG_PARAMS3[WR_DBI]=1). */
         uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  DQ shallow loopback, working in conjunction with LOOPBACK assertion.
@@ -9071,7 +9698,7 @@ typedef union
                                                                  without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
                                                                  LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
         uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  DQ data rate loopback, working in conjunction with LOOPBACK assertion.
@@ -9080,7 +9707,7 @@ typedef union
                                                                  When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
                                                                  DQ against each DQS edge seperately. This is done at the clock rate. */
         uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
@@ -9091,13 +9718,13 @@ typedef union
                                                                  Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
                                                                  DQ has 10-bits deskew setting. */
         uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set high, PHY selects all of the preloaded data
                                                                  when configuring the read deskew settings. */
         uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Added in pass 2.0.
 
                                                                  When set, LMC prevents PHY from loading the deskew shift
@@ -9728,16 +10355,24 @@ typedef union
         uint64_t tccd_sel              : 1;  /**< [ 32: 32](RO) Reserved. */
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
         uint64_t reserved_22_23        : 2;
-        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 3. DELAY_UNLOAD_3 should
                                                                  normally be set, particularly at higher speeds. */
-        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 2. DELAY_UNLOAD_2 should
                                                                  normally be set. */
-        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 1. DELAY_UNLOAD_1 should
                                                                  normally be set. */
-        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 0. DELAY_UNLOAD_0 should
                                                                  normally be set. */
         uint64_t bitmask               : 8;  /**< [ 17: 10](R/W) Mask to select bit lanes on which read-leveling feedback is returned when OR_DIS is set to 1. */
@@ -9761,16 +10396,24 @@ typedef union
         uint64_t or_dis                : 1;  /**< [  9:  9](R/W) Disable ORing of bits in a byte lane when computing the read-leveling bitmask. OR_DIS
                                                                  should normally not be set. */
         uint64_t bitmask               : 8;  /**< [ 17: 10](R/W) Mask to select bit lanes on which read-leveling feedback is returned when OR_DIS is set to 1. */
-        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 0. DELAY_UNLOAD_0 should
                                                                  normally be set. */
-        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 1. DELAY_UNLOAD_1 should
                                                                  normally be set. */
-        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 2. DELAY_UNLOAD_2 should
                                                                  normally be set. */
-        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 3. DELAY_UNLOAD_3 should
                                                                  normally be set, particularly at higher speeds. */
         uint64_t reserved_22_23        : 2;
@@ -9789,16 +10432,24 @@ typedef union
                                                                  reads commands are spaced out by a default 4 cycles. */
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
         uint64_t reserved_22_23        : 2;
-        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 3. DELAY_UNLOAD_3 should
                                                                  normally be set, particularly at higher speeds. */
-        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 2. DELAY_UNLOAD_2 should
                                                                  normally be set. */
-        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 1. DELAY_UNLOAD_1 should
                                                                  normally be set. */
-        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 0. DELAY_UNLOAD_0 should
                                                                  normally be set. */
         uint64_t bitmask               : 8;  /**< [ 17: 10](R/W) Mask to select bit lanes on which read-leveling feedback is returned when OR_DIS is set to 1. */
@@ -9822,16 +10473,24 @@ typedef union
         uint64_t or_dis                : 1;  /**< [  9:  9](R/W) Disable ORing of bits in a byte lane when computing the read-leveling bitmask. OR_DIS
                                                                  should normally not be set. */
         uint64_t bitmask               : 8;  /**< [ 17: 10](R/W) Mask to select bit lanes on which read-leveling feedback is returned when OR_DIS is set to 1. */
-        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 0. DELAY_UNLOAD_0 should
                                                                  normally be set. */
-        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 1. DELAY_UNLOAD_1 should
                                                                  normally be set. */
-        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 2. DELAY_UNLOAD_2 should
                                                                  normally be set. */
-        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 3. DELAY_UNLOAD_3 should
                                                                  normally be set, particularly at higher speeds. */
         uint64_t reserved_22_23        : 2;
@@ -9854,16 +10513,24 @@ typedef union
                                                                  reads commands are spaced out by a default 4 cycles. */
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
         uint64_t reserved_22_23        : 2;
-        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 3. DELAY_UNLOAD_3 should
                                                                  normally be set, particularly at higher speeds. */
-        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 2. DELAY_UNLOAD_2 should
                                                                  normally be set. */
-        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 1. DELAY_UNLOAD_1 should
                                                                  normally be set. */
-        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 0. DELAY_UNLOAD_0 should
                                                                  normally be set. */
         uint64_t bitmask               : 8;  /**< [ 17: 10](R/W) Mask to select bit lanes on which read-leveling feedback is returned when OR_DIS is set to 1. */
@@ -9887,16 +10554,24 @@ typedef union
         uint64_t or_dis                : 1;  /**< [  9:  9](R/W) Disable ORing of bits in a byte lane when computing the read-leveling bitmask. OR_DIS
                                                                  should normally not be set. */
         uint64_t bitmask               : 8;  /**< [ 17: 10](R/W) Mask to select bit lanes on which read-leveling feedback is returned when OR_DIS is set to 1. */
-        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_0        : 1;  /**< [ 18: 18](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 0. DELAY_UNLOAD_0 should
                                                                  normally be set. */
-        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_1        : 1;  /**< [ 19: 19](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 1. DELAY_UNLOAD_1 should
                                                                  normally be set. */
-        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_2        : 1;  /**< [ 20: 20](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 2. DELAY_UNLOAD_2 should
                                                                  normally be set. */
-        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
+        uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.
+                                                                 Internal:
+                                                                 When set, unload the PHY silo one cycle later during
                                                                  read-leveling if LMC()_RLEVEL_RANK()[BYTE*<1:0>] = 3. DELAY_UNLOAD_3 should
                                                                  normally be set, particularly at higher speeds. */
         uint64_t reserved_22_23        : 2;
@@ -10297,7 +10972,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_43_63        : 21;
         uint64_t fcid                  : 3;  /**< [ 42: 40](RO/H) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
                                                                  either
                                                                  LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is non-zero). Returns a value
@@ -10321,7 +10996,7 @@ typedef union
         uint64_t fdimm                 : 1;  /**< [ 37: 37](RO/H) Failing DIMM number. */
         uint64_t fill_order            : 2;  /**< [ 39: 38](RO/H) Fill order for failing transaction. */
         uint64_t fcid                  : 3;  /**< [ 42: 40](RO/H) Reserved.
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
                                                                  either
                                                                  LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is non-zero). Returns a value
@@ -11589,7 +12264,7 @@ typedef union
 
                                                                  TYP = 30-40 ns
 
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  When interfacing with DIMMs that contain 3DS DRAMs, set this field as follows:
 
                                                                  _ RNDUP[TFAW_SLR(ns) / (4 * TCYC(ns))]
@@ -11830,7 +12505,7 @@ typedef union
 
                                                                  TYP = 30-40 ns
 
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  When interfacing with DIMMs that contain 3DS DRAMs, set this field as follows:
 
                                                                  _ RNDUP[TFAW_SLR(ns) / (4 * TCYC(ns))]
@@ -11916,7 +12591,7 @@ typedef union
 
                                                                  TYP = 30-40 ns
 
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  When interfacing with DIMMs that contain 3DS DRAMs, set this field as follows:
 
                                                                  _ RNDUP[TFAW_SLR(ns) / (4 * TCYC(ns))]
@@ -12157,7 +12832,7 @@ typedef union
 
                                                                  TYP = 30-40 ns
 
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  When interfacing with DIMMs that contain 3DS DRAMs, set this field as follows:
 
                                                                  _ RNDUP[TFAW_SLR(ns) / (4 * TCYC(ns))]
@@ -12249,7 +12924,7 @@ typedef union
 
                                                                  TYP = 30-40 ns
 
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  When interfacing with DIMMs that contain 3DS DRAMs, set this field as follows:
 
                                                                  _ RNDUP[TFAW_SLR(ns) / (4 * TCYC(ns))]
@@ -12490,7 +13165,7 @@ typedef union
 
                                                                  TYP = 30-40 ns
 
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  When interfacing with DIMMs that contain 3DS DRAMs, set this field as follows:
 
                                                                  _ RNDUP[TFAW_SLR(ns) / (4 * TCYC(ns))]
@@ -12594,7 +13269,8 @@ typedef union
 
                                                                  Typical = MAX(4 nCK, 7.5 ns)
 
-                                                                 INTERNAL: Seems the '- 1' is because we add 1 back into slot timing equation */
+                                                                 Internal:
+                                                                 Seems the '- 1' is because we add 1 back into slot timing equation */
         uint64_t trrd_l                : 3;  /**< [  2:  0](R/W) Specifies TRRD_L constraints. Set this field as follows:
 
                                                                  _ RNDUP[TRRD_L(ns) / TCYC(ns)] - 1,
@@ -12637,7 +13313,8 @@ typedef union
 
                                                                  Typical = MAX(4 nCK, 7.5 ns)
 
-                                                                 INTERNAL: Seems the '- 1' is because we add 1 back into slot timing equation */
+                                                                 Internal:
+                                                                 Seems the '- 1' is because we add 1 back into slot timing equation */
         uint64_t t_rw_op_max           : 4;  /**< [ 10:  7](R/W) Specifies the maximum delay for a read or write operation to complete, used to set the
                                                                  timing of MRW and MPR operations. Set this field as follows:
 
@@ -12703,7 +13380,7 @@ typedef union
                                                                  0x6 = LMC writes 0x7 (Rsvd) to MR1[Rtt_Nom].
                                                                  0x7 = LMC writes 0x0 (Disabled) to MR1[Rtt_Nom].
 
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  In DDR4 LRDIMM application, this is used to program the Data Buffer Control Word BC00
                                                                  during the Host Interface Write Leveling Mode:
                                                                  0x0 = LMC writes 0x1 (RZQ/4).
@@ -12742,7 +13419,7 @@ typedef union
                                                                  0x6 = LMC writes 0x7 (Rsvd) to MR1[Rtt_Nom].
                                                                  0x7 = LMC writes 0x0 (Disabled) to MR1[Rtt_Nom].
 
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  In DDR4 LRDIMM application, this is used to program the Data Buffer Control Word BC00
                                                                  during the Host Interface Write Leveling Mode:
                                                                  0x0 = LMC writes 0x1 (RZQ/4).

@@ -3043,7 +3043,8 @@ static inline uint64_t BDK_AP_CURRENTEL_FUNC(void)
  * A 1 in the appropriate bit in the AP_CVM_ACCESS_ELn register prevents
  * any access at lower exception levels.
  *
- * INTERNAL: If access is denied at multiple exception levels then the
+ * Internal:
+ * If access is denied at multiple exception levels then the
  * trap occurs at the lowest. This is similar to ARM's
  * AP_CPACR_EL1/AP_CPTR_EL2/AP_CPTR_EL3.
  */
@@ -3179,7 +3180,8 @@ static inline uint64_t BDK_AP_CVM_ACCESS_EL2_FUNC(void)
  * Register (SYSREG) ap_cvm_access_el3
  *
  * AP Cavium Access EL3 Register
- * INTERNAL: Software should expose the CvmCACHE instruction to EL2 or
+ * Internal:
+ * Software should expose the CvmCACHE instruction to EL2 or
  * EL1 with extreme caution. Exposing this instruction to lower
  * exception levels may cause non-secure state to mess with secure
  * state, which would cause a security hole.
@@ -5285,7 +5287,9 @@ typedef union
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
         uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved. INTERNAL: Force global order for IO references. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force global order for IO references. */
         uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
@@ -5369,7 +5373,9 @@ typedef union
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
         uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved. INTERNAL: Force global order for IO references. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force global order for IO references. */
         uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
         uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
@@ -5473,7 +5479,9 @@ typedef union
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
         uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved. INTERNAL: Force global order for IO references. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force global order for IO references. */
         uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
@@ -5557,7 +5565,9 @@ typedef union
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
         uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved. INTERNAL: Force global order for IO references. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force global order for IO references. */
         uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
         uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
@@ -5661,7 +5671,9 @@ typedef union
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
         uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved. INTERNAL: Force global order for IO references. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force global order for IO references. */
         uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
@@ -5745,7 +5757,9 @@ typedef union
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
         uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved. INTERNAL: Force global order for IO references. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force global order for IO references. */
         uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
         uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
@@ -5856,7 +5870,9 @@ typedef union
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
         uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved. INTERNAL: Force global order for IO references. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force global order for IO references. */
         uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
@@ -5940,7 +5956,9 @@ typedef union
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
                                                                  1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
         uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved. INTERNAL: Force global order for IO references. */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force global order for IO references. */
         uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
         uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
@@ -6016,7 +6034,8 @@ static inline uint64_t BDK_AP_CVMMEMCTL0_EL1_FUNC(void)
  *
  * AP Cavium Memory Control 1 Register
  * This register controls additional memory-unit features.
- * INTERNAL: Back-end, non-debug.
+ * Internal:
+ * Back-end, non-debug.
  */
 typedef union
 {
@@ -6025,14 +6044,22 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.  INTERNAL: 83xx: Enable SSO switch-tag. */
-        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.  INTERNAL: 83xx: Trap any access to non-zero node id. */
+        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable SSO switch-tag. */
+        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Trap any access to non-zero node id. */
         uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable atomics to I/O space.
                                                                  0 = Atomic instructions to I/O space (PA<47>=1) will trap.
                                                                  1 = Atomic instructions to SLI I/O space will succeed,
                                                                      atomic instructions to other I/O spaces will trap.
-                                                                 INTERNAL: Also PKO/SSO. */
-        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved. INTERNAL: 83xx: Enable/disable LMTST(a). */
+
+                                                                 Internal:
+                                                                 Also PKO/SSO. */
+        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable/disable LMTST(a). */
         uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
         uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
         uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
@@ -6040,14 +6067,22 @@ typedef union
         uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
         uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
         uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
-        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved. INTERNAL: 83xx: Enable/disable LMTST(a). */
+        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable/disable LMTST(a). */
         uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable atomics to I/O space.
                                                                  0 = Atomic instructions to I/O space (PA<47>=1) will trap.
                                                                  1 = Atomic instructions to SLI I/O space will succeed,
                                                                      atomic instructions to other I/O spaces will trap.
-                                                                 INTERNAL: Also PKO/SSO. */
-        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.  INTERNAL: 83xx: Trap any access to non-zero node id. */
-        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.  INTERNAL: 83xx: Enable SSO switch-tag. */
+
+                                                                 Internal:
+                                                                 Also PKO/SSO. */
+        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Trap any access to non-zero node id. */
+        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable SSO switch-tag. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;

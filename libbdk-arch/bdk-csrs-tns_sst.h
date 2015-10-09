@@ -23404,9 +23404,13 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t mtu_err               : 6;  /**< [ 31: 26](RO/H) -- */
         uint32_t mre_ptr               : 13; /**< [ 25: 13](RO/H) -- */
-        uint32_t qcn_sample            : 13; /**< [ 12:  0](RO/H) Reserved. INTERNAL: Defeatured. */
+        uint32_t qcn_sample            : 13; /**< [ 12:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
 #else /* Word 0 - Little Endian */
-        uint32_t qcn_sample            : 13; /**< [ 12:  0](RO/H) Reserved. INTERNAL: Defeatured. */
+        uint32_t qcn_sample            : 13; /**< [ 12:  0](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t mre_ptr               : 13; /**< [ 25: 13](RO/H) -- */
         uint32_t mtu_err               : 6;  /**< [ 31: 26](RO/H) -- */
 #endif /* Word 0 - End */
@@ -23607,9 +23611,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t cpu                   : 14; /**< [ 31: 18](R/W) -- */
-        uint32_t qcn_sample            : 18; /**< [ 17:  0](R/W) Reserved. INTERNAL: Defeatured. */
+        uint32_t qcn_sample            : 18; /**< [ 17:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
 #else /* Word 0 - Little Endian */
-        uint32_t qcn_sample            : 18; /**< [ 17:  0](R/W) Reserved. INTERNAL: Defeatured. */
+        uint32_t qcn_sample            : 18; /**< [ 17:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t cpu                   : 14; /**< [ 31: 18](R/W) -- */
 #endif /* Word 0 - End */
     } s;
@@ -36536,17 +36544,29 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_27_31        : 5;
-        uint32_t qcn_db_ecc            : 1;  /**< [ 26: 26](R/W) Reserved. INTERNAL: Flip 2 bits of ECC syndrome in QCN (defeatured)
+        uint32_t qcn_db_ecc            : 1;  /**< [ 26: 26](R/W) Reserved.
+                                                                 Internal:
+                                                                 Flip 2 bits of ECC syndrome in QCN (defeatured)
                                                                  configuration and state memory */
-        uint32_t qcn_sb_ecc            : 1;  /**< [ 25: 25](R/W) Reserved. INTERNAL: Flip 1 bit of ECC syndrome in QCN (defeatured)
+        uint32_t qcn_sb_ecc            : 1;  /**< [ 25: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Flip 1 bit of ECC syndrome in QCN (defeatured)
                                                                  configuration and state  memory */
-        uint32_t qcn_ecc_dis           : 1;  /**< [ 24: 24](R/W) Reserved. INTERNAL: Disable ECC for QCN (defeatured) configuration and state
+        uint32_t qcn_ecc_dis           : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Disable ECC for QCN (defeatured) configuration and state
                                                                  memory */
-        uint32_t qcn_qmap_db_ecc       : 1;  /**< [ 23: 23](R/W) Reserved. INTERNAL: Flip 2 bits of ECC syndrome in QCN (defeatured) Q mapping
+        uint32_t qcn_qmap_db_ecc       : 1;  /**< [ 23: 23](R/W) Reserved.
+                                                                 Internal:
+                                                                 Flip 2 bits of ECC syndrome in QCN (defeatured) Q mapping
                                                                  memory */
-        uint32_t qcn_qmap_sb_ecc       : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Flip 1 bit of ECC syndrome in QCN (defeatured) Q mapping
+        uint32_t qcn_qmap_sb_ecc       : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Flip 1 bit of ECC syndrome in QCN (defeatured) Q mapping
                                                                  memory */
-        uint32_t qcn_qmap_ecc_dis      : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: Disable ECC for QCN (defeatured) Q mapping memory */
+        uint32_t qcn_qmap_ecc_dis      : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 Disable ECC for QCN (defeatured) Q mapping memory */
         uint32_t h1_sch_tm_db_ecc      : 7;  /**< [ 20: 14](R/W) Flip 2 bits of ECC syndrome in H1 scheduler TM config and state memory */
         uint32_t h1_sch_tm_sb_ecc      : 7;  /**< [ 13:  7](R/W) Flip 1 bit of ECC syndrome in H1 scheduler TM config and state  memory */
         uint32_t h1_sch_tm_ecc_dis     : 1;  /**< [  6:  6](R/W) Disable ECC for H1 scheduler TM config and state memory */
@@ -36566,16 +36586,28 @@ typedef union
         uint32_t h1_sch_tm_ecc_dis     : 1;  /**< [  6:  6](R/W) Disable ECC for H1 scheduler TM config and state memory */
         uint32_t h1_sch_tm_sb_ecc      : 7;  /**< [ 13:  7](R/W) Flip 1 bit of ECC syndrome in H1 scheduler TM config and state  memory */
         uint32_t h1_sch_tm_db_ecc      : 7;  /**< [ 20: 14](R/W) Flip 2 bits of ECC syndrome in H1 scheduler TM config and state memory */
-        uint32_t qcn_qmap_ecc_dis      : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: Disable ECC for QCN (defeatured) Q mapping memory */
-        uint32_t qcn_qmap_sb_ecc       : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Flip 1 bit of ECC syndrome in QCN (defeatured) Q mapping
+        uint32_t qcn_qmap_ecc_dis      : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 Disable ECC for QCN (defeatured) Q mapping memory */
+        uint32_t qcn_qmap_sb_ecc       : 1;  /**< [ 22: 22](R/W) Reserved.
+                                                                 Internal:
+                                                                 Flip 1 bit of ECC syndrome in QCN (defeatured) Q mapping
                                                                  memory */
-        uint32_t qcn_qmap_db_ecc       : 1;  /**< [ 23: 23](R/W) Reserved. INTERNAL: Flip 2 bits of ECC syndrome in QCN (defeatured) Q mapping
+        uint32_t qcn_qmap_db_ecc       : 1;  /**< [ 23: 23](R/W) Reserved.
+                                                                 Internal:
+                                                                 Flip 2 bits of ECC syndrome in QCN (defeatured) Q mapping
                                                                  memory */
-        uint32_t qcn_ecc_dis           : 1;  /**< [ 24: 24](R/W) Reserved. INTERNAL: Disable ECC for QCN (defeatured) configuration and state
+        uint32_t qcn_ecc_dis           : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Disable ECC for QCN (defeatured) configuration and state
                                                                  memory */
-        uint32_t qcn_sb_ecc            : 1;  /**< [ 25: 25](R/W) Reserved. INTERNAL: Flip 1 bit of ECC syndrome in QCN (defeatured)
+        uint32_t qcn_sb_ecc            : 1;  /**< [ 25: 25](R/W) Reserved.
+                                                                 Internal:
+                                                                 Flip 1 bit of ECC syndrome in QCN (defeatured)
                                                                  configuration and state  memory */
-        uint32_t qcn_db_ecc            : 1;  /**< [ 26: 26](R/W) Reserved. INTERNAL: Flip 2 bits of ECC syndrome in QCN (defeatured)
+        uint32_t qcn_db_ecc            : 1;  /**< [ 26: 26](R/W) Reserved.
+                                                                 Internal:
+                                                                 Flip 2 bits of ECC syndrome in QCN (defeatured)
                                                                  configuration and state memory */
         uint32_t reserved_27_31        : 5;
 #endif /* Word 0 - End */
@@ -36777,12 +36809,20 @@ typedef union
         uint32_t q_slow_shp_neg_wrap_err : 1;/**< [ 24: 24](R/W) Q shaper credits wrapped from negative to positive */
         uint32_t q_pkt_ct_rollover_err : 1;  /**< [ 23: 23](R/W) Q packet count rolled over */
         uint32_t q_pkt_ct_neg_err      : 1;  /**< [ 22: 22](R/W) Q packet count tried to decrement when count was zero */
-        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory double bit
                                                                  ECC interrupt */
-        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory single bit
                                                                  ECC interrupt */
-        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
-        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W) Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
+        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory double bit ECC interrupt */
+        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory single bit ECC interrupt */
         uint32_t h1_sch_tm_mem_db_err  : 7;  /**< [ 17: 11](R/W) H1 scheduler TM config and state memory double bit ECC interrupt */
         uint32_t h1_sch_tm_mem_sb_err  : 7;  /**< [ 10:  4](R/W) H1 scheduler TM config and state memory single bit ECC interrupt */
         uint32_t q_slow_shp_mem_db_err : 1;  /**< [  3:  3](R/W) Q slow shaper memory double bit ECC interrupt */
@@ -36796,11 +36836,19 @@ typedef union
         uint32_t q_slow_shp_mem_db_err : 1;  /**< [  3:  3](R/W) Q slow shaper memory double bit ECC interrupt */
         uint32_t h1_sch_tm_mem_sb_err  : 7;  /**< [ 10:  4](R/W) H1 scheduler TM config and state memory single bit ECC interrupt */
         uint32_t h1_sch_tm_mem_db_err  : 7;  /**< [ 17: 11](R/W) H1 scheduler TM config and state memory double bit ECC interrupt */
-        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W) Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
-        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
-        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory single bit ECC interrupt */
+        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory double bit ECC interrupt */
+        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory single bit
                                                                  ECC interrupt */
-        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory double bit
                                                                  ECC interrupt */
         uint32_t q_pkt_ct_neg_err      : 1;  /**< [ 22: 22](R/W) Q packet count tried to decrement when count was zero */
         uint32_t q_pkt_ct_rollover_err : 1;  /**< [ 23: 23](R/W) Q packet count rolled over */
@@ -36845,12 +36893,20 @@ typedef union
         uint32_t q_slow_shp_neg_wrap_err : 1;/**< [ 24: 24](R/W) Q shaper credits wrapped from negative to positive */
         uint32_t q_pkt_ct_rollover_err : 1;  /**< [ 23: 23](R/W) Q packet count rolled over */
         uint32_t q_pkt_ct_neg_err      : 1;  /**< [ 22: 22](R/W) Q packet count tried to decrement when count was zero */
-        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory double bit
                                                                  ECC interrupt */
-        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory single bit
                                                                  ECC interrupt */
-        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
-        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W) Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
+        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory double bit ECC interrupt */
+        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory single bit ECC interrupt */
         uint32_t h1_sch_tm_mem_db_err  : 7;  /**< [ 17: 11](R/W) H1 scheduler TM config and state memory double bit ECC interrupt */
         uint32_t h1_sch_tm_mem_sb_err  : 7;  /**< [ 10:  4](R/W) H1 scheduler TM config and state memory single bit ECC interrupt */
         uint32_t q_slow_shp_mem_db_err : 1;  /**< [  3:  3](R/W) Q slow shaper memory double bit ECC interrupt */
@@ -36864,11 +36920,19 @@ typedef union
         uint32_t q_slow_shp_mem_db_err : 1;  /**< [  3:  3](R/W) Q slow shaper memory double bit ECC interrupt */
         uint32_t h1_sch_tm_mem_sb_err  : 7;  /**< [ 10:  4](R/W) H1 scheduler TM config and state memory single bit ECC interrupt */
         uint32_t h1_sch_tm_mem_db_err  : 7;  /**< [ 17: 11](R/W) H1 scheduler TM config and state memory double bit ECC interrupt */
-        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W) Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
-        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W) Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
-        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W) Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory single bit ECC interrupt */
+        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory double bit ECC interrupt */
+        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory single bit
                                                                  ECC interrupt */
-        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W) Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory double bit
                                                                  ECC interrupt */
         uint32_t q_pkt_ct_neg_err      : 1;  /**< [ 22: 22](R/W) Q packet count tried to decrement when count was zero */
         uint32_t q_pkt_ct_rollover_err : 1;  /**< [ 23: 23](R/W) Q packet count rolled over */
@@ -36913,12 +36977,20 @@ typedef union
         uint32_t q_slow_shp_neg_wrap_err : 1;/**< [ 24: 24](WO) Q shaper credits wrapped from negative to positive */
         uint32_t q_pkt_ct_rollover_err : 1;  /**< [ 23: 23](WO) Q packet count rolled over */
         uint32_t q_pkt_ct_neg_err      : 1;  /**< [ 22: 22](WO) Q packet count tried to decrement when count was zero */
-        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](WO) Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](WO) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory double bit
                                                                  ECC interrupt */
-        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](WO) Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](WO) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory single bit
                                                                  ECC interrupt */
-        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](WO) Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
-        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](WO) Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
+        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](WO) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory double bit ECC interrupt */
+        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](WO) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory single bit ECC interrupt */
         uint32_t h1_sch_tm_mem_db_err  : 7;  /**< [ 17: 11](WO) H1 scheduler TM config and state memory double bit ECC interrupt */
         uint32_t h1_sch_tm_mem_sb_err  : 7;  /**< [ 10:  4](WO) H1 scheduler TM config and state memory single bit ECC interrupt */
         uint32_t q_slow_shp_mem_db_err : 1;  /**< [  3:  3](WO) Q slow shaper memory double bit ECC interrupt */
@@ -36932,11 +37004,19 @@ typedef union
         uint32_t q_slow_shp_mem_db_err : 1;  /**< [  3:  3](WO) Q slow shaper memory double bit ECC interrupt */
         uint32_t h1_sch_tm_mem_sb_err  : 7;  /**< [ 10:  4](WO) H1 scheduler TM config and state memory single bit ECC interrupt */
         uint32_t h1_sch_tm_mem_db_err  : 7;  /**< [ 17: 11](WO) H1 scheduler TM config and state memory double bit ECC interrupt */
-        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](WO) Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
-        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](WO) Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
-        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](WO) Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](WO) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory single bit ECC interrupt */
+        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](WO) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory double bit ECC interrupt */
+        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](WO) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory single bit
                                                                  ECC interrupt */
-        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](WO) Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](WO) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory double bit
                                                                  ECC interrupt */
         uint32_t q_pkt_ct_neg_err      : 1;  /**< [ 22: 22](WO) Q packet count tried to decrement when count was zero */
         uint32_t q_pkt_ct_rollover_err : 1;  /**< [ 23: 23](WO) Q packet count rolled over */
@@ -36981,12 +37061,20 @@ typedef union
         uint32_t q_slow_shp_neg_wrap_err : 1;/**< [ 24: 24](R/W1C/H) Q shaper credits wrapped from negative to positive */
         uint32_t q_pkt_ct_rollover_err : 1;  /**< [ 23: 23](R/W1C/H) Q packet count rolled over */
         uint32_t q_pkt_ct_neg_err      : 1;  /**< [ 22: 22](R/W1C/H) Q packet count tried to decrement when count was zero */
-        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W1C/H) Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory double bit
                                                                  ECC interrupt */
-        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W1C/H) Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory single bit
                                                                  ECC interrupt */
-        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W1C/H) Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
-        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W1C/H) Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
+        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory double bit ECC interrupt */
+        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory single bit ECC interrupt */
         uint32_t h1_sch_tm_mem_db_err  : 7;  /**< [ 17: 11](R/W1C/H) H1 scheduler TM config and state memory double bit ECC interrupt */
         uint32_t h1_sch_tm_mem_sb_err  : 7;  /**< [ 10:  4](R/W1C/H) H1 scheduler TM config and state memory single bit ECC interrupt */
         uint32_t q_slow_shp_mem_db_err : 1;  /**< [  3:  3](R/W1C/H) Q slow shaper memory double bit ECC interrupt */
@@ -37000,11 +37088,19 @@ typedef union
         uint32_t q_slow_shp_mem_db_err : 1;  /**< [  3:  3](R/W1C/H) Q slow shaper memory double bit ECC interrupt */
         uint32_t h1_sch_tm_mem_sb_err  : 7;  /**< [ 10:  4](R/W1C/H) H1 scheduler TM config and state memory single bit ECC interrupt */
         uint32_t h1_sch_tm_mem_db_err  : 7;  /**< [ 17: 11](R/W1C/H) H1 scheduler TM config and state memory double bit ECC interrupt */
-        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W1C/H) Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
-        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W1C/H) Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
-        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W1C/H) Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+        uint32_t qcn_qmap_mem_sb_err   : 1;  /**< [ 18: 18](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory single bit ECC interrupt */
+        uint32_t qcn_qmap_mem_db_err   : 1;  /**< [ 19: 19](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) Q mapping memory double bit ECC interrupt */
+        uint32_t qcn_mem_sb_err        : 1;  /**< [ 20: 20](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory single bit
                                                                  ECC interrupt */
-        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W1C/H) Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+        uint32_t qcn_mem_db_err        : 1;  /**< [ 21: 21](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 QCN (defeatured) configuration and state memory double bit
                                                                  ECC interrupt */
         uint32_t q_pkt_ct_neg_err      : 1;  /**< [ 22: 22](R/W1C/H) Q packet count tried to decrement when count was zero */
         uint32_t q_pkt_ct_rollover_err : 1;  /**< [ 23: 23](R/W1C/H) Q packet count rolled over */
@@ -40103,7 +40199,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_5_31         : 27;
         uint32_t h1_pkt_ct_neg_en      : 1;  /**< [  4:  4](R/W) -- */
-        uint32_t prop_prio_en          : 1;  /**< [  3:  3](R/W) Reserved. It must be set to 0 after reset. INTERNAL: Propagated priority
+        uint32_t prop_prio_en          : 1;  /**< [  3:  3](R/W) Reserved. It must be set to 0 after reset.
+                                                                 Internal:
+                                                                 Propagated priority
                                                                  enable. Propagated priority is defeatured. */
         uint32_t shapers_en            : 1;  /**< [  2:  2](R/W) -- */
         uint32_t dwrr_en               : 1;  /**< [  1:  1](R/W) -- */
@@ -40112,7 +40210,9 @@ typedef union
         uint32_t slow_compensation_en  : 1;  /**< [  0:  0](R/W) -- */
         uint32_t dwrr_en               : 1;  /**< [  1:  1](R/W) -- */
         uint32_t shapers_en            : 1;  /**< [  2:  2](R/W) -- */
-        uint32_t prop_prio_en          : 1;  /**< [  3:  3](R/W) Reserved. It must be set to 0 after reset. INTERNAL: Propagated priority
+        uint32_t prop_prio_en          : 1;  /**< [  3:  3](R/W) Reserved. It must be set to 0 after reset.
+                                                                 Internal:
+                                                                 Propagated priority
                                                                  enable. Propagated priority is defeatured. */
         uint32_t h1_pkt_ct_neg_en      : 1;  /**< [  4:  4](R/W) -- */
         uint32_t reserved_5_31         : 27;
@@ -42363,11 +42463,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t em_weight             : 8;  /**< [ 15:  8](R/W) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_weight             : 8;  /**< [ 15:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t mc_weight             : 8;  /**< [  7:  0](R/W) MC weight. */
 #else /* Word 0 - Little Endian */
         uint32_t mc_weight             : 8;  /**< [  7:  0](R/W) MC weight. */
-        uint32_t em_weight             : 8;  /**< [ 15:  8](R/W) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_weight             : 8;  /**< [ 15:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -42588,7 +42692,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_46_63        : 18;
-        uint64_t source_em_fifo        : 5;  /**< [ 45: 41](RO/H) Reserved. INTERNAL: Defeatured. Distributor source egress mirror FIFO usage */
+        uint64_t source_em_fifo        : 5;  /**< [ 45: 41](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. Distributor source egress mirror FIFO usage */
         uint64_t mc_fifo               : 5;  /**< [ 40: 36](RO/H) Distributor source multi-cast FIFO usage */
         uint64_t uc_drop_fifo          : 5;  /**< [ 35: 31](RO/H) Distributor source unicast and drop FIFO usage */
         uint64_t mc_40g_fifo           : 5;  /**< [ 30: 26](RO/H) Distributor 40G speed multi-cast FIFO usage */
@@ -42606,7 +42712,9 @@ typedef union
         uint64_t mc_40g_fifo           : 5;  /**< [ 30: 26](RO/H) Distributor 40G speed multi-cast FIFO usage */
         uint64_t uc_drop_fifo          : 5;  /**< [ 35: 31](RO/H) Distributor source unicast and drop FIFO usage */
         uint64_t mc_fifo               : 5;  /**< [ 40: 36](RO/H) Distributor source multi-cast FIFO usage */
-        uint64_t source_em_fifo        : 5;  /**< [ 45: 41](RO/H) Reserved. INTERNAL: Defeatured. Distributor source egress mirror FIFO usage */
+        uint64_t source_em_fifo        : 5;  /**< [ 45: 41](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. Distributor source egress mirror FIFO usage */
         uint64_t reserved_46_63        : 18;
 #endif /* Word 0 - End */
     } s;
@@ -42682,13 +42790,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t mc_em_weight          : 8;  /**< [ 23: 16](R/W) MC weight. INTERNAL: EM is defeatured. */
+        uint32_t mc_em_weight          : 8;  /**< [ 23: 16](R/W) MC weight.
+                                                                 Internal:
+                                                                 EM is defeatured. */
         uint32_t mc_drop_weight        : 8;  /**< [ 15:  8](R/W) -- */
         uint32_t uc_weight             : 8;  /**< [  7:  0](R/W) -- */
 #else /* Word 0 - Little Endian */
         uint32_t uc_weight             : 8;  /**< [  7:  0](R/W) -- */
         uint32_t mc_drop_weight        : 8;  /**< [ 15:  8](R/W) -- */
-        uint32_t mc_em_weight          : 8;  /**< [ 23: 16](R/W) MC weight. INTERNAL: EM is defeatured. */
+        uint32_t mc_em_weight          : 8;  /**< [ 23: 16](R/W) MC weight.
+                                                                 Internal:
+                                                                 EM is defeatured. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
@@ -43041,11 +43153,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t em_weight             : 8;  /**< [ 15:  8](R/W) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_weight             : 8;  /**< [ 15:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t sdma_weight           : 8;  /**< [  7:  0](R/W) -- */
 #else /* Word 0 - Little Endian */
         uint32_t sdma_weight           : 8;  /**< [  7:  0](R/W) -- */
-        uint32_t em_weight             : 8;  /**< [ 15:  8](R/W) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_weight             : 8;  /**< [ 15:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -43158,7 +43274,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
-        uint32_t em_fifo               : 5;  /**< [ 19: 15](RO/H) Reserved. INTERNAL: Defeatured. Cut-thru EM FIFO usage */
+        uint32_t em_fifo               : 5;  /**< [ 19: 15](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. Cut-thru EM FIFO usage */
         uint32_t lat_fifo              : 5;  /**< [ 14: 10](RO/H) Write token latency FIFO usage */
         uint32_t pool_fifo             : 5;  /**< [  9:  5](RO/H) Write token pool FIFO usage */
         uint32_t tail_fifo             : 5;  /**< [  4:  0](RO/H) Write token tail FIFO usage */
@@ -43166,7 +43284,9 @@ typedef union
         uint32_t tail_fifo             : 5;  /**< [  4:  0](RO/H) Write token tail FIFO usage */
         uint32_t pool_fifo             : 5;  /**< [  9:  5](RO/H) Write token pool FIFO usage */
         uint32_t lat_fifo              : 5;  /**< [ 14: 10](RO/H) Write token latency FIFO usage */
-        uint32_t em_fifo               : 5;  /**< [ 19: 15](RO/H) Reserved. INTERNAL: Defeatured. Cut-thru EM FIFO usage */
+        uint32_t em_fifo               : 5;  /**< [ 19: 15](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. Cut-thru EM FIFO usage */
         uint32_t reserved_20_31        : 12;
 #endif /* Word 0 - End */
     } s;
@@ -43207,7 +43327,9 @@ typedef union
         uint32_t lat_fifo_ovfl         : 1;  /**< [  8:  8](R/W) -- */
         uint32_t pool_fifo_ovfl        : 1;  /**< [  7:  7](R/W) -- */
         uint32_t tail_fifo_ovfl        : 1;  /**< [  6:  6](R/W) -- */
-        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t dfc_rx_cfg_i_ovfl_err : 1;  /**< [  4:  4](R/W) EQ configuration input DFC Rx overflow */
         uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1;/**< [  3:  3](R/W) TBM to EQ tail pointer input DFC Rx overflow */
         uint32_t sdma_eq_dfc_ovfl_err  : 1;  /**< [  2:  2](R/W) SDMA to EQ token input DFC Rx overflow */
@@ -43219,7 +43341,9 @@ typedef union
         uint32_t sdma_eq_dfc_ovfl_err  : 1;  /**< [  2:  2](R/W) SDMA to EQ token input DFC Rx overflow */
         uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1;/**< [  3:  3](R/W) TBM to EQ tail pointer input DFC Rx overflow */
         uint32_t dfc_rx_cfg_i_ovfl_err : 1;  /**< [  4:  4](R/W) EQ configuration input DFC Rx overflow */
-        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t tail_fifo_ovfl        : 1;  /**< [  6:  6](R/W) -- */
         uint32_t pool_fifo_ovfl        : 1;  /**< [  7:  7](R/W) -- */
         uint32_t lat_fifo_ovfl         : 1;  /**< [  8:  8](R/W) -- */
@@ -43265,7 +43389,9 @@ typedef union
         uint32_t lat_fifo_ovfl         : 1;  /**< [  8:  8](R/W) -- */
         uint32_t pool_fifo_ovfl        : 1;  /**< [  7:  7](R/W) -- */
         uint32_t tail_fifo_ovfl        : 1;  /**< [  6:  6](R/W) -- */
-        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t dfc_rx_cfg_i_ovfl_err : 1;  /**< [  4:  4](R/W) EQ configuration input DFC Rx overflow */
         uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1;/**< [  3:  3](R/W) TBM to EQ tail pointer input DFC Rx overflow */
         uint32_t sdma_eq_dfc_ovfl_err  : 1;  /**< [  2:  2](R/W) SDMA to EQ token input DFC Rx overflow */
@@ -43277,7 +43403,9 @@ typedef union
         uint32_t sdma_eq_dfc_ovfl_err  : 1;  /**< [  2:  2](R/W) SDMA to EQ token input DFC Rx overflow */
         uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1;/**< [  3:  3](R/W) TBM to EQ tail pointer input DFC Rx overflow */
         uint32_t dfc_rx_cfg_i_ovfl_err : 1;  /**< [  4:  4](R/W) EQ configuration input DFC Rx overflow */
-        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t tail_fifo_ovfl        : 1;  /**< [  6:  6](R/W) -- */
         uint32_t pool_fifo_ovfl        : 1;  /**< [  7:  7](R/W) -- */
         uint32_t lat_fifo_ovfl         : 1;  /**< [  8:  8](R/W) -- */
@@ -43323,7 +43451,9 @@ typedef union
         uint32_t lat_fifo_ovfl         : 1;  /**< [  8:  8](WO) -- */
         uint32_t pool_fifo_ovfl        : 1;  /**< [  7:  7](WO) -- */
         uint32_t tail_fifo_ovfl        : 1;  /**< [  6:  6](WO) -- */
-        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](WO) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](WO) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t dfc_rx_cfg_i_ovfl_err : 1;  /**< [  4:  4](WO) EQ configuration input DFC Rx overflow */
         uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1;/**< [  3:  3](WO) TBM to EQ tail pointer input DFC Rx overflow */
         uint32_t sdma_eq_dfc_ovfl_err  : 1;  /**< [  2:  2](WO) SDMA to EQ token input DFC Rx overflow */
@@ -43335,7 +43465,9 @@ typedef union
         uint32_t sdma_eq_dfc_ovfl_err  : 1;  /**< [  2:  2](WO) SDMA to EQ token input DFC Rx overflow */
         uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1;/**< [  3:  3](WO) TBM to EQ tail pointer input DFC Rx overflow */
         uint32_t dfc_rx_cfg_i_ovfl_err : 1;  /**< [  4:  4](WO) EQ configuration input DFC Rx overflow */
-        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](WO) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](WO) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t tail_fifo_ovfl        : 1;  /**< [  6:  6](WO) -- */
         uint32_t pool_fifo_ovfl        : 1;  /**< [  7:  7](WO) -- */
         uint32_t lat_fifo_ovfl         : 1;  /**< [  8:  8](WO) -- */
@@ -43381,7 +43513,9 @@ typedef union
         uint32_t lat_fifo_ovfl         : 1;  /**< [  8:  8](R/W1C/H) -- */
         uint32_t pool_fifo_ovfl        : 1;  /**< [  7:  7](R/W1C/H) -- */
         uint32_t tail_fifo_ovfl        : 1;  /**< [  6:  6](R/W1C/H) -- */
-        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W1C/H) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t dfc_rx_cfg_i_ovfl_err : 1;  /**< [  4:  4](R/W1C/H) EQ configuration input DFC Rx overflow */
         uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1;/**< [  3:  3](R/W1C/H) TBM to EQ tail pointer input DFC Rx overflow */
         uint32_t sdma_eq_dfc_ovfl_err  : 1;  /**< [  2:  2](R/W1C/H) SDMA to EQ token input DFC Rx overflow */
@@ -43393,7 +43527,9 @@ typedef union
         uint32_t sdma_eq_dfc_ovfl_err  : 1;  /**< [  2:  2](R/W1C/H) SDMA to EQ token input DFC Rx overflow */
         uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1;/**< [  3:  3](R/W1C/H) TBM to EQ tail pointer input DFC Rx overflow */
         uint32_t dfc_rx_cfg_i_ovfl_err : 1;  /**< [  4:  4](R/W1C/H) EQ configuration input DFC Rx overflow */
-        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W1C/H) Reserved. INTERNAL: Defeatured. */
+        uint32_t em_pkt_drop           : 1;  /**< [  5:  5](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint32_t tail_fifo_ovfl        : 1;  /**< [  6:  6](R/W1C/H) -- */
         uint32_t pool_fifo_ovfl        : 1;  /**< [  7:  7](R/W1C/H) -- */
         uint32_t lat_fifo_ovfl         : 1;  /**< [  8:  8](R/W1C/H) -- */
@@ -44788,13 +44924,25 @@ typedef union
         uint64_t q_eq_en               : 1;  /**< [  5:  5](R/W) -- */
         uint64_t h1_eq_en              : 1;  /**< [  4:  4](R/W) -- */
         uint64_t p_eq_en               : 1;  /**< [  3:  3](R/W) -- */
-        uint64_t q_em_en               : 1;  /**< [  2:  2](R/W) Reserved and must be set to 0. INTERNAL: Defeatured. */
-        uint64_t h1_em_en              : 1;  /**< [  1:  1](R/W) Reserved and must be set to 0. INTERNAL: Defeatured. */
-        uint64_t p_em_en               : 1;  /**< [  0:  0](R/W) Reserved and must be set to 0. INTERNAL: Defeatured. */
+        uint64_t q_em_en               : 1;  /**< [  2:  2](R/W) Reserved and must be set to 0.
+                                                                 Internal:
+                                                                 Defeatured. */
+        uint64_t h1_em_en              : 1;  /**< [  1:  1](R/W) Reserved and must be set to 0.
+                                                                 Internal:
+                                                                 Defeatured. */
+        uint64_t p_em_en               : 1;  /**< [  0:  0](R/W) Reserved and must be set to 0.
+                                                                 Internal:
+                                                                 Defeatured. */
 #else /* Word 0 - Little Endian */
-        uint64_t p_em_en               : 1;  /**< [  0:  0](R/W) Reserved and must be set to 0. INTERNAL: Defeatured. */
-        uint64_t h1_em_en              : 1;  /**< [  1:  1](R/W) Reserved and must be set to 0. INTERNAL: Defeatured. */
-        uint64_t q_em_en               : 1;  /**< [  2:  2](R/W) Reserved and must be set to 0. INTERNAL: Defeatured. */
+        uint64_t p_em_en               : 1;  /**< [  0:  0](R/W) Reserved and must be set to 0.
+                                                                 Internal:
+                                                                 Defeatured. */
+        uint64_t h1_em_en              : 1;  /**< [  1:  1](R/W) Reserved and must be set to 0.
+                                                                 Internal:
+                                                                 Defeatured. */
+        uint64_t q_em_en               : 1;  /**< [  2:  2](R/W) Reserved and must be set to 0.
+                                                                 Internal:
+                                                                 Defeatured. */
         uint64_t p_eq_en               : 1;  /**< [  3:  3](R/W) -- */
         uint64_t h1_eq_en              : 1;  /**< [  4:  4](R/W) -- */
         uint64_t q_eq_en               : 1;  /**< [  5:  5](R/W) -- */

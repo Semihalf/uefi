@@ -82,7 +82,9 @@
  * Software would generally wait for an interrupt caused by
  * DFA_INT_DONE[INST_DONE], then read this buffer and process result buffers
  * which have their RPTR listed in this queue.
- * INTERNAL: Defeatured.
+ *
+ * Internal:
+ * Defeatured.
  */
 union bdk_dfa_cq_s
 {
@@ -616,46 +618,66 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_11_63        : 53;
-        uint64_t sbdnum                : 5;  /**< [ 10:  6](R/W) Reserved. INTERNAL: DFA Scoreboard debug control. Selects which DFA scoreboard
+        uint64_t sbdnum                : 5;  /**< [ 10:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 DFA Scoreboard debug control. Selects which DFA scoreboard
                                                                  entry is latched into the DFA_SBD_DBG[0-3] registers. */
-        uint64_t sbdlck                : 1;  /**< [  5:  5](R/W) Reserved. INTERNAL: DFA Scoreboard LOCK stribe. When written with a '1', the DFA
+        uint64_t sbdlck                : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 DFA Scoreboard LOCK stribe. When written with a '1', the DFA
                                                                  Scoreboard Debug registers (DFA_SBD_DBG[0-3]) are all locked down. This allows software to
                                                                  lock down the contents of the entire SBD for a single instant in time. All subsequent
                                                                  read operations of the DFA scoreboard registers will return the data from that instant in
                                                                  time. */
         uint64_t reserved_3_4          : 2;
-        uint64_t pmode                 : 1;  /**< [  2:  2](R/W) Reserved. INTERNAL: NCB-NRP Arbiter Mode.
+        uint64_t pmode                 : 1;  /**< [  2:  2](R/W) Reserved.
+                                                                 Internal:
+                                                                 NCB-NRP Arbiter Mode.
                                                                  (0=Fixed Priority {LP=WQF,DFF,HP=RGF}/1=RR.
                                                                  NOTE: This should only be written to a different value during power-on software
                                                                  initialization. */
-        uint64_t qmode                 : 1;  /**< [  1:  1](R/W) Reserved. INTERNAL: NCB-NRQ Arbiter Mode.
+        uint64_t qmode                 : 1;  /**< [  1:  1](R/W) Reserved.
+                                                                 Internal:
+                                                                 NCB-NRQ Arbiter Mode.
                                                                  (0=Fixed Priority {LP=IRF,RWF,PRF,HP=GRF}/1=RR.
                                                                  NOTE: This should only be written to a different value during power-on software
                                                                  initialization. */
-        uint64_t imode                 : 1;  /**< [  0:  0](R/W) Reserved. INTERNAL: NCB-Inbound Arbiter.
+        uint64_t imode                 : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 NCB-Inbound Arbiter.
                                                                  (0=FP {LP=NRQ,HP=NRP}, 1=RR).
                                                                  NOTE: This should only be written to a different value during power-on software
                                                                  initialization. */
 #else /* Word 0 - Little Endian */
-        uint64_t imode                 : 1;  /**< [  0:  0](R/W) Reserved. INTERNAL: NCB-Inbound Arbiter.
+        uint64_t imode                 : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 NCB-Inbound Arbiter.
                                                                  (0=FP {LP=NRQ,HP=NRP}, 1=RR).
                                                                  NOTE: This should only be written to a different value during power-on software
                                                                  initialization. */
-        uint64_t qmode                 : 1;  /**< [  1:  1](R/W) Reserved. INTERNAL: NCB-NRQ Arbiter Mode.
+        uint64_t qmode                 : 1;  /**< [  1:  1](R/W) Reserved.
+                                                                 Internal:
+                                                                 NCB-NRQ Arbiter Mode.
                                                                  (0=Fixed Priority {LP=IRF,RWF,PRF,HP=GRF}/1=RR.
                                                                  NOTE: This should only be written to a different value during power-on software
                                                                  initialization. */
-        uint64_t pmode                 : 1;  /**< [  2:  2](R/W) Reserved. INTERNAL: NCB-NRP Arbiter Mode.
+        uint64_t pmode                 : 1;  /**< [  2:  2](R/W) Reserved.
+                                                                 Internal:
+                                                                 NCB-NRP Arbiter Mode.
                                                                  (0=Fixed Priority {LP=WQF,DFF,HP=RGF}/1=RR.
                                                                  NOTE: This should only be written to a different value during power-on software
                                                                  initialization. */
         uint64_t reserved_3_4          : 2;
-        uint64_t sbdlck                : 1;  /**< [  5:  5](R/W) Reserved. INTERNAL: DFA Scoreboard LOCK stribe. When written with a '1', the DFA
+        uint64_t sbdlck                : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 DFA Scoreboard LOCK stribe. When written with a '1', the DFA
                                                                  Scoreboard Debug registers (DFA_SBD_DBG[0-3]) are all locked down. This allows software to
                                                                  lock down the contents of the entire SBD for a single instant in time. All subsequent
                                                                  read operations of the DFA scoreboard registers will return the data from that instant in
                                                                  time. */
-        uint64_t sbdnum                : 5;  /**< [ 10:  6](R/W) Reserved. INTERNAL: DFA Scoreboard debug control. Selects which DFA scoreboard
+        uint64_t sbdnum                : 5;  /**< [ 10:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 DFA Scoreboard debug control. Selects which DFA scoreboard
                                                                  entry is latched into the DFA_SBD_DBG[0-3] registers. */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
@@ -693,9 +715,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t cq_ena                : 1;  /**< [ 63: 63](R/W) Reserved.
-                                                                 INTERNAL: Deprecated. Enables the completion queue. */
+                                                                 Internal:
+                                                                 Deprecated. Enables the completion queue. */
         uint64_t reserved_60_62        : 3;
-        uint64_t cq_size               : 4;  /**< [ 59: 56](R/W) INTERNAL: Deprecated.
+        uint64_t cq_size               : 4;  /**< [ 59: 56](R/W) Internal:
+                                                                 Deprecated.
                                                                  Specifies completion queue buffer size in entries:
                                                                  0x0 = 256 entries.
                                                                  0x1 = 512 entries.
@@ -721,13 +745,16 @@ typedef union
                                                                  Number of entries currently outstanding for SW to process defined by
                                                                  DFA_INT_STATUS[DONE_CNT]. */
         uint64_t reserved_39_55        : 17;
-        uint64_t cq_base_ptr           : 39; /**< [ 38:  0](R/W) INTERNAL: Deprecated.
+        uint64_t cq_base_ptr           : 39; /**< [ 38:  0](R/W) Internal:
+                                                                 Deprecated.
                                                                  Global completion queue base address, divided by 1KB. Address is 1KB aligned. */
 #else /* Word 0 - Little Endian */
-        uint64_t cq_base_ptr           : 39; /**< [ 38:  0](R/W) INTERNAL: Deprecated.
+        uint64_t cq_base_ptr           : 39; /**< [ 38:  0](R/W) Internal:
+                                                                 Deprecated.
                                                                  Global completion queue base address, divided by 1KB. Address is 1KB aligned. */
         uint64_t reserved_39_55        : 17;
-        uint64_t cq_size               : 4;  /**< [ 59: 56](R/W) INTERNAL: Deprecated.
+        uint64_t cq_size               : 4;  /**< [ 59: 56](R/W) Internal:
+                                                                 Deprecated.
                                                                  Specifies completion queue buffer size in entries:
                                                                  0x0 = 256 entries.
                                                                  0x1 = 512 entries.
@@ -754,7 +781,8 @@ typedef union
                                                                  DFA_INT_STATUS[DONE_CNT]. */
         uint64_t reserved_60_62        : 3;
         uint64_t cq_ena                : 1;  /**< [ 63: 63](R/W) Reserved.
-                                                                 INTERNAL: Deprecated. Enables the completion queue. */
+                                                                 Internal:
+                                                                 Deprecated. Enables the completion queue. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_cq_cfg_s cn; */
@@ -848,7 +876,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t sbd0                  : 64; /**< [ 63:  0](RO/H) DFA ScoreBoard 0 Data (DFA Scoreboard Debug).
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  [63:38]   (26) rptr[28:3]: Result Base Pointer (QW-aligned).
                                                                  [37:22]   (16) Cumulative Result Write Counter (for HDR write operation).
                                                                  [21]       (1) Waiting for GRdRsp EOT.
@@ -873,7 +901,7 @@ typedef union
                                                                  [0]        (1) Valid. */
 #else /* Word 0 - Little Endian */
         uint64_t sbd0                  : 64; /**< [ 63:  0](RO/H) DFA ScoreBoard 0 Data (DFA Scoreboard Debug).
-                                                                 INTERNAL:
+                                                                 Internal:
                                                                  [63:38]   (26) rptr[28:3]: Result Base Pointer (QW-aligned).
                                                                  [37:22]   (16) Cumulative Result Write Counter (for HDR write operation).
                                                                  [21]       (1) Waiting for GRdRsp EOT.
@@ -1653,7 +1681,9 @@ typedef union
                                                                  specifies that the RAM1 parity error was detected during a CND-RD (cache node metadata
                                                                  read).
                                                                  This bit is set if ANY node cluster's RAM1 accesses detect a CNDRD error.
-                                                                 INTERNAL: For CNDRD Parity Error, the previous CNA arc fetch information is written to
+
+                                                                 Internal:
+                                                                 For CNDRD Parity Error, the previous CNA arc fetch information is written to
                                                                  RWORD1+ as follows:
                                                                  RWORD1+[NTYPE]=MNODE
                                                                  RWORD1+[NDNID]=cna.ndnid
@@ -1724,7 +1754,9 @@ typedef union
                                                                  specifies that the RAM1 parity error was detected during a CND-RD (cache node metadata
                                                                  read).
                                                                  This bit is set if ANY node cluster's RAM1 accesses detect a CNDRD error.
-                                                                 INTERNAL: For CNDRD Parity Error, the previous CNA arc fetch information is written to
+
+                                                                 Internal:
+                                                                 For CNDRD Parity Error, the previous CNA arc fetch information is written to
                                                                  RWORD1+ as follows:
                                                                  RWORD1+[NTYPE]=MNODE
                                                                  RWORD1+[NDNID]=cna.ndnid

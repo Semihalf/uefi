@@ -144,12 +144,12 @@
                                        enable clears PKI_CL(0..1)_ECC_INT_ENA_W1C, and enable sets PKI_CL(0..1)_ECC_INT_ENA_W1S. */
 #define BDK_PKI_INT_VEC_E_CLX_INT(a) (4 + (a)) /**< See interrupt clears PKI_CL(0..1)_INT, interrupt sets PKI_CL(0..1)_INT_W1S,
                                        enable clears PKI_CL(0..1)_INT_ENA_W1C, and enable sets PKI_CL(0..1)_INT_ENA_W1S. */
-#define BDK_PKI_INT_VEC_E_ECC0 (1) /**< See interrupt clears PKI_ECC_INT0, interrupt sets PKI_ECC_INT0_W1S,
-                                       enable clears PKI_ECC_INT0_ENA_W1C, and enable sets PKI_ECC_INT0_ENA_W1S. */
-#define BDK_PKI_INT_VEC_E_ECC1 (2) /**< See interrupt clears PKI_ECC_INT1, interrupt sets PKI_ECC_INT1_W1S,
-                                       enable clears PKI_ECC_INT1_ENA_W1C, and enable sets PKI_ECC_INT1_ENA_W1S. */
-#define BDK_PKI_INT_VEC_E_ECC2 (3) /**< See interrupt clears PKI_ECC_INT2, interrupt sets PKI_ECC_INT2_W1S,
-                                       enable clears PKI_ECC_INT2_ENA_W1C, and enable sets PKI_ECC_INT2_ENA_W1S. */
+#define BDK_PKI_INT_VEC_E_ECC0 (1) /**< See interrupt clears PKI_ECC0_INT, interrupt sets PKI_ECC0_INT_W1S,
+                                       enable clears PKI_ECC0_INT_ENA_W1C, and enable sets PKI_ECC0_INT_ENA_W1S. */
+#define BDK_PKI_INT_VEC_E_ECC1 (2) /**< See interrupt clears PKI_ECC1_INT, interrupt sets PKI_ECC1_INT_W1S,
+                                       enable clears PKI_ECC1_INT_ENA_W1C, and enable sets PKI_ECC1_INT_ENA_W1S. */
+#define BDK_PKI_INT_VEC_E_ECC2 (3) /**< See interrupt clears PKI_ECC2_INT, interrupt sets PKI_ECC2_INT_W1S,
+                                       enable clears PKI_ECC2_INT_ENA_W1C, and enable sets PKI_ECC2_INT_ENA_W1S. */
 #define BDK_PKI_INT_VEC_E_GEN (0) /**< See interrupt clears PKI_GEN_INT, interrupt sets PKI_GEN_INT_W1S,
                                        enable clears PKI_GEN_INT_ENA_W1C, and enable sets PKI_GEN_INT_ENA_W1S. */
 
@@ -2166,7 +2166,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
-        uint64_t bist                  : 26; /**< [ 25:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST. INTERNAL: This
+        uint64_t bist                  : 26; /**< [ 25:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST.
+                                                                 Internal:
+                                                                 This
                                                                  register collects status for PKI_PBE.
                                                                  <25> = DSTATS_MEM0.
                                                                  <24> = DSTATS_MEM1.
@@ -2193,7 +2195,9 @@ typedef union
                                                                  <1> = STYLEWQ.
                                                                  <0> = QPG. */
 #else /* Word 0 - Little Endian */
-        uint64_t bist                  : 26; /**< [ 25:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST. INTERNAL: This
+        uint64_t bist                  : 26; /**< [ 25:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST.
+                                                                 Internal:
+                                                                 This
                                                                  register collects status for PKI_PBE.
                                                                  <25> = DSTATS_MEM0.
                                                                  <24> = DSTATS_MEM1.
@@ -2254,7 +2258,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
-        uint64_t bist                  : 25; /**< [ 24:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST. INTERNAL: This
+        uint64_t bist                  : 25; /**< [ 24:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST.
+                                                                 Internal:
+                                                                 This
                                                                  register collects status for PKI_PIX (verif/vkits/pki/pki_mem_info_table.sv).
                                                                  24     = IMEM.
                                                                  23..20 = Reserved.
@@ -2271,7 +2277,9 @@ typedef union
                                                                  3..2   = Reserved.
                                                                  1..0   = IPEC PCAM CAM. */
 #else /* Word 0 - Little Endian */
-        uint64_t bist                  : 25; /**< [ 24:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST. INTERNAL: This
+        uint64_t bist                  : 25; /**< [ 24:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails BIST.
+                                                                 Internal:
+                                                                 This
                                                                  register collects status for PKI_PIX (verif/vkits/pki/pki_mem_info_table.sv).
                                                                  24     = IMEM.
                                                                  23..20 = Reserved.
@@ -2321,7 +2329,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
@@ -2329,8 +2338,8 @@ typedef union
                                                                  <60> = Reserved. FIXME - add some. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -2342,8 +2351,8 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -2351,7 +2360,8 @@ typedef union
                                                                    <17:16> = BP_CFG0. */
         uint64_t reserved_24_59        : 36;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
@@ -2390,7 +2400,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
@@ -2398,8 +2409,8 @@ typedef union
                                                                  <60> = Reserved. FIXME - add some. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -2411,8 +2422,8 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -2420,7 +2431,8 @@ typedef union
                                                                    <17:16> = BP_CFG0. */
         uint64_t reserved_24_59        : 36;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
@@ -2459,7 +2471,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
@@ -2467,8 +2480,8 @@ typedef union
                                                                  <60> = Reserved. FIXME - add some. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -2480,8 +2493,8 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -2489,7 +2502,8 @@ typedef union
                                                                    <17:16> = BP_CFG0. */
         uint64_t reserved_24_59        : 36;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
@@ -2975,10 +2989,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t iptint                : 1;  /**< [  3:  3](R/W1C/H) PCAM sequencer debug interrupt. INTERNAL:
+        uint64_t iptint                : 1;  /**< [  3:  3](R/W1C/H) PCAM sequencer debug interrupt.
+                                                                 Internal:
                                                                  Caused by TRAP or INTR sequence state. */
         uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1C/H) PCAM/SMEM internal port conflict. Internal error, should not occur.
-                                                                 INTERNAL: Sequencer mis-scheduled PCAM or SMEM
+                                                                 Internal:
+                                                                 Sequencer mis-scheduled PCAM or SMEM
                                                                  ops with overlapping accesses. */
         uint64_t pcam_conf             : 2;  /**< [  1:  0](R/W1C/H) PCAM() match hit multiple rows, indicating either a soft error in the PCAM or a
                                                                  programming error in PKI_CL()_PCAM()_MATCH() or related registers.
@@ -2992,9 +3008,11 @@ typedef union
                                                                  is unpredictable and is required to be fully reconfigured before further valid processing
                                                                  can take place. */
         uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1C/H) PCAM/SMEM internal port conflict. Internal error, should not occur.
-                                                                 INTERNAL: Sequencer mis-scheduled PCAM or SMEM
+                                                                 Internal:
+                                                                 Sequencer mis-scheduled PCAM or SMEM
                                                                  ops with overlapping accesses. */
-        uint64_t iptint                : 1;  /**< [  3:  3](R/W1C/H) PCAM sequencer debug interrupt. INTERNAL:
+        uint64_t iptint                : 1;  /**< [  3:  3](R/W1C/H) PCAM sequencer debug interrupt.
+                                                                 Internal:
                                                                  Caused by TRAP or INTR sequence state. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -3030,13 +3048,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t iptint                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_CL(0..1)_INT[IPTINT]. */
-        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_CL(0..1)_INT[SCHED_CONF]. */
+        uint64_t iptint                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_CL(0..1)_INT[IPTINT].
+                                                                 Internal:
+                                                                 Caused by TRAP or INTR sequence state. */
+        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_CL(0..1)_INT[SCHED_CONF].
+                                                                 Internal:
+                                                                 Sequencer mis-scheduled PCAM or SMEM
+                                                                 ops with overlapping accesses. */
         uint64_t pcam_conf             : 2;  /**< [  1:  0](R/W1C/H) Reads or clears enable for PKI_CL(0..1)_INT[PCAM_CONF]. */
 #else /* Word 0 - Little Endian */
         uint64_t pcam_conf             : 2;  /**< [  1:  0](R/W1C/H) Reads or clears enable for PKI_CL(0..1)_INT[PCAM_CONF]. */
-        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_CL(0..1)_INT[SCHED_CONF]. */
-        uint64_t iptint                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_CL(0..1)_INT[IPTINT]. */
+        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_CL(0..1)_INT[SCHED_CONF].
+                                                                 Internal:
+                                                                 Sequencer mis-scheduled PCAM or SMEM
+                                                                 ops with overlapping accesses. */
+        uint64_t iptint                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_CL(0..1)_INT[IPTINT].
+                                                                 Internal:
+                                                                 Caused by TRAP or INTR sequence state. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -3071,13 +3099,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t iptint                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_CL(0..1)_INT[IPTINT]. */
-        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_CL(0..1)_INT[SCHED_CONF]. */
+        uint64_t iptint                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_CL(0..1)_INT[IPTINT].
+                                                                 Internal:
+                                                                 Caused by TRAP or INTR sequence state. */
+        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_CL(0..1)_INT[SCHED_CONF].
+                                                                 Internal:
+                                                                 Sequencer mis-scheduled PCAM or SMEM
+                                                                 ops with overlapping accesses. */
         uint64_t pcam_conf             : 2;  /**< [  1:  0](R/W1S/H) Reads or sets enable for PKI_CL(0..1)_INT[PCAM_CONF]. */
 #else /* Word 0 - Little Endian */
         uint64_t pcam_conf             : 2;  /**< [  1:  0](R/W1S/H) Reads or sets enable for PKI_CL(0..1)_INT[PCAM_CONF]. */
-        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_CL(0..1)_INT[SCHED_CONF]. */
-        uint64_t iptint                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_CL(0..1)_INT[IPTINT]. */
+        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_CL(0..1)_INT[SCHED_CONF].
+                                                                 Internal:
+                                                                 Sequencer mis-scheduled PCAM or SMEM
+                                                                 ops with overlapping accesses. */
+        uint64_t iptint                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_CL(0..1)_INT[IPTINT].
+                                                                 Internal:
+                                                                 Caused by TRAP or INTR sequence state. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -3112,13 +3150,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t iptint                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_CL(0..1)_INT[IPTINT]. */
-        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_CL(0..1)_INT[SCHED_CONF]. */
+        uint64_t iptint                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_CL(0..1)_INT[IPTINT].
+                                                                 Internal:
+                                                                 Caused by TRAP or INTR sequence state. */
+        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_CL(0..1)_INT[SCHED_CONF].
+                                                                 Internal:
+                                                                 Sequencer mis-scheduled PCAM or SMEM
+                                                                 ops with overlapping accesses. */
         uint64_t pcam_conf             : 2;  /**< [  1:  0](R/W1S/H) Reads or sets PKI_CL(0..1)_INT[PCAM_CONF]. */
 #else /* Word 0 - Little Endian */
         uint64_t pcam_conf             : 2;  /**< [  1:  0](R/W1S/H) Reads or sets PKI_CL(0..1)_INT[PCAM_CONF]. */
-        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_CL(0..1)_INT[SCHED_CONF]. */
-        uint64_t iptint                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_CL(0..1)_INT[IPTINT]. */
+        uint64_t sched_conf            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_CL(0..1)_INT[SCHED_CONF].
+                                                                 Internal:
+                                                                 Sequencer mis-scheduled PCAM or SMEM
+                                                                 ops with overlapping accesses. */
+        uint64_t iptint                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_CL(0..1)_INT[IPTINT].
+                                                                 Internal:
+                                                                 Caused by TRAP or INTR sequence state. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -3574,7 +3622,7 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_CFG(unsigned long a, unsigned long b)
  * PKI_CL()_PKIND()_KMEM().
  *
  * Software must reload the PKI_CL()_PKIND()_KMEM() registers upon the detection of
- * PKI_ECC_INT0[KMEM_SBE] or PKI_ECC_INT0[KMEM_DBE].
+ * PKI_ECC0_INT[KMEM_SBE] or PKI_ECC0_INT[KMEM_DBE].
  *
  * For each legal j and k value, PKI_CL(i)_PKIND(j)_KMEM(k) must be configured
  * identically for i=0..1.
@@ -4682,15 +4730,15 @@ static inline uint64_t BDK_PKI_DSTATX_STAT4(unsigned long a)
 #define arguments_BDK_PKI_DSTATX_STAT4(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_ctl0
+ * Register (NCB) pki_ecc0_ctl
  *
- * PKI ECC Control 0 Register
+ * PKI ECC 0 Control Register
  * This register allows inserting ECC errors for testing.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_ctl0_s
+    struct bdk_pki_ecc0_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
@@ -4746,170 +4794,34 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_ctl0_s cn; */
-} bdk_pki_ecc_ctl0_t;
+    /* struct bdk_pki_ecc0_ctl_s cn; */
+} bdk_pki_ecc0_ctl_t;
 
-#define BDK_PKI_ECC_CTL0 BDK_PKI_ECC_CTL0_FUNC()
-static inline uint64_t BDK_PKI_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_CTL0_FUNC(void)
+#define BDK_PKI_ECC0_CTL BDK_PKI_ECC0_CTL_FUNC()
+static inline uint64_t BDK_PKI_ECC0_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC0_CTL_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000060ll;
-    __bdk_csr_fatal("PKI_ECC_CTL0", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC0_CTL", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_CTL0 bdk_pki_ecc_ctl0_t
-#define bustype_BDK_PKI_ECC_CTL0 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_CTL0 "PKI_ECC_CTL0"
-#define device_bar_BDK_PKI_ECC_CTL0 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_CTL0 0
-#define arguments_BDK_PKI_ECC_CTL0 -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC0_CTL bdk_pki_ecc0_ctl_t
+#define bustype_BDK_PKI_ECC0_CTL BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC0_CTL "PKI_ECC0_CTL"
+#define device_bar_BDK_PKI_ECC0_CTL 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC0_CTL 0
+#define arguments_BDK_PKI_ECC0_CTL -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_ctl1
+ * Register (NCB) pki_ecc0_int
  *
- * PKI ECC Control 1 Register
- * This register allows inserting ECC errors for testing.
+ * PKI ECC 0 Interrupt Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_ctl1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
-        uint64_t sws_flip              : 2;  /**< [ 50: 49](R/W) SWS flip syndrome bits on write. */
-        uint64_t sws_cdis              : 1;  /**< [ 48: 48](R/W) SWS ECC correction disable. */
-        uint64_t wqeout_flip           : 2;  /**< [ 47: 46](R/W) WQEOUT flip syndrome bits on write. */
-        uint64_t wqeout_cdis           : 1;  /**< [ 45: 45](R/W) WQEOUT ECC correction disable. */
-        uint64_t doa_flip              : 2;  /**< [ 44: 43](R/W) DOA flip syndrome bits on write. */
-        uint64_t doa_cdis              : 1;  /**< [ 42: 42](R/W) DOA ECC correction disable. */
-        uint64_t bpid_flip             : 2;  /**< [ 41: 40](R/W) BPID flip syndrome bits on write. */
-        uint64_t bpid_cdis             : 1;  /**< [ 39: 39](R/W) BPID ECC correction disable. */
-        uint64_t reserved_30_38        : 9;
-        uint64_t plc_flip              : 2;  /**< [ 29: 28](R/W) PLC flip syndrome bits on write. */
-        uint64_t plc_cdis              : 1;  /**< [ 27: 27](R/W) PLC ECC correction disable. */
-        uint64_t pktwq_flip            : 2;  /**< [ 26: 25](R/W) PKTWQ flip syndrome bits on write. */
-        uint64_t pktwq_cdis            : 1;  /**< [ 24: 24](R/W) PKTWQ ECC correction disable. */
-        uint64_t strm_flip             : 2;  /**< [ 23: 22](R/W) STRM flip syndrome bits on write. */
-        uint64_t strm_cdis             : 1;  /**< [ 21: 21](R/W) STRM ECC correction disable. */
-        uint64_t stylewq2_flip         : 2;  /**< [ 20: 19](R/W) STYLEWQ2 flip syndrome bits on write. */
-        uint64_t stylewq2_cdis         : 1;  /**< [ 18: 18](R/W) STYLEWQ2 ECC correction disable. */
-        uint64_t tag_flip              : 2;  /**< [ 17: 16](R/W) TAG flip syndrome bits on write. */
-        uint64_t tag_cdis              : 1;  /**< [ 15: 15](R/W) TAG ECC correction disable. */
-        uint64_t aura_flip             : 2;  /**< [ 14: 13](R/W) AURA flip syndrome bits on write. */
-        uint64_t aura_cdis             : 1;  /**< [ 12: 12](R/W) AURA ECC correction disable. */
-        uint64_t chan_flip             : 2;  /**< [ 11: 10](R/W) CHAN flip syndrome bits on write. */
-        uint64_t chan_cdis             : 1;  /**< [  9:  9](R/W) CHAN ECC correction disable. */
-        uint64_t pbtag_flip            : 2;  /**< [  8:  7](R/W) PBTAG flip syndrome bits on write. */
-        uint64_t pbtag_cdis            : 1;  /**< [  6:  6](R/W) PBTAG ECC correction disable. */
-        uint64_t stylewq_flip          : 2;  /**< [  5:  4](R/W) STYLEWQ flip syndrome bits on write. */
-        uint64_t stylewq_cdis          : 1;  /**< [  3:  3](R/W) STYLEWQ ECC correction disable. */
-        uint64_t qpg_flip              : 2;  /**< [  2:  1](R/W) QPG flip syndrome bits on write. */
-        uint64_t qpg_cdis              : 1;  /**< [  0:  0](R/W) QPG ECC correction disable. */
-#else /* Word 0 - Little Endian */
-        uint64_t qpg_cdis              : 1;  /**< [  0:  0](R/W) QPG ECC correction disable. */
-        uint64_t qpg_flip              : 2;  /**< [  2:  1](R/W) QPG flip syndrome bits on write. */
-        uint64_t stylewq_cdis          : 1;  /**< [  3:  3](R/W) STYLEWQ ECC correction disable. */
-        uint64_t stylewq_flip          : 2;  /**< [  5:  4](R/W) STYLEWQ flip syndrome bits on write. */
-        uint64_t pbtag_cdis            : 1;  /**< [  6:  6](R/W) PBTAG ECC correction disable. */
-        uint64_t pbtag_flip            : 2;  /**< [  8:  7](R/W) PBTAG flip syndrome bits on write. */
-        uint64_t chan_cdis             : 1;  /**< [  9:  9](R/W) CHAN ECC correction disable. */
-        uint64_t chan_flip             : 2;  /**< [ 11: 10](R/W) CHAN flip syndrome bits on write. */
-        uint64_t aura_cdis             : 1;  /**< [ 12: 12](R/W) AURA ECC correction disable. */
-        uint64_t aura_flip             : 2;  /**< [ 14: 13](R/W) AURA flip syndrome bits on write. */
-        uint64_t tag_cdis              : 1;  /**< [ 15: 15](R/W) TAG ECC correction disable. */
-        uint64_t tag_flip              : 2;  /**< [ 17: 16](R/W) TAG flip syndrome bits on write. */
-        uint64_t stylewq2_cdis         : 1;  /**< [ 18: 18](R/W) STYLEWQ2 ECC correction disable. */
-        uint64_t stylewq2_flip         : 2;  /**< [ 20: 19](R/W) STYLEWQ2 flip syndrome bits on write. */
-        uint64_t strm_cdis             : 1;  /**< [ 21: 21](R/W) STRM ECC correction disable. */
-        uint64_t strm_flip             : 2;  /**< [ 23: 22](R/W) STRM flip syndrome bits on write. */
-        uint64_t pktwq_cdis            : 1;  /**< [ 24: 24](R/W) PKTWQ ECC correction disable. */
-        uint64_t pktwq_flip            : 2;  /**< [ 26: 25](R/W) PKTWQ flip syndrome bits on write. */
-        uint64_t plc_cdis              : 1;  /**< [ 27: 27](R/W) PLC ECC correction disable. */
-        uint64_t plc_flip              : 2;  /**< [ 29: 28](R/W) PLC flip syndrome bits on write. */
-        uint64_t reserved_30_38        : 9;
-        uint64_t bpid_cdis             : 1;  /**< [ 39: 39](R/W) BPID ECC correction disable. */
-        uint64_t bpid_flip             : 2;  /**< [ 41: 40](R/W) BPID flip syndrome bits on write. */
-        uint64_t doa_cdis              : 1;  /**< [ 42: 42](R/W) DOA ECC correction disable. */
-        uint64_t doa_flip              : 2;  /**< [ 44: 43](R/W) DOA flip syndrome bits on write. */
-        uint64_t wqeout_cdis           : 1;  /**< [ 45: 45](R/W) WQEOUT ECC correction disable. */
-        uint64_t wqeout_flip           : 2;  /**< [ 47: 46](R/W) WQEOUT flip syndrome bits on write. */
-        uint64_t sws_cdis              : 1;  /**< [ 48: 48](R/W) SWS ECC correction disable. */
-        uint64_t sws_flip              : 2;  /**< [ 50: 49](R/W) SWS flip syndrome bits on write. */
-        uint64_t reserved_51_63        : 13;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pki_ecc_ctl1_s cn; */
-} bdk_pki_ecc_ctl1_t;
-
-#define BDK_PKI_ECC_CTL1 BDK_PKI_ECC_CTL1_FUNC()
-static inline uint64_t BDK_PKI_ECC_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_CTL1_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x86c000000068ll;
-    __bdk_csr_fatal("PKI_ECC_CTL1", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKI_ECC_CTL1 bdk_pki_ecc_ctl1_t
-#define bustype_BDK_PKI_ECC_CTL1 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_CTL1 "PKI_ECC_CTL1"
-#define device_bar_BDK_PKI_ECC_CTL1 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_CTL1 0
-#define arguments_BDK_PKI_ECC_CTL1 -1,-1,-1,-1
-
-/**
- * Register (NCB) pki_ecc_ctl2
- *
- * PKI ECC Control 2 Register
- * This register allows inserting ECC errors for testing.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pki_ecc_ctl2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t imem_flip             : 2;  /**< [  2:  1](R/W) KMEM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM ram to
-                                                                 test single-bit or double-bit error handling. */
-        uint64_t imem_cdis             : 1;  /**< [  0:  0](R/W) IMEM ECC correction disable. */
-#else /* Word 0 - Little Endian */
-        uint64_t imem_cdis             : 1;  /**< [  0:  0](R/W) IMEM ECC correction disable. */
-        uint64_t imem_flip             : 2;  /**< [  2:  1](R/W) KMEM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM ram to
-                                                                 test single-bit or double-bit error handling. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pki_ecc_ctl2_s cn; */
-} bdk_pki_ecc_ctl2_t;
-
-#define BDK_PKI_ECC_CTL2 BDK_PKI_ECC_CTL2_FUNC()
-static inline uint64_t BDK_PKI_ECC_CTL2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_CTL2_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x86c000000070ll;
-    __bdk_csr_fatal("PKI_ECC_CTL2", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKI_ECC_CTL2 bdk_pki_ecc_ctl2_t
-#define bustype_BDK_PKI_ECC_CTL2 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_CTL2 "PKI_ECC_CTL2"
-#define device_bar_BDK_PKI_ECC_CTL2 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_CTL2 0
-#define arguments_BDK_PKI_ECC_CTL2 -1,-1,-1,-1
-
-/**
- * Register (NCB) pki_ecc_int0
- *
- * PKI ECC Interrupt 0 Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pki_ecc_int0_s
+    struct bdk_pki_ecc0_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -4953,27 +4865,27 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int0_s cn; */
-} bdk_pki_ecc_int0_t;
+    /* struct bdk_pki_ecc0_int_s cn; */
+} bdk_pki_ecc0_int_t;
 
-#define BDK_PKI_ECC_INT0 BDK_PKI_ECC_INT0_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT0_FUNC(void)
+#define BDK_PKI_ECC0_INT BDK_PKI_ECC0_INT_FUNC()
+static inline uint64_t BDK_PKI_ECC0_INT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC0_INT_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000840ll;
-    __bdk_csr_fatal("PKI_ECC_INT0", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC0_INT", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT0 bdk_pki_ecc_int0_t
-#define bustype_BDK_PKI_ECC_INT0 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT0 "PKI_ECC_INT0"
-#define device_bar_BDK_PKI_ECC_INT0 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT0 0
-#define arguments_BDK_PKI_ECC_INT0 -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC0_INT bdk_pki_ecc0_int_t
+#define bustype_BDK_PKI_ECC0_INT BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC0_INT "PKI_ECC0_INT"
+#define device_bar_BDK_PKI_ECC0_INT 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC0_INT 0
+#define arguments_BDK_PKI_ECC0_INT -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_int0_ena_w1c
+ * Register (NCB) pki_ecc0_int_ena_w1c
  *
  * PKI ECC 0 Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -4981,67 +4893,67 @@ static inline uint64_t BDK_PKI_ECC_INT0_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_int0_ena_w1c_s
+    struct bdk_pki_ecc0_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[LDFIF_DBE]. */
-        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[LDFIF_SBE]. */
-        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[PBE_DBE]. */
-        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[PBE_SBE]. */
-        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[WADR_DBE]. */
-        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[WADR_SBE]. */
-        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[NXTPTAG_DBE]. */
-        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[NXTPTAG_SBE]. */
-        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[CURPTAG_DBE]. */
-        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[CURPTAG_SBE]. */
-        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[NXTBLK_DBE]. */
-        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[NXTBLK_SBE]. */
-        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[KMEM_DBE]. */
-        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[KMEM_SBE]. */
-        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[ASM_DBE]. */
-        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[ASM_SBE]. */
+        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[LDFIF_DBE]. */
+        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[LDFIF_SBE]. */
+        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[PBE_DBE]. */
+        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[PBE_SBE]. */
+        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[WADR_DBE]. */
+        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[WADR_SBE]. */
+        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[NXTPTAG_DBE]. */
+        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[NXTPTAG_SBE]. */
+        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[CURPTAG_DBE]. */
+        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[CURPTAG_SBE]. */
+        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[NXTBLK_DBE]. */
+        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[NXTBLK_SBE]. */
+        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[KMEM_DBE]. */
+        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[KMEM_SBE]. */
+        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[ASM_DBE]. */
+        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[ASM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[ASM_SBE]. */
-        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[ASM_DBE]. */
-        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[KMEM_SBE]. */
-        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[KMEM_DBE]. */
-        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[NXTBLK_SBE]. */
-        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[NXTBLK_DBE]. */
-        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[CURPTAG_SBE]. */
-        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[CURPTAG_DBE]. */
-        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[NXTPTAG_SBE]. */
-        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[NXTPTAG_DBE]. */
-        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[WADR_SBE]. */
-        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[WADR_DBE]. */
-        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[PBE_SBE]. */
-        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[PBE_DBE]. */
-        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[LDFIF_SBE]. */
-        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PKI_ECC_INT0[LDFIF_DBE]. */
+        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[ASM_SBE]. */
+        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[ASM_DBE]. */
+        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[KMEM_SBE]. */
+        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[KMEM_DBE]. */
+        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[NXTBLK_SBE]. */
+        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[NXTBLK_DBE]. */
+        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[CURPTAG_SBE]. */
+        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[CURPTAG_DBE]. */
+        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[NXTPTAG_SBE]. */
+        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[NXTPTAG_DBE]. */
+        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[WADR_SBE]. */
+        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[WADR_DBE]. */
+        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[PBE_SBE]. */
+        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[PBE_DBE]. */
+        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[LDFIF_SBE]. */
+        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PKI_ECC0_INT[LDFIF_DBE]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int0_ena_w1c_s cn; */
-} bdk_pki_ecc_int0_ena_w1c_t;
+    /* struct bdk_pki_ecc0_int_ena_w1c_s cn; */
+} bdk_pki_ecc0_int_ena_w1c_t;
 
-#define BDK_PKI_ECC_INT0_ENA_W1C BDK_PKI_ECC_INT0_ENA_W1C_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1C_FUNC(void)
+#define BDK_PKI_ECC0_INT_ENA_W1C BDK_PKI_ECC0_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKI_ECC0_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC0_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000860ll;
-    __bdk_csr_fatal("PKI_ECC_INT0_ENA_W1C", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC0_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT0_ENA_W1C bdk_pki_ecc_int0_ena_w1c_t
-#define bustype_BDK_PKI_ECC_INT0_ENA_W1C BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT0_ENA_W1C "PKI_ECC_INT0_ENA_W1C"
-#define device_bar_BDK_PKI_ECC_INT0_ENA_W1C 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT0_ENA_W1C 0
-#define arguments_BDK_PKI_ECC_INT0_ENA_W1C -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC0_INT_ENA_W1C bdk_pki_ecc0_int_ena_w1c_t
+#define bustype_BDK_PKI_ECC0_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC0_INT_ENA_W1C "PKI_ECC0_INT_ENA_W1C"
+#define device_bar_BDK_PKI_ECC0_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC0_INT_ENA_W1C 0
+#define arguments_BDK_PKI_ECC0_INT_ENA_W1C -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_int0_ena_w1s
+ * Register (NCB) pki_ecc0_int_ena_w1s
  *
  * PKI ECC 0 Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -5049,67 +4961,67 @@ static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1C_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_int0_ena_w1s_s
+    struct bdk_pki_ecc0_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[LDFIF_DBE]. */
-        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[LDFIF_SBE]. */
-        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[PBE_DBE]. */
-        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[PBE_SBE]. */
-        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[WADR_DBE]. */
-        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[WADR_SBE]. */
-        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[NXTPTAG_DBE]. */
-        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[NXTPTAG_SBE]. */
-        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[CURPTAG_DBE]. */
-        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[CURPTAG_SBE]. */
-        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[NXTBLK_DBE]. */
-        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[NXTBLK_SBE]. */
-        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[KMEM_DBE]. */
-        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[KMEM_SBE]. */
-        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[ASM_DBE]. */
-        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[ASM_SBE]. */
+        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[LDFIF_DBE]. */
+        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[LDFIF_SBE]. */
+        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[PBE_DBE]. */
+        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[PBE_SBE]. */
+        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[WADR_DBE]. */
+        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[WADR_SBE]. */
+        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[NXTPTAG_DBE]. */
+        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[NXTPTAG_SBE]. */
+        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[CURPTAG_DBE]. */
+        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[CURPTAG_SBE]. */
+        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[NXTBLK_DBE]. */
+        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[NXTBLK_SBE]. */
+        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[KMEM_DBE]. */
+        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[KMEM_SBE]. */
+        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[ASM_DBE]. */
+        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[ASM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[ASM_SBE]. */
-        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[ASM_DBE]. */
-        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[KMEM_SBE]. */
-        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[KMEM_DBE]. */
-        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[NXTBLK_SBE]. */
-        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[NXTBLK_DBE]. */
-        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[CURPTAG_SBE]. */
-        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[CURPTAG_DBE]. */
-        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[NXTPTAG_SBE]. */
-        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[NXTPTAG_DBE]. */
-        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[WADR_SBE]. */
-        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[WADR_DBE]. */
-        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[PBE_SBE]. */
-        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[PBE_DBE]. */
-        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[LDFIF_SBE]. */
-        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PKI_ECC_INT0[LDFIF_DBE]. */
+        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[ASM_SBE]. */
+        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[ASM_DBE]. */
+        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[KMEM_SBE]. */
+        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[KMEM_DBE]. */
+        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[NXTBLK_SBE]. */
+        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[NXTBLK_DBE]. */
+        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[CURPTAG_SBE]. */
+        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[CURPTAG_DBE]. */
+        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[NXTPTAG_SBE]. */
+        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[NXTPTAG_DBE]. */
+        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[WADR_SBE]. */
+        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[WADR_DBE]. */
+        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[PBE_SBE]. */
+        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[PBE_DBE]. */
+        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[LDFIF_SBE]. */
+        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PKI_ECC0_INT[LDFIF_DBE]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int0_ena_w1s_s cn; */
-} bdk_pki_ecc_int0_ena_w1s_t;
+    /* struct bdk_pki_ecc0_int_ena_w1s_s cn; */
+} bdk_pki_ecc0_int_ena_w1s_t;
 
-#define BDK_PKI_ECC_INT0_ENA_W1S BDK_PKI_ECC_INT0_ENA_W1S_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1S_FUNC(void)
+#define BDK_PKI_ECC0_INT_ENA_W1S BDK_PKI_ECC0_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKI_ECC0_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC0_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000870ll;
-    __bdk_csr_fatal("PKI_ECC_INT0_ENA_W1S", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC0_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT0_ENA_W1S bdk_pki_ecc_int0_ena_w1s_t
-#define bustype_BDK_PKI_ECC_INT0_ENA_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT0_ENA_W1S "PKI_ECC_INT0_ENA_W1S"
-#define device_bar_BDK_PKI_ECC_INT0_ENA_W1S 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT0_ENA_W1S 0
-#define arguments_BDK_PKI_ECC_INT0_ENA_W1S -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC0_INT_ENA_W1S bdk_pki_ecc0_int_ena_w1s_t
+#define bustype_BDK_PKI_ECC0_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC0_INT_ENA_W1S "PKI_ECC0_INT_ENA_W1S"
+#define device_bar_BDK_PKI_ECC0_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC0_INT_ENA_W1S 0
+#define arguments_BDK_PKI_ECC0_INT_ENA_W1S -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_int0_w1s
+ * Register (NCB) pki_ecc0_int_w1s
  *
  * PKI ECC 0 Interrupt Set Register
  * This register sets interrupt bits.
@@ -5117,74 +5029,168 @@ static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1S_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_int0_w1s_s
+    struct bdk_pki_ecc0_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PKI_ECC_INT0[LDFIF_DBE]. */
-        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PKI_ECC_INT0[LDFIF_SBE]. */
-        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PKI_ECC_INT0[PBE_DBE]. */
-        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC_INT0[PBE_SBE]. */
-        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC_INT0[WADR_DBE]. */
-        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC_INT0[WADR_SBE]. */
-        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC_INT0[NXTPTAG_DBE]. */
-        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKI_ECC_INT0[NXTPTAG_SBE]. */
-        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKI_ECC_INT0[CURPTAG_DBE]. */
-        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKI_ECC_INT0[CURPTAG_SBE]. */
-        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKI_ECC_INT0[NXTBLK_DBE]. */
-        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKI_ECC_INT0[NXTBLK_SBE]. */
-        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_ECC_INT0[KMEM_DBE]. */
-        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_ECC_INT0[KMEM_SBE]. */
-        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC_INT0[ASM_DBE]. */
-        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC_INT0[ASM_SBE]. */
+        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PKI_ECC0_INT[LDFIF_DBE]. */
+        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PKI_ECC0_INT[LDFIF_SBE]. */
+        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PKI_ECC0_INT[PBE_DBE]. */
+        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC0_INT[PBE_SBE]. */
+        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC0_INT[WADR_DBE]. */
+        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC0_INT[WADR_SBE]. */
+        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC0_INT[NXTPTAG_DBE]. */
+        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKI_ECC0_INT[NXTPTAG_SBE]. */
+        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKI_ECC0_INT[CURPTAG_DBE]. */
+        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKI_ECC0_INT[CURPTAG_SBE]. */
+        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKI_ECC0_INT[NXTBLK_DBE]. */
+        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKI_ECC0_INT[NXTBLK_SBE]. */
+        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_ECC0_INT[KMEM_DBE]. */
+        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_ECC0_INT[KMEM_SBE]. */
+        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC0_INT[ASM_DBE]. */
+        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC0_INT[ASM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC_INT0[ASM_SBE]. */
-        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC_INT0[ASM_DBE]. */
-        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_ECC_INT0[KMEM_SBE]. */
-        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_ECC_INT0[KMEM_DBE]. */
-        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKI_ECC_INT0[NXTBLK_SBE]. */
-        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKI_ECC_INT0[NXTBLK_DBE]. */
-        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKI_ECC_INT0[CURPTAG_SBE]. */
-        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKI_ECC_INT0[CURPTAG_DBE]. */
-        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKI_ECC_INT0[NXTPTAG_SBE]. */
-        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC_INT0[NXTPTAG_DBE]. */
-        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC_INT0[WADR_SBE]. */
-        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC_INT0[WADR_DBE]. */
-        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC_INT0[PBE_SBE]. */
-        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PKI_ECC_INT0[PBE_DBE]. */
-        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PKI_ECC_INT0[LDFIF_SBE]. */
-        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PKI_ECC_INT0[LDFIF_DBE]. */
+        uint64_t asm_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC0_INT[ASM_SBE]. */
+        uint64_t asm_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC0_INT[ASM_DBE]. */
+        uint64_t kmem_sbe              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_ECC0_INT[KMEM_SBE]. */
+        uint64_t kmem_dbe              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_ECC0_INT[KMEM_DBE]. */
+        uint64_t nxtblk_sbe            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKI_ECC0_INT[NXTBLK_SBE]. */
+        uint64_t nxtblk_dbe            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKI_ECC0_INT[NXTBLK_DBE]. */
+        uint64_t curptag_sbe           : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKI_ECC0_INT[CURPTAG_SBE]. */
+        uint64_t curptag_dbe           : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKI_ECC0_INT[CURPTAG_DBE]. */
+        uint64_t nxtptag_sbe           : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKI_ECC0_INT[NXTPTAG_SBE]. */
+        uint64_t nxtptag_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC0_INT[NXTPTAG_DBE]. */
+        uint64_t wadr_sbe              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC0_INT[WADR_SBE]. */
+        uint64_t wadr_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC0_INT[WADR_DBE]. */
+        uint64_t pbe_sbe               : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC0_INT[PBE_SBE]. */
+        uint64_t pbe_dbe               : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PKI_ECC0_INT[PBE_DBE]. */
+        uint64_t ldfif_sbe             : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PKI_ECC0_INT[LDFIF_SBE]. */
+        uint64_t ldfif_dbe             : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PKI_ECC0_INT[LDFIF_DBE]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int0_w1s_s cn; */
-} bdk_pki_ecc_int0_w1s_t;
+    /* struct bdk_pki_ecc0_int_w1s_s cn; */
+} bdk_pki_ecc0_int_w1s_t;
 
-#define BDK_PKI_ECC_INT0_W1S BDK_PKI_ECC_INT0_W1S_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT0_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT0_W1S_FUNC(void)
+#define BDK_PKI_ECC0_INT_W1S BDK_PKI_ECC0_INT_W1S_FUNC()
+static inline uint64_t BDK_PKI_ECC0_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC0_INT_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000850ll;
-    __bdk_csr_fatal("PKI_ECC_INT0_W1S", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC0_INT_W1S", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT0_W1S bdk_pki_ecc_int0_w1s_t
-#define bustype_BDK_PKI_ECC_INT0_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT0_W1S "PKI_ECC_INT0_W1S"
-#define device_bar_BDK_PKI_ECC_INT0_W1S 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT0_W1S 0
-#define arguments_BDK_PKI_ECC_INT0_W1S -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC0_INT_W1S bdk_pki_ecc0_int_w1s_t
+#define bustype_BDK_PKI_ECC0_INT_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC0_INT_W1S "PKI_ECC0_INT_W1S"
+#define device_bar_BDK_PKI_ECC0_INT_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC0_INT_W1S 0
+#define arguments_BDK_PKI_ECC0_INT_W1S -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_int1
+ * Register (NCB) pki_ecc1_ctl
  *
- * PKI ECC Interrupt 1 Register
+ * PKI ECC 1 Control Register
+ * This register allows inserting ECC errors for testing.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_int1_s
+    struct bdk_pki_ecc1_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_51_63        : 13;
+        uint64_t sws_flip              : 2;  /**< [ 50: 49](R/W) SWS flip syndrome bits on write. */
+        uint64_t sws_cdis              : 1;  /**< [ 48: 48](R/W) SWS ECC correction disable. */
+        uint64_t wqeout_flip           : 2;  /**< [ 47: 46](R/W) WQEOUT flip syndrome bits on write. */
+        uint64_t wqeout_cdis           : 1;  /**< [ 45: 45](R/W) WQEOUT ECC correction disable. */
+        uint64_t doa_flip              : 2;  /**< [ 44: 43](R/W) DOA flip syndrome bits on write. */
+        uint64_t doa_cdis              : 1;  /**< [ 42: 42](R/W) DOA ECC correction disable. */
+        uint64_t bpid_flip             : 2;  /**< [ 41: 40](R/W) BPID flip syndrome bits on write. */
+        uint64_t bpid_cdis             : 1;  /**< [ 39: 39](R/W) BPID ECC correction disable. */
+        uint64_t reserved_30_38        : 9;
+        uint64_t plc_flip              : 2;  /**< [ 29: 28](R/W) PLC flip syndrome bits on write. */
+        uint64_t plc_cdis              : 1;  /**< [ 27: 27](R/W) PLC ECC correction disable. */
+        uint64_t pktwq_flip            : 2;  /**< [ 26: 25](R/W) PKTWQ flip syndrome bits on write. */
+        uint64_t pktwq_cdis            : 1;  /**< [ 24: 24](R/W) PKTWQ ECC correction disable. */
+        uint64_t strm_flip             : 2;  /**< [ 23: 22](R/W) STRM flip syndrome bits on write. */
+        uint64_t strm_cdis             : 1;  /**< [ 21: 21](R/W) STRM ECC correction disable. */
+        uint64_t stylewq2_flip         : 2;  /**< [ 20: 19](R/W) STYLEWQ2 flip syndrome bits on write. */
+        uint64_t stylewq2_cdis         : 1;  /**< [ 18: 18](R/W) STYLEWQ2 ECC correction disable. */
+        uint64_t tag_flip              : 2;  /**< [ 17: 16](R/W) TAG flip syndrome bits on write. */
+        uint64_t tag_cdis              : 1;  /**< [ 15: 15](R/W) TAG ECC correction disable. */
+        uint64_t aura_flip             : 2;  /**< [ 14: 13](R/W) AURA flip syndrome bits on write. */
+        uint64_t aura_cdis             : 1;  /**< [ 12: 12](R/W) AURA ECC correction disable. */
+        uint64_t chan_flip             : 2;  /**< [ 11: 10](R/W) CHAN flip syndrome bits on write. */
+        uint64_t chan_cdis             : 1;  /**< [  9:  9](R/W) CHAN ECC correction disable. */
+        uint64_t pbtag_flip            : 2;  /**< [  8:  7](R/W) PBTAG flip syndrome bits on write. */
+        uint64_t pbtag_cdis            : 1;  /**< [  6:  6](R/W) PBTAG ECC correction disable. */
+        uint64_t stylewq_flip          : 2;  /**< [  5:  4](R/W) STYLEWQ flip syndrome bits on write. */
+        uint64_t stylewq_cdis          : 1;  /**< [  3:  3](R/W) STYLEWQ ECC correction disable. */
+        uint64_t qpg_flip              : 2;  /**< [  2:  1](R/W) QPG flip syndrome bits on write. */
+        uint64_t qpg_cdis              : 1;  /**< [  0:  0](R/W) QPG ECC correction disable. */
+#else /* Word 0 - Little Endian */
+        uint64_t qpg_cdis              : 1;  /**< [  0:  0](R/W) QPG ECC correction disable. */
+        uint64_t qpg_flip              : 2;  /**< [  2:  1](R/W) QPG flip syndrome bits on write. */
+        uint64_t stylewq_cdis          : 1;  /**< [  3:  3](R/W) STYLEWQ ECC correction disable. */
+        uint64_t stylewq_flip          : 2;  /**< [  5:  4](R/W) STYLEWQ flip syndrome bits on write. */
+        uint64_t pbtag_cdis            : 1;  /**< [  6:  6](R/W) PBTAG ECC correction disable. */
+        uint64_t pbtag_flip            : 2;  /**< [  8:  7](R/W) PBTAG flip syndrome bits on write. */
+        uint64_t chan_cdis             : 1;  /**< [  9:  9](R/W) CHAN ECC correction disable. */
+        uint64_t chan_flip             : 2;  /**< [ 11: 10](R/W) CHAN flip syndrome bits on write. */
+        uint64_t aura_cdis             : 1;  /**< [ 12: 12](R/W) AURA ECC correction disable. */
+        uint64_t aura_flip             : 2;  /**< [ 14: 13](R/W) AURA flip syndrome bits on write. */
+        uint64_t tag_cdis              : 1;  /**< [ 15: 15](R/W) TAG ECC correction disable. */
+        uint64_t tag_flip              : 2;  /**< [ 17: 16](R/W) TAG flip syndrome bits on write. */
+        uint64_t stylewq2_cdis         : 1;  /**< [ 18: 18](R/W) STYLEWQ2 ECC correction disable. */
+        uint64_t stylewq2_flip         : 2;  /**< [ 20: 19](R/W) STYLEWQ2 flip syndrome bits on write. */
+        uint64_t strm_cdis             : 1;  /**< [ 21: 21](R/W) STRM ECC correction disable. */
+        uint64_t strm_flip             : 2;  /**< [ 23: 22](R/W) STRM flip syndrome bits on write. */
+        uint64_t pktwq_cdis            : 1;  /**< [ 24: 24](R/W) PKTWQ ECC correction disable. */
+        uint64_t pktwq_flip            : 2;  /**< [ 26: 25](R/W) PKTWQ flip syndrome bits on write. */
+        uint64_t plc_cdis              : 1;  /**< [ 27: 27](R/W) PLC ECC correction disable. */
+        uint64_t plc_flip              : 2;  /**< [ 29: 28](R/W) PLC flip syndrome bits on write. */
+        uint64_t reserved_30_38        : 9;
+        uint64_t bpid_cdis             : 1;  /**< [ 39: 39](R/W) BPID ECC correction disable. */
+        uint64_t bpid_flip             : 2;  /**< [ 41: 40](R/W) BPID flip syndrome bits on write. */
+        uint64_t doa_cdis              : 1;  /**< [ 42: 42](R/W) DOA ECC correction disable. */
+        uint64_t doa_flip              : 2;  /**< [ 44: 43](R/W) DOA flip syndrome bits on write. */
+        uint64_t wqeout_cdis           : 1;  /**< [ 45: 45](R/W) WQEOUT ECC correction disable. */
+        uint64_t wqeout_flip           : 2;  /**< [ 47: 46](R/W) WQEOUT flip syndrome bits on write. */
+        uint64_t sws_cdis              : 1;  /**< [ 48: 48](R/W) SWS ECC correction disable. */
+        uint64_t sws_flip              : 2;  /**< [ 50: 49](R/W) SWS flip syndrome bits on write. */
+        uint64_t reserved_51_63        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_ecc1_ctl_s cn; */
+} bdk_pki_ecc1_ctl_t;
+
+#define BDK_PKI_ECC1_CTL BDK_PKI_ECC1_CTL_FUNC()
+static inline uint64_t BDK_PKI_ECC1_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC1_CTL_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000000068ll;
+    __bdk_csr_fatal("PKI_ECC1_CTL", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_ECC1_CTL bdk_pki_ecc1_ctl_t
+#define bustype_BDK_PKI_ECC1_CTL BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC1_CTL "PKI_ECC1_CTL"
+#define device_bar_BDK_PKI_ECC1_CTL 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC1_CTL 0
+#define arguments_BDK_PKI_ECC1_CTL -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_ecc1_int
+ *
+ * PKI ECC 1 Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_ecc1_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
@@ -5248,27 +5254,27 @@ typedef union
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int1_s cn; */
-} bdk_pki_ecc_int1_t;
+    /* struct bdk_pki_ecc1_int_s cn; */
+} bdk_pki_ecc1_int_t;
 
-#define BDK_PKI_ECC_INT1 BDK_PKI_ECC_INT1_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT1_FUNC(void)
+#define BDK_PKI_ECC1_INT BDK_PKI_ECC1_INT_FUNC()
+static inline uint64_t BDK_PKI_ECC1_INT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC1_INT_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000880ll;
-    __bdk_csr_fatal("PKI_ECC_INT1", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC1_INT", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT1 bdk_pki_ecc_int1_t
-#define bustype_BDK_PKI_ECC_INT1 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT1 "PKI_ECC_INT1"
-#define device_bar_BDK_PKI_ECC_INT1 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT1 0
-#define arguments_BDK_PKI_ECC_INT1 -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC1_INT bdk_pki_ecc1_int_t
+#define bustype_BDK_PKI_ECC1_INT BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC1_INT "PKI_ECC1_INT"
+#define device_bar_BDK_PKI_ECC1_INT 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC1_INT 0
+#define arguments_BDK_PKI_ECC1_INT -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_int1_ena_w1c
+ * Register (NCB) pki_ecc1_int_ena_w1c
  *
  * PKI ECC 1 Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -5276,91 +5282,91 @@ static inline uint64_t BDK_PKI_ECC_INT1_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_int1_ena_w1c_s
+    struct bdk_pki_ecc1_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
-        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[SWS_DBE]. */
-        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[SWS_SBE]. */
-        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[WQEOUT_DBE]. */
-        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[WQEOUT_SBE]. */
-        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[DOA_DBE]. */
-        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[DOA_SBE]. */
-        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[BPID_DBE]. */
-        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[BPID_SBE]. */
+        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[SWS_DBE]. */
+        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[SWS_SBE]. */
+        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[WQEOUT_DBE]. */
+        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[WQEOUT_SBE]. */
+        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[DOA_DBE]. */
+        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[DOA_SBE]. */
+        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[BPID_DBE]. */
+        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[BPID_SBE]. */
         uint64_t reserved_20_25        : 6;
-        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PLC_DBE]. */
-        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PLC_SBE]. */
-        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PKTWQ_DBE]. */
-        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PKTWQ_SBE]. */
+        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PLC_DBE]. */
+        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PLC_SBE]. */
+        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PKTWQ_DBE]. */
+        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PKTWQ_SBE]. */
         uint64_t reserved_14_15        : 2;
-        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STRM_DBE]. */
-        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STRM_SBE]. */
-        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[TAG_DBE]. */
-        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[TAG_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[AURA_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[AURA_SBE]. */
-        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[CHAN_DBE]. */
-        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[CHAN_SBE]. */
-        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PBTAG_DBE]. */
-        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PBTAG_SBE]. */
-        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STYLEWQ_DBE]. */
-        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STYLEWQ_SBE]. */
-        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[QPG_DBE]. */
-        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[QPG_SBE]. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[STRM_DBE]. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[STRM_SBE]. */
+        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[TAG_DBE]. */
+        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[TAG_SBE]. */
+        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[AURA_DBE]. */
+        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[AURA_SBE]. */
+        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[CHAN_DBE]. */
+        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[CHAN_SBE]. */
+        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PBTAG_DBE]. */
+        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PBTAG_SBE]. */
+        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[STYLEWQ_DBE]. */
+        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[STYLEWQ_SBE]. */
+        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[QPG_DBE]. */
+        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[QPG_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[QPG_SBE]. */
-        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[QPG_DBE]. */
-        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STYLEWQ_SBE]. */
-        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STYLEWQ_DBE]. */
-        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PBTAG_SBE]. */
-        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PBTAG_DBE]. */
-        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[CHAN_SBE]. */
-        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[CHAN_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[AURA_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[AURA_DBE]. */
-        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[TAG_SBE]. */
-        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[TAG_DBE]. */
-        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STRM_SBE]. */
-        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[STRM_DBE]. */
+        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[QPG_SBE]. */
+        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[QPG_DBE]. */
+        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[STYLEWQ_SBE]. */
+        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[STYLEWQ_DBE]. */
+        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PBTAG_SBE]. */
+        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PBTAG_DBE]. */
+        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[CHAN_SBE]. */
+        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[CHAN_DBE]. */
+        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[AURA_SBE]. */
+        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[AURA_DBE]. */
+        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[TAG_SBE]. */
+        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[TAG_DBE]. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[STRM_SBE]. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[STRM_DBE]. */
         uint64_t reserved_14_15        : 2;
-        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PKTWQ_SBE]. */
-        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PKTWQ_DBE]. */
-        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PLC_SBE]. */
-        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[PLC_DBE]. */
+        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PKTWQ_SBE]. */
+        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PKTWQ_DBE]. */
+        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PLC_SBE]. */
+        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[PLC_DBE]. */
         uint64_t reserved_20_25        : 6;
-        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[BPID_SBE]. */
-        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[BPID_DBE]. */
-        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[DOA_SBE]. */
-        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[DOA_DBE]. */
-        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[WQEOUT_SBE]. */
-        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[WQEOUT_DBE]. */
-        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[SWS_SBE]. */
-        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PKI_ECC_INT1[SWS_DBE]. */
+        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[BPID_SBE]. */
+        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[BPID_DBE]. */
+        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[DOA_SBE]. */
+        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[DOA_DBE]. */
+        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[WQEOUT_SBE]. */
+        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[WQEOUT_DBE]. */
+        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[SWS_SBE]. */
+        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PKI_ECC1_INT[SWS_DBE]. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int1_ena_w1c_s cn; */
-} bdk_pki_ecc_int1_ena_w1c_t;
+    /* struct bdk_pki_ecc1_int_ena_w1c_s cn; */
+} bdk_pki_ecc1_int_ena_w1c_t;
 
-#define BDK_PKI_ECC_INT1_ENA_W1C BDK_PKI_ECC_INT1_ENA_W1C_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1C_FUNC(void)
+#define BDK_PKI_ECC1_INT_ENA_W1C BDK_PKI_ECC1_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKI_ECC1_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC1_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008a0ll;
-    __bdk_csr_fatal("PKI_ECC_INT1_ENA_W1C", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC1_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT1_ENA_W1C bdk_pki_ecc_int1_ena_w1c_t
-#define bustype_BDK_PKI_ECC_INT1_ENA_W1C BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT1_ENA_W1C "PKI_ECC_INT1_ENA_W1C"
-#define device_bar_BDK_PKI_ECC_INT1_ENA_W1C 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT1_ENA_W1C 0
-#define arguments_BDK_PKI_ECC_INT1_ENA_W1C -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC1_INT_ENA_W1C bdk_pki_ecc1_int_ena_w1c_t
+#define bustype_BDK_PKI_ECC1_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC1_INT_ENA_W1C "PKI_ECC1_INT_ENA_W1C"
+#define device_bar_BDK_PKI_ECC1_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC1_INT_ENA_W1C 0
+#define arguments_BDK_PKI_ECC1_INT_ENA_W1C -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_int1_ena_w1s
+ * Register (NCB) pki_ecc1_int_ena_w1s
  *
  * PKI ECC 1 Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -5368,91 +5374,91 @@ static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1C_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_int1_ena_w1s_s
+    struct bdk_pki_ecc1_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
-        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[SWS_DBE]. */
-        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[SWS_SBE]. */
-        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[WQEOUT_DBE]. */
-        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[WQEOUT_SBE]. */
-        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[DOA_DBE]. */
-        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[DOA_SBE]. */
-        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[BPID_DBE]. */
-        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[BPID_SBE]. */
+        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[SWS_DBE]. */
+        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[SWS_SBE]. */
+        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[WQEOUT_DBE]. */
+        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[WQEOUT_SBE]. */
+        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[DOA_DBE]. */
+        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[DOA_SBE]. */
+        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[BPID_DBE]. */
+        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[BPID_SBE]. */
         uint64_t reserved_20_25        : 6;
-        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PLC_DBE]. */
-        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PLC_SBE]. */
-        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PKTWQ_DBE]. */
-        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PKTWQ_SBE]. */
+        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PLC_DBE]. */
+        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PLC_SBE]. */
+        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PKTWQ_DBE]. */
+        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PKTWQ_SBE]. */
         uint64_t reserved_14_15        : 2;
-        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STRM_DBE]. */
-        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STRM_SBE]. */
-        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[TAG_DBE]. */
-        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[TAG_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[AURA_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[AURA_SBE]. */
-        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[CHAN_DBE]. */
-        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[CHAN_SBE]. */
-        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PBTAG_DBE]. */
-        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PBTAG_SBE]. */
-        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STYLEWQ_DBE]. */
-        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STYLEWQ_SBE]. */
-        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[QPG_DBE]. */
-        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[QPG_SBE]. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[STRM_DBE]. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[STRM_SBE]. */
+        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[TAG_DBE]. */
+        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[TAG_SBE]. */
+        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[AURA_DBE]. */
+        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[AURA_SBE]. */
+        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[CHAN_DBE]. */
+        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[CHAN_SBE]. */
+        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PBTAG_DBE]. */
+        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PBTAG_SBE]. */
+        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[STYLEWQ_DBE]. */
+        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[STYLEWQ_SBE]. */
+        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[QPG_DBE]. */
+        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[QPG_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[QPG_SBE]. */
-        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[QPG_DBE]. */
-        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STYLEWQ_SBE]. */
-        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STYLEWQ_DBE]. */
-        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PBTAG_SBE]. */
-        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PBTAG_DBE]. */
-        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[CHAN_SBE]. */
-        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[CHAN_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[AURA_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[AURA_DBE]. */
-        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[TAG_SBE]. */
-        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[TAG_DBE]. */
-        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STRM_SBE]. */
-        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[STRM_DBE]. */
+        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[QPG_SBE]. */
+        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[QPG_DBE]. */
+        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[STYLEWQ_SBE]. */
+        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[STYLEWQ_DBE]. */
+        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PBTAG_SBE]. */
+        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PBTAG_DBE]. */
+        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[CHAN_SBE]. */
+        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[CHAN_DBE]. */
+        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[AURA_SBE]. */
+        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[AURA_DBE]. */
+        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[TAG_SBE]. */
+        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[TAG_DBE]. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[STRM_SBE]. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[STRM_DBE]. */
         uint64_t reserved_14_15        : 2;
-        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PKTWQ_SBE]. */
-        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PKTWQ_DBE]. */
-        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PLC_SBE]. */
-        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[PLC_DBE]. */
+        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PKTWQ_SBE]. */
+        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PKTWQ_DBE]. */
+        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PLC_SBE]. */
+        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[PLC_DBE]. */
         uint64_t reserved_20_25        : 6;
-        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[BPID_SBE]. */
-        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[BPID_DBE]. */
-        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[DOA_SBE]. */
-        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[DOA_DBE]. */
-        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[WQEOUT_SBE]. */
-        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[WQEOUT_DBE]. */
-        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[SWS_SBE]. */
-        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PKI_ECC_INT1[SWS_DBE]. */
+        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[BPID_SBE]. */
+        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[BPID_DBE]. */
+        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[DOA_SBE]. */
+        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[DOA_DBE]. */
+        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[WQEOUT_SBE]. */
+        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[WQEOUT_DBE]. */
+        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[SWS_SBE]. */
+        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PKI_ECC1_INT[SWS_DBE]. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int1_ena_w1s_s cn; */
-} bdk_pki_ecc_int1_ena_w1s_t;
+    /* struct bdk_pki_ecc1_int_ena_w1s_s cn; */
+} bdk_pki_ecc1_int_ena_w1s_t;
 
-#define BDK_PKI_ECC_INT1_ENA_W1S BDK_PKI_ECC_INT1_ENA_W1S_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1S_FUNC(void)
+#define BDK_PKI_ECC1_INT_ENA_W1S BDK_PKI_ECC1_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKI_ECC1_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC1_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008b0ll;
-    __bdk_csr_fatal("PKI_ECC_INT1_ENA_W1S", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC1_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT1_ENA_W1S bdk_pki_ecc_int1_ena_w1s_t
-#define bustype_BDK_PKI_ECC_INT1_ENA_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT1_ENA_W1S "PKI_ECC_INT1_ENA_W1S"
-#define device_bar_BDK_PKI_ECC_INT1_ENA_W1S 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT1_ENA_W1S 0
-#define arguments_BDK_PKI_ECC_INT1_ENA_W1S -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC1_INT_ENA_W1S bdk_pki_ecc1_int_ena_w1s_t
+#define bustype_BDK_PKI_ECC1_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC1_INT_ENA_W1S "PKI_ECC1_INT_ENA_W1S"
+#define device_bar_BDK_PKI_ECC1_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC1_INT_ENA_W1S 0
+#define arguments_BDK_PKI_ECC1_INT_ENA_W1S -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_int1_w1s
+ * Register (NCB) pki_ecc1_int_w1s
  *
  * PKI ECC 1 Interrupt Set Register
  * This register sets interrupt bits.
@@ -5460,98 +5466,140 @@ static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1S_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_int1_w1s_s
+    struct bdk_pki_ecc1_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
-        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PKI_ECC_INT1[SWS_DBE]. */
-        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PKI_ECC_INT1[SWS_SBE]. */
-        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets PKI_ECC_INT1[WQEOUT_DBE]. */
-        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets PKI_ECC_INT1[WQEOUT_SBE]. */
-        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets PKI_ECC_INT1[DOA_DBE]. */
-        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets PKI_ECC_INT1[DOA_SBE]. */
-        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets PKI_ECC_INT1[BPID_DBE]. */
-        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets PKI_ECC_INT1[BPID_SBE]. */
+        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PKI_ECC1_INT[SWS_DBE]. */
+        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PKI_ECC1_INT[SWS_SBE]. */
+        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets PKI_ECC1_INT[WQEOUT_DBE]. */
+        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets PKI_ECC1_INT[WQEOUT_SBE]. */
+        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets PKI_ECC1_INT[DOA_DBE]. */
+        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets PKI_ECC1_INT[DOA_SBE]. */
+        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets PKI_ECC1_INT[BPID_DBE]. */
+        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets PKI_ECC1_INT[BPID_SBE]. */
         uint64_t reserved_20_25        : 6;
-        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets PKI_ECC_INT1[PLC_DBE]. */
-        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PKI_ECC_INT1[PLC_SBE]. */
-        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets PKI_ECC_INT1[PKTWQ_DBE]. */
-        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PKI_ECC_INT1[PKTWQ_SBE]. */
+        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets PKI_ECC1_INT[PLC_DBE]. */
+        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PKI_ECC1_INT[PLC_SBE]. */
+        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets PKI_ECC1_INT[PKTWQ_DBE]. */
+        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PKI_ECC1_INT[PKTWQ_SBE]. */
         uint64_t reserved_14_15        : 2;
-        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PKI_ECC_INT1[STRM_DBE]. */
-        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC_INT1[STRM_SBE]. */
-        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC_INT1[TAG_DBE]. */
-        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC_INT1[TAG_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC_INT1[AURA_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKI_ECC_INT1[AURA_SBE]. */
-        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKI_ECC_INT1[CHAN_DBE]. */
-        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKI_ECC_INT1[CHAN_SBE]. */
-        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKI_ECC_INT1[PBTAG_DBE]. */
-        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKI_ECC_INT1[PBTAG_SBE]. */
-        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_ECC_INT1[STYLEWQ_DBE]. */
-        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_ECC_INT1[STYLEWQ_SBE]. */
-        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC_INT1[QPG_DBE]. */
-        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC_INT1[QPG_SBE]. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PKI_ECC1_INT[STRM_DBE]. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC1_INT[STRM_SBE]. */
+        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC1_INT[TAG_DBE]. */
+        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC1_INT[TAG_SBE]. */
+        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC1_INT[AURA_DBE]. */
+        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKI_ECC1_INT[AURA_SBE]. */
+        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKI_ECC1_INT[CHAN_DBE]. */
+        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKI_ECC1_INT[CHAN_SBE]. */
+        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKI_ECC1_INT[PBTAG_DBE]. */
+        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKI_ECC1_INT[PBTAG_SBE]. */
+        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_ECC1_INT[STYLEWQ_DBE]. */
+        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_ECC1_INT[STYLEWQ_SBE]. */
+        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC1_INT[QPG_DBE]. */
+        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC1_INT[QPG_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC_INT1[QPG_SBE]. */
-        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC_INT1[QPG_DBE]. */
-        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_ECC_INT1[STYLEWQ_SBE]. */
-        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_ECC_INT1[STYLEWQ_DBE]. */
-        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKI_ECC_INT1[PBTAG_SBE]. */
-        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKI_ECC_INT1[PBTAG_DBE]. */
-        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKI_ECC_INT1[CHAN_SBE]. */
-        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKI_ECC_INT1[CHAN_DBE]. */
-        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKI_ECC_INT1[AURA_SBE]. */
-        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC_INT1[AURA_DBE]. */
-        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC_INT1[TAG_SBE]. */
-        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC_INT1[TAG_DBE]. */
-        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC_INT1[STRM_SBE]. */
-        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PKI_ECC_INT1[STRM_DBE]. */
+        uint64_t qpg_sbe               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC1_INT[QPG_SBE]. */
+        uint64_t qpg_dbe               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC1_INT[QPG_DBE]. */
+        uint64_t stylewq_sbe           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PKI_ECC1_INT[STYLEWQ_SBE]. */
+        uint64_t stylewq_dbe           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PKI_ECC1_INT[STYLEWQ_DBE]. */
+        uint64_t pbtag_sbe             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PKI_ECC1_INT[PBTAG_SBE]. */
+        uint64_t pbtag_dbe             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PKI_ECC1_INT[PBTAG_DBE]. */
+        uint64_t chan_sbe              : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PKI_ECC1_INT[CHAN_SBE]. */
+        uint64_t chan_dbe              : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PKI_ECC1_INT[CHAN_DBE]. */
+        uint64_t aura_sbe              : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PKI_ECC1_INT[AURA_SBE]. */
+        uint64_t aura_dbe              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PKI_ECC1_INT[AURA_DBE]. */
+        uint64_t tag_sbe               : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets PKI_ECC1_INT[TAG_SBE]. */
+        uint64_t tag_dbe               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PKI_ECC1_INT[TAG_DBE]. */
+        uint64_t strm_sbe              : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PKI_ECC1_INT[STRM_SBE]. */
+        uint64_t strm_dbe              : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PKI_ECC1_INT[STRM_DBE]. */
         uint64_t reserved_14_15        : 2;
-        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PKI_ECC_INT1[PKTWQ_SBE]. */
-        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets PKI_ECC_INT1[PKTWQ_DBE]. */
-        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PKI_ECC_INT1[PLC_SBE]. */
-        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets PKI_ECC_INT1[PLC_DBE]. */
+        uint64_t pktwq_sbe             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PKI_ECC1_INT[PKTWQ_SBE]. */
+        uint64_t pktwq_dbe             : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets PKI_ECC1_INT[PKTWQ_DBE]. */
+        uint64_t plc_sbe               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PKI_ECC1_INT[PLC_SBE]. */
+        uint64_t plc_dbe               : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets PKI_ECC1_INT[PLC_DBE]. */
         uint64_t reserved_20_25        : 6;
-        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets PKI_ECC_INT1[BPID_SBE]. */
-        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets PKI_ECC_INT1[BPID_DBE]. */
-        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets PKI_ECC_INT1[DOA_SBE]. */
-        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets PKI_ECC_INT1[DOA_DBE]. */
-        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets PKI_ECC_INT1[WQEOUT_SBE]. */
-        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets PKI_ECC_INT1[WQEOUT_DBE]. */
-        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PKI_ECC_INT1[SWS_SBE]. */
-        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PKI_ECC_INT1[SWS_DBE]. */
+        uint64_t bpid_sbe              : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets PKI_ECC1_INT[BPID_SBE]. */
+        uint64_t bpid_dbe              : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets PKI_ECC1_INT[BPID_DBE]. */
+        uint64_t doa_sbe               : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets PKI_ECC1_INT[DOA_SBE]. */
+        uint64_t doa_dbe               : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets PKI_ECC1_INT[DOA_DBE]. */
+        uint64_t wqeout_sbe            : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets PKI_ECC1_INT[WQEOUT_SBE]. */
+        uint64_t wqeout_dbe            : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets PKI_ECC1_INT[WQEOUT_DBE]. */
+        uint64_t sws_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PKI_ECC1_INT[SWS_SBE]. */
+        uint64_t sws_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PKI_ECC1_INT[SWS_DBE]. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int1_w1s_s cn; */
-} bdk_pki_ecc_int1_w1s_t;
+    /* struct bdk_pki_ecc1_int_w1s_s cn; */
+} bdk_pki_ecc1_int_w1s_t;
 
-#define BDK_PKI_ECC_INT1_W1S BDK_PKI_ECC_INT1_W1S_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT1_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT1_W1S_FUNC(void)
+#define BDK_PKI_ECC1_INT_W1S BDK_PKI_ECC1_INT_W1S_FUNC()
+static inline uint64_t BDK_PKI_ECC1_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC1_INT_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000890ll;
-    __bdk_csr_fatal("PKI_ECC_INT1_W1S", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC1_INT_W1S", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT1_W1S bdk_pki_ecc_int1_w1s_t
-#define bustype_BDK_PKI_ECC_INT1_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT1_W1S "PKI_ECC_INT1_W1S"
-#define device_bar_BDK_PKI_ECC_INT1_W1S 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT1_W1S 0
-#define arguments_BDK_PKI_ECC_INT1_W1S -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC1_INT_W1S bdk_pki_ecc1_int_w1s_t
+#define bustype_BDK_PKI_ECC1_INT_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC1_INT_W1S "PKI_ECC1_INT_W1S"
+#define device_bar_BDK_PKI_ECC1_INT_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC1_INT_W1S 0
+#define arguments_BDK_PKI_ECC1_INT_W1S -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_int2
+ * Register (NCB) pki_ecc2_ctl
  *
- * PKI ECC Interrupt 2 Register
+ * PKI ECC 2 Control Register
+ * This register allows inserting ECC errors for testing.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_int2_s
+    struct bdk_pki_ecc2_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t imem_flip             : 2;  /**< [  2:  1](R/W) KMEM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM ram to
+                                                                 test single-bit or double-bit error handling. */
+        uint64_t imem_cdis             : 1;  /**< [  0:  0](R/W) IMEM ECC correction disable. */
+#else /* Word 0 - Little Endian */
+        uint64_t imem_cdis             : 1;  /**< [  0:  0](R/W) IMEM ECC correction disable. */
+        uint64_t imem_flip             : 2;  /**< [  2:  1](R/W) KMEM flip syndrome bits on write. Flip syndrome bits <1:0> on writes to the KMEM ram to
+                                                                 test single-bit or double-bit error handling. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_ecc2_ctl_s cn; */
+} bdk_pki_ecc2_ctl_t;
+
+#define BDK_PKI_ECC2_CTL BDK_PKI_ECC2_CTL_FUNC()
+static inline uint64_t BDK_PKI_ECC2_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC2_CTL_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000000070ll;
+    __bdk_csr_fatal("PKI_ECC2_CTL", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_ECC2_CTL bdk_pki_ecc2_ctl_t
+#define bustype_BDK_PKI_ECC2_CTL BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC2_CTL "PKI_ECC2_CTL"
+#define device_bar_BDK_PKI_ECC2_CTL 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC2_CTL 0
+#define arguments_BDK_PKI_ECC2_CTL -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_ecc2_int
+ *
+ * PKI ECC 2 Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_ecc2_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
@@ -5567,27 +5615,27 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int2_s cn; */
-} bdk_pki_ecc_int2_t;
+    /* struct bdk_pki_ecc2_int_s cn; */
+} bdk_pki_ecc2_int_t;
 
-#define BDK_PKI_ECC_INT2 BDK_PKI_ECC_INT2_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT2_FUNC(void)
+#define BDK_PKI_ECC2_INT BDK_PKI_ECC2_INT_FUNC()
+static inline uint64_t BDK_PKI_ECC2_INT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC2_INT_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008c0ll;
-    __bdk_csr_fatal("PKI_ECC_INT2", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC2_INT", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT2 bdk_pki_ecc_int2_t
-#define bustype_BDK_PKI_ECC_INT2 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT2 "PKI_ECC_INT2"
-#define device_bar_BDK_PKI_ECC_INT2 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT2 0
-#define arguments_BDK_PKI_ECC_INT2 -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC2_INT bdk_pki_ecc2_int_t
+#define bustype_BDK_PKI_ECC2_INT BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC2_INT "PKI_ECC2_INT"
+#define device_bar_BDK_PKI_ECC2_INT 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC2_INT 0
+#define arguments_BDK_PKI_ECC2_INT -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_int2_ena_w1c
+ * Register (NCB) pki_ecc2_int_ena_w1c
  *
  * PKI ECC 2 Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -5595,39 +5643,39 @@ static inline uint64_t BDK_PKI_ECC_INT2_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_int2_ena_w1c_s
+    struct bdk_pki_ecc2_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC_INT2[IMEM_DBE]. */
-        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC_INT2[IMEM_SBE]. */
+        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC2_INT[IMEM_DBE]. */
+        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC2_INT[IMEM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC_INT2[IMEM_SBE]. */
-        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC_INT2[IMEM_DBE]. */
+        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PKI_ECC2_INT[IMEM_SBE]. */
+        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PKI_ECC2_INT[IMEM_DBE]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int2_ena_w1c_s cn; */
-} bdk_pki_ecc_int2_ena_w1c_t;
+    /* struct bdk_pki_ecc2_int_ena_w1c_s cn; */
+} bdk_pki_ecc2_int_ena_w1c_t;
 
-#define BDK_PKI_ECC_INT2_ENA_W1C BDK_PKI_ECC_INT2_ENA_W1C_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1C_FUNC(void)
+#define BDK_PKI_ECC2_INT_ENA_W1C BDK_PKI_ECC2_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_PKI_ECC2_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC2_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008e0ll;
-    __bdk_csr_fatal("PKI_ECC_INT2_ENA_W1C", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC2_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT2_ENA_W1C bdk_pki_ecc_int2_ena_w1c_t
-#define bustype_BDK_PKI_ECC_INT2_ENA_W1C BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT2_ENA_W1C "PKI_ECC_INT2_ENA_W1C"
-#define device_bar_BDK_PKI_ECC_INT2_ENA_W1C 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT2_ENA_W1C 0
-#define arguments_BDK_PKI_ECC_INT2_ENA_W1C -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC2_INT_ENA_W1C bdk_pki_ecc2_int_ena_w1c_t
+#define bustype_BDK_PKI_ECC2_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC2_INT_ENA_W1C "PKI_ECC2_INT_ENA_W1C"
+#define device_bar_BDK_PKI_ECC2_INT_ENA_W1C 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC2_INT_ENA_W1C 0
+#define arguments_BDK_PKI_ECC2_INT_ENA_W1C -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_int2_ena_w1s
+ * Register (NCB) pki_ecc2_int_ena_w1s
  *
  * PKI ECC 2 Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -5635,39 +5683,39 @@ static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1C_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_int2_ena_w1s_s
+    struct bdk_pki_ecc2_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC_INT2[IMEM_DBE]. */
-        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC_INT2[IMEM_SBE]. */
+        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC2_INT[IMEM_DBE]. */
+        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC2_INT[IMEM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC_INT2[IMEM_SBE]. */
-        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC_INT2[IMEM_DBE]. */
+        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PKI_ECC2_INT[IMEM_SBE]. */
+        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PKI_ECC2_INT[IMEM_DBE]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int2_ena_w1s_s cn; */
-} bdk_pki_ecc_int2_ena_w1s_t;
+    /* struct bdk_pki_ecc2_int_ena_w1s_s cn; */
+} bdk_pki_ecc2_int_ena_w1s_t;
 
-#define BDK_PKI_ECC_INT2_ENA_W1S BDK_PKI_ECC_INT2_ENA_W1S_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1S_FUNC(void)
+#define BDK_PKI_ECC2_INT_ENA_W1S BDK_PKI_ECC2_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_PKI_ECC2_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC2_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008f0ll;
-    __bdk_csr_fatal("PKI_ECC_INT2_ENA_W1S", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC2_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT2_ENA_W1S bdk_pki_ecc_int2_ena_w1s_t
-#define bustype_BDK_PKI_ECC_INT2_ENA_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT2_ENA_W1S "PKI_ECC_INT2_ENA_W1S"
-#define device_bar_BDK_PKI_ECC_INT2_ENA_W1S 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT2_ENA_W1S 0
-#define arguments_BDK_PKI_ECC_INT2_ENA_W1S -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC2_INT_ENA_W1S bdk_pki_ecc2_int_ena_w1s_t
+#define bustype_BDK_PKI_ECC2_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC2_INT_ENA_W1S "PKI_ECC2_INT_ENA_W1S"
+#define device_bar_BDK_PKI_ECC2_INT_ENA_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC2_INT_ENA_W1S 0
+#define arguments_BDK_PKI_ECC2_INT_ENA_W1S -1,-1,-1,-1
 
 /**
- * Register (NCB) pki_ecc_int2_w1s
+ * Register (NCB) pki_ecc2_int_w1s
  *
  * PKI ECC 2 Interrupt Set Register
  * This register sets interrupt bits.
@@ -5675,36 +5723,36 @@ static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1S_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_pki_ecc_int2_w1s_s
+    struct bdk_pki_ecc2_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC_INT2[IMEM_DBE]. */
-        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC_INT2[IMEM_SBE]. */
+        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC2_INT[IMEM_DBE]. */
+        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC2_INT[IMEM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC_INT2[IMEM_SBE]. */
-        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC_INT2[IMEM_DBE]. */
+        uint64_t imem_sbe              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PKI_ECC2_INT[IMEM_SBE]. */
+        uint64_t imem_dbe              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PKI_ECC2_INT[IMEM_DBE]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pki_ecc_int2_w1s_s cn; */
-} bdk_pki_ecc_int2_w1s_t;
+    /* struct bdk_pki_ecc2_int_w1s_s cn; */
+} bdk_pki_ecc2_int_w1s_t;
 
-#define BDK_PKI_ECC_INT2_W1S BDK_PKI_ECC_INT2_W1S_FUNC()
-static inline uint64_t BDK_PKI_ECC_INT2_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_ECC_INT2_W1S_FUNC(void)
+#define BDK_PKI_ECC2_INT_W1S BDK_PKI_ECC2_INT_W1S_FUNC()
+static inline uint64_t BDK_PKI_ECC2_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_ECC2_INT_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008d0ll;
-    __bdk_csr_fatal("PKI_ECC_INT2_W1S", 0, 0, 0, 0, 0);
+    __bdk_csr_fatal("PKI_ECC2_INT_W1S", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_PKI_ECC_INT2_W1S bdk_pki_ecc_int2_w1s_t
-#define bustype_BDK_PKI_ECC_INT2_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_PKI_ECC_INT2_W1S "PKI_ECC_INT2_W1S"
-#define device_bar_BDK_PKI_ECC_INT2_W1S 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKI_ECC_INT2_W1S 0
-#define arguments_BDK_PKI_ECC_INT2_W1S -1,-1,-1,-1
+#define typedef_BDK_PKI_ECC2_INT_W1S bdk_pki_ecc2_int_w1s_t
+#define bustype_BDK_PKI_ECC2_INT_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_ECC2_INT_W1S "PKI_ECC2_INT_W1S"
+#define device_bar_BDK_PKI_ECC2_INT_W1S 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_ECC2_INT_W1S 0
+#define arguments_BDK_PKI_ECC2_INT_W1S -1,-1,-1,-1
 
 /**
  * Register (NCB) pki_frm_len_chk#
@@ -6248,10 +6296,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W) Sequencer instruction word. Software must reload PKI_IMEM() upon the detection
-                                                                 of PKI_ECC_INT2[IMEM_SBE] or PKI_ECC_INT2[IMEM_DBE] errors. */
+                                                                 of PKI_ECC2_INT[IMEM_SBE] or PKI_ECC2_INT[IMEM_DBE] errors. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W) Sequencer instruction word. Software must reload PKI_IMEM() upon the detection
-                                                                 of PKI_ECC_INT2[IMEM_SBE] or PKI_ECC_INT2[IMEM_DBE] errors. */
+                                                                 of PKI_ECC2_INT[IMEM_SBE] or PKI_ECC2_INT[IMEM_DBE] errors. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_imemx_s cn; */

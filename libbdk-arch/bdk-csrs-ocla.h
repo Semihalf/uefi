@@ -466,9 +466,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;

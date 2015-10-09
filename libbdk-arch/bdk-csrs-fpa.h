@@ -558,7 +558,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
@@ -566,8 +567,8 @@ typedef union
                                                                  <60> = Reserved. FIXME - add some. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -579,8 +580,8 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -588,7 +589,8 @@ typedef union
                                                                    <17:16> = BP_CFG0. */
         uint64_t reserved_24_59        : 36;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
@@ -1214,7 +1216,8 @@ typedef union
                                                                  <2> = PKI.
                                                                  <19:3> = Reserved.
 
-                                                                 INTERNAL: FIXME update based on input bus connections in fpa_xfr.v. */
+                                                                 Internal:
+                                                                 FIXME update based on input bus connections in fpa_xfr.v. */
         uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped.
                                                                  <0> = SSO.
@@ -1230,7 +1233,8 @@ typedef union
                                                                  <10> = BCH.
                                                                  <19:11> = Reserved.
 
-                                                                 INTERNAL: FIXME update based on input bus connections in fpa_xpd.v. */
+                                                                 Internal:
+                                                                 FIXME update based on input bus connections in fpa_xpd.v. */
 #else /* Word 0 - Little Endian */
         uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped.
@@ -1247,7 +1251,8 @@ typedef union
                                                                  <10> = BCH.
                                                                  <19:11> = Reserved.
 
-                                                                 INTERNAL: FIXME update based on input bus connections in fpa_xpd.v. */
+                                                                 Internal:
+                                                                 FIXME update based on input bus connections in fpa_xpd.v. */
         uint64_t alloc_dis             : 20; /**< [ 39: 20](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped.
                                                                  <0> = SSO.
@@ -1255,7 +1260,8 @@ typedef union
                                                                  <2> = PKI.
                                                                  <19:3> = Reserved.
 
-                                                                 INTERNAL: FIXME update based on input bus connections in fpa_xfr.v. */
+                                                                 Internal:
+                                                                 FIXME update based on input bus connections in fpa_xfr.v. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1566,13 +1572,15 @@ typedef union
                                                                  1 = use STT. */
         uint64_t nat_align             : 1;  /**< [  1:  1](R/W) Returning buffers should be rounded to the nearest natural alignment specified with
                                                                  [BUF_SIZE]. */
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable. Must be set after writing pool configuration, if clear any allocations will fail
-                                                                 and returns will be dropped. If any pool configuration is changed after writing this bit,
-                                                                 the FPA may operate incorrectly. */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable. Must be set after writing pool configuration, if clear any allocations
+                                                                 will fail and returns will be dropped. If any pool configuration is changed
+                                                                 while this bit is set (or until traffic is quiesced after clearing), the FPA may
+                                                                 operate incorrectly. */
 #else /* Word 0 - Little Endian */
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable. Must be set after writing pool configuration, if clear any allocations will fail
-                                                                 and returns will be dropped. If any pool configuration is changed after writing this bit,
-                                                                 the FPA may operate incorrectly. */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable. Must be set after writing pool configuration, if clear any allocations
+                                                                 will fail and returns will be dropped. If any pool configuration is changed
+                                                                 while this bit is set (or until traffic is quiesced after clearing), the FPA may
+                                                                 operate incorrectly. */
         uint64_t nat_align             : 1;  /**< [  1:  1](R/W) Returning buffers should be rounded to the nearest natural alignment specified with
                                                                  [BUF_SIZE]. */
         uint64_t s_type                : 1;  /**< [  2:  2](R/W) Type of store to use when sending pages to L2:
@@ -1644,7 +1652,8 @@ typedef union
                                                                  It is recommended that software APIs represent this value as a percentage of fpf_sz, as
                                                                  fpf_sz may vary between products.
 
-                                                                 INTERNAL: The worse case buffer requirement is:
+                                                                 Internal:
+                                                                 The worse case buffer requirement is:
                                                                  (memory_latency + 16 * (num_pools_active - 1) / cycles_per_alloc */
         uint64_t reserved_11_15        : 5;
         uint64_t fpf_level             : 11; /**< [ 10:  0](RO/H) The current number of free-page pointers in the pool, in entries. For diagnostic use. */
@@ -1664,7 +1673,8 @@ typedef union
                                                                  It is recommended that software APIs represent this value as a percentage of fpf_sz, as
                                                                  fpf_sz may vary between products.
 
-                                                                 INTERNAL: The worse case buffer requirement is:
+                                                                 Internal:
+                                                                 The worse case buffer requirement is:
                                                                  (memory_latency + 16 * (num_pools_active - 1) / cycles_per_alloc */
         uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
@@ -2608,7 +2618,8 @@ static inline uint64_t BDK_FPA_VHAURAX_CNT_THRESHOLD(unsigned long a)
  *
  * Writes to this register's address range are ignored.
  *
- * INTERNAL: arch_max really 65536,4096.
+ * Internal:
+ * arch_max really 65536,4096.
  */
 typedef union
 {
@@ -2654,7 +2665,8 @@ static inline uint64_t BDK_FPA_VHAURAX_OP_ALLOCX(unsigned long a, unsigned long 
  *
  * Reads to this register's address range return 0x0.
  *
- * INTERNAL: arch_max really 65536,4096.
+ * Internal:
+ * arch_max really 65536,4096.
  */
 typedef union
 {
@@ -2699,10 +2711,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
-        uint64_t count                 : 36; /**< [ 35:  0](RO/H) The number of free pages available in this pool. INTERNAL: Sized for 2^41 bit
+        uint64_t count                 : 36; /**< [ 35:  0](RO/H) The number of free pages available in this pool.
+                                                                 Internal:
+                                                                 Sized for 2^41 bit
                                                                  max physical memory - 7 bit cache line. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 36; /**< [ 35:  0](RO/H) The number of free pages available in this pool. INTERNAL: Sized for 2^41 bit
+        uint64_t count                 : 36; /**< [ 35:  0](RO/H) The number of free pages available in this pool.
+                                                                 Internal:
+                                                                 Sized for 2^41 bit
                                                                  max physical memory - 7 bit cache line. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */

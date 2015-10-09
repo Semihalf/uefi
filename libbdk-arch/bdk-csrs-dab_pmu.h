@@ -57,7 +57,7 @@
  *
  * Performance Counter Event Enumeration
  * Enumerates the events that may be counted.  See PMU()_PMEVTYPER()_EL0[EVTCOUNT].
- * INTERNAL:
+ * Internal:
  * <pre>
  *    0x0000 to 0x003F    Common architectural and microarchitectural events
  *       0x0020 to 0x03F      ARM house style events
@@ -85,11 +85,13 @@
 #define BDK_PMU_PERF_E_BADD (0xe0) /**< Number of CMI address bus cycles used to either the L2 or IO. */
 #define BDK_PMU_PERF_E_BADDL2 (0xe1) /**< Number of CMI address bus cycles used for destined for the L2/CCPI. */
 #define BDK_PMU_PERF_E_BFILL (0xe2) /**< Number of fill bus cycles used from either IO or L2/CCPI to a core. */
-#define BDK_PMU_PERF_E_BR (0xc7) /**< INTERNAL:  redundant with ARM counters
+#define BDK_PMU_PERF_E_BR (0xc7) /**< Internal:
+                                       redundant with ARM counters
                                        Number of branches retired. Specifically bcond, br, blr, ret.
                                        Very similiar to BR_RETIRED but doesn't include eret.  Depracated - do not use,
                                        may be removed in future chips. */
-#define BDK_PMU_PERF_E_BRMIS (0xc8) /**< INTERNAL: Number of branches mispredicted. Specifically bcond, br, blr, ret.
+#define BDK_PMU_PERF_E_BRMIS (0xc8) /**< Internal:
+                                       Number of branches mispredicted. Specifically bcond, br, blr, ret.
                                        redundant with BR_MIS_PRED except BR_MIS_PRED also includes exception returns.
                                        Depracated. */
 #define BDK_PMU_PERF_E_BR_FOLDED (0xc5) /**< Number of branch instructions that were folded and committed. */
@@ -112,14 +114,22 @@
                                        branch and link, return and eret. */
 #define BDK_PMU_PERF_E_BR_RETURN_RETIRED (0xe) /**< Number of instructions procedure return instructions retired. */
 #define BDK_PMU_PERF_E_BR_RETURN_SPEC (0x79) /**< Number of branch returns. */
-#define BDK_PMU_PERF_E_BUS_ACCESS (0x19) /**< INTERNAL: Number of bus accesses outside the last cache level for which counters exist. */
-#define BDK_PMU_PERF_E_BUS_ACCESS_LD (0x60) /**< INTERNAL: Not implemented. */
-#define BDK_PMU_PERF_E_BUS_ACCESS_NORMAL (0x64) /**< INTERNAL: Not implemented. */
-#define BDK_PMU_PERF_E_BUS_ACCESS_NOT_SHARED (0x63) /**< INTERNAL: Not implemented. */
-#define BDK_PMU_PERF_E_BUS_ACCESS_PERIPH (0x65) /**< INTERNAL: Not implemented. */
-#define BDK_PMU_PERF_E_BUS_ACCESS_SHARED (0x62) /**< INTERNAL: Not implemented. */
-#define BDK_PMU_PERF_E_BUS_ACCESS_ST (0x61) /**< INTERNAL: Not implemented. */
-#define BDK_PMU_PERF_E_BUS_CYCLES (0x1d) /**< INTERNAL: Cycles CMB buses from this core are clocking.  Better to have cavium specifc
+#define BDK_PMU_PERF_E_BUS_ACCESS (0x19) /**< Internal:
+                                       Number of bus accesses outside the last cache level for which counters exist. */
+#define BDK_PMU_PERF_E_BUS_ACCESS_LD (0x60) /**< Internal:
+                                       Not implemented. */
+#define BDK_PMU_PERF_E_BUS_ACCESS_NORMAL (0x64) /**< Internal:
+                                       Not implemented. */
+#define BDK_PMU_PERF_E_BUS_ACCESS_NOT_SHARED (0x63) /**< Internal:
+                                       Not implemented. */
+#define BDK_PMU_PERF_E_BUS_ACCESS_PERIPH (0x65) /**< Internal:
+                                       Not implemented. */
+#define BDK_PMU_PERF_E_BUS_ACCESS_SHARED (0x62) /**< Internal:
+                                       Not implemented. */
+#define BDK_PMU_PERF_E_BUS_ACCESS_ST (0x61) /**< Internal:
+                                       Not implemented. */
+#define BDK_PMU_PERF_E_BUS_CYCLES (0x1d) /**< Internal:
+                                       Cycles CMB buses from this core are clocking.  Better to have cavium specifc
                                        counters for
                                        each CMB bus. */
 #define BDK_PMU_PERF_E_CDMISS (0xe6) /**< Cycles that we don't issue an instruction because the memory system is busy.
@@ -148,12 +158,12 @@
 #define BDK_PMU_PERF_E_DC_IVAC (0x1c3) /**< Number of data cache invalidate by virtual address to point of coherency. */
 #define BDK_PMU_PERF_E_DDIDS (0xe3) /**< Number of DStream DIDs created. */
 #define BDK_PMU_PERF_E_DIDNA (0xe5) /**< Number of cycles that no DIDs were available. */
-#define BDK_PMU_PERF_E_DIDNT_DUAL_ISSUE_REASONX(a) (0x4e00 + (a)) /**< INTERNAL:
+#define BDK_PMU_PERF_E_DIDNT_DUAL_ISSUE_REASONX(a) (0x4e00 + (a)) /**< Internal:
                                        Event for every reason code why the second entry of the queue didn't issue(0 means we dual
                                        issued)
                                        Event for every reason code why the head of the queue didn't issue(0 means we issued)
                                        0 = issued */
-#define BDK_PMU_PERF_E_DIDNT_ISSUE_REASONX(a) (0x4d00 + (a)) /**< INTERNAL:
+#define BDK_PMU_PERF_E_DIDNT_ISSUE_REASONX(a) (0x4d00 + (a)) /**< Internal:
                                        Event for every reason code why the head of the queue didn't issue(0 means we issued)
                                        0 = issued */
 #define BDK_PMU_PERF_E_DISSUE (0xc4) /**< Cycles two instructions were issued. */
@@ -208,7 +218,10 @@
 #define BDK_PMU_PERF_E_II (0xd6) /**< Number of Icache invalidates.  Includes all reasons that icache may be invalidated. */
 #define BDK_PMU_PERF_E_INST_RETIRED (8) /**< Number of instructions architecturally executed */
 #define BDK_PMU_PERF_E_INST_SPEC (0x1b) /**< Number of instructions that are speculatively executed (those that are subsequently
-                                       committed as well as those that are subsequently squashed). INTERNAL: If we can squash an
+                                       committed as well as those that are subsequently squashed).
+                                       
+                                       Internal:
+                                       If we can squash an
                                        instruction before we issue it for execution than this counter might be different from
                                        0x014. */
 #define BDK_PMU_PERF_E_IP (0xd7) /**< Number of Icache parity errors. */
@@ -223,20 +236,21 @@
 #define BDK_PMU_PERF_E_IUNA (0xcc) /**< Number of operations taking an unaligned replay, these may be
                                        speculative. Generally this is a 8 cycle penalty. */
 #define BDK_PMU_PERF_E_I_MASK_CYC (0x303) /**< Number of cycles during which IRQ is masked */
-#define BDK_PMU_PERF_E_L0D_TLB_REFILL (0x190) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L0D_TLB_REFILL (0x190) /**< Internal:
                                        Number of uTLB misses due to d-stream.
                                        Same as L1D_TLB_REFILL as defined by ARM but left over from Octeon. */
-#define BDK_PMU_PERF_E_L0D_TLB_REFILL_LD (0x191) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L0D_TLB_REFILL_LD (0x191) /**< Internal:
                                        Number of uTLB misses due to d-stream.
                                        Same as L1D_TLB_REFILL_LD as defined by ARM but left over from Octeon. */
-#define BDK_PMU_PERF_E_L0D_TLB_REFILL_ST (0x192) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L0D_TLB_REFILL_ST (0x192) /**< Internal:
                                        Number of uTLB misses due to d-stream.
                                        Same as L1D_TLB_REFILL_ST as defined by ARM but left over from Octeon. */
-#define BDK_PMU_PERF_E_L0I_TLB_REFILL (0x18f) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L0I_TLB_REFILL (0x18f) /**< Internal:
                                        Number of uTLB misses due to i-stream.
                                        Same as L1I_TLB_REFILL as defined by ARM but left over from Octeon. */
 #define BDK_PMU_PERF_E_L1D_CACHE (4) /**< Number of level 1 data cache access. Does not include IO operations. */
-#define BDK_PMU_PERF_E_L1D_CACHE_ALLOCATE (0x1f) /**< INTERNAL: Number of Level 1 data cache allocation without refill. Includes DC ZVA
+#define BDK_PMU_PERF_E_L1D_CACHE_ALLOCATE (0x1f) /**< Internal:
+                                       Number of Level 1 data cache allocation without refill. Includes DC ZVA
                                        operations. */
 #define BDK_PMU_PERF_E_L1D_CACHE_INVAL (0x48) /**< Number of Level 1 data cache invalidates caused event outside the core. */
 #define BDK_PMU_PERF_E_L1D_CACHE_LD (0x40) /**< Number of Level 1 data cache access - read operations (can be hit or miss). */
@@ -247,24 +261,30 @@
                                        refills that cause a new miss to be processed by the L2/Memory system.
                                        If the miss is satisified by a previous miss, it is not counted.
                                        This refill counter counts both LD misses and PREF misses. */
-#define BDK_PMU_PERF_E_L1D_CACHE_REFILL_INNER (0x44) /**< INTERNAL: Not implemented. Number of Level 1 data cache refill, inner cluster. */
+#define BDK_PMU_PERF_E_L1D_CACHE_REFILL_INNER (0x44) /**< Internal:
+                                       Not implemented. Number of Level 1 data cache refill, inner cluster. */
 #define BDK_PMU_PERF_E_L1D_CACHE_REFILL_LD (0x42) /**< Number of Level 1 data cache refill - read operations caused by LD* instructions,
                                        does not include PREF.
                                        Counts refills that cause a new miss to be processed by the L2/Memory system.
                                        If the miss is satisified by a previous miss, it is not counted. */
-#define BDK_PMU_PERF_E_L1D_CACHE_REFILL_OUTER (0x45) /**< INTERNAL: Not implemented. Number of Level 1 data cache refill, same as 0x003
+#define BDK_PMU_PERF_E_L1D_CACHE_REFILL_OUTER (0x45) /**< Internal:
+                                       Not implemented. Number of Level 1 data cache refill, same as 0x003
                                        L1_D_CACHE_REFILL. */
 #define BDK_PMU_PERF_E_L1D_CACHE_REFILL_PREF (0xeb) /**< Number of Level 1 data cache refill - prefetch misses.
                                        Counts refills that cause a new miss to be processed by the L2/Memory system.
                                        If the miss is satisified by a previous miss, it is not counted. */
-#define BDK_PMU_PERF_E_L1D_CACHE_REFILL_ST (0x43) /**< INTERNAL: Not implemented. Number of Level 1 data cache refill - write operations. */
+#define BDK_PMU_PERF_E_L1D_CACHE_REFILL_ST (0x43) /**< Internal:
+                                       Not implemented. Number of Level 1 data cache refill - write operations. */
 #define BDK_PMU_PERF_E_L1D_CACHE_ST (0x41) /**< Number of Level 1 data cache access - write operations.  This counts stores that
                                        can either hit or miss in the dcache. */
-#define BDK_PMU_PERF_E_L1D_CACHE_WB (0x15) /**< INTERNAL: Not implemented. Number of Level 1 data cache write-backs from the Level 1 data
+#define BDK_PMU_PERF_E_L1D_CACHE_WB (0x15) /**< Internal:
+                                       Not implemented. Number of Level 1 data cache write-backs from the Level 1 data
                                        or unified cache. */
-#define BDK_PMU_PERF_E_L1D_CACHE_WB_CLEAN (0x47) /**< INTERNAL: Not implemented. Number of level 1 data cache writeback due to coherency
+#define BDK_PMU_PERF_E_L1D_CACHE_WB_CLEAN (0x47) /**< Internal:
+                                       Not implemented. Number of level 1 data cache writeback due to coherency
                                        request. */
-#define BDK_PMU_PERF_E_L1D_CACHE_WB_VICTIM (0x46) /**< INTERNAL: Not implemented. Number of level 1 data cache writebacks caused by action of
+#define BDK_PMU_PERF_E_L1D_CACHE_WB_VICTIM (0x46) /**< Internal:
+                                       Not implemented. Number of level 1 data cache writebacks caused by action of
                                        this core. */
 #define BDK_PMU_PERF_E_L1D_PTW_ACC_IPA_S1 (0x198) /**< Number of dstream PTW access to MTLB (hit/miss), IPA, stage2. */
 #define BDK_PMU_PERF_E_L1D_PTW_ACC_L0_S1 (0x194) /**< Number of dstream PTW access to MTLB (hit/miss), stage1_level0, stage2. */
@@ -315,7 +335,7 @@
 #define BDK_PMU_PERF_E_L1I_PTW_REFILL_L3_S1 (0x1ae) /**< Number of istream MTLB miss, stage1_level3, stage2. */
 #define BDK_PMU_PERF_E_L1I_TLB (0x26) /**< Number of accesses to microtlb caused by an instruction reference. */
 #define BDK_PMU_PERF_E_L1I_TLB_REFILL (2) /**< Number of Level 1 instruction TLB refill. */
-#define BDK_PMU_PERF_E_L2C_EVENT_1 (0x4c00) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_1 (0x4c00) /**< Internal:
                                        L2C event -code, local/remote, event, ccpi, comment (mcbuggin 21410):
                                        0000 = n/a, , , idx/way & broadcast commands, remote misses that don't allocate at
                                        requestor (note: missing counter)
@@ -340,33 +360,33 @@
                                        read
                                        1111 = remote, miss dirty, RLDX on CCPI, Allocating in L2 for a write (RLDX)(i.e. rrqsting
                                        excl data) */
-#define BDK_PMU_PERF_E_L2C_EVENT_10 (0x4c09) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_10 (0x4c09) /**< Internal:
                                        L2C event */
-#define BDK_PMU_PERF_E_L2C_EVENT_11 (0x4c0a) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_11 (0x4c0a) /**< Internal:
                                        L2C event */
-#define BDK_PMU_PERF_E_L2C_EVENT_12 (0x4c0b) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_12 (0x4c0b) /**< Internal:
                                        L2C event */
-#define BDK_PMU_PERF_E_L2C_EVENT_13 (0x4c0c) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_13 (0x4c0c) /**< Internal:
                                        L2C event */
-#define BDK_PMU_PERF_E_L2C_EVENT_14 (0x4c0d) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_14 (0x4c0d) /**< Internal:
                                        L2C event */
-#define BDK_PMU_PERF_E_L2C_EVENT_15 (0x4c0e) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_15 (0x4c0e) /**< Internal:
                                        L2C event */
-#define BDK_PMU_PERF_E_L2C_EVENT_2 (0x4c01) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_2 (0x4c01) /**< Internal:
                                        L2C event - */
-#define BDK_PMU_PERF_E_L2C_EVENT_3 (0x4c02) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_3 (0x4c02) /**< Internal:
                                        L2C event - */
-#define BDK_PMU_PERF_E_L2C_EVENT_4 (0x4c03) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_4 (0x4c03) /**< Internal:
                                        L2C event - miss clean */
-#define BDK_PMU_PERF_E_L2C_EVENT_5 (0x4c04) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_5 (0x4c04) /**< Internal:
                                        L2C event - */
-#define BDK_PMU_PERF_E_L2C_EVENT_6 (0x4c05) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_6 (0x4c05) /**< Internal:
                                        L2C event */
-#define BDK_PMU_PERF_E_L2C_EVENT_7 (0x4c06) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_7 (0x4c06) /**< Internal:
                                        L2C event */
-#define BDK_PMU_PERF_E_L2C_EVENT_8 (0x4c07) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_8 (0x4c07) /**< Internal:
                                        L2C event */
-#define BDK_PMU_PERF_E_L2C_EVENT_9 (0x4c08) /**< INTERNAL:
+#define BDK_PMU_PERF_E_L2C_EVENT_9 (0x4c08) /**< Internal:
                                        L2C event */
 #define BDK_PMU_PERF_E_L2D_CACHE (0x16) /**< Number of Level 2 data cache access The counter counts memory-read or memory-write
                                        operations, that the PE made, that access at least the Level 2 data or unified
@@ -377,10 +397,12 @@
                                        counted. The counter does not count:
                                        *     Operations made by other PEs that share this cache.
                                        *     CP15 cache maintenance instructions. */
-#define BDK_PMU_PERF_E_L2D_CACHE_ALLOCATE (0x20) /**< INTERNAL: Number of Level 2 data cache allocation without refill, including write buffer
+#define BDK_PMU_PERF_E_L2D_CACHE_ALLOCATE (0x20) /**< Internal:
+                                       Number of Level 2 data cache allocation without refill, including write buffer
                                        full cache
                                        line, or DC ZVA operations. */
-#define BDK_PMU_PERF_E_L2D_CACHE_CACHE_INVAL (0x58) /**< INTERNAL: Not implemented. */
+#define BDK_PMU_PERF_E_L2D_CACHE_CACHE_INVAL (0x58) /**< Internal:
+                                       Not implemented. */
 #define BDK_PMU_PERF_E_L2D_CACHE_LD (0x50) /**< Number of accesses to L2 cache caused by memory read operations (load
                                        instructions, page table walks). Similar to 0x16 but does not include memory
                                        write operations or instruction misses. */
@@ -402,12 +424,17 @@
 #define BDK_PMU_PERF_E_L2D_TLB_REFILL_ST (0x5d) /**< Number of MTLB accesses that miss in the MTLB and were caused by memory write operation. */
 #define BDK_PMU_PERF_E_L2I_CACHE (0x27) /**< Number of accesses made to the L2 by the L1 ICache misses. */
 #define BDK_PMU_PERF_E_L2I_CACHE_REFILL (0x28) /**< Number of refills into the L2 destined for the icache. */
-#define BDK_PMU_PERF_E_L2I_TLB (0x30) /**< INTERNAL: Number of MTLB accesses due to instruction access. */
+#define BDK_PMU_PERF_E_L2I_TLB (0x30) /**< Internal:
+                                       Number of MTLB accesses due to instruction access. */
 #define BDK_PMU_PERF_E_L2I_TLB_REFILL (0x2e) /**< Number of MTLB refills due to instruction tlb misses. */
-#define BDK_PMU_PERF_E_L3D_CACHE (0x2b) /**< INTERNAL: Not implemented. */
-#define BDK_PMU_PERF_E_L3D_CACHE_ALLOCATE (0x29) /**< INTERNAL: Not implemented. */
-#define BDK_PMU_PERF_E_L3D_CACHE_REFILL (0x2a) /**< INTERNAL: Not implemented. */
-#define BDK_PMU_PERF_E_L3D_CACHE_WB (0x2c) /**< INTERNAL: Not implemented. */
+#define BDK_PMU_PERF_E_L3D_CACHE (0x2b) /**< Internal:
+                                       Not implemented. */
+#define BDK_PMU_PERF_E_L3D_CACHE_ALLOCATE (0x29) /**< Internal:
+                                       Not implemented. */
+#define BDK_PMU_PERF_E_L3D_CACHE_REFILL (0x2a) /**< Internal:
+                                       Not implemented. */
+#define BDK_PMU_PERF_E_L3D_CACHE_WB (0x2c) /**< Internal:
+                                       Not implemented. */
 #define BDK_PMU_PERF_E_LDREX_SPEC (0x6c) /**< Number of speculative load exclusives. */
 #define BDK_PMU_PERF_E_LDST_SPEC (0x72) /**< Number of load or store instructions; speculatively executed, instructions may
                                        be counted multiple times due to replays. */
@@ -423,8 +450,10 @@
 #define BDK_PMU_PERF_E_MEM_ACCESS (0x13) /**< Number of load and stores to memory (PA<47>=0), does not include tables walks, cache
                                        maintenance.  The
                                        access maybe cache hit or miss. */
-#define BDK_PMU_PERF_E_MEM_ACCESS_LD (0x66) /**< INTERNAL: Not implemented. */
-#define BDK_PMU_PERF_E_MEM_ACCESS_ST (0x67) /**< INTERNAL: Not implemented. */
+#define BDK_PMU_PERF_E_MEM_ACCESS_LD (0x66) /**< Internal:
+                                       Not implemented. */
+#define BDK_PMU_PERF_E_MEM_ACCESS_ST (0x67) /**< Internal:
+                                       Not implemented. */
 #define BDK_PMU_PERF_E_MSR_HAZTR (0xe8) /**< Number of hazard pipeline flushes */
 #define BDK_PMU_PERF_E_NISSUE (0xc2) /**< Cycles no instructions were issued. */
 #define BDK_PMU_PERF_E_PC_WRITE_RETIRED (0xc) /**< Number of instruction architecturally executed that change the PC.
@@ -499,7 +528,7 @@
 #define BDK_PMU_PERF_E_TLB_REFILL_TTBR1_ELX (0x18d) /**< Number of stage 1 MTLB misses TRBR1. Can filter by EL level (EL1 and EL2 - ARMv8.1). */
 #define BDK_PMU_PERF_E_TLB_REFILL_VTTBR_EL2 (0x18e) /**< Number of stage 2 MTLB misses. Only makes sense for EL0 and EL1. */
 #define BDK_PMU_PERF_E_TRAP (0xcd) /**< Number of traps. These include mem replays and exceptions but not mispredicts or unaligned replays */
-#define BDK_PMU_PERF_E_TRAP_REASONX(a) (0x4f00 + (a)) /**< INTERNAL:
+#define BDK_PMU_PERF_E_TRAP_REASONX(a) (0x4f00 + (a)) /**< Internal:
                                        Event for every reason code why an exception or replay occured.
                                        Event for every reason code why the head of the queue didn't issue(0 means we issued)
                                        0 = issued */

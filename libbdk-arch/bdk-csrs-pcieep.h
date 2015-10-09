@@ -55,7 +55,7 @@
 /**
  * Register (PCICONFIGEP) pcieep#_cfg000
  *
- * PCIe Vendor and Device Register
+ * PCIe EP PF Vendor and Device Register
  * This register contains the first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -65,7 +65,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for CNXXXX, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. For EEPROM loads, also see VENDID of this register. */
+                                                                 change this field. For EEPROM loads, also see VENDID of this register.
+                                                                 _ <15:8> resets to PCC_PROD_E::CNXXXX.
+                                                                 _ <7:0> resets to PCC_DEV_IDL_E::CHIP. */
         uint32_t vendid                : 16; /**< [ 15:  0](RO/WRSL) Cavium's vendor ID, writable through PEM()_CFG_WR. However, the application must not
                                                                  change this field. During an EPROM Load, if a value of 0xFFFF is loaded to this field and
                                                                  a value of 0xFFFF is loaded to the DEVID field of this register, the value will not be
@@ -78,7 +80,9 @@ typedef union
                                                                  loaded, EEPROM load will stop, and the FastLinkEnable bit will be set in the
                                                                  PCIEEP()_CFG452 register. */
         uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for CNXXXX, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. For EEPROM loads, also see VENDID of this register. */
+                                                                 change this field. For EEPROM loads, also see VENDID of this register.
+                                                                 _ <15:8> resets to PCC_PROD_E::CNXXXX.
+                                                                 _ <7:0> resets to PCC_DEV_IDL_E::CHIP. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg000_s cn; */
@@ -101,7 +105,7 @@ static inline uint64_t BDK_PCIEEPX_CFG000(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg001
  *
- * Command/Status Register
+ * PCIe EP PF Command/Status Register
  * This register contains the second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -131,13 +135,25 @@ typedef union
         uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VF's try to master the bus when this bit is
+                                                                 not set,
+                                                                 the request is discarded. A interrupt will be generated setting the
+                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
+                                                                 to SLI/DPI soon thereafter.
+                                                                 Bus master enable mimics the behavor of PEM()_FLR_PF_STOPREQ. */
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
         uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable. */
 #else /* Word 0 - Little Endian */
         uint32_t isae                  : 1;  /**< [  0:  0](R/W) I/O space access enable. */
         uint32_t msae                  : 1;  /**< [  1:  1](R/W) Memory space access enable. */
-        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W) Bus master enable.  If the PF or any of its VF's try to master the bus when this bit is
+                                                                 not set,
+                                                                 the request is discarded. A interrupt will be generated setting the
+                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
+                                                                 to SLI/DPI soon thereafter.
+                                                                 Bus master enable mimics the behavor of PEM()_FLR_PF_STOPREQ. */
         uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
         uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
@@ -181,7 +197,7 @@ static inline uint64_t BDK_PCIEEPX_CFG001(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg002
  *
- * Class Code/Revision ID Register
+ * PCIe EP PF Class Code/Revision ID Register
  * This register contains the third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -191,11 +207,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. */
+                                                                 change this field.
+                                                                 0xB = Processor. */
         uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
+                                                                 this field.
+                                                                 0x80 = Other processors (no encoding exists for ARM.) */
         uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
+                                                                 not change this field.
+                                                                 0x0 = No standard interface. */
         uint32_t rid                   : 8;  /**< [  7:  0](RO/WRSL) Revision ID, writable through PEM()_CFG_WR. However, the application must not change
                                                                  this field.
                                                                  0x0 = pass 1.0. */
@@ -204,11 +223,14 @@ typedef union
                                                                  this field.
                                                                  0x0 = pass 1.0. */
         uint32_t pi                    : 8;  /**< [ 15:  8](RO/WRSL) Programming interface, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
+                                                                 not change this field.
+                                                                 0x0 = No standard interface. */
         uint32_t sc                    : 8;  /**< [ 23: 16](RO/WRSL) Subclass code, writable through PEM()_CFG_WR. However, the application must not change
-                                                                 this field. */
+                                                                 this field.
+                                                                 0x80 = Other processors (no encoding exists for ARM.) */
         uint32_t bcc                   : 8;  /**< [ 31: 24](RO/WRSL) Base class code, writable through PEM()_CFG_WR. However, the application must not
-                                                                 change this field. */
+                                                                 change this field.
+                                                                 0xB = Processor. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg002_s cn; */
@@ -231,7 +253,7 @@ static inline uint64_t BDK_PCIEEPX_CFG002(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg003
  *
- * BIST, Header Type, Master Latency Timer, Cache Line Size Register
+ * PCIe EP PF BIST, Header Type, Master Latency Timer, Cache Line Size Register
  * This register contains the fourth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -283,7 +305,7 @@ static inline uint64_t BDK_PCIEEPX_CFG003(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg004
  *
- * Base Address 0 Low Register
+ * PCIe EP PF Base Address 0 Low Register
  * This register contains the fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -292,8 +314,8 @@ typedef union
     struct bdk_pcieepx_cfg004_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 7;  /**< [ 31: 25](R/W) Lower bits of the BAR 0 base address. */
-        uint32_t reserved_4_24         : 21;
+        uint32_t lbab                  : 9;  /**< [ 31: 23](R/W) Lower bits of the BAR 0 base address. */
+        uint32_t reserved_4_22         : 19;
         uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
                                                                  must not change this field. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/WRSL) BAR type.
@@ -323,8 +345,8 @@ typedef union
                                                                  this field. */
         uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
                                                                  must not change this field. */
-        uint32_t reserved_4_24         : 21;
-        uint32_t lbab                  : 7;  /**< [ 31: 25](R/W) Lower bits of the BAR 0 base address. */
+        uint32_t reserved_4_22         : 19;
+        uint32_t lbab                  : 9;  /**< [ 31: 23](R/W) Lower bits of the BAR 0 base address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg004_s cn; */
@@ -347,7 +369,7 @@ static inline uint64_t BDK_PCIEEPX_CFG004(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg004_mask
  *
- * BAR Mask 0 Low Register
+ * PCIe EP PF BAR Mask 0 Low Register
  * The BAR 0 Mask register is invisible to host software and not readable from the application.
  * The BAR 0 Mask register is only writable through PEM()_CFG_WR.
  */
@@ -390,7 +412,7 @@ static inline uint64_t BDK_PCIEEPX_CFG004_MASK(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg005
  *
- * Base Address 0 High Register
+ * PCIe EP PF Base Address 0 High Register
  * This register contains the sixth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -424,7 +446,7 @@ static inline uint64_t BDK_PCIEEPX_CFG005(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg005_mask
  *
- * BAR Mask 0 High Register
+ * PCIe EP PF BAR Mask 0 High Register
  * The BAR 0 Mask register is invisible to host software and not readable from the application.
  * The BAR 0 Mask register is only writable through PEM()_CFG_WR.
  */
@@ -459,7 +481,7 @@ static inline uint64_t BDK_PCIEEPX_CFG005_MASK(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg006
  *
- * Base Address 1 Low Register
+ * PCIe EP PF Base Address 1 Low Register
  * This register contains the seventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -468,25 +490,39 @@ typedef union
     struct bdk_pcieepx_cfg006_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 6;  /**< [ 31: 26](RO) Lower bits of the BAR 1 base address. */
+        uint32_t lbab                  : 6;  /**< [ 31: 26](R/W) Lower bits of the BAR 1 base address. */
         uint32_t reserved_4_25         : 22;
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type.
+        uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
+                                                                 must not change this field. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO/WRSL) BAR type.
                                                                  0x0 = 32-bit BAR.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+                                                                 0x2 = 64-bit BAR.
+
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO/WRSL) Memory space indicator.
                                                                  0 = BAR 1 is a memory BAR.
-                                                                 1 = BAR 1 is an I/O BAR. */
+                                                                 1 = BAR 1 is an I/O BAR.
+
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO/WRSL) Memory space indicator.
                                                                  0 = BAR 1 is a memory BAR.
-                                                                 1 = BAR 1 is an I/O BAR. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type.
+                                                                 1 = BAR 1 is an I/O BAR.
+
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO/WRSL) BAR type.
                                                                  0x0 = 32-bit BAR.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+                                                                 0x2 = 64-bit BAR.
+
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
+                                                                 must not change this field. */
         uint32_t reserved_4_25         : 22;
-        uint32_t lbab                  : 6;  /**< [ 31: 26](RO) Lower bits of the BAR 1 base address. */
+        uint32_t lbab                  : 6;  /**< [ 31: 26](R/W) Lower bits of the BAR 1 base address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg006_s cn; */
@@ -509,7 +545,7 @@ static inline uint64_t BDK_PCIEEPX_CFG006(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg006_mask
  *
- * BAR Mask 1 Low Register
+ * PCIe EP PF BAR Mask 1 Low Register
  * The BAR 1 Mask register is invisible to host software and not readable from the application.
  * The BAR 1 Mask register is only writable through PEM()_CFG_WR.
  */
@@ -552,7 +588,7 @@ static inline uint64_t BDK_PCIEEPX_CFG006_MASK(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg007
  *
- * Base Address 1 High Register
+ * PCIe EP PF Base Address 1 High Register
  * This register contains the eighth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -561,9 +597,9 @@ typedef union
     struct bdk_pcieepx_cfg007_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Contains the upper 32 bits of the BAR 1 base address. */
+        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 1 base address. */
 #else /* Word 0 - Little Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Contains the upper 32 bits of the BAR 1 base address. */
+        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 1 base address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg007_s cn; */
@@ -586,7 +622,7 @@ static inline uint64_t BDK_PCIEEPX_CFG007(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg007_mask
  *
- * BAR Mask 1 High Register
+ * PCIe EP PF BAR Mask 1 High Register
  * The BAR 1 Mask register is invisible to host software and not readable from the application.
  * The BAR 1 Mask register is only writable through PEM()_CFG_WR.
  */
@@ -621,7 +657,7 @@ static inline uint64_t BDK_PCIEEPX_CFG007_MASK(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg008
  *
- * Base Address 2 Low Register
+ * PCIe EP PF Base Address 2 Low Register
  * This register contains the ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -630,25 +666,39 @@ typedef union
     struct bdk_pcieepx_cfg008_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 12; /**< [ 31: 20](RO) Lower bits of the BAR 2 base address */
+        uint32_t lbab                  : 12; /**< [ 31: 20](R/W) Lower bits of the BAR 2 base address */
         uint32_t reserved_4_19         : 16;
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type.
+        uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
+                                                                 must not change this field. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO/WRSL) BAR type.
                                                                  0x0 = 32-bit BAR.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+                                                                 0x2 = 64-bit BAR.
+
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO/WRSL) Memory space indicator.
                                                                  0 = BAR 2 is a memory BAR.
-                                                                 1 = BAR 2 is an I/O BAR. */
+                                                                 1 = BAR 2 is an I/O BAR.
+
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
 #else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO/WRSL) Memory space indicator.
                                                                  0 = BAR 2 is a memory BAR.
-                                                                 1 = BAR 2 is an I/O BAR. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type.
+                                                                 1 = BAR 2 is an I/O BAR.
+
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO/WRSL) BAR type.
                                                                  0x0 = 32-bit BAR.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+                                                                 0x2 = 64-bit BAR.
+
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO/WRSL) Prefetchable. This field is writable through PEM()_CFG_WR. However, the application
+                                                                 must not change this field. */
         uint32_t reserved_4_19         : 16;
-        uint32_t lbab                  : 12; /**< [ 31: 20](RO) Lower bits of the BAR 2 base address */
+        uint32_t lbab                  : 12; /**< [ 31: 20](R/W) Lower bits of the BAR 2 base address */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg008_s cn; */
@@ -671,7 +721,7 @@ static inline uint64_t BDK_PCIEEPX_CFG008(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg008_mask
  *
- * BAR Mask 2 Low Register
+ * PCIe EP PF BAR Mask 2 Low Register
  * The BAR 2 Mask register is invisible to host software and not readable from the application.
  * The BAR 2 Mask register is only writable through PEM()_CFG_WR.
  */
@@ -714,7 +764,7 @@ static inline uint64_t BDK_PCIEEPX_CFG008_MASK(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg009
  *
- * Base Address 2 High Register
+ * PCIe EP PF Base Address 2 High Register
  * This register contains the tenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -723,9 +773,9 @@ typedef union
     struct bdk_pcieepx_cfg009_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Contains the upper 32 bits of the BAR 2 base address. */
+        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address. */
 #else /* Word 0 - Little Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Contains the upper 32 bits of the BAR 2 base address. */
+        uint32_t ubab                  : 32; /**< [ 31:  0](R/W) Contains the upper 32 bits of the BAR 2 base address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg009_s cn; */
@@ -748,7 +798,7 @@ static inline uint64_t BDK_PCIEEPX_CFG009(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg009_mask
  *
- * BAR Mask 2 High Register
+ * PCIe EP PF BAR Mask 2 High Register
  * The BAR 2 Mask register is invisible to host software and not readable from the application.
  * The BAR 2 Mask register is only writable through PEM()_CFG_WR.
  */
@@ -783,7 +833,7 @@ static inline uint64_t BDK_PCIEEPX_CFG009_MASK(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg010
  *
- * Card Bus CIS Pointer Register
+ * PCIe EP PF Card Bus CIS Pointer Register
  * This register contains the eleventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -817,7 +867,7 @@ static inline uint64_t BDK_PCIEEPX_CFG010(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg011
  *
- * SubSystem ID/Subsystem Vendor ID Register
+ * PCIe EP PF SubSystem ID/Subsystem Vendor ID Register
  * This register contains the twelfth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -861,7 +911,7 @@ static inline uint64_t BDK_PCIEEPX_CFG011(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg012
  *
- * Expansion ROM Base Address Register
+ * PCIe EP PF Expansion ROM Base Address Register
  * This register contains the thirteenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -870,13 +920,13 @@ typedef union
     struct bdk_pcieepx_cfg012_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t eraddr                : 16; /**< [ 31: 16](RO) Expansion ROM address. */
-        uint32_t reserved_1_15         : 15;
-        uint32_t er_en                 : 1;  /**< [  0:  0](RO) Expansion ROM enable (Not supported). */
+        uint32_t eraddr                : 13; /**< [ 31: 19](R/W) Expansion ROM address. */
+        uint32_t reserved_1_18         : 18;
+        uint32_t er_en                 : 1;  /**< [  0:  0](R/W) Expansion ROM enable (Not supported). */
 #else /* Word 0 - Little Endian */
-        uint32_t er_en                 : 1;  /**< [  0:  0](RO) Expansion ROM enable (Not supported). */
-        uint32_t reserved_1_15         : 15;
-        uint32_t eraddr                : 16; /**< [ 31: 16](RO) Expansion ROM address. */
+        uint32_t er_en                 : 1;  /**< [  0:  0](R/W) Expansion ROM enable (Not supported). */
+        uint32_t reserved_1_18         : 18;
+        uint32_t eraddr                : 13; /**< [ 31: 19](R/W) Expansion ROM address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg012_s cn; */
@@ -899,7 +949,7 @@ static inline uint64_t BDK_PCIEEPX_CFG012(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg012_mask
  *
- * Expansion ROM BAR Mask Register
+ * PCIe EP PF Expansion ROM BAR Mask Register
  * The ROM Mask register is invisible to host software and not readable from the application. The
  * ROM Mask register is only writable through PEM()_CFG_WR.
  */
@@ -942,7 +992,7 @@ static inline uint64_t BDK_PCIEEPX_CFG012_MASK(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg013
  *
- * Capability Pointer Register
+ * PCIe EP PF Capability Pointer Register
  * This register contains the fourteenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -980,7 +1030,7 @@ static inline uint64_t BDK_PCIEEPX_CFG013(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg015
  *
- * Interrupt Line/Interrupt Pin/Bridge Control Register
+ * PCIe EP PF Interrupt Line/Interrupt Pin/Bridge Control Register
  * This register contains the sixteenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -989,15 +1039,21 @@ typedef union
     struct bdk_pcieepx_cfg015_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ml                    : 8;  /**< [ 31: 24](RO/H) Maximum latency (hardwired to 0x0). */
-        uint32_t mg                    : 8;  /**< [ 23: 16](RO/H) Minimum grant (hardwired to 0x0). */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO) Interrupt pin (not supported). */
+        uint32_t ml                    : 8;  /**< [ 31: 24](RO) Maximum latency (hardwired to 0x0). */
+        uint32_t mg                    : 8;  /**< [ 23: 16](RO) Minimum grant (hardwired to 0x0). */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
+                                                                 function) uses. The interrupt pin register is writable through PEM()_CFG_WR. In a
+                                                                 single-function configuration, only INTA is used. Therefore, the application must not
+                                                                 change this field. */
         uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
 #else /* Word 0 - Little Endian */
         uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO) Interrupt pin (not supported). */
-        uint32_t mg                    : 8;  /**< [ 23: 16](RO/H) Minimum grant (hardwired to 0x0). */
-        uint32_t ml                    : 8;  /**< [ 31: 24](RO/H) Maximum latency (hardwired to 0x0). */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
+                                                                 function) uses. The interrupt pin register is writable through PEM()_CFG_WR. In a
+                                                                 single-function configuration, only INTA is used. Therefore, the application must not
+                                                                 change this field. */
+        uint32_t mg                    : 8;  /**< [ 23: 16](RO) Minimum grant (hardwired to 0x0). */
+        uint32_t ml                    : 8;  /**< [ 31: 24](RO) Maximum latency (hardwired to 0x0). */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg015_s cn; */
@@ -1020,9 +1076,7 @@ static inline uint64_t BDK_PCIEEPX_CFG015(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg016
  *
- * Power Management Capability ID/Power Management Next Item Pointer/Power Management
- * Capabilities Register
- *
+ * PCIe EP PF Power Management Capability ID Register
  * This register contains the seventeenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1108,7 +1162,7 @@ static inline uint64_t BDK_PCIEEPX_CFG016(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg017
  *
- * Power Management Control and Status Register
+ * PCIe EP PF Power Management Control and Status Register
  * This register contains the eighteenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1178,7 +1232,7 @@ static inline uint64_t BDK_PCIEEPX_CFG017(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg020
  *
- * MSI Capability ID/MSI Next Item Pointer/MSI Control Register
+ * PCIe EP PF MSI Capability ID/MSI Next Item Pointer/MSI Control Register
  * This register contains the twenty-first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1236,7 +1290,7 @@ static inline uint64_t BDK_PCIEEPX_CFG020(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg021
  *
- * MSI Lower 32 Bits Address Register
+ * PCIe EP PF MSI Lower 32 Bits Address Register
  * This register contains the twenty-second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1272,7 +1326,7 @@ static inline uint64_t BDK_PCIEEPX_CFG021(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg022
  *
- * MSI Upper 32 Bits Address Register
+ * PCIe EP PF MSI Upper 32 Bits Address Register
  * This register contains the twenty-third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1306,7 +1360,7 @@ static inline uint64_t BDK_PCIEEPX_CFG022(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg023
  *
- * MSI Data Register
+ * PCIe EP PF MSI Data Register
  * This register contains the twenty-fourth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1344,7 +1398,7 @@ static inline uint64_t BDK_PCIEEPX_CFG023(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg024
  *
- * MSI Mask Bits Register
+ * PCIe EP PF MSI Mask Bits Register
  * This register contains the twenty-fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1380,7 +1434,7 @@ static inline uint64_t BDK_PCIEEPX_CFG024(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg025
  *
- * MSI Pending Bits Register
+ * PCIe EP PF MSI Pending Bits Register
  * This register contains the twenty-sixth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1414,7 +1468,7 @@ static inline uint64_t BDK_PCIEEPX_CFG025(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg028
  *
- * PCIe Capabilities/PCIe Capabilities List Register
+ * PCIe EP PF PCIe Capabilities/PCIe Capabilities List Register
  * This register contains the twenty-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1474,7 +1528,7 @@ static inline uint64_t BDK_PCIEEPX_CFG028(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg029
  *
- * Device Capabilities Register
+ * PCIe EP PF Device Capabilities Register
  * This register contains the thirtieth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1591,7 +1645,7 @@ static inline uint64_t BDK_PCIEEPX_CFG029(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg030
  *
- * Device Control/Device Status Register
+ * PCIe EP PF Device Control/Device Status Register
  * This register contains the thirty-first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1634,7 +1688,7 @@ typedef union
                                                                  SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
                                                                  max read request size. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (Not supported). */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (not suppported). */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W) Phantom function enable. This bit should never be set; PEM requests never use phantom functions. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. */
         uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values: 0x0 = 128 B, 0x1 = 256 B.
@@ -1658,7 +1712,7 @@ typedef union
                                                                  functionality. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W) Phantom function enable. This bit should never be set; PEM requests never use phantom functions. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (Not supported). */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (not suppported). */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
         uint32_t mrrs                  : 3;  /**< [ 14: 12](R/W) Max read request size.
                                                                  0x0 =128 bytes.
@@ -1715,7 +1769,7 @@ static inline uint64_t BDK_PCIEEPX_CFG030(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg031
  *
- * Link Capabilities Register
+ * PCIe EP PF Link Capabilities Register
  * This register contains the thirty-second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1839,7 +1893,7 @@ static inline uint64_t BDK_PCIEEPX_CFG031(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg032
  *
- * Link Control/Link Status Register
+ * PCIe EP PF Link Control/Link Status Register
  * This register contains the thirty-third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1933,7 +1987,7 @@ static inline uint64_t BDK_PCIEEPX_CFG032(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg037
  *
- * Device Capabilities 2 Register
+ * PCIe EP PF Device Capabilities 2 Register
  * This register contains the thirty-eighth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -1956,9 +2010,14 @@ typedef union
         uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported (not supported). */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported (not supported). */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. Note that inbound AtomicOps targeting BAR0 are not supported
+                                                                 and are dropped as an unsupported request. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported (not applicable for EP). */
         uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
@@ -1968,9 +2027,14 @@ typedef union
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
         uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported (not applicable for EP). */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported (not supported). */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported (not supported). */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. Note that inbound AtomicOps targeting BAR0 are not supported
+                                                                 and are dropped as an unsupported request. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
@@ -2007,7 +2071,7 @@ static inline uint64_t BDK_PCIEEPX_CFG037(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg038
  *
- * Device Control 2 Register/Device Status 2 Register
+ * PCIe EP PF Device Control 2 Register/Device Status 2 Register
  * This register contains the thirty-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2065,7 +2129,7 @@ static inline uint64_t BDK_PCIEEPX_CFG038(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg039
  *
- * Link Capabilities 2 Register
+ * PCIe EP PF Link Capabilities 2 Register
  * This register contains the fortieth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2145,7 +2209,7 @@ static inline uint64_t BDK_PCIEEPX_CFG039(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg040
  *
- * Link Control 2 Register/Link Status 2 Register
+ * PCIe EP PF Link Control 2 Register/Link Status 2 Register
  * This register contains the forty-first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2307,7 +2371,7 @@ static inline uint64_t BDK_PCIEEPX_CFG040(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg044
  *
- * PCI Express MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
+ * PCIe EP PF MSI-X Capability ID/MSI-X Next Item Pointer/MSI-X Control Register
  * This register contains the forty-fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2322,13 +2386,19 @@ typedef union
                                                                  1 = All vectors associated with the function are masked, regardless of their respective
                                                                  per-vector mask bits. */
         uint32_t reserved_27_29        : 3;
-        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). Writable through PEM()_CFG_WR. */
+        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). Writable through PEM()_CFG_WR.
+
+                                                                 This field is writable by issueing a PEM()_CFG_WR to PCIEEP(0)_CFG044
+                                                                 when PEM()_CFG_WR[ADDR[31]] is set. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer */
         uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X Capability ID */
 #else /* Word 0 - Little Endian */
         uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X Capability ID */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer */
-        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). Writable through PEM()_CFG_WR. */
+        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). Writable through PEM()_CFG_WR.
+
+                                                                 This field is writable by issueing a PEM()_CFG_WR to PCIEEP(0)_CFG044
+                                                                 when PEM()_CFG_WR[ADDR[31]] is set. */
         uint32_t reserved_27_29        : 3;
         uint32_t funm                  : 1;  /**< [ 30: 30](R/W) Function mask.
                                                                  0 = Each vectors mask bit determines whether the vector is masked or not.
@@ -2357,7 +2427,7 @@ static inline uint64_t BDK_PCIEEPX_CFG044(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg045
  *
- * PCI Express MSI-X Table Offset and BIR Register
+ * PCIe EP PF MSI-X Table Offset and BIR Register
  * This register contains the forty-sixth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2403,7 +2473,7 @@ static inline uint64_t BDK_PCIEEPX_CFG045(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg046
  *
- * PCI Express MSI-X PBA Offset and BIR Register
+ * PCIe EP PF MSI-X PBA Offset and BIR Register
  * This register contains the forty-seventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2449,7 +2519,7 @@ static inline uint64_t BDK_PCIEEPX_CFG046(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg064
  *
- * PCI Express Extended Capability Header Register
+ * PCIe EP PF Extended Capability Header Register
  * This register contains the sixty-fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2487,7 +2557,7 @@ static inline uint64_t BDK_PCIEEPX_CFG064(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg065
  *
- * Uncorrectable Error Status Register
+ * PCIe EP PF Uncorrectable Error Status Register
  * This register contains the sixty-sixth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2598,7 +2668,7 @@ static inline uint64_t BDK_PCIEEPX_CFG065(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg066
  *
- * Uncorrectable Error Mask Register
+ * PCIe EP PF Uncorrectable Error Mask Register
  * This register contains the sixty-seventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2709,7 +2779,7 @@ static inline uint64_t BDK_PCIEEPX_CFG066(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg067
  *
- * Uncorrectable Error Severity Register
+ * PCIe EP PF Uncorrectable Error Severity Register
  * This register contains the sixty-eighth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2720,7 +2790,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
         uint32_t reserved_23           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_21           : 1;
@@ -2752,7 +2822,7 @@ typedef union
         uint32_t reserved_21           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_23           : 1;
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
@@ -2762,7 +2832,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
         uint32_t reserved_23           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_21           : 1;
@@ -2796,7 +2866,7 @@ typedef union
         uint32_t reserved_21           : 1;
         uint32_t ucies                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error severity. */
         uint32_t reserved_23           : 1;
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
@@ -2820,7 +2890,7 @@ static inline uint64_t BDK_PCIEEPX_CFG067(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg068
  *
- * Correctable Error Status Register
+ * PCIe EP PF Correctable Error Status Register
  * This register contains the sixty-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2872,7 +2942,7 @@ static inline uint64_t BDK_PCIEEPX_CFG068(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg069
  *
- * Correctable Error Mask Register
+ * PCIe EP PF Correctable Error Mask Register
  * This register contains the seventieth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2924,7 +2994,7 @@ static inline uint64_t BDK_PCIEEPX_CFG069(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg070
  *
- * Advanced Error Capabilities and Control Register
+ * PCIe EP PF Advanced Error Capabilities and Control Register
  * This register contains the seventy-first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -2972,7 +3042,7 @@ static inline uint64_t BDK_PCIEEPX_CFG070(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg071
  *
- * Header Log Register 1
+ * PCIe EP PF Header Log Register 1
  * This register contains the seventy-second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3006,7 +3076,7 @@ static inline uint64_t BDK_PCIEEPX_CFG071(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg072
  *
- * Header Log Register 2
+ * PCIe EP PF Header Log Register 2
  * This register contains the seventy-third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3040,7 +3110,7 @@ static inline uint64_t BDK_PCIEEPX_CFG072(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg073
  *
- * Header Log Register 3
+ * PCIe EP PF Header Log Register 3
  * This register contains the seventy-fourth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3074,7 +3144,7 @@ static inline uint64_t BDK_PCIEEPX_CFG073(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg074
  *
- * Header Log Register 4
+ * PCIe EP PF Header Log Register 4
  * This register contains the seventy-fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3108,7 +3178,7 @@ static inline uint64_t BDK_PCIEEPX_CFG074(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg078
  *
- * TLP Prefix Log Register 4
+ * PCIe EP PF TLP Prefix Log Register 4
  * This register contains the seventy-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3142,7 +3212,7 @@ static inline uint64_t BDK_PCIEEPX_CFG078(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg082
  *
- * PCI Express ARI Capability Header Register
+ * PCIe EP PF ARI Capability Header Register
  * This register contains the eighty-third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3180,7 +3250,7 @@ static inline uint64_t BDK_PCIEEPX_CFG082(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg083
  *
- * PCI Express ARI Capability Register/PCI Express ARI Control Register
+ * PCIe EP PF ARI Capability Register/PCI Express ARI Control Register
  * This register contains the eighty-fourth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3230,7 +3300,7 @@ static inline uint64_t BDK_PCIEEPX_CFG083(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg086
  *
- * PCI Express Secondary Capability (Gen3) Header Register
+ * PCIe EP PF Secondary Capability (Gen3) Header Register
  * This register contains the eighty-seventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3268,7 +3338,7 @@ static inline uint64_t BDK_PCIEEPX_CFG086(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg087
  *
- * Link Control 3 Register
+ * PCIe EP PF Link Control 3 Register
  * This register contains the eighty-eighth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3306,7 +3376,7 @@ static inline uint64_t BDK_PCIEEPX_CFG087(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg088
  *
- * Lane Error Status Register
+ * PCIe EP PF Lane Error Status Register
  * This register contains the eighty-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3342,7 +3412,7 @@ static inline uint64_t BDK_PCIEEPX_CFG088(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg089
  *
- * Equalization Control Lane 0/1 Register
+ * PCIe EP PF Equalization Control Lane 0/1 Register
  * This register contains the ninetieth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3433,7 +3503,7 @@ static inline uint64_t BDK_PCIEEPX_CFG089(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg090
  *
- * Equalization Control Lane 2/3 Register
+ * PCIe EP PF Equalization Control Lane 2/3 Register
  * This register contains the ninety-first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3524,7 +3594,7 @@ static inline uint64_t BDK_PCIEEPX_CFG090(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg091
  *
- * Equalization Control Lane 4/5 Register
+ * PCIe EP PF Equalization Control Lane 4/5 Register
  * This register contains the ninety-second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3615,7 +3685,7 @@ static inline uint64_t BDK_PCIEEPX_CFG091(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg092
  *
- * Equalization Control Lane 6/7 Register
+ * PCIe EP PF Equalization Control Lane 6/7 Register
  * This register contains the ninety-fourth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3706,7 +3776,7 @@ static inline uint64_t BDK_PCIEEPX_CFG092(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg094
  *
- * PCI Express SR-IOV Capability Header Register
+ * PCIe EP PF SR-IOV Capability Header Register
  * This register contains the ninety-fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3715,13 +3785,13 @@ typedef union
     struct bdk_pcieepx_cfg094_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. Points to the resizable BAR capabilities by default. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability. */
 #else /* Word 0 - Little Endian */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. Points to the resizable BAR capabilities by default. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg094_s cn; */
@@ -3744,7 +3814,7 @@ static inline uint64_t BDK_PCIEEPX_CFG094(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg095
  *
- * PCI Express SR-IOV Capability Register
+ * PCIe EP PF SR-IOV Capability Register
  * This register contains the ninety-sixth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3786,7 +3856,7 @@ static inline uint64_t BDK_PCIEEPX_CFG095(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg096
  *
- * PCI Express SR-IOV Control/Status Register
+ * PCIe EP PF SR-IOV Control/Status Register
  * This register contains the ninety-seventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3842,7 +3912,7 @@ static inline uint64_t BDK_PCIEEPX_CFG096(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg097
  *
- * PCI Express SR-IOV Initial VFs/Total VFs Register
+ * PCIe EP PF SR-IOV Initial VFs/Total VFs Register
  * This register contains the ninety-eighth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3855,7 +3925,7 @@ typedef union
         uint32_t ivf                   : 16; /**< [ 15:  0](RO/WRSL) Initial VFs.
 
                                                                  There are two InitialVFs registers; one for each ARI Capable
-                                                                 and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ACH] determines which one is
+                                                                 and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ARI] determines which one is
                                                                  being used for SR-IOV, and which one is accessed by a read request.
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
@@ -3866,7 +3936,7 @@ typedef union
         uint32_t ivf                   : 16; /**< [ 15:  0](RO/WRSL) Initial VFs.
 
                                                                  There are two InitialVFs registers; one for each ARI Capable
-                                                                 and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ACH] determines which one is
+                                                                 and non-ARI Capable Hierarchies.  The PCIEP()_CFG096[ARI] determines which one is
                                                                  being used for SR-IOV, and which one is accessed by a read request.
 
                                                                  This field is writable through PEM()_CFG_WR, PEM()_CFG_WR[ADDR[31]] determines
@@ -3896,7 +3966,7 @@ static inline uint64_t BDK_PCIEEPX_CFG097(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg098
  *
- * PCI Express SR-IOV Number of VFs Register/SR-IOV Function Dependency Link Register
+ * PCIe EP PF SR-IOV Number of VFs Register/SR-IOV Function Dependency Link Register
  * This register contains the ninety-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -3934,7 +4004,7 @@ static inline uint64_t BDK_PCIEEPX_CFG098(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg099
  *
- * PCI Express SR-IOV Initial VFs/Total VFs Register
+ * PCIe EP PF SR-IOV Initial VFs/Total VFs Register
  * This register contains the one hundredth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4002,7 +4072,7 @@ static inline uint64_t BDK_PCIEEPX_CFG099(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg100
  *
- * PCI Express SR-IOV Number of VFs/Function Dependency Link Register
+ * PCIe EP PF SR-IOV Number of VFs/Function Dependency Link Register
  * This register contains the one hundred first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4011,11 +4081,15 @@ typedef union
     struct bdk_pcieepx_cfg100_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vfdev                 : 16; /**< [ 31: 16](RO/H) VF device ID. */
+        uint32_t vfdev                 : 16; /**< [ 31: 16](RO/H) VF device ID.
+                                                                 _ <15:8> resets to PCC_PROD_E::CNXXXX.
+                                                                 _ <7:0> resets to PCC_DEV_IDL_E::CHIP_VF. */
         uint32_t reserved_0_15         : 16;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_15         : 16;
-        uint32_t vfdev                 : 16; /**< [ 31: 16](RO/H) VF device ID. */
+        uint32_t vfdev                 : 16; /**< [ 31: 16](RO/H) VF device ID.
+                                                                 _ <15:8> resets to PCC_PROD_E::CNXXXX.
+                                                                 _ <7:0> resets to PCC_DEV_IDL_E::CHIP_VF. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg100_s cn; */
@@ -4038,7 +4112,7 @@ static inline uint64_t BDK_PCIEEPX_CFG100(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg101
  *
- * PCI Express SR-IOV Supported Page Sizes Register
+ * PCIe EP PF SR-IOV Supported Page Sizes Register
  * This register contains the one hundred second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4072,7 +4146,7 @@ static inline uint64_t BDK_PCIEEPX_CFG101(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg102
  *
- * PCI Express SR-IOV System Page Sizes Register
+ * PCIe EP PF SR-IOV System Page Sizes Register
  * This register contains the one hundred third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4106,7 +4180,7 @@ static inline uint64_t BDK_PCIEEPX_CFG102(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg103
  *
- * PCI Express SR-IOV BAR 0 Register
+ * PCIe EP PF SR-IOV BAR 0 Register
  * This register contains the one hundred fourth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4115,8 +4189,8 @@ typedef union
     struct bdk_pcieepx_cfg103_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 11; /**< [ 31: 21](R/W) Lower bits of the VF BAR 0 base address. */
-        uint32_t reserved_4_20         : 17;
+        uint32_t lbab                  : 12; /**< [ 31: 20](R/W) Lower bits of the VF BAR 0 base address. */
+        uint32_t reserved_4_19         : 16;
         uint32_t pf                    : 1;  /**< [  3:  3](RO/H) Prefetchable. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type:
                                                                  0x0 = 32-bit BAR.
@@ -4132,8 +4206,8 @@ typedef union
                                                                  0x0 = 32-bit BAR.
                                                                  0x2 = 64-bit BAR. */
         uint32_t pf                    : 1;  /**< [  3:  3](RO/H) Prefetchable. */
-        uint32_t reserved_4_20         : 17;
-        uint32_t lbab                  : 11; /**< [ 31: 21](R/W) Lower bits of the VF BAR 0 base address. */
+        uint32_t reserved_4_19         : 16;
+        uint32_t lbab                  : 12; /**< [ 31: 20](R/W) Lower bits of the VF BAR 0 base address. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg103_s cn; */
@@ -4156,7 +4230,7 @@ static inline uint64_t BDK_PCIEEPX_CFG103(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg104
  *
- * PCI Express SR-IOV BAR 1 Register
+ * PCIe EP PF SR-IOV BAR 1 Register
  * This register contains the one hundred seventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4190,7 +4264,7 @@ static inline uint64_t BDK_PCIEEPX_CFG104(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg105
  *
- * PCI Express SR-IOV BAR 2 Register
+ * PCIe EP PF SR-IOV BAR 2 Register
  * This register contains the one hundred sixth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4224,7 +4298,7 @@ static inline uint64_t BDK_PCIEEPX_CFG105(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg106
  *
- * PCI Express SR-IOV BAR 3 Register
+ * PCIe EP PF SR-IOV BAR 3 Register
  * This register contains the one hundred seventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4258,7 +4332,7 @@ static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg107
  *
- * PCI Express SR-IOV BAR 4 Register
+ * PCIe EP PF SR-IOV BAR 4 Register
  * This register contains the one hundred eighth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4292,7 +4366,7 @@ static inline uint64_t BDK_PCIEEPX_CFG107(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg108
  *
- * PCI Express SR-IOV BAR 5 Register
+ * PCIe EP PF SR-IOV BAR 5 Register
  * This register contains the one hundred ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4326,7 +4400,7 @@ static inline uint64_t BDK_PCIEEPX_CFG108(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg109
  *
- * PCI Express SR-IOV Migration State Array Offset Register
+ * PCIe EP PF SR-IOV Migration State Array Offset Register
  * This register contains the one hundred tenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4360,9 +4434,135 @@ static inline uint64_t BDK_PCIEEPX_CFG109(unsigned long a)
 #define arguments_BDK_PCIEEPX_CFG109(a) (a),-1,-1,-1
 
 /**
+ * Register (PCICONFIGEP) pcieep#_cfg110
+ *
+ * PCI Express Resizable BAR (RBAR) Capability Header Register
+ * This register contains the one hundred eleventh 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg110_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg110_s cn; */
+} bdk_pcieepx_cfg110_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG110(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG110(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001b8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG110", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG110(a) bdk_pcieepx_cfg110_t
+#define bustype_BDK_PCIEEPX_CFG110(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG110(a) "PCIEEPX_CFG110"
+#define busnum_BDK_PCIEEPX_CFG110(a) (a)
+#define arguments_BDK_PCIEEPX_CFG110(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg111
+ *
+ * PCI Express Resizable BAR (RBAR) Capability Register
+ * This register contains the one hundred twelfth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg111_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t srs                   : 26; /**< [ 29:  4](RO/WRSL) "Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
+                                                                 0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CNXXXX
+                                                                 advertises a BAR size of 32TB (0x3FF_FFFF). The BAR is disabled at runtime by writing all
+                                                                 zeros through PEM()_CFG_WR to this field." */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t srs                   : 26; /**< [ 29:  4](RO/WRSL) "Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
+                                                                 0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CNXXXX
+                                                                 advertises a BAR size of 32TB (0x3FF_FFFF). The BAR is disabled at runtime by writing all
+                                                                 zeros through PEM()_CFG_WR to this field." */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg111_s cn; */
+} bdk_pcieepx_cfg111_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG111(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG111(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001bcll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG111", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG111(a) bdk_pcieepx_cfg111_t
+#define bustype_BDK_PCIEEPX_CFG111(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG111(a) "PCIEEPX_CFG111"
+#define busnum_BDK_PCIEEPX_CFG111(a) (a)
+#define arguments_BDK_PCIEEPX_CFG111(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg112
+ *
+ * PCI Express Resizable BAR (RBAR) Control Register
+ * This register contains the one hundred thirteenth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg112_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_13_31        : 19;
+        uint32_t rbars                 : 5;  /**< [ 12:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
+                                                                 values as large as 0x19 (32TB). */
+        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
+        uint32_t reserved_3_4          : 2;
+        uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
+#else /* Word 0 - Little Endian */
+        uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
+        uint32_t reserved_3_4          : 2;
+        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
+        uint32_t rbars                 : 5;  /**< [ 12:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
+                                                                 values as large as 0x19 (32TB). */
+        uint32_t reserved_13_31        : 19;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg112_s cn; */
+} bdk_pcieepx_cfg112_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG112(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG112(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001c0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG112", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG112(a) bdk_pcieepx_cfg112_t
+#define bustype_BDK_PCIEEPX_CFG112(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG112(a) "PCIEEPX_CFG112"
+#define busnum_BDK_PCIEEPX_CFG112(a) (a)
+#define arguments_BDK_PCIEEPX_CFG112(a) (a),-1,-1,-1
+
+/**
  * Register (PCICONFIGEP) pcieep#_cfg448
  *
- * Ack Latency Timer/Replay Timer Register
+ * PCIe EP PF Ack Latency Timer/Replay Timer Register
  * This register contains the four hundred forty-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4412,7 +4612,7 @@ static inline uint64_t BDK_PCIEEPX_CFG448(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg449
  *
- * Other Message Register
+ * PCIe EP PF Other Message Register
  * This register contains the four hundred fiftieth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4464,7 +4664,7 @@ static inline uint64_t BDK_PCIEEPX_CFG449(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg450
  *
- * Port Force Link Register
+ * PCIe EP PF Port Force Link Register
  * This register contains the four hundred fifty-first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4590,7 +4790,7 @@ static inline uint64_t BDK_PCIEEPX_CFG450(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg451
  *
- * Ack Frequency Register
+ * PCIe EP PF Ack Frequency Register
  * This register contains the four hundred fifty-second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4686,7 +4886,7 @@ static inline uint64_t BDK_PCIEEPX_CFG451(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg452
  *
- * Port Link Control Register
+ * PCIe EP PF Port Link Control Register
  * This register contains the four hundred fifty-third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4790,7 +4990,7 @@ static inline uint64_t BDK_PCIEEPX_CFG452(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg453
  *
- * Lane Skew Register
+ * PCIe EP PF Lane Skew Register
  * This register contains the four hundred fifty-fourth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4838,7 +5038,7 @@ static inline uint64_t BDK_PCIEEPX_CFG453(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg454
  *
- * Symbol Number Register
+ * PCIe EP PF Symbol Number Register
  * This register contains the four hundred fifty-fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4890,7 +5090,7 @@ static inline uint64_t BDK_PCIEEPX_CFG454(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg455
  *
- * Symbol Timer/Filter Mask Register 1
+ * PCIe EP PF Symbol Timer/Filter Mask Register 1
  * This register contains the four hundred fifty-sixth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4960,7 +5160,7 @@ static inline uint64_t BDK_PCIEEPX_CFG455(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg456
  *
- * Filter Mask Register 2
+ * PCIe EP PF Filter Mask Register 2
  * This register contains the four hundred fifty-seventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5002,7 +5202,7 @@ static inline uint64_t BDK_PCIEEPX_CFG456(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg458
  *
- * Debug Register 0
+ * PCIe EP PF Debug Register 0
  * This register contains the four hundred fifty-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5036,7 +5236,7 @@ static inline uint64_t BDK_PCIEEPX_CFG458(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg459
  *
- * Debug Register 1
+ * PCIe EP PF Debug Register 1
  * This register contains the four hundred sixtieth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5070,7 +5270,7 @@ static inline uint64_t BDK_PCIEEPX_CFG459(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg460
  *
- * Transmit Posted FC Credit Status Register
+ * PCIe EP PF Transmit Posted FC Credit Status Register
  * This register contains the four hundred sixty-first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5112,7 +5312,7 @@ static inline uint64_t BDK_PCIEEPX_CFG460(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg461
  *
- * Transmit Nonposted FC Credit Status Register
+ * PCIe EP PF Transmit Nonposted FC Credit Status Register
  * This register contains the four hundred sixty-second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5154,7 +5354,7 @@ static inline uint64_t BDK_PCIEEPX_CFG461(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg462
  *
- * Transmit Completion FC Credit Status Register
+ * PCIe EP PF Transmit Completion FC Credit Status Register
  * This register contains the four hundred sixty-third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5196,7 +5396,7 @@ static inline uint64_t BDK_PCIEEPX_CFG462(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg463
  *
- * Queue Status Register
+ * PCIe EP PF Queue Status Register
  * This register contains the four hundred sixty-fourth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5254,7 +5454,7 @@ static inline uint64_t BDK_PCIEEPX_CFG463(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg464
  *
- * VC Transmit Arbitration Register 1
+ * PCIe EP PF VC Transmit Arbitration Register 1
  * This register contains the four hundred sixty-fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5294,7 +5494,7 @@ static inline uint64_t BDK_PCIEEPX_CFG464(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg465
  *
- * VC Transmit Arbitration Register 2
+ * PCIe EP PF VC Transmit Arbitration Register 2
  * This register contains the four hundred sixty-sixth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5334,7 +5534,7 @@ static inline uint64_t BDK_PCIEEPX_CFG465(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg466
  *
- * VC0 Posted Receive Queue Control Register
+ * PCIe EP PF VC0 Posted Receive Queue Control Register
  * This register contains the four hundred sixty-seventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5430,7 +5630,7 @@ static inline uint64_t BDK_PCIEEPX_CFG466(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg467
  *
- * VC0 Nonposted Receive Queue Control Register
+ * PCIe EP PF VC0 Nonposted Receive Queue Control Register
  * This register contains the four hundred sixty-eighth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5502,7 +5702,7 @@ static inline uint64_t BDK_PCIEEPX_CFG467(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg468
  *
- * VC0 Completion Receive Queue Control Register
+ * PCIe EP PF VC0 Completion Receive Queue Control Register
  * This register contains the four hundred sixty-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5574,7 +5774,7 @@ static inline uint64_t BDK_PCIEEPX_CFG468(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg515
  *
- * Gen2 Port Logic Register
+ * PCIe EP PF Gen2 Port Logic Register
  * This register contains the five hundred sixteenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5640,7 +5840,7 @@ static inline uint64_t BDK_PCIEEPX_CFG515(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg516
  *
- * PHY Status Register
+ * PCIe EP PF PHY Status Register
  * This register contains the five hundred seventeenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5674,7 +5874,7 @@ static inline uint64_t BDK_PCIEEPX_CFG516(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg517
  *
- * PHY Control Register
+ * PCIe EP PF PHY Control Register
  * This register contains the five hundred eighteenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5708,7 +5908,7 @@ static inline uint64_t BDK_PCIEEPX_CFG517(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg548
  *
- * Gen3 Control Register
+ * PCIe EP PF Gen3 Control Register
  * This register contains the five hundred forty-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5768,7 +5968,7 @@ static inline uint64_t BDK_PCIEEPX_CFG548(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg554
  *
- * Gen3 EQ Control Register
+ * PCIe EP PF Gen3 EQ Control Register
  * This register contains the five hundred fifty-fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -5918,7 +6118,7 @@ static inline uint64_t BDK_PCIEEPX_CFG554(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg558
  *
- * Gen3 PIPE Loopback Register
+ * PCIe EP PF Gen3 PIPE Loopback Register
  * This register contains the five hundred fifty-ninth 32-bits of PCIe type 0 configuration space.
  */
 typedef union

@@ -648,11 +648,13 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t bist                  : 9;  /**< [  8:  0](RO/H) Memory BIST status. 0 = Pass, 1 = Fail.
-                                                                 INTERNAL: [8:0]= [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
+                                                                 Internal:
+                                                                 [8:0]= [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem] in GIC. */
 #else /* Word 0 - Little Endian */
         uint64_t bist                  : 9;  /**< [  8:  0](RO/H) Memory BIST status. 0 = Pass, 1 = Fail.
-                                                                 INTERNAL: [8:0]= [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
+                                                                 Internal:
+                                                                 [8:0]= [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem] in GIC. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
@@ -813,12 +815,16 @@ typedef union
         uint64_t reserved_38_63        : 26;
         uint64_t del3t_core_id         : 6;  /**< [ 37: 32](SR/W) Target CoreID for signaling of GIC DEL3T Errors. Legal range is [0,47]. */
         uint64_t reserved_11_31        : 21;
-        uint64_t del3t_dis             : 11; /**< [ 10:  0](SR/W) Disable signaling of DEL3T Errors. INTERNAL: for del3t_dis[10:0]=
+        uint64_t del3t_dis             : 11; /**< [ 10:  0](SR/W) Disable signaling of DEL3T Errors.
+                                                                 Internal:
+                                                                 for del3t_dis[10:0]=
                                                                  [ncbr_stdn,ncbr_fill,cic2cic_ig_buf, lpi_cfg_buf,
                                                                  lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem]  in GIC. */
 #else /* Word 0 - Little Endian */
-        uint64_t del3t_dis             : 11; /**< [ 10:  0](SR/W) Disable signaling of DEL3T Errors. INTERNAL: for del3t_dis[10:0]=
+        uint64_t del3t_dis             : 11; /**< [ 10:  0](SR/W) Disable signaling of DEL3T Errors.
+                                                                 Internal:
+                                                                 for del3t_dis[10:0]=
                                                                  [ncbr_stdn,ncbr_fill,cic2cic_ig_buf, lpi_cfg_buf,
                                                                  lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem]  in GIC. */
@@ -869,11 +875,15 @@ typedef union
         uint64_t ram_flip0             : 9;  /**< [ 28: 20](SR/W) Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. See COR_DIS bit definitions. */
         uint64_t reserved_9_19         : 11;
-        uint64_t cor_dis               : 9;  /**< [  8:  0](SR/W) RAM ECC correction disable. INTERNAL: for cor_dis[8:0]= [cic2cic_ig_buf, lpi_cfg_buf,
+        uint64_t cor_dis               : 9;  /**< [  8:  0](SR/W) RAM ECC correction disable.
+                                                                 Internal:
+                                                                 for cor_dis[8:0]= [cic2cic_ig_buf, lpi_cfg_buf,
                                                                  lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem]  in GIC. */
 #else /* Word 0 - Little Endian */
-        uint64_t cor_dis               : 9;  /**< [  8:  0](SR/W) RAM ECC correction disable. INTERNAL: for cor_dis[8:0]= [cic2cic_ig_buf, lpi_cfg_buf,
+        uint64_t cor_dis               : 9;  /**< [  8:  0](SR/W) RAM ECC correction disable.
+                                                                 Internal:
+                                                                 for cor_dis[8:0]= [cic2cic_ig_buf, lpi_cfg_buf,
                                                                  lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem]  in GIC. */
         uint64_t reserved_9_19         : 11;
@@ -896,11 +906,15 @@ typedef union
         uint64_t ram_flip0             : 9;  /**< [ 28: 20](SR/W) Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. See COR_DIS bit definitions. */
         uint64_t reserved_9_19         : 11;
-        uint64_t cor_dis               : 9;  /**< [  8:  0](SR/W) RAM ECC correction disable. INTERNAL: for cor_dis[8:0]= [cic2cic_ig_buf, lpi_cfg_buf,
+        uint64_t cor_dis               : 9;  /**< [  8:  0](SR/W) RAM ECC correction disable.
+                                                                 Internal:
+                                                                 for cor_dis[8:0]= [cic2cic_ig_buf, lpi_cfg_buf,
                                                                  lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem]  in GIC. */
 #else /* Word 0 - Little Endian */
-        uint64_t cor_dis               : 9;  /**< [  8:  0](SR/W) RAM ECC correction disable. INTERNAL: for cor_dis[8:0]= [cic2cic_ig_buf, lpi_cfg_buf,
+        uint64_t cor_dis               : 9;  /**< [  8:  0](SR/W) RAM ECC correction disable.
+                                                                 Internal:
+                                                                 for cor_dis[8:0]= [cic2cic_ig_buf, lpi_cfg_buf,
                                                                  lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem]  in GIC. */
         uint64_t reserved_9_19         : 11;
@@ -943,19 +957,23 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_41_63        : 23;
         uint64_t dbe                   : 9;  /**< [ 40: 32](R/W1C/H) RAM ECC DBE detected.
-                                                                 INTERNAL: [8:0] = [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
+                                                                 Internal:
+                                                                 [8:0] = [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem] in GIC. */
         uint64_t reserved_9_31         : 23;
         uint64_t sbe                   : 9;  /**< [  8:  0](R/W1C/H) RAM ECC SBE detected.
-                                                                 INTERNAL: [8:0] = [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
+                                                                 Internal:
+                                                                 [8:0] = [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem] in GIC. */
 #else /* Word 0 - Little Endian */
         uint64_t sbe                   : 9;  /**< [  8:  0](R/W1C/H) RAM ECC SBE detected.
-                                                                 INTERNAL: [8:0] = [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
+                                                                 Internal:
+                                                                 [8:0] = [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem] in GIC. */
         uint64_t reserved_9_31         : 23;
         uint64_t dbe                   : 9;  /**< [ 40: 32](R/W1C/H) RAM ECC DBE detected.
-                                                                 INTERNAL: [8:0] = [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
+                                                                 Internal:
+                                                                 [8:0] = [cic2cic_ig_buf, lpi_cfg_buf, lip_rmw_buf,
                                                                  dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem] in GIC. */
         uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
@@ -6804,7 +6822,8 @@ typedef union
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
 
-                                                                 INTERNAL: Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 Internal:
+                                                                 Note when this field is non-zero and an ITS is dynamically powered-off and back
                                                                  on,
                                                                  software must ensure that any hardware collections
                                                                  are re-mapped following power-on. */
@@ -6844,7 +6863,8 @@ typedef union
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
 
-                                                                 INTERNAL: Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 Internal:
+                                                                 Note when this field is non-zero and an ITS is dynamically powered-off and back
                                                                  on,
                                                                  software must ensure that any hardware collections
                                                                  are re-mapped following power-on. */
@@ -6866,7 +6886,8 @@ typedef union
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
 
-                                                                 INTERNAL: Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 Internal:
+                                                                 Note when this field is non-zero and an ITS is dynamically powered-off and back
                                                                  on,
                                                                  software must ensure that any hardware collections
                                                                  are re-mapped following power-on. */
@@ -6902,7 +6923,8 @@ typedef union
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
 
-                                                                 INTERNAL: Note when this field is non-zero and an ITS is dynamically powered-off and back
+                                                                 Internal:
+                                                                 Note when this field is non-zero and an ITS is dynamically powered-off and back
                                                                  on,
                                                                  software must ensure that any hardware collections
                                                                  are re-mapped following power-on. */

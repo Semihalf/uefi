@@ -70,12 +70,15 @@
  * Enumerates the values of NIC_CQE_RX_S[CHAN].
  */
 #define BDK_NIC_CHAN_E_BGXX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX/RGX {a} LMAC {b} channel {c}.
-                                       INTERNAL: Used for BGX and RGX. */
+                                       Internal:
+                                       Used for BGX and RGX. */
 #define BDK_NIC_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX {a} port {b} channel {c}. */
 #define BDK_NIC_CHAN_E_DPI_CHX(a) (0x400 + (a)) /**< Loopback {a} channel {b}. */
 #define BDK_NIC_CHAN_E_LBKX_CHX(a,b) (0 + 0x100 * (a) + (b)) /**< Loopback {a} channel {b}. */
 #define BDK_NIC_CHAN_E_PKO_NULL (0xfff) /**< PKO NULL channel. */
-#define BDK_NIC_CHAN_E_RX(a) (0 + 0x100 * (a)) /**< Reserved. INTERNAL: R(5) is reserved for NVME. */
+#define BDK_NIC_CHAN_E_RX(a) (0 + 0x100 * (a)) /**< Reserved.
+                                       Internal:
+                                       R(5) is reserved for NVME. */
 #define BDK_NIC_CHAN_E_TNS_PORTX_CHX(a,b) (0x600 + 0x100 * (a) + (b)) /**< TNS port {a} channel {b}. */
 
 /**
@@ -86,7 +89,7 @@
  * NIC_PF_CHAN()_CREDIT.
  */
 #define BDK_NIC_CHAN_IDX_E_BGXX_LMACX_CHX(a,b,c) (0 + 0x20 * (a) + 8 * (b) + (c)) /**< BGX {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_LMAC({b})_CH({c}). */
-#define BDK_NIC_CHAN_IDX_E_LBKX_CHX(a,b) (0x28 + 0x40 * (a) + (b)) /**< Loopback {a} channel {b}. Corresponds to NIC_CHAN_E::LBK({a})_CH({b}). */
+#define BDK_NIC_CHAN_IDX_E_LBKX_CHX(a,b) (0x48 + 0x40 * (a) + (b)) /**< Loopback {a} channel {b}. Corresponds to NIC_CHAN_E::LBK({a})_CH({b}). */
 #define BDK_NIC_CHAN_IDX_E_RGXX_LMACX_CHX(a,b,c) (0 + 0x20 * (a) + 8 * (b) + (c)) /**< RGX {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_LMAC({b})_CH({c}). */
 
 /**
@@ -193,12 +196,15 @@
 #define BDK_NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR_CN83XX (0x8c) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_GATHER_S,
                                        NIC_SEND_IMM_S or NIC_SEND_MEM_S.
                                        
-                                       INTERNAL: Replaces DATA_SEQUENCE_ERR and MEM_SEQUENCE_ERR from pass 1. */
+                                       Internal:
+                                       Replaces DATA_SEQUENCE_ERR and MEM_SEQUENCE_ERR from pass 1. */
 #define BDK_NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR_CN88XXP2 (0x8c) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_GATHER_S,
                                        NIC_SEND_IMM_S or NIC_SEND_MEM_S.
                                        
                                        Added in pass 2.
-                                       INTERNAL: Replaces DATA_SEQUENCE_ERR and MEM_SEQUENCE_ERR from pass 1. */
+                                       
+                                       Internal:
+                                       Replaces DATA_SEQUENCE_ERR and MEM_SEQUENCE_ERR from pass 1. */
 #define BDK_NIC_CQE_SEND_STATUS_E_GOOD (0) /**< No error. */
 #define BDK_NIC_CQE_SEND_STATUS_E_HDR_CONS_ERR_CN81XX (0x11) /**< Send Header consistency error. One of the following errors was detected when the send
                                        descriptor was read for a packet after it was scheduled:
@@ -211,7 +217,8 @@
                                        * Inconsistent NIC_SEND_HDR_S[SUBDCNT] values were read on the first pass and second pass
                                        descriptor reads.
                                        
-                                       INTERNAL: The following condition is checked in t88 pass 1 but not in pass 2:
+                                       Internal:
+                                       The following condition is checked in t88 pass 1 but not in pass 2:
                                        * Inconsistent NIC_SEND_HDR_S[TOTAL] values were read on the first pass and second pass
                                        descriptor reads. */
 #define BDK_NIC_CQE_SEND_STATUS_E_HDR_CONS_ERR_CN83XX (0x11) /**< Send Header consistency error. One of the following errors was detected when the send
@@ -474,7 +481,8 @@
 #define BDK_NIC_INTF_BLOCK_E_BGXX(a) (8 + (a)) /**< BGX{a}. */
 #define BDK_NIC_INTF_BLOCK_E_BGXX_BLOCK(a) (8 + (a)) /**< BGX{a} block ID. */
 #define BDK_NIC_INTF_BLOCK_E_LBKX(a) (0 + (a)) /**< Loopback {a}.
-                                       INTERNAL: Value TBD; using 0x6 for now. */
+                                       Internal:
+                                       Value TBD; using 0x6 for now. */
 #define BDK_NIC_INTF_BLOCK_E_RGXX(a) (8 + (a)) /**< RGX{a}. */
 #define BDK_NIC_INTF_BLOCK_E_TNS_PORTX_BLOCK(a) (6 + (a)) /**< TNS port {a} block ID. */
 
@@ -485,7 +493,7 @@
  * Enumerates index of NIC_PF_INTF()_SEND_CFG and NIC_PF_INTF()_BP_CFG.
  */
 #define BDK_NIC_INTF_E_BGXX(a) (0 + (a)) /**< BGX{a}. */
-#define BDK_NIC_INTF_E_LBKX(a) (2 + (a)) /**< Loopback {a}. */
+#define BDK_NIC_INTF_E_LBKX(a) (3 + (a)) /**< Loopback {a}. */
 #define BDK_NIC_INTF_E_RGXX(a) (0 + (a)) /**< RGX{a}. */
 
 /**
@@ -593,7 +601,7 @@
  * NIC_PF_LMAC()_CREDIT, NIC_PF_SW_SYNC_PIPE()_CQ_CNTS and NIC_PF_SW_SYNC_PIPE()_PKT_CNTS.
  */
 #define BDK_NIC_LMAC_E_BGXX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< BGX {a} LMAC {b}. */
-#define BDK_NIC_LMAC_E_LBKX(a) (5 + (a)) /**< Loopback {a}. */
+#define BDK_NIC_LMAC_E_LBKX(a) (9 + (a)) /**< Loopback {a}. */
 #define BDK_NIC_LMAC_E_RGXX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< RGX {a} LMAC {b}. */
 
 /**
@@ -667,7 +675,8 @@
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
                                        
-                                       INTERNAL: This algorithm is Msoft-compatible; the
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the
                                        NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
 #define BDK_NIC_RSS_ALG_E_INNER_IP_CN83XX (8) /**< RSS was done on the inner layer of a tunneling packet
                                        IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
@@ -677,7 +686,8 @@
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
                                        
-                                       INTERNAL: This algorithm is Msoft-compatible; the
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the
                                        NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
 #define BDK_NIC_RSS_ALG_E_INNER_IP_CN88XXP2 (8) /**< RSS was done on the inner layer of a tunneling packet
                                        IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
@@ -689,7 +699,8 @@
                                        
                                        Added in pass 2.
                                        
-                                       INTERNAL: This algorithm is Msoft-compatible; the
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the
                                        NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
 #define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN88XXP1 (0xd) /**< Reserved. */
 #define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN81XX (0xd) /**< RSS was done on the inner layer of a tunneling packet
@@ -744,7 +755,8 @@
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
                                        
-                                       INTERNAL: This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
                                        determine IPv4 vs. IPv6 hash sub-type. */
 #define BDK_NIC_RSS_ALG_E_INNER_TCP_IP_CN83XX (9) /**< RSS was done on the inner layer of a tunneling packet
                                        TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
@@ -753,7 +765,8 @@
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
                                        
-                                       INTERNAL: This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
                                        determine IPv4 vs. IPv6 hash sub-type. */
 #define BDK_NIC_RSS_ALG_E_INNER_TCP_IP_CN88XXP2 (9) /**< RSS was done on the inner layer of a tunneling packet
                                        TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
@@ -764,7 +777,8 @@
                                        
                                        Added in pass 2.
                                        
-                                       INTERNAL: This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
                                        determine IPv4 vs. IPv6 hash sub-type. */
 #define BDK_NIC_RSS_ALG_E_INNER_UDP_IP_CN88XXP1 (0xa) /**< Reserved. */
 #define BDK_NIC_RSS_ALG_E_INNER_UDP_IP_CN81XX (0xa) /**< RSS was done on the inner layer of a tunneling packet
@@ -794,7 +808,8 @@
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
                                        
-                                       INTERNAL: This algorithm is Msoft-compatible; the
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the
                                        NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
 #define BDK_NIC_RSS_ALG_E_NONE (0) /**< No RSS algorithm matched, or RSS is disabled. NIC_CQE_RX_S[RSS_TAG] is zero
                                        Extracted key format [287:0]=288'h0}. */
@@ -828,7 +843,8 @@
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
                                        
-                                       INTERNAL: This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
                                        determine IPv4 vs. IPv6 hash sub-type. */
 #define BDK_NIC_RSS_ALG_E_UDP_IP (4) /**< UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, UDP source port, and UDP destination port. Enabled when
@@ -859,7 +875,8 @@
 #define BDK_NIC_SEND_CRCALG_E_CRC32C (1) /**< SCTP/iSCSI format big-endian CRC-32c (polynomial 0x11EDC6F41). The initial value is
                                        usually 0xFFFFFFFF, corrected for any appropriate header fields to be included. */
 #define BDK_NIC_SEND_CRCALG_E_ICRC (2) /**< Reserved.
-                                       INTERNAL: InfiniBand ICRC for RoCE. Defeatured in t88. */
+                                       Internal:
+                                       InfiniBand ICRC for RoCE. Defeatured in t88. */
 
 /**
  * Enumeration nic_send_ld_type_e
@@ -909,16 +926,22 @@
  * Enumerates the send subdescriptor codes.
  */
 #define BDK_NIC_SEND_SUBDC_E_CRC (2) /**< Send CRC subdescriptor. See NIC_SEND_CRC_S. */
-#define BDK_NIC_SEND_SUBDC_E_EOD (0xf) /**< For internal use only. INTERNAL: Indicates end of descriptor on internal SQM to SEB
+#define BDK_NIC_SEND_SUBDC_E_EOD (0xf) /**< For internal use only.
+                                       Internal:
+                                       Indicates end of descriptor on internal SQM to SEB
                                        interface. */
 #define BDK_NIC_SEND_SUBDC_E_GATHER (4) /**< Send gather subdescriptor. See NIC_SEND_GATHER_S. */
 #define BDK_NIC_SEND_SUBDC_E_HDR (1) /**< Send header subdescriptor. See NIC_SEND_HDR_S. */
 #define BDK_NIC_SEND_SUBDC_E_IMM (3) /**< Send immediate subdescriptor. See NIC_SEND_IMM_S. */
 #define BDK_NIC_SEND_SUBDC_E_INVALID (0) /**< Invalid subdescriptor, or not enqueued by software yet. */
-#define BDK_NIC_SEND_SUBDC_E_LOCK (0xd) /**< For internal use only. INTERNAL: Indicates lockdown subdescriptor on internal SQM to SEB
+#define BDK_NIC_SEND_SUBDC_E_LOCK (0xd) /**< For internal use only.
+                                       Internal:
+                                       Indicates lockdown subdescriptor on internal SQM to SEB
                                        interface. Used in pass 1 only. */
 #define BDK_NIC_SEND_SUBDC_E_MEM (5) /**< Send memory subdescriptor. See NIC_SEND_MEM_S. */
-#define BDK_NIC_SEND_SUBDC_E_SOD (0xe) /**< For internal use only. INTERNAL: Indicates start of descriptor on internal SQM to SEB
+#define BDK_NIC_SEND_SUBDC_E_SOD (0xe) /**< For internal use only.
+                                       Internal:
+                                       Indicates start of descriptor on internal SQM to SEB
                                        interface. */
 
 /**
@@ -1332,27 +1355,43 @@ union bdk_nic_cqe_rx_s
                                                                  NIC_RX_HDR_S[RSS_DIS] was clear. */
         uint64_t vlan_tci              : 16; /**< [159:144] Stripped VLAN tag control information. Unpredictable when [VV_GONE] and [VS_GONE] are
                                                                  clear.  Field is stored in LE byte order.
-                                                                 INTERNAL: Hardware zeros when unpredictable, though software must not rely on this. */
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software must not rely on this. */
         uint64_t vvptr                 : 8;  /**< [143:136] Pointer to first VLAN. If [VV] set, [VV_GONE] clear, the first byte of the first VLAN's
                                                                  Ethertype. If [VV] set, [VV_GONE] set, the first byte after the stripped VLAN.
-                                                                 Unpredictable if [VV] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 Unpredictable if [VV] clear.
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software
                                                                  must not rely on this. */
         uint64_t vsptr                 : 8;  /**< [135:128] Pointer to second VLAN. If [VS] set, [VS_GONE] clear, the first byte of the second VLAN's
                                                                  Ethertype. If [VS] set, [VS_GONE] set, the first byte after the stripped VLAN.
-                                                                 Unpredictable if [VS] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 Unpredictable if [VS] clear.
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software
                                                                  must not rely on this. */
 #else /* Word 2 - Little Endian */
         uint64_t vsptr                 : 8;  /**< [135:128] Pointer to second VLAN. If [VS] set, [VS_GONE] clear, the first byte of the second VLAN's
                                                                  Ethertype. If [VS] set, [VS_GONE] set, the first byte after the stripped VLAN.
-                                                                 Unpredictable if [VS] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 Unpredictable if [VS] clear.
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software
                                                                  must not rely on this. */
         uint64_t vvptr                 : 8;  /**< [143:136] Pointer to first VLAN. If [VV] set, [VV_GONE] clear, the first byte of the first VLAN's
                                                                  Ethertype. If [VV] set, [VV_GONE] set, the first byte after the stripped VLAN.
-                                                                 Unpredictable if [VV] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 Unpredictable if [VV] clear.
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software
                                                                  must not rely on this. */
         uint64_t vlan_tci              : 16; /**< [159:144] Stripped VLAN tag control information. Unpredictable when [VV_GONE] and [VS_GONE] are
                                                                  clear.  Field is stored in LE byte order.
-                                                                 INTERNAL: Hardware zeros when unpredictable, though software must not rely on this. */
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software must not rely on this. */
         uint64_t rss_tag               : 32; /**< [191:160] Computed RSS tag value. This field is zero when [RSS_ALG] == NIC_RSS_ALG_E::NONE (0) and
                                                                  NIC_RX_HDR_S[RSS_DIS] was clear. */
 #endif /* Word 2 - End */
@@ -1361,11 +1400,17 @@ union bdk_nic_cqe_rx_s
         uint64_t rbsz2                 : 16; /**< [239:224] Size of RB 4. */
         uint64_t rbsz1                 : 16; /**< [223:208] Size of RB 2. */
         uint64_t rbsz0                 : 16; /**< [207:192] Size of RB 0. Number of bytes written to the first RB, or hardware 0x0 and software
-                                                                 reserved if none written to this RB. INTERNAL: Fields are laid out so that on a litte-
+                                                                 reserved if none written to this RB.
+
+                                                                 Internal:
+                                                                 Fields are laid out so that on a litte-
                                                                  endian machine a uint16_t array can hit all 12 RBSZs. */
 #else /* Word 3 - Little Endian */
         uint64_t rbsz0                 : 16; /**< [207:192] Size of RB 0. Number of bytes written to the first RB, or hardware 0x0 and software
-                                                                 reserved if none written to this RB. INTERNAL: Fields are laid out so that on a litte-
+                                                                 reserved if none written to this RB.
+
+                                                                 Internal:
+                                                                 Fields are laid out so that on a litte-
                                                                  endian machine a uint16_t array can hit all 12 RBSZs. */
         uint64_t rbsz1                 : 16; /**< [223:208] Size of RB 2. */
         uint64_t rbsz2                 : 16; /**< [239:224] Size of RB 4. */
@@ -1500,27 +1545,43 @@ union bdk_nic_cqe_rx_s
         uint64_t rss_tag               : 32; /**< [191:160] Computed RSS tag value. This field is zero when [RSS_ALG] == NIC_RSS_ALG_E::NONE (0). */
         uint64_t vlan_tci              : 16; /**< [159:144] Stripped VLAN tag control information. Unpredictable when [VV_GONE] and [VS_GONE] are
                                                                  clear.  Field is stored in LE byte order.
-                                                                 INTERNAL: Hardware zeros when unpredictable, though software must not rely on this. */
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software must not rely on this. */
         uint64_t vvptr                 : 8;  /**< [143:136] Pointer to first VLAN. If [VV] set, [VV_GONE] clear, the first byte of the first VLAN's
                                                                  Ethertype. If [VV] set, [VV_GONE] set, the first byte after the stripped VLAN.
-                                                                 Unpredictable if [VV] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 Unpredictable if [VV] clear.
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software
                                                                  must not rely on this. */
         uint64_t vsptr                 : 8;  /**< [135:128] Pointer to second VLAN. If [VS] set, [VS_GONE] clear, the first byte of the second VLAN's
                                                                  Ethertype. If [VS] set, [VS_GONE] set, the first byte after the stripped VLAN.
-                                                                 Unpredictable if [VS] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 Unpredictable if [VS] clear.
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software
                                                                  must not rely on this. */
 #else /* Word 2 - Little Endian */
         uint64_t vsptr                 : 8;  /**< [135:128] Pointer to second VLAN. If [VS] set, [VS_GONE] clear, the first byte of the second VLAN's
                                                                  Ethertype. If [VS] set, [VS_GONE] set, the first byte after the stripped VLAN.
-                                                                 Unpredictable if [VS] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 Unpredictable if [VS] clear.
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software
                                                                  must not rely on this. */
         uint64_t vvptr                 : 8;  /**< [143:136] Pointer to first VLAN. If [VV] set, [VV_GONE] clear, the first byte of the first VLAN's
                                                                  Ethertype. If [VV] set, [VV_GONE] set, the first byte after the stripped VLAN.
-                                                                 Unpredictable if [VV] clear. INTERNAL: Hardware zeros when unpredictable, though software
+                                                                 Unpredictable if [VV] clear.
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software
                                                                  must not rely on this. */
         uint64_t vlan_tci              : 16; /**< [159:144] Stripped VLAN tag control information. Unpredictable when [VV_GONE] and [VS_GONE] are
                                                                  clear.  Field is stored in LE byte order.
-                                                                 INTERNAL: Hardware zeros when unpredictable, though software must not rely on this. */
+
+                                                                 Internal:
+                                                                 Hardware zeros when unpredictable, though software must not rely on this. */
         uint64_t rss_tag               : 32; /**< [191:160] Computed RSS tag value. This field is zero when [RSS_ALG] == NIC_RSS_ALG_E::NONE (0). */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
@@ -1528,11 +1589,17 @@ union bdk_nic_cqe_rx_s
         uint64_t rbsz2                 : 16; /**< [239:224] Size of RB 4. */
         uint64_t rbsz1                 : 16; /**< [223:208] Size of RB 2. */
         uint64_t rbsz0                 : 16; /**< [207:192] Size of RB 0. Number of bytes written to the first RB, or hardware 0x0 and software
-                                                                 reserved if none written to this RB. INTERNAL: Fields are laid out so that on a litte-
+                                                                 reserved if none written to this RB.
+
+                                                                 Internal:
+                                                                 Fields are laid out so that on a litte-
                                                                  endian machine a uint16_t array can hit all 12 RBSZs. */
 #else /* Word 3 - Little Endian */
         uint64_t rbsz0                 : 16; /**< [207:192] Size of RB 0. Number of bytes written to the first RB, or hardware 0x0 and software
-                                                                 reserved if none written to this RB. INTERNAL: Fields are laid out so that on a litte-
+                                                                 reserved if none written to this RB.
+
+                                                                 Internal:
+                                                                 Fields are laid out so that on a litte-
                                                                  endian machine a uint16_t array can hit all 12 RBSZs. */
         uint64_t rbsz1                 : 16; /**< [223:208] Size of RB 2. */
         uint64_t rbsz2                 : 16; /**< [239:224] Size of RB 4. */
@@ -1676,7 +1743,9 @@ union bdk_nic_rx_hdr_s
         uint64_t sl                    : 6;  /**< [ 23: 18] Skip length. Number of 2-byte words parser should skip between the end of the header and
                                                                  before beginning L2 parsing. */
         uint64_t rss_dis               : 1;  /**< [ 17: 17] Disables NIC RSS algorithms, and forces [RSS_FLOW] into NIC_CQE_RX_S[RSS_TAG]. */
-        uint64_t tcp_dis               : 1;  /**< [ 16: 16] Reserved. INTERNAL: Reserved for future use - Disable TCP reassembly. */
+        uint64_t tcp_dis               : 1;  /**< [ 16: 16] Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Disable TCP reassembly. */
         uint64_t nodrop                : 1;  /**< [ 15: 15] Disable RED. */
         uint64_t dest_alg              : 2;  /**< [ 14: 13] Specifies algorithm for use of DEST:
                                                                  0x0 = [DEST] is ignored.
@@ -1694,7 +1763,9 @@ union bdk_nic_rx_hdr_s
                                                                  0x2 = [DEST]<9:3> specifies the QS and [DEST]<2:0> the RQ in that QS.
                                                                  0x3 = Reserved. */
         uint64_t nodrop                : 1;  /**< [ 15: 15] Disable RED. */
-        uint64_t tcp_dis               : 1;  /**< [ 16: 16] Reserved. INTERNAL: Reserved for future use - Disable TCP reassembly. */
+        uint64_t tcp_dis               : 1;  /**< [ 16: 16] Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Disable TCP reassembly. */
         uint64_t rss_dis               : 1;  /**< [ 17: 17] Disables NIC RSS algorithms, and forces [RSS_FLOW] into NIC_CQE_RX_S[RSS_TAG]. */
         uint64_t sl                    : 6;  /**< [ 23: 18] Skip length. Number of 2-byte words parser should skip between the end of the header and
                                                                  before beginning L2 parsing. */
@@ -1765,12 +1836,18 @@ union bdk_nic_send_crc_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_96_127       : 32;
         uint64_t iv                    : 32; /**< [ 95: 64] Initial value of the checksum, valid only if it is non-zero. If [ALG] = CKSUM, then only
-                                                                 bits <15:0> in big-endian format are valid. INTERNAL: Pass 1 feature [ALG] = CRC,
+                                                                 bits <15:0> in big-endian format are valid.
+
+                                                                 Internal:
+                                                                 Pass 1 feature [ALG] = CRC,
                                                                  functional only with IV =
                                                                  0xffffffff. */
 #else /* Word 1 - Little Endian */
         uint64_t iv                    : 32; /**< [ 95: 64] Initial value of the checksum, valid only if it is non-zero. If [ALG] = CKSUM, then only
-                                                                 bits <15:0> in big-endian format are valid. INTERNAL: Pass 1 feature [ALG] = CRC,
+                                                                 bits <15:0> in big-endian format are valid.
+
+                                                                 Internal:
+                                                                 Pass 1 feature [ALG] = CRC,
                                                                  functional only with IV =
                                                                  0xffffffff. */
         uint64_t reserved_96_127       : 32;
@@ -2413,7 +2490,10 @@ union bdk_nic_send_imm_s
  * last TSO segment, after processing prior segments.
  *
  * NIC_SEND_MEM_S subdescriptors must precede all NIC_SEND_GATHER_S and NIC_SEND_IMM_S
- * subdescriptors in the send descriptor. INTERNAL: This constraint was added in pass 2 to
+ * subdescriptors in the send descriptor.
+ *
+ * Internal:
+ * This constraint was added in pass 2 to
  * simplify NIC_SEND_MEM_S handling for TSO.
  */
 union bdk_nic_send_mem_s
@@ -2432,13 +2512,19 @@ union bdk_nic_send_mem_s
         uint64_t reserved_32_52        : 21;
         uint64_t offset                : 32; /**< [ 31:  0] Adder offset. Constant value to add or subtract or set. If the count being modified is to
                                                                  represent the true packet size, then the offset would represent the CRC and pad bytes
-                                                                 appended to the packet. INTERNAL: Note IOB hardware has a special encoding for atomic
+                                                                 appended to the packet.
+
+                                                                 Internal:
+                                                                 Note IOB hardware has a special encoding for atomic
                                                                  increment/decrement, therefore a change of +/- one is twice as IOB bandwidth efficient as
                                                                  adding/subtracting other values. */
 #else /* Word 0 - Little Endian */
         uint64_t offset                : 32; /**< [ 31:  0] Adder offset. Constant value to add or subtract or set. If the count being modified is to
                                                                  represent the true packet size, then the offset would represent the CRC and pad bytes
-                                                                 appended to the packet. INTERNAL: Note IOB hardware has a special encoding for atomic
+                                                                 appended to the packet.
+
+                                                                 Internal:
+                                                                 Note IOB hardware has a special encoding for atomic
                                                                  increment/decrement, therefore a change of +/- one is twice as IOB bandwidth efficient as
                                                                  adding/subtracting other values. */
         uint64_t reserved_32_52        : 21;
@@ -2466,7 +2552,10 @@ union bdk_nic_send_mem_s
  *
  * NIC Memory BIST 0 Status Register
  * This register reports memory BIST status. Each bit corresponds to a different RAM; 0 = pass, 1
- * = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
+ * = fail.
+ *
+ * Internal:
+ * Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
  */
 typedef union
 {
@@ -2744,9 +2833,13 @@ typedef union
                                                                  corrupting the operation of other VFs. When clear, writes to all CQ, SQ and RBDR ring
                                                                  pointers (head, tail, debug) are ignored (WI). When set, writing to the ring
                                                                  pointers is enabled. */
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable NIC block. INTERNAL: Used to enable conditional SCLK. */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable NIC block.
+                                                                 Internal:
+                                                                 Used to enable conditional SCLK. */
 #else /* Word 0 - Little Endian */
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable NIC block. INTERNAL: Used to enable conditional SCLK. */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable NIC block.
+                                                                 Internal:
+                                                                 Used to enable conditional SCLK. */
         uint64_t test_mode             : 1;  /**< [  1:  1](R/W) Enable test mode. Must be clear during normal operation in order to prevent a VF from
                                                                  corrupting the operation of other VFs. When clear, writes to all CQ, SQ and RBDR ring
                                                                  pointers (head, tail, debug) are ignored (WI). When set, writing to the ring
@@ -2905,8 +2998,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
-        return 0x843000460000ll + 8ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=95))
+        return 0x843000460000ll + 8ll * ((a) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x843000460000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
@@ -2941,14 +3034,29 @@ typedef union
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W) This bit is set to enable backpressure for this channel. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_nic_pf_chanx_rx_bp_cfg_s cn; */
+    struct bdk_nic_pf_chanx_rx_bp_cfg_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) This bit is set to enable backpressure for this channel. */
+        uint64_t reserved_8_62         : 55;
+        uint64_t reserved_6_7          : 2;
+        uint64_t bpid                  : 6;  /**< [  5:  0](R/W) BPID used for RX_CHAN backpressure. */
+#else /* Word 0 - Little Endian */
+        uint64_t bpid                  : 6;  /**< [  5:  0](R/W) BPID used for RX_CHAN backpressure. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t reserved_8_62         : 55;
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) This bit is set to enable backpressure for this channel. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_chanx_rx_bp_cfg_s cn88xx; */
+    /* struct bdk_nic_pf_chanx_rx_bp_cfg_s cn83xx; */
 } bdk_nic_pf_chanx_rx_bp_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_RX_BP_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_RX_BP_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
-        return 0x843000480000ll + 8ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=95))
+        return 0x843000480000ll + 8ll * ((a) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x843000480000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
@@ -3008,8 +3116,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_CHANX_RX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_RX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
-        return 0x843000420000ll + 8ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=95))
+        return 0x843000420000ll + 8ll * ((a) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x843000420000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
@@ -3054,8 +3162,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_CHANX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_SW_XOFF(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
-        return 0x843000440000ll + 8ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=95))
+        return 0x843000440000ll + 8ll * ((a) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x843000440000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
@@ -3096,8 +3204,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
-        return 0x843000400000ll + 8ll * ((a) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=95))
+        return 0x843000400000ll + 8ll * ((a) & 0x7f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x843000400000ll + 8ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
@@ -3111,6 +3219,98 @@ static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long a)
 #define device_bar_BDK_NIC_PF_CHANX_TX_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_CHANX_TX_CFG(a) (a)
 #define arguments_BDK_NIC_PF_CHANX_TX_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) nic_pf_const
+ *
+ * NIC PF Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_nic_pf_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t intfs                 : 4;  /**< [ 55: 52](RO) Number of interfaces enumerated by NIC_INTF_E. */
+        uint64_t lmacs                 : 8;  /**< [ 51: 44](RO) Number of LMACs enumerated by NIC_LMAC_E. */
+        uint64_t channels              : 12; /**< [ 43: 32](RO) Number of channels enumerated by NIC_CHAN_IDX_E. */
+        uint64_t num_lbk               : 4;  /**< [ 31: 28](RO) Number of LBK interfaces enumerated in NIC_INTF_E. */
+        uint64_t num_bgx_rgx           : 4;  /**< [ 27: 24](RO) Number of BGX/RGX interfaces enumerated in NIC_INTF_E. */
+        uint64_t rgx_map               : 8;  /**< [ 23: 16](RO) Bit map specifying which of the [NUM_BGX_RGX] instances are RGX; bit 0 for BGX/RGX 0, bit
+                                                                 1 for BGX/RGX 1, etc. Per bit: 0=BGX, 1=RGX. */
+        uint64_t lbk_lmac_channels     : 8;  /**< [ 15:  8](RO) Number of channels supported by NIC per LBK interface/LMAC. */
+        uint64_t bgx_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels supported by NIC per BGX/RGX LMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t bgx_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels supported by NIC per BGX/RGX LMAC. */
+        uint64_t lbk_lmac_channels     : 8;  /**< [ 15:  8](RO) Number of channels supported by NIC per LBK interface/LMAC. */
+        uint64_t rgx_map               : 8;  /**< [ 23: 16](RO) Bit map specifying which of the [NUM_BGX_RGX] instances are RGX; bit 0 for BGX/RGX 0, bit
+                                                                 1 for BGX/RGX 1, etc. Per bit: 0=BGX, 1=RGX. */
+        uint64_t num_bgx_rgx           : 4;  /**< [ 27: 24](RO) Number of BGX/RGX interfaces enumerated in NIC_INTF_E. */
+        uint64_t num_lbk               : 4;  /**< [ 31: 28](RO) Number of LBK interfaces enumerated in NIC_INTF_E. */
+        uint64_t channels              : 12; /**< [ 43: 32](RO) Number of channels enumerated by NIC_CHAN_IDX_E. */
+        uint64_t lmacs                 : 8;  /**< [ 51: 44](RO) Number of LMACs enumerated by NIC_LMAC_E. */
+        uint64_t intfs                 : 4;  /**< [ 55: 52](RO) Number of interfaces enumerated by NIC_INTF_E. */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_const_s cn; */
+} bdk_nic_pf_const_t;
+
+#define BDK_NIC_PF_CONST BDK_NIC_PF_CONST_FUNC()
+static inline uint64_t BDK_NIC_PF_CONST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_CONST_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x843000000020ll;
+    __bdk_csr_fatal("NIC_PF_CONST", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_NIC_PF_CONST bdk_nic_pf_const_t
+#define bustype_BDK_NIC_PF_CONST BDK_CSR_TYPE_NCB
+#define basename_BDK_NIC_PF_CONST "NIC_PF_CONST"
+#define device_bar_BDK_NIC_PF_CONST 0x0 /* PF_BAR0 */
+#define busnum_BDK_NIC_PF_CONST 0
+#define arguments_BDK_NIC_PF_CONST -1,-1,-1,-1
+
+/**
+ * Register (NCB) nic_pf_const1
+ *
+ * NIC PF Constants 1 Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_nic_pf_const1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t vnics                 : 12; /**< [ 11:  0](RO) Number of VNICs/VFs/QSes. */
+#else /* Word 0 - Little Endian */
+        uint64_t vnics                 : 12; /**< [ 11:  0](RO) Number of VNICs/VFs/QSes. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_const1_s cn; */
+} bdk_nic_pf_const1_t;
+
+#define BDK_NIC_PF_CONST1 BDK_NIC_PF_CONST1_FUNC()
+static inline uint64_t BDK_NIC_PF_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_CONST1_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x843000000028ll;
+    __bdk_csr_fatal("NIC_PF_CONST1", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_NIC_PF_CONST1 bdk_nic_pf_const1_t
+#define bustype_BDK_NIC_PF_CONST1 BDK_CSR_TYPE_NCB
+#define basename_BDK_NIC_PF_CONST1 "NIC_PF_CONST1"
+#define device_bar_BDK_NIC_PF_CONST1 0x0 /* PF_BAR0 */
+#define busnum_BDK_NIC_PF_CONST1 0
+#define arguments_BDK_NIC_PF_CONST1 -1,-1,-1,-1
 
 /**
  * Register (NCB) nic_pf_cpi#_cfg
@@ -3232,22 +3432,34 @@ typedef union
 
                                                                  Added in Pass 2. */
         uint64_t reserved_31_62        : 32;
-        uint64_t vnic                  : 7;  /**< [ 30: 24](RAZ) Reserved. INTERNAL: This field was changed for pass 2.
+        uint64_t vnic                  : 7;  /**< [ 30: 24](RAZ) Reserved.
+                                                                 Internal:
+                                                                 This field was changed for pass 2.
                                                                  It has been moved to NIC_PF_MPI()_CFG. */
-        uint64_t rss_size              : 4;  /**< [ 23: 20](RAZ) Reserved. INTERNAL: This field was changed for pass 2.
+        uint64_t rss_size              : 4;  /**< [ 23: 20](RAZ) Reserved.
+                                                                 Internal:
+                                                                 This field was changed for pass 2.
                                                                  It has been moved to NIC_PF_MPI()_CFG. */
         uint64_t padd                  : 4;  /**< [ 19: 16](R/W) Port to channel adder for calculating NIC_CQE_RX_S[CHAN]. For NIC channels should be zero. */
         uint64_t reserved_12_15        : 4;
-        uint64_t rssi_base             : 12; /**< [ 11:  0](RAZ) Reserved. INTERNAL: This field was changed for pass 2.
+        uint64_t rssi_base             : 12; /**< [ 11:  0](RAZ) Reserved.
+                                                                 Internal:
+                                                                 This field was changed for pass 2.
                                                                  It has been moved to NIC_PF_MPI()_CFG. */
 #else /* Word 0 - Little Endian */
-        uint64_t rssi_base             : 12; /**< [ 11:  0](RAZ) Reserved. INTERNAL: This field was changed for pass 2.
+        uint64_t rssi_base             : 12; /**< [ 11:  0](RAZ) Reserved.
+                                                                 Internal:
+                                                                 This field was changed for pass 2.
                                                                  It has been moved to NIC_PF_MPI()_CFG. */
         uint64_t reserved_12_15        : 4;
         uint64_t padd                  : 4;  /**< [ 19: 16](R/W) Port to channel adder for calculating NIC_CQE_RX_S[CHAN]. For NIC channels should be zero. */
-        uint64_t rss_size              : 4;  /**< [ 23: 20](RAZ) Reserved. INTERNAL: This field was changed for pass 2.
+        uint64_t rss_size              : 4;  /**< [ 23: 20](RAZ) Reserved.
+                                                                 Internal:
+                                                                 This field was changed for pass 2.
                                                                  It has been moved to NIC_PF_MPI()_CFG. */
-        uint64_t vnic                  : 7;  /**< [ 30: 24](RAZ) Reserved. INTERNAL: This field was changed for pass 2.
+        uint64_t vnic                  : 7;  /**< [ 30: 24](RAZ) Reserved.
+                                                                 Internal:
+                                                                 This field was changed for pass 2.
                                                                  It has been moved to NIC_PF_MPI()_CFG. */
         uint64_t reserved_31_62        : 32;
         uint64_t mpi_alg               : 1;  /**< [ 63: 63](R/W) MPI algorithm. When set, the index into the NIC_PF_MPI()_CFG register is generated off
@@ -3350,11 +3562,13 @@ typedef union
         uint64_t reserved_16_63        : 48;
         uint64_t drop_level            : 16; /**< [ 15:  0](R/W) Drop level. The minimum FIFO level before all packets for the CQ are dropped. This value
                                                                  can be increased to insure that once a packet has been "accepted", it will not get
-                                                                 truncated due to buffer exhaustion. */
+                                                                 truncated due to buffer exhaustion.
+                                                                 Must be at least 0x80. */
 #else /* Word 0 - Little Endian */
         uint64_t drop_level            : 16; /**< [ 15:  0](R/W) Drop level. The minimum FIFO level before all packets for the CQ are dropped. This value
                                                                  can be increased to insure that once a packet has been "accepted", it will not get
-                                                                 truncated due to buffer exhaustion. */
+                                                                 truncated due to buffer exhaustion.
+                                                                 Must be at least 0x80. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -3368,12 +3582,14 @@ typedef union
         uint64_t drop_level            : 16; /**< [ 15:  0](R/W) Drop level. The minimum FIFO level before all packets for the CQ are dropped. This value
                                                                  can be increased to insure that once a packet has been "accepted", it will not get
                                                                  truncated due to buffer exhaustion.
+                                                                 Must be at least 0x80.
 
                                                                  Reset value changed in pass 2. */
 #else /* Word 0 - Little Endian */
         uint64_t drop_level            : 16; /**< [ 15:  0](R/W) Drop level. The minimum FIFO level before all packets for the CQ are dropped. This value
                                                                  can be increased to insure that once a packet has been "accepted", it will not get
                                                                  truncated due to buffer exhaustion.
+                                                                 Must be at least 0x80.
 
                                                                  Reset value changed in pass 2. */
         uint64_t reserved_16_63        : 48;
@@ -3407,7 +3623,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = CQE_GNT_CONT: Stall grant to REB for continuation cache lines of a CQE.
                                                                  <62> = CQE_GNT_FIRST: Stall grant to REB & SEB for first cache line of a CQE.
@@ -3415,8 +3632,8 @@ typedef union
                                                                  <60> = INTR: Stall CQ interrupts to CSI. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -3428,8 +3645,8 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -3437,7 +3654,8 @@ typedef union
                                                                    <17:16> = BP_CFG0. */
         uint64_t reserved_24_59        : 36;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = CQE_GNT_CONT: Stall grant to REB for continuation cache lines of a CQE.
                                                                  <62> = CQE_GNT_FIRST: Stall grant to REB & SEB for first cache line of a CQE.
@@ -3474,7 +3692,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = Reserved.
@@ -3482,8 +3701,8 @@ typedef union
                                                                  <60> = PIB_STALL. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -3495,8 +3714,8 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -3504,7 +3723,8 @@ typedef union
                                                                    <17:16> = BP_CFG0. */
         uint64_t reserved_24_59        : 36;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = Reserved.
@@ -3543,8 +3763,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -3558,7 +3778,9 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -3576,30 +3798,40 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -3618,8 +3850,8 @@ typedef union
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -3639,7 +3871,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -3657,30 +3891,40 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -3705,8 +3949,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <31>  =
                                                                  nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
@@ -3719,36 +3963,48 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <31>  =
                                                                  nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
@@ -3767,8 +4023,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -3782,38 +4038,50 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -3835,7 +4103,8 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
                                                                  Added in pass 2.
 
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Pass 1:
                                                                    <31:0> = Reserved
@@ -3853,7 +4122,9 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -3871,30 +4142,40 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -3915,7 +4196,8 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
                                                                  Added in pass 2.
 
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Pass 1:
                                                                    <31:0> = Reserved
@@ -4094,7 +4376,10 @@ static inline uint64_t BDK_NIC_PF_ECC0_DBE_ENA_W1S_FUNC(void)
  *
  * NIC ECC 0 Double-bit Error Interrupt Register
  * Reports double-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
+ * = pass, 1 = fail.
+ *
+ * Internal:
+ * Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
  */
 typedef union
 {
@@ -4244,8 +4529,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -4259,7 +4544,9 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -4277,30 +4564,40 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -4319,8 +4616,8 @@ typedef union
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -4340,7 +4637,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -4358,30 +4657,40 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -4406,8 +4715,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <31>  =
                                                                  nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
@@ -4420,36 +4729,48 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <31>  =
                                                                  nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
@@ -4468,8 +4789,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -4483,38 +4804,50 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -4536,7 +4869,8 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
                                                                  Added in pass 2.
 
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Pass 1:
                                                                    <31:0> = Reserved
@@ -4554,7 +4888,9 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -4572,30 +4908,40 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -4616,7 +4962,8 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
                                                                  Added in pass 2.
 
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Pass 1:
                                                                    <31:0> = Reserved
@@ -4666,8 +5013,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -4681,7 +5028,9 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -4699,30 +5048,40 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -4741,8 +5100,8 @@ typedef union
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -4762,7 +5121,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -4780,30 +5141,40 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -4828,8 +5199,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <31>  =
                                                                  nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
@@ -4842,36 +5213,48 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <9:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
                                                                    <31>  =
                                                                  nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
@@ -4890,8 +5273,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -4905,38 +5288,50 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <15:0> = Reserved. */
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
-
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                    <31:26> = Reserved.
                                                                    <25>  =
@@ -4958,7 +5353,8 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
                                                                  Added in pass 2.
 
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Pass 1:
                                                                    <31:0> = Reserved
@@ -4976,7 +5372,9 @@ typedef union
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
                                                                    <7:0>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -4994,30 +5392,40 @@ typedef union
 
                                                                  Pass 2+:
                                                                    <15:0> = Reserved. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories. INTERNAL: CQM memories:
+        uint64_t blk0                  : 8;  /**< [  7:  0](R/W) Group 0 Block 0 memories.
+                                                                 Internal:
+                                                                 CQM memories:
                                                                    <7:2> = Reserved.
                                                                    <1>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
                                                                    <0>   = nic_l.core.cqm.cin.cq.cq_mem. */
-        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories. INTERNAL: CSI memories:
+        uint64_t blk1                  : 8;  /**< [ 15:  8](R/W) Group 0 Block 1 memories.
+                                                                 Internal:
+                                                                 CSI memories:
                                                                    <7:0> = Reserved.
                                                                    <4>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
                                                                    <3>   = nic_l.core.csi.rpi.msix_pmem.
                                                                    <2>   = nic_l.core.csi.rpi.msix_vmem.
                                                                    <1>   = nic_l.core.csi.mbox.mbox_mem_mem.
                                                                    <0>   = nic_l.core.csi.bcast.bcast_mem_mem. */
-        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories. INTERNAL: REB memories:
+        uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Changed in pass 2.
 
@@ -5038,7 +5446,8 @@ typedef union
         uint64_t blk3                  : 32; /**< [ 63: 32](R/W) Group 0 Block 3 memories.
                                                                  Added in pass 2.
 
-                                                                 INTERNAL: REB memories:
+                                                                 Internal:
+                                                                 REB memories:
 
                                                                  Pass 1:
                                                                    <31:0> = Reserved
@@ -5217,7 +5626,10 @@ static inline uint64_t BDK_NIC_PF_ECC0_SBE_ENA_W1S_FUNC(void)
  *
  * NIC ECC 0 Single-bit Error Interrupt Register
  * Reports single-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
+ * = pass, 1 = fail.
+ *
+ * Internal:
+ * Bits in each field are enumerated by NIC_PF_ECC0_FLIP0.
  */
 typedef union
 {
@@ -5366,7 +5778,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                  Pass 1:
                                                                    <15:10> = Reserved.
@@ -5389,7 +5803,9 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                  Pass 1:
                                                                    <23:17> = Reserved.
@@ -5420,7 +5836,9 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                  Pass 1:
                                                                    <23:17> = Reserved.
@@ -5450,7 +5868,9 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                  Pass 1:
                                                                    <15:10> = Reserved.
@@ -5480,7 +5900,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
                                                                    <15:7> = Reserved.
                                                                    <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
@@ -5489,7 +5911,9 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
@@ -5504,7 +5928,9 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
@@ -5518,7 +5944,9 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
                                                                    <15:7> = Reserved.
                                                                    <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
@@ -5535,7 +5963,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                    <15:10> = Reserved.
                                                                    <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
@@ -5546,7 +5976,9 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
@@ -5562,7 +5994,9 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
@@ -5577,7 +6011,9 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                    <15:10> = Reserved.
                                                                    <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
@@ -5688,7 +6124,10 @@ static inline uint64_t BDK_NIC_PF_ECC1_DBE_ENA_W1S_FUNC(void)
  *
  * NIC ECC 1 Double-bit Error Interrupt Register
  * Reports double-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC1_FLIP0.
+ * = pass, 1 = fail.
+ *
+ * Internal:
+ * Bits in each field are enumerated by NIC_PF_ECC1_FLIP0.
  */
 typedef union
 {
@@ -5773,7 +6212,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                  Pass 1:
                                                                    <15:10> = Reserved.
@@ -5796,7 +6237,9 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                  Pass 1:
                                                                    <23:17> = Reserved.
@@ -5827,7 +6270,9 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                  Pass 1:
                                                                    <23:17> = Reserved.
@@ -5857,7 +6302,9 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                  Pass 1:
                                                                    <15:10> = Reserved.
@@ -5887,7 +6334,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
                                                                    <15:7> = Reserved.
                                                                    <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
@@ -5896,7 +6345,9 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
@@ -5911,7 +6362,9 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
@@ -5925,7 +6378,9 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
                                                                    <15:7> = Reserved.
                                                                    <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
@@ -5942,7 +6397,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                    <15:10> = Reserved.
                                                                    <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
@@ -5953,7 +6410,9 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
@@ -5969,7 +6428,9 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
@@ -5984,7 +6445,9 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                    <15:10> = Reserved.
                                                                    <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
@@ -6027,7 +6490,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                  Pass 1:
                                                                    <15:10> = Reserved.
@@ -6050,7 +6515,9 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                  Pass 1:
                                                                    <23:17> = Reserved.
@@ -6081,7 +6548,9 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                  Pass 1:
                                                                    <23:17> = Reserved.
@@ -6111,7 +6580,9 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                  Pass 1:
                                                                    <15:10> = Reserved.
@@ -6141,7 +6612,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
                                                                    <15:7> = Reserved.
                                                                    <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
@@ -6150,7 +6623,9 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
@@ -6165,7 +6640,9 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    <16>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
@@ -6179,7 +6656,9 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
                                                                    <15:7> = Reserved.
                                                                    <6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox16.nic_rrm_ptrmem.
                                                                    <5> = nic_l.core.rrm.nic_rrm_ncx_rsp_fifo.nic_rrm_fifo_512x86.nic_rrm_fifomem_512x86.
@@ -6196,7 +6675,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                    <15:10> = Reserved.
                                                                    <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
@@ -6207,7 +6688,9 @@ typedef union
                                                                    <2> = Reserved.
                                                                    <1> = Reserved.
                                                                    <0> = nic_l.core.rrm.nic_rrm_rbdr_wrap.status1_regs. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
@@ -6223,7 +6706,9 @@ typedef union
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories. INTERNAL: RQM memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 1 Block 0 memories.
+                                                                 Internal:
+                                                                 RQM memories:
 
                                                                    <23:20> = Reserved.
                                                                    <19:17> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
@@ -6238,7 +6723,9 @@ typedef union
                                                                    <2>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_chan_rx_cfg_regs.
                                                                    <1>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_rssi_rq_regs.
                                                                    <0>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories. INTERNAL: RRM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 1 Block 1 memories.
+                                                                 Internal:
+                                                                 RRM memories:
 
                                                                    <15:10> = Reserved.
                                                                    <9:6> = nic_l.core.rrm.nic_rrm_ptrcache.nic_rrm_ptrfifox256.nic_rrm_ptrfifox64{3..0}.ni
@@ -6349,7 +6836,10 @@ static inline uint64_t BDK_NIC_PF_ECC1_SBE_ENA_W1S_FUNC(void)
  *
  * NIC ECC 1 Single-bit Error Interrupt Register
  * Reports single-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC1_FLIP0.
+ * = pass, 1 = fail.
+ *
+ * Internal:
+ * Bits in each field are enumerated by NIC_PF_ECC1_FLIP0.
  */
 typedef union
 {
@@ -6434,7 +6924,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:43> = Reserved.
                                                                  <42>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <41>    = nic_u1.seb.mem.dmem.simm_fptr.
@@ -6462,7 +6954,9 @@ typedef union
                                                                  <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
                                                                  <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:43> = Reserved.
                                                                  <42>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <41>    = nic_u1.seb.mem.dmem.simm_fptr.
@@ -6496,7 +6990,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:22> = Reserved.
                                                                  <21>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <20>    = nic_u1.seb.mem.dmem.simm.
@@ -6517,7 +7013,9 @@ typedef union
                                                                  <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
                                                                  <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:22> = Reserved.
                                                                  <21>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <20>    = nic_u1.seb.mem.dmem.simm.
@@ -6635,7 +7133,10 @@ static inline uint64_t BDK_NIC_PF_ECC2_DBE_ENA_W1S_FUNC(void)
  *
  * NIC ECC 2 Double-bit Error Interrupt Register
  * Reports double-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC2_FLIP0.
+ * = pass, 1 = fail.
+ *
+ * Internal:
+ * Bits in each field are enumerated by NIC_PF_ECC2_FLIP0.
  */
 typedef union
 {
@@ -6716,7 +7217,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:43> = Reserved.
                                                                  <42>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <41>    = nic_u1.seb.mem.dmem.simm_fptr.
@@ -6744,7 +7247,9 @@ typedef union
                                                                  <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
                                                                  <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:43> = Reserved.
                                                                  <42>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <41>    = nic_u1.seb.mem.dmem.simm_fptr.
@@ -6778,7 +7283,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:22> = Reserved.
                                                                  <21>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <20>    = nic_u1.seb.mem.dmem.simm.
@@ -6799,7 +7306,9 @@ typedef union
                                                                  <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
                                                                  <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:22> = Reserved.
                                                                  <21>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <20>    = nic_u1.seb.mem.dmem.simm.
@@ -6853,7 +7362,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:43> = Reserved.
                                                                  <42>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <41>    = nic_u1.seb.mem.dmem.simm_fptr.
@@ -6881,7 +7392,9 @@ typedef union
                                                                  <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
                                                                  <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:43> = Reserved.
                                                                  <42>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <41>    = nic_u1.seb.mem.dmem.simm_fptr.
@@ -6915,7 +7428,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:22> = Reserved.
                                                                  <21>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <20>    = nic_u1.seb.mem.dmem.simm.
@@ -6936,7 +7451,9 @@ typedef union
                                                                  <3:2>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_sop_hdr.
                                                                  <1:0>   = nic_u1.seb.p2x_intf.tx_fifo_mem{1..0}.p2x_eop_hdr. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories. INTERNAL: SEB memories.
+        uint64_t blk0                  : 50; /**< [ 49:  0](R/W) Group 2 Block 0 memories.
+                                                                 Internal:
+                                                                 SEB memories.
                                                                  <49:22> = Reserved.
                                                                  <21>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  <20>    = nic_u1.seb.mem.dmem.simm.
@@ -7054,7 +7571,10 @@ static inline uint64_t BDK_NIC_PF_ECC2_SBE_ENA_W1S_FUNC(void)
  *
  * NIC ECC 2 Single-bit Error Interrupt Register
  * Reports single-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC2_FLIP0.
+ * = pass, 1 = fail.
+ *
+ * Internal:
+ * Bits in each field are enumerated by NIC_PF_ECC2_FLIP0.
  */
 typedef union
 {
@@ -7135,7 +7655,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                  Pass 1:
                                                                    <15:11> = Reserved.
@@ -7166,7 +7688,9 @@ typedef union
                                                                    <2>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7184,7 +7708,9 @@ typedef union
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7201,7 +7727,9 @@ typedef union
                                                                    <2>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                  Pass 1:
                                                                    <15:11> = Reserved.
@@ -7239,7 +7767,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
                                                                    <11> = nic_u1.sqm.dse.send.tsopn_mem.
@@ -7254,7 +7784,9 @@ typedef union
                                                                    <2>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7272,7 +7804,9 @@ typedef union
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7289,7 +7823,9 @@ typedef union
                                                                    <2>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
                                                                    <11> = nic_u1.sqm.dse.send.tsopn_mem.
@@ -7312,7 +7848,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
@@ -7328,7 +7866,9 @@ typedef union
                                                                    <2>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7346,7 +7886,9 @@ typedef union
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7363,7 +7905,9 @@ typedef union
                                                                    <2>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
@@ -7479,7 +8023,10 @@ static inline uint64_t BDK_NIC_PF_ECC3_DBE_ENA_W1S_FUNC(void)
  *
  * NIC ECC 3 Double-bit Error Interrupt Register
  * Reports double-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC3_FLIP0.
+ * = pass, 1 = fail.
+ *
+ * Internal:
+ * Bits in each field are enumerated by NIC_PF_ECC3_FLIP0.
  */
 typedef union
 {
@@ -7564,7 +8111,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                  Pass 1:
                                                                    <15:11> = Reserved.
@@ -7595,7 +8144,9 @@ typedef union
                                                                    <2>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7613,7 +8164,9 @@ typedef union
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7630,7 +8183,9 @@ typedef union
                                                                    <2>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                  Pass 1:
                                                                    <15:11> = Reserved.
@@ -7668,7 +8223,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
                                                                    <11> = nic_u1.sqm.dse.send.tsopn_mem.
@@ -7683,7 +8240,9 @@ typedef union
                                                                    <2>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7701,7 +8260,9 @@ typedef union
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7718,7 +8279,9 @@ typedef union
                                                                    <2>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
                                                                    <11> = nic_u1.sqm.dse.send.tsopn_mem.
@@ -7741,7 +8304,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
@@ -7757,7 +8322,9 @@ typedef union
                                                                    <2>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7775,7 +8342,9 @@ typedef union
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7792,7 +8361,9 @@ typedef union
                                                                    <2>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
@@ -7840,7 +8411,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                  Pass 1:
                                                                    <15:11> = Reserved.
@@ -7871,7 +8444,9 @@ typedef union
                                                                    <2>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7889,7 +8464,9 @@ typedef union
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7906,7 +8483,9 @@ typedef union
                                                                    <2>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                  Pass 1:
                                                                    <15:11> = Reserved.
@@ -7944,7 +8523,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
                                                                    <11> = nic_u1.sqm.dse.send.tsopn_mem.
@@ -7959,7 +8540,9 @@ typedef union
                                                                    <2>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7977,7 +8560,9 @@ typedef union
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -7994,7 +8579,9 @@ typedef union
                                                                    <2>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
                                                                    <11> = nic_u1.sqm.dse.send.tsopn_mem.
@@ -8017,7 +8604,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
@@ -8033,7 +8622,9 @@ typedef union
                                                                    <2>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
                                                                    <1>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    <0>  = nic_u1.sqm.mqm.mdmem_mem. */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -8051,7 +8642,9 @@ typedef union
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories. INTERNAL: SPS memories:
+        uint64_t blk0                  : 24; /**< [ 23:  0](R/W) Group 3 Block 0 memories.
+                                                                 Internal:
+                                                                 SPS memories:
 
                                                                    <23:18> = Reserved
                                                                    <17> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
@@ -8068,7 +8661,9 @@ typedef union
                                                                    <2>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    <1>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    <0>  = nic_u2.sps.tl2.mem.stdmem. */
-        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories. INTERNAL: SQM memories:
+        uint64_t blk1                  : 16; /**< [ 39: 24](R/W) Group 3 Block 1 memories.
+                                                                 Internal:
+                                                                 SQM memories:
 
                                                                    <15:13> = Reserved.
                                                                    <12> = nic_u1.sqm.mqm.mdmem2_mem.
@@ -8184,7 +8779,10 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_ENA_W1S_FUNC(void)
  *
  * NIC ECC 3 Single-bit Error Interrupt Register
  * Reports single-bit errors detected in internal RAM. Each bit corresponds to a different RAM: 0
- * = pass, 1 = fail. INTERNAL: Bits in each field are enumerated by NIC_PF_ECC3_FLIP0.
+ * = pass, 1 = fail.
+ *
+ * Internal:
+ * Bits in each field are enumerated by NIC_PF_ECC3_FLIP0.
  */
 typedef union
 {
@@ -8270,9 +8868,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -8313,9 +8913,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -8356,9 +8958,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -8399,9 +9003,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -8442,9 +9048,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -8485,9 +9093,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -8571,13 +9181,17 @@ typedef union
                                                                  set to NIC_INTF_BLOCK_E::TNS_PORT({a})_BLOCK if TNS is not bypassed,
                                                                  NIC_INTF_BLOCK_E::BGX({a})_BLOCK if TNS is bypassed, where {a} is the index of this
                                                                  register.
-                                                                 INTERNAL: Specifies upper 4 bits of X2P channel ID. */
+
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of X2P channel ID. */
 #else /* Word 0 - Little Endian */
         uint64_t bp_id                 : 4;  /**< [  3:  0](R/W) Backpressure block ID for the NIC receive interface. Enumerated by NIC_INTF_BLOCK_E. Must
                                                                  set to NIC_INTF_BLOCK_E::TNS_PORT({a})_BLOCK if TNS is not bypassed,
                                                                  NIC_INTF_BLOCK_E::BGX({a})_BLOCK if TNS is bypassed, where {a} is the index of this
                                                                  register.
-                                                                 INTERNAL: Specifies upper 4 bits of X2P channel ID. */
+
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of X2P channel ID. */
         uint64_t bp_type               : 1;  /**< [  4:  4](R/W) This bit is used to mark a BP channel as a BGX Backpressure Slot or a TNS Backpressure
                                                                  slot. 0=BGX, 1=TNS. */
         uint64_t reserved_5_62         : 58;
@@ -8591,10 +9205,12 @@ typedef union
         uint64_t reserved_5_62         : 58;
         uint64_t bp_type               : 1;  /**< [  4:  4](RO/H) Specifies backpressure type: 0=BGX, 1=LBK. */
         uint64_t bp_id                 : 4;  /**< [  3:  0](RO/H) Backpressure block ID for the NIC receive interface. Enumerated by NIC_INTF_BLOCK_E.
-                                                                 INTERNAL: Specifies upper 4 bits of X2P channel ID. */
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of X2P channel ID. */
 #else /* Word 0 - Little Endian */
         uint64_t bp_id                 : 4;  /**< [  3:  0](RO/H) Backpressure block ID for the NIC receive interface. Enumerated by NIC_INTF_BLOCK_E.
-                                                                 INTERNAL: Specifies upper 4 bits of X2P channel ID. */
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of X2P channel ID. */
         uint64_t bp_type               : 1;  /**< [  4:  4](RO/H) Specifies backpressure type: 0=BGX, 1=LBK. */
         uint64_t reserved_5_62         : 58;
         uint64_t bp_ena                : 1;  /**< [ 63: 63](R/W) This bit is used to enable the BP bus for this interface. */
@@ -8607,7 +9223,7 @@ typedef union
 static inline uint64_t BDK_NIC_PF_INTFX_BP_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_BP_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x843000005000ll + 8ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x843000000208ll + 0x100ll * ((a) & 0x1);
@@ -8741,13 +9357,17 @@ typedef union
                                                                  NIC_INTF_BLOCK_E::TNS_PORT({a})_BLOCK if TNS is not bypassed,
                                                                  NIC_INTF_BLOCK_E::BGX({a})_BLOCK if TNS is bypassed, where {a} is the index of this
                                                                  register.
-                                                                 INTERNAL: Specifies upper 4 bits of P2X channel ID. */
+
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of P2X channel ID. */
 #else /* Word 0 - Little Endian */
         uint64_t block                 : 4;  /**< [  3:  0](R/W) Block ID for the NIC send interface. Enumerated by NIC_INTF_BLOCK_E. Must set to
                                                                  NIC_INTF_BLOCK_E::TNS_PORT({a})_BLOCK if TNS is not bypassed,
                                                                  NIC_INTF_BLOCK_E::BGX({a})_BLOCK if TNS is bypassed, where {a} is the index of this
                                                                  register.
-                                                                 INTERNAL: Specifies upper 4 bits of P2X channel ID. */
+
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of P2X channel ID. */
         uint64_t tns_credit_size       : 2;  /**< [  5:  4](R/W) Send channel credit size when the TNS interface is not bypassed. Used only when
                                                                  [TNS_NONBYPASS] is set, and must be set to a value consistent with the header extraction
                                                                  size in TNS. Enumerated by NIC_TNS_CREDIT_SIZE_E. */
@@ -8779,9 +9399,7 @@ typedef union
     struct bdk_nic_pf_intfx_send_cfg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
-        uint64_t cut_disable           : 1;  /**< [ 20: 20](R/W) Send cut-through context disable. Used for debug, should be clear for normal operation.
-                                                                 Setting the bit for either NIC interface disables cut-through for both interfaces. */
+        uint64_t reserved_20_63        : 44;
         uint64_t tstmp_wd_period       : 4;  /**< [ 19: 16](R/W) Timestamp watchdog timeout count. The timeout period is 4*(2^TSTMP_WD_PERIOD) timer ticks,
                                                                  where each tick is 1024 coprocessor-clock cycles: 0 = 4 ticks, 1 = 8 tick, ... 15 = 131072
                                                                  ticks.  If NIC
@@ -8794,13 +9412,9 @@ typedef union
                                                                  all packets sent on the associated NIC interface. NIC examines the L2 header to
                                                                  determine the packet type (unicast, broadcast or multicast) for updating the VNIC transmit
                                                                  statistics. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t block                 : 4;  /**< [  3:  0](RO) Block ID for the NIC send interface. Enumerated by NIC_INTF_BLOCK_E.
-                                                                 INTERNAL: Specifies upper 4 bits of P2X channel ID. */
+        uint64_t reserved_0_7          : 8;
 #else /* Word 0 - Little Endian */
-        uint64_t block                 : 4;  /**< [  3:  0](RO) Block ID for the NIC send interface. Enumerated by NIC_INTF_BLOCK_E.
-                                                                 INTERNAL: Specifies upper 4 bits of P2X channel ID. */
-        uint64_t reserved_4_7          : 4;
+        uint64_t reserved_0_7          : 8;
         uint64_t l2ptr                 : 6;  /**< [ 13:  8](R/W) Layer 2 Offset. Specifies the location of the first byte of the L2 (Ethernet) header for
                                                                  all packets sent on the associated NIC interface. NIC examines the L2 header to
                                                                  determine the packet type (unicast, broadcast or multicast) for updating the VNIC transmit
@@ -8813,9 +9427,7 @@ typedef union
                                                                  targeted Ethernet port within the timeout period, a
                                                                  CQ entry is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP and
                                                                  NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::TSTMP_TIMEOUT. */
-        uint64_t cut_disable           : 1;  /**< [ 20: 20](R/W) Send cut-through context disable. Used for debug, should be clear for normal operation.
-                                                                 Setting the bit for either NIC interface disables cut-through for both interfaces. */
-        uint64_t reserved_21_63        : 43;
+        uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_pf_intfx_send_cfg_s cn88xx; */
@@ -8825,7 +9437,7 @@ typedef union
 static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x843000004000ll + 8ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x843000000200ll + 0x100ll * ((a) & 0x1);
@@ -8917,8 +9529,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x843000240000ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=9))
+        return 0x843000240000ll + 8ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x843000240000ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
@@ -8966,8 +9578,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x843000240100ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=9))
+        return 0x843000240100ll + 8ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x843000240100ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
@@ -9114,8 +9726,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x843000244000ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=9))
+        return 0x843000244000ll + 8ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x843000244000ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
@@ -9155,8 +9767,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_LMACX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_LMACX_SW_XOFF(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x843000242000ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=9))
+        return 0x843000242000ll + 8ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x843000242000ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
@@ -10502,7 +11114,28 @@ typedef union
         uint64_t rbdr_bp_ena           : 1;  /**< [ 63: 63](R/W) Enables BP based off the RBDR levels of the Start and Continue Rings. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_nic_pf_qsx_rqx_bp_cfg_s cn; */
+    struct bdk_nic_pf_qsx_rqx_bp_cfg_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t rbdr_bp_ena           : 1;  /**< [ 63: 63](R/W) Enables BP based off the RBDR levels of the Start and Continue Rings. */
+        uint64_t cq_bp_ena             : 1;  /**< [ 62: 62](R/W) Enables BP based off the CQ level. */
+        uint64_t reserved_24_61        : 38;
+        uint64_t rbdr_bp               : 8;  /**< [ 23: 16](R/W) Threshold level for backpressuring channel, in units of 1/256th of RBDR level. */
+        uint64_t cq_bp                 : 8;  /**< [ 15:  8](R/W) Threshold level for backpressuring channel, in units of 1/256th of CQ level. */
+        uint64_t reserved_7            : 1;
+        uint64_t bpid                  : 7;  /**< [  6:  0](R/W) BPID used for RX_CHAN backpressure. */
+#else /* Word 0 - Little Endian */
+        uint64_t bpid                  : 7;  /**< [  6:  0](R/W) BPID used for RX_CHAN backpressure. */
+        uint64_t reserved_7            : 1;
+        uint64_t cq_bp                 : 8;  /**< [ 15:  8](R/W) Threshold level for backpressuring channel, in units of 1/256th of CQ level. */
+        uint64_t rbdr_bp               : 8;  /**< [ 23: 16](R/W) Threshold level for backpressuring channel, in units of 1/256th of RBDR level. */
+        uint64_t reserved_24_61        : 38;
+        uint64_t cq_bp_ena             : 1;  /**< [ 62: 62](R/W) Enables BP based off the CQ level. */
+        uint64_t rbdr_bp_ena           : 1;  /**< [ 63: 63](R/W) Enables BP based off the RBDR levels of the Start and Continue Rings. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_qsx_rqx_bp_cfg_s cn88xx; */
+    /* struct bdk_nic_pf_qsx_rqx_bp_cfg_s cn83xx; */
 } bdk_nic_pf_qsx_rqx_bp_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_RQX_BP_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -10536,7 +11169,9 @@ typedef union
     struct bdk_nic_pf_qsx_rqx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved. INTERNAL: Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
+        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
         uint64_t reserved_29_62        : 34;
         uint64_t strip_pre_l2          : 1;  /**< [ 28: 28](R/W) All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
         uint64_t caching               : 2;  /**< [ 27: 26](R/W) Select the style of write to the L2C.
@@ -10568,13 +11203,17 @@ typedef union
                                                                  cache blocks are not allocated. */
         uint64_t strip_pre_l2          : 1;  /**< [ 28: 28](R/W) All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
         uint64_t reserved_29_62        : 34;
-        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved. INTERNAL: Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
+        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_nic_pf_qsx_rqx_cfg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved. INTERNAL: Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
+        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
         uint64_t reserved_29_62        : 34;
         uint64_t strip_pre_l2          : 1;  /**< [ 28: 28](R/W) All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
         uint64_t caching               : 2;  /**< [ 27: 26](R/W) Select the style of write to the L2C.
@@ -10614,7 +11253,9 @@ typedef union
                                                                  cache blocks are not allocated. */
         uint64_t strip_pre_l2          : 1;  /**< [ 28: 28](R/W) All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
         uint64_t reserved_29_62        : 34;
-        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved. INTERNAL: Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
+        uint64_t tcp_off               : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_pf_qsx_rqx_cfg_s cn88xx; */
@@ -10988,7 +11629,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = RQM_DROP_INTR_STALL.
@@ -10996,8 +11638,8 @@ typedef union
                                                                  <60> = REB0_CQ_STALL. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -11009,8 +11651,8 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -11018,7 +11660,8 @@ typedef union
                                                                    <17:16> = BP_CFG0. */
         uint64_t reserved_24_59        : 36;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = RQM_DROP_INTR_STALL.
@@ -11153,7 +11796,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = RRM_NCB_REQ_STALL.
@@ -11161,8 +11805,8 @@ typedef union
                                                                  <60> = RRM_INTR_FIFO. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -11174,8 +11818,8 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -11183,7 +11827,8 @@ typedef union
                                                                    <17:16> = BP_CFG0. */
         uint64_t reserved_24_59        : 36;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = RRM_NCB_REQ_STALL.
@@ -11270,7 +11915,6 @@ static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long a)
  * Register (NCB) nic_pf_rx_bp_state#
  *
  * NIC RBDR Backpressure State Registers
- * INTERNAL: Renamed from NIC_PF_RBDR_BP_STATE() in 88XX.
  */
 typedef union
 {
@@ -11278,11 +11922,11 @@ typedef union
     struct bdk_nic_pf_rx_bp_statex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t bp_state              : 64; /**< [ 63:  0](RO/H) Backpressure state bit per BPID: 1=XOFF, 0=XON. Does not reflect channel backpressure
-                                                                 software overrides  by NIC_PF_INTF()_BP_SW()[BP_SW] and NIC_PF_INTF()_BP_DIS[BP_DIS]. */
+        uint64_t bp_state              : 64; /**< [ 63:  0](RO/H) Interface Backpressure state bit: 1=XOFF, 0=XON. Does not reflect channel backpressure
+                                                                 software overrides by NIC_PF_INTF()_BP_SW()[BP_SW] and NIC_PF_INTF()_BP_DIS[BP_DIS]. */
 #else /* Word 0 - Little Endian */
-        uint64_t bp_state              : 64; /**< [ 63:  0](RO/H) Backpressure state bit per BPID: 1=XOFF, 0=XON. Does not reflect channel backpressure
-                                                                 software overrides  by NIC_PF_INTF()_BP_SW()[BP_SW] and NIC_PF_INTF()_BP_DIS[BP_DIS]. */
+        uint64_t bp_state              : 64; /**< [ 63:  0](RO/H) Interface Backpressure state bit: 1=XOFF, 0=XON. Does not reflect channel backpressure
+                                                                 software overrides by NIC_PF_INTF()_BP_SW()[BP_SW] and NIC_PF_INTF()_BP_DIS[BP_DIS]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_bp_statex_s cn; */
@@ -11291,8 +11935,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_RX_BP_STATEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_BP_STATEX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
-        return 0x843000000240ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x843000000340ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("NIC_PF_RX_BP_STATEX", 1, a, 0, 0, 0);
 }
 
@@ -11302,6 +11946,44 @@ static inline uint64_t BDK_NIC_PF_RX_BP_STATEX(unsigned long a)
 #define device_bar_BDK_NIC_PF_RX_BP_STATEX(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_RX_BP_STATEX(a) (a)
 #define arguments_BDK_NIC_PF_RX_BP_STATEX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) nic_pf_rx_bpid_state#
+ *
+ * NIC RBDR Backpressure ID State Registers
+ * Internal:
+ * Renamed from NIC_PF_RBDR_BP_STATE() in 88XX.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_nic_pf_rx_bpid_statex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t bpid_state            : 64; /**< [ 63:  0](RO/H) Backpressure state bit per BPID: 1=XOFF, 0=XON. Does not reflect channel backpressure
+                                                                 software overrides by NIC_PF_INTF()_BP_SW()[BP_SW] and NIC_PF_INTF()_BP_DIS[BP_DIS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t bpid_state            : 64; /**< [ 63:  0](RO/H) Backpressure state bit per BPID: 1=XOFF, 0=XON. Does not reflect channel backpressure
+                                                                 software overrides by NIC_PF_INTF()_BP_SW()[BP_SW] and NIC_PF_INTF()_BP_DIS[BP_DIS]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_rx_bpid_statex_s cn; */
+} bdk_nic_pf_rx_bpid_statex_t;
+
+static inline uint64_t BDK_NIC_PF_RX_BPID_STATEX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_BPID_STATEX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x843000000240ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("NIC_PF_RX_BPID_STATEX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_NIC_PF_RX_BPID_STATEX(a) bdk_nic_pf_rx_bpid_statex_t
+#define bustype_BDK_NIC_PF_RX_BPID_STATEX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_NIC_PF_RX_BPID_STATEX(a) "NIC_PF_RX_BPID_STATEX"
+#define device_bar_BDK_NIC_PF_RX_BPID_STATEX(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_NIC_PF_RX_BPID_STATEX(a) (a)
+#define arguments_BDK_NIC_PF_RX_BPID_STATEX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) nic_pf_rx_cfg
@@ -11362,7 +12044,8 @@ static inline uint64_t BDK_NIC_PF_RX_CFG_FUNC(void)
  * Register (NCB) nic_pf_rx_chan_bp_dis#
  *
  * NIC Receive Channel Backpressure Disable Registers
- * INTERNAL: Renamed from NIC_PF_INTF()_BP_DIS() in 88XX.
+ * Internal:
+ * Renamed from NIC_PF_INTF()_BP_DIS() in 88XX.
  */
 typedef union
 {
@@ -11383,8 +12066,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_DISX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_DISX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
-        return 0x843000000800ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x843000000800ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("NIC_PF_RX_CHAN_BP_DISX", 1, a, 0, 0, 0);
 }
 
@@ -11399,7 +12082,8 @@ static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_DISX(unsigned long a)
  * Register (NCB) nic_pf_rx_chan_bp_sw#
  *
  * NIC Receive Channel Backpressure Software Force Registers
- * INTERNAL: Renamed from NIC_PF_INTF()_BP_SW() in 88XX.
+ * Internal:
+ * Renamed from NIC_PF_INTF()_BP_SW() in 88XX.
  */
 typedef union
 {
@@ -11422,8 +12106,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_SWX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_CHAN_BP_SWX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
-        return 0x843000000840ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x843000000840ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("NIC_PF_RX_CHAN_BP_SWX", 1, a, 0, 0, 0);
 }
 
@@ -11783,6 +12467,80 @@ static inline uint64_t BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC(void)
 #define arguments_BDK_NIC_PF_RX_VXLAN_PROT_DEF -1,-1,-1,-1
 
 /**
+ * Register (NCB) nic_pf_rx_wrr_cfg#
+ *
+ * NIC RBDR Backpressure ID State Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_nic_pf_rx_wrr_cfgx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t slot15                : 4;  /**< [ 63: 60](R/W) See [SLOT0]. */
+        uint64_t slot14                : 4;  /**< [ 59: 56](R/W) See [SLOT0]. */
+        uint64_t slot13                : 4;  /**< [ 55: 52](R/W) See [SLOT0]. */
+        uint64_t slot12                : 4;  /**< [ 51: 48](R/W) See [SLOT0]. */
+        uint64_t slot11                : 4;  /**< [ 47: 44](R/W) See [SLOT0]. */
+        uint64_t slot10                : 4;  /**< [ 43: 40](R/W) See [SLOT0]. */
+        uint64_t slot9                 : 4;  /**< [ 39: 36](R/W) See [SLOT0]. */
+        uint64_t slot8                 : 4;  /**< [ 35: 32](R/W) See [SLOT0]. */
+        uint64_t slot7                 : 4;  /**< [ 31: 28](R/W) See [SLOT0]. */
+        uint64_t slot6                 : 4;  /**< [ 27: 24](R/W) See [SLOT0]. */
+        uint64_t slot5                 : 4;  /**< [ 23: 20](R/W) See [SLOT0]. */
+        uint64_t slot4                 : 4;  /**< [ 19: 16](R/W) See [SLOT0]. */
+        uint64_t slot3                 : 4;  /**< [ 15: 12](R/W) See [SLOT0]. */
+        uint64_t slot2                 : 4;  /**< [ 11:  8](R/W) See [SLOT0]. */
+        uint64_t slot1                 : 4;  /**< [  7:  4](R/W) See [SLOT0]. */
+        uint64_t slot0                 : 4;  /**< [  3:  0](R/W) RX supports a WRR baising of traffic received from the different X2P interfaces when there
+                                                                 is over subscription to the NCB drain.
+                                                                 There are a total of 32 "slots".  Which can be assigned to favor and interface.  If the
+                                                                 slot does not match an active interface, then
+                                                                 data is processed in a round-robin fashion.  Default setting mismatches all X2P IDs so all
+                                                                 slots default to RR arbitration. */
+#else /* Word 0 - Little Endian */
+        uint64_t slot0                 : 4;  /**< [  3:  0](R/W) RX supports a WRR baising of traffic received from the different X2P interfaces when there
+                                                                 is over subscription to the NCB drain.
+                                                                 There are a total of 32 "slots".  Which can be assigned to favor and interface.  If the
+                                                                 slot does not match an active interface, then
+                                                                 data is processed in a round-robin fashion.  Default setting mismatches all X2P IDs so all
+                                                                 slots default to RR arbitration. */
+        uint64_t slot1                 : 4;  /**< [  7:  4](R/W) See [SLOT0]. */
+        uint64_t slot2                 : 4;  /**< [ 11:  8](R/W) See [SLOT0]. */
+        uint64_t slot3                 : 4;  /**< [ 15: 12](R/W) See [SLOT0]. */
+        uint64_t slot4                 : 4;  /**< [ 19: 16](R/W) See [SLOT0]. */
+        uint64_t slot5                 : 4;  /**< [ 23: 20](R/W) See [SLOT0]. */
+        uint64_t slot6                 : 4;  /**< [ 27: 24](R/W) See [SLOT0]. */
+        uint64_t slot7                 : 4;  /**< [ 31: 28](R/W) See [SLOT0]. */
+        uint64_t slot8                 : 4;  /**< [ 35: 32](R/W) See [SLOT0]. */
+        uint64_t slot9                 : 4;  /**< [ 39: 36](R/W) See [SLOT0]. */
+        uint64_t slot10                : 4;  /**< [ 43: 40](R/W) See [SLOT0]. */
+        uint64_t slot11                : 4;  /**< [ 47: 44](R/W) See [SLOT0]. */
+        uint64_t slot12                : 4;  /**< [ 51: 48](R/W) See [SLOT0]. */
+        uint64_t slot13                : 4;  /**< [ 55: 52](R/W) See [SLOT0]. */
+        uint64_t slot14                : 4;  /**< [ 59: 56](R/W) See [SLOT0]. */
+        uint64_t slot15                : 4;  /**< [ 63: 60](R/W) See [SLOT0]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_rx_wrr_cfgx_s cn; */
+} bdk_nic_pf_rx_wrr_cfgx_t;
+
+static inline uint64_t BDK_NIC_PF_RX_WRR_CFGX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_WRR_CFGX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x843000000180ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("NIC_PF_RX_WRR_CFGX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_NIC_PF_RX_WRR_CFGX(a) bdk_nic_pf_rx_wrr_cfgx_t
+#define bustype_BDK_NIC_PF_RX_WRR_CFGX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_NIC_PF_RX_WRR_CFGX(a) "NIC_PF_RX_WRR_CFGX"
+#define device_bar_BDK_NIC_PF_RX_WRR_CFGX(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_NIC_PF_RX_WRR_CFGX(a) (a)
+#define arguments_BDK_NIC_PF_RX_WRR_CFGX(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) nic_pf_seb_test
  *
  * INTERNAL: NIC SEB Test Register
@@ -11794,7 +12552,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = SEB_INTERFACE_1_STALL.
@@ -11802,11 +12561,12 @@ typedef union
                                                                  <60> = SEB_FIFO_STALL. */
         uint64_t reserved_25_59        : 35;
         uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only.
-                                                                 INTERNAL: Once the bit is set, it reduces the number of co-processor cycles from 1024
+                                                                 Internal:
+                                                                 Once the bit is set, it reduces the number of co-processor cycles from 1024
                                                                  cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD]. */
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -11818,19 +12578,21 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
                                                                    <17:16> = BP_CFG0. */
         uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only.
-                                                                 INTERNAL: Once the bit is set, it reduces the number of co-processor cycles from 1024
+                                                                 Internal:
+                                                                 Once the bit is set, it reduces the number of co-processor cycles from 1024
                                                                  cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD]. */
         uint64_t reserved_25_59        : 35;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = SEB_INTERFACE_1_STALL.
@@ -11842,7 +12604,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = SEB_INTERFACE_1_STALL.
@@ -11851,8 +12614,8 @@ typedef union
         uint64_t reserved_25_59        : 35;
         uint64_t reserved_24           : 1;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -11864,8 +12627,8 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -11874,7 +12637,8 @@ typedef union
         uint64_t reserved_24           : 1;
         uint64_t reserved_25_59        : 35;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = SEB_INTERFACE_1_STALL.
@@ -11888,20 +12652,21 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = SEB_INTERFACE_1_STALL.
                                                                  <61> = SEB_INTERFACE_0_STALL.
                                                                  <60> = SEB_FIFO_STALL. */
         uint64_t reserved_25_59        : 35;
-        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only.
-                                                                 INTERNAL: Once the bit is set, it reduces the number of co-processor cycles from 1024
-                                                                 cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD].
-                                                                 Added in pass 2. */
+        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only. Added in pass 2.
+                                                                 Internal:
+                                                                 Once the bit is set, it reduces the number of co-processor cycles from 1024
+                                                                 cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD]. */
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -11913,20 +12678,21 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
                                                                    <17:16> = BP_CFG0. */
-        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only.
-                                                                 INTERNAL: Once the bit is set, it reduces the number of co-processor cycles from 1024
-                                                                 cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD].
-                                                                 Added in pass 2. */
+        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only. Added in pass 2.
+                                                                 Internal:
+                                                                 Once the bit is set, it reduces the number of co-processor cycles from 1024
+                                                                 cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD]. */
         uint64_t reserved_25_59        : 35;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = SEB_INTERFACE_1_STALL.
@@ -11949,6 +12715,46 @@ static inline uint64_t BDK_NIC_PF_SEB_TEST_FUNC(void)
 #define device_bar_BDK_NIC_PF_SEB_TEST 0x0 /* PF_BAR0 */
 #define busnum_BDK_NIC_PF_SEB_TEST 0
 #define arguments_BDK_NIC_PF_SEB_TEST -1,-1,-1,-1
+
+/**
+ * Register (NCB) nic_pf_send_cfg
+ *
+ * NIC Send Configuration Registers
+ * Configures the NIC send side for all the interfaces enumerated by NIC_INTF_E.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_nic_pf_send_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t cut_disable           : 1;  /**< [  0:  0](R/W) Send cut-through context disable. Used for debug, should be clear for normal operation.
+                                                                 Setting the bit for either NIC interface disables cut-through for both interfaces. */
+#else /* Word 0 - Little Endian */
+        uint64_t cut_disable           : 1;  /**< [  0:  0](R/W) Send cut-through context disable. Used for debug, should be clear for normal operation.
+                                                                 Setting the bit for either NIC interface disables cut-through for both interfaces. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_send_cfg_s cn; */
+} bdk_nic_pf_send_cfg_t;
+
+#define BDK_NIC_PF_SEND_CFG BDK_NIC_PF_SEND_CFG_FUNC()
+static inline uint64_t BDK_NIC_PF_SEND_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_SEND_CFG_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x843000004800ll;
+    __bdk_csr_fatal("NIC_PF_SEND_CFG", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_NIC_PF_SEND_CFG bdk_nic_pf_send_cfg_t
+#define bustype_BDK_NIC_PF_SEND_CFG BDK_CSR_TYPE_NCB
+#define basename_BDK_NIC_PF_SEND_CFG "NIC_PF_SEND_CFG"
+#define device_bar_BDK_NIC_PF_SEND_CFG 0x0 /* PF_BAR0 */
+#define busnum_BDK_NIC_PF_SEND_CFG 0
+#define arguments_BDK_NIC_PF_SEND_CFG -1,-1,-1,-1
 
 /**
  * Register (NCB) nic_pf_soft_reset
@@ -12051,7 +12857,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = SQ_VNIC_STAT_STALL.
@@ -12059,8 +12866,8 @@ typedef union
                                                                  <60> = SQ_INT_SET_FIFO_STALL. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -12072,8 +12879,8 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -12081,7 +12888,8 @@ typedef union
                                                                    <17:16> = BP_CFG0. */
         uint64_t reserved_24_59        : 36;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
                                                                  <62> = SQ_VNIC_STAT_STALL.
@@ -12118,7 +12926,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = MQM_FILL_ACK_STALL.
                                                                  <62> = MQM_SEND_CMD_STALL.
@@ -12126,8 +12935,8 @@ typedef union
                                                                  <60> = MQM_MDQ_UPDATE_STALL. */
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -12139,8 +12948,8 @@ typedef union
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                 Internal:
+                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
                                                                    0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
@@ -12148,7 +12957,8 @@ typedef union
                                                                    <17:16> = BP_CFG0. */
         uint64_t reserved_24_59        : 36;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = MQM_FILL_ACK_STALL.
                                                                  <62> = MQM_SEND_CMD_STALL.
@@ -12185,7 +12995,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t blk_busy              : 10; /**< [  9:  0](RO/H) If non-zero, block is not ready for configuration. INTERNAL: Each bit corresponds to a
+        uint64_t blk_busy              : 10; /**< [  9:  0](RO/H) If non-zero, block is not ready for configuration.
+                                                                 Internal:
+                                                                 Each bit corresponds to a
                                                                  subblock:
                                                                  <9> = Reserved.
                                                                  <8> = Reserved.
@@ -12198,7 +13010,9 @@ typedef union
                                                                  <1> = nic_csi.
                                                                  <0> = nic_cqm. */
 #else /* Word 0 - Little Endian */
-        uint64_t blk_busy              : 10; /**< [  9:  0](RO/H) If non-zero, block is not ready for configuration. INTERNAL: Each bit corresponds to a
+        uint64_t blk_busy              : 10; /**< [  9:  0](RO/H) If non-zero, block is not ready for configuration.
+                                                                 Internal:
+                                                                 Each bit corresponds to a
                                                                  subblock:
                                                                  <9> = Reserved.
                                                                  <8> = Reserved.
@@ -12257,8 +13071,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x843000490300ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=9))
+        return 0x843000490300ll + 8ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x843000490280ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
@@ -12300,8 +13114,8 @@ typedef union
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x843000490200ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=9))
+        return 0x843000490200ll + 8ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x843000490200ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
@@ -12728,17 +13542,17 @@ typedef union
     struct bdk_nic_pf_tl3x_chan_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t chan                  : 6;  /**< [  5:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
+        uint64_t reserved_7_63         : 57;
+        uint64_t chan                  : 7;  /**< [  6:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
                                                                  NIC_PF_TL2()_LMAC[LMAC], indexed by the TL2 that pulls from this TL3 as selected by
                                                                  NIC_PF_TL3A()_CFG[TL3A].
                                                                  Must be less than 8 for a BGX LMAC or 24 for LBK. */
 #else /* Word 0 - Little Endian */
-        uint64_t chan                  : 6;  /**< [  5:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
+        uint64_t chan                  : 7;  /**< [  6:  0](R/W) The channel-within-LMAC sending backpressure to this TL3. The LMAC is selected by
                                                                  NIC_PF_TL2()_LMAC[LMAC], indexed by the TL2 that pulls from this TL3 as selected by
                                                                  NIC_PF_TL3A()_CFG[TL3A].
                                                                  Must be less than 8 for a BGX LMAC or 24 for LBK. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_pf_tl3x_chan_s cn88xx; */
@@ -14975,9 +15789,13 @@ typedef union
         uint64_t ena                   : 1;  /**< [  1:  1](R/W) Enable RQ. Writing a 1 to this bit enables the RQ. Writing a 0 gracefully disables the RQ.
                                                                  Software can poll this bit for a 0 to determine if all hardware processing for this RQ has
                                                                  stopped. */
-        uint64_t tcp_ena               : 1;  /**< [  0:  0](R/W) Reserved. INTERNAL: Reserved for future use - TCP reassembly enable. */
+        uint64_t tcp_ena               : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - TCP reassembly enable. */
 #else /* Word 0 - Little Endian */
-        uint64_t tcp_ena               : 1;  /**< [  0:  0](R/W) Reserved. INTERNAL: Reserved for future use - TCP reassembly enable. */
+        uint64_t tcp_ena               : 1;  /**< [  0:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - TCP reassembly enable. */
         uint64_t ena                   : 1;  /**< [  1:  1](R/W) Enable RQ. Writing a 1 to this bit enables the RQ. Writing a 0 gracefully disables the RQ.
                                                                  Software can poll this bit for a 0 to determine if all hardware processing for this RQ has
                                                                  stopped. */
@@ -15076,7 +15894,9 @@ typedef union
                                                                  header split into a separate RBDR buffer. */
         uint64_t cq_hdr_copy           : 1;  /**< [ 18: 18](R/W) If set, the header is copied into the CQE as well as existing in the packet buffer. The
                                                                  hardware will copy all defined headers. */
-        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved. INTERNAL: Reserved for future use - Maximum TCP reassembled packet:
+        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Maximum TCP reassembled packet:
                                                                  0x0 = 64Kbytes.
                                                                  0x1 = 256Kbytes.
                                                                  0x2-0x3 = Reserved. */
@@ -15093,7 +15913,9 @@ typedef union
         uint64_t cq_pkt_size           : 8;  /**< [ 15:  8](R/W) Packet size in bytes. If a packet (including the NIC_RX_HDR_S field) is smaller than this
                                                                  value, the entire packet is sent to the CQ buffer and no RB is used. Maximum number of
                                                                  bytes is 249, to allow for up to 7 byte alignment pad. */
-        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved. INTERNAL: Reserved for future use - Maximum TCP reassembled packet:
+        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Maximum TCP reassembled packet:
                                                                  0x0 = 64Kbytes.
                                                                  0x1 = 256Kbytes.
                                                                  0x2-0x3 = Reserved. */
@@ -15139,7 +15961,9 @@ typedef union
                                                                  header split into a separate RBDR buffer. */
         uint64_t cq_hdr_copy           : 1;  /**< [ 18: 18](R/W) If set, the header is copied into the CQE as well as existing in the packet buffer. The
                                                                  hardware will copy all defined headers. */
-        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved. INTERNAL: Reserved for future use - Maximum TCP reassembled packet:
+        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Maximum TCP reassembled packet:
                                                                  0x0 = 64Kbytes.
                                                                  0x1 = 256Kbytes.
                                                                  0x2-0x3 = Reserved. */
@@ -15156,7 +15980,9 @@ typedef union
         uint64_t cq_pkt_size           : 8;  /**< [ 15:  8](R/W) Packet size in bytes. If a packet is smaller than this
                                                                  value, the entire packet is sent to the CQ buffer and no RB is used. Maximum number of
                                                                  bytes is 249, to allow for up to 7 byte alignment pad. */
-        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved. INTERNAL: Reserved for future use - Maximum TCP reassembled packet:
+        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Maximum TCP reassembled packet:
                                                                  0x0 = 64Kbytes.
                                                                  0x1 = 256Kbytes.
                                                                  0x2-0x3 = Reserved. */
@@ -15201,7 +16027,9 @@ typedef union
                                                                  header split into a separate RBDR buffer. */
         uint64_t cq_hdr_copy           : 1;  /**< [ 18: 18](R/W) If set, the header is copied into the CQE as well as existing in the packet buffer. The
                                                                  hardware will copy all defined headers. */
-        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved. INTERNAL: Reserved for future use - Maximum TCP reassembled packet:
+        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Maximum TCP reassembled packet:
                                                                  0x0 = 64Kbytes.
                                                                  0x1 = 256Kbytes.
                                                                  0x2-0x3 = Reserved. */
@@ -15218,7 +16046,9 @@ typedef union
         uint64_t cq_pkt_size           : 8;  /**< [ 15:  8](R/W) Packet size in bytes. If a packet (including the NIC_RX_HDR_S field) is smaller than this
                                                                  value, the entire packet is sent to the CQ buffer and no RB is used. Maximum number of
                                                                  bytes is 249, to allow for up to 7 byte alignment pad. */
-        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved. INTERNAL: Reserved for future use - Maximum TCP reassembled packet:
+        uint64_t max_tcp_reass         : 2;  /**< [ 17: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Reserved for future use - Maximum TCP reassembled packet:
                                                                  0x0 = 64Kbytes.
                                                                  0x1 = 256Kbytes.
                                                                  0x2-0x3 = Reserved. */
@@ -15360,6 +16190,92 @@ typedef union
                                                                  Note that the usable size of the ring is the specified size minus 1 when [LDWB] is clear
                                                                  (HEAD==TAIL always means empty). If [LDWB] is set, the usable size of the ring is the
                                                                  specified size minus 8. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t tstmp_bgx_intf        : 4;  /**< [  3:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
+                                                                 the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
+                                                                 packet with NIC_SEND_HDR_S[TSTMP]=1, this field selects the Ethernet port from which the
+                                                                 timestamp will be captured. */
+#else /* Word 0 - Little Endian */
+        uint64_t tstmp_bgx_intf        : 4;  /**< [  3:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
+                                                                 the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
+                                                                 packet with NIC_SEND_HDR_S[TSTMP]=1, this field selects the Ethernet port from which the
+                                                                 timestamp will be captured. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t qsize                 : 3;  /**< [ 10:  8](R/W/H) Specifies SQ ring size in entries of 16 bytes:
+                                                                 0x0 = 1K entries.
+                                                                 0x1 = 2K entries.
+                                                                 0x2 = 4K entries.
+                                                                 0x3 = 8K entries.
+                                                                 0x4 = 16K entries.
+                                                                 0x5 = 32K entries.
+                                                                 0x6 = 64K entries.
+                                                                 0x7 = Reserved.
+
+                                                                 Note that the usable size of the ring is the specified size minus 1 when [LDWB] is clear
+                                                                 (HEAD==TAIL always means empty). If [LDWB] is set, the usable size of the ring is the
+                                                                 specified size minus 8. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t ldwb                  : 1;  /**< [ 16: 16](R/W/H) When reading SQEs for a scheduled send packet that include the last byte of the SQE cache
+                                                                 line, use LDWB transaction to invalidate the cache line. When set, software must reserve
+                                                                 one cache line of unused SQEs in the SQ ring, i.e. SQ should be considered full when
+                                                                 NIC_QS()_SQ()_STATUS[QCOUNT] equals the SQ ring size minus 8. */
+        uint64_t reset                 : 1;  /**< [ 17: 17](WO) SQ Reset. Writing a 1 resets internal state for this SQ and the following registers:
+                                                                 * NIC_PF_QS()_SQ()_STAT().
+                                                                 * NIC_QS()_SQ()_CFG.
+                                                                 * NIC_QS()_SQ()_THRESH.
+                                                                 * NIC_QS()_SQ()_BASE.
+                                                                 * NIC_QS()_SQ()_HEAD.
+                                                                 * NIC_QS()_SQ()_TAIL.
+                                                                 * NIC_QS()_SQ()_DOOR.
+                                                                 * NIC_QS()_SQ()_STATUS.
+                                                                 * NIC_QS()_SQ()_STAT(). */
+        uint64_t reserved_18           : 1;
+        uint64_t ena                   : 1;  /**< [ 19: 19](R/W/H) Enable SQ. Software can clear this bit at any time to disable the SQ, at which time
+                                                                 hardware stops servicing the SQ and sets NIC_QS()_SQ()_STATUS[STOPPED] when
+                                                                 done. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t cq_limit              : 8;  /**< [ 31: 24](RAZ) Reserved. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_qsx_sqx_cfg_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cq_limit              : 8;  /**< [ 31: 24](RAZ) Reserved. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t ena                   : 1;  /**< [ 19: 19](R/W/H) Enable SQ. Software can clear this bit at any time to disable the SQ, at which time
+                                                                 hardware stops servicing the SQ and sets NIC_QS()_SQ()_STATUS[STOPPED] when
+                                                                 done. */
+        uint64_t reserved_18           : 1;
+        uint64_t reset                 : 1;  /**< [ 17: 17](WO) SQ Reset. Writing a 1 resets internal state for this SQ and the following registers:
+                                                                 * NIC_PF_QS()_SQ()_STAT().
+                                                                 * NIC_QS()_SQ()_CFG.
+                                                                 * NIC_QS()_SQ()_THRESH.
+                                                                 * NIC_QS()_SQ()_BASE.
+                                                                 * NIC_QS()_SQ()_HEAD.
+                                                                 * NIC_QS()_SQ()_TAIL.
+                                                                 * NIC_QS()_SQ()_DOOR.
+                                                                 * NIC_QS()_SQ()_STATUS.
+                                                                 * NIC_QS()_SQ()_STAT(). */
+        uint64_t ldwb                  : 1;  /**< [ 16: 16](R/W/H) When reading SQEs for a scheduled send packet that include the last byte of the SQE cache
+                                                                 line, use LDWB transaction to invalidate the cache line. When set, software must reserve
+                                                                 one cache line of unused SQEs in the SQ ring, i.e. SQ should be considered full when
+                                                                 NIC_QS()_SQ()_STATUS[QCOUNT] equals the SQ ring size minus 8. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t qsize                 : 3;  /**< [ 10:  8](R/W/H) Specifies SQ ring size in entries of 16 bytes:
+                                                                 0x0 = 1K entries.
+                                                                 0x1 = 2K entries.
+                                                                 0x2 = 4K entries.
+                                                                 0x3 = 8K entries.
+                                                                 0x4 = 16K entries.
+                                                                 0x5 = 32K entries.
+                                                                 0x6 = 64K entries.
+                                                                 0x7 = Reserved.
+
+                                                                 Note that the usable size of the ring is the specified size minus 1 when [LDWB] is clear
+                                                                 (HEAD==TAIL always means empty). If [LDWB] is set, the usable size of the ring is the
+                                                                 specified size minus 8. */
         uint64_t reserved_3_7          : 5;
         uint64_t tstmp_bgx_intf        : 3;  /**< [  2:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
                                                                  the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
@@ -15407,9 +16323,98 @@ typedef union
         uint64_t cq_limit              : 8;  /**< [ 31: 24](RAZ) Reserved. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_qsx_sqx_cfg_s cn88xxp1; */
+    } cn88xxp1;
     struct bdk_nic_qsx_sqx_cfg_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cq_limit              : 8;  /**< [ 31: 24](R/W/H) Threshold level for suppressing packet send, in units of 1/256th of CQ level. 0xff
+                                                                 represents an empty CQ ring, 0x0 represents a full ring. Packets will not be sent from the
+                                                                 SQ if the available space in the associated CQ is less than the CQ_LIMIT value. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t ena                   : 1;  /**< [ 19: 19](R/W/H) Enable SQ. Software can clear this bit at any time to disable the SQ, at which time
+                                                                 hardware stops servicing the SQ and sets NIC_QS()_SQ()_STATUS[STOPPED] when
+                                                                 done. */
+        uint64_t reserved_18           : 1;
+        uint64_t reset                 : 1;  /**< [ 17: 17](WO) SQ Reset. Writing a 1 resets internal state for this SQ and the following registers:
+                                                                 * NIC_PF_QS()_SQ()_STAT().
+                                                                 * NIC_QS()_SQ()_CFG.
+                                                                 * NIC_QS()_SQ()_THRESH.
+                                                                 * NIC_QS()_SQ()_BASE.
+                                                                 * NIC_QS()_SQ()_HEAD.
+                                                                 * NIC_QS()_SQ()_TAIL.
+                                                                 * NIC_QS()_SQ()_DOOR.
+                                                                 * NIC_QS()_SQ()_STATUS.
+                                                                 * NIC_QS()_SQ()_STAT(). */
+        uint64_t ldwb                  : 1;  /**< [ 16: 16](R/W/H) When reading SQEs for a scheduled send packet that include the last byte of the SQE cache
+                                                                 line, use LDWB transaction to invalidate the cache line. When set, software must reserve
+                                                                 one cache line of unused SQEs in the SQ ring, i.e. SQ should be considered full when
+                                                                 NIC_QS()_SQ()_STATUS[QCOUNT] equals the SQ ring size minus 8. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t qsize                 : 3;  /**< [ 10:  8](R/W/H) Specifies SQ ring size in entries of 16 bytes:
+                                                                 0x0 = 1K entries.
+                                                                 0x1 = 2K entries.
+                                                                 0x2 = 4K entries.
+                                                                 0x3 = 8K entries.
+                                                                 0x4 = 16K entries.
+                                                                 0x5 = 32K entries.
+                                                                 0x6 = 64K entries.
+                                                                 0x7 = Reserved.
+
+                                                                 Note that the usable size of the ring is the specified size minus 1 when [LDWB] is clear
+                                                                 (HEAD==TAIL always means empty). If [LDWB] is set, the usable size of the ring is the
+                                                                 specified size minus 8. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t tstmp_bgx_intf        : 4;  /**< [  3:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
+                                                                 the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
+                                                                 packet with NIC_SEND_HDR_S[TSTMP]=1, this field selects the Ethernet port from which the
+                                                                 timestamp will be captured. */
+#else /* Word 0 - Little Endian */
+        uint64_t tstmp_bgx_intf        : 4;  /**< [  3:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
+                                                                 the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
+                                                                 packet with NIC_SEND_HDR_S[TSTMP]=1, this field selects the Ethernet port from which the
+                                                                 timestamp will be captured. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t qsize                 : 3;  /**< [ 10:  8](R/W/H) Specifies SQ ring size in entries of 16 bytes:
+                                                                 0x0 = 1K entries.
+                                                                 0x1 = 2K entries.
+                                                                 0x2 = 4K entries.
+                                                                 0x3 = 8K entries.
+                                                                 0x4 = 16K entries.
+                                                                 0x5 = 32K entries.
+                                                                 0x6 = 64K entries.
+                                                                 0x7 = Reserved.
+
+                                                                 Note that the usable size of the ring is the specified size minus 1 when [LDWB] is clear
+                                                                 (HEAD==TAIL always means empty). If [LDWB] is set, the usable size of the ring is the
+                                                                 specified size minus 8. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t ldwb                  : 1;  /**< [ 16: 16](R/W/H) When reading SQEs for a scheduled send packet that include the last byte of the SQE cache
+                                                                 line, use LDWB transaction to invalidate the cache line. When set, software must reserve
+                                                                 one cache line of unused SQEs in the SQ ring, i.e. SQ should be considered full when
+                                                                 NIC_QS()_SQ()_STATUS[QCOUNT] equals the SQ ring size minus 8. */
+        uint64_t reset                 : 1;  /**< [ 17: 17](WO) SQ Reset. Writing a 1 resets internal state for this SQ and the following registers:
+                                                                 * NIC_PF_QS()_SQ()_STAT().
+                                                                 * NIC_QS()_SQ()_CFG.
+                                                                 * NIC_QS()_SQ()_THRESH.
+                                                                 * NIC_QS()_SQ()_BASE.
+                                                                 * NIC_QS()_SQ()_HEAD.
+                                                                 * NIC_QS()_SQ()_TAIL.
+                                                                 * NIC_QS()_SQ()_DOOR.
+                                                                 * NIC_QS()_SQ()_STATUS.
+                                                                 * NIC_QS()_SQ()_STAT(). */
+        uint64_t reserved_18           : 1;
+        uint64_t ena                   : 1;  /**< [ 19: 19](R/W/H) Enable SQ. Software can clear this bit at any time to disable the SQ, at which time
+                                                                 hardware stops servicing the SQ and sets NIC_QS()_SQ()_STATUS[STOPPED] when
+                                                                 done. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t cq_limit              : 8;  /**< [ 31: 24](R/W/H) Threshold level for suppressing packet send, in units of 1/256th of CQ level. 0xff
+                                                                 represents an empty CQ ring, 0x0 represents a full ring. Packets will not be sent from the
+                                                                 SQ if the available space in the associated CQ is less than the CQ_LIMIT value. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_nic_qsx_sqx_cfg_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -15498,8 +16503,7 @@ typedef union
                                                                  SQ if the available space in the associated CQ is less than the CQ_LIMIT value. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_nic_qsx_sqx_cfg_cn81xx cn83xx; */
+    } cn83xx;
     struct bdk_nic_qsx_sqx_cfg_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -15845,7 +16849,8 @@ typedef union
                                                                  the stop operation done. A NIC_CQE_SEND_S is not created for a descriptor error that sets
                                                                  this bit.
 
-                                                                 INTERNAL: The following DPE error is also checked in pass 1:
+                                                                 Internal:
+                                                                 The following DPE error is also checked in pass 1:
                                                                  * Memory fault on NIC_SEND_HDR_S read.
 
                                                                  This check in DPE is unnecessary and has been removed in pass 2 in order to simplify
@@ -15872,7 +16877,8 @@ typedef union
                                                                  the stop operation done. A NIC_CQE_SEND_S is not created for a descriptor error that sets
                                                                  this bit.
 
-                                                                 INTERNAL: The following DPE error is also checked in pass 1:
+                                                                 Internal:
+                                                                 The following DPE error is also checked in pass 1:
                                                                  * Memory fault on NIC_SEND_HDR_S read.
 
                                                                  This check in DPE is unnecessary and has been removed in pass 2 in order to simplify
@@ -15995,7 +17001,8 @@ typedef union
                                                                  the stop operation done. A NIC_CQE_SEND_S is not created for a descriptor error that sets
                                                                  this bit.
 
-                                                                 INTERNAL: The following DPE error is also checked in pass 1:
+                                                                 Internal:
+                                                                 The following DPE error is also checked in pass 1:
                                                                  * Memory fault on NIC_SEND_HDR_S read.
 
                                                                  This check in DPE is unnecessary and has been removed in pass 2 in order to simplify
@@ -16036,7 +17043,8 @@ typedef union
                                                                  the stop operation done. A NIC_CQE_SEND_S is not created for a descriptor error that sets
                                                                  this bit.
 
-                                                                 INTERNAL: The following DPE error is also checked in pass 1:
+                                                                 Internal:
+                                                                 The following DPE error is also checked in pass 1:
                                                                  * Memory fault on NIC_SEND_HDR_S read.
 
                                                                  This check in DPE is unnecessary and has been removed in pass 2 in order to simplify

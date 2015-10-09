@@ -1190,7 +1190,8 @@ static inline uint64_t BDK_DBGX_EDDEVID(unsigned long a)
  *
  * AP DBG Device Id Register 1
  * Device id1 register for ap core.
- * INTERNAL: RTL:
+ * Internal:
+ * RTL:
  * Read only register, Read to this register will be provided by DAP and
  * DAP will not generate OWB access.
  */
@@ -1245,7 +1246,8 @@ static inline uint64_t BDK_DBGX_EDDEVID1(unsigned long a)
  *
  * AP DBG Device Id Register 2
  * Device id2 register for ap core.
- * INTERNAL: RTL:
+ * Internal:
+ * RTL:
  * Read only register, Read to this register will be provided by DAP and
  * DAP will not generate OWB access.
  */
@@ -2262,7 +2264,9 @@ static inline uint64_t BDK_DBGX_EDPIDR7(unsigned long a)
  * AP DBG External Debug Power/Reset Control Register
  * Controls processor functionality related to powerup, reset,
  * and powerdown.
- * INTERNAL: RTL: Powerup request for ap core. This is write only register.
+ *
+ * Internal:
+ * RTL: Powerup request for ap core. This is write only register.
  * write 1 to bit[3] to request powerup.
  */
 typedef union
@@ -3283,7 +3287,9 @@ static inline uint64_t BDK_DBGX_EDWAR_LO(unsigned long a)
  * AP DBG Main Id Register
  * Main id register for ap core.
  * Read only register
- * INTERNAL: RTL: Read to this register will be provided by DAP and
+ *
+ * Internal:
+ * RTL: Read to this register will be provided by DAP and
  * DAP will not generate OWB access.
  */
 typedef union

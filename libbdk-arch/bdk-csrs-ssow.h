@@ -223,28 +223,30 @@ typedef union
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
         uint64_t reserved_36_47        : 12;
         uint64_t grp                   : 8;  /**< [ 35: 28](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
-                                                                 INTERNAL: The upper two bits are hardcoded to the node number. */
+                                                                 Internal:
+                                                                 The upper two bits are hardcoded to the node number. */
         uint64_t head                  : 1;  /**< [ 27: 27](RO/H) Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t tail                  : 1;  /**< [ 26: 26](RO/H) Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t reserved_21_25        : 5;
-        uint64_t revlink_index         : 10; /**< [ 20: 11](RO/H) Prior SSO entry in the tag list when HEAD=0 and TT is not UNTAGGED nor EMPTY, otherwise
-                                                                 unpredictable. */
-        uint64_t link_index_vld        : 1;  /**< [ 10: 10](RO/H) Indicates [LINK_INDEX] is valid. LINK_INDEX_VLD is itself valid when TAIL=1 and
-                                                                 TT=ATOMIC, otherwise unpredictable. */
+        uint64_t revlink_index         : 10; /**< [ 20: 11](RO/H) Prior SSO entry in the tag list when [HEAD]=0 and [TT] is not UNTAGGED nor
+                                                                 EMPTY, otherwise unpredictable. */
+        uint64_t link_index_vld        : 1;  /**< [ 10: 10](RO/H) Indicates [LINK_INDEX] is valid. [LINK_INDEX_VLD] is itself valid when [TAIL]=1
+                                                                 and [TT]=ATOMIC, otherwise unpredictable. */
         uint64_t link_index            : 10; /**< [  9:  0](RO/H) Next SSO entry in the tag list when [LINK_INDEX_VLD]=1, [TAILC]=0 and
                                                                  [TT]=ATOMIC, otherwise unpredictable. */
 #else /* Word 0 - Little Endian */
         uint64_t link_index            : 10; /**< [  9:  0](RO/H) Next SSO entry in the tag list when [LINK_INDEX_VLD]=1, [TAILC]=0 and
                                                                  [TT]=ATOMIC, otherwise unpredictable. */
-        uint64_t link_index_vld        : 1;  /**< [ 10: 10](RO/H) Indicates [LINK_INDEX] is valid. LINK_INDEX_VLD is itself valid when TAIL=1 and
-                                                                 TT=ATOMIC, otherwise unpredictable. */
-        uint64_t revlink_index         : 10; /**< [ 20: 11](RO/H) Prior SSO entry in the tag list when HEAD=0 and TT is not UNTAGGED nor EMPTY, otherwise
-                                                                 unpredictable. */
+        uint64_t link_index_vld        : 1;  /**< [ 10: 10](RO/H) Indicates [LINK_INDEX] is valid. [LINK_INDEX_VLD] is itself valid when [TAIL]=1
+                                                                 and [TT]=ATOMIC, otherwise unpredictable. */
+        uint64_t revlink_index         : 10; /**< [ 20: 11](RO/H) Prior SSO entry in the tag list when [HEAD]=0 and [TT] is not UNTAGGED nor
+                                                                 EMPTY, otherwise unpredictable. */
         uint64_t reserved_21_25        : 5;
         uint64_t tail                  : 1;  /**< [ 26: 26](RO/H) Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t head                  : 1;  /**< [ 27: 27](RO/H) Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t grp                   : 8;  /**< [ 35: 28](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
-                                                                 INTERNAL: The upper two bits are hardcoded to the node number. */
+                                                                 Internal:
+                                                                 The upper two bits are hardcoded to the node number. */
         uint64_t reserved_36_47        : 12;
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
         uint64_t reserved_58_62        : 5;
@@ -1020,7 +1022,8 @@ static inline uint64_t BDK_SSOW_VHWSX_PENDWQP(unsigned long a)
  * this register is cached inside the cores, and so loads to this register can
  * typically be returned with L1Dcache-like timing.
  *
- * INTERNAL: The address of this register is decoded by AP MEM.
+ * Internal:
+ * The address of this register is decoded by AP MEM.
  */
 typedef union
 {
@@ -1071,7 +1074,8 @@ typedef union
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
         uint64_t reserved_44_47        : 4;
         uint64_t grp                   : 8;  /**< [ 43: 36](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
-                                                                 INTERNAL: The upper two bits are hardcoded to the node number. */
+                                                                 Internal:
+                                                                 The upper two bits are hardcoded to the node number. */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t tail                  : 1;  /**< [ 34: 34](RO/H) Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) The tag type attached to the HWS (updated when new tag list entered on SWTAG, SWTAG_FULL,
@@ -1086,7 +1090,8 @@ typedef union
         uint64_t tail                  : 1;  /**< [ 34: 34](RO/H) Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t grp                   : 8;  /**< [ 43: 36](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
-                                                                 INTERNAL: The upper two bits are hardcoded to the node number. */
+                                                                 Internal:
+                                                                 The upper two bits are hardcoded to the node number. */
         uint64_t reserved_44_47        : 4;
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
         uint64_t reserved_58_62        : 5;

@@ -643,9 +643,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -1099,11 +1101,15 @@ typedef union
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
 
                                                                  Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved. INTERNAL: Guest machine identifier. The GMID to send to FPA for all
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be non-zero or FPA/SSO will drop requests. */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved. INTERNAL: Guest machine identifier. The GMID to send to FPA for all
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be non-zero or FPA/SSO will drop requests. */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.

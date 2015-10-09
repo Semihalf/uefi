@@ -1198,8 +1198,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_57_63        : 7;
         uint64_t bist                  : 57; /**< [ 56:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails.
-                                                                 INTERNAL:
-                                                                   dpi.dma.csr.r_pkt__csr_bstatus_summary,    56    -- from the packet logic
+                                                                 Internal:
+                                                                 dpi.dma.csr.r_pkt__csr_bstatus_summary,    56    -- from the packet logic
                                                                    dpi.dma.csr.spi__csr_bist_status[7:0],     55:48
                                                                    dpi.dma.csr.r_rdb_buff__bist_status[23:0], 47:24
                                                                    dpi.dma.csr.rdb_tmem__bist_status,         23
@@ -1212,8 +1212,8 @@ typedef union
                                                                    dpi.dma.csr.ncbia__csr_bist_status[3:0]     3:0 */
 #else /* Word 0 - Little Endian */
         uint64_t bist                  : 57; /**< [ 56:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails.
-                                                                 INTERNAL:
-                                                                   dpi.dma.csr.r_pkt__csr_bstatus_summary,    56    -- from the packet logic
+                                                                 Internal:
+                                                                 dpi.dma.csr.r_pkt__csr_bstatus_summary,    56    -- from the packet logic
                                                                    dpi.dma.csr.spi__csr_bist_status[7:0],     55:48
                                                                    dpi.dma.csr.r_rdb_buff__bist_status[23:0], 47:24
                                                                    dpi.dma.csr.rdb_tmem__bist_status,         23
@@ -2039,7 +2039,7 @@ static inline uint64_t BDK_DPIX_ECC_CTL(unsigned long a)
  *
  * DPI ECC Interrupt Register
  * This register contains ECC error interrupt summary bits.
- * INTERNAL:
+ * Internal:
  * RAM[14] = dpi.pnl.pkt.sli_pkt_msix.msix_vfaddr
  * RAM[13] = dpi.pnl.pkt.sli_pkt_msix.msix_vfdata
  * RAM[12] = dpi.pnl.pkt.sli_pkt_csr.pcsr_in_done
@@ -2235,7 +2235,9 @@ typedef union
         uint64_t reserved_23_63        : 41;
         uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1C/H) Unexpected fill error. This bit is set when an instruction fill is received when there is
                                                                  no outstanding request. */
-        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1C/H) Interrupt should be ignored. INTERNAL: The interrupt means that the DPI unit
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1C/H) Interrupt should be ignored.
+                                                                 Internal:
+                                                                 The interrupt means that the DPI unit
                                                                  received fill data in which one or more or the 64-bit instruction words was all
                                                                  0's. In previous DPI implementations, there was never a case in which a valid
                                                                  instruction stream would have all 0's. In the new dual-instruction word scheme,
@@ -2270,7 +2272,9 @@ typedef union
         uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1C/H) Instruction FIFO overflow error. This bit is set when the instruction FIFO overflows. */
         uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1C/H) Instruction FIFO underflow error. This bit is set when the instruction FIFO underflows. */
         uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1C/H) Instruction bad error. This bit is set when a fetched instruction word was 0x0. */
-        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1C/H) Interrupt should be ignored. INTERNAL: The interrupt means that the DPI unit
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1C/H) Interrupt should be ignored.
+                                                                 Internal:
+                                                                 The interrupt means that the DPI unit
                                                                  received fill data in which one or more or the 64-bit instruction words was all
                                                                  0's. In previous DPI implementations, there was never a case in which a valid
                                                                  instruction stream would have all 0's. In the new dual-instruction word scheme,

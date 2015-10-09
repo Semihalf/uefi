@@ -187,7 +187,8 @@
                                        file may result in a whole-file hash that differs from a hash calculated if the
                                        entire file was processed as a single instruction.
                                        
-                                       INTERNAL: Verify this IVs result in the proper standard hash results. */
+                                       Internal:
+                                       Verify this IVs result in the proper standard hash results. */
 #define BDK_ZIP_HASH_ALG_E_SHA256 (2) /**< SHA-256 hashing. ZIP_ZRES_S writes 64 bytes.
                                        
                                        ZIP_INST_S[IV_PTR] if non-zero points to the hash initial value, otherwise if
@@ -204,7 +205,8 @@
                                        file may result in a whole-file hash that differs from a hash calculated if the
                                        entire file was processed as a single instruction.
                                        
-                                       INTERNAL: Verify this IVs result in the proper standard hash results. */
+                                       Internal:
+                                       Verify this IVs result in the proper standard hash results. */
 
 /**
  * Enumeration zip_int_vec_e
@@ -229,7 +231,8 @@
  *
  * ZIP Operation Enumeration
  * Enumerates ZIP_INST_S[OP].
- * INTERNAL: This encoding provides backward compatibility with CN88XX software.
+ * Internal:
+ * This encoding provides backward compatibility with CN88XX software.
  */
 #define BDK_ZIP_OP_E_COMP (2) /**< Compression. */
 #define BDK_ZIP_OP_E_DECOMP (0) /**< Decompression. */
@@ -2428,7 +2431,10 @@ typedef union
         uint64_t timeout               : 32; /**< [ 31:  0](R/W) Number of coprocessor-clocks before a ZIP engine is considered hung. When the
                                                                  ZIP_CORE()_TO_STA[CNT] reaches ZIP_CORE_TO_CFG[TIMEOUT], the ZIP engine hang
                                                                  can be reported through interrupt ZIP_QUE()_ERR_INT[CTO] if the interrupt is enabled.
-                                                                 If [TIMEOUT] is 0, engine timeout detection is disabled. INTERNAL: Decompression
+                                                                 If [TIMEOUT] is 0, engine timeout detection is disabled.
+
+                                                                 Internal:
+                                                                 Decompression
                                                                  could be very slow if someone created a malicious compressed stream. Compression is
                                                                  much more bounded. The worst case would be .5B/cycle plus the Huffman encoding delay of
                                                                  around 8K cycles. Also note the cripple feature can increase the worst case delay 4x.
@@ -2441,7 +2447,10 @@ typedef union
         uint64_t timeout               : 32; /**< [ 31:  0](R/W) Number of coprocessor-clocks before a ZIP engine is considered hung. When the
                                                                  ZIP_CORE()_TO_STA[CNT] reaches ZIP_CORE_TO_CFG[TIMEOUT], the ZIP engine hang
                                                                  can be reported through interrupt ZIP_QUE()_ERR_INT[CTO] if the interrupt is enabled.
-                                                                 If [TIMEOUT] is 0, engine timeout detection is disabled. INTERNAL: Decompression
+                                                                 If [TIMEOUT] is 0, engine timeout detection is disabled.
+
+                                                                 Internal:
+                                                                 Decompression
                                                                  could be very slow if someone created a malicious compressed stream. Compression is
                                                                  much more bounded. The worst case would be .5B/cycle plus the Huffman encoding delay of
                                                                  around 8K cycles. Also note the cripple feature can increase the worst case delay 4x.
@@ -2499,10 +2508,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t bstatus               : 9;  /**< [  8:  0](RO/H) BIST result of CTL memories. INTERNAL:BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
+        uint64_t bstatus               : 9;  /**< [  8:  0](RO/H) BIST result of CTL memories.
+                                                                 Internal:
+                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
                                                                  IDF[1:0],GSPF, IQF}. */
 #else /* Word 0 - Little Endian */
-        uint64_t bstatus               : 9;  /**< [  8:  0](RO/H) BIST result of CTL memories. INTERNAL:BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
+        uint64_t bstatus               : 9;  /**< [  8:  0](RO/H) BIST result of CTL memories.
+                                                                 Internal:
+                                                                 BSTATUS = {VMEM, STDF[1:0], OFIF[1:0],
                                                                  IDF[1:0],GSPF, IQF}. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
@@ -2918,13 +2931,21 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
-        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[DBE]. */
+        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_5_31         : 27;
-        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[SBE]. */
+        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF,IQF]. */
 #else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[SBE]. */
+        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF,IQF]. */
         uint64_t reserved_5_31         : 27;
-        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[DBE]. */
+        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1C/H) Reads or clears enable for ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } s;
@@ -2962,13 +2983,21 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
-        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[DBE]. */
+        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_5_31         : 27;
-        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[SBE]. */
+        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF,IQF]. */
 #else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[SBE]. */
+        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF,IQF]. */
         uint64_t reserved_5_31         : 27;
-        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[DBE]. */
+        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1S/H) Reads or sets enable for ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } s;
@@ -3007,16 +3036,20 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
         uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1C/H) Double-bit error detected in internal RAM. 0 = pass, 1 = fail. One bit per memory.
-                                                                 INTERNAL: The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_5_31         : 27;
         uint64_t sbe                   : 5;  /**< [  4:  0](R/W1C/H) Single-bit error detected in internal RAM. 0 = pass, 1 = fail. One bit per memory.
-                                                                 INTERNAL: The memories are [VMEM, IDF1, IDF0, GSPF,IQF]. */
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF,IQF]. */
 #else /* Word 0 - Little Endian */
         uint64_t sbe                   : 5;  /**< [  4:  0](R/W1C/H) Single-bit error detected in internal RAM. 0 = pass, 1 = fail. One bit per memory.
-                                                                 INTERNAL: The memories are [VMEM, IDF1, IDF0, GSPF,IQF]. */
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF,IQF]. */
         uint64_t reserved_5_31         : 27;
         uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1C/H) Double-bit error detected in internal RAM. 0 = pass, 1 = fail. One bit per memory.
-                                                                 INTERNAL: The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } s;
@@ -3054,13 +3087,21 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
-        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1S/H) Reads or sets ZIP_ECCE_INT[DBE]. */
+        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1S/H) Reads or sets ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_5_31         : 27;
-        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1S/H) Reads or sets ZIP_ECCE_INT[SBE]. */
+        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1S/H) Reads or sets ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF,IQF]. */
 #else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1S/H) Reads or sets ZIP_ECCE_INT[SBE]. */
+        uint64_t sbe                   : 5;  /**< [  4:  0](R/W1S/H) Reads or sets ZIP_ECCE_INT[SBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF,IQF]. */
         uint64_t reserved_5_31         : 27;
-        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1S/H) Reads or sets ZIP_ECCE_INT[DBE]. */
+        uint64_t dbe                   : 5;  /**< [ 36: 32](R/W1S/H) Reads or sets ZIP_ECCE_INT[DBE].
+                                                                 Internal:
+                                                                 The memories are [VMEM, IDF1, IDF0, GSPF, IQF]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } s;
@@ -3099,9 +3140,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -3513,11 +3556,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t gmid                  : 16; /**< [ 15:  0](RO) Reserved. INTERNAL: Guest machine identifier. The GMID to send to FPA for all
+        uint64_t gmid                  : 16; /**< [ 15:  0](RO) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be non-zero or requests will be dropped. */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](RO) Reserved. INTERNAL: Guest machine identifier. The GMID to send to FPA for all
+        uint64_t gmid                  : 16; /**< [ 15:  0](RO) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be non-zero or requests will be dropped. */
         uint64_t reserved_16_63        : 48;

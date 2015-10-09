@@ -247,6 +247,7 @@ typedef union
         uint64_t dat                   : 64; /**< [ 63:  0](SRO) Software assigned EK fuse data, as retrieved from FusesF.
 
                                                                  EK reads as 0x0 when RST_BOOT[DIS_HUK] is set.
+
                                                                  EK cannot be reprogrammed when FUSF_CTL[ROT_LCK] is et.
 
                                                                  This space is opaque to hardware/ROM for use of TBL1FW firmware as required, One
@@ -260,6 +261,7 @@ typedef union
         uint64_t dat                   : 64; /**< [ 63:  0](SRO) Software assigned EK fuse data, as retrieved from FusesF.
 
                                                                  EK reads as 0x0 when RST_BOOT[DIS_HUK] is set.
+
                                                                  EK cannot be reprogrammed when FUSF_CTL[ROT_LCK] is et.
 
                                                                  This space is opaque to hardware/ROM for use of TBL1FW firmware as required, One
@@ -365,7 +367,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t volt_en               : 1;  /**< [  3:  3](SWO) Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
+                                                                 Internal:
+                                                                 Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
         uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
                                                                  any fuses. Hardware will clear when the program operation is complete. */
         uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
@@ -394,7 +397,8 @@ typedef union
         uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
                                                                  any fuses. Hardware will clear when the program operation is complete. */
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
+                                                                 Internal:
+                                                                 Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
         uint64_t volt_en               : 1;  /**< [  3:  3](SWO) Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -406,7 +410,8 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin. */
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
+                                                                 Internal:
+                                                                 Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
         uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
                                                                  any fuses. Hardware will clear when the program operation is complete. */
         uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
@@ -435,7 +440,8 @@ typedef union
         uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
                                                                  any fuses. Hardware will clear when the program operation is complete. */
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
+                                                                 Internal:
+                                                                 Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
         uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -448,7 +454,8 @@ typedef union
         uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin.
                                                                  Access changed in pass 2. */
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
+                                                                 Internal:
+                                                                 Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
         uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
                                                                  any fuses. Hardware will clear when the program operation is complete. */
         uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
@@ -477,7 +484,8 @@ typedef union
         uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
                                                                  any fuses. Hardware will clear when the program operation is complete. */
         uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
+                                                                 Internal:
+                                                                 Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
         uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin.
                                                                  Access changed in pass 2. */
         uint64_t reserved_4_63         : 60;
@@ -649,8 +657,10 @@ typedef union
                                                                  bootstrapping for decryption of firmware.  This register is to be
                                                                  interpreted as 16 consecutive bytes of the key in canonical order.
 
-                                                                 It is typically programmed at trust-fuse time or later.
-                                                                 Once programmed, FUSF_CTL[SSK_LCK] must also be set. */
+                                                                 SSK is typically programmed at trust-fuse time or later.
+                                                                 Once programmed, FUSF_CTL[SSK_LCK] must also be set.
+
+                                                                 SSK reads as 0x0 when RST_BOOT[DIS_HUK] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](SRO) Secret symmetric key (SSK), as retrieved from FusesF.
 
@@ -658,8 +668,10 @@ typedef union
                                                                  bootstrapping for decryption of firmware.  This register is to be
                                                                  interpreted as 16 consecutive bytes of the key in canonical order.
 
-                                                                 It is typically programmed at trust-fuse time or later.
-                                                                 Once programmed, FUSF_CTL[SSK_LCK] must also be set. */
+                                                                 SSK is typically programmed at trust-fuse time or later.
+                                                                 Once programmed, FUSF_CTL[SSK_LCK] must also be set.
+
+                                                                 SSK reads as 0x0 when RST_BOOT[DIS_HUK] is set. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fusf_sskx_s cn; */

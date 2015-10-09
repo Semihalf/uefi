@@ -216,13 +216,17 @@ typedef union
                                                                  For LBK1, indicates LBK_CONNECT_E::PKI(0).
                                                                  For LBK2, indicates LBK_CONNECT_E::NIC(0).
                                                                  For LBK3, indicates LBK_CONNECT_E::NIC(0).
-                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
         uint64_t src                   : 4;  /**< [ 27: 24](RO) What blocks this LBK connects. Enumerated by LBK_CONNECT_E.
                                                                  For LBK0, indicates LBK_CONNECT_E::PKO(0).
                                                                  For LBK1, indicates LBK_CONNECT_E::NIC(0).
                                                                  For LBK2, indicates LBK_CONNECT_E::PKO(0).
                                                                  For LBK3, indicates LBK_CONNECT_E::NIC(0).
-                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
         uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
 #else /* Word 0 - Little Endian */
         uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
@@ -231,13 +235,17 @@ typedef union
                                                                  For LBK1, indicates LBK_CONNECT_E::NIC(0).
                                                                  For LBK2, indicates LBK_CONNECT_E::PKO(0).
                                                                  For LBK3, indicates LBK_CONNECT_E::NIC(0).
-                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
         uint64_t dest                  : 4;  /**< [ 31: 28](RO) What blocks this LBK connects. Enumerated by LBK_CONNECT_E.
                                                                  For LBK0, indicates LBK_CONNECT_E::PKI(0).
                                                                  For LBK1, indicates LBK_CONNECT_E::PKI(0).
                                                                  For LBK2, indicates LBK_CONNECT_E::NIC(0).
                                                                  For LBK3, indicates LBK_CONNECT_E::NIC(0).
-                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
         uint64_t chan                  : 16; /**< [ 47: 32](RO) Number of channels supported. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -249,19 +257,27 @@ typedef union
         uint64_t chan                  : 16; /**< [ 47: 32](RO) Number of channels supported. */
         uint64_t dest                  : 4;  /**< [ 31: 28](RO) What blocks this LBK transmits traffic to. Enumerated by LBK_CONNECT_E.
                                                                  For LBK0, indicates LBK_CONNECT_E::NIC(0).
-                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
         uint64_t src                   : 4;  /**< [ 27: 24](RO) What blocks this LBK receives traffic from. Enumerated by LBK_CONNECT_E.
                                                                  For LBK0, indicates LBK_CONNECT_E::NIC(0).
-                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
         uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
 #else /* Word 0 - Little Endian */
         uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
         uint64_t src                   : 4;  /**< [ 27: 24](RO) What blocks this LBK receives traffic from. Enumerated by LBK_CONNECT_E.
                                                                  For LBK0, indicates LBK_CONNECT_E::NIC(0).
-                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
         uint64_t dest                  : 4;  /**< [ 31: 28](RO) What blocks this LBK transmits traffic to. Enumerated by LBK_CONNECT_E.
                                                                  For LBK0, indicates LBK_CONNECT_E::NIC(0).
-                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+
+                                                                 Internal:
+                                                                 lbk.v takes this from input straps set by the instantiation. */
         uint64_t chan                  : 16; /**< [ 47: 32](RO) Number of channels supported. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */

@@ -58,8 +58,8 @@
  * XCV Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_XCV_BAR_E_XCV_PF_BAR0 (0x87e0db000000ll) /**< Base address for standard registers. */
-#define BDK_XCV_BAR_E_XCV_PF_BAR4 (0x87e0dbf00000ll) /**< Base address for MSI-X registers. */
+#define BDK_XCV_BAR_E_XCVX_PF_BAR0(a) (0x87e0db000000ll + 0ll * (a)) /**< Base address for standard registers. */
+#define BDK_XCV_BAR_E_XCVX_PF_BAR4(a) (0x87e0dbf00000ll + 0ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration xcv_int_vec_e
@@ -71,14 +71,14 @@
                                        XCV()_ERR_INT_ENA_W1C, and enable sets XCV()_ERR_INT_ENA_W1S. */
 
 /**
- * Register (RSL) xcv_batch_crd_ret
+ * Register (RSL) xcv#_batch_crd_ret
  *
  * XCV Batch Credit Return Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_batch_crd_ret_s
+    struct bdk_xcvx_batch_crd_ret_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -92,27 +92,26 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_batch_crd_ret_s cn; */
-} bdk_xcv_batch_crd_ret_t;
+    /* struct bdk_xcvx_batch_crd_ret_s cn; */
+} bdk_xcvx_batch_crd_ret_t;
 
-#define BDK_XCV_BATCH_CRD_RET BDK_XCV_BATCH_CRD_RET_FUNC()
-static inline uint64_t BDK_XCV_BATCH_CRD_RET_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_BATCH_CRD_RET_FUNC(void)
+static inline uint64_t BDK_XCVX_BATCH_CRD_RET(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_BATCH_CRD_RET(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x87e0db000100ll;
-    __bdk_csr_fatal("XCV_BATCH_CRD_RET", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0db000100ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCVX_BATCH_CRD_RET", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_XCV_BATCH_CRD_RET bdk_xcv_batch_crd_ret_t
-#define bustype_BDK_XCV_BATCH_CRD_RET BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_BATCH_CRD_RET "XCV_BATCH_CRD_RET"
-#define device_bar_BDK_XCV_BATCH_CRD_RET 0x0 /* PF_BAR0 */
-#define busnum_BDK_XCV_BATCH_CRD_RET 0
-#define arguments_BDK_XCV_BATCH_CRD_RET -1,-1,-1,-1
+#define typedef_BDK_XCVX_BATCH_CRD_RET(a) bdk_xcvx_batch_crd_ret_t
+#define bustype_BDK_XCVX_BATCH_CRD_RET(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_BATCH_CRD_RET(a) "XCVX_BATCH_CRD_RET"
+#define device_bar_BDK_XCVX_BATCH_CRD_RET(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCVX_BATCH_CRD_RET(a) (a)
+#define arguments_BDK_XCVX_BATCH_CRD_RET(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) xcv_comp_ctl
+ * Register (RSL) xcv#_comp_ctl
  *
  * XCV Compensation Controller Register
  * This register controls programmable compensation.
@@ -120,7 +119,7 @@ static inline uint64_t BDK_XCV_BATCH_CRD_RET_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_comp_ctl_s
+    struct bdk_xcvx_comp_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t drv_byp               : 1;  /**< [ 63: 63](R/W) When set, bypass the compensation controller and use
@@ -164,27 +163,26 @@ typedef union
                                                                  DRV_NCTL and DRV_PCTL. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_comp_ctl_s cn; */
-} bdk_xcv_comp_ctl_t;
+    /* struct bdk_xcvx_comp_ctl_s cn; */
+} bdk_xcvx_comp_ctl_t;
 
-#define BDK_XCV_COMP_CTL BDK_XCV_COMP_CTL_FUNC()
-static inline uint64_t BDK_XCV_COMP_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_COMP_CTL_FUNC(void)
+static inline uint64_t BDK_XCVX_COMP_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_COMP_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x87e0db000020ll;
-    __bdk_csr_fatal("XCV_COMP_CTL", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0db000020ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCVX_COMP_CTL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_XCV_COMP_CTL bdk_xcv_comp_ctl_t
-#define bustype_BDK_XCV_COMP_CTL BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_COMP_CTL "XCV_COMP_CTL"
-#define device_bar_BDK_XCV_COMP_CTL 0x0 /* PF_BAR0 */
-#define busnum_BDK_XCV_COMP_CTL 0
-#define arguments_BDK_XCV_COMP_CTL -1,-1,-1,-1
+#define typedef_BDK_XCVX_COMP_CTL(a) bdk_xcvx_comp_ctl_t
+#define bustype_BDK_XCVX_COMP_CTL(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_COMP_CTL(a) "XCVX_COMP_CTL"
+#define device_bar_BDK_XCVX_COMP_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCVX_COMP_CTL(a) (a)
+#define arguments_BDK_XCVX_COMP_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) xcv_ctl
+ * Register (RSL) xcv#_ctl
  *
  * XCV Control Register
  * This register contains the status control bits.
@@ -192,7 +190,7 @@ static inline uint64_t BDK_XCV_COMP_CTL_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_ctl_s
+    struct bdk_xcvx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -230,27 +228,26 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_ctl_s cn; */
-} bdk_xcv_ctl_t;
+    /* struct bdk_xcvx_ctl_s cn; */
+} bdk_xcvx_ctl_t;
 
-#define BDK_XCV_CTL BDK_XCV_CTL_FUNC()
-static inline uint64_t BDK_XCV_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_CTL_FUNC(void)
+static inline uint64_t BDK_XCVX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x87e0db000030ll;
-    __bdk_csr_fatal("XCV_CTL", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0db000030ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCVX_CTL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_XCV_CTL bdk_xcv_ctl_t
-#define bustype_BDK_XCV_CTL BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_CTL "XCV_CTL"
-#define device_bar_BDK_XCV_CTL 0x0 /* PF_BAR0 */
-#define busnum_BDK_XCV_CTL 0
-#define arguments_BDK_XCV_CTL -1,-1,-1,-1
+#define typedef_BDK_XCVX_CTL(a) bdk_xcvx_ctl_t
+#define bustype_BDK_XCVX_CTL(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_CTL(a) "XCVX_CTL"
+#define device_bar_BDK_XCVX_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCVX_CTL(a) (a)
+#define arguments_BDK_XCVX_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) xcv_dll_ctl
+ * Register (RSL) xcv#_dll_ctl
  *
  * XCV DLL Controller Register
  * The RGMII timing specification requires that devices transmit clock and
@@ -293,7 +290,7 @@ static inline uint64_t BDK_XCV_CTL_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_dll_ctl_s
+    struct bdk_xcvx_dll_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -323,7 +320,8 @@ typedef union
                                                                  0x2 = Divided coprocessor clk.
                                                                  0x3 = Reserved.
 
-                                                                 INTERNAL: Some programming magic could allow for 10/100 operation if
+                                                                 Internal:
+                                                                 Some programming magic could allow for 10/100 operation if
                                                                  critical, use encoding 0x1 but some programming restrictions would apply. */
 #else /* Word 0 - Little Endian */
         uint64_t refclk_sel            : 2;  /**< [  1:  0](R/W) Select the refclk to use.  Normal RGMII specification requires a 125MHz oscillator.  In
@@ -336,7 +334,8 @@ typedef union
                                                                  0x2 = Divided coprocessor clk.
                                                                  0x3 = Reserved.
 
-                                                                 INTERNAL: Some programming magic could allow for 10/100 operation if
+                                                                 Internal:
+                                                                 Some programming magic could allow for 10/100 operation if
                                                                  critical, use encoding 0x1 but some programming restrictions would apply. */
         uint64_t reserved_2_7          : 6;
         uint64_t clktx_set             : 7;  /**< [ 14:  8](R/W) TX clock delay setting to use in bypass mode.
@@ -357,64 +356,64 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_dll_ctl_s cn; */
-} bdk_xcv_dll_ctl_t;
+    /* struct bdk_xcvx_dll_ctl_s cn; */
+} bdk_xcvx_dll_ctl_t;
 
-#define BDK_XCV_DLL_CTL BDK_XCV_DLL_CTL_FUNC()
-static inline uint64_t BDK_XCV_DLL_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_DLL_CTL_FUNC(void)
+static inline uint64_t BDK_XCVX_DLL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_DLL_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x87e0db000010ll;
-    __bdk_csr_fatal("XCV_DLL_CTL", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0db000010ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCVX_DLL_CTL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_XCV_DLL_CTL bdk_xcv_dll_ctl_t
-#define bustype_BDK_XCV_DLL_CTL BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_DLL_CTL "XCV_DLL_CTL"
-#define device_bar_BDK_XCV_DLL_CTL 0x0 /* PF_BAR0 */
-#define busnum_BDK_XCV_DLL_CTL 0
-#define arguments_BDK_XCV_DLL_CTL -1,-1,-1,-1
+#define typedef_BDK_XCVX_DLL_CTL(a) bdk_xcvx_dll_ctl_t
+#define bustype_BDK_XCVX_DLL_CTL(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_DLL_CTL(a) "XCVX_DLL_CTL"
+#define device_bar_BDK_XCVX_DLL_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCVX_DLL_CTL(a) (a)
+#define arguments_BDK_XCVX_DLL_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) xcv_eco
+ * Register (RSL) xcv#_eco
  *
  * INTERNAL: XCV ECO Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_eco_s
+    struct bdk_xcvx_eco_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t eco_rw                : 16; /**< [ 15:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 16; /**< [ 15:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 16; /**< [ 15:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 16; /**< [ 15:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_eco_s cn; */
-} bdk_xcv_eco_t;
+    /* struct bdk_xcvx_eco_s cn; */
+} bdk_xcvx_eco_t;
 
-#define BDK_XCV_ECO BDK_XCV_ECO_FUNC()
-static inline uint64_t BDK_XCV_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_ECO_FUNC(void)
+static inline uint64_t BDK_XCVX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_ECO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x87e0db000200ll;
-    __bdk_csr_fatal("XCV_ECO", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0db000200ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCVX_ECO", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_XCV_ECO bdk_xcv_eco_t
-#define bustype_BDK_XCV_ECO BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_ECO "XCV_ECO"
-#define device_bar_BDK_XCV_ECO 0x0 /* PF_BAR0 */
-#define busnum_BDK_XCV_ECO 0
-#define arguments_BDK_XCV_ECO -1,-1,-1,-1
+#define typedef_BDK_XCVX_ECO(a) bdk_xcvx_eco_t
+#define bustype_BDK_XCVX_ECO(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_ECO(a) "XCVX_ECO"
+#define device_bar_BDK_XCVX_ECO(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCVX_ECO(a) (a)
+#define arguments_BDK_XCVX_ECO(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) xcv_err_int
+ * Register (RSL) xcv#_err_int
  *
  * XCV Error Interupt Register
  * This register controls interrupts.
@@ -422,7 +421,7 @@ static inline uint64_t BDK_XCV_ECO_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_err_int_s
+    struct bdk_xcvx_err_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
@@ -444,27 +443,26 @@ typedef union
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_err_int_s cn; */
-} bdk_xcv_err_int_t;
+    /* struct bdk_xcvx_err_int_s cn; */
+} bdk_xcvx_err_int_t;
 
-#define BDK_XCV_ERR_INT BDK_XCV_ERR_INT_FUNC()
-static inline uint64_t BDK_XCV_ERR_INT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_ERR_INT_FUNC(void)
+static inline uint64_t BDK_XCVX_ERR_INT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_ERR_INT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x87e0db000040ll;
-    __bdk_csr_fatal("XCV_ERR_INT", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0db000040ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCVX_ERR_INT", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_XCV_ERR_INT bdk_xcv_err_int_t
-#define bustype_BDK_XCV_ERR_INT BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_ERR_INT "XCV_ERR_INT"
-#define device_bar_BDK_XCV_ERR_INT 0x0 /* PF_BAR0 */
-#define busnum_BDK_XCV_ERR_INT 0
-#define arguments_BDK_XCV_ERR_INT -1,-1,-1,-1
+#define typedef_BDK_XCVX_ERR_INT(a) bdk_xcvx_err_int_t
+#define bustype_BDK_XCVX_ERR_INT(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_ERR_INT(a) "XCVX_ERR_INT"
+#define device_bar_BDK_XCVX_ERR_INT(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCVX_ERR_INT(a) (a)
+#define arguments_BDK_XCVX_ERR_INT(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) xcv_err_int_ena_w1c
+ * Register (RSL) xcv#_err_int_ena_w1c
  *
  * Loopback Error Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -472,49 +470,48 @@ static inline uint64_t BDK_XCV_ERR_INT_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_err_int_ena_w1c_s
+    struct bdk_xcvx_err_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for XCV_ERR_INT[TX_OVRFLW]. */
-        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for XCV_ERR_INT[TX_UNDFLW]. */
-        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for XCV_ERR_INT[INCOMP_BYTE]. */
-        uint64_t duplex                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for XCV_ERR_INT[DUPLEX]. */
+        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[TX_OVRFLW]. */
+        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[TX_UNDFLW]. */
+        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[INCOMP_BYTE]. */
+        uint64_t duplex                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[DUPLEX]. */
         uint64_t reserved_2            : 1;
-        uint64_t speed                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for XCV_ERR_INT[SPEED]. */
-        uint64_t link                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCV_ERR_INT[LINK]. */
+        uint64_t speed                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[SPEED]. */
+        uint64_t link                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[LINK]. */
 #else /* Word 0 - Little Endian */
-        uint64_t link                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCV_ERR_INT[LINK]. */
-        uint64_t speed                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for XCV_ERR_INT[SPEED]. */
+        uint64_t link                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[LINK]. */
+        uint64_t speed                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[SPEED]. */
         uint64_t reserved_2            : 1;
-        uint64_t duplex                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for XCV_ERR_INT[DUPLEX]. */
-        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for XCV_ERR_INT[INCOMP_BYTE]. */
-        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for XCV_ERR_INT[TX_UNDFLW]. */
-        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for XCV_ERR_INT[TX_OVRFLW]. */
+        uint64_t duplex                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[DUPLEX]. */
+        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[INCOMP_BYTE]. */
+        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[TX_UNDFLW]. */
+        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for XCV(0)_ERR_INT[TX_OVRFLW]. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_err_int_ena_w1c_s cn; */
-} bdk_xcv_err_int_ena_w1c_t;
+    /* struct bdk_xcvx_err_int_ena_w1c_s cn; */
+} bdk_xcvx_err_int_ena_w1c_t;
 
-#define BDK_XCV_ERR_INT_ENA_W1C BDK_XCV_ERR_INT_ENA_W1C_FUNC()
-static inline uint64_t BDK_XCV_ERR_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_ERR_INT_ENA_W1C_FUNC(void)
+static inline uint64_t BDK_XCVX_ERR_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_ERR_INT_ENA_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x87e0db000050ll;
-    __bdk_csr_fatal("XCV_ERR_INT_ENA_W1C", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0db000050ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCVX_ERR_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_XCV_ERR_INT_ENA_W1C bdk_xcv_err_int_ena_w1c_t
-#define bustype_BDK_XCV_ERR_INT_ENA_W1C BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_ERR_INT_ENA_W1C "XCV_ERR_INT_ENA_W1C"
-#define device_bar_BDK_XCV_ERR_INT_ENA_W1C 0x0 /* PF_BAR0 */
-#define busnum_BDK_XCV_ERR_INT_ENA_W1C 0
-#define arguments_BDK_XCV_ERR_INT_ENA_W1C -1,-1,-1,-1
+#define typedef_BDK_XCVX_ERR_INT_ENA_W1C(a) bdk_xcvx_err_int_ena_w1c_t
+#define bustype_BDK_XCVX_ERR_INT_ENA_W1C(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_ERR_INT_ENA_W1C(a) "XCVX_ERR_INT_ENA_W1C"
+#define device_bar_BDK_XCVX_ERR_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCVX_ERR_INT_ENA_W1C(a) (a)
+#define arguments_BDK_XCVX_ERR_INT_ENA_W1C(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) xcv_err_int_ena_w1s
+ * Register (RSL) xcv#_err_int_ena_w1s
  *
  * Loopback Error Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -522,49 +519,48 @@ static inline uint64_t BDK_XCV_ERR_INT_ENA_W1C_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_err_int_ena_w1s_s
+    struct bdk_xcvx_err_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for XCV_ERR_INT[TX_OVRFLW]. */
-        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for XCV_ERR_INT[TX_UNDFLW]. */
-        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for XCV_ERR_INT[INCOMP_BYTE]. */
-        uint64_t duplex                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for XCV_ERR_INT[DUPLEX]. */
+        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[TX_OVRFLW]. */
+        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[TX_UNDFLW]. */
+        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[INCOMP_BYTE]. */
+        uint64_t duplex                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[DUPLEX]. */
         uint64_t reserved_2            : 1;
-        uint64_t speed                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for XCV_ERR_INT[SPEED]. */
-        uint64_t link                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCV_ERR_INT[LINK]. */
+        uint64_t speed                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[SPEED]. */
+        uint64_t link                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[LINK]. */
 #else /* Word 0 - Little Endian */
-        uint64_t link                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCV_ERR_INT[LINK]. */
-        uint64_t speed                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for XCV_ERR_INT[SPEED]. */
+        uint64_t link                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[LINK]. */
+        uint64_t speed                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[SPEED]. */
         uint64_t reserved_2            : 1;
-        uint64_t duplex                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for XCV_ERR_INT[DUPLEX]. */
-        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for XCV_ERR_INT[INCOMP_BYTE]. */
-        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for XCV_ERR_INT[TX_UNDFLW]. */
-        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for XCV_ERR_INT[TX_OVRFLW]. */
+        uint64_t duplex                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[DUPLEX]. */
+        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[INCOMP_BYTE]. */
+        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[TX_UNDFLW]. */
+        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for XCV(0)_ERR_INT[TX_OVRFLW]. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_err_int_ena_w1s_s cn; */
-} bdk_xcv_err_int_ena_w1s_t;
+    /* struct bdk_xcvx_err_int_ena_w1s_s cn; */
+} bdk_xcvx_err_int_ena_w1s_t;
 
-#define BDK_XCV_ERR_INT_ENA_W1S BDK_XCV_ERR_INT_ENA_W1S_FUNC()
-static inline uint64_t BDK_XCV_ERR_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_ERR_INT_ENA_W1S_FUNC(void)
+static inline uint64_t BDK_XCVX_ERR_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_ERR_INT_ENA_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x87e0db000058ll;
-    __bdk_csr_fatal("XCV_ERR_INT_ENA_W1S", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0db000058ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCVX_ERR_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_XCV_ERR_INT_ENA_W1S bdk_xcv_err_int_ena_w1s_t
-#define bustype_BDK_XCV_ERR_INT_ENA_W1S BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_ERR_INT_ENA_W1S "XCV_ERR_INT_ENA_W1S"
-#define device_bar_BDK_XCV_ERR_INT_ENA_W1S 0x0 /* PF_BAR0 */
-#define busnum_BDK_XCV_ERR_INT_ENA_W1S 0
-#define arguments_BDK_XCV_ERR_INT_ENA_W1S -1,-1,-1,-1
+#define typedef_BDK_XCVX_ERR_INT_ENA_W1S(a) bdk_xcvx_err_int_ena_w1s_t
+#define bustype_BDK_XCVX_ERR_INT_ENA_W1S(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_ERR_INT_ENA_W1S(a) "XCVX_ERR_INT_ENA_W1S"
+#define device_bar_BDK_XCVX_ERR_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCVX_ERR_INT_ENA_W1S(a) (a)
+#define arguments_BDK_XCVX_ERR_INT_ENA_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) xcv_err_int_w1s
+ * Register (RSL) xcv#_err_int_w1s
  *
  * Loopback Error Interrupt Set Register
  * This register sets interrupt bits.
@@ -572,49 +568,48 @@ static inline uint64_t BDK_XCV_ERR_INT_ENA_W1S_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_err_int_w1s_s
+    struct bdk_xcvx_err_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets XCV_ERR_INT[TX_OVRFLW]. */
-        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets XCV_ERR_INT[TX_UNDFLW]. */
-        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets XCV_ERR_INT[INCOMP_BYTE]. */
-        uint64_t duplex                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets XCV_ERR_INT[DUPLEX]. */
+        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets XCV(0)_ERR_INT[TX_OVRFLW]. */
+        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets XCV(0)_ERR_INT[TX_UNDFLW]. */
+        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets XCV(0)_ERR_INT[INCOMP_BYTE]. */
+        uint64_t duplex                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets XCV(0)_ERR_INT[DUPLEX]. */
         uint64_t reserved_2            : 1;
-        uint64_t speed                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets XCV_ERR_INT[SPEED]. */
-        uint64_t link                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCV_ERR_INT[LINK]. */
+        uint64_t speed                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets XCV(0)_ERR_INT[SPEED]. */
+        uint64_t link                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCV(0)_ERR_INT[LINK]. */
 #else /* Word 0 - Little Endian */
-        uint64_t link                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCV_ERR_INT[LINK]. */
-        uint64_t speed                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets XCV_ERR_INT[SPEED]. */
+        uint64_t link                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets XCV(0)_ERR_INT[LINK]. */
+        uint64_t speed                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets XCV(0)_ERR_INT[SPEED]. */
         uint64_t reserved_2            : 1;
-        uint64_t duplex                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets XCV_ERR_INT[DUPLEX]. */
-        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets XCV_ERR_INT[INCOMP_BYTE]. */
-        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets XCV_ERR_INT[TX_UNDFLW]. */
-        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets XCV_ERR_INT[TX_OVRFLW]. */
+        uint64_t duplex                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets XCV(0)_ERR_INT[DUPLEX]. */
+        uint64_t incomp_byte           : 1;  /**< [  4:  4](R/W1S/H) Reads or sets XCV(0)_ERR_INT[INCOMP_BYTE]. */
+        uint64_t tx_undflw             : 1;  /**< [  5:  5](R/W1S/H) Reads or sets XCV(0)_ERR_INT[TX_UNDFLW]. */
+        uint64_t tx_ovrflw             : 1;  /**< [  6:  6](R/W1S/H) Reads or sets XCV(0)_ERR_INT[TX_OVRFLW]. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_err_int_w1s_s cn; */
-} bdk_xcv_err_int_w1s_t;
+    /* struct bdk_xcvx_err_int_w1s_s cn; */
+} bdk_xcvx_err_int_w1s_t;
 
-#define BDK_XCV_ERR_INT_W1S BDK_XCV_ERR_INT_W1S_FUNC()
-static inline uint64_t BDK_XCV_ERR_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_ERR_INT_W1S_FUNC(void)
+static inline uint64_t BDK_XCVX_ERR_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_ERR_INT_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x87e0db000048ll;
-    __bdk_csr_fatal("XCV_ERR_INT_W1S", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0db000048ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCVX_ERR_INT_W1S", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_XCV_ERR_INT_W1S bdk_xcv_err_int_w1s_t
-#define bustype_BDK_XCV_ERR_INT_W1S BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_ERR_INT_W1S "XCV_ERR_INT_W1S"
-#define device_bar_BDK_XCV_ERR_INT_W1S 0x0 /* PF_BAR0 */
-#define busnum_BDK_XCV_ERR_INT_W1S 0
-#define arguments_BDK_XCV_ERR_INT_W1S -1,-1,-1,-1
+#define typedef_BDK_XCVX_ERR_INT_W1S(a) bdk_xcvx_err_int_w1s_t
+#define bustype_BDK_XCVX_ERR_INT_W1S(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_ERR_INT_W1S(a) "XCVX_ERR_INT_W1S"
+#define device_bar_BDK_XCVX_ERR_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCVX_ERR_INT_W1S(a) (a)
+#define arguments_BDK_XCVX_ERR_INT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) xcv_inbnd_status
+ * Register (RSL) xcv#_inbnd_status
  *
  * XCV Interupt Register
  * This register contains RGMII inband status.
@@ -622,7 +617,7 @@ static inline uint64_t BDK_XCV_ERR_INT_W1S_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_inbnd_status_s
+    struct bdk_xcvx_inbnd_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -652,27 +647,26 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_inbnd_status_s cn; */
-} bdk_xcv_inbnd_status_t;
+    /* struct bdk_xcvx_inbnd_status_s cn; */
+} bdk_xcvx_inbnd_status_t;
 
-#define BDK_XCV_INBND_STATUS BDK_XCV_INBND_STATUS_FUNC()
-static inline uint64_t BDK_XCV_INBND_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_INBND_STATUS_FUNC(void)
+static inline uint64_t BDK_XCVX_INBND_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_INBND_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x87e0db000080ll;
-    __bdk_csr_fatal("XCV_INBND_STATUS", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0db000080ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCVX_INBND_STATUS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_XCV_INBND_STATUS bdk_xcv_inbnd_status_t
-#define bustype_BDK_XCV_INBND_STATUS BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_INBND_STATUS "XCV_INBND_STATUS"
-#define device_bar_BDK_XCV_INBND_STATUS 0x0 /* PF_BAR0 */
-#define busnum_BDK_XCV_INBND_STATUS 0
-#define arguments_BDK_XCV_INBND_STATUS -1,-1,-1,-1
+#define typedef_BDK_XCVX_INBND_STATUS(a) bdk_xcvx_inbnd_status_t
+#define bustype_BDK_XCVX_INBND_STATUS(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_INBND_STATUS(a) "XCVX_INBND_STATUS"
+#define device_bar_BDK_XCVX_INBND_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCVX_INBND_STATUS(a) (a)
+#define arguments_BDK_XCVX_INBND_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) xcv_msix_pba#
+ * Register (RSL) xcv#_msix_pba#
  *
  * XCV MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the XCV_INT_VEC_E enumeration.
@@ -680,7 +674,7 @@ static inline uint64_t BDK_XCV_INBND_STATUS_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_msix_pbax_s
+    struct bdk_xcvx_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated XCV_MSIX_VEC()_CTL, enumerated by
@@ -690,26 +684,26 @@ typedef union
                                                                  XCV_INT_VEC_E. Bits that have no associated XCV_INT_VEC_E are 0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_msix_pbax_s cn; */
-} bdk_xcv_msix_pbax_t;
+    /* struct bdk_xcvx_msix_pbax_s cn; */
+} bdk_xcvx_msix_pbax_t;
 
-static inline uint64_t BDK_XCV_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_MSIX_PBAX(unsigned long a)
+static inline uint64_t BDK_XCVX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
-        return 0x87e0dbff0000ll + 8ll * ((a) & 0x0);
-    __bdk_csr_fatal("XCV_MSIX_PBAX", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x87e0dbff0000ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("XCVX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_XCV_MSIX_PBAX(a) bdk_xcv_msix_pbax_t
-#define bustype_BDK_XCV_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_MSIX_PBAX(a) "XCV_MSIX_PBAX"
-#define device_bar_BDK_XCV_MSIX_PBAX(a) 0x4 /* PF_BAR4 */
-#define busnum_BDK_XCV_MSIX_PBAX(a) (a)
-#define arguments_BDK_XCV_MSIX_PBAX(a) (a),-1,-1,-1
+#define typedef_BDK_XCVX_MSIX_PBAX(a,b) bdk_xcvx_msix_pbax_t
+#define bustype_BDK_XCVX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_MSIX_PBAX(a,b) "XCVX_MSIX_PBAX"
+#define device_bar_BDK_XCVX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_XCVX_MSIX_PBAX(a,b) (a)
+#define arguments_BDK_XCVX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) xcv_msix_vec#_addr
+ * Register (RSL) xcv#_msix_vec#_addr
  *
  * XCV MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the XCV_INT_VEC_E enumeration.
@@ -717,7 +711,7 @@ static inline uint64_t BDK_XCV_MSIX_PBAX(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_msix_vecx_addr_s
+    struct bdk_xcvx_msix_vecx_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
@@ -747,26 +741,26 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_msix_vecx_addr_s cn; */
-} bdk_xcv_msix_vecx_addr_t;
+    /* struct bdk_xcvx_msix_vecx_addr_s cn; */
+} bdk_xcvx_msix_vecx_addr_t;
 
-static inline uint64_t BDK_XCV_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_MSIX_VECX_ADDR(unsigned long a)
+static inline uint64_t BDK_XCVX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
-        return 0x87e0dbf00000ll + 0x10ll * ((a) & 0x0);
-    __bdk_csr_fatal("XCV_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x87e0dbf00000ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("XCVX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_XCV_MSIX_VECX_ADDR(a) bdk_xcv_msix_vecx_addr_t
-#define bustype_BDK_XCV_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_MSIX_VECX_ADDR(a) "XCV_MSIX_VECX_ADDR"
-#define device_bar_BDK_XCV_MSIX_VECX_ADDR(a) 0x4 /* PF_BAR4 */
-#define busnum_BDK_XCV_MSIX_VECX_ADDR(a) (a)
-#define arguments_BDK_XCV_MSIX_VECX_ADDR(a) (a),-1,-1,-1
+#define typedef_BDK_XCVX_MSIX_VECX_ADDR(a,b) bdk_xcvx_msix_vecx_addr_t
+#define bustype_BDK_XCVX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_MSIX_VECX_ADDR(a,b) "XCVX_MSIX_VECX_ADDR"
+#define device_bar_BDK_XCVX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_XCVX_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_BDK_XCVX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) xcv_msix_vec#_ctl
+ * Register (RSL) xcv#_msix_vec#_ctl
  *
  * XCV MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the XCV_INT_VEC_E enumeration.
@@ -774,7 +768,7 @@ static inline uint64_t BDK_XCV_MSIX_VECX_ADDR(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_msix_vecx_ctl_s
+    struct bdk_xcvx_msix_vecx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
@@ -788,26 +782,26 @@ typedef union
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_msix_vecx_ctl_s cn; */
-} bdk_xcv_msix_vecx_ctl_t;
+    /* struct bdk_xcvx_msix_vecx_ctl_s cn; */
+} bdk_xcvx_msix_vecx_ctl_t;
 
-static inline uint64_t BDK_XCV_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_MSIX_VECX_CTL(unsigned long a)
+static inline uint64_t BDK_XCVX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
-        return 0x87e0dbf00008ll + 0x10ll * ((a) & 0x0);
-    __bdk_csr_fatal("XCV_MSIX_VECX_CTL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x87e0dbf00008ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("XCVX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_XCV_MSIX_VECX_CTL(a) bdk_xcv_msix_vecx_ctl_t
-#define bustype_BDK_XCV_MSIX_VECX_CTL(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_MSIX_VECX_CTL(a) "XCV_MSIX_VECX_CTL"
-#define device_bar_BDK_XCV_MSIX_VECX_CTL(a) 0x4 /* PF_BAR4 */
-#define busnum_BDK_XCV_MSIX_VECX_CTL(a) (a)
-#define arguments_BDK_XCV_MSIX_VECX_CTL(a) (a),-1,-1,-1
+#define typedef_BDK_XCVX_MSIX_VECX_CTL(a,b) bdk_xcvx_msix_vecx_ctl_t
+#define bustype_BDK_XCVX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_MSIX_VECX_CTL(a,b) "XCVX_MSIX_VECX_CTL"
+#define device_bar_BDK_XCVX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_XCVX_MSIX_VECX_CTL(a,b) (a)
+#define arguments_BDK_XCVX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) xcv_reset
+ * Register (RSL) xcv#_reset
  *
  * XCV Reset Registers
  * This register controls reset.
@@ -815,7 +809,7 @@ static inline uint64_t BDK_XCV_MSIX_VECX_CTL(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_xcv_reset_s
+    struct bdk_xcvx_reset_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 1;  /**< [ 63: 63](R/W) Port enable. */
@@ -847,23 +841,22 @@ typedef union
         uint64_t enable                : 1;  /**< [ 63: 63](R/W) Port enable. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_xcv_reset_s cn; */
-} bdk_xcv_reset_t;
+    /* struct bdk_xcvx_reset_s cn; */
+} bdk_xcvx_reset_t;
 
-#define BDK_XCV_RESET BDK_XCV_RESET_FUNC()
-static inline uint64_t BDK_XCV_RESET_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_XCV_RESET_FUNC(void)
+static inline uint64_t BDK_XCVX_RESET(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_XCVX_RESET(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x87e0db000000ll;
-    __bdk_csr_fatal("XCV_RESET", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0db000000ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("XCVX_RESET", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_XCV_RESET bdk_xcv_reset_t
-#define bustype_BDK_XCV_RESET BDK_CSR_TYPE_RSL
-#define basename_BDK_XCV_RESET "XCV_RESET"
-#define device_bar_BDK_XCV_RESET 0x0 /* PF_BAR0 */
-#define busnum_BDK_XCV_RESET 0
-#define arguments_BDK_XCV_RESET -1,-1,-1,-1
+#define typedef_BDK_XCVX_RESET(a) bdk_xcvx_reset_t
+#define bustype_BDK_XCVX_RESET(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_XCVX_RESET(a) "XCVX_RESET"
+#define device_bar_BDK_XCVX_RESET(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_XCVX_RESET(a) (a)
+#define arguments_BDK_XCVX_RESET(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_XCV_H__ */

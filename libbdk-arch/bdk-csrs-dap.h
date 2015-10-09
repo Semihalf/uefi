@@ -201,7 +201,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
         uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
-                                                                 INTERNAL: Passed to trace unit, but not presently used.
+                                                                 Internal:
+                                                                 Passed to trace unit, but not presently used.
                                                                  0 = Future trace feature enabled.
                                                                  1 = Future trace feature disabled. */
         uint32_t distrace              : 1;  /**< [ 28: 28](R/W) Disable trace unit discovery.
@@ -268,7 +269,8 @@ typedef union
                                                                  0 = Trace unit is discoverable by software.
                                                                  1 = Trace unit is hidden. */
         uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
-                                                                 INTERNAL: Passed to trace unit, but not presently used.
+                                                                 Internal:
+                                                                 Passed to trace unit, but not presently used.
                                                                  0 = Future trace feature enabled.
                                                                  1 = Future trace feature disabled. */
         uint32_t reserved_30_31        : 2;
@@ -344,7 +346,9 @@ typedef union
         uint32_t reserved_30_31        : 2;
         uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
                                                                  Added in pass 2.
-                                                                 INTERNAL: Passed to trace unit, but not presently used.
+
+                                                                 Internal:
+                                                                 Passed to trace unit, but not presently used.
                                                                  0 = Future trace feature enabled.
                                                                  1 = Future trace feature disabled. */
         uint32_t distrace              : 1;  /**< [ 28: 28](R/W) Disable trace unit discovery.
@@ -414,7 +418,9 @@ typedef union
                                                                  1 = Trace unit is hidden. */
         uint32_t distracefeature       : 1;  /**< [ 29: 29](R/W) Reserved.
                                                                  Added in pass 2.
-                                                                 INTERNAL: Passed to trace unit, but not presently used.
+
+                                                                 Internal:
+                                                                 Passed to trace unit, but not presently used.
                                                                  0 = Future trace feature enabled.
                                                                  1 = Future trace feature disabled. */
         uint32_t reserved_30_31        : 2;

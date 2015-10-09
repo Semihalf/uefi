@@ -819,9 +819,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -972,10 +974,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts events on the debug bus.
-                                                                 INTERNAL: FIXME make 48 bit R/W. */
+                                                                 Internal:
+                                                                 FIXME make 48 bit R/W. */
 #else /* Word 0 - Little Endian */
         uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts events on the debug bus.
-                                                                 INTERNAL: FIXME make 48 bit R/W. */
+                                                                 Internal:
+                                                                 FIXME make 48 bit R/W. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1094,10 +1098,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts the number of valid inbound cycles in EPCI bus.
-                                                                 INTERNAL: FIXME make 48 bit R/W. */
+                                                                 Internal:
+                                                                 FIXME make 48 bit R/W. */
 #else /* Word 0 - Little Endian */
         uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts the number of valid inbound cycles in EPCI bus.
-                                                                 INTERNAL: FIXME make 48 bit R/W. */
+                                                                 Internal:
+                                                                 FIXME make 48 bit R/W. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1134,10 +1140,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts the number of valid outbound cycles in EPCI bus.
-                                                                 INTERNAL: FIXME make 48 bit R/W. */
+                                                                 Internal:
+                                                                 FIXME make 48 bit R/W. */
 #else /* Word 0 - Little Endian */
         uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts the number of valid outbound cycles in EPCI bus.
-                                                                 INTERNAL: FIXME make 48 bit R/W. */
+                                                                 Internal:
+                                                                 FIXME make 48 bit R/W. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1277,7 +1285,9 @@ typedef union
                                                                  0x2 = The number of cycles the execution queue is busy.
                                                                  0x3 = The number of cycles the execution queue cannot issue instructions because
                                                                  of a datapath stall.
-                                                                 INTERNAL: FIXME make 48 bit R/W. */
+
+                                                                 Internal:
+                                                                 FIXME make 48 bit R/W. */
 #else /* Word 0 - Little Endian */
         uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts the performance events in an engine. The event is selected by setting
                                                                  the lower 3 bits of CPT()_PF_EXE_DBG_CTL[REG_SEL].
@@ -1287,7 +1297,9 @@ typedef union
                                                                  0x2 = The number of cycles the execution queue is busy.
                                                                  0x3 = The number of cycles the execution queue cannot issue instructions because
                                                                  of a datapath stall.
-                                                                 INTERNAL: FIXME make 48 bit R/W. */
+
+                                                                 Internal:
+                                                                 FIXME make 48 bit R/W. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;
@@ -1844,11 +1856,15 @@ typedef union
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
 
                                                                  Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved. INTERNAL: Guest machine identifier. The GMID to send to FPA for all
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be non-zero or FPA/SSO will drop requests. */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved. INTERNAL: Guest machine identifier. The GMID to send to FPA for all
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be non-zero or FPA/SSO will drop requests. */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
@@ -2244,10 +2260,12 @@ typedef union
         uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a CDE instruction full cache lines will use NCB LDWB
                                                                  read-and-invalidate to improve performance. If clear, use NCB LDI for
                                                                  debugability. Partial cache line reads always use LDI. */
-        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) INTERNAL: TBD - THIS FIELD WILL BE GOING AWAY
+        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) Internal:
+                                                                 TBD - THIS FIELD WILL BE GOING AWAY
                                                                  When set, a context cache block write will use STY. When clear, a context write
                                                                  will use STF. */
-        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) INTERNAL: TBD - THIS FIELD WILL BE GOING AWAY
+        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) Internal:
+                                                                 TBD - THIS FIELD WILL BE GOING AWAY
                                                                  New CSR Bit when set will replace LDWBs from CDEI-Units to a LDI.
                                                                  Which NCB load command to use for reading gather pointers, context, history and input
                                                                  data.
@@ -2268,7 +2286,8 @@ typedef union
         uint64_t ena                   : 1;  /**< [ 16: 16](R/W) Enables the logical instruction queue.
                                                                  1 = Queue is enabled.
                                                                  0 = Queue is disabled. */
-        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) INTERNAL: TBD - THIS FIELD WILL BE GOING AWAY
+        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) Internal:
+                                                                 TBD - THIS FIELD WILL BE GOING AWAY
                                                                  New CSR Bit when set will replace LDWBs from CDEI-Units to a LDI.
                                                                  Which NCB load command to use for reading gather pointers, context, history and input
                                                                  data.
@@ -2276,7 +2295,8 @@ typedef union
                                                                  0x1 = LDI.
                                                                  0x2 = LDE.
                                                                  0x3 = LDY. */
-        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) INTERNAL: TBD - THIS FIELD WILL BE GOING AWAY
+        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) Internal:
+                                                                 TBD - THIS FIELD WILL BE GOING AWAY
                                                                  When set, a context cache block write will use STY. When clear, a context write
                                                                  will use STF. */
         uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a CDE instruction full cache lines will use NCB LDWB

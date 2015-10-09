@@ -137,13 +137,17 @@ typedef union
         uint32_t reserved_21_31        : 11;
         uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities List. Indicates presence of an extended capability item. */
         uint32_t reserved_3_19         : 17;
-        uint32_t me                    : 1;  /**< [  2:  2](RO) Master enable. INTERNAL: For simplicity always one; we do not disable NCB transactions. */
+        uint32_t me                    : 1;  /**< [  2:  2](RO) Master enable.
+                                                                 Internal:
+                                                                 For simplicity always one; we do not disable NCB transactions. */
         uint32_t msae                  : 1;  /**< [  1:  1](RO) Memory-space access enable. For SR-IOV VFs always zero. */
         uint32_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0            : 1;
         uint32_t msae                  : 1;  /**< [  1:  1](RO) Memory-space access enable. For SR-IOV VFs always zero. */
-        uint32_t me                    : 1;  /**< [  2:  2](RO) Master enable. INTERNAL: For simplicity always one; we do not disable NCB transactions. */
+        uint32_t me                    : 1;  /**< [  2:  2](RO) Master enable.
+                                                                 Internal:
+                                                                 For simplicity always one; we do not disable NCB transactions. */
         uint32_t reserved_3_19         : 17;
         uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities List. Indicates presence of an extended capability item. */
         uint32_t reserved_21_31        : 11;
@@ -259,13 +263,17 @@ typedef union
                                                                  1 = All vectors associated with the function are masked, regardless of their respective
                                                                  per-vector mask bits. */
         uint32_t reserved_27_29        : 3;
-        uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1). INTERNAL: From PCC's MSIX_VF_VECS parameter. */
+        uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1).
+                                                                 Internal:
+                                                                 From PCC's MSIX_VF_VECS parameter. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
         uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X capability ID. */
 #else /* Word 0 - Little Endian */
         uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X capability ID. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
-        uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1). INTERNAL: From PCC's MSIX_VF_VECS parameter. */
+        uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1).
+                                                                 Internal:
+                                                                 From PCC's MSIX_VF_VECS parameter. */
         uint32_t reserved_27_29        : 3;
         uint32_t funm                  : 1;  /**< [ 30: 30](R/W) Function mask.
                                                                  0 = Each vectors mask bit determines whether the vector is masked or not.
@@ -377,15 +385,27 @@ typedef union
     struct bdk_pccvf_xxx_rev_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t bcc                   : 8;  /**< [ 31: 24](RO) Base-class code. See PCC_DEV_IDL_E. INTERNAL: From PCC's tie__class_code[23:16]. */
-        uint32_t sc                    : 8;  /**< [ 23: 16](RO) Subclass code. See PCC_DEV_IDL_E. INTERNAL: From PCC's tie__class_code[15:8]. */
-        uint32_t pi                    : 8;  /**< [ 15:  8](RO) Programming interface. See PCC_DEV_IDL_E. INTERNAL: From PCC's tie__class_code[7:0]. */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO) Base-class code. See PCC_DEV_IDL_E.
+                                                                 Internal:
+                                                                 From PCC's tie__class_code[23:16]. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO) Subclass code. See PCC_DEV_IDL_E.
+                                                                 Internal:
+                                                                 From PCC's tie__class_code[15:8]. */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO) Programming interface. See PCC_DEV_IDL_E.
+                                                                 Internal:
+                                                                 From PCC's tie__class_code[7:0]. */
         uint32_t rid                   : 8;  /**< [  7:  0](RO/H) Revision ID. Read only version of PCCPF_XXX_VSEC_SCTL[RID]. */
 #else /* Word 0 - Little Endian */
         uint32_t rid                   : 8;  /**< [  7:  0](RO/H) Revision ID. Read only version of PCCPF_XXX_VSEC_SCTL[RID]. */
-        uint32_t pi                    : 8;  /**< [ 15:  8](RO) Programming interface. See PCC_DEV_IDL_E. INTERNAL: From PCC's tie__class_code[7:0]. */
-        uint32_t sc                    : 8;  /**< [ 23: 16](RO) Subclass code. See PCC_DEV_IDL_E. INTERNAL: From PCC's tie__class_code[15:8]. */
-        uint32_t bcc                   : 8;  /**< [ 31: 24](RO) Base-class code. See PCC_DEV_IDL_E. INTERNAL: From PCC's tie__class_code[23:16]. */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO) Programming interface. See PCC_DEV_IDL_E.
+                                                                 Internal:
+                                                                 From PCC's tie__class_code[7:0]. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO) Subclass code. See PCC_DEV_IDL_E.
+                                                                 Internal:
+                                                                 From PCC's tie__class_code[15:8]. */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO) Base-class code. See PCC_DEV_IDL_E.
+                                                                 Internal:
+                                                                 From PCC's tie__class_code[23:16]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_rev_s cn; */
@@ -416,12 +436,18 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ssid                  : 16; /**< [ 31: 16](RO) Device ID. <15:8> enumerated by PCC_PROD_E. <7:0> enumerated by PCC_DEV_IDL_E.
-                                                                 e.g. 0xA033 for RNM_VF. INTERNAL: Unit from PCC's tie__vfunitid. */
+                                                                 e.g. 0xA033 for RNM_VF.
+
+                                                                 Internal:
+                                                                 Unit from PCC's tie__vfunitid. */
         uint32_t ssvid                 : 16; /**< [ 15:  0](RO) Subsystem vendor ID. Cavium = 0x177D. */
 #else /* Word 0 - Little Endian */
         uint32_t ssvid                 : 16; /**< [ 15:  0](RO) Subsystem vendor ID. Cavium = 0x177D. */
         uint32_t ssid                  : 16; /**< [ 31: 16](RO) Device ID. <15:8> enumerated by PCC_PROD_E. <7:0> enumerated by PCC_DEV_IDL_E.
-                                                                 e.g. 0xA033 for RNM_VF. INTERNAL: Unit from PCC's tie__vfunitid. */
+                                                                 e.g. 0xA033 for RNM_VF.
+
+                                                                 Internal:
+                                                                 Unit from PCC's tie__vfunitid. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pccvf_xxx_subid_s cn; */

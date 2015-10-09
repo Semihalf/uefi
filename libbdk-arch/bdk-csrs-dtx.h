@@ -6399,6 +6399,195 @@ static inline uint64_t BDK_DTX_UAAX_SELX(unsigned long a, unsigned long b)
 #define arguments_BDK_DTX_UAAX_SELX(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) dtx_usbdrd#_bcst_rsp
+ *
+ * DTX USBDRD Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_usbdrdx_bcst_rsp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_usbdrdx_bcst_rsp_s cn; */
+} bdk_dtx_usbdrdx_bcst_rsp_t;
+
+static inline uint64_t BDK_DTX_USBDRDX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_USBDRDX_BCST_RSP(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0feb40080ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_USBDRDX_BCST_RSP", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_USBDRDX_BCST_RSP(a) bdk_dtx_usbdrdx_bcst_rsp_t
+#define bustype_BDK_DTX_USBDRDX_BCST_RSP(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_USBDRDX_BCST_RSP(a) "DTX_USBDRDX_BCST_RSP"
+#define busnum_BDK_DTX_USBDRDX_BCST_RSP(a) (a)
+#define arguments_BDK_DTX_USBDRDX_BCST_RSP(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_usbdrd#_ctl
+ *
+ * DTX USBDRD Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_usbdrdx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
+                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+                                                                 only. */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+#else /* Word 0 - Little Endian */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
+                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+                                                                 only. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_usbdrdx_ctl_s cn; */
+} bdk_dtx_usbdrdx_ctl_t;
+
+static inline uint64_t BDK_DTX_USBDRDX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_USBDRDX_CTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0feb40060ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_USBDRDX_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_USBDRDX_CTL(a) bdk_dtx_usbdrdx_ctl_t
+#define bustype_BDK_DTX_USBDRDX_CTL(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_USBDRDX_CTL(a) "DTX_USBDRDX_CTL"
+#define busnum_BDK_DTX_USBDRDX_CTL(a) (a)
+#define arguments_BDK_DTX_USBDRDX_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_usbdrd#_dat#
+ *
+ * DTX USBDRD Raw Data Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_usbdrdx_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
+#else /* Word 0 - Little Endian */
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_usbdrdx_datx_s cn; */
+} bdk_dtx_usbdrdx_datx_t;
+
+static inline uint64_t BDK_DTX_USBDRDX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_USBDRDX_DATX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e0feb40040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_USBDRDX_DATX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DTX_USBDRDX_DATX(a,b) bdk_dtx_usbdrdx_datx_t
+#define bustype_BDK_DTX_USBDRDX_DATX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_USBDRDX_DATX(a,b) "DTX_USBDRDX_DATX"
+#define busnum_BDK_DTX_USBDRDX_DATX(a,b) (a)
+#define arguments_BDK_DTX_USBDRDX_DATX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_usbdrd#_ena#
+ *
+ * DTX USBDRD Data Enable Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_usbdrdx_enax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+                                                                 only one block will drive each bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+                                                                 only one block will drive each bit. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_usbdrdx_enax_s cn; */
+} bdk_dtx_usbdrdx_enax_t;
+
+static inline uint64_t BDK_DTX_USBDRDX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_USBDRDX_ENAX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e0feb40020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_USBDRDX_ENAX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DTX_USBDRDX_ENAX(a,b) bdk_dtx_usbdrdx_enax_t
+#define bustype_BDK_DTX_USBDRDX_ENAX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_USBDRDX_ENAX(a,b) "DTX_USBDRDX_ENAX"
+#define busnum_BDK_DTX_USBDRDX_ENAX(a,b) (a)
+#define arguments_BDK_DTX_USBDRDX_ENAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_usbdrd#_sel#
+ *
+ * DTX USBDRD Select Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_usbdrdx_selx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_usbdrdx_selx_s cn; */
+} bdk_dtx_usbdrdx_selx_t;
+
+static inline uint64_t BDK_DTX_USBDRDX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_USBDRDX_SELX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e0feb40000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_USBDRDX_SELX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DTX_USBDRDX_SELX(a,b) bdk_dtx_usbdrdx_selx_t
+#define bustype_BDK_DTX_USBDRDX_SELX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_USBDRDX_SELX(a,b) "DTX_USBDRDX_SELX"
+#define busnum_BDK_DTX_USBDRDX_SELX(a,b) (a)
+#define arguments_BDK_DTX_USBDRDX_SELX(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) dtx_usbh#_bcst_rsp
  *
  * DTX USBH Control Register

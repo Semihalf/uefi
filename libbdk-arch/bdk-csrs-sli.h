@@ -132,7 +132,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_23_63        : 41;
-        uint64_t status                : 23; /**< [ 22:  0](RO) BIST status. INTERNAL:
+        uint64_t status                : 23; /**< [ 22:  0](RO) BIST status.
+                                                                 Internal:
                                                                  22 = sli_nod_nfif_bstatus.
                                                                  21 = csr_region_mem_bstatus.
                                                                  20 = sncf0_ffifo_bstatus.
@@ -157,7 +158,8 @@ typedef union
                                                                  1 = cpl1_fifo_bstatus.
                                                                  0 = cpl2_fifo_bstatus. */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 23; /**< [ 22:  0](RO) BIST status. INTERNAL:
+        uint64_t status                : 23; /**< [ 22:  0](RO) BIST status.
+                                                                 Internal:
                                                                  22 = sli_nod_nfif_bstatus.
                                                                  21 = csr_region_mem_bstatus.
                                                                  20 = sncf0_ffifo_bstatus.
@@ -373,7 +375,8 @@ static inline uint64_t BDK_SLIX_END_MERGE(unsigned long a)
  *
  * SLI Control Port Registers
  * This register controls the functionality of the SLI's M2S in regards to a MAC.
- * INTERNAL: In 78xx was SLI()_CTL_PORT() and SLI()_S2M_PORT()_CTL.
+ * Internal:
+ * In 78xx was SLI()_CTL_PORT() and SLI()_S2M_PORT()_CTL.
  */
 typedef union
 {
@@ -1391,7 +1394,8 @@ static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long a)
  *
  * SLI MAC Control Register
  * This register controls the functionality of the SLI's S2M in regards to a MAC.
- * INTERNAL: In 78xx was SLI()_CTL_STATUS and SLI()_MAC_CREDIT_CNT.
+ * Internal:
+ * In 78xx was SLI()_CTL_STATUS and SLI()_MAC_CREDIT_CNT.
  */
 typedef union
 {

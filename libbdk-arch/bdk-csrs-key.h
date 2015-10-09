@@ -311,10 +311,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations.
-                                                                 INTERNAL: This was accessible only on NCB in pass 1 but both NCB and RSL in pass 2 */
+                                                                 Internal:
+                                                                 This was accessible only on NCB in pass 1 but both NCB and RSL in pass 2 */
 #else /* Word 0 - Little Endian */
         uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations.
-                                                                 INTERNAL: This was accessible only on NCB in pass 1 but both NCB and RSL in pass 2 */
+                                                                 Internal:
+                                                                 This was accessible only on NCB in pass 1 but both NCB and RSL in pass 2 */
 #endif /* Word 0 - End */
     } s;
     struct bdk_key_memx_cn81xx

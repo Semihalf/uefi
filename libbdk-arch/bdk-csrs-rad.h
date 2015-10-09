@@ -93,7 +93,10 @@ union bdk_rad_cword_s
                                                                  multiple streams in a transaction.
 
                                                                  This bit should only be set by a hypervisor, and any hypervisor code should enforce guest
-                                                                 requests have this bit clear. INTERNAL: When RAD is virtualized this will need a per-queue
+                                                                 requests have this bit clear.
+
+                                                                 Internal:
+                                                                 When RAD is virtualized this will need a per-queue
                                                                  PF enable. */
         uint64_t dn                    : 1;  /**< [ 37: 37] When set, on completing this transaction RAD will increment RAD_DONE_CNT. */
         uint64_t q_cmp                 : 1;  /**< [ 36: 36] Q pipe mode. Must not be set when [QOUT]=0, and must not be set when [Q_XOR] is set.
@@ -199,7 +202,10 @@ union bdk_rad_cword_s
                                                                  multiple streams in a transaction.
 
                                                                  This bit should only be set by a hypervisor, and any hypervisor code should enforce guest
-                                                                 requests have this bit clear. INTERNAL: When RAD is virtualized this will need a per-queue
+                                                                 requests have this bit clear.
+
+                                                                 Internal:
+                                                                 When RAD is virtualized this will need a per-queue
                                                                  PF enable. */
         uint64_t reserved_39_47        : 9;
         uint64_t ostr                  : 8;  /**< [ 55: 48] When [STREN] is set, the SMMU stream for RAD_OWORD_S[PTR]. Else, reserved. */
@@ -221,7 +227,10 @@ union bdk_rad_cword_s
                                                                  multiple streams in a transaction.
 
                                                                  This bit should only be set by a hypervisor, and any hypervisor code should enforce guest
-                                                                 requests have this bit clear. INTERNAL: When RAD is virtualized this will need a per-queue
+                                                                 requests have this bit clear.
+
+                                                                 Internal:
+                                                                 When RAD is virtualized this will need a per-queue
                                                                  PF enable. */
         uint64_t dn                    : 1;  /**< [ 37: 37] When set, on completing this transaction RAD will increment RAD_DONE_CNT. */
         uint64_t q_cmp                 : 1;  /**< [ 36: 36] Q pipe mode. Must not be set when [QOUT]=0, and must not be set when [Q_XOR] is set.
@@ -319,7 +328,10 @@ union bdk_rad_cword_s
                                                                  multiple streams in a transaction.
 
                                                                  This bit should only be set by a hypervisor, and any hypervisor code should enforce guest
-                                                                 requests have this bit clear. INTERNAL: When RAD is virtualized this will need a per-queue
+                                                                 requests have this bit clear.
+
+                                                                 Internal:
+                                                                 When RAD is virtualized this will need a per-queue
                                                                  PF enable. */
         uint64_t reserved_39_47        : 9;
         uint64_t ostr                  : 8;  /**< [ 55: 48] When [STREN] is set, the SMMU stream for RAD_OWORD_S[PTR]. Else, reserved. */
@@ -1325,8 +1337,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t csr_msix              : 1;  /**< [  7:  7](RO) BIST result of the CSR_MSIX memory. INTERNAL: csr.msix_mem. */
-        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO) BIST result of the CSR_FIFO memory. INTERNAL: csr.csr_fifo. */
+        uint64_t csr_msix              : 1;  /**< [  7:  7](RO) BIST result of the CSR_MSIX memory.
+                                                                 Internal:
+                                                                 csr.msix_mem. */
+        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO) BIST result of the CSR_FIFO memory.
+                                                                 Internal:
+                                                                 csr.csr_fifo. */
         uint64_t sta                   : 1;  /**< [  5:  5](RO) BIST result of the STA memories */
         uint64_t ncb_oub               : 1;  /**< [  4:  4](RO) BIST result of the NCB_OUB memories */
         uint64_t ncb_inb               : 2;  /**< [  3:  2](RO) BIST result of the NCB_INB memories */
@@ -1336,8 +1352,12 @@ typedef union
         uint64_t ncb_inb               : 2;  /**< [  3:  2](RO) BIST result of the NCB_INB memories */
         uint64_t ncb_oub               : 1;  /**< [  4:  4](RO) BIST result of the NCB_OUB memories */
         uint64_t sta                   : 1;  /**< [  5:  5](RO) BIST result of the STA memories */
-        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO) BIST result of the CSR_FIFO memory. INTERNAL: csr.csr_fifo. */
-        uint64_t csr_msix              : 1;  /**< [  7:  7](RO) BIST result of the CSR_MSIX memory. INTERNAL: csr.msix_mem. */
+        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO) BIST result of the CSR_FIFO memory.
+                                                                 Internal:
+                                                                 csr.csr_fifo. */
+        uint64_t csr_msix              : 1;  /**< [  7:  7](RO) BIST result of the CSR_MSIX memory.
+                                                                 Internal:
+                                                                 csr.msix_mem. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -1387,14 +1407,18 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Partial cache line reads always use LDI. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved. For forward compatibility, software should always write as one.  INTERNAL: In
+        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved. For forward compatibility, software should always write as one.
+                                                                 Internal:
+                                                                 In
                                                                  Octeon, if set, disables aura frees, which is the required mode without an FPA. */
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64 words per command buffer segment. */
         uint64_t reserved_0_32         : 33;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_32         : 33;
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64 words per command buffer segment. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved. For forward compatibility, software should always write as one.  INTERNAL: In
+        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved. For forward compatibility, software should always write as one.
+                                                                 Internal:
+                                                                 In
                                                                  Octeon, if set, disables aura frees, which is the required mode without an FPA. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) Load don't write back.
 
@@ -1550,7 +1574,9 @@ typedef union
         uint64_t reserved_8_63         : 56;
         uint64_t inst_be               : 1;  /**< [  7:  7](R/W) Instruction/response structures (RAD_CWORD_S, RAD_IWORD_S, RAD_OWORD_S, RAD_RESP_S,
                                                                  RAD_NZDIST_S) are big endian. */
-        uint64_t wc_dis                : 1;  /**< [  6:  6](R/W/H) Reserved. INTERNAL: Bug 17188 diagnostic disable. */
+        uint64_t wc_dis                : 1;  /**< [  6:  6](R/W/H) Reserved.
+                                                                 Internal:
+                                                                 Bug 17188 diagnostic disable. */
         uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands. MAX_READ is a throttle to control IOB
                                                                  usage. Values greater than 0x8 are illegal. */
         uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big endian. Generaly this is not changed as data is
@@ -1562,7 +1588,9 @@ typedef union
                                                                  byte invariant. */
         uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands. MAX_READ is a throttle to control IOB
                                                                  usage. Values greater than 0x8 are illegal. */
-        uint64_t wc_dis                : 1;  /**< [  6:  6](R/W/H) Reserved. INTERNAL: Bug 17188 diagnostic disable. */
+        uint64_t wc_dis                : 1;  /**< [  6:  6](R/W/H) Reserved.
+                                                                 Internal:
+                                                                 Bug 17188 diagnostic disable. */
         uint64_t inst_be               : 1;  /**< [  7:  7](R/W) Instruction/response structures (RAD_CWORD_S, RAD_IWORD_S, RAD_OWORD_S, RAD_RESP_S,
                                                                  RAD_NZDIST_S) are big endian. */
         uint64_t reserved_8_63         : 56;

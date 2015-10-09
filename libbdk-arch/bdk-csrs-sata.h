@@ -370,7 +370,8 @@ static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
  * first DWORD) and the data pattern (bits 7:0 of the second DWORD)
  * fields of the received BIST activate FIS.
  *
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -441,7 +442,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTAFR(unsigned long a)
  * register, first select the required port by writing the port number
  * to the SATA()_UAHC_GBL_TESTR[PSEL] field.
  *
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -528,7 +530,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long a)
  * register, first select the required port by writing the port number
  * to the SATA()_UAHC_GBL_TESTR[PSEL] field.
  *
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -571,7 +574,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTDECR(unsigned long a)
  * register, first select the required port by writing the port number
  * to the SATA()_UAHC_GBL_TESTR[PSEL] field.
  *
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -610,7 +614,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_BISTFCTR(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_bistsr
  *
  * SATA UAHC BIST Status Register
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -916,7 +921,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_GHC(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_gparam1r
  *
  * SATA UAHC Global Parameter Register 1
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -981,7 +987,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM1R(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_gparam2r
  *
  * SATA UAHC Global Parameter Register 2
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1046,7 +1053,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_idr
  *
  * SATA UAHC ID Register
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1130,7 +1138,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_IS(unsigned long a)
  * register, first select the required port by writing the port number
  * to the SATA()_UAHC_GBL_TESTR[PSEL] field.
  *
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1219,8 +1228,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_PI(unsigned long a)
  *
  * SATA UAHC Port Parameter Register
  * Port is selected by the SATA()_UAHC_GBL_TESTR[PSEL] field.
- *
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1271,7 +1280,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_PPARAMR(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_testr
  *
  * SATA UAHC Test Register
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1316,7 +1326,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_TESTR(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_timer1ms
  *
  * SATA UAHC Timer 1ms Register
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1357,7 +1368,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_TIMER1MS(unsigned long a)
  * Register (NCB32b) sata#_uahc_gbl_versionr
  *
  * SATA UAHC Version Register
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1437,7 +1449,8 @@ static inline uint64_t BDK_SATAX_UAHC_GBL_VS(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_ci
  *
  * SATA UAHC Command Issue Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1476,7 +1489,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_CI(unsigned long a)
  * Register (NCB) sata#_uahc_p0_clb
  *
  * SATA UAHC Command-List Base-Address Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1517,7 +1531,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_CLB(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_cmd
  *
  * SATA UAHC Command Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1602,7 +1617,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_CMD(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_dmacr
  *
  * SATA UAHC DMA Control Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1649,7 +1665,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_DMACR(unsigned long a)
  * Register (NCB) sata#_uahc_p0_fb
  *
  * SATA UAHC FIS Base-Address Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1690,7 +1707,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_FB(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_fbs
  *
  * SATA UAHC FIS-Based Switching Control Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1743,7 +1761,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_FBS(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_ie
  *
  * SATA UAHC Interrupt Enable Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1818,7 +1837,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_IE(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_is
  *
  * SATA UAHC Interrupt Status Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1893,7 +1913,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_IS(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_phycr
  *
  * SATA UAHC PHY Control Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1932,7 +1953,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_PHYCR(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_physr
  *
  * SATA UAHC PHY Status Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -1971,7 +1993,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_PHYSR(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_sact
  *
  * SATA UAHC SATA Active Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -2010,7 +2033,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SACT(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_sctl
  *
  * SATA UAHC SATA Control Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -2059,7 +2083,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SCTL(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_serr
  *
  * SATA UAHC SATA Error Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -2136,7 +2161,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SERR(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_sig
  *
  * SATA UAHC Signature Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -2175,7 +2201,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SIG(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_sntf
  *
  * SATA UAHC SATA Notification Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -2216,7 +2243,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SNTF(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_ssts
  *
  * SATA UAHC SATA Status Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -2261,7 +2289,8 @@ static inline uint64_t BDK_SATAX_UAHC_P0_SSTS(unsigned long a)
  * Register (NCB32b) sata#_uahc_p0_tfd
  *
  * SATA UAHC Task File Data Registers
- * INTERNAL: See DWC_ahsata databook v4.20a.
+ * Internal:
+ * See DWC_ahsata databook v4.20a.
  */
 typedef union
 {
@@ -2441,7 +2470,8 @@ typedef union
                                                                  Changed in pass 2. */
         uint64_t reserved_2_3          : 2;
         uint64_t sata_uahc_rst         : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
-                                                                 INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
+                                                                 Internal:
+                                                                 Note that soft-resetting the UAHC while it is active may cause violations of RSL
                                                                  or NCB protocols. */
         uint64_t sata_uctl_rst         : 1;  /**< [  0:  0](R/W) Software reset; resets UCTL; active-high. Resets UAHC DMA and register shims and the UCTL
                                                                  registers 0x10_0030-0x10_00F8.
@@ -2451,7 +2481,8 @@ typedef union
                                                                  The UCTL registers starting from 0x10_0030 can be accessed only after the host-controller
                                                                  clock is active and UCTL_RST is deasserted.
 
-                                                                 INTERNAL: Note that soft-resetting the UCTL while it is active may cause violations of
+                                                                 Internal:
+                                                                 Note that soft-resetting the UCTL while it is active may cause violations of
                                                                  RSL, NCB, and GIB protocols. */
 #else /* Word 0 - Little Endian */
         uint64_t sata_uctl_rst         : 1;  /**< [  0:  0](R/W) Software reset; resets UCTL; active-high. Resets UAHC DMA and register shims and the UCTL
@@ -2462,10 +2493,12 @@ typedef union
                                                                  The UCTL registers starting from 0x10_0030 can be accessed only after the host-controller
                                                                  clock is active and UCTL_RST is deasserted.
 
-                                                                 INTERNAL: Note that soft-resetting the UCTL while it is active may cause violations of
+                                                                 Internal:
+                                                                 Note that soft-resetting the UCTL while it is active may cause violations of
                                                                  RSL, NCB, and GIB protocols. */
         uint64_t sata_uahc_rst         : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
-                                                                 INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
+                                                                 Internal:
+                                                                 Note that soft-resetting the UAHC while it is active may cause violations of RSL
                                                                  or NCB protocols. */
         uint64_t reserved_2_3          : 2;
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the SATA UCTL interface clock (coprocessor clock). This enables access to UAHC
@@ -2576,7 +2609,8 @@ typedef union
                                                                  registers via the NCB, as well as UCTL registers starting from 0x10_0030. */
         uint64_t reserved_2_3          : 2;
         uint64_t sata_uahc_rst         : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
-                                                                 INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
+                                                                 Internal:
+                                                                 Note that soft-resetting the UAHC while it is active may cause violations of RSL
                                                                  or NCB protocols. */
         uint64_t sata_uctl_rst         : 1;  /**< [  0:  0](R/W) Software reset; resets UCTL; active-high. Resets UAHC DMA and register shims and the UCTL
                                                                  registers 0x10_0030-0x10_00F8.
@@ -2586,7 +2620,8 @@ typedef union
                                                                  The UCTL registers starting from 0x10_0030 can be accessed only after the host-controller
                                                                  clock is active and UCTL_RST is deasserted.
 
-                                                                 INTERNAL: Note that soft-resetting the UCTL while it is active may cause violations of
+                                                                 Internal:
+                                                                 Note that soft-resetting the UCTL while it is active may cause violations of
                                                                  RSL, NCB, and GIB protocols. */
 #else /* Word 0 - Little Endian */
         uint64_t sata_uctl_rst         : 1;  /**< [  0:  0](R/W) Software reset; resets UCTL; active-high. Resets UAHC DMA and register shims and the UCTL
@@ -2597,10 +2632,12 @@ typedef union
                                                                  The UCTL registers starting from 0x10_0030 can be accessed only after the host-controller
                                                                  clock is active and UCTL_RST is deasserted.
 
-                                                                 INTERNAL: Note that soft-resetting the UCTL while it is active may cause violations of
+                                                                 Internal:
+                                                                 Note that soft-resetting the UCTL while it is active may cause violations of
                                                                  RSL, NCB, and GIB protocols. */
         uint64_t sata_uahc_rst         : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
-                                                                 INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
+                                                                 Internal:
+                                                                 Note that soft-resetting the UAHC while it is active may cause violations of RSL
                                                                  or NCB protocols. */
         uint64_t reserved_2_3          : 2;
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the SATA UCTL interface clock (coprocessor clock). This enables access to UAHC

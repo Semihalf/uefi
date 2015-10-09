@@ -422,19 +422,27 @@ typedef union
         uint32_t slt                   : 8;  /**< [ 31: 24](RO) Secondary latency timer. Not applicable to PCI Express, hardwired to 0x0. */
         uint32_t subbnum               : 8;  /**< [ 23: 16](R/W) Subordinate bus number.
                                                                  If 0x0 no configuration accesses are forwarded to the secondary bus.
-                                                                 INTERNAL: Note IOB/ECAM snoops on writes to this register. */
+
+                                                                 Internal:
+                                                                 Note IOB/ECAM snoops on writes to this register. */
         uint32_t sbnum                 : 8;  /**< [ 15:  8](R/W) Secondary bus number.
                                                                  If 0x0 no configuration accesses are forwarded to the secondary bus.
-                                                                 INTERNAL: Note IOB/ECAM snoops on writes to this register. */
+
+                                                                 Internal:
+                                                                 Note IOB/ECAM snoops on writes to this register. */
         uint32_t pbnum                 : 8;  /**< [  7:  0](R/W) Primary bus number. */
 #else /* Word 0 - Little Endian */
         uint32_t pbnum                 : 8;  /**< [  7:  0](R/W) Primary bus number. */
         uint32_t sbnum                 : 8;  /**< [ 15:  8](R/W) Secondary bus number.
                                                                  If 0x0 no configuration accesses are forwarded to the secondary bus.
-                                                                 INTERNAL: Note IOB/ECAM snoops on writes to this register. */
+
+                                                                 Internal:
+                                                                 Note IOB/ECAM snoops on writes to this register. */
         uint32_t subbnum               : 8;  /**< [ 23: 16](R/W) Subordinate bus number.
                                                                  If 0x0 no configuration accesses are forwarded to the secondary bus.
-                                                                 INTERNAL: Note IOB/ECAM snoops on writes to this register. */
+
+                                                                 Internal:
+                                                                 Note IOB/ECAM snoops on writes to this register. */
         uint32_t slt                   : 8;  /**< [ 31: 24](RO) Secondary latency timer. Not applicable to PCI Express, hardwired to 0x0. */
 #endif /* Word 0 - End */
     } s;
@@ -2811,9 +2819,15 @@ typedef union
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
         uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
@@ -2823,9 +2837,15 @@ typedef union
         uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
         uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
@@ -3909,52 +3929,7 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_pciercx_cfg066_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
-        uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
-        uint32_t reserved_23           : 1;
-        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
-        uint32_t reserved_21           : 1;
-        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
-        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
-        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
-        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
-        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
-        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
-        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
-        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
-        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
-        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
-        uint32_t reserved_1_3          : 3;
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t reserved_1_3          : 3;
-        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
-        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
-        uint32_t reserved_6_11         : 6;
-        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
-        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
-        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
-        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
-        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
-        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
-        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
-        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
-        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
-        uint32_t reserved_21           : 1;
-        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
-        uint32_t reserved_23           : 1;
-        uint32_t uatombm               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked status. */
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg066_cn81xx cn83xx; */
     struct bdk_pciercx_cfg066_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4154,48 +4129,7 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_pciercx_cfg067_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
-        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
-        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
-        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
-        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
-        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
-        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
-        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
-        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
-        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
-        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
-        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
-        uint32_t reserved_1_3          : 3;
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t reserved_1_3          : 3;
-        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
-        uint32_t reserved_6_11         : 6;
-        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
-        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
-        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
-        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
-        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
-        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
-        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
-        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
-        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
-        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO) Unsupported AtomicOp egress blocked severity. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg067_cn81xx cn83xx; */
     struct bdk_pciercx_cfg067_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4750,13 +4684,13 @@ typedef union
     struct bdk_pciercx_cfg086_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability. */
 #else /* Word 0 - Little Endian */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
 #endif /* Word 0 - End */
     } cn83xx;
 } bdk_pciercx_cfg086_t;

@@ -82,7 +82,9 @@
  * USBDRD UAHC Device Generic Command Enumeration
  * Commands for USBDRD()_UAHC_DGCMD[CMDTYPE].
  * Any command encodings that are not present are considered Reserved.
- * INTERNAL: Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.6.1 for details.
+ *
+ * Internal:
+ * Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.6.1 for details.
  */
 #define BDK_USBDRD_UAHC_DGCMD_CMDTYPE_E_ALL_FIFO_FLUSH (0xa) /**< Flush all FIFOs.
                                        This command does not use the USBDRD()_UAHC_DGCMDPAR field. */
@@ -471,7 +473,9 @@ static inline uint64_t BDK_USBDRDX_UAHC_CRCR(unsigned long a)
  * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
  * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
  * USBDRD()_UAHC_DCTL[CSFTRST].
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.1.
+ *
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.1.
  */
 typedef union
 {
@@ -498,7 +502,9 @@ typedef union
                                                                  and EP0-IN) after detecting a USB reset. After receiving SetConfiguration
                                                                  and SetInterface requests, the application must program endpoint registers
                                                                  accordingly and set these bits.
-                                                                 INTERNAL: For more information, see 'Flexible Endpoint Mapping' on Synopsys DWC_usb3
+
+                                                                 Internal:
+                                                                 For more information, see 'Flexible Endpoint Mapping' on Synopsys DWC_usb3
                                                                  Databook v2.80a, page 82. */
 #else /* Word 0 - Little Endian */
         uint32_t usbactep              : 32; /**< [ 31:  0](R/W) This field indicates if a USB endpoint is active in the current configuration
@@ -520,7 +526,9 @@ typedef union
                                                                  and EP0-IN) after detecting a USB reset. After receiving SetConfiguration
                                                                  and SetInterface requests, the application must program endpoint registers
                                                                  accordingly and set these bits.
-                                                                 INTERNAL: For more information, see 'Flexible Endpoint Mapping' on Synopsys DWC_usb3
+
+                                                                 Internal:
+                                                                 For more information, see 'Flexible Endpoint Mapping' on Synopsys DWC_usb3
                                                                  Databook v2.80a, page 82. */
 #endif /* Word 0 - End */
     } s;
@@ -555,7 +563,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_DALEPENA(unsigned long a)
  * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
  * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  *
- * INTERNAL: xHCI spec, page 32: there are USBDRD()_UAHC_HCSPARAMS1[MAXSLOTS]+1 doorbell
+ * Internal:
+ * xHCI spec, page 32: there are USBDRD()_UAHC_HCSPARAMS1[MAXSLOTS]+1 doorbell
  * registers.
  */
 typedef union
@@ -684,7 +693,9 @@ static inline uint64_t BDK_USBDRDX_UAHC_DCBAAP(unsigned long a)
  * commands or enumeration. Do not make changes to this register after initial programming.
  *
  * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST].
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.1.
+ *
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.1.
  */
 typedef union
 {
@@ -726,7 +737,9 @@ typedef union
                                                                  buffer sizes programmed in descriptors, and system latency.
                                                                  For an OUT endpoint, this field controls the number of receive buffers
                                                                  reported in the NumP field of the ACK TP transmitted by the core.
-                                                                 INTERNAL: Note: This bit is used in host mode when Debug Capability is enabled. */
+
+                                                                 Internal:
+                                                                 Note: This bit is used in host mode when Debug Capability is enabled. */
         uint32_t intrnum               : 5;  /**< [ 16: 12](R/W) Interrupt number.
                                                                  Indicates interrupt/EventQ number on which non-endpoint-specific device-related
                                                                  interrupts (see DEVT) are generated. */
@@ -768,7 +781,9 @@ typedef union
                                                                  buffer sizes programmed in descriptors, and system latency.
                                                                  For an OUT endpoint, this field controls the number of receive buffers
                                                                  reported in the NumP field of the ACK TP transmitted by the core.
-                                                                 INTERNAL: Note: This bit is used in host mode when Debug Capability is enabled. */
+
+                                                                 Internal:
+                                                                 Note: This bit is used in host mode when Debug Capability is enabled. */
         uint32_t lpmcap                : 1;  /**< [ 22: 22](R/W) LPM capable.
                                                                  The application uses this bit to control the controller's core LPM
                                                                  capabilities. If the core operates as a non-LPM-capable device, it cannot
@@ -824,7 +839,9 @@ static inline uint64_t BDK_USBDRDX_UAHC_DCFG(unsigned long a)
  * This register controls devlice mode.
  *
  * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST].
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.2.
+ *
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.2.
  */
 typedef union
 {
@@ -855,7 +872,8 @@ typedef union
                                                                     disconnect event, it must set USBDRD()_UAHC_DCTL[ULSTCHNGREQ] to
                                                                     "Rx.Detect" before reasserting the Run/Stop bit.
 
-                                                                    INTERNAL: 3. When the USB or Link is in a lower power state and the Two Power Rails
+                                                                 Internal:
+                                                                 3. When the USB or Link is in a lower power state and the Two Power Rails
                                                                     configuration is selected, software writes 0 to this bit to indicate that it is going
                                                                     to turn off the Core Power Rail. After the software turns on the Core Power Rail
                                                                     again and re-initializes the device controller, it must set this bit to start the
@@ -928,9 +946,11 @@ typedef union
                                                                      STALL) */
         uint32_t reserved_20_22        : 3;
         uint32_t keepconnect           : 1;  /**< [ 19: 19](WO) Always write 0.
-                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+                                                                 Internal:
+                                                                 Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
         uint32_t l1hibernationen       : 1;  /**< [ 18: 18](WO) Always write 0.
-                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+                                                                 Internal:
+                                                                 Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
         uint32_t crs                   : 1;  /**< [ 17: 17](WO) Controller Restore State.
                                                                  This command is similar to the USBDRD()_UAHC_USBCMD[CRS] bit in host mode and
                                                                  initiates the restore process. When software sets this bit to 1, the controller
@@ -1105,9 +1125,11 @@ typedef union
                                                                  the restore process, it sets USBDRD()_UAHC_DSTS[RSS] to 0.
                                                                  Note: When read, this field always returns 0. */
         uint32_t l1hibernationen       : 1;  /**< [ 18: 18](WO) Always write 0.
-                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+                                                                 Internal:
+                                                                 Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
         uint32_t keepconnect           : 1;  /**< [ 19: 19](WO) Always write 0.
-                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+                                                                 Internal:
+                                                                 Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
         uint32_t reserved_20_22        : 3;
         uint32_t appl1res              : 1;  /**< [ 23: 23](R/W) LPM Response Programmed by Application.
                                                                  Handshake response to LPM token specified by device application. Response
@@ -1198,7 +1220,8 @@ typedef union
                                                                     disconnect event, it must set USBDRD()_UAHC_DCTL[ULSTCHNGREQ] to
                                                                     "Rx.Detect" before reasserting the Run/Stop bit.
 
-                                                                    INTERNAL: 3. When the USB or Link is in a lower power state and the Two Power Rails
+                                                                 Internal:
+                                                                 3. When the USB or Link is in a lower power state and the Two Power Rails
                                                                     configuration is selected, software writes 0 to this bit to indicate that it is going
                                                                     to turn off the Core Power Rail. After the software turns on the Core Power Rail
                                                                     again and re-initializes the device controller, it must set this bit to start the
@@ -1243,7 +1266,9 @@ static inline uint64_t BDK_USBDRDX_UAHC_DCTL(unsigned long a)
  * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
  * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
  * USBDRD()_UAHC_DCTL[CSFTRST].
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.5.
+ *
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.5.
  */
 typedef union
 {
@@ -1351,7 +1376,9 @@ typedef union
 
                                                                  In response to a End Transfer command:
                                                                  _ [15:12] = 0x1: Indicates an invalid transfer resource was specified.
-                                                                 INTERNAL: For abort handling, see also Synopsys DWC_usb3 Databook v2.80a, Section 8.4. */
+
+                                                                 Internal:
+                                                                 For abort handling, see also Synopsys DWC_usb3 Databook v2.80a, Section 8.4. */
         uint32_t hipri_forcerm         : 1;  /**< [ 11: 11](R/W) HighPriority: Only valid for Start Transfer command.
                                                                  ForceRM: Only valid for End Transfer command. */
         uint32_t cmdact                : 1;  /**< [ 10: 10](R/W) Software sets this bit to 1 to enable the device endpoint controller to
@@ -1461,7 +1488,9 @@ typedef union
 
                                                                  In response to a End Transfer command:
                                                                  _ [15:12] = 0x1: Indicates an invalid transfer resource was specified.
-                                                                 INTERNAL: For abort handling, see also Synopsys DWC_usb3 Databook v2.80a, Section 8.4. */
+
+                                                                 Internal:
+                                                                 For abort handling, see also Synopsys DWC_usb3 Databook v2.80a, Section 8.4. */
         uint32_t commandparam          : 16; /**< [ 31: 16](R/W) Command or Event Parameters.
                                                                  When this register is written:
 
@@ -1545,7 +1574,9 @@ static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDX(unsigned long a, unsigned long b
  * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
  * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
  * USBDRD()_UAHC_DCTL[CSFTRST].
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.4.
+ *
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.4.
  */
 typedef union
 {
@@ -1589,7 +1620,9 @@ static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR0_X(unsigned long a, unsigned l
  * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
  * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
  * USBDRD()_UAHC_DCTL[CSFTRST].
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.3.
+ *
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.3.
  */
 typedef union
 {
@@ -1633,7 +1666,9 @@ static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR1_X(unsigned long a, unsigned l
  * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
  * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
  * USBDRD()_UAHC_DCTL[CSFTRST].
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.2.
+ *
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.3.2.2.
  */
 typedef union
 {
@@ -1674,7 +1709,9 @@ static inline uint64_t BDK_USBDRDX_UAHC_DEPCMDPAR2_X(unsigned long a, unsigned l
  * If an enable bit is set to 0, the event will not be generated.
  *
  * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST].
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.2.
+ *
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.2.
  */
 typedef union
 {
@@ -1691,7 +1728,8 @@ typedef union
                                                                  For debug purposes only; normally software must disable this event. */
         uint32_t u3l2l1suspen          : 1;  /**< [  6:  6](R/W) U3/L2-L1 Suspend Event Enable. */
         uint32_t hibernationreqevten   : 1;  /**< [  5:  5](R/W) This bit enables/disables the generation of the Hibernation Request Event.
-                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+                                                                 Internal:
+                                                                 Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
         uint32_t wkupevten             : 1;  /**< [  4:  4](R/W) Resume/Remote Wakeup Detected Event Enable. */
         uint32_t ulstcngen             : 1;  /**< [  3:  3](R/W) USB/Link State Change Event Enable. */
         uint32_t connectdoneen         : 1;  /**< [  2:  2](R/W) Connection Done Enable. */
@@ -1704,7 +1742,8 @@ typedef union
         uint32_t ulstcngen             : 1;  /**< [  3:  3](R/W) USB/Link State Change Event Enable. */
         uint32_t wkupevten             : 1;  /**< [  4:  4](R/W) Resume/Remote Wakeup Detected Event Enable. */
         uint32_t hibernationreqevten   : 1;  /**< [  5:  5](R/W) This bit enables/disables the generation of the Hibernation Request Event.
-                                                                 INTERNAL: Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
+                                                                 Internal:
+                                                                 Writing this bit to 0x1 does nothing since we don't have hibernation feature. */
         uint32_t u3l2l1suspen          : 1;  /**< [  6:  6](R/W) U3/L2-L1 Suspend Event Enable. */
         uint32_t sofen                 : 1;  /**< [  7:  7](R/W) Start of (micro)Frame Enable.
                                                                  For debug purposes only; normally software must disable this event. */
@@ -1748,7 +1787,9 @@ static inline uint64_t BDK_USBDRDX_UAHC_DEVTEN(unsigned long a)
  * USBDRD()_UAHC_GCTL[CORESOFTRESET] or
  * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
  * USBDRD()_UAHC_DCTL[CSFTRST].
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.5.
+ *
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.5.
  */
 typedef union
 {
@@ -1827,7 +1868,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_DGCMD(unsigned long a)
  * USBDRD()_UAHC_USBCMD[HCRST] or USBDRD()_UAHC_USBCMD[LHCRST] or
  * USBDRD()_UAHC_DCTL[CSFTRST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.4.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.4.
  */
 typedef union
 {
@@ -1916,7 +1958,9 @@ static inline uint64_t BDK_USBDRDX_UAHC_DNCTRL(unsigned long a)
  * events.
  *
  * This register can be reset by IOI reset or USBDRD()_UCTL_CTL[UAHC_RST].
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.3.
+ *
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.3.1.3.
  */
 typedef union
 {
@@ -1927,7 +1971,9 @@ typedef union
         uint32_t reserved_30_31        : 2;
         uint32_t dcnrd                 : 1;  /**< [ 29: 29](RO/H) Device Controller Not Ready.
                                                                  Will always read-as-zero.
-                                                                 INTERNAL: Bit is only used with hibernation. */
+
+                                                                 Internal:
+                                                                 Bit is only used with hibernation. */
         uint32_t sre                   : 1;  /**< [ 28: 28](R/W1C/H) Save/Restore Error.
                                                                  This bit is currently not supported. */
         uint32_t reserved_26_27        : 2;
@@ -1937,14 +1983,18 @@ typedef union
                                                                  command by setting RSS to 0.
 
                                                                  Will always read-as-zero.
-                                                                 INTERNAL: Bit is only used with hibernation. */
+
+                                                                 Internal:
+                                                                 Bit is only used with hibernation. */
         uint32_t sss                   : 1;  /**< [ 24: 24](RO) Save State Status.
                                                                  This bit is similar to the USBDRD()_UAHC_USBSTS[SSS] in host mode.
                                                                  When the controller has finished the save process, it will complete the
                                                                  command by setting SSS to 0.
 
                                                                  Will always read-as-zero.
-                                                                 INTERNAL: Bit is only used with hibernation. */
+
+                                                                 Internal:
+                                                                 Bit is only used with hibernation. */
         uint32_t coreidle              : 1;  /**< [ 23: 23](RO/H) Core Idle.
                                                                  The bit indicates that the core finished transferring all RxFIFO data to
                                                                  system memory, writing out all completed descriptors, and all Event Counts
@@ -2072,20 +2122,26 @@ typedef union
                                                                  command by setting SSS to 0.
 
                                                                  Will always read-as-zero.
-                                                                 INTERNAL: Bit is only used with hibernation. */
+
+                                                                 Internal:
+                                                                 Bit is only used with hibernation. */
         uint32_t rss                   : 1;  /**< [ 25: 25](RO) Restore State Status.
                                                                  This bit is similar to the USBDRD()_USBSTS[RSS] in host mode.
                                                                  When the controller has finished the restore process, it will complete the
                                                                  command by setting RSS to 0.
 
                                                                  Will always read-as-zero.
-                                                                 INTERNAL: Bit is only used with hibernation. */
+
+                                                                 Internal:
+                                                                 Bit is only used with hibernation. */
         uint32_t reserved_26_27        : 2;
         uint32_t sre                   : 1;  /**< [ 28: 28](R/W1C/H) Save/Restore Error.
                                                                  This bit is currently not supported. */
         uint32_t dcnrd                 : 1;  /**< [ 29: 29](RO/H) Device Controller Not Ready.
                                                                  Will always read-as-zero.
-                                                                 INTERNAL: Bit is only used with hibernation. */
+
+                                                                 Internal:
+                                                                 Bit is only used with hibernation. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -2265,7 +2321,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_ERSTSZX(unsigned long a, unsigned long b
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.12.
  */
 typedef union
 {
@@ -2307,8 +2364,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GBUSERRADDR(unsigned long a)
  *
  * UAHC Control Register
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
- *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.5.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.5.
  */
 typedef union
 {
@@ -2345,7 +2402,9 @@ typedef union
         uint32_t masterfiltbypass      : 1;  /**< [ 18: 18](R/W) Master filter bypass. Not relevant for Cavium's configuration. */
         uint32_t bypssetaddr           : 1;  /**< [ 17: 17](R/W) Bypass SetAddress in Device Mode.
                                                                  Always set to 0.
-                                                                 INTERNAL: When set, core uses the value in USBDRD()_UAHC_DCFG[DEVADDR] directly
+
+                                                                 Internal:
+                                                                 When set, core uses the value in USBDRD()_UAHC_DCFG[DEVADDR] directly
                                                                  for comparing the device address tokens. In simulation, this can be used to avoid
                                                                  sending a SET_ADDRESS command. */
         uint32_t u2rstecn              : 1;  /**< [ 16: 16](R/W) If the SuperSpeed commenction fails during POLL or LMP exchange, the device connects
@@ -2373,7 +2432,8 @@ typedef union
                                                                  USBDRD()_UAHC_GUSB3PIPECTL()), you must keep the core in reset state until PHY
                                                                  clocks are stable. This controls the bus, RAM, and MAC domain resets.
 
-                                                                 INTERNAL: Refer to Reset Generation on Synopsys Databook page 250.
+                                                                 Internal:
+                                                                 Refer to Reset Generation on Synopsys Databook page 250.
                                                                  Under soft reset, accesses to USBDRD()_UAHC_* CSRs other than USBDRD()_UAHC_GCTL may fail
                                                                  (timeout).
                                                                  This bit is for debug purposes only. Use USBDRD()_UAHC_USBCMD[HCRST] for soft reset. */
@@ -2436,7 +2496,8 @@ typedef union
                                                                  * LFPS polling burst time reduce to 100 ns
                                                                  * LFPS warm reset receive reduce to 30 us.
 
-                                                                 INTERNAL: Refer to the rtl_vip_scaledown_mapping.xls file under <workspace>/sim/SoC_sim
+                                                                 Internal:
+                                                                 Refer to the rtl_vip_scaledown_mapping.xls file under <workspace>/sim/SoC_sim
                                                                  directory for the complete list.
                                                                  0x2 = No TxEq training sequences are sent. Overrides bit<4>.
                                                                  0x3 = Enables bits<0> and <1> scale-down timing values. */
@@ -2490,7 +2551,8 @@ typedef union
                                                                  * LFPS polling burst time reduce to 100 ns
                                                                  * LFPS warm reset receive reduce to 30 us.
 
-                                                                 INTERNAL: Refer to the rtl_vip_scaledown_mapping.xls file under <workspace>/sim/SoC_sim
+                                                                 Internal:
+                                                                 Refer to the rtl_vip_scaledown_mapping.xls file under <workspace>/sim/SoC_sim
                                                                  directory for the complete list.
                                                                  0x2 = No TxEq training sequences are sent. Overrides bit<4>.
                                                                  0x3 = Enables bits<0> and <1> scale-down timing values. */
@@ -2543,7 +2605,8 @@ typedef union
                                                                  USBDRD()_UAHC_GUSB3PIPECTL()), you must keep the core in reset state until PHY
                                                                  clocks are stable. This controls the bus, RAM, and MAC domain resets.
 
-                                                                 INTERNAL: Refer to Reset Generation on Synopsys Databook page 250.
+                                                                 Internal:
+                                                                 Refer to Reset Generation on Synopsys Databook page 250.
                                                                  Under soft reset, accesses to USBDRD()_UAHC_* CSRs other than USBDRD()_UAHC_GCTL may fail
                                                                  (timeout).
                                                                  This bit is for debug purposes only. Use USBDRD()_UAHC_USBCMD[HCRST] for soft reset. */
@@ -2563,7 +2626,9 @@ typedef union
                                                                  This bit is only applicable in device mode. */
         uint32_t bypssetaddr           : 1;  /**< [ 17: 17](R/W) Bypass SetAddress in Device Mode.
                                                                  Always set to 0.
-                                                                 INTERNAL: When set, core uses the value in USBDRD()_UAHC_DCFG[DEVADDR] directly
+
+                                                                 Internal:
+                                                                 When set, core uses the value in USBDRD()_UAHC_DCFG[DEVADDR] directly
                                                                  for comparing the device address tokens. In simulation, this can be used to avoid
                                                                  sending a SET_ADDRESS command. */
         uint32_t masterfiltbypass      : 1;  /**< [ 18: 18](R/W) Master filter bypass. Not relevant for Cavium's configuration. */
@@ -2623,7 +2688,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GCTL(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.5.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.5.
  */
 typedef union
 {
@@ -2711,7 +2777,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGEPINFO(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.2.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.2.
  * INTERNAL: Contact Synopsys directly.
  */
 typedef union
@@ -2783,7 +2850,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGFIFOSPACE(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.4.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.4.
  */
 typedef union
 {
@@ -2869,7 +2937,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGLSP(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.6.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.6.
  * INTERNAL: This register is for Synopsys internal use only.
  */
 typedef union
@@ -2886,7 +2955,9 @@ typedef union
                                                                  trace signal, you can use this feature. */
         uint32_t endbc                 : 1;  /**< [ 15: 15](R/W) Enable debugging of the debug capability LSP. Use HOSTSELECT to select the DbC LSP debug
                                                                  information presented in the GDBGLSP register.
-                                                                 INTERNAL: Note this can only be used if DebugCapabaility was enabled at compile. */
+
+                                                                 Internal:
+                                                                 Note this can only be used if DebugCapabaility was enabled at compile. */
         uint32_t reserved_14           : 1;
         uint32_t hostselect            : 14; /**< [ 13:  0](R/W) Host select. Selects the LSP debug information presented in USBDRD()_UAHC_GDBGLSP. */
 #else /* Word 0 - Little Endian */
@@ -2894,7 +2965,9 @@ typedef union
         uint32_t reserved_14           : 1;
         uint32_t endbc                 : 1;  /**< [ 15: 15](R/W) Enable debugging of the debug capability LSP. Use HOSTSELECT to select the DbC LSP debug
                                                                  information presented in the GDBGLSP register.
-                                                                 INTERNAL: Note this can only be used if DebugCapabaility was enabled at compile. */
+
+                                                                 Internal:
+                                                                 Note this can only be used if DebugCapabaility was enabled at compile. */
         uint32_t latraceportmuxselect  : 8;  /**< [ 23: 16](R/W) logic_analyzer_trace port multiplexer select. Only bits<21:16> are used. For details on
                                                                  how the mux controls the debug traces, refer to the Verilog file.
                                                                  A value of 0x3F drives 0s on the logic_analyzer_trace signal. If you plan to OR (instead
@@ -2934,7 +3007,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGLSPMUX(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.3.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.3.
  */
 typedef union
 {
@@ -3052,7 +3126,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDBGLTSSM(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.5.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.5.
  */
 typedef union
 {
@@ -3106,7 +3181,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GDMAHLRATIO(unsigned long a)
  * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
  * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.2.7.1.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.2.7.1.
  */
 typedef union
 {
@@ -3165,7 +3241,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GEVNTADRX(unsigned long a, unsigned long
  * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
  * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.2.7.3.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.2.7.3.
  */
 typedef union
 {
@@ -3219,7 +3296,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GEVNTCOUNTX(unsigned long a, unsigned lo
  * or USBDRD()_UAHC_GCTL[CORESOFTRESET],
  * or USBDRD()_UAHC_USBCMD[HCRST], or USBDRD()_UAHC_USBCMD[LHCRST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.2.7.2.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.2.7.2.
  */
 typedef union
 {
@@ -3275,7 +3353,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GEVNTSIZX(unsigned long a, unsigned long
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.6.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.6.
  */
 typedef union
 {
@@ -3325,7 +3404,9 @@ typedef union
                                                                  When GFLADJ_REFCLK_LPM_SEL = 1 the overloading of the suspend control of the USB 2.0 first
                                                                  port PHY (UTMI) with USB 3.0 port states is removed. Note that the REF_CLK frequencies
                                                                  supported in this mode are 16/17/19.2/20/24/39.7/40 MHz.
-                                                                 INTERNAL: The utmi_clk[0] signal of the core must be connected to the FREECLK of the PHY.
+
+                                                                 Internal:
+                                                                 The utmi_clk[0] signal of the core must be connected to the FREECLK of the PHY.
                                                                  If you set this bit to 1, USBDRD()_UAHC_GUSB2PHYCFG()[U2_FREECLK_EXISTS] must be set to 0. */
         uint32_t reserved_22           : 1;
         uint32_t gfladj_refclk_fladj   : 14; /**< [ 21:  8](R/W) This field indicates the frame length adjustment to be applied when SOF/ITP counter is
@@ -3416,7 +3497,9 @@ typedef union
                                                                  When GFLADJ_REFCLK_LPM_SEL = 1 the overloading of the suspend control of the USB 2.0 first
                                                                  port PHY (UTMI) with USB 3.0 port states is removed. Note that the REF_CLK frequencies
                                                                  supported in this mode are 16/17/19.2/20/24/39.7/40 MHz.
-                                                                 INTERNAL: The utmi_clk[0] signal of the core must be connected to the FREECLK of the PHY.
+
+                                                                 Internal:
+                                                                 The utmi_clk[0] signal of the core must be connected to the FREECLK of the PHY.
                                                                  If you set this bit to 1, USBDRD()_UAHC_GUSB2PHYCFG()[U2_FREECLK_EXISTS] must be set to 0. */
         uint32_t gfladj_refclk_240mhz_decr : 7;/**< [ 30: 24](R/W) This field indicates the decrement value that the controller applies for each REF_CLK in
                                                                  order to derive a frame timer in terms of a 240-MHz clock. This field must be programmed
@@ -3485,7 +3568,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GFLADJ(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.9.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.9.
  */
 typedef union
 {
@@ -3525,7 +3609,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GGPIO(unsigned long a)
  *
  * UAHC Hardware Parameters Register 0
  * This register contains the hardware configuration options selected at compile-time.
- * INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
+ * Internal:
+ * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.1.
  */
 typedef union
@@ -3574,7 +3659,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS0(unsigned long a)
  *
  * UAHC Hardware Parameters Register 1
  * This register contains the hardware configuration options selected at compile-time.
- * INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
+ * Internal:
+ * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.2.
  */
 typedef union
@@ -3586,7 +3672,9 @@ typedef union
         uint32_t en_dbc                : 1;  /**< [ 31: 31](RAZ) Enable debug capability. */
         uint32_t rm_opt_features       : 1;  /**< [ 30: 30](RO) Remove optional features. */
         uint32_t sync_rst              : 1;  /**< [ 29: 29](RO) Synchronous reset coding. */
-        uint32_t ram_bus_clks_sync     : 1;  /**< [ 28: 28](RO) RAM_CLK and BUS_CLK are synchronous. INTERNAL: (appears to be orthogonal from the
+        uint32_t ram_bus_clks_sync     : 1;  /**< [ 28: 28](RO) RAM_CLK and BUS_CLK are synchronous.
+                                                                 Internal:
+                                                                 (appears to be orthogonal from the
                                                                  RAM_CLK_TO_BUS_CLK parameter) */
         uint32_t mac_ram_clks_sync     : 1;  /**< [ 27: 27](RO) MAC3_CLK and RAM_CLK are synchronous. */
         uint32_t mac_phy_clks_sync     : 1;  /**< [ 26: 26](RO) MAC3_CLK and PHY_CLK are synchronous. */
@@ -3615,7 +3703,9 @@ typedef union
                                                                  bit<1> = Hibernation feature available. */
         uint32_t mac_phy_clks_sync     : 1;  /**< [ 26: 26](RO) MAC3_CLK and PHY_CLK are synchronous. */
         uint32_t mac_ram_clks_sync     : 1;  /**< [ 27: 27](RO) MAC3_CLK and RAM_CLK are synchronous. */
-        uint32_t ram_bus_clks_sync     : 1;  /**< [ 28: 28](RO) RAM_CLK and BUS_CLK are synchronous. INTERNAL: (appears to be orthogonal from the
+        uint32_t ram_bus_clks_sync     : 1;  /**< [ 28: 28](RO) RAM_CLK and BUS_CLK are synchronous.
+                                                                 Internal:
+                                                                 (appears to be orthogonal from the
                                                                  RAM_CLK_TO_BUS_CLK parameter) */
         uint32_t sync_rst              : 1;  /**< [ 29: 29](RO) Synchronous reset coding. */
         uint32_t rm_opt_features       : 1;  /**< [ 30: 30](RO) Remove optional features. */
@@ -3647,7 +3737,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS1(unsigned long a)
  *
  * UAHC Core GHW Parameters Register 2
  * This register contains the hardware configuration options selected at compile-time.
- * INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
+ * Internal:
+ * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.3.
  */
 typedef union
@@ -3686,8 +3777,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS2(unsigned long a)
  *
  * UAHC GHW Parameters Register 3
  * This register contains the hardware configuration options selected at compile-time.
- *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.4.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.4.
  */
 typedef union
 {
@@ -3745,7 +3836,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS3(unsigned long a)
  *
  * UAHC GHW Parameters Register 4
  * This register contains the hardware configuration options selected at compile-time.
- * INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
+ * Internal:
+ * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.5.
  */
 typedef union
@@ -3800,7 +3892,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS4(unsigned long a)
  *
  * UAHC GHW Parameters Register 5
  * This register contains the hardware configuration options selected at compile-time.
- * INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
+ * Internal:
+ * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.6.
  */
 typedef union
@@ -3849,7 +3942,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS5(unsigned long a)
  *
  * UAHC GHW Parameters Register 6
  * This register contains the hardware configuration options selected at compile-time.
- * INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
+ * Internal:
+ * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.7.
  */
 typedef union
@@ -3908,7 +4002,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS6(unsigned long a)
  *
  * UAHC GHW Parameters Register 7
  * This register contains the hardware configuration options selected at compile-time.
- * INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
+ * Internal:
+ * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.3.8.
  */
 typedef union
@@ -3949,7 +4044,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS7(unsigned long a)
  *
  * UAHC GHW Parameters Register 8
  * This register contains the hardware configuration options selected at compile-time.
- * INTERNAL: Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
+ * Internal:
+ * Register field names refer to Synopsys DWC_USB3_* parameters of the same suffix.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.3.9.
  */
 typedef union
@@ -3995,7 +4091,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GHWPARAMS8(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.1.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.4.1.
  * INTERNAL: Contact Synopsys directly.
  */
 typedef union
@@ -4079,7 +4176,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GPMSTS(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.2.1.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.2.1.
  */
 typedef union
 {
@@ -4126,7 +4224,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.3.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.3.
  */
 typedef union
 {
@@ -4173,7 +4272,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP_FS(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
  */
 typedef union
 {
@@ -4213,7 +4313,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GPRTBIMAP_HS(unsigned long a)
  *
  * UAHC Release ID Register
  * This is a read-only register that contains the release number of the core.
- * INTERNAL: Original name: GSNPSID = Synopsys ID.
+ * Internal:
+ * Original name: GSNPSID = Synopsys ID.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.8.
  */
 typedef union
@@ -4223,13 +4324,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t releaseid             : 32; /**< [ 31:  0](RO) Software can use this register to configure release-specific features in the driver.
-                                                                 INTERNAL: Synopsys ID
+                                                                 Internal:
+                                                                 Synopsys ID
                                                                   * SynopsysID[31:16] indicates Core Identification Number. 0x5533 is ASCII for
                                                                  U3 (DWC_usb3).
                                                                   * SynopsysID[15:0] indicates the release number. Current Release is 2.50a. */
 #else /* Word 0 - Little Endian */
         uint32_t releaseid             : 32; /**< [ 31:  0](RO) Software can use this register to configure release-specific features in the driver.
-                                                                 INTERNAL: Synopsys ID
+                                                                 Internal:
+                                                                 Synopsys ID
                                                                   * SynopsysID[31:16] indicates Core Identification Number. 0x5533 is ASCII for
                                                                  U3 (DWC_usb3).
                                                                   * SynopsysID[15:0] indicates the release number. Current Release is 2.50a. */
@@ -4282,7 +4385,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GRLSID(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.3.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.3.
  */
 typedef union
 {
@@ -4329,7 +4433,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GRXFIFOPRIHST(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.2.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.2.
  * INTERNAL: For more information, see the BMU section in Block Descriptions on Synopsys Databook
  * page 238.
  */
@@ -4343,13 +4448,17 @@ typedef union
                                                                  reset value is derived from configuration parameters. */
         uint32_t rxfdep                : 16; /**< [ 15:  0](R/W) RxFIFOn depth. This value is in terms of RX RAM Data width.
                                                                  minimum value = 0x20, maximum value = 0x4000.
-                                                                 INTERNAL: For more information, see the Hardware Integration chapter of the Synopsys
+
+                                                                 Internal:
+                                                                 For more information, see the Hardware Integration chapter of the Synopsys
                                                                  Databook.
                                                                  The reset value is derived from configuration parameters. */
 #else /* Word 0 - Little Endian */
         uint32_t rxfdep                : 16; /**< [ 15:  0](R/W) RxFIFOn depth. This value is in terms of RX RAM Data width.
                                                                  minimum value = 0x20, maximum value = 0x4000.
-                                                                 INTERNAL: For more information, see the Hardware Integration chapter of the Synopsys
+
+                                                                 Internal:
+                                                                 For more information, see the Hardware Integration chapter of the Synopsys
                                                                  Databook.
                                                                  The reset value is derived from configuration parameters. */
         uint32_t rxfstaddr             : 16; /**< [ 31: 16](R/W) RxFIFOn RAM start address. This field contains the memory start address for RxFIFOn. The
@@ -4400,7 +4509,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned lo
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.4.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.4.
  */
 typedef union
 {
@@ -4562,7 +4672,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GRXTHRCFG(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: The AXI cache signals are not connected in Cavium's hookup, so the *REQINFO fields
+ * Internal:
+ * The AXI cache signals are not connected in Cavium's hookup, so the *REQINFO fields
  * can be ignored.
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.1.
  */
@@ -4666,7 +4777,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GSBUSCFG0(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.2.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.2.
  */
 typedef union
 {
@@ -4736,8 +4848,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GSBUSCFG1(unsigned long a)
  *
  * UAHC Core Status Register
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
- *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.6.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.6.
  */
 typedef union
 {
@@ -4822,7 +4934,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GSTS(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.2.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.9.2.
  */
 typedef union
 {
@@ -4888,7 +5001,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOPRIDEV(unsigned long a)
  * This register can be reset by IOI reset or with USBDRD()_UCTL_CTL[UAHC_RST],
  * or USBDRD()_UAHC_GCTL[CORESOFTRESET].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.80a, section 6.2.9.2.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.80a, section 6.2.9.2.
  */
 typedef union
 {
@@ -4938,7 +5052,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOPRIHST(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.1.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.6.1.
  * INTERNAL: For more information, refer to the BMU section in Block Descriptions on Synopsys
  * Databook page 238.
  */
@@ -4952,13 +5067,17 @@ typedef union
                                                                  is value derived from configuration parameters. */
         uint32_t txfdep                : 16; /**< [ 15:  0](R/W) TxFIFOn depth. This value is in terms of TX RAM data width.
                                                                  minimum value = 0x20, maximum value = 0x8000.
-                                                                 INTERNAL: For more information, see the Hardware Integration chapter of the Synopsys
+
+                                                                 Internal:
+                                                                 For more information, see the Hardware Integration chapter of the Synopsys
                                                                  Databook.
                                                                  The reset value derived from configuration parameters. */
 #else /* Word 0 - Little Endian */
         uint32_t txfdep                : 16; /**< [ 15:  0](R/W) TxFIFOn depth. This value is in terms of TX RAM data width.
                                                                  minimum value = 0x20, maximum value = 0x8000.
-                                                                 INTERNAL: For more information, see the Hardware Integration chapter of the Synopsys
+
+                                                                 Internal:
+                                                                 For more information, see the Hardware Integration chapter of the Synopsys
                                                                  Databook.
                                                                  The reset value derived from configuration parameters. */
         uint32_t txfstaddr             : 16; /**< [ 31: 16](R/W) Transmit FIFOn RAM start address. Contains the memory start address for TxFIFOn. The reset
@@ -5006,7 +5125,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned lo
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.3.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.3.
  */
 typedef union
 {
@@ -5139,7 +5259,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GTXTHRCFG(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.11.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.11.
  */
 typedef union
 {
@@ -5379,8 +5500,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GUCTL(unsigned long a)
  *
  * UAHC Global User Control Register 1
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
- *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.7.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.7.
  */
 typedef union
 {
@@ -5500,7 +5621,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GUCTL1(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.10.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.50a, section 6.2.1.10.
  */
 typedef union
 {
@@ -5541,7 +5663,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GUID(unsigned long a)
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.2.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.2.
  */
 typedef union
 {
@@ -5587,7 +5710,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned l
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.1.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.1.
  */
 typedef union
 {
@@ -5934,7 +6058,8 @@ static inline uint64_t BDK_USBDRDX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned l
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UAHC_RST].
  *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.4.
+ * Internal:
+ * See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.4.
  */
 typedef union
 {
@@ -5978,12 +6103,16 @@ typedef union
 
                                                                  This bit is added for SuperSpeed PHY workaround where SuperSpeed PHY injects a glitch on
                                                                  pipe3_RxElecIdle while receiving Ux exit LFPS, and pipe3_PowerDown change is in progress.
-                                                                 INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
                                                                  Synopsys PHY. */
         uint32_t ping_enchance_en      : 1;  /**< [ 26: 26](R/W) Ping enhancement enable. When set to 1, the downstream-port U1-ping-receive timeout
                                                                  becomes 500 ms instead of 300 ms. Minimum Ping.LFPS receive duration is 8 ns (one mac3_clk
                                                                  cycle). This field is valid for the downstream port only.
-                                                                 INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
                                                                  Synopsys PHY. */
         uint32_t u1u2exitfail_to_recov : 1;  /**< [ 25: 25](R/W) U1U2exit fail to recovery. When set to 1, and U1/U2 LFPS handshake fails, the LTSSM
                                                                  transitions from U1/U2 to recovery instead of SS.inactive.
@@ -5995,24 +6124,31 @@ typedef union
                                                                  1 = the core always requests PHY power change from P0 to P1/P2/P3 during U0 to U1/U2/U3
                                                                  transition.
 
-                                                                 INTERNAL: Note: This bit should be set to 1 for Synopsys PHY. For third-party SuperSpeed
+                                                                 Internal:
+                                                                 Note: This bit should be set to 1 for Synopsys PHY. For third-party SuperSpeed
                                                                  PHY, check with your PHY vendor. */
         uint32_t startrxdetu3rxdet     : 1;  /**< [ 23: 23](WO) Start receiver detection in U3/Rx.Detect.
                                                                  If DISRXDETU3RXDET is set to 1 during reset, and the link is in U3 or Rx.Detect state, the
                                                                  core starts receiver detection on rising edge of this bit.
                                                                  This bit is valid for downstream ports only, and this feature must not be enabled for
                                                                  normal operation.
-                                                                 INTERNAL: If have to use this feature, contact Synopsys. */
+
+                                                                 Internal:
+                                                                 If have to use this feature, contact Synopsys. */
         uint32_t disrxdetu3rxdet       : 1;  /**< [ 22: 22](R/W) Disable receiver detection in U3/Rx.Detect. When set to 1, the core does not do receiver
                                                                  detection in U3 or Rx.Detect state. If STARTRXDETU3RXDET is set to 1 during reset,
                                                                  receiver detection starts manually.
                                                                  This bit is valid for downstream ports only, and this feature must not be enabled for
                                                                  normal operation.
-                                                                 INTERNAL: If have to use this feature, contact Synopsys. */
+
+                                                                 Internal:
+                                                                 If have to use this feature, contact Synopsys. */
         uint32_t delaypx               : 3;  /**< [ 21: 19](R/W) Delay P1P2P3. Delay P0 to P1/P2/P3 request when entering U1/U2/U3 until (DELAYPX * 8)
                                                                  8B10B error occurs, or Pipe3_RxValid drops to 0.
                                                                  DELAYPXTRANSENTERUX must reset to 1 to enable this functionality.
-                                                                 INTERNAL: Should always be 0x1 for a Synopsys PHY. */
+
+                                                                 Internal:
+                                                                 Should always be 0x1 for a Synopsys PHY. */
         uint32_t delaypxtransenterux   : 1;  /**< [ 18: 18](R/W) Delay PHY power change from P0 to P1/P2/P3 when link state changing from U0 to U1/U2/U3
                                                                  respectively.
                                                                  0 = when entering U1/U2/U3, transition to P1/P2/P3 without checking for Pipe3_RxElecIlde
@@ -6020,7 +6156,8 @@ typedef union
                                                                  1 = when entering U1/U2/U3, delay the transition to P1/P2/P3 until the pipe3 signals,
                                                                  Pipe3_RxElecIlde is 1 and pipe3_RxValid is 0.
 
-                                                                 INTERNAL: Note: This bit should be set to '1' for Synopsys PHY. It is also used by third-
+                                                                 Internal:
+                                                                 Note: This bit should be set to '1' for Synopsys PHY. It is also used by third-
                                                                  party SuperSpeed PHY. */
         uint32_t suspend_en            : 1;  /**< [ 17: 17](R/W) Suspend USB3.0 SuperSpeed PHY (Suspend_en). When set to 1, and if suspend conditions are
                                                                  valid, the USB 3.0 PHY enters suspend mode. */
@@ -6032,14 +6169,18 @@ typedef union
 
                                                                  One clock cycle after reset, these bits receive the value seen on the pipe3_DataBusWidth.
                                                                  This will always be 0x0.
-                                                                 INTERNAL: The simulation testbench uses the coreConsultant parameter to configure the VIP.
+
+                                                                 Internal:
+                                                                 The simulation testbench uses the coreConsultant parameter to configure the VIP.
                                                                  INTERNAL: These bits in the coreConsultant parameter should match your PHY data width and
                                                                  the pipe3_DataBusWidth port. */
         uint32_t abortrxdetinu2        : 1;  /**< [ 14: 14](R/W) Abort RX Detect in U2. When set to 1, and the link state is U2, the core aborts receiver
                                                                  detection if it receives U2 exit LFPS from the remote link partner.
 
                                                                  This bit is for downstream port only.
-                                                                 INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
                                                                  Synopsys PHY. */
         uint32_t skiprxdet             : 1;  /**< [ 13: 13](R/W) Skip RX detect. When set to 1, the core skips RX detection if pipe3_RxElecIdle is low.
                                                                  Skip is defined as waiting for the appropriate timeout, then repeating the operation. */
@@ -6056,12 +6197,16 @@ typedef union
                                                                  1 = the core transitions directly from Phy power state P2 to P3 or from state P3 to P2.
 
                                                                  According to PIPE3 specification, any direct transition between P3 and P2 is illegal.
-                                                                 INTERNAL: This bit is used only for some non-Synopsys PHYs that cannot do LFPS in P3.
+
+                                                                 Internal:
+                                                                 This bit is used only for some non-Synopsys PHYs that cannot do LFPS in P3.
                                                                  INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
                                                                  Synopsys PHY. */
         uint32_t p3exsigp2             : 1;  /**< [ 10: 10](R/W) P3 exit signal in P2. When set to 1, the core always changes the PHY power state to P2,
                                                                  before attempting a U3 exit handshake.
-                                                                 INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
                                                                  Synopsys PHY. */
         uint32_t lfpsfilt              : 1;  /**< [  9:  9](R/W) LFPS filter. When set to 1, filter LFPS reception with pipe3_RxValid in PHY power state
                                                                  P0, ignore LFPS reception from the PHY unless both pipe3_Rxelecidle and pipe3_RxValid are
@@ -6092,7 +6237,9 @@ typedef union
                                                                  deasserted. */
         uint32_t p3exsigp2             : 1;  /**< [ 10: 10](R/W) P3 exit signal in P2. When set to 1, the core always changes the PHY power state to P2,
                                                                  before attempting a U3 exit handshake.
-                                                                 INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
                                                                  Synopsys PHY. */
         uint32_t p3p2tranok            : 1;  /**< [ 11: 11](R/W) P3 P2 transitions OK.
                                                                  0 = P0 is always entered as an intermediate state during transitions between P2 and P3, as
@@ -6100,7 +6247,9 @@ typedef union
                                                                  1 = the core transitions directly from Phy power state P2 to P3 or from state P3 to P2.
 
                                                                  According to PIPE3 specification, any direct transition between P3 and P2 is illegal.
-                                                                 INTERNAL: This bit is used only for some non-Synopsys PHYs that cannot do LFPS in P3.
+
+                                                                 Internal:
+                                                                 This bit is used only for some non-Synopsys PHYs that cannot do LFPS in P3.
                                                                  INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
                                                                  Synopsys PHY. */
         uint32_t lfpsp0algn            : 1;  /**< [ 12: 12](R/W) LFPS P0 align. When set to 1:
@@ -6116,7 +6265,9 @@ typedef union
                                                                  detection if it receives U2 exit LFPS from the remote link partner.
 
                                                                  This bit is for downstream port only.
-                                                                 INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
                                                                  Synopsys PHY. */
         uint32_t datwidth              : 2;  /**< [ 16: 15](RO) PIPE data width.
                                                                  0x0 = 32 bits.
@@ -6126,7 +6277,9 @@ typedef union
 
                                                                  One clock cycle after reset, these bits receive the value seen on the pipe3_DataBusWidth.
                                                                  This will always be 0x0.
-                                                                 INTERNAL: The simulation testbench uses the coreConsultant parameter to configure the VIP.
+
+                                                                 Internal:
+                                                                 The simulation testbench uses the coreConsultant parameter to configure the VIP.
                                                                  INTERNAL: These bits in the coreConsultant parameter should match your PHY data width and
                                                                  the pipe3_DataBusWidth port. */
         uint32_t suspend_en            : 1;  /**< [ 17: 17](R/W) Suspend USB3.0 SuperSpeed PHY (Suspend_en). When set to 1, and if suspend conditions are
@@ -6138,31 +6291,39 @@ typedef union
                                                                  1 = when entering U1/U2/U3, delay the transition to P1/P2/P3 until the pipe3 signals,
                                                                  Pipe3_RxElecIlde is 1 and pipe3_RxValid is 0.
 
-                                                                 INTERNAL: Note: This bit should be set to '1' for Synopsys PHY. It is also used by third-
+                                                                 Internal:
+                                                                 Note: This bit should be set to '1' for Synopsys PHY. It is also used by third-
                                                                  party SuperSpeed PHY. */
         uint32_t delaypx               : 3;  /**< [ 21: 19](R/W) Delay P1P2P3. Delay P0 to P1/P2/P3 request when entering U1/U2/U3 until (DELAYPX * 8)
                                                                  8B10B error occurs, or Pipe3_RxValid drops to 0.
                                                                  DELAYPXTRANSENTERUX must reset to 1 to enable this functionality.
-                                                                 INTERNAL: Should always be 0x1 for a Synopsys PHY. */
+
+                                                                 Internal:
+                                                                 Should always be 0x1 for a Synopsys PHY. */
         uint32_t disrxdetu3rxdet       : 1;  /**< [ 22: 22](R/W) Disable receiver detection in U3/Rx.Detect. When set to 1, the core does not do receiver
                                                                  detection in U3 or Rx.Detect state. If STARTRXDETU3RXDET is set to 1 during reset,
                                                                  receiver detection starts manually.
                                                                  This bit is valid for downstream ports only, and this feature must not be enabled for
                                                                  normal operation.
-                                                                 INTERNAL: If have to use this feature, contact Synopsys. */
+
+                                                                 Internal:
+                                                                 If have to use this feature, contact Synopsys. */
         uint32_t startrxdetu3rxdet     : 1;  /**< [ 23: 23](WO) Start receiver detection in U3/Rx.Detect.
                                                                  If DISRXDETU3RXDET is set to 1 during reset, and the link is in U3 or Rx.Detect state, the
                                                                  core starts receiver detection on rising edge of this bit.
                                                                  This bit is valid for downstream ports only, and this feature must not be enabled for
                                                                  normal operation.
-                                                                 INTERNAL: If have to use this feature, contact Synopsys. */
+
+                                                                 Internal:
+                                                                 If have to use this feature, contact Synopsys. */
         uint32_t request_p1p2p3        : 1;  /**< [ 24: 24](R/W) Always request P1/P2/P3 for U1/U2/U3.
                                                                  0 = if immediate Ux exit (remotely initiated, or locally initiated) happens, the core does
                                                                  not request P1/P2/P3 power state change.
                                                                  1 = the core always requests PHY power change from P0 to P1/P2/P3 during U0 to U1/U2/U3
                                                                  transition.
 
-                                                                 INTERNAL: Note: This bit should be set to 1 for Synopsys PHY. For third-party SuperSpeed
+                                                                 Internal:
+                                                                 Note: This bit should be set to 1 for Synopsys PHY. For third-party SuperSpeed
                                                                  PHY, check with your PHY vendor. */
         uint32_t u1u2exitfail_to_recov : 1;  /**< [ 25: 25](R/W) U1U2exit fail to recovery. When set to 1, and U1/U2 LFPS handshake fails, the LTSSM
                                                                  transitions from U1/U2 to recovery instead of SS.inactive.
@@ -6171,7 +6332,9 @@ typedef union
         uint32_t ping_enchance_en      : 1;  /**< [ 26: 26](R/W) Ping enhancement enable. When set to 1, the downstream-port U1-ping-receive timeout
                                                                  becomes 500 ms instead of 300 ms. Minimum Ping.LFPS receive duration is 8 ns (one mac3_clk
                                                                  cycle). This field is valid for the downstream port only.
-                                                                 INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
                                                                  Synopsys PHY. */
         uint32_t ux_exit_in_px         : 1;  /**< [ 27: 27](R/W) UX exit in Px:
                                                                  0 = Core does U1/U2/U3 exit in PHY power state P0 (default behavior).
@@ -6179,7 +6342,9 @@ typedef union
 
                                                                  This bit is added for SuperSpeed PHY workaround where SuperSpeed PHY injects a glitch on
                                                                  pipe3_RxElecIdle while receiving Ux exit LFPS, and pipe3_PowerDown change is in progress.
-                                                                 INTERNAL: Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
+
+                                                                 Internal:
+                                                                 Note: This bit is used by third-party SuperSpeed PHY. It should be set to 0 for
                                                                  Synopsys PHY. */
         uint32_t disrxdetp3            : 1;  /**< [ 28: 28](R/W) Disables receiver detection in P3. If PHY is in P3 and the core needs to perform receiver
                                                                  detection:
@@ -7738,7 +7903,8 @@ typedef union
 
                                                                  If REF_CLK_SEL = 0x0, then the reference clock input cannot be spread-spectrum.
 
-                                                                 INTERNAL: For the 0x1 selection, reference clock source for SuperSpeed PLL is from the USB
+                                                                 Internal:
+                                                                 For the 0x1 selection, reference clock source for SuperSpeed PLL is from the USB
                                                                  pads, reference clock source for HighSpeed PLL is PLL_REF_CLK. But in 78xx, PLL_REF_CLK
                                                                  cannot be routed to USB without violating jitter requirements */
         uint64_t ssc_en                : 1;  /**< [ 59: 59](R/W) Spread-spectrum clock enable. Enables spread-spectrum clock production in the SuperSpeed
@@ -7778,7 +7944,9 @@ typedef union
 
                                                                  Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
                                                                  must all be programmed to the same frequency setting.
-                                                                   INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                 Internal:
+                                                                 If REF_CLK_SEL = 0x0 or 0x1, then:
                                                                                0x0 is the only legal value.
                                                                              If REF_CLK_SEL = 0x2 or 0x3, then:
                                                                                0x108: if DLMC_REF_CLK* is 19.2MHz, 24MHz, 26MHz, 38.4MHz, 48MHz,
@@ -7804,7 +7972,9 @@ typedef union
 
                                                                   Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
                                                                   must all be programmed to the same frequency setting.
-                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                 Internal:
+                                                                 If REF_CLK_SEL = 0x0 or 0x1, then:
                                                                                  0x19 = 100  MHz on DLMC_REF_CLK*
                                                                                  0x68 =  24  MHz on DLMC_REF_CLK*
                                                                                  0x7D =  20  MHz on DLMC_REF_CLK*
@@ -7851,7 +8021,9 @@ typedef union
 
                                                                   Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
                                                                   must all be programmed to the same frequency setting.
-                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                 Internal:
+                                                                 If REF_CLK_SEL = 0x0 or 0x1, then:
                                                                                 all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
                                                                               If REF_CLK_SEL = 0x2 or 0x3, then:
                                                                                 0x1: if DLMC_REF_CLK* is 125MHz.
@@ -7878,7 +8050,9 @@ typedef union
                                                                   Note: When REF_CLK_SEL = 0x2 or 0x3, the MPLL_MULTIPLIER, REF_CLK_DIV2, and
                                                                   SSC_REF_CLK_SEL settings are used to configure the SuperSpeed reference clock
                                                                   multiplier.
-                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                 Internal:
+                                                                 If REF_CLK_SEL = 0x0 or 0x1, then:
                                                                                 0x27 = 100  MHz on DLMC_REF_CLK*
                                                                                 0x2A =  24  MHz on DLMC_REF_CLK*
                                                                                 0x31 =  20  MHz on DLMC_REF_CLK*
@@ -7898,7 +8072,9 @@ typedef union
 
                                                                  The bypass clock can be selected and running even if the controller-clock dividers are not
                                                                  running.
-                                                                 INTERNAL: Generally bypass is only used for scan purposes. */
+
+                                                                 Internal:
+                                                                 Generally bypass is only used for scan purposes. */
         uint64_t h_clkdiv_rst          : 1;  /**< [ 28: 28](R/W) Controller-clock divider reset. Divided clocks are not generated while the divider is
                                                                  being reset.
                                                                  This also resets the suspend-clock divider. */
@@ -7932,7 +8108,8 @@ typedef union
 
                                                                  This field can be changed only when H_CLKDIV_RST = 1.
 
-                                                                 INTERNAL: 150MHz is from the maximum of:
+                                                                 Internal:
+                                                                 150MHz is from the maximum of:
                                                                              Synopsys DWC_usb3 Databook v2.80a, table A-16, row 1, col 12.
                                                                              Synopsys DWC_usb3 Databook v2.80a, table A-17, row 7, col 9.
                                                                              Synopsys DWC_usb3 Databook v2.80a, table A-16, row 7, col 9.
@@ -7978,14 +8155,17 @@ typedef union
                                                                   1 = Device. */
         uint64_t uphy_rst              : 1;  /**< [  2:  2](R/W) PHY reset; resets UPHY; active-high. */
         uint64_t uahc_rst              : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
-                                                                 INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
+                                                                 Internal:
+                                                                 Note that soft-resetting the UAHC while it is active may cause violations of RSL
                                                                  or NCB protocols. */
         uint64_t uctl_rst              : 1;  /**< [  0:  0](R/W) Software reset; resets UCTL; active-high.
                                                                  Resets UAHC DMA and register shims. Resets UCTL registers 0x30-0xF8.
                                                                  Does not reset UCTL registers 0x0-0x28.
                                                                  UCTL registers starting from 0x30 can be accessed only after the controller clock is
                                                                  active and UCTL_RST is deasserted.
-                                                                 INTERNAL: Note that soft-resetting the UCTL while it is active may cause violations of
+
+                                                                 Internal:
+                                                                 Note that soft-resetting the UCTL while it is active may cause violations of
                                                                  RSL, NCB, and CIB protocols. */
 #else /* Word 0 - Little Endian */
         uint64_t uctl_rst              : 1;  /**< [  0:  0](R/W) Software reset; resets UCTL; active-high.
@@ -7993,10 +8173,13 @@ typedef union
                                                                  Does not reset UCTL registers 0x0-0x28.
                                                                  UCTL registers starting from 0x30 can be accessed only after the controller clock is
                                                                  active and UCTL_RST is deasserted.
-                                                                 INTERNAL: Note that soft-resetting the UCTL while it is active may cause violations of
+
+                                                                 Internal:
+                                                                 Note that soft-resetting the UCTL while it is active may cause violations of
                                                                  RSL, NCB, and CIB protocols. */
         uint64_t uahc_rst              : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
-                                                                 INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
+                                                                 Internal:
+                                                                 Note that soft-resetting the UAHC while it is active may cause violations of RSL
                                                                  or NCB protocols. */
         uint64_t uphy_rst              : 1;  /**< [  2:  2](R/W) PHY reset; resets UPHY; active-high. */
         uint64_t drd_mode              : 1;  /**< [  3:  3](R/W) Switches between Host or Device mode for USBDRD.
@@ -8063,7 +8246,8 @@ typedef union
 
                                                                  This field can be changed only when H_CLKDIV_RST = 1.
 
-                                                                 INTERNAL: 150MHz is from the maximum of:
+                                                                 Internal:
+                                                                 150MHz is from the maximum of:
                                                                              Synopsys DWC_usb3 Databook v2.80a, table A-16, row 1, col 12.
                                                                              Synopsys DWC_usb3 Databook v2.80a, table A-17, row 7, col 9.
                                                                              Synopsys DWC_usb3 Databook v2.80a, table A-16, row 7, col 9.
@@ -8086,7 +8270,9 @@ typedef union
 
                                                                  The bypass clock can be selected and running even if the controller-clock dividers are not
                                                                  running.
-                                                                 INTERNAL: Generally bypass is only used for scan purposes. */
+
+                                                                 Internal:
+                                                                 Generally bypass is only used for scan purposes. */
         uint64_t h_clk_en              : 1;  /**< [ 30: 30](R/W) Controller-clock enable. When set to 1, the controller clock is generated. This also
                                                                  enables access to UCTL registers 0x30-0xF8. */
         uint64_t reserved_31           : 1;
@@ -8108,7 +8294,9 @@ typedef union
                                                                   Note: When REF_CLK_SEL = 0x2 or 0x3, the MPLL_MULTIPLIER, REF_CLK_DIV2, and
                                                                   SSC_REF_CLK_SEL settings are used to configure the SuperSpeed reference clock
                                                                   multiplier.
-                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                 Internal:
+                                                                 If REF_CLK_SEL = 0x0 or 0x1, then:
                                                                                 0x27 = 100  MHz on DLMC_REF_CLK*
                                                                                 0x2A =  24  MHz on DLMC_REF_CLK*
                                                                                 0x31 =  20  MHz on DLMC_REF_CLK*
@@ -8132,7 +8320,9 @@ typedef union
 
                                                                   Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
                                                                   must all be programmed to the same frequency setting.
-                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                 Internal:
+                                                                 If REF_CLK_SEL = 0x0 or 0x1, then:
                                                                                 all DLMC_REF_CLK* frequencies: 0x0 is the only legal value.
                                                                               If REF_CLK_SEL = 0x2 or 0x3, then:
                                                                                 0x1: if DLMC_REF_CLK* is 125MHz.
@@ -8167,7 +8357,9 @@ typedef union
 
                                                                   Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
                                                                   must all be programmed to the same frequency setting.
-                                                                    INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                 Internal:
+                                                                 If REF_CLK_SEL = 0x0 or 0x1, then:
                                                                                  0x19 = 100  MHz on DLMC_REF_CLK*
                                                                                  0x68 =  24  MHz on DLMC_REF_CLK*
                                                                                  0x7D =  20  MHz on DLMC_REF_CLK*
@@ -8208,7 +8400,9 @@ typedef union
 
                                                                  Note: If REF_CLK_SEL = 0x2 or 0x3, then MPLL_MULTPLIER, REF_CLK_DIV2, and SSC_REF_CLK_SEL
                                                                  must all be programmed to the same frequency setting.
-                                                                   INTERNAL: If REF_CLK_SEL = 0x0 or 0x1, then:
+
+                                                                 Internal:
+                                                                 If REF_CLK_SEL = 0x0 or 0x1, then:
                                                                                0x0 is the only legal value.
                                                                              If REF_CLK_SEL = 0x2 or 0x3, then:
                                                                                0x108: if DLMC_REF_CLK* is 19.2MHz, 24MHz, 26MHz, 38.4MHz, 48MHz,
@@ -8245,7 +8439,8 @@ typedef union
 
                                                                  If REF_CLK_SEL = 0x0, then the reference clock input cannot be spread-spectrum.
 
-                                                                 INTERNAL: For the 0x1 selection, reference clock source for SuperSpeed PLL is from the USB
+                                                                 Internal:
+                                                                 For the 0x1 selection, reference clock source for SuperSpeed PLL is from the USB
                                                                  pads, reference clock source for HighSpeed PLL is PLL_REF_CLK. But in 78xx, PLL_REF_CLK
                                                                  cannot be routed to USB without violating jitter requirements */
         uint64_t start_bist            : 1;  /**< [ 62: 62](R/W) Rising edge starts BIST on the memories in USBDRD.
@@ -9071,7 +9266,8 @@ static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned l
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UCTL_RST].
  *
- * INTERNAL: All these settings are for high-speed functionality, connect on DVDD power domain.
+ * Internal:
+ * All these settings are for high-speed functionality, connect on DVDD power domain.
  */
 typedef union
 {
@@ -9152,7 +9348,9 @@ typedef union
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
                                                                  after the pipeP_tx_deemph[1:0] input changes.
-                                                                 INTERNAL: Default value is package dependant. */
+
+                                                                 Internal:
+                                                                 Default value is package dependant. */
         uint64_t pcs_tx_deemph_6db     : 6;  /**< [ 25: 20](R/W) Fine-tune transmitter driver deemphasis when set to 6db.
                                                                  This static value sets the TX driver deemphasis value when pipeP_tx_deemph[1:0] is set to
                                                                  0x2 (according to the PIPE3 specification). This bus is provided for completeness and as a
@@ -9165,7 +9363,9 @@ typedef union
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
                                                                  after the pipeP_tx_deemph[1:0] input changes.
-                                                                 INTERNAL: Default value is package dependant. */
+
+                                                                 Internal:
+                                                                 Default value is package dependant. */
         uint64_t pcs_tx_swing_full     : 7;  /**< [ 19: 13](R/W) Launch amplitude of the transmitter. Sets the launch amplitude of the transmitter. The
                                                                  values for transmit amplitude are derived from the following equation:
                                                                  TX amplitude (V) = vptx * ((pcs_tx_swing_full + 1)/128)
@@ -9174,7 +9374,9 @@ typedef union
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
                                                                  after the pipeP_tx_deemph[1:0] input changes.
-                                                                 INTERNAL: Default value is package dependant. */
+
+                                                                 Internal:
+                                                                 Default value is package dependant. */
         uint64_t lane0_tx_term_offset  : 5;  /**< [ 12:  8](R/W) Transmitter termination offset. Reserved, set to 0x0. */
         uint64_t reserved_6_7          : 2;
         uint64_t res_tune_ack          : 1;  /**< [  5:  5](RO/H) Resistor tune acknowledge. While asserted, indicates a resistor tune is in progress. */
@@ -9202,7 +9404,9 @@ typedef union
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
                                                                  after the pipeP_tx_deemph[1:0] input changes.
-                                                                 INTERNAL: Default value is package dependant. */
+
+                                                                 Internal:
+                                                                 Default value is package dependant. */
         uint64_t pcs_tx_deemph_6db     : 6;  /**< [ 25: 20](R/W) Fine-tune transmitter driver deemphasis when set to 6db.
                                                                  This static value sets the TX driver deemphasis value when pipeP_tx_deemph[1:0] is set to
                                                                  0x2 (according to the PIPE3 specification). This bus is provided for completeness and as a
@@ -9215,7 +9419,9 @@ typedef union
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
                                                                  after the pipeP_tx_deemph[1:0] input changes.
-                                                                 INTERNAL: Default value is package dependant. */
+
+                                                                 Internal:
+                                                                 Default value is package dependant. */
         uint64_t pcs_tx_deemph_3p5db   : 6;  /**< [ 31: 26](R/W) Fine-tune transmitter driver deemphasis when set to 3.5db.
                                                                  This static value sets the TX driver deemphasis value when pipeP_tx_deemph[1:0] is set to
                                                                  0x1 (according to the PIPE3 specification). The values for transmit deemphasis are derived
@@ -9227,7 +9433,9 @@ typedef union
                                                                  out of reset. However, you can dynamically change these values on-the-fly for test
                                                                  purposes. In this case, changes to the transmitter to reflect the current value occur only
                                                                  after the pipeP_tx_deemph[1:0] input changes.
-                                                                 INTERNAL: Default value is package dependant. */
+
+                                                                 Internal:
+                                                                 Default value is package dependant. */
         uint64_t pcs_rx_los_mask_val   : 10; /**< [ 41: 32](R/W) Configurable loss-of-signal mask width. Sets the number of reference clock cycles to mask
                                                                  the incoming LFPS in U3 and U2 states. Masks the incoming LFPS for the number of reference
                                                                  clock cycles equal to the value of pcs_rx_los_mask_val<9:0>. This control filters out
@@ -9323,7 +9531,8 @@ static inline uint64_t BDK_USBDRDX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned l
  *
  * This register can be reset by NCB reset or with USBDRD()_UCTL_CTL[UCTL_RST].
  *
- * INTERNAL: (In body of HRM)
+ * Internal:
+ * (In body of HRM)
  * To access the PHY registers indirectly through the CR interface, the HCLK must be running,
  * UCTL_RST must be deasserted, and UPHY_RST must be deasserted. Software is responsible for
  * ensuring that only one indirect access is ongoing at a time.
@@ -9562,9 +9771,11 @@ typedef union
     struct bdk_usbdrdx_uctl_spare0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t spare                 : 64; /**< [ 63:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t spare                 : 64; /**< [ 63:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbdrdx_uctl_spare0_s cn; */
@@ -9602,9 +9813,11 @@ typedef union
     struct bdk_usbdrdx_uctl_spare1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t spare                 : 64; /**< [ 63:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t spare                 : 64; /**< [ 63:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_usbdrdx_uctl_spare1_s cn; */

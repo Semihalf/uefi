@@ -196,7 +196,8 @@ union bdk_ddf_inst_find_s
                                                                  this structure then structure elements described here are not read from memory
                                                                  and behave as if zero.
 
-                                                                 INTERNAL: In hardware, push/pop zeros for (QWORDS..15) into the
+                                                                 Internal:
+                                                                 In hardware, push/pop zeros for (QWORDS..15) into the
                                                                  instruction queue.  As VQs are virtualized, DDF must not hang on invalid instructions. */
         uint64_t op                    : 8;  /**< [  7:  0] Operation to perform. Enumerated by DDF_OP_E. */
 #else /* Word 0 - Little Endian */
@@ -205,7 +206,8 @@ union bdk_ddf_inst_find_s
                                                                  this structure then structure elements described here are not read from memory
                                                                  and behave as if zero.
 
-                                                                 INTERNAL: In hardware, push/pop zeros for (QWORDS..15) into the
+                                                                 Internal:
+                                                                 In hardware, push/pop zeros for (QWORDS..15) into the
                                                                  instruction queue.  As VQs are virtualized, DDF must not hang on invalid instructions. */
         uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When DONEINT is set and the instruction completes,
                                                                  DDF()_VQ()_DONE[DONE] will be incremented. */
@@ -338,7 +340,8 @@ union bdk_ddf_inst_find_s
                                                                  512 bytes.
                                                                  The size of a bucket, e.g. 4 * (2^NESTSZP2) cannot be larger than 128 bytes.
 
-                                                                 INTERNAL: This means a 32-byte SHA256 cannot have any payload (SW must use separate
+                                                                 Internal:
+                                                                 This means a 32-byte SHA256 cannot have any payload (SW must use separate
                                                                  table). Limiting to 32 byte nests means all 4 nests fit in a cache line. */
         uint64_t reserved_371          : 1;
         uint64_t nbuckp2               : 3;  /**< [370:368] Number of buckets per filter as a power-of-2.
@@ -391,7 +394,8 @@ union bdk_ddf_inst_find_s
                                                                  512 bytes.
                                                                  The size of a bucket, e.g. 4 * (2^NESTSZP2) cannot be larger than 128 bytes.
 
-                                                                 INTERNAL: This means a 32-byte SHA256 cannot have any payload (SW must use separate
+                                                                 Internal:
+                                                                 This means a 32-byte SHA256 cannot have any payload (SW must use separate
                                                                  table). Limiting to 32 byte nests means all 4 nests fit in a cache line. */
         uint64_t hdrszp2               : 3;  /**< [377:375] Size of a filter header as power-of-2.
                                                                     0x0 = 1 byte.
@@ -520,7 +524,8 @@ union bdk_ddf_inst_match_s
                                                                  _ ...
                                                                  0x3F = 64 bytes.
 
-                                                                 INTERNAL: Must support non-power-of-2. */
+                                                                 Internal:
+                                                                 Must support non-power-of-2. */
         uint64_t reserved_23_39        : 17;
         uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches.
                                                                  0 = A match is only expected in one record.
@@ -567,7 +572,8 @@ union bdk_ddf_inst_match_s
                                                                  _ ...
                                                                  0x3F = 64 bytes.
 
-                                                                 INTERNAL: Must support non-power-of-2. */
+                                                                 Internal:
+                                                                 Must support non-power-of-2. */
         uint64_t nrec                  : 16; /**< [ 63: 48] Number of records to compare.
                                                                  Typically the same as the number of records in a record block.
                                                                  If 0x0, compare nothing. */
@@ -703,7 +709,8 @@ union bdk_ddf_inst_match_s
                                                                  _ ...
                                                                  0x3F = 64 bytes.
 
-                                                                 INTERNAL: Must support non-power-of-2. */
+                                                                 Internal:
+                                                                 Must support non-power-of-2. */
         uint64_t reserved_32_39        : 8;
         uint64_t reserved_23_31        : 9;
         uint64_t multm                 : 1;  /**< [ 22: 22] Multiple matches.
@@ -752,7 +759,8 @@ union bdk_ddf_inst_match_s
                                                                  _ ...
                                                                  0x3F = 64 bytes.
 
-                                                                 INTERNAL: Must support non-power-of-2. */
+                                                                 Internal:
+                                                                 Must support non-power-of-2. */
         uint64_t nrec                  : 16; /**< [ 63: 48] Number of records to compare.
                                                                  Typically the same as the number of records in a record block.
                                                                  If 0x0, compare nothing. */
@@ -884,7 +892,8 @@ union bdk_ddf_inst_match_s
  * set DDF will update an entire cache line, but only write valid data to the fields
  * specified depending on the required amount of [RDATA0]..[3] data.
  *
- * INTERNAL: When [RR] is set it can use a full-cacheline write with fewer than
+ * Internal:
+ * When [RR] is set it can use a full-cacheline write with fewer than
  * a cache-lines worth of NCB data ticks.
  */
 union bdk_ddf_res_find_s
@@ -1005,7 +1014,8 @@ union bdk_ddf_res_find_s
  * set DDF will update an entire cache line, but only write valid data to the fields
  * specified depending on the required amount of [RDATA0]..[7] data.
  *
- * INTERNAL: When [RR] is set it can use a full-cacheline write with fewer than
+ * Internal:
+ * When [RR] is set it can use a full-cacheline write with fewer than
  * a cache-lines worth of NCB data ticks.
  */
 union bdk_ddf_res_match_s
@@ -1580,9 +1590,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -2016,11 +2028,15 @@ typedef union
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
 
                                                                  Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved. INTERNAL: Guest machine identifier. The GMID to send to FPA for all
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be non-zero or FPA/SSO will drop requests. */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved. INTERNAL: Guest machine identifier. The GMID to send to FPA for all
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
                                                                  Must be non-zero or FPA/SSO will drop requests. */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.

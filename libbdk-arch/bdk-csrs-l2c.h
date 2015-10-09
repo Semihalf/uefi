@@ -875,7 +875,9 @@ typedef union
         uint64_t iorddisoci            : 1;  /**< [ 63: 63](RO/H) Logged information is for a IORDDISOCI error. */
         uint64_t iowrdisoci            : 1;  /**< [ 62: 62](RO/H) Logged information is for a IOWRDISOCI error. */
         uint64_t reserved_59_61        : 3;
-        uint64_t cmd                   : 7;  /**< [ 58: 52](RO/H) Encoding of XMC command.  INTERNAL: Enumerated by XMC_CMD_E. */
+        uint64_t cmd                   : 7;  /**< [ 58: 52](RO/H) Encoding of XMC command.
+                                                                 Internal:
+                                                                 Enumerated by XMC_CMD_E. */
         uint64_t ppvid                 : 6;  /**< [ 51: 46](RO/H) CMB source PPVID. */
         uint64_t node                  : 2;  /**< [ 45: 44](RO/H) Destination node ID. */
         uint64_t did                   : 8;  /**< [ 43: 36](RO/H) Destination device ID. */
@@ -885,7 +887,9 @@ typedef union
         uint64_t did                   : 8;  /**< [ 43: 36](RO/H) Destination device ID. */
         uint64_t node                  : 2;  /**< [ 45: 44](RO/H) Destination node ID. */
         uint64_t ppvid                 : 6;  /**< [ 51: 46](RO/H) CMB source PPVID. */
-        uint64_t cmd                   : 7;  /**< [ 58: 52](RO/H) Encoding of XMC command.  INTERNAL: Enumerated by XMC_CMD_E. */
+        uint64_t cmd                   : 7;  /**< [ 58: 52](RO/H) Encoding of XMC command.
+                                                                 Internal:
+                                                                 Enumerated by XMC_CMD_E. */
         uint64_t reserved_59_61        : 3;
         uint64_t iowrdisoci            : 1;  /**< [ 62: 62](RO/H) Logged information is for a IOWRDISOCI error. */
         uint64_t iorddisoci            : 1;  /**< [ 63: 63](RO/H) Logged information is for a IORDDISOCI error. */
@@ -1365,9 +1369,15 @@ typedef union
         uint64_t vbfsbe0               : 1;  /**< [ 60: 60](RO/H) INDEX/SYN0 corresponds to a single-bit VBF ECC error. */
         uint64_t reserved_48_59        : 12;
         uint64_t syn1                  : 8;  /**< [ 47: 40](RO/H) Error syndrome for QW1 ([127:64]).
-                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
+                                                                 Records only on single bit errors.
+
+                                                                 Internal:
+                                                                 See bug26334. */
         uint64_t syn0                  : 8;  /**< [ 39: 32](RO/H) Error syndrome for QW0 ([63:0]).
-                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
+                                                                 Records only on single bit errors.
+
+                                                                 Internal:
+                                                                 See bug26334. */
         uint64_t reserved_12_31        : 20;
         uint64_t vbf4                  : 1;  /**< [ 11: 11](RO/H) When 1, errors were from VBF (4+a), when 0, from VBF (0+a). */
         uint64_t index                 : 7;  /**< [ 10:  4](RO/H) VBF index which was read and had the error(s). */
@@ -1378,9 +1388,15 @@ typedef union
         uint64_t vbf4                  : 1;  /**< [ 11: 11](RO/H) When 1, errors were from VBF (4+a), when 0, from VBF (0+a). */
         uint64_t reserved_12_31        : 20;
         uint64_t syn0                  : 8;  /**< [ 39: 32](RO/H) Error syndrome for QW0 ([63:0]).
-                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
+                                                                 Records only on single bit errors.
+
+                                                                 Internal:
+                                                                 See bug26334. */
         uint64_t syn1                  : 8;  /**< [ 47: 40](RO/H) Error syndrome for QW1 ([127:64]).
-                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
+                                                                 Records only on single bit errors.
+
+                                                                 Internal:
+                                                                 See bug26334. */
         uint64_t reserved_48_59        : 12;
         uint64_t vbfsbe0               : 1;  /**< [ 60: 60](RO/H) INDEX/SYN0 corresponds to a single-bit VBF ECC error. */
         uint64_t vbfsbe1               : 1;  /**< [ 61: 61](RO/H) INDEX/SYN1 corresponds to a single-bit VBF ECC error. */
@@ -1429,7 +1445,8 @@ typedef union
         uint64_t lock_local_stc        : 1;  /**< [ 28: 28](RO) Reserved. */
         uint64_t lock_local_pp         : 1;  /**< [ 27: 27](RO) Reserved. */
         uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Reserved.
-                                                                 INTERNAL: This only controls the GSYNC timeout in the L2C_CBCs in non-OCI chips. */
+                                                                 Internal:
+                                                                 This only controls the GSYNC timeout in the L2C_CBCs in non-OCI chips. */
         uint64_t shtolen               : 5;  /**< [ 21: 17](RO) Reserved. */
         uint64_t shtoioen              : 1;  /**< [ 16: 16](RO) Reserved. */
         uint64_t shtoen                : 3;  /**< [ 15: 13](RO) Reserved. */
@@ -1454,7 +1471,8 @@ typedef union
         uint64_t shtoioen              : 1;  /**< [ 16: 16](RO) Reserved. */
         uint64_t shtolen               : 5;  /**< [ 21: 17](RO) Reserved. */
         uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Reserved.
-                                                                 INTERNAL: This only controls the GSYNC timeout in the L2C_CBCs in non-OCI chips. */
+                                                                 Internal:
+                                                                 This only controls the GSYNC timeout in the L2C_CBCs in non-OCI chips. */
         uint64_t lock_local_pp         : 1;  /**< [ 27: 27](RO) Reserved. */
         uint64_t lock_local_stc        : 1;  /**< [ 28: 28](RO) Reserved. */
         uint64_t lock_local_cas        : 1;  /**< [ 29: 29](RO) Reserved. */
@@ -1918,7 +1936,9 @@ typedef union
         uint64_t rddisoci              : 1;  /**< [ 61: 61](RO/H) Logged information is for a RDDISOCI error. */
         uint64_t wrdisoci              : 1;  /**< [ 60: 60](RO/H) Logged information is for a WRDISOCI error. */
         uint64_t nonsec                : 1;  /**< [ 59: 59](RO/H) Non-secure (NS) bit of request causing error. */
-        uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error. INTERNAL: If CMD[7]==1, use XMC_CMD_E to
+        uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error.
+                                                                 Internal:
+                                                                 If CMD[7]==1, use XMC_CMD_E to
                                                                  decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
                                                                  use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
                                                                  CMD[4:0]. */
@@ -1943,7 +1963,9 @@ typedef union
         uint64_t source                : 7;  /**< [ 50: 44](RO/H) XMC source of request causing error. If SOURCE<6>==0, then SOURCE<5:0> is PPID, else
                                                                  SOURCE<3:0> is BUSID of the IOB which made the request. If CMD[7]==0, this field is
                                                                  unpredictable. */
-        uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error. INTERNAL: If CMD[7]==1, use XMC_CMD_E to
+        uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error.
+                                                                 Internal:
+                                                                 If CMD[7]==1, use XMC_CMD_E to
                                                                  decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
                                                                  use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
                                                                  CMD[4:0]. */
@@ -2386,7 +2408,8 @@ typedef union
         uint64_t reserved_57_61        : 5;
         uint64_t lfbnum                : 5;  /**< [ 56: 52](RO/H) The LFB number of the entry that timed out, and have its info captures in this register. */
         uint64_t cmd                   : 8;  /**< [ 51: 44](RO/H) Encoding of XMC or CCPI command causing error.
-                                                                 INTERNAL: If CMD[7]==1, use XMC_CMD_E to decode CMD[6:0]. If CMD[7:5]==0, use
+                                                                 Internal:
+                                                                 If CMD[7]==1, use XMC_CMD_E to decode CMD[6:0]. If CMD[7:5]==0, use
                                                                  OCI_MREQ_CMD_E to
                                                                  decode CMD[4:0]. If CMD[7:5]==1, use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2,
                                                                  use OCI_MRSP_CMD_E to decode CMD[4:0]. */
@@ -2412,7 +2435,8 @@ typedef union
                                                                  clear & INFOVAB is set). */
         uint64_t reserved_42_43        : 2;
         uint64_t cmd                   : 8;  /**< [ 51: 44](RO/H) Encoding of XMC or CCPI command causing error.
-                                                                 INTERNAL: If CMD[7]==1, use XMC_CMD_E to decode CMD[6:0]. If CMD[7:5]==0, use
+                                                                 Internal:
+                                                                 If CMD[7]==1, use XMC_CMD_E to decode CMD[6:0]. If CMD[7:5]==0, use
                                                                  OCI_MREQ_CMD_E to
                                                                  decode CMD[4:0]. If CMD[7:5]==1, use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2,
                                                                  use OCI_MRSP_CMD_E to decode CMD[4:0]. */

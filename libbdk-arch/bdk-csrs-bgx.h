@@ -105,6 +105,21 @@
                                        and enable sets BGX(0..1)_SPU_MEM_INT_ENA_W1S. */
 
 /**
+ * Enumeration bgx_lmac_types_e
+ *
+ * INTERNAL: BGX LMAC Type Enumeration
+ *
+ * Enumerates the LMAC Types that BGX supports.
+ */
+#define BDK_BGX_LMAC_TYPES_E_FORTYG_R (4) /**< 40GBASE-R */
+#define BDK_BGX_LMAC_TYPES_E_QSGMII (6) /**< Quad Serial Gigabit Media Independent Interface */
+#define BDK_BGX_LMAC_TYPES_E_RGMII (5) /**< Reduced Gigabit Media Independent Interface */
+#define BDK_BGX_LMAC_TYPES_E_RXAUI (2) /**< Reduced 10G Attachment Unit Interface */
+#define BDK_BGX_LMAC_TYPES_E_SGMII (0) /**< Serial Gigabit Media Independent Interface (SGMII/1000BASE-X) */
+#define BDK_BGX_LMAC_TYPES_E_TENG_R (3) /**< 10GBASE-R */
+#define BDK_BGX_LMAC_TYPES_E_XAUI (1) /**< 10G Attachment Unit Interface (10GBASE-X/XAUI or DXAUI) */
+
+/**
  * Enumeration bgx_opcode_e
  *
  * INTERNAL: BGX Error Opcode Enumeration
@@ -421,7 +436,7 @@ union bdk_bgx_spu_sds_sr_s
  * BGX()_CMR_RX_LMACS[LMACS] and BGX()_CMR_TX_LMACS[LMACS]. When multiple LMACs are
  * enabled, they must be configured with the same [LMAC_TYPE] value.
  *
- * INTERNAL:
+ * Internal:
  * <pre>
  * Typical configurations:
  *   ---------------------------------------------------------------------------
@@ -641,8 +656,20 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
-        uint64_t p2x_select            : 1;  /**< [ 17: 17](R/W) Reserved. */
-        uint64_t x2p_select            : 1;  /**< [ 16: 16](R/W) Reserved. */
+        uint64_t p2x_select            : 1;  /**< [ 17: 17](R/W) Selects interior side P2X interface over which the LMAC will communicate:
+                                                                 <pre>
+                                                                   P2X_SELECT        Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 P2X0      NIC
+                                                                   1                 P2X1      Reserved
+                                                                 </pre> */
+        uint64_t x2p_select            : 1;  /**< [ 16: 16](R/W) Selects interior side X2P interface over which the LMAC will communicate:
+                                                                 <pre>
+                                                                   X2P_SELECT        Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 X2P0      NIC
+                                                                   1                 X2P1      Reserved
+                                                                 </pre> */
         uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
                                                                  dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
                                                                  and LMAC access to shared BGX resources (SMU/SPU data path, SerDes lanes) is disabled.
@@ -788,8 +815,20 @@ typedef union
                                                                  setting this bit to enable the LMAC. This bit together with LMAC_TYPE is also used to
                                                                  enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
                                                                  is enabled when any of the paths are enabled. */
-        uint64_t x2p_select            : 1;  /**< [ 16: 16](R/W) Reserved. */
-        uint64_t p2x_select            : 1;  /**< [ 17: 17](R/W) Reserved. */
+        uint64_t x2p_select            : 1;  /**< [ 16: 16](R/W) Selects interior side X2P interface over which the LMAC will communicate:
+                                                                 <pre>
+                                                                   X2P_SELECT        Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 X2P0      NIC
+                                                                   1                 X2P1      Reserved
+                                                                 </pre> */
+        uint64_t p2x_select            : 1;  /**< [ 17: 17](R/W) Selects interior side P2X interface over which the LMAC will communicate:
+                                                                 <pre>
+                                                                   P2X_SELECT        Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 P2X0      NIC
+                                                                   1                 P2X1      Reserved
+                                                                 </pre> */
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -1554,7 +1593,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
         uint64_t rid                   : 7;  /**< [ 14:  8](R/W) Reserved.
-                                                                 INTERNAL: Reassembly ID for Octeon PKI; not used in CNXXXX.
+                                                                 Internal:
+                                                                 Reassembly ID for Octeon PKI; not used in CNXXXX.
                                                                  Reassembly ID map for this LMAC. A shared pool of 96 reassembly IDs (RIDs) exists for all
                                                                  MACs.
 
@@ -1571,7 +1611,8 @@ typedef union
         uint64_t pknd                  : 6;  /**< [  5:  0](R/W) Port kind for this LMAC. */
         uint64_t unused                : 2;  /**< [  7:  6](RAZ) Reserved bits. */
         uint64_t rid                   : 7;  /**< [ 14:  8](R/W) Reserved.
-                                                                 INTERNAL: Reassembly ID for Octeon PKI; not used in CNXXXX.
+                                                                 Internal:
+                                                                 Reassembly ID for Octeon PKI; not used in CNXXXX.
                                                                  Reassembly ID map for this LMAC. A shared pool of 96 reassembly IDs (RIDs) exists for all
                                                                  MACs.
 
@@ -3222,7 +3263,7 @@ static inline uint64_t BDK_BGXX_CMR_BAD(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_BGXX_CMR_BAD(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
+        return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
@@ -3249,9 +3290,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
-        uint64_t status                : 25; /**< [ 24:  0](RO/H) "BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
-                                                                 run. INTERNAL:
-                                                                 <0> = bgx#.rxb.infif_gmp
+        uint64_t status                : 25; /**< [ 24:  0](RO/H) '"BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
+                                                                 run.'
+
+                                                                 Internal:
+                                                                 "<0> = bgx#.rxb.infif_gmp
                                                                  <1> = bgx#.rxb.infif_smu
                                                                  <2> = bgx#.rxb.fif_bnk00
                                                                  <3> = bgx#.rxb.fif_bnk01
@@ -3275,11 +3318,13 @@ typedef union
                                                                  <21> = bgx#.txb_mix0_fif
                                                                  <22> = bgx#.txb_mix1_fif
                                                                  <23> = bgx#.txb_ncsi_fif
-                                                                 <24> = RAZ" */
+                                                                 <24> = RAZ"" */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 25; /**< [ 24:  0](RO/H) "BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
-                                                                 run. INTERNAL:
-                                                                 <0> = bgx#.rxb.infif_gmp
+        uint64_t status                : 25; /**< [ 24:  0](RO/H) '"BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
+                                                                 run.'
+
+                                                                 Internal:
+                                                                 "<0> = bgx#.rxb.infif_gmp
                                                                  <1> = bgx#.rxb.infif_smu
                                                                  <2> = bgx#.rxb.fif_bnk00
                                                                  <3> = bgx#.rxb.fif_bnk01
@@ -3303,7 +3348,7 @@ typedef union
                                                                  <21> = bgx#.txb_mix0_fif
                                                                  <22> = bgx#.txb_mix1_fif
                                                                  <23> = bgx#.txb_ncsi_fif
-                                                                 <24> = RAZ" */
+                                                                 <24> = RAZ"" */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
@@ -3312,9 +3357,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
-        uint64_t status                : 25; /**< [ 24:  0](RO/H) "BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
-                                                                 run. INTERNAL:
-                                                                 <0> = bgx#.rxb.infif_gmp
+        uint64_t status                : 25; /**< [ 24:  0](RO/H) '"BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
+                                                                 run.'
+
+                                                                 Internal:
+                                                                 "<0> = bgx#.rxb.infif_gmp
                                                                  <1> = bgx#.rxb.infif_smu
                                                                  <2> = bgx#.rxb.fif_bnk00
                                                                  <3> = bgx#.rxb.fif_bnk01
@@ -3333,11 +3380,13 @@ typedef union
                                                                  <16> = bgx#.txb_mix0_fif
                                                                  <17> = bgx#.txb_mix1_fif
                                                                  <18> = bgx#.txb_ncsi_fif
-                                                                 <24:19> = RAZ" */
+                                                                 <24:19> = RAZ"" */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 25; /**< [ 24:  0](RO/H) "BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
-                                                                 run. INTERNAL:
-                                                                 <0> = bgx#.rxb.infif_gmp
+        uint64_t status                : 25; /**< [ 24:  0](RO/H) '"BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
+                                                                 run.'
+
+                                                                 Internal:
+                                                                 "<0> = bgx#.rxb.infif_gmp
                                                                  <1> = bgx#.rxb.infif_smu
                                                                  <2> = bgx#.rxb.fif_bnk00
                                                                  <3> = bgx#.rxb.fif_bnk01
@@ -3356,7 +3405,7 @@ typedef union
                                                                  <16> = bgx#.txb_mix0_fif
                                                                  <17> = bgx#.txb_mix1_fif
                                                                  <18> = bgx#.txb_ncsi_fif
-                                                                 <24:19> = RAZ" */
+                                                                 <24:19> = RAZ"" */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } cn88xx;
@@ -3505,11 +3554,15 @@ typedef union
     struct bdk_bgxx_cmr_eco_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_ro                : 32; /**< [ 63: 32](RO) INTERNAL: Reserved for ECO usage. */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_ro                : 32; /**< [ 63: 32](RO) Internal:
+                                                                 Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
-        uint64_t eco_ro                : 32; /**< [ 63: 32](RO) INTERNAL: Reserved for ECO usage. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
+                                                                 Reserved for ECO usage. */
+        uint64_t eco_ro                : 32; /**< [ 63: 32](RO) Internal:
+                                                                 Reserved for ECO usage. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bgxx_cmr_eco_s cn; */
@@ -3519,7 +3572,7 @@ static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x1);
+        return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
@@ -4996,7 +5049,7 @@ static inline uint64_t BDK_BGXX_CMR_NIC_NXC_ADR(unsigned long a) __attribute__ (
 static inline uint64_t BDK_BGXX_CMR_NIC_NXC_ADR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x1);
+        return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_NIC_NXC_ADR", 1, a, 0, 0, 0);
@@ -5728,6 +5781,90 @@ static inline uint64_t BDK_BGXX_CMR_TX_LMACS(unsigned long a)
 #define arguments_BDK_BGXX_CMR_TX_LMACS(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) bgx#_const
+ *
+ * BGX CONST Registers
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire BGX. This buffering may be split
+                                                                 between LMACs; see BGX()_CMR_RX_LMACS[LMACS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering in entire BGX. This buffering may be split
+                                                                 between LMACs; see BGX()_CMR_RX_LMACS[LMACS]. */
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_const_s cn; */
+} bdk_bgxx_const_t;
+
+static inline uint64_t BDK_BGXX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_CONST(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0040000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CONST", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_BGXX_CONST(a) bdk_bgxx_const_t
+#define bustype_BDK_BGXX_CONST(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_CONST(a) "BGXX_CONST"
+#define device_bar_BDK_BGXX_CONST(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_BGXX_CONST(a) (a)
+#define arguments_BDK_BGXX_CONST(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) bgx#_const1
+ *
+ * BGX CONST1 Registers
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_const1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t res_types             : 24; /**< [ 31:  8](RO) Reserved for more LMAC TYPES. */
+        uint64_t types                 : 8;  /**< [  7:  0](RO) LMAC types supported. Each bit if set corresponds to that value of BGX_LMAC_TYPES_E being
+                                                                 supported.
+                                                                 E.g. TYPES<0> if set indicates BGX_LMAC_TYPES_E::SGMII is supported. */
+#else /* Word 0 - Little Endian */
+        uint64_t types                 : 8;  /**< [  7:  0](RO) LMAC types supported. Each bit if set corresponds to that value of BGX_LMAC_TYPES_E being
+                                                                 supported.
+                                                                 E.g. TYPES<0> if set indicates BGX_LMAC_TYPES_E::SGMII is supported. */
+        uint64_t res_types             : 24; /**< [ 31:  8](RO) Reserved for more LMAC TYPES. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_const1_s cn; */
+} bdk_bgxx_const1_t;
+
+static inline uint64_t BDK_BGXX_CONST1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_CONST1(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0040008ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CONST1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_BGXX_CONST1(a) bdk_bgxx_const1_t
+#define bustype_BDK_BGXX_CONST1(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_CONST1(a) "BGXX_CONST1"
+#define device_bar_BDK_BGXX_CONST1(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_BGXX_CONST1(a) (a)
+#define arguments_BDK_BGXX_CONST1(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) bgx#_gmp_gmi_pause_ctl#
  *
  * BGX GMI Pause Control Registers
@@ -5907,7 +6044,8 @@ static inline uint64_t BDK_BGXX_GMP_GMI_PRTX_CFG(unsigned long a, unsigned long 
  * PREAMBLE + SFD (BGX()_GMP_GMI_RX()_FRM_CTL[PRE_CHK] = 1) and any optional UDD skip
  * data (BGX()_GMP_GMI_RX()_UDD_SKP[LEN]).
  *
- * INTERNAL: Notes:
+ * Internal:
+ * Notes:
  * As each byte in a packet is received by GMI, the L2 byte count is compared
  * against the BGX()_GMP_GMI_RX()_DECISION[CNT].  The L2 byte count is the number of bytes
  * from the beginning of the L2 header (DMAC).  In normal operation, the L2
@@ -6050,7 +6188,8 @@ static inline uint64_t BDK_BGXX_GMP_GMI_RXX_FRM_CHK(unsigned long a, unsigned lo
  * packets only apply to full duplex operation, any PAUSE packet would constitute an exception
  * which should be handled by the processing cores. PAUSE packets should not be forwarded.
  *
- * INTERNAL: Notes:
+ * Internal:
+ * Notes:
  * PRE_STRP
  * When PRE_CHK is set (indicating that the PREAMBLE will be sent), PRE_STRP
  * determines if the PREAMBLE+SFD bytes are thrown away or sent to the Octane
@@ -6435,14 +6574,15 @@ static inline uint64_t BDK_BGXX_GMP_GMI_RXX_IFG(unsigned long a, unsigned long b
  * Register (RSL) bgx#_gmp_gmi_rx#_int
  *
  * BGX GMP GMI RX Interrupt Registers
- * "These registers allow interrupts to be sent to the control processor.
+ * '"These registers allow interrupts to be sent to the control processor.
  * * Exception conditions <10:0> can also set the rcv/opcode in the received packet's work-queue
  * entry. BGX()_GMP_GMI_RX()_FRM_CHK provides a bit mask for configuring which conditions
  * set the error.
  * In half duplex operation, the expectation is that collisions will appear as either MINERR or
- * CAREXT errors.
+ * CAREXT errors.'
  *
- * INTERNAL: Notes:
+ * Internal:
+ * Notes:
  * (2) exception conditions 10:0 can also set the rcv/opcode in the received
  * packet's workQ entry.  The BGX()_GMP_GMI_RX()_FRM_CHK register provides a bit mask
  * for configuring which conditions set the error.
@@ -6858,7 +6998,8 @@ static inline uint64_t BDK_BGXX_GMP_GMI_RXX_JABBER(unsigned long a, unsigned lon
  * This register specifies the amount of user-defined data (UDD) added before the start of the
  * L2C data.
  *
- * INTERNAL: Notes:
+ * Internal:
+ * Notes:
  * (1) The skip bytes are part of the packet and will be sent down the NCB
  * packet interface and will be handled by NIC.
  *
@@ -7371,8 +7512,8 @@ static inline uint64_t BDK_BGXX_GMP_GMI_TXX_MIN_PKT(unsigned long a, unsigned lo
  *
  * BGX GMI TX PAUSE-Packet Transmission-Interval Registers
  * This register specifies how often PAUSE packets are sent.
- *
- * INTERNAL: Notes:
+ * Internal:
+ * Notes:
  * Choosing proper values of BGX()_GMP_GMI_TX_PAUSE_PKT_TIME[PTIME] and
  * BGX()_GMP_GMI_TX_PAUSE_PKT_INTERVAL[INTERVAL] can be challenging to the system
  * designer.  It is suggested that TIME be much greater than INTERVAL and
@@ -8621,7 +8762,7 @@ static inline uint64_t BDK_BGXX_GMP_PCS_LINKX_TIMER(unsigned long a, unsigned lo
  * Register (RSL) bgx#_gmp_pcs_misc#_ctl
  *
  * BGX GMP SGMII Miscellaneous Control Registers
- * INTERNAL:
+ * Internal:
  * SGMII bit [12] is really a misnomer, it is a decode  of pi_qlm_cfg pins to indicate SGMII or
  * 1000Base-X modes.
  *
@@ -10469,7 +10610,7 @@ static inline uint64_t BDK_BGXX_SMUX_RX_INT_W1S(unsigned long a, unsigned long b
  * This register specifies the maximum size for packets, beyond which the SMU truncates. In
  * XAUI/RXAUI mode, port 0 is used for checking.
  *
- * INTERNAL:
+ * Internal:
  * The packet that will be sent to the packet input logic will have an
  * additionl 8 bytes if BGX()_SMU()_RX_FRM_CTL[PRE_CHK] is set and
  * BGX()_SMU()_RX_FRM_CTL[PRE_STRP] is clear.  The max packet that will be sent is

@@ -1273,6 +1273,65 @@ typedef union
     struct bdk_cimx_icc_dir_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t intid                 : 24; /**< [ 23:  0](WO) Interrupt ID. Secure write to CIM()_ICC_DIR_EL1 deactivates the specified
+                                                                 interrupt, regardless of whether that interrupt is in group 0 or group 1
+                                                                 nonsecure write to CIM()_ICC_DIR_EL1 deactivates the specified interrupt only
+                                                                 if that interrupt is in group 1.
+
+                                                                 A valid write is one that specifies an interrupt that is active, and for which
+                                                                 there has been a successful write to CIM()_ICC_EOIR0_EL1 or CIM()_ICC_EOIR1_EL1.
+
+                                                                 If the relevant EOIMODE bit is 0 then the effect of this register access is ignored
+                                                                 and SEI is generated.
+
+                                                                 If the interrupt identified in the CIM()_ICC_DIR_EL1 is not active, and is not a
+                                                                 spurious interrupt, the deactivate packet sent will cause distributor to
+                                                                 generate SEI. This means any CIM()_ICC_DIR_EL1 write must identify an interrupt
+                                                                 for which there has been a valid CIM()_ICC_EOIR0_EL1 or CIM()_ICC_EOIR1_EL1
+                                                                 write.
+
+                                                                 If the relevant EOIMODE bit is 1 and no EOI has been issued for value written to
+                                                                 CIM()_ICC_DIR_EL1 the active priority for the interrupt will remain set (because
+                                                                 no EOI was issued). However, the system behavior is unpredictable.
+
+                                                                 Unlike CIM()_ICC_EOIR0_EL1 and CIM()_ICC_EOIR1_EL1 writes, there is no ordering
+                                                                 requirement for
+                                                                 CIM()_ICC_DIR_EL1 writes, provided they meet the other requirements given above.
+                                                                 Accesses to this register trap to EL2 (HYP_TRAP) if CIM()_ICH_HCR_EL2[TC] == 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t intid                 : 24; /**< [ 23:  0](WO) Interrupt ID. Secure write to CIM()_ICC_DIR_EL1 deactivates the specified
+                                                                 interrupt, regardless of whether that interrupt is in group 0 or group 1
+                                                                 nonsecure write to CIM()_ICC_DIR_EL1 deactivates the specified interrupt only
+                                                                 if that interrupt is in group 1.
+
+                                                                 A valid write is one that specifies an interrupt that is active, and for which
+                                                                 there has been a successful write to CIM()_ICC_EOIR0_EL1 or CIM()_ICC_EOIR1_EL1.
+
+                                                                 If the relevant EOIMODE bit is 0 then the effect of this register access is ignored
+                                                                 and SEI is generated.
+
+                                                                 If the interrupt identified in the CIM()_ICC_DIR_EL1 is not active, and is not a
+                                                                 spurious interrupt, the deactivate packet sent will cause distributor to
+                                                                 generate SEI. This means any CIM()_ICC_DIR_EL1 write must identify an interrupt
+                                                                 for which there has been a valid CIM()_ICC_EOIR0_EL1 or CIM()_ICC_EOIR1_EL1
+                                                                 write.
+
+                                                                 If the relevant EOIMODE bit is 1 and no EOI has been issued for value written to
+                                                                 CIM()_ICC_DIR_EL1 the active priority for the interrupt will remain set (because
+                                                                 no EOI was issued). However, the system behavior is unpredictable.
+
+                                                                 Unlike CIM()_ICC_EOIR0_EL1 and CIM()_ICC_EOIR1_EL1 writes, there is no ordering
+                                                                 requirement for
+                                                                 CIM()_ICC_DIR_EL1 writes, provided they meet the other requirements given above.
+                                                                 Accesses to this register trap to EL2 (HYP_TRAP) if CIM()_ICH_HCR_EL2[TC] == 1. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cimx_icc_dir_el1_s cn81xx; */
+    struct bdk_cimx_icc_dir_el1_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
         uint64_t intid                 : 20; /**< [ 19:  0](WO) Interrupt ID. Secure write to CIM()_ICC_DIR_EL1 deactivates the specified
                                                                  interrupt, regardless of whether that interrupt is in group 0 or group 1
@@ -1327,8 +1386,8 @@ typedef union
                                                                  Accesses to this register trap to EL2 (HYP_TRAP) if CIM()_ICH_HCR_EL2[TC] == 1. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cimx_icc_dir_el1_s cn; */
+    } cn88xx;
+    /* struct bdk_cimx_icc_dir_el1_s cn83xx; */
 } bdk_cimx_icc_dir_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_DIR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1365,6 +1424,77 @@ typedef union
     struct bdk_cimx_icc_eoir0_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t eoiintid              : 24; /**< [ 23:  0](WO) End of interrupt ID.
+                                                                 Software must ensure the interrupt identifier written to CIM()_ICC_EOIR0_EL1 is
+                                                                 identical to the identifier returned by the last read of an interrupt acknowledge
+                                                                 register and that this identifier was read from CIM()_ICC_IAR0_EL1 while operating
+                                                                 in the same security state as that in which the write occurs, otherwise the system
+                                                                 behavior is unpredictable.
+
+                                                                 For nested interrupts, the order of writes to CIM()_ICC_EOIR0_EL1 must be the
+                                                                 reverse of the order of interrupt acknowledgement.
+
+                                                                 Behavior is unpredictable if either:
+
+                                                                 _ 1. The ordering constraints on reads from the CIM()_ICC_IAR0_EL1 and writes
+                                                                 to the CIM()_ICC_EOIR0_EL1 are not maintained.
+
+                                                                 _ 2. The value in a write to the CIM()_ICC_EOIR0_EL1 does not match an active
+                                                                 interrupt, or the ID of a spurious interrupt.
+
+                                                                 The effect of writing to CIM()_ICC_EOIR0_EL1 with a valid interrupt ID is
+                                                                 unpredictable if any of the following apply:
+
+                                                                 _ 1. The value written does not match the last valid interrupt value read from the
+                                                                 interrupt acknowledge register, or the security states in which the read from
+                                                                 CIM()_ICC_IAR0_EL1 and writes to the CIM()_ICC_EOIR0_EL1 differ.
+
+                                                                 _ 2. There is no outstanding acknowledged interrupt.
+
+                                                                 _ 3. The indicated interrupt has already been subject to an EOI request.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which FIQ is routed. */
+#else /* Word 0 - Little Endian */
+        uint64_t eoiintid              : 24; /**< [ 23:  0](WO) End of interrupt ID.
+                                                                 Software must ensure the interrupt identifier written to CIM()_ICC_EOIR0_EL1 is
+                                                                 identical to the identifier returned by the last read of an interrupt acknowledge
+                                                                 register and that this identifier was read from CIM()_ICC_IAR0_EL1 while operating
+                                                                 in the same security state as that in which the write occurs, otherwise the system
+                                                                 behavior is unpredictable.
+
+                                                                 For nested interrupts, the order of writes to CIM()_ICC_EOIR0_EL1 must be the
+                                                                 reverse of the order of interrupt acknowledgement.
+
+                                                                 Behavior is unpredictable if either:
+
+                                                                 _ 1. The ordering constraints on reads from the CIM()_ICC_IAR0_EL1 and writes
+                                                                 to the CIM()_ICC_EOIR0_EL1 are not maintained.
+
+                                                                 _ 2. The value in a write to the CIM()_ICC_EOIR0_EL1 does not match an active
+                                                                 interrupt, or the ID of a spurious interrupt.
+
+                                                                 The effect of writing to CIM()_ICC_EOIR0_EL1 with a valid interrupt ID is
+                                                                 unpredictable if any of the following apply:
+
+                                                                 _ 1. The value written does not match the last valid interrupt value read from the
+                                                                 interrupt acknowledge register, or the security states in which the read from
+                                                                 CIM()_ICC_IAR0_EL1 and writes to the CIM()_ICC_EOIR0_EL1 differ.
+
+                                                                 _ 2. There is no outstanding acknowledged interrupt.
+
+                                                                 _ 3. The indicated interrupt has already been subject to an EOI request.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which FIQ is routed. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cimx_icc_eoir0_el1_s cn81xx; */
+    struct bdk_cimx_icc_eoir0_el1_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
         uint64_t eoiintid              : 20; /**< [ 19:  0](WO) End of interrupt ID.
                                                                  Software must ensure the interrupt identifier written to CIM()_ICC_EOIR0_EL1 is
@@ -1431,8 +1561,8 @@ typedef union
                                                                  exception level to which FIQ is routed. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cimx_icc_eoir0_el1_s cn; */
+    } cn88xx;
+    /* struct bdk_cimx_icc_eoir0_el1_s cn83xx; */
 } bdk_cimx_icc_eoir0_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_EOIR0_EL1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1469,6 +1599,83 @@ typedef union
     struct bdk_cimx_icc_eoir1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t eoiintid              : 24; /**< [ 23:  0](WO) End of interrupt ID.
+                                                                 Software must ensure the interrupt identifier written to CIM()_ICC_EOIR1_EL1 is
+                                                                 identical to the
+                                                                 identifier returned by the last
+                                                                 read of an interrupt acknowledge register and that this identifier was read from
+                                                                 CIM()_ICC_IAR1_EL1 while operating in the same
+                                                                 security state as that in which the write occurs, otherwise the system behavior is
+                                                                 unpredictable.
+
+                                                                 For nested interrupts, the order of writes to CIM()_ICC_EOIR1_EL1 must be the reverse
+                                                                 of the order of interrupt acknowledgement.
+
+                                                                 Behavior is unpredictable if either:
+
+                                                                   1. The ordering constraints on reads from the CIM()_ICC_IAR1_EL1 and writes to the
+                                                                 CIM()_ICC_EOIR1_EL1 are not maintained.
+
+                                                                   2. The value in a write to the CIM()_ICC_EOIR1_EL1 does not match an active
+                                                                 interrupt, or theID of a spurious interrupt.
+
+                                                                 The effect of writing to CIM()_ICC_EOI1_EL1 with a valid interrupt ID is
+                                                                 unpredictable if any of the following apply:
+
+                                                                   1. The value written does not match the last valid interrupt value read from the
+                                                                 interrupt acknowledge register,
+                                                                      or the security states in which the read from CIM()_ICC_IAR1_EL1 and write to
+                                                                 the CIM()_ICC_EOIR1_EL1 differ.
+
+                                                                   2. There is no outstanding acknowledged interrupt.
+
+                                                                   3. The indicated interrupt has already been subject to an EOI request.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which IRQ is routed. */
+#else /* Word 0 - Little Endian */
+        uint64_t eoiintid              : 24; /**< [ 23:  0](WO) End of interrupt ID.
+                                                                 Software must ensure the interrupt identifier written to CIM()_ICC_EOIR1_EL1 is
+                                                                 identical to the
+                                                                 identifier returned by the last
+                                                                 read of an interrupt acknowledge register and that this identifier was read from
+                                                                 CIM()_ICC_IAR1_EL1 while operating in the same
+                                                                 security state as that in which the write occurs, otherwise the system behavior is
+                                                                 unpredictable.
+
+                                                                 For nested interrupts, the order of writes to CIM()_ICC_EOIR1_EL1 must be the reverse
+                                                                 of the order of interrupt acknowledgement.
+
+                                                                 Behavior is unpredictable if either:
+
+                                                                   1. The ordering constraints on reads from the CIM()_ICC_IAR1_EL1 and writes to the
+                                                                 CIM()_ICC_EOIR1_EL1 are not maintained.
+
+                                                                   2. The value in a write to the CIM()_ICC_EOIR1_EL1 does not match an active
+                                                                 interrupt, or theID of a spurious interrupt.
+
+                                                                 The effect of writing to CIM()_ICC_EOI1_EL1 with a valid interrupt ID is
+                                                                 unpredictable if any of the following apply:
+
+                                                                   1. The value written does not match the last valid interrupt value read from the
+                                                                 interrupt acknowledge register,
+                                                                      or the security states in which the read from CIM()_ICC_IAR1_EL1 and write to
+                                                                 the CIM()_ICC_EOIR1_EL1 differ.
+
+                                                                   2. There is no outstanding acknowledged interrupt.
+
+                                                                   3. The indicated interrupt has already been subject to an EOI request.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which IRQ is routed. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cimx_icc_eoir1_el1_s cn81xx; */
+    struct bdk_cimx_icc_eoir1_el1_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
         uint64_t eoiintid              : 20; /**< [ 19:  0](WO) End of interrupt ID.
                                                                  Software must ensure the interrupt identifier written to CIM()_ICC_EOIR1_EL1 is
@@ -1541,8 +1748,8 @@ typedef union
                                                                  exception level to which IRQ is routed. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cimx_icc_eoir1_el1_s cn; */
+    } cn88xx;
+    /* struct bdk_cimx_icc_eoir1_el1_s cn83xx; */
 } bdk_cimx_icc_eoir1_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_EOIR1_EL1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1573,8 +1780,8 @@ typedef union
     struct bdk_cimx_icc_hppir0_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
+        uint64_t reserved_24_63        : 40;
+        uint64_t pendintid             : 24; /**< [ 23:  0](RO/H) Pending interrupt ID.
                                                                  Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
                                                                  can depend on:
 
@@ -1594,7 +1801,7 @@ typedef union
 
                                                                  Changed in pass 3. */
 #else /* Word 0 - Little Endian */
-        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
+        uint64_t pendintid             : 24; /**< [ 23:  0](RO/H) Pending interrupt ID.
                                                                  Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
                                                                  can depend on:
 
@@ -1613,10 +1820,52 @@ typedef union
                                                                  "active and pending" means "active" only for CIM.
 
                                                                  Changed in pass 3. */
-        uint64_t reserved_20_63        : 44;
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cimx_icc_hppir0_el1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t pendintid             : 24; /**< [ 23:  0](RO/H) Pending interrupt ID.
+                                                                 Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
+                                                                 can depend on:
+
+                                                                 1. Whether the highest priority pending interrupt is configured as a group 0 or a group 1
+                                                                 interrupt.
+
+                                                                 2. Whether the register access is secure or nonsecure.
+
+                                                                 Reads of the CIM()_ICC_HPPIR0_EL1 that do not return a valid interrupt ID return a
+                                                                 spurrious interrupt ID, ID 1022 or 1023.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which FIQ is routed.
+
+                                                                 ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
+                                                                 "active and pending" means "active" only for CIM. */
+#else /* Word 0 - Little Endian */
+        uint64_t pendintid             : 24; /**< [ 23:  0](RO/H) Pending interrupt ID.
+                                                                 Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
+                                                                 can depend on:
+
+                                                                 1. Whether the highest priority pending interrupt is configured as a group 0 or a group 1
+                                                                 interrupt.
+
+                                                                 2. Whether the register access is secure or nonsecure.
+
+                                                                 Reads of the CIM()_ICC_HPPIR0_EL1 that do not return a valid interrupt ID return a
+                                                                 spurrious interrupt ID, ID 1022 or 1023.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which FIQ is routed.
+
+                                                                 ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
+                                                                 "active and pending" means "active" only for CIM. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_cimx_icc_hppir0_el1_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
@@ -1636,7 +1885,9 @@ typedef union
                                                                  exception level to which FIQ is routed.
 
                                                                  ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
-                                                                 "active and pending" means "active" only for CIM. */
+                                                                 "active and pending" means "active" only for CIM.
+
+                                                                 Changed in pass 3. */
 #else /* Word 0 - Little Endian */
         uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
                                                                  Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
@@ -1654,11 +1905,12 @@ typedef union
                                                                  exception level to which FIQ is routed.
 
                                                                  ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
-                                                                 "active and pending" means "active" only for CIM. */
+                                                                 "active and pending" means "active" only for CIM.
+
+                                                                 Changed in pass 3. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_cimx_icc_hppir0_el1_s cn88xx; */
+    } cn88xx;
     /* struct bdk_cimx_icc_hppir0_el1_cn81xx cn83xx; */
 } bdk_cimx_icc_hppir0_el1_t;
 
@@ -1690,8 +1942,8 @@ typedef union
     struct bdk_cimx_icc_hppir1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
+        uint64_t reserved_24_63        : 40;
+        uint64_t pendintid             : 24; /**< [ 23:  0](RO/H) Pending interrupt ID.
                                                                  Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
                                                                  can depend on:
 
@@ -1709,7 +1961,7 @@ typedef union
                                                                  ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
                                                                  "active and pending" means "active" only for CIM. */
 #else /* Word 0 - Little Endian */
-        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
+        uint64_t pendintid             : 24; /**< [ 23:  0](RO/H) Pending interrupt ID.
                                                                  Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
                                                                  can depend on:
 
@@ -1726,14 +1978,14 @@ typedef union
 
                                                                  ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
                                                                  "active and pending" means "active" only for CIM. */
-        uint64_t reserved_20_63        : 44;
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
     struct bdk_cimx_icc_hppir1_el1_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending Interrupt ID.
+        uint64_t reserved_24_63        : 40;
+        uint64_t pendintid             : 24; /**< [ 23:  0](RO/H) Pending Interrupt ID.
                                                                  Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
                                                                  can depend on:
 
@@ -1751,7 +2003,49 @@ typedef union
                                                                  ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
                                                                  "active and pending" means "active" only for CIM. */
 #else /* Word 0 - Little Endian */
-        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending Interrupt ID.
+        uint64_t pendintid             : 24; /**< [ 23:  0](RO/H) Pending Interrupt ID.
+                                                                 Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
+                                                                 can depend on:
+
+                                                                 1. Whether the highest priority pending interrupt is configured as a group 0 or a group 1
+                                                                 interrupt.
+
+                                                                 2. Whether the register access is secure or nonsecure.
+
+                                                                 Reads of the CIM()_ICC_HPPIR0_EL1 that do not return a valid interrupt ID return a
+                                                                 spurious interrupt ID, ID 1022 or 1023.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which FIQ is routed.
+
+                                                                 ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
+                                                                 "active and pending" means "active" only for CIM. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_cimx_icc_hppir1_el1_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
+                                                                 Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
+                                                                 can depend on:
+
+                                                                 1. Whether the highest priority pending interrupt is configured as a group 0 or a group 1
+                                                                 interrupt.
+
+                                                                 2. Whether the register access is secure or nonsecure.
+
+                                                                 Reads of the CIM()_ICC_HPPIR0_EL1 that do not return a valid interrupt ID return a
+                                                                 spurious interrupt ID, ID 1022 or 1023.
+
+                                                                 The lowest exception level at which this register may be accessed is governed by the
+                                                                 exception level to which FIQ is routed.
+
+                                                                 ARM clarified CIM()_ICC_HPPIR0_EL1 is agnostic of level/edge triggering therefore
+                                                                 "active and pending" means "active" only for CIM. */
+#else /* Word 0 - Little Endian */
+        uint64_t pendintid             : 20; /**< [ 19:  0](RO/H) Pending interrupt ID.
                                                                  Whether the value returned by a read of CIM()_ICC_HPPIR0_EL1 is a valid interrupt ID
                                                                  can depend on:
 
@@ -1770,8 +2064,7 @@ typedef union
                                                                  "active and pending" means "active" only for CIM. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_cimx_icc_hppir1_el1_s cn88xx; */
+    } cn88xx;
     /* struct bdk_cimx_icc_hppir1_el1_cn81xx cn83xx; */
 } bdk_cimx_icc_hppir1_el1_t;
 
@@ -1803,6 +2096,37 @@ typedef union
     struct bdk_cimx_icc_iar0_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t intid                 : 24; /**< [ 23:  0](RO/H) Interrupt ID.
+                                                                 The intent is that the CPU receives a special purpose ID that indicates the target
+                                                                 security domain if the interrupt is destined for EL1/EL2.
+
+                                                                 Any effects of the processor reading this register on the signaling of interrupt
+                                                                 exceptions to the processor must be observed when the instruction is architecturally
+                                                                 executed.
+
+                                                                 Because direct reads of system registers by the processor may occur in any order, if
+                                                                 software wishes to perform multiple accesses to this register without an intervening
+                                                                 exception it must use an appropriate barrier to guarantee the ordering of these accesses. */
+#else /* Word 0 - Little Endian */
+        uint64_t intid                 : 24; /**< [ 23:  0](RO/H) Interrupt ID.
+                                                                 The intent is that the CPU receives a special purpose ID that indicates the target
+                                                                 security domain if the interrupt is destined for EL1/EL2.
+
+                                                                 Any effects of the processor reading this register on the signaling of interrupt
+                                                                 exceptions to the processor must be observed when the instruction is architecturally
+                                                                 executed.
+
+                                                                 Because direct reads of system registers by the processor may occur in any order, if
+                                                                 software wishes to perform multiple accesses to this register without an intervening
+                                                                 exception it must use an appropriate barrier to guarantee the ordering of these accesses. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cimx_icc_iar0_el1_s cn81xx; */
+    struct bdk_cimx_icc_iar0_el1_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
         uint64_t intid                 : 20; /**< [ 19:  0](RO/H) Interrupt ID.
                                                                  The intent is that the CPU receives a special purpose ID that indicates the target
@@ -1829,8 +2153,8 @@ typedef union
                                                                  exception it must use an appropriate barrier to guarantee the ordering of these accesses. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cimx_icc_iar0_el1_s cn; */
+    } cn88xx;
+    /* struct bdk_cimx_icc_iar0_el1_s cn83xx; */
 } bdk_cimx_icc_iar0_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_IAR0_EL1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1861,6 +2185,35 @@ typedef union
     struct bdk_cimx_icc_iar1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t intid                 : 24; /**< [ 23:  0](RO/H) Interrupt ID.
+                                                                 The intent is that the CPU will receive a spurious ID if the interrupt is a secure
+                                                                 group 0 ID or if the interrupt is destined for the other security domain.
+
+                                                                 Any effects of reading this register on the signaling of interrupt exceptions to the
+                                                                 processor must be observed when the instruction is architecturally executed.
+
+                                                                 Because direct reads of system registers may occur in any order, if software wishes
+                                                                 to perform multiple accesses to this register without an intervening exception it must use
+                                                                 an appropriate barrier to guarantee the ordering of these accesses. */
+#else /* Word 0 - Little Endian */
+        uint64_t intid                 : 24; /**< [ 23:  0](RO/H) Interrupt ID.
+                                                                 The intent is that the CPU will receive a spurious ID if the interrupt is a secure
+                                                                 group 0 ID or if the interrupt is destined for the other security domain.
+
+                                                                 Any effects of reading this register on the signaling of interrupt exceptions to the
+                                                                 processor must be observed when the instruction is architecturally executed.
+
+                                                                 Because direct reads of system registers may occur in any order, if software wishes
+                                                                 to perform multiple accesses to this register without an intervening exception it must use
+                                                                 an appropriate barrier to guarantee the ordering of these accesses. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cimx_icc_iar1_el1_s cn81xx; */
+    struct bdk_cimx_icc_iar1_el1_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
         uint64_t intid                 : 20; /**< [ 19:  0](RO/H) Interrupt ID.
                                                                  The intent is that the CPU will receive a spurious ID if the interrupt is a secure
@@ -1885,8 +2238,8 @@ typedef union
                                                                  an appropriate barrier to guarantee the ordering of these accesses. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cimx_icc_iar1_el1_s cn; */
+    } cn88xx;
+    /* struct bdk_cimx_icc_iar1_el1_s cn83xx; */
 } bdk_cimx_icc_iar1_el1_t;
 
 static inline uint64_t BDK_CIMX_ICC_IAR1_EL1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2909,7 +3262,8 @@ static inline uint64_t BDK_CIMX_ICH_EISR_EL2(unsigned long a)
  * These registers can be used to locate a usable list register when the hypervisor is
  * delivering an interrupt to a guest OS.
  *
- * INTERNAL: This register was renamed ICH_ELRSR_EL2 in OBAN of 2014-06-13 after
+ * Internal:
+ * This register was renamed ICH_ELRSR_EL2 in OBAN of 2014-06-13 after
  * release v20 of GIC v3.
  */
 typedef union
@@ -3936,7 +4290,8 @@ typedef union
                                                                  VCBPR field. */
         uint64_t reserved_10_17        : 8;
         uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
-                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
+                                                                 Internal:
+                                                                 An implementation might choose to make this field RAO/WI. */
         uint64_t reserved_6_8          : 3;
         uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
                                                                  0 = Virtual SEIs will not be reported to non-secure EL1 including any valid SEI in
@@ -3997,7 +4352,8 @@ typedef union
                                                                  In CNXXXX, this bit is always 0 as SEIs are not implemented. */
         uint64_t reserved_6_8          : 3;
         uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
-                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
+                                                                 Internal:
+                                                                 An implementation might choose to make this field RAO/WI. */
         uint64_t reserved_10_17        : 8;
         uint64_t vbpr1                 : 3;  /**< [ 20: 18](R/W) Virtual BPR1. Visible to the guest as CIM()_ICC_BPR1_EL1.
                                                                  This field is always accessible to EL2 accesses, regardless of the setting of the
@@ -4019,7 +4375,8 @@ typedef union
                                                                  VCBPR field. */
         uint64_t reserved_10_17        : 8;
         uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
-                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
+                                                                 Internal:
+                                                                 An implementation might choose to make this field RAO/WI. */
         uint64_t reserved_6_8          : 3;
         uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
@@ -4062,7 +4419,8 @@ typedef union
         uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t reserved_6_8          : 3;
         uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
-                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
+                                                                 Internal:
+                                                                 An implementation might choose to make this field RAO/WI. */
         uint64_t reserved_10_17        : 8;
         uint64_t vbpr1                 : 3;  /**< [ 20: 18](R/W) Virtual BPR1. Visible to the guest as CIM()_ICC_BPR1_EL1.
                                                                  This field is always accessible to EL2 accesses, regardless of the setting of the
