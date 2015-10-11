@@ -64,7 +64,7 @@ extern int initialize_ddr_clock(bdk_node_t node,
     uint32_t ddr_interface_mask);
 extern int test_dram_byte(uint64_t p, uint64_t bitmask);
 extern int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
-                             uint64_t p, int count, int byte, uint64_t bitmask);
+                             uint64_t p, int byte, uint64_t bitmask);
 
 extern int get_dimm_part_number(char *buffer, bdk_node_t node, const dimm_config_t *dimm_config,
 				int dimm_index, int ddr_type);
@@ -111,6 +111,13 @@ static inline int get_dimm_module_type(bdk_node_t node, const dimm_config_t *dim
 }
 
 extern int common_ddr4_fixups(dram_config_t *cfg, uint32_t default_udimm_speed);
+
+unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num,
+			       int dll_offset_mode, int byte_offset, int byte);
+void change_dll_offset_enable(bdk_node_t node, int ddr_interface_num, int change);
+
+extern int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode);
+extern int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode);
 
 #endif /* __DRAM_INTERNAL_H__ */
 

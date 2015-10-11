@@ -148,6 +148,9 @@ static int init_octeon_dram_interface(bdk_node_t node,
     return mem_size_mbytes;
 }
 
+#define DO_LIKE_RANDOM_XOR 0
+
+#if !DO_LIKE_RANDOM_XOR
 /*
  * Suggested testing patterns.
  *
@@ -222,6 +225,7 @@ static const uint64_t test_pattern[] = {
     0xAAAAAAAAAAAAAAAAULL,
     0x5555555555555555ULL,
 };
+#endif  /* !DO_LIKE_RANDOM_XOR */
 
 #define test_dram_byte_print ddr_print
 
@@ -229,12 +233,16 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
 {
     uint64_t p1, p2, d1, d2;
     uint64_t v, v1;
-    uint64_t p2offset = 0x4000000;
+    uint64_t p2offset = 0x10000000;
     uint64_t datamask;
     uint64_t xor;
     int i, j, k;
     int errors = 0;
     int index;
+#if DO_LIKE_RANDOM_XOR
+    uint64_t pattern1 = bdk_rng_get_random64();
+    uint64_t this_pattern;
+#endif
 
     // When doing in parallel, the caller must provide full 8-byte bitmask.
     // Byte lanes may be clear in the mask to indicate no testing on that lane.
@@ -242,14 +250,18 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
 
     // Not on THUNDER:	p |= 1ull<<63;
 
-    /* Add offset to both test regions to not clobber u-boot stuff
-     * when running from L2 for NAND boot.
+    /* Add offset to both test regions to not clobber boot stuff
+     * when running from L2.
      */
-    p += 0x4000000;
+    p += 0x10000000; // FIXME? was: 0x4000000; // make sure base is out of the way of boot
 
-    /* Store zeros into each location first */
-    // NOTE: the ordering of loops is purposeful: vary the bank bits (j) quickest 
-    // FIXME: back from original k-j-i, to latest i-k-j
+    /* The loop ranges and increments walk through a range of addresses avoiding bits that alias
+     * to different memory interfaces (LMCs) on the CN88XX; ie we want to limit activity to a
+     * single memory channel.
+     */
+
+    /* Store something into each location first */
+    // NOTE: the ordering of loops is purposeful: fill full cachelines and flush
     for (k = 0; k < (1 << 20); k += (1 << 14)) {
 	for (j = 0; j < (1 << 12); j += (1 << 9)) {
 	    for (i = 0; i < (1 << 7); i += 8) {
@@ -257,8 +269,15 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
 		p1 = p + index;
 		p2 = p1 + p2offset;
 
-		__bdk_dram_write64(p1, 0ULL);
-		__bdk_dram_write64(p2, 0ULL);
+#if DO_LIKE_RANDOM_XOR
+		v = pattern1 * p1;
+		v1 = v; // write the same thing to both areas
+#else
+		v = 0ULL;
+		v1 = v;
+#endif
+		__bdk_dram_write64(p1, v);
+		__bdk_dram_write64(p2, v1);
 
 		/* Write back and invalidate the cache lines
 		 *
@@ -278,16 +297,26 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
 
     BDK_DCACHE_INVALIDATE;
 
-    // FIXME: back from original k-j-i, to latest i-k-j
+#if DO_LIKE_RANDOM_XOR
+    this_pattern = bdk_rng_get_random64();
+#endif
+
+    // modify the contents of each location in some way
+    // NOTE: the ordering of loops is purposeful: modify full cachelines and flush
     for (k = 0; k < (1 << 20); k += (1 << 14)) {
 	for (j = 0; j < (1 << 12); j += (1 << 9)) {
 	    for (i = 0; i < (1 << 7); i += 8) {
 		index = i + j + k;
 		p1 = p + index;
 		p2 = p1 + p2offset;
+#if DO_LIKE_RANDOM_XOR
+		v  = __bdk_dram_read64(p1) ^ this_pattern;
+		v1 = __bdk_dram_read64(p2) ^ this_pattern;
+#else
 		v = test_pattern[index%(sizeof(test_pattern)/sizeof(uint64_t))];
 		v &= datamask;
 		v1 = ~v;
+#endif
 
 		/* test_dram_byte_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
 		 *            p1, v, p2, v1);
@@ -313,20 +342,24 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
 
     BDK_DCACHE_INVALIDATE;
 
-    /* Walk through a range of addresses avoiding bits that alias
-     * interfaces on the CN88XX.
-     */
-    // FIXME: back from original k-i-j, to latest i-k-j
+    // test the contents of each location by predicting what should be there
+    // NOTE: the ordering of loops is purposeful: test full cachelines to detect
+    //       an error occuring in any slot thereof
     for (k = 0; k < (1 << 20); k += (1 << 14)) {
-	for (i = 0; i < (1 << 7); i += 8) {
-	    for (j = 0; j < (1 << 12); j += (1 << 9)) {
+	for (j = 0; j < (1 << 12); j += (1 << 9)) {
+	    for (i = 0; i < (1 << 7); i += 8) {
 		index = i + j + k;
 		p1 = p + index;
 		p2 = p1 + p2offset;
+#if DO_LIKE_RANDOM_XOR
+		v = (p1 * pattern1) ^ this_pattern; // FIXME: this should predict what we find...???
+		d1 = __bdk_dram_read64(p1);
+		d2 = __bdk_dram_read64(p2);
+#else
 		v = test_pattern[index%(sizeof(test_pattern)/sizeof(uint64_t))];
 		d1 = __bdk_dram_read64(p1);
 		d2 = ~__bdk_dram_read64(p2);
-
+#endif
 		/* test_dram_byte_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
 		 *             p1, d1, p2, d2);
 		 */
@@ -334,7 +367,7 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
 		xor = ((d1 ^ v) | (d2 ^ v)) & datamask; // union of error bits only in active byte lanes
 
 		int bybit = 1;
-		uint64_t bymsk = 0xffUl; // start in byte lane 0
+		uint64_t bymsk = 0xffULL; // start in byte lane 0
 		while (xor != 0) {
 		    debug_print("ERROR: [0x%016llX] [0x%016llX]  expected 0x%016llX xor %016llX\n",
 				p1, p2, v, xor);
@@ -355,17 +388,14 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
     return errors;
 }
 
-#if 0
-int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int count, int byte, uint64_t bitmask)
+#if 1
+
+int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
+		      uint64_t p, int byte, uint64_t bitmask)
 {
-    uint64_t p1, p2, d1, d2;
-    uint64_t v, v1;
-    uint64_t p2offset = 0x4000000;
-    uint64_t datamask;
-    int i, j, k;
+    uint64_t p1;
+    uint64_t k, ii;
     int errors = 0;
-    int counter;
-    int index;
 
     uint64_t mpr_data[3];
 
@@ -380,101 +410,157 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int co
 
     bdk_lmcx_rlevel_ctl_t rlevel_ctl;
 
-    bdk_lmcx_dbtrain_ctl_t dbtrain_ctl;
-    bdk_lmcx_general_purpose0_t general_purpose0;
-    bdk_lmcx_general_purpose1_t general_purpose1;
-    bdk_lmcx_general_purpose2_t general_purpose2;
-
     extern dram_verbosity_t dram_verbosity;
     dram_verbosity_t save_dram_verbosity = dram_verbosity;
 
     //dram_verbosity = TRACE_CSR_WRITES;
 
+    /*
+      1) Make sure that RLEVEL_CTL[OR_DIS] = 0.
+    */
     rlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num));
     save_or_dis = rlevel_ctl.s.or_dis;
     rlevel_ctl.s.or_dis = 0;    /* or_dis must be disabled for this sequence */
     DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
 
-    DRAM_CSR_MODIFY(general_purpose0, node, BDK_LMCX_GENERAL_PURPOSE0(ddr_interface_num),
-                    general_purpose0.s.data = 0xa5a5a5a5a5a5a5a5);
-    DRAM_CSR_MODIFY(general_purpose1, node, BDK_LMCX_GENERAL_PURPOSE1(ddr_interface_num),
-                    general_purpose1.s.data = 0x5a5a5a5a5a5a5a5a);
-    DRAM_CSR_MODIFY(general_purpose2, node, BDK_LMCX_GENERAL_PURPOSE2(ddr_interface_num),
-                    general_purpose2.s.data = 0x5aa5);
+    /*
+      3) Setup GENERAL_PURPOSE[0-2] registers with the data pattern of choice.
+      a. GENERAL_PURPOSE0[DATA<63:0>] – sets the initial lower (rising edge) 64 bits of data.
+      b. GENERAL_PURPOSE1[DATA<63:0>] – sets the initial upper (falling edge) 64 bits of data.
+      c. GENERAL_PURPOSE2[DATA<15:0>] – sets the initial lower (rising edge <7:0>) and upper
+         (falling edge <15:8>) ECC data.
+     */
+    // NOTE: this step done in the calling routine(s)...
 
     /* Add offset to both test regions to not clobber u-boot stuff
      * when running from L2 for NAND boot.
      */
-    p += 0x4000000;
+    p += 0x10000000; // offset to 256MB
 
     errors = 0;
 
-    counter = 0;
+    bdk_dram_address_extract_info(p, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
+    debug_print("test_dram_byte_hw: Starting at A:0x%012lx, N%d L%d D%d R%d B%1x Row:%05x Col:%05x\n",
+	      p, node_address, lmc, dimm, rank, bank, row, col);
+    /*
+      7) Set PHY_CTL[PHY_RESET] = 1 (LMC automatically clears this as it’s a one-shot operation).
+      This is to get into the habit of resetting PHY’s SILO to the original 0 location.
+    */
+    BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+		   phy_ctl.s.phy_reset = 1);
 
     /* Walk through a range of addresses avoiding bits that alias
      * interfaces on the CN88XX.
      */
-    for (k = 0; k < (1 << 20); k += (1 << 14)) {
-        for (j = 0; j < (1 << 12); j += (1 << 9)) {
-            for (i = 0; i < (1 << 7); i += 8) {
-		index = i + j + k;
-                p1 = p + index;
-                bdk_dram_address_extract_info(p1, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
+    ii = 0; //for (ii = 0; ii < (1ULL << 28); ii += (1ULL << 22)) // use bits 22-27 to extend range
+    {
+    for (k = 0; k < (1 << 20); k += (1 << 15)) { // FIXME? reduce length, maybe more?
+	// FIXME: we do not need to use j or i for the address, because:
+	// FIXME: the sequence interates over 1/2 cacheline at a time
+	// FIXME: for each unit specified in "read_cmd_count"
+	// FIXME: so, we setup each sequence to do 8 full cachelines
+        //for (j = 0; j < (1 << 12); j += (1 << 9)) {
+	//for (i = 0; i < (1 << 7); i += 8) {
+#if 0
+	index = i + j + k;
+	p1 = p + index;
+#else
+	p1 = p + k + ii;
+#endif
 
+	bdk_dram_address_extract_info(p1, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
 
-                if (node != node_address)
-                    error_print("ERROR: Node address mismatch\n");
+	if ((int)node != node_address)
+	    error_print("ERROR: Node address mismatch\n");
+	if (lmc != ddr_interface_num)
+	    error_print("ERROR: LMC address mismatch\n");
 
-                DRAM_CSR_MODIFY(dbtrain_ctl, node, BDK_LMCX_DBTRAIN_CTL(ddr_interface_num),
-                               (dbtrain_ctl.s.column_a       = col,
-                                dbtrain_ctl.s.row_a          = row,
-                                dbtrain_ctl.s.ba             = bank,
-                                dbtrain_ctl.s.prank          = rank,
-                                dbtrain_ctl.s.activate       = 0,
-                                dbtrain_ctl.s.write_ena      = 1,
-                                dbtrain_ctl.s.read_cmd_count = 31,
-                                dbtrain_ctl.s.rw_train       = 1,
-                                dbtrain_ctl.s.tccd_sel       = 0)
-                               );
+	// for each address, iterate over the 4 "banks" in the BA
+	int ba_loop, ba_bits;
+	for (ba_loop = 0, ba_bits = bank & 3;
+	     ba_loop < 4;
+	     ba_loop++, ba_bits = (ba_bits + 1) % 4)
+	{
 
-                perform_octeon3_ddr3_sequence(node, rank, ddr_interface_num, 14);
+	    /*
+	      2) Setup the fields of the CSR DBTRAIN_CTL as follows:
+	      a. COL, ROW, BA, BG, PRANK points to the starting point of the address.
+	      You can just set them to all 0.
+	      b. RW_TRAIN – set this to 1.
+	      c. TCCD_L – set this to 0.
+	      d. READ_CMD_COUNT – instruct the sequence to the how many writes/reads.
+	      It is 5 bits field, so set to 31 of maximum # of r/w.
+	    */
 
-                mpr_data[0] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA0(ddr_interface_num));
-                mpr_data[1] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA1(ddr_interface_num));
-                mpr_data[2] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA2(ddr_interface_num));
+	    DRAM_CSR_MODIFY(dbtrain_ctl, node, BDK_LMCX_DBTRAIN_CTL(ddr_interface_num),
+			    (dbtrain_ctl.s.column_a       = col,
+			     dbtrain_ctl.s.row_a          = row,
+			     dbtrain_ctl.s.ba             = ba_bits, // FIXME?
+			     dbtrain_ctl.s.bg             = (bank >> 2) & 3, // FIXME?
+			     dbtrain_ctl.s.prank          = rank,
+			     dbtrain_ctl.s.activate       = 0,
+			     dbtrain_ctl.s.write_ena      = 1,
+			     dbtrain_ctl.s.read_cmd_count = 31, // max count in 1/2 cachelines
+			     dbtrain_ctl.s.rw_train       = 1,
+			     dbtrain_ctl.s.tccd_sel       = 0)
+			    );
 
-                //if (mpr_data[0] != 0) {
-                if (0) {
-                    printf("A:%p, N%d L%d D%d R%d B%d Row:%05x Col:%05x\n",
-                           p1, node_address, lmc, dimm, rank, bank, row, col);
-                    printf("MPR data %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
-                }
+	    /*
+	      4) Kick off the sequence (SEQ_CTL[SEQ_SEL] = 14, SEQ_CTL[INIT_START] = 1).
+	      5) Poll on SEQ_CTL[SEQ_COMPLETE] for completion.
+	    */
+	    perform_octeon3_ddr3_sequence(node, rank, ddr_interface_num, 14);
 
-                errors |= (~mpr_data[0] >> (8 * byte)) & bitmask;
+	    /*
+	      6) Read MPR_DATA0 and MPR_DATA1 for results.
+	      a. MPR_DATA0[MPR_DATA<63:0>] – comparison results for DQ63:DQ0.
+	      (1 means MATCH, 0 means FAIL).
+	      b. MPR_DATA1[MPR_DATA<7:0>] – comparison results for ECC bit7:0.
+	    */
+	    mpr_data[0] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA0(ddr_interface_num));
+	    mpr_data[1] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA1(ddr_interface_num));
+	    mpr_data[2] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA2(ddr_interface_num));
 
-                if (errors) {
-                    rlevel_ctl.s.or_dis = save_or_dis;
-                    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
-                    dram_verbosity = save_dram_verbosity;
-                    return errors;
-                }
+	    /*
+	      7) Set PHY_CTL[PHY_RESET] = 1 (LMC automatically clears this as it’s a one-shot operation).
+	      This is to get into the habit of resetting PHY’s SILO to the original 0 location.
+	    */
+	    BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+			   phy_ctl.s.phy_reset = 1);
 
-                ++counter;
+	    // FIXME FIXME FIXME
+	    //if (mpr_data[0] != 0) {
+	    if (0) {
+		debug_print("A:0x%012lx, N%d L%d D%d R%d B%1x Row:%05x Col:%05x\n",
+			    p1, node_address, lmc, dimm, rank, bank, row, col);
+		debug_print("MPR data[2:0] %016lx.%016lx.%016lx\n",
+			    mpr_data[2], mpr_data[1], mpr_data[0]);
+	    }
 
-                if (counter > count)
-                    break;
-            }
-            if (counter > count)
-                break;
-        }
-        if (counter > count)
-            break;
-    }
+	    if (byte < 8)
+		errors |= (~mpr_data[0] >> (8 * byte)) & bitmask;
+	    else
+		errors |= (~mpr_data[1]) & bitmask;
+
+	} /* for (int ba_loop = 0; ba_loop < 4; ba_loop++) */
+
+	if (errors) {
+	    rlevel_ctl.s.or_dis = save_or_dis;
+	    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
+	    dram_verbosity = save_dram_verbosity;
+	    //printf("Address 0x%lx has 0x%x errors\n", p, errors);
+	    return errors;
+	}
+	//} /* i */
+        //} /* j */
+    } /* k */
+    } /* for (ii = 0; ii < (1ULL << 31); ii += (1ULL << 29)) */
 
     rlevel_ctl.s.or_dis = save_or_dis;
     DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
 
     dram_verbosity = save_dram_verbosity;
+    //printf("Address 0x%lx has 0x%x errors\n", p, errors);
     return errors;
 }
 #endif
@@ -729,11 +815,11 @@ int initialize_ddr_clock(bdk_node_t node,
          *
          * CN88XX supports two modes:
          *
-         * � two-LMC mode: both LMCs 2/3 must not be enabled
+         * ­ two-LMC mode: both LMCs 2/3 must not be enabled
          *   (LMC2/3_DLL_CTL2[DRESET] must be set to 1 and LMC2/3_DLL_CTL2[INTF_EN]
          *   must be set to 0) and both LMCs 0/1 must be enabled).
          *
-         * � four-LMC mode: all four LMCs 0..3 must be enabled.
+         * ­ four-LMC mode: all four LMCs 0..3 must be enabled.
          *
          * Steps 4 and 6..14 should each be performed for each enabled LMC (either
          * twice or four times). Steps 1..3 and 5 are more global in nature and
@@ -1180,12 +1266,12 @@ int initialize_ddr_clock(bdk_node_t node,
              * and whenever the DDR clock speed changes).
              *
              * When Step 5 must be executed in the two-LMC mode case:
-             * � LMC0 DRESET initialization must occur before Step 5.
-             * � LMC1 DRESET initialization must occur after Step 5.
+             * ­ LMC0 DRESET initialization must occur before Step 5.
+             * ­ LMC1 DRESET initialization must occur after Step 5.
              *
              * When Step 5 must be executed in the four-LMC mode case:
-             * � LMC2 and LMC3 DRESET initialization must occur before Step 5.
-             * � LMC0 and LMC1 DRESET initialization must occur after Step 5.
+             * ­ LMC2 and LMC3 DRESET initialization must occur before Step 5.
+             * ­ LMC0 and LMC1 DRESET initialization must occur after Step 5.
              */
 
             /* TWO-LMC MODE BEFORE STEP 5 */
@@ -1217,12 +1303,12 @@ int initialize_ddr_clock(bdk_node_t node,
              * and whenever the DDR clock speed changes).
              *
              * When Step 5 must be executed in the two-LMC mode case:
-             * � LMC0 DRESET initialization must occur before Step 5.
-             * � LMC1 DRESET initialization must occur after Step 5.
+             * ­ LMC0 DRESET initialization must occur before Step 5.
+             * ­ LMC1 DRESET initialization must occur after Step 5.
              *
              * When Step 5 must be executed in the four-LMC mode case:
-             * � LMC2 and LMC3 DRESET initialization must occur before Step 5.
-             * � LMC0 and LMC1 DRESET initialization must occur after Step 5.
+             * ­ LMC2 and LMC3 DRESET initialization must occur before Step 5.
+             * ­ LMC0 and LMC1 DRESET initialization must occur after Step 5.
              *
              * LMC CK local initialization is different depending on whether two-LMC
              * or four-LMC modes are desired.

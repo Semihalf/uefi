@@ -969,7 +969,7 @@ static void display_WL(bdk_node_t node, int ddr_interface_num, bdk_lmcx_wlevel_r
 	      );
 }
 
-static unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num, int dll_offset_mode, int byte_offset, int byte)
+unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num, int dll_offset_mode, int byte_offset, int byte)
 {
     bdk_lmcx_dll_ctl3_t ddr_dll_ctl3;
     /* byte_sel:
@@ -993,6 +993,16 @@ static unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num, in
     ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
 
     return ((unsigned short) GET_DDR_DLL_CTL3(offset));
+}
+
+void change_dll_offset_enable(bdk_node_t node, int ddr_interface_num, int change)
+{
+    bdk_lmcx_dll_ctl3_t ddr_dll_ctl3;
+
+    ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
+    SET_DDR_DLL_CTL3(offset_ena, !!change);
+    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+    ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
 }
 
 static void process_custom_dll_offsets(bdk_node_t node, int ddr_interface_num, const char *enable_str,

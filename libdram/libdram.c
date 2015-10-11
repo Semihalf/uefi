@@ -14,6 +14,30 @@ static uint32_t measured_ddr_hertz[BDK_NUMA_MAX_NODES];
    config, then node 1's */
 dram_config_t __libdram_global_cfg;
 
+static void bdk_dram_clear_mem(bdk_node_t node)
+{
+    if (!bdk_is_platform(BDK_PLATFORM_ASIM)) {
+	uint64_t mbytes = bdk_dram_get_size_mbytes(node);
+	uint64_t skip = (node == bdk_numa_master()) ? bdk_dram_get_top_of_bdk() : 0;
+	uint64_t len =  (mbytes << 20) - skip;
+
+	BDK_TRACE(DRAM, "N%d: Clearing DRAM\n", node);
+	//printf("N%d: Clearing DRAM: start 0x%lx length 0x%lx\n", node, skip, len);
+	bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)), len);
+	BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);
+    }
+}
+
+static void bdk_dram_clear_ecc(bdk_node_t node)
+{
+    /* Clear any DRAM errors set during init */
+    BDK_TRACE(DRAM, "N%d: Clearing LMC ECC errors\n", node);
+    int num_lmc = __bdk_dram_get_num_lmc(node);
+    for (int lmc = 0; lmc < num_lmc; lmc++) {
+        DRAM_CSR_WRITE(node, BDK_LMCX_INT(lmc), BDK_CSR_READ(node, BDK_LMCX_INT(lmc)));
+    }
+}
+
 /**
  * This the main DRAM init function. Users of libdram should call this function,
  * avoiding the other internal function. As a rule, functions starting with
@@ -37,6 +61,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     const char *str;
     const ddr_configuration_t *ddr_config = dram_config->config;
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
+    int errs;
 
     // look for an envvar to select 100 MHz or default to 50 MHz refclk
     // assumption: the alternate refclk is setup for 100MHz
@@ -80,26 +105,68 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
         0,
         0,
         0);
-    BDK_TRACE(DRAM, "N%d: DRAM init returned %d, measured %u Hz\n", node, mbytes, measured_ddr_hertz[node]);
+    BDK_TRACE(DRAM, "N%d: DRAM init returned %d, measured %u Hz\n",
+	      node, mbytes, measured_ddr_hertz[node]);
 
-    BDK_TRACE(DRAM, "N%d: Clearing DRAM\n", node);
-    uint64_t skip = 0;
-    if ((bdk_node_t)node == bdk_numa_master())
-        skip = bdk_dram_get_top_of_bdk();
-    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
-        bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
-        ((uint64_t)mbytes << 20) - skip);
-    BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);
+    // Automatically tune the data byte DLL read offsets
+    BDK_TRACE(DRAM, "N%d: Starting DLL Read Offset Tuning for LMCs\n", node);
+    errs = perform_dll_offset_tuning(node, 2); 
+    BDK_TRACE(DRAM, "N%d: Finished DLL Read Offset Tuning for LMCs, %d errors)\n",
+	      node, errs);
 
-    /* Clear any DRAM errors set during init */
-    BDK_TRACE(DRAM, "N%d: Clearing LMC errors\n", node);
-    int num_lmc = __bdk_dram_get_num_lmc(node);
-    for (int lmc = 0; lmc < num_lmc; lmc++)
-    {
-        DRAM_CSR_WRITE(node, BDK_LMCX_INT(lmc), BDK_CSR_READ(node, BDK_LMCX_INT(lmc)));
-    }
+    // Automatically tune the ECC byte DLL read offsets
+    BDK_TRACE(DRAM, "N%d: Starting ECC DLL Read Offset Tuning for LMCs\n", node);
+    errs = perform_ECC_dll_offset_tuning(node, 2); 
+    BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors)\n",
+	      node, errs);
+
+    // finally, clear memory and any left-over ECC errors
+    bdk_dram_clear_mem(node);
+    bdk_dram_clear_ecc(node);
 
     return mbytes;
+}
+
+/**
+ * This the main DRAM tuning function. Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to tune. This may not be the same node as the one running the code
+ *
+ * @return Success or Fail
+ */
+int libdram_tune(int node)
+{
+    int errs = 0, tot_errs = 0;
+    const char *str;
+
+    // check: maybe verbose was not set during init, but is now set...
+    str = getenv("ddr_verbose");
+    if (str)
+        dram_verbosity = strtoul(str, NULL, 0);
+    else
+        dram_verbosity = 0;
+
+    // Automatically tune the data byte DLL read offsets
+    BDK_TRACE(DRAM, "N%d: Starting DLL Read Offset Tuning for LMCs\n", node);
+    errs = perform_dll_offset_tuning(node, 2); 
+    BDK_TRACE(DRAM, "N%d: Finished DLL Read Offset Tuning for LMCs, %d errors)\n",
+	      node, errs);
+    tot_errs += errs;
+
+    // Automatically tune the ECC byte DLL read offsets
+    BDK_TRACE(DRAM, "N%d: Starting ECC DLL Read Offset Tuning for LMCs\n", node);
+    errs = perform_ECC_dll_offset_tuning(node, 2); 
+    BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors)\n",
+	      node, errs);
+    tot_errs += errs;
+
+    // make sure to clear memory and any ECC errs when done... 
+    bdk_dram_clear_mem(node);
+    bdk_dram_clear_ecc(node);
+
+    return tot_errs;
 }
 
 /**

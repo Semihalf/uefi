@@ -78,7 +78,7 @@ local function run_all_tests()
         local hour = total_time / 3600
         local min = (total_time % 3600) / 60
         local sec = (total_time % 3600) % 60
-        printf("All tests passed (time %d:%d:%d)\n", hour, min, sec)
+        printf("All tests passed (time %02d:%02d:%02d)\n", hour, min, sec)
     else
         printf("Tests reported %d errors\n", errors)
     end
@@ -107,7 +107,7 @@ local function run_special_tests()
         local hour = total_time / 3600
         local min = (total_time % 3600) / 60
         local sec = (total_time % 3600) % 60
-        printf("All tests passed (time %d:%d:%d)\n", hour, min, sec)
+        printf("All tests passed (time %02d:%02d:%02d)\n", hour, min, sec)
 
     else
         printf("Tests reported %d errors\n", errors)
