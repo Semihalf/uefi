@@ -6,9 +6,10 @@ FATFS_TMP=fatfs.tmp
 function usage() {
 echo "$0:"
 echo "    -o <output file>       (Example: normal-ebb8800.bin)"
-echo "    -0 <stage 0 boot file> (Example: chainloader.bin)"
-echo "    -1 <stage 1 boot file> (Example: bootstub.bin)"
-echo "    -2 <stage 2 boot file> (Example: diagnostics.bin)"
+echo "    -0 <boot stub>         (Example: boot.bin)"
+echo "    -1 <board init>        (Example: init.bin)"
+echo "    -2 <diagnostics>       (Example: diagnostics.bin)"
+echo "    -3 <setup>             (Example: setup.bin)"
 echo "    -l <lua files>         (Example: \"lua/*.lua\")"
 echo "    -c <config files>      (Example: default.cfg)"
 exit 2
@@ -18,15 +19,17 @@ OUT_FILE=
 STAGE0=
 STAGE1=
 STAGE2=
+STAGE3=
 LUA_FILES=
 CONFIG_FILES=
-while getopts o:0:1:2:l:c: arg
+while getopts o:0:1:2:3:l:c: arg
 do
     case ${arg} in
     o) OUT_FILE="$OPTARG";;
     0) STAGE0="$OPTARG";;
     1) STAGE1="$OPTARG";;
     2) STAGE2="$OPTARG";;
+    3) STAGE3="$OPTARG";;
     l) LUA_FILES="$OPTARG";;
     c) CONFIG_FILES="$OPTARG";;
     ?) usage;;
@@ -37,6 +40,7 @@ if [ "${OUT_FILE}" == "" ]; then usage; fi
 if [ "${STAGE0}" == "" ]; then usage; fi
 if [ "${STAGE1}" == "" ]; then usage; fi
 if [ "${STAGE2}" == "" ]; then usage; fi
+if [ "${STAGE3}" == "" ]; then usage; fi
 if [ "${LUA_FILES}" == "" ]; then usage; fi
 
 #
@@ -74,6 +78,9 @@ ${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${STAGE1} / || exit 1
 
 # Copy stage 2 image into FAT filesystem
 ${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${STAGE2} / || exit 1
+
+# Copy stage 3 image into FAT filesystem
+${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${STAGE3} / || exit 1
 
 # Add all the Lua files to the FAT fs
 ${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} mkdir /lua || exit 1
