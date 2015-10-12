@@ -34,6 +34,12 @@ typedef struct {
 #endif
 } rlevel_byte_data_t;
 
+typedef struct {
+    uint64_t bm;
+    uint8_t mstart;
+    uint8_t width;
+    int errs;
+} rlevel_bitmask_t;
 
 #define SET_DDR_DLL_CTL3(field, expr)                   \
     do {                                                \

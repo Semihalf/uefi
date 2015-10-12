@@ -1,6 +1,8 @@
 #include <bdk.h>
 #include "../dram-internal.h"
 
+#define ENABLE_DLL_OFFSET_PROVISION 0 // set to 1 to get canned offsets for #121/#122
+
 /////////////////////////////////////
 // FIXUPS
 //
@@ -26,18 +28,37 @@ static void common_ddr4_fixup_1_dram_odt_2rank_configuration(dimm_odt_config_t o
 
 /////////////////////////////////////
 
-// patch 1: LMC0 byte 1 from  0 to   5
-// patch 2: LMC1 byte 1 from  0 to  10
-// patch 3: LMC0 byte 3 from  5 to  15: from 1slot 1050 speed testing
+#if ENABLE_DLL_OFFSET_PROVISION
 //
 // DLL read Offset table for the #122 INPHI DIMMs
 //                                                       byte   0   1   2   3   4   5   6   7   8
+#define DLLRO_VERSION_2 
+#ifdef DLLRO_VERSION_2
+// Version 2 has more adjustments for 1050 over V1
+//L0_122_list=[(2,05),(3,15),(4,10),(5,10)]
+//L1_122_list=[(2,-5)]
+//L2_122_list=[(1,20),(2,10),(4,-10),(5,10),(8,-20)]
+//L3_122_list=[(3,15),(7,5)]
+
+static const int8_t inphi_122_dll_read_offset  [4][9]    = { { -5,  5,  5, 15, 10, 10,  5,  0,  0}, // LMC 0
+							     { -5, 10, -5,  5,  0,  0,  5,  0,  0}, // LMC 1
+							     { -5, 20, 10,  5,-10, 10,  5,  0,-20}, // LMC 2
+							     {  5,  5,  5, 15,  0,-10,  5,  5,  0}  // LMC 3
+							   };
+#else
+// Version 1 is the original (DL settings) plus the following patches
+// patch 1: LMC0 byte 1 from  0 to   5
+// patch 2: LMC1 byte 1 from  0 to  10
+// patch 3: LMC0 byte 3 from  5 to  15: from 1slot 1050 speed testing
 static const int8_t inphi_122_dll_read_offset  [4][9]    = { { -5,  5,  5, 15,  0,  0,  5,  0,  0}, // LMC 0
 							     { -5, 10,  5,  5,  0,  0,  5,  0,  0}, // LMC 1
 							     { -5,  5, 10,  5,  0, -5,  5,  0,  0}, // LMC 2
 							     {  5,  5,  5,  5,  0,-10,  5,  0,  0}  // LMC 3
 							   };
+#endif
+#endif /* ENABLE_DLL_OFFSET_PROVISION */
 
+/////////////////////////////////////
 
 int common_ddr4_fixups(dram_config_t *cfg, uint32_t default_udimm_speed)
 {
@@ -57,7 +78,6 @@ int common_ddr4_fixups(dram_config_t *cfg, uint32_t default_udimm_speed)
     int spd_org     = 0xff & read_spd(node, &cfg->config[0].dimm_config_table[0], 0, DDR4_SPD_MODULE_ORGANIZATION);
     int num_ranks   = 1 +  ((spd_org >> 3) & 0x7);
     int dram_width  = 4 << ((spd_org >> 0) & 0x7);
-    char part_number[21] = {0};
     int lmc;
 
     // look for RDIMM && 2Rx4 && stacked die
@@ -75,6 +95,9 @@ int common_ddr4_fixups(dram_config_t *cfg, uint32_t default_udimm_speed)
 	}
     }
 
+#if ENABLE_DLL_OFFSET_PROVISION
+    char part_number[21] = {0};
+
     // Check for specific DIMM part number and set a different DLL Read Offset table
     get_dimm_part_number(part_number, node, &cfg->config[0].dimm_config_table[0], 0, DDR4_DRAM);
     if (strcmp(part_number, "36ASF2G72PZ-2G1A2") == 0)
@@ -86,5 +109,7 @@ int common_ddr4_fixups(dram_config_t *cfg, uint32_t default_udimm_speed)
 	    cfg->config[lmc].custom_lmc_config.dll_read_offset = &inphi_122_dll_read_offset[lmc][0];
 	}
     }
+#endif /* ENABLE_DLL_OFFSET_PROVISION */
+
     return 0;
 }

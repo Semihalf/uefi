@@ -22,7 +22,7 @@ static void bdk_dram_clear_mem(bdk_node_t node)
 	uint64_t len =  (mbytes << 20) - skip;
 
 	BDK_TRACE(DRAM, "N%d: Clearing DRAM\n", node);
-	//printf("N%d: Clearing DRAM: start 0x%lx length 0x%lx\n", node, skip, len);
+	printf("N%d: Clearing DRAM: start 0x%lx length 0x%lx\n", node, skip, len);
 	bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)), len);
 	BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);
     }
@@ -63,11 +63,16 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
     int errs;
 
-    // look for an envvar to select 100 MHz or default to 50 MHz refclk
+    // look for an envvar or board config option to select 100 MHz or default to 50 MHz refclk
     // assumption: the alternate refclk is setup for 100MHz
     // note: we only need to turn on the alternate refclk select bit in LMC0
     int ddr_refclk_hertz = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
     int alt_refclk = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DDR_ALT_REFCLK, node);
+
+    str = getenv("ddr_100mhz_refclk");
+    if (str)
+        alt_refclk = strtoul(str, NULL, 0) * 100;
+
     if (alt_refclk) { // if alternate clock was selected, we also need to set the bit and wait a little...
 	ddr_refclk_hertz = alt_refclk * 1000000;
 	DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(0), c.s.dclk_alt_refclk_sel = 1);
