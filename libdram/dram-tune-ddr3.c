@@ -621,7 +621,7 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 	    start_dram_ops[lmc]  = BDK_CSR_READ(node, BDK_LMCX_OPS_CNT(lmc));
 	} /* for (lmc = 0; lmc < num_lmcs; lmc++) */
 
-	BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+	bdk_watchdog_poke();
 
 	// run the test(s)
 	// only 1 call should be enough, let the bursts, etc, control the load...  
@@ -1028,7 +1028,7 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
 	    load_dll_offset(node, lmc, dll_offset_mode, byte_offset, 8);
 	    change_dll_offset_enable(node, lmc, 1);
 
-	    BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+	    bdk_watchdog_poke();
 
 	    // run the test on each rank
 	    // only 1 call per rank should be enough, let the bursts, loops, etc, control the load...
