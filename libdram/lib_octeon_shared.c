@@ -1197,6 +1197,13 @@ int initialize_ddr_clock(bdk_node_t node,
 
 		    comp_ctl2.s.rodt_ctl           = 0x4; /* 60 ohm */
 
+		    // These need to be done here, not later in Step 6.9.7.
+		    // NOTE: these are/will be specific to a chip; for now, set to 0
+		    // should we provide overrides for these?
+		    comp_ctl2.s.ntune_offset    = 0;
+		    comp_ctl2.s.ptune_offset    = 0;
+
+		    // now do any overrides...
 		    if ((s = lookup_env_parameter("ddr_ck_ctl")) != NULL) {
 			comp_ctl2.s.ck_ctl  = strtoul(s, NULL, 0);
 		    }
