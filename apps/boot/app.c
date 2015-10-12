@@ -28,28 +28,23 @@ void __bdk_require_depends(void)
 
 void boot_menu(void)
 {
+    bdk_menu_t menu;
     while (1)
     {
-        printf("\n");
-        printf("============\n");
-        printf("Boot Options\n");
-        printf("============\n");
-        if (!is_misconfigured)
-            printf("B) Boot Normally\n"); // Hidden if no board configuration
-        printf("S) Enter Setup\n");
-        if (!is_misconfigured)
-            printf("D) Enter Diagnostics\n"); // Hidden if no board configuration
-        printf("E) Enter Diagnostics, skipping Setup\n");
-        printf("F) Select Image from Flash\n");
-        printf("X) Upload File to FatFS using Xmodem\n");
-        printf("W) Burn boot flash using Xmodem\n");
-        printf("U) Change baud rate and flow control\n");
-        printf("\n");
-        printf("Choice: ");
-        int key = bdk_readline_getkey(-1);
-        key = toupper(key);
-        printf("%c\n", key);
-        switch (key)
+        bdk_menu_init(&menu, "Boot Options");
+        if (!is_misconfigured) // Hidden if no board configuration
+            bdk_menu_item(&menu, 'B', "Boot Normally", NULL, NULL);
+        bdk_menu_item(&menu, 'S', "Enter Setup", NULL, NULL);
+        if (!is_misconfigured) // Hidden if no board configuration
+            bdk_menu_item(&menu, 'D', "Enter Diagnostics", NULL, NULL);
+        bdk_menu_item(&menu, 'E', "Enter Diagnostics, skipping Setup", NULL, NULL);
+        bdk_menu_item(&menu, 'F', "Select Image from Flash", NULL, NULL);
+        bdk_menu_item(&menu, 'X', "Upload File to FatFS using Xmodem", NULL, NULL);
+        bdk_menu_item(&menu, 'W', "Burn boot flash using Xmodem", NULL, NULL);
+        bdk_menu_item(&menu, 'U', "Change baud rate and flow control", NULL, NULL);
+        bdk_menu_item(&menu, 'R', "Reboot", NULL, NULL);
+
+        switch (bdk_menu_display(&menu))
         {
             case 'B':
                 bdk_image_boot("/fatfs/init.bin", 0, 0); /* Boot normally */
@@ -103,6 +98,10 @@ void boot_menu(void)
                 printf("Baudrate is now %d\n", baudrate);
                 break;
             }
+            case 'R':
+                printf("Rebooting THUNDERX\n");
+                bdk_reset_chip(bdk_numa_master());
+                break;
             default:
                 bdk_error("Invalid choice\n");
                 break;
