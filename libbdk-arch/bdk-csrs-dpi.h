@@ -53,6 +53,15 @@
  */
 
 /**
+ * Enumeration dpi_bar_e
+ *
+ * DPI Base Address Register Enumeration
+ * Enumerates the base address registers.
+ */
+#define BDK_DPI_BAR_E_DPIX_PF_BAR0(a) (0x86e000000000ll + 0x10000000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_DPI_BAR_E_DPIX_PF_BAR4(a) (0x86e001000000ll + 0x10000000000ll * (a)) /**< Base address for MSI-X registers. */
+
+/**
  * Enumeration dpi_cs_e
  *
  * DPI Completion Status Enumeration
@@ -155,6 +164,17 @@
                                        and an interrupt can optionally be sent to a remote host. */
 
 /**
+ * Enumeration dpi_int_vec_e
+ *
+ * DPI MSI-X Vector Enumeration
+ * Enumerates the MSI-X interrupt vectors.
+ */
+#define BDK_DPI_INT_VEC_E_INTS (0) /**< See interrupt clears DPI(0)_INT_SUM,
+                                       interrupt sets DPI(0)_INT_SUM_W1S,
+                                       enable clears DPI(0)_INT_ENA_W1C,
+                                       and enable sets DPI(0)_INT_ENA_W1S. */
+
+/**
  * Enumeration dpi_intsn_e
  *
  * DPI Interrupt Source Enumeration
@@ -163,16 +183,16 @@
 #define BDK_DPI_INTSN_E_DPIX_DMA_PPX_INT(a,b) (0xdf040 + 0 * (a) + (b)) /**< See DPI(0)_DMA_PP_INT[COMPLETE<{b}>]. */
 #define BDK_DPI_INTSN_E_DPIX_ERR_RAM_DBEX(a,b) (0xdf080 + 0 * (a) + (b)) /**< See DPI(0)_ECC_INT[RAM_DBE<{b}>]. */
 #define BDK_DPI_INTSN_E_DPIX_ERR_RAM_SBEX(a,b) (0xdf0a0 + 0 * (a) + (b)) /**< See DPI(0)_ECC_INT[RAM_SBE<{b}>]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_DMADBOX(a,b) (0xdf008 + 0 * (a) + (b)) /**< See DPI(0)_INT_REG[DMADBO<{b}>]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_NDERR(a) (0xdf000 + 0 * (a)) /**< See DPI(0)_INT_REG[NDERR]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_NFOVR(a) (0xdf001 + 0 * (a)) /**< See DPI(0)_INT_REG[NFOVR]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_ANULL(a) (0xdf014 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_ANULL]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADADR(a) (0xdf010 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADADR]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADFIL(a) (0xdf016 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADFIL]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADLEN(a) (0xdf011 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADLEN]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_INULL(a) (0xdf015 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_INULL]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_OVRFLW(a) (0xdf012 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_OVRFLW]. */
-#define BDK_DPI_INTSN_E_DPIX_INT_REQ_UNDFLW(a) (0xdf013 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_UNDFLW]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_DMADBOX(a,b) (0xdf008 + 0 * (a) + (b)) /**< See DPI(0)_INT_SUM[DMADBO<{b}>]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_NDERR(a) (0xdf000 + 0 * (a)) /**< See DPI(0)_INT_SUM[NDERR]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_NFOVR(a) (0xdf001 + 0 * (a)) /**< See DPI(0)_INT_SUM[NFOVR]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_ANULL(a) (0xdf014 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_ANULL]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADADR(a) (0xdf010 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_BADADR]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADFIL(a) (0xdf016 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_BADFIL]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADLEN(a) (0xdf011 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_BADLEN]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_INULL(a) (0xdf015 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_INULL]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_OVRFLW(a) (0xdf012 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_OVRFLW]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_UNDFLW(a) (0xdf013 + 0 * (a)) /**< See DPI(0)_INT_SUM[REQ_UNDFLW]. */
 
 /**
  * Structure dpi_dma_func_sel_s
@@ -248,132 +268,12 @@ union bdk_dpi_dma_func_sel_s
  */
 union bdk_dpi_dma_instr_hdr_s
 {
-    uint64_t u[2];
+    uint64_t u[4];
     struct bdk_dpi_dma_instr_hdr_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
-        uint64_t lport                 : 2;  /**< [ 61: 60] Port for the last pointers block.
-
-                                                                 DPI sends MAC memory space reads and writes for the MAC addresses
-                                                                 in the last pointers block to the MAC selected by [LPORT]
-                                                                 while processing DPI_HDR_XTYPE_E::OUTBOUND, DPI_HDR_XTYPE_E::INBOUND,
-                                                                 and DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions.
-
-                                                                 [LPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions.
-
-                                                                 [LPORT<1>] must be zero for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions. */
-        uint64_t reserved_58_59        : 2;
-        uint64_t fport                 : 2;  /**< [ 57: 56] Port for the first pointers block.
-
-                                                                 DPI sends MAC memory space reads for the MAC addresses in the first
-                                                                 pointers block to the MAC selected by [FPORT] while processing
-                                                                 a DPI_HDR_XTYPE_E::EXTERNAL_ONLY DPI DMA instruction.
-
-                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND instructions.
-
-                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions.
-
-                                                                 [FPORT<1>] must be zero for DPI_HDR_XTYPE_E::OUTBOUND,
-                                                                 DPI_HDR_XTYPE_E::INBOUND, and DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions. */
-        uint64_t reserved_54_55        : 2;
-        uint64_t xtype                 : 2;  /**< [ 53: 52] Transfer type of the instruction. Enumerated by DPI_HDR_XTYPE_E. Each DPI DMA
-                                                                 instruction can be DPI_HDR_XTYPE_E::OUTBOUND (L2/DRAM->MAC),
-                                                                 DPI_HDR_XTYPE_E::INBOUND (MAC->L2/DRAM), DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
-        uint64_t csel                  : 1;  /**< [ 51: 51] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
-                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
-                                                                 DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
-                                                                 instruction execution.
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
-                                                                 instructions, [CSEL] must be zero. */
-        uint64_t ca                    : 1;  /**< [ 50: 50] Add to a counter that can interrupt a remote host.
-
-                                                                 When [CA] = 1, DPI updates a selected counter after it completes the DMA
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY instruction.
-
-                                                                 _ If [CSEL] = 0, DPI updates SLI_DMA(0)_CNT[CNT].
-                                                                 _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
-
-                                                                 Note that these updates may indirectly cause
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
-                                                                 (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
-                                                                 be sent to a remote MAC host.
-
-                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 1, DPI updates the counter by 1.
-
-                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 0, DPI updates the counter by the total bytes in
-                                                                 the transfer.
-
-                                                                 When [CA] = 0, DPI does not update any SLI_DMA()_CNT[CNT].
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
-                                                                 instructions, [CA] must never be set, and DPI never adds to any
-                                                                 SLI_DMA()_CNT[CNT]. */
-        uint64_t fi                    : 1;  /**< [ 49: 49] Force interrupt to a remote host.
-
-                                                                 When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
-                                                                 interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
-                                                                 cause an interrupt to be sent to a remote host.
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions, [II] must be clear, and DPI never sets DMAFI interrupt bits. */
-        uint64_t ii                    : 1;  /**< [ 48: 48] Ignore I. Determines if DPI_DMA_LOCAL_PTR_S[I]'s influence whether
-                                                                 DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during DPI_HDR_XTYPE_E::OUTBOUND
-                                                                 instruction processing.
-
-                                                                 If [II] is set, [FL] solely determines whether DPI frees, and
-                                                                 all DPI_DMA_LOCAL_PTR_S[PTR]'s in the DPI_HDR_XTYPE_E::OUTBOUND
-                                                                 instruction are either freed or not.
-
-                                                                 If [II] is clear, ([FL] XOR DPI_DMA_LOCAL_PTR_S[I]) determines
-                                                                 whether DPI frees a given DPI_DMA_LOCAL_PTR_S[PTR] in the
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction, and each .
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [II] must be clear,
-                                                                 and DPI never frees local buffers. */
-        uint64_t fl                    : 1;  /**< [ 47: 47] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction processing
-                                                                 (along with [II] and DPI_DMA_LOCAL_PTR_S[I]).
-
-                                                                 During DPI_HDR_XTYPE_E::OUTBOUND instruction processing, DPI frees a
-                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA when:
-
-                                                                 _ [FL] XOR (![II] AND DPI_DMA_LOCAL_PTR_S[I])
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
-                                                                 and DPI never frees local buffers. */
-        uint64_t reserved_46           : 1;
-        uint64_t pt                    : 2;  /**< [ 45: 44] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
-                                                                 upon completion of the DPI DMA instruction: byte write, SSO
-                                                                 work add, or counter add.
-
-                                                                 If no completion indication is desired for the DPI DMA instruction,
-                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
-        uint64_t dealloce              : 1;  /**< [ 43: 43] Aura count subtract enable. When [DEALLOCE] is set, DPI subtracts
-                                                                 [DEALLOCV] from the FPA aura count selected by [AURA]. When [DEALLOCE]
-                                                                 is clear, DPI does not subtract [DEALLOCV] from any aura count.
-                                                                 [DEALLOCE] can only be set when [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND.
-                                                                 [DEALLOCE] must not be set when [PVFE] is set. [DEALLOCV] must not be 0
-                                                                 when [DEALLOCE] is set.
-
-                                                                 The [DEALLOCV] aura count subtract is in addition to other
-                                                                 aura count activity. When FPA_AURA([AURA])_CFG[PTR_DIS]==0, FPA also
-                                                                 decrements the aura count by one for each DPI_DMA_LOCAL_PTR_S local
-                                                                 pointer free. */
-        uint64_t reserved_42           : 1;
-        uint64_t nlst                  : 4;  /**< [ 41: 38] The number of pointers in the last-pointers block.
+        uint64_t reserved_58_63        : 6;
+        uint64_t nlst                  : 4;  /**< [ 57: 54] The number of pointers in the last-pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
                                                                  DPI_HDR_XTYPE_E:EXTERNAL_ONLY instructions, the last pointers block
@@ -389,8 +289,8 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  Note that the sum of the number of 64-bit words in the last pointers block
                                                                  and first pointers block must never exceed 30. */
-        uint64_t reserved_36_37        : 2;
-        uint64_t nfst                  : 4;  /**< [ 35: 32] The number of pointers in the first pointers block.
+        uint64_t reserved_52_53        : 2;
+        uint64_t nfst                  : 4;  /**< [ 51: 48] The number of pointers in the first pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
                                                                  DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the first pointers block
@@ -406,58 +306,24 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  Note that the sum of the number of 64-bit words in the last pointers block
                                                                  and first pointers block must never exceed 30. */
-        uint64_t pvfe                  : 1;  /**< [ 31: 31] Function Enable. When [PVFE] is set, DPI directs all MAC reads/writes
-                                                                 to the function (physical or virtual) that [DEALLOCV] selects within
-                                                                 MAC/port [LPORT]. When [PVFE] is clear, DPI directs all MAC reads/writes
-                                                                 to physical function 0 within the MACs/ports [LPORT] or [FPORT]. [PVFE]
-                                                                 must not be set when [DEALLOCE] is set. [PVFE] must not be set when
-                                                                 [XTYPE] is DPI_HDR_XTYPE_E::INTERNAL_ONLY or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY. [PVFE] can only be set when MAC/PORT
-                                                                 [LPORT] is a PCIe MAC that either has multiple physical functions or
-                                                                 has SR-IOV enabled. */
-        uint64_t reserved_28_30        : 3;
-        uint64_t grp                   : 10; /**< [ 27: 18] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t reserved_44_47        : 4;
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t tt                    : 2;  /**< [ 17: 16] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t aura                  : 12; /**< [ 11:  0] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
-                                                                 DPI DMA instruction. [AURA] can only be used when
-                                                                 [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
-
-                                                                 During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
-                                                                 and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
-                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
-                                                                 whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
+        uint64_t tag                   : 32; /**< [ 31:  0] SSO Tag */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 12; /**< [ 11:  0] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
-                                                                 DPI DMA instruction. [AURA] can only be used when
-                                                                 [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
-
-                                                                 During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
-                                                                 and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
-                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
-                                                                 whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t tt                    : 2;  /**< [ 17: 16] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t tag                   : 32; /**< [ 31:  0] SSO Tag */
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t grp                   : 10; /**< [ 27: 18] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t reserved_28_30        : 3;
-        uint64_t pvfe                  : 1;  /**< [ 31: 31] Function Enable. When [PVFE] is set, DPI directs all MAC reads/writes
-                                                                 to the function (physical or virtual) that [DEALLOCV] selects within
-                                                                 MAC/port [LPORT]. When [PVFE] is clear, DPI directs all MAC reads/writes
-                                                                 to physical function 0 within the MACs/ports [LPORT] or [FPORT]. [PVFE]
-                                                                 must not be set when [DEALLOCE] is set. [PVFE] must not be set when
-                                                                 [XTYPE] is DPI_HDR_XTYPE_E::INTERNAL_ONLY or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY. [PVFE] can only be set when MAC/PORT
-                                                                 [LPORT] is a PCIe MAC that either has multiple physical functions or
-                                                                 has SR-IOV enabled. */
-        uint64_t nfst                  : 4;  /**< [ 35: 32] The number of pointers in the first pointers block.
+        uint64_t reserved_44_47        : 4;
+        uint64_t nfst                  : 4;  /**< [ 51: 48] The number of pointers in the first pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
                                                                  DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the first pointers block
@@ -473,8 +339,8 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  Note that the sum of the number of 64-bit words in the last pointers block
                                                                  and first pointers block must never exceed 30. */
-        uint64_t reserved_36_37        : 2;
-        uint64_t nlst                  : 4;  /**< [ 41: 38] The number of pointers in the last-pointers block.
+        uint64_t reserved_52_53        : 2;
+        uint64_t nlst                  : 4;  /**< [ 57: 54] The number of pointers in the last-pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
                                                                  DPI_HDR_XTYPE_E:EXTERNAL_ONLY instructions, the last pointers block
@@ -490,130 +356,141 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  Note that the sum of the number of 64-bit words in the last pointers block
                                                                  and first pointers block must never exceed 30. */
-        uint64_t reserved_42           : 1;
-        uint64_t dealloce              : 1;  /**< [ 43: 43] Aura count subtract enable. When [DEALLOCE] is set, DPI subtracts
-                                                                 [DEALLOCV] from the FPA aura count selected by [AURA]. When [DEALLOCE]
-                                                                 is clear, DPI does not subtract [DEALLOCV] from any aura count.
-                                                                 [DEALLOCE] can only be set when [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND.
-                                                                 [DEALLOCE] must not be set when [PVFE] is set. [DEALLOCV] must not be 0
-                                                                 when [DEALLOCE] is set.
-
-                                                                 The [DEALLOCV] aura count subtract is in addition to other
-                                                                 aura count activity. When FPA_AURA([AURA])_CFG[PTR_DIS]==0, FPA also
-                                                                 decrements the aura count by one for each DPI_DMA_LOCAL_PTR_S local
-                                                                 pointer free. */
-        uint64_t pt                    : 2;  /**< [ 45: 44] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
-                                                                 upon completion of the DPI DMA instruction: byte write, SSO
-                                                                 work add, or counter add.
-
-                                                                 If no completion indication is desired for the DPI DMA instruction,
-                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
-        uint64_t reserved_46           : 1;
-        uint64_t fl                    : 1;  /**< [ 47: 47] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction processing
-                                                                 (along with [II] and DPI_DMA_LOCAL_PTR_S[I]).
-
-                                                                 During DPI_HDR_XTYPE_E::OUTBOUND instruction processing, DPI frees a
-                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA when:
-
-                                                                 _ [FL] XOR (![II] AND DPI_DMA_LOCAL_PTR_S[I])
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
-                                                                 and DPI never frees local buffers. */
-        uint64_t ii                    : 1;  /**< [ 48: 48] Ignore I. Determines if DPI_DMA_LOCAL_PTR_S[I]'s influence whether
-                                                                 DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during DPI_HDR_XTYPE_E::OUTBOUND
-                                                                 instruction processing.
-
-                                                                 If [II] is set, [FL] solely determines whether DPI frees, and
-                                                                 all DPI_DMA_LOCAL_PTR_S[PTR]'s in the DPI_HDR_XTYPE_E::OUTBOUND
-                                                                 instruction are either freed or not.
-
-                                                                 If [II] is clear, ([FL] XOR DPI_DMA_LOCAL_PTR_S[I]) determines
-                                                                 whether DPI frees a given DPI_DMA_LOCAL_PTR_S[PTR] in the
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction, and each .
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [II] must be clear,
-                                                                 and DPI never frees local buffers. */
-        uint64_t fi                    : 1;  /**< [ 49: 49] Force interrupt to a remote host.
-
-                                                                 When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
-                                                                 interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
-                                                                 cause an interrupt to be sent to a remote host.
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions, [II] must be clear, and DPI never sets DMAFI interrupt bits. */
-        uint64_t ca                    : 1;  /**< [ 50: 50] Add to a counter that can interrupt a remote host.
-
-                                                                 When [CA] = 1, DPI updates a selected counter after it completes the DMA
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY instruction.
-
-                                                                 _ If [CSEL] = 0, DPI updates SLI_DMA(0)_CNT[CNT].
-                                                                 _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
-
-                                                                 Note that these updates may indirectly cause
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
-                                                                 (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
-                                                                 be sent to a remote MAC host.
-
-                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 1, DPI updates the counter by 1.
-
-                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 0, DPI updates the counter by the total bytes in
-                                                                 the transfer.
-
-                                                                 When [CA] = 0, DPI does not update any SLI_DMA()_CNT[CNT].
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
-                                                                 instructions, [CA] must never be set, and DPI never adds to any
-                                                                 SLI_DMA()_CNT[CNT]. */
-        uint64_t csel                  : 1;  /**< [ 51: 51] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
-                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
-                                                                 DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
-                                                                 instruction execution.
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
-                                                                 instructions, [CSEL] must be zero. */
-        uint64_t xtype                 : 2;  /**< [ 53: 52] Transfer type of the instruction. Enumerated by DPI_HDR_XTYPE_E. Each DPI DMA
-                                                                 instruction can be DPI_HDR_XTYPE_E::OUTBOUND (L2/DRAM->MAC),
-                                                                 DPI_HDR_XTYPE_E::INBOUND (MAC->L2/DRAM), DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
-        uint64_t reserved_54_55        : 2;
-        uint64_t fport                 : 2;  /**< [ 57: 56] Port for the first pointers block.
-
-                                                                 DPI sends MAC memory space reads for the MAC addresses in the first
-                                                                 pointers block to the MAC selected by [FPORT] while processing
-                                                                 a DPI_HDR_XTYPE_E::EXTERNAL_ONLY DPI DMA instruction.
-
-                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND instructions.
-
-                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions.
-
-                                                                 [FPORT<1>] must be zero for DPI_HDR_XTYPE_E::OUTBOUND,
-                                                                 DPI_HDR_XTYPE_E::INBOUND, and DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions. */
-        uint64_t reserved_58_59        : 2;
-        uint64_t lport                 : 2;  /**< [ 61: 60] Port for the last pointers block.
-
-                                                                 DPI sends MAC memory space reads and writes for the MAC addresses
-                                                                 in the last pointers block to the MAC selected by [LPORT]
-                                                                 while processing DPI_HDR_XTYPE_E::OUTBOUND, DPI_HDR_XTYPE_E::INBOUND,
-                                                                 and DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions.
-
-                                                                 [LPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions.
-
-                                                                 [LPORT<1>] must be zero for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t deallocv              : 16; /**< [127:112] The DEALLOCV/FUNC field.
+        uint64_t reserved_126_127      : 2;
+        uint64_t lport                 : 2;  /**< [125:124] Port for the last pointers block.
+
+                                                                 DPI sends MAC memory space reads and writes for the MAC addresses
+                                                                 in the last pointers block to the MAC selected by [LPORT]
+                                                                 while processing DPI_HDR_XTYPE_E::OUTBOUND, DPI_HDR_XTYPE_E::INBOUND,
+                                                                 and DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions.
+
+                                                                 [LPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [LPORT<1>] must be zero for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_122_123      : 2;
+        uint64_t fport                 : 2;  /**< [121:120] Port for the first pointers block.
+
+                                                                 DPI sends MAC memory space reads for the MAC addresses in the first
+                                                                 pointers block to the MAC selected by [FPORT] while processing
+                                                                 a DPI_HDR_XTYPE_E::EXTERNAL_ONLY DPI DMA instruction.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND instructions.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [FPORT<1>] must be zero for DPI_HDR_XTYPE_E::OUTBOUND,
+                                                                 DPI_HDR_XTYPE_E::INBOUND, and DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_114_119      : 6;
+        uint64_t xtype                 : 2;  /**< [113:112] Transfer type of the instruction. Enumerated by DPI_HDR_XTYPE_E. Each DPI DMA
+                                                                 instruction can be DPI_HDR_XTYPE_E::OUTBOUND (L2/DRAM->MAC),
+                                                                 DPI_HDR_XTYPE_E::INBOUND (MAC->L2/DRAM), DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
+        uint64_t reserved_109_111      : 3;
+        uint64_t csel                  : 1;  /**< [108:108] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
+                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
+                                                                 DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
+                                                                 instruction execution.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CSEL] must be zero. */
+        uint64_t ca                    : 1;  /**< [107:107] Add to a counter that can interrupt a remote host.
+
+                                                                 When [CA] = 1, DPI updates a selected counter after it completes the DMA
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY instruction.
+
+                                                                 _ If [CSEL] = 0, DPI updates SLI_DMA(0)_CNT[CNT].
+                                                                 _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
+
+                                                                 Note that these updates may indirectly cause
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
+                                                                 (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
+                                                                 be sent to a remote MAC host.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 1, DPI updates the counter by 1.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 0, DPI updates the counter by the total bytes in
+                                                                 the transfer.
+
+                                                                 When [CA] = 0, DPI does not update any SLI_DMA()_CNT[CNT].
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CA] must never be set, and DPI never adds to any
+                                                                 SLI_DMA()_CNT[CNT]. */
+        uint64_t fi                    : 1;  /**< [106:106] Force interrupt to a remote host.
+
+                                                                 When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
+                                                                 interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
+                                                                 cause an interrupt to be sent to a remote host.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions, [II] must be clear, and DPI never sets DMAFI interrupt bits. */
+        uint64_t ii                    : 1;  /**< [105:105] Ignore I. Determines if DPI_DMA_LOCAL_PTR_S[I]'s influence whether
+                                                                 DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction processing.
+
+                                                                 If [II] is set, [FL] solely determines whether DPI frees, and
+                                                                 all DPI_DMA_LOCAL_PTR_S[PTR]'s in the DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction are either freed or not.
+
+                                                                 If [II] is clear, ([FL] XOR DPI_DMA_LOCAL_PTR_S[I]) determines
+                                                                 whether DPI frees a given DPI_DMA_LOCAL_PTR_S[PTR] in the
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction, and each .
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [II] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t fl                    : 1;  /**< [104:104] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction processing
+                                                                 (along with [II] and DPI_DMA_LOCAL_PTR_S[I]).
+
+                                                                 During DPI_HDR_XTYPE_E::OUTBOUND instruction processing, DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA when:
+
+                                                                 _ [FL] XOR (![II] AND DPI_DMA_LOCAL_PTR_S[I])
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t pt                    : 2;  /**< [101:100] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
+                                                                 upon completion of the DPI DMA instruction: byte write, SSO
+                                                                 work add, or counter add.
+
+                                                                 If no completion indication is desired for the DPI DMA instruction,
+                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
+        uint64_t reserved_98_99        : 2;
+        uint64_t pvfe                  : 1;  /**< [ 97: 97] Function enable. When [PVFE] is set, DPI directs all MAC reads/writes
+                                                                 to the function (physical or virtual) that [DEALLOCV] selects within
+                                                                 MAC/port [LPORT]. When [PVFE] is clear, DPI directs all MAC reads/writes
+                                                                 to physical function 0 within the MACs/ports [LPORT] or [FPORT]. [PVFE]
+                                                                 must not be set when [DEALLOCE] is set. [PVFE] must not be set when
+                                                                 [XTYPE] is DPI_HDR_XTYPE_E::INTERNAL_ONLY or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY. [PVFE] can only be set when MAC/PORT
+                                                                 [LPORT] is a PCIe MAC that either has multiple physical functions or
+                                                                 has SR-IOV enabled. */
+        uint64_t dealloce              : 1;  /**< [ 96: 96] Aura count subtract enable. When [DEALLOCE] is set, DPI subtracts
+                                                                 [DEALLOCV] from the FPA aura count selected by [AURA]. When [DEALLOCE]
+                                                                 is clear, DPI does not subtract [DEALLOCV] from any aura count.
+                                                                 [DEALLOCE] can only be set when [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND.
+                                                                 [DEALLOCE] must not be set when [PVFE] is set. [DEALLOCV] must not be 0
+                                                                 when [DEALLOCE] is set.
+
+                                                                 The [DEALLOCV] aura count subtract is in addition to other
+                                                                 aura count activity. When FPA_AURA([AURA])_CFG[PTR_DIS]==0, FPA also
+                                                                 decrements the aura count by one for each DPI_DMA_LOCAL_PTR_S local
+                                                                 pointer free. */
+        uint64_t deallocv              : 16; /**< [ 95: 80] The DEALLOCV/FUNC field.
 
                                                                  When [DEALLOCE] is set, [DEALLOCV] is the value to decrement the aura count on
                                                                  the instruction's final pointer return.
@@ -621,16 +498,26 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  When [PVFE] is set, DPI_DMA_FUNC_SEL_S describes the [DEALLOCV] format.
                                                                  [DEALLOCV] selects the function within the MAC selected by [LPORT]
                                                                  when [PVFE] is set. */
-        uint64_t reserved_106_111      : 6;
-        uint64_t ptr                   : 42; /**< [105: 64] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
-                                                                 enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
+        uint64_t reserved_76_79        : 4;
+        uint64_t aura                  : 12; /**< [ 75: 64] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
+                                                                 DPI DMA instruction. [AURA] can only be used when
+                                                                 [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
+
+                                                                 During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
+                                                                 and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
+                                                                 whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
 #else /* Word 1 - Little Endian */
-        uint64_t ptr                   : 42; /**< [105: 64] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
-                                                                 enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
-        uint64_t reserved_106_111      : 6;
-        uint64_t deallocv              : 16; /**< [127:112] The DEALLOCV/FUNC field.
+        uint64_t aura                  : 12; /**< [ 75: 64] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
+                                                                 DPI DMA instruction. [AURA] can only be used when
+                                                                 [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
+
+                                                                 During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
+                                                                 and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
+                                                                 whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
+        uint64_t reserved_76_79        : 4;
+        uint64_t deallocv              : 16; /**< [ 95: 80] The DEALLOCV/FUNC field.
 
                                                                  When [DEALLOCE] is set, [DEALLOCV] is the value to decrement the aura count on
                                                                  the instruction's final pointer return.
@@ -638,133 +525,161 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  When [PVFE] is set, DPI_DMA_FUNC_SEL_S describes the [DEALLOCV] format.
                                                                  [DEALLOCV] selects the function within the MAC selected by [LPORT]
                                                                  when [PVFE] is set. */
+        uint64_t dealloce              : 1;  /**< [ 96: 96] Aura count subtract enable. When [DEALLOCE] is set, DPI subtracts
+                                                                 [DEALLOCV] from the FPA aura count selected by [AURA]. When [DEALLOCE]
+                                                                 is clear, DPI does not subtract [DEALLOCV] from any aura count.
+                                                                 [DEALLOCE] can only be set when [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND.
+                                                                 [DEALLOCE] must not be set when [PVFE] is set. [DEALLOCV] must not be 0
+                                                                 when [DEALLOCE] is set.
+
+                                                                 The [DEALLOCV] aura count subtract is in addition to other
+                                                                 aura count activity. When FPA_AURA([AURA])_CFG[PTR_DIS]==0, FPA also
+                                                                 decrements the aura count by one for each DPI_DMA_LOCAL_PTR_S local
+                                                                 pointer free. */
+        uint64_t pvfe                  : 1;  /**< [ 97: 97] Function enable. When [PVFE] is set, DPI directs all MAC reads/writes
+                                                                 to the function (physical or virtual) that [DEALLOCV] selects within
+                                                                 MAC/port [LPORT]. When [PVFE] is clear, DPI directs all MAC reads/writes
+                                                                 to physical function 0 within the MACs/ports [LPORT] or [FPORT]. [PVFE]
+                                                                 must not be set when [DEALLOCE] is set. [PVFE] must not be set when
+                                                                 [XTYPE] is DPI_HDR_XTYPE_E::INTERNAL_ONLY or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY. [PVFE] can only be set when MAC/PORT
+                                                                 [LPORT] is a PCIe MAC that either has multiple physical functions or
+                                                                 has SR-IOV enabled. */
+        uint64_t reserved_98_99        : 2;
+        uint64_t pt                    : 2;  /**< [101:100] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
+                                                                 upon completion of the DPI DMA instruction: byte write, SSO
+                                                                 work add, or counter add.
+
+                                                                 If no completion indication is desired for the DPI DMA instruction,
+                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t fl                    : 1;  /**< [104:104] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction processing
+                                                                 (along with [II] and DPI_DMA_LOCAL_PTR_S[I]).
+
+                                                                 During DPI_HDR_XTYPE_E::OUTBOUND instruction processing, DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA when:
+
+                                                                 _ [FL] XOR (![II] AND DPI_DMA_LOCAL_PTR_S[I])
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t ii                    : 1;  /**< [105:105] Ignore I. Determines if DPI_DMA_LOCAL_PTR_S[I]'s influence whether
+                                                                 DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction processing.
+
+                                                                 If [II] is set, [FL] solely determines whether DPI frees, and
+                                                                 all DPI_DMA_LOCAL_PTR_S[PTR]'s in the DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction are either freed or not.
+
+                                                                 If [II] is clear, ([FL] XOR DPI_DMA_LOCAL_PTR_S[I]) determines
+                                                                 whether DPI frees a given DPI_DMA_LOCAL_PTR_S[PTR] in the
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction, and each .
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [II] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t fi                    : 1;  /**< [106:106] Force interrupt to a remote host.
+
+                                                                 When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
+                                                                 interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
+                                                                 cause an interrupt to be sent to a remote host.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions, [II] must be clear, and DPI never sets DMAFI interrupt bits. */
+        uint64_t ca                    : 1;  /**< [107:107] Add to a counter that can interrupt a remote host.
+
+                                                                 When [CA] = 1, DPI updates a selected counter after it completes the DMA
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY instruction.
+
+                                                                 _ If [CSEL] = 0, DPI updates SLI_DMA(0)_CNT[CNT].
+                                                                 _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
+
+                                                                 Note that these updates may indirectly cause
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
+                                                                 (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
+                                                                 be sent to a remote MAC host.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 1, DPI updates the counter by 1.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 0, DPI updates the counter by the total bytes in
+                                                                 the transfer.
+
+                                                                 When [CA] = 0, DPI does not update any SLI_DMA()_CNT[CNT].
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CA] must never be set, and DPI never adds to any
+                                                                 SLI_DMA()_CNT[CNT]. */
+        uint64_t csel                  : 1;  /**< [108:108] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
+                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
+                                                                 DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
+                                                                 instruction execution.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CSEL] must be zero. */
+        uint64_t reserved_109_111      : 3;
+        uint64_t xtype                 : 2;  /**< [113:112] Transfer type of the instruction. Enumerated by DPI_HDR_XTYPE_E. Each DPI DMA
+                                                                 instruction can be DPI_HDR_XTYPE_E::OUTBOUND (L2/DRAM->MAC),
+                                                                 DPI_HDR_XTYPE_E::INBOUND (MAC->L2/DRAM), DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
+        uint64_t reserved_114_119      : 6;
+        uint64_t fport                 : 2;  /**< [121:120] Port for the first pointers block.
+
+                                                                 DPI sends MAC memory space reads for the MAC addresses in the first
+                                                                 pointers block to the MAC selected by [FPORT] while processing
+                                                                 a DPI_HDR_XTYPE_E::EXTERNAL_ONLY DPI DMA instruction.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND instructions.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [FPORT<1>] must be zero for DPI_HDR_XTYPE_E::OUTBOUND,
+                                                                 DPI_HDR_XTYPE_E::INBOUND, and DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_122_123      : 2;
+        uint64_t lport                 : 2;  /**< [125:124] Port for the last pointers block.
+
+                                                                 DPI sends MAC memory space reads and writes for the MAC addresses
+                                                                 in the last pointers block to the MAC selected by [LPORT]
+                                                                 while processing DPI_HDR_XTYPE_E::OUTBOUND, DPI_HDR_XTYPE_E::INBOUND,
+                                                                 and DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions.
+
+                                                                 [LPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [LPORT<1>] must be zero for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_126_127      : 2;
 #endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t reserved_176_191      : 16;
+        uint64_t ptr                   : 48; /**< [175:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+                                                                 enumeration describes the supported [PT] values and the [PTR] usage
+                                                                 and requirements in each case. */
+#else /* Word 2 - Little Endian */
+        uint64_t ptr                   : 48; /**< [175:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+                                                                 enumeration describes the supported [PT] values and the [PTR] usage
+                                                                 and requirements in each case. */
+        uint64_t reserved_176_191      : 16;
+#endif /* Word 2 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
+        uint64_t reserved_192_255      : 64;
+#else /* Word 3 - Little Endian */
+        uint64_t reserved_192_255      : 64;
+#endif /* Word 3 - End */
     } s;
     struct bdk_dpi_dma_instr_hdr_s_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
-        uint64_t lport                 : 2;  /**< [ 61: 60] Port for the last pointers block.
-
-                                                                 DPI sends MAC memory space reads and writes for the MAC addresses
-                                                                 in the last pointers block to the MAC selected by [LPORT]
-                                                                 while processing DPI_HDR_XTYPE_E::OUTBOUND, DPI_HDR_XTYPE_E::INBOUND,
-                                                                 and DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions.
-
-                                                                 [LPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions.
-
-                                                                 [LPORT<1>] must be zero for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions. */
+        uint64_t reserved_60_63        : 4;
         uint64_t reserved_58_59        : 2;
-        uint64_t fport                 : 2;  /**< [ 57: 56] Port for the first pointers block.
-
-                                                                 DPI sends MAC memory space reads for the MAC addresses in the first
-                                                                 pointers block to the MAC selected by [FPORT] while processing
-                                                                 a DPI_HDR_XTYPE_E::EXTERNAL_ONLY DPI DMA instruction.
-
-                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND instructions.
-
-                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions.
-
-                                                                 [FPORT<1>] must be zero for DPI_HDR_XTYPE_E::OUTBOUND,
-                                                                 DPI_HDR_XTYPE_E::INBOUND, and DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions. */
-        uint64_t reserved_54_55        : 2;
-        uint64_t xtype                 : 2;  /**< [ 53: 52] Transfer type of the instruction. Enumerated by DPI_HDR_XTYPE_E. Each DPI DMA
-                                                                 instruction can be DPI_HDR_XTYPE_E::OUTBOUND (L2/DRAM->MAC),
-                                                                 DPI_HDR_XTYPE_E::INBOUND (MAC->L2/DRAM), DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
-        uint64_t csel                  : 1;  /**< [ 51: 51] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
-                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
-                                                                 DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
-                                                                 instruction execution.
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
-                                                                 instructions, [CSEL] must be zero. */
-        uint64_t ca                    : 1;  /**< [ 50: 50] Add to a counter that can interrupt a remote host.
-
-                                                                 When [CA] = 1, DPI updates a selected counter after it completes the DMA
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY instruction.
-
-                                                                 _ If [CSEL] = 0, DPI updates SLI_DMA(0)_CNT[CNT].
-                                                                 _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
-
-                                                                 Note that these updates may indirectly cause
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
-                                                                 (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
-                                                                 be sent to a remote MAC host.
-
-                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 1, DPI updates the counter by 1.
-
-                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 0, DPI updates the counter by the total bytes in
-                                                                 the transfer.
-
-                                                                 When [CA] = 0, DPI does not update any SLI_DMA()_CNT[CNT].
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
-                                                                 instructions, [CA] must never be set, and DPI never adds to any
-                                                                 SLI_DMA()_CNT[CNT]. */
-        uint64_t fi                    : 1;  /**< [ 49: 49] Force interrupt to a remote host.
-
-                                                                 When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
-                                                                 interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
-                                                                 cause an interrupt to be sent to a remote host.
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions, [II] must be clear, and DPI never sets DMAFI interrupt bits. */
-        uint64_t ii                    : 1;  /**< [ 48: 48] Ignore I. Determines if DPI_DMA_LOCAL_PTR_S[I]'s influence whether
-                                                                 DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during DPI_HDR_XTYPE_E::OUTBOUND
-                                                                 instruction processing.
-
-                                                                 If [II] is set, [FL] solely determines whether DPI frees, and
-                                                                 all DPI_DMA_LOCAL_PTR_S[PTR]'s in the DPI_HDR_XTYPE_E::OUTBOUND
-                                                                 instruction are either freed or not.
-
-                                                                 If [II] is clear, ([FL] XOR DPI_DMA_LOCAL_PTR_S[I]) determines
-                                                                 whether DPI frees a given DPI_DMA_LOCAL_PTR_S[PTR] in the
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction, and each .
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [II] must be clear,
-                                                                 and DPI never frees local buffers. */
-        uint64_t fl                    : 1;  /**< [ 47: 47] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction processing
-                                                                 (along with [II] and DPI_DMA_LOCAL_PTR_S[I]).
-
-                                                                 During DPI_HDR_XTYPE_E::OUTBOUND instruction processing, DPI frees a
-                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA when:
-
-                                                                 _ [FL] XOR (![II] AND DPI_DMA_LOCAL_PTR_S[I])
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
-                                                                 and DPI never frees local buffers. */
-        uint64_t reserved_46           : 1;
-        uint64_t pt                    : 2;  /**< [ 45: 44] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
-                                                                 upon completion of the DPI DMA instruction: byte write, SSO
-                                                                 work add, or counter add.
-
-                                                                 If no completion indication is desired for the DPI DMA instruction,
-                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
-        uint64_t dealloce              : 1;  /**< [ 43: 43] Aura count subtract enable. When [DEALLOCE] is set, DPI subtracts
-                                                                 [DEALLOCV] from the FPA aura count selected by [AURA]. When [DEALLOCE]
-                                                                 is clear, DPI does not subtract [DEALLOCV] from any aura count.
-                                                                 [DEALLOCE] can only be set when [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND.
-                                                                 [DEALLOCE] must not be set when [PVFE] is set. [DEALLOCV] must not be 0
-                                                                 when [DEALLOCE] is set.
-
-                                                                 The [DEALLOCV] aura count subtract is in addition to other
-                                                                 aura count activity. When FPA_AURA([AURA])_CFG[PTR_DIS]==0, FPA also
-                                                                 decrements the aura count by one for each DPI_DMA_LOCAL_PTR_S local
-                                                                 pointer free. */
-        uint64_t reserved_42           : 1;
-        uint64_t nlst                  : 4;  /**< [ 41: 38] The number of pointers in the last-pointers block.
+        uint64_t nlst                  : 4;  /**< [ 57: 54] The number of pointers in the last-pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
                                                                  DPI_HDR_XTYPE_E:EXTERNAL_ONLY instructions, the last pointers block
@@ -780,9 +695,8 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  Note that the sum of the number of 64-bit words in the last pointers block
                                                                  and first pointers block must never exceed 30. */
-        uint64_t reserved_37           : 1;
-        uint64_t reserved_36           : 1;
-        uint64_t nfst                  : 4;  /**< [ 35: 32] The number of pointers in the first pointers block.
+        uint64_t reserved_52_53        : 2;
+        uint64_t nfst                  : 4;  /**< [ 51: 48] The number of pointers in the first pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
                                                                  DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the first pointers block
@@ -798,60 +712,26 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  Note that the sum of the number of 64-bit words in the last pointers block
                                                                  and first pointers block must never exceed 30. */
-        uint64_t pvfe                  : 1;  /**< [ 31: 31] Function Enable. When [PVFE] is set, DPI directs all MAC reads/writes
-                                                                 to the function (physical or virtual) that [DEALLOCV] selects within
-                                                                 MAC/port [LPORT]. When [PVFE] is clear, DPI directs all MAC reads/writes
-                                                                 to physical function 0 within the MACs/ports [LPORT] or [FPORT]. [PVFE]
-                                                                 must not be set when [DEALLOCE] is set. [PVFE] must not be set when
-                                                                 [XTYPE] is DPI_HDR_XTYPE_E::INTERNAL_ONLY or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY. [PVFE] can only be set when MAC/PORT
-                                                                 [LPORT] is a PCIe MAC that either has multiple physical functions or
-                                                                 has SR-IOV enabled. */
-        uint64_t reserved_30           : 1;
-        uint64_t reserved_28_29        : 2;
-        uint64_t grp                   : 10; /**< [ 27: 18] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t reserved_46_47        : 2;
+        uint64_t reserved_44_45        : 2;
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t tt                    : 2;  /**< [ 17: 16] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t aura                  : 12; /**< [ 11:  0] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
-                                                                 DPI DMA instruction. [AURA] can only be used when
-                                                                 [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
-
-                                                                 During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
-                                                                 and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
-                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
-                                                                 whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
+        uint64_t tag                   : 32; /**< [ 31:  0] SSO Tag */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 12; /**< [ 11:  0] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
-                                                                 DPI DMA instruction. [AURA] can only be used when
-                                                                 [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
-
-                                                                 During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
-                                                                 and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
-                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
-                                                                 whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t tt                    : 2;  /**< [ 17: 16] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t tag                   : 32; /**< [ 31:  0] SSO Tag */
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t grp                   : 10; /**< [ 27: 18] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t reserved_28_29        : 2;
-        uint64_t reserved_30           : 1;
-        uint64_t pvfe                  : 1;  /**< [ 31: 31] Function Enable. When [PVFE] is set, DPI directs all MAC reads/writes
-                                                                 to the function (physical or virtual) that [DEALLOCV] selects within
-                                                                 MAC/port [LPORT]. When [PVFE] is clear, DPI directs all MAC reads/writes
-                                                                 to physical function 0 within the MACs/ports [LPORT] or [FPORT]. [PVFE]
-                                                                 must not be set when [DEALLOCE] is set. [PVFE] must not be set when
-                                                                 [XTYPE] is DPI_HDR_XTYPE_E::INTERNAL_ONLY or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY. [PVFE] can only be set when MAC/PORT
-                                                                 [LPORT] is a PCIe MAC that either has multiple physical functions or
-                                                                 has SR-IOV enabled. */
-        uint64_t nfst                  : 4;  /**< [ 35: 32] The number of pointers in the first pointers block.
+        uint64_t reserved_44_45        : 2;
+        uint64_t reserved_46_47        : 2;
+        uint64_t nfst                  : 4;  /**< [ 51: 48] The number of pointers in the first pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
                                                                  DPI_HDR_XTYPE_E:INTERNAL_ONLY instructions, the first pointers block
@@ -867,9 +747,8 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  Note that the sum of the number of 64-bit words in the last pointers block
                                                                  and first pointers block must never exceed 30. */
-        uint64_t reserved_36           : 1;
-        uint64_t reserved_37           : 1;
-        uint64_t nlst                  : 4;  /**< [ 41: 38] The number of pointers in the last-pointers block.
+        uint64_t reserved_52_53        : 2;
+        uint64_t nlst                  : 4;  /**< [ 57: 54] The number of pointers in the last-pointers block.
 
                                                                  With DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::OUTBOUND, and
                                                                  DPI_HDR_XTYPE_E:EXTERNAL_ONLY instructions, the last pointers block
@@ -885,130 +764,143 @@ union bdk_dpi_dma_instr_hdr_s
 
                                                                  Note that the sum of the number of 64-bit words in the last pointers block
                                                                  and first pointers block must never exceed 30. */
-        uint64_t reserved_42           : 1;
-        uint64_t dealloce              : 1;  /**< [ 43: 43] Aura count subtract enable. When [DEALLOCE] is set, DPI subtracts
-                                                                 [DEALLOCV] from the FPA aura count selected by [AURA]. When [DEALLOCE]
-                                                                 is clear, DPI does not subtract [DEALLOCV] from any aura count.
-                                                                 [DEALLOCE] can only be set when [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND.
-                                                                 [DEALLOCE] must not be set when [PVFE] is set. [DEALLOCV] must not be 0
-                                                                 when [DEALLOCE] is set.
-
-                                                                 The [DEALLOCV] aura count subtract is in addition to other
-                                                                 aura count activity. When FPA_AURA([AURA])_CFG[PTR_DIS]==0, FPA also
-                                                                 decrements the aura count by one for each DPI_DMA_LOCAL_PTR_S local
-                                                                 pointer free. */
-        uint64_t pt                    : 2;  /**< [ 45: 44] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
-                                                                 upon completion of the DPI DMA instruction: byte write, SSO
-                                                                 work add, or counter add.
-
-                                                                 If no completion indication is desired for the DPI DMA instruction,
-                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
-        uint64_t reserved_46           : 1;
-        uint64_t fl                    : 1;  /**< [ 47: 47] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction processing
-                                                                 (along with [II] and DPI_DMA_LOCAL_PTR_S[I]).
-
-                                                                 During DPI_HDR_XTYPE_E::OUTBOUND instruction processing, DPI frees a
-                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA when:
-
-                                                                 _ [FL] XOR (![II] AND DPI_DMA_LOCAL_PTR_S[I])
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
-                                                                 and DPI never frees local buffers. */
-        uint64_t ii                    : 1;  /**< [ 48: 48] Ignore I. Determines if DPI_DMA_LOCAL_PTR_S[I]'s influence whether
-                                                                 DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during DPI_HDR_XTYPE_E::OUTBOUND
-                                                                 instruction processing.
-
-                                                                 If [II] is set, [FL] solely determines whether DPI frees, and
-                                                                 all DPI_DMA_LOCAL_PTR_S[PTR]'s in the DPI_HDR_XTYPE_E::OUTBOUND
-                                                                 instruction are either freed or not.
-
-                                                                 If [II] is clear, ([FL] XOR DPI_DMA_LOCAL_PTR_S[I]) determines
-                                                                 whether DPI frees a given DPI_DMA_LOCAL_PTR_S[PTR] in the
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction, and each .
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [II] must be clear,
-                                                                 and DPI never frees local buffers. */
-        uint64_t fi                    : 1;  /**< [ 49: 49] Force interrupt to a remote host.
-
-                                                                 When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
-                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
-                                                                 interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
-                                                                 cause an interrupt to be sent to a remote host.
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions, [II] must be clear, and DPI never sets DMAFI interrupt bits. */
-        uint64_t ca                    : 1;  /**< [ 50: 50] Add to a counter that can interrupt a remote host.
-
-                                                                 When [CA] = 1, DPI updates a selected counter after it completes the DMA
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY instruction.
-
-                                                                 _ If [CSEL] = 0, DPI updates SLI_DMA(0)_CNT[CNT].
-                                                                 _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
-
-                                                                 Note that these updates may indirectly cause
-                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
-                                                                 (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
-                                                                 be sent to a remote MAC host.
-
-                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 1, DPI updates the counter by 1.
-
-                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 0, DPI updates the counter by the total bytes in
-                                                                 the transfer.
-
-                                                                 When [CA] = 0, DPI does not update any SLI_DMA()_CNT[CNT].
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
-                                                                 instructions, [CA] must never be set, and DPI never adds to any
-                                                                 SLI_DMA()_CNT[CNT]. */
-        uint64_t csel                  : 1;  /**< [ 51: 51] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
-                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
-                                                                 DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
-                                                                 instruction execution.
-
-                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
-                                                                 instructions, [CSEL] must be zero. */
-        uint64_t xtype                 : 2;  /**< [ 53: 52] Transfer type of the instruction. Enumerated by DPI_HDR_XTYPE_E. Each DPI DMA
-                                                                 instruction can be DPI_HDR_XTYPE_E::OUTBOUND (L2/DRAM->MAC),
-                                                                 DPI_HDR_XTYPE_E::INBOUND (MAC->L2/DRAM), DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
-        uint64_t reserved_54_55        : 2;
-        uint64_t fport                 : 2;  /**< [ 57: 56] Port for the first pointers block.
-
-                                                                 DPI sends MAC memory space reads for the MAC addresses in the first
-                                                                 pointers block to the MAC selected by [FPORT] while processing
-                                                                 a DPI_HDR_XTYPE_E::EXTERNAL_ONLY DPI DMA instruction.
-
-                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for
-                                                                 DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND instructions.
-
-                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions.
-
-                                                                 [FPORT<1>] must be zero for DPI_HDR_XTYPE_E::OUTBOUND,
-                                                                 DPI_HDR_XTYPE_E::INBOUND, and DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions. */
         uint64_t reserved_58_59        : 2;
-        uint64_t lport                 : 2;  /**< [ 61: 60] Port for the last pointers block.
-
-                                                                 DPI sends MAC memory space reads and writes for the MAC addresses
-                                                                 in the last pointers block to the MAC selected by [LPORT]
-                                                                 while processing DPI_HDR_XTYPE_E::OUTBOUND, DPI_HDR_XTYPE_E::INBOUND,
-                                                                 and DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions.
-
-                                                                 [LPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions.
-
-                                                                 [LPORT<1>] must be zero for DPI_HDR_XTYPE_E::INTERNAL_ONLY
-                                                                 instructions. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t deallocv              : 16; /**< [127:112] The DEALLOCV/FUNC field.
+        uint64_t reserved_126_127      : 2;
+        uint64_t lport                 : 2;  /**< [125:124] Port for the last pointers block.
+
+                                                                 DPI sends MAC memory space reads and writes for the MAC addresses
+                                                                 in the last pointers block to the MAC selected by [LPORT]
+                                                                 while processing DPI_HDR_XTYPE_E::OUTBOUND, DPI_HDR_XTYPE_E::INBOUND,
+                                                                 and DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions.
+
+                                                                 [LPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [LPORT<1>] must be zero for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_122_123      : 2;
+        uint64_t fport                 : 2;  /**< [121:120] Port for the first pointers block.
+
+                                                                 DPI sends MAC memory space reads for the MAC addresses in the first
+                                                                 pointers block to the MAC selected by [FPORT] while processing
+                                                                 a DPI_HDR_XTYPE_E::EXTERNAL_ONLY DPI DMA instruction.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND instructions.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [FPORT<1>] must be zero for DPI_HDR_XTYPE_E::OUTBOUND,
+                                                                 DPI_HDR_XTYPE_E::INBOUND, and DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_116_119      : 4;
+        uint64_t reserved_114_115      : 2;
+        uint64_t xtype                 : 2;  /**< [113:112] Transfer type of the instruction. Enumerated by DPI_HDR_XTYPE_E. Each DPI DMA
+                                                                 instruction can be DPI_HDR_XTYPE_E::OUTBOUND (L2/DRAM->MAC),
+                                                                 DPI_HDR_XTYPE_E::INBOUND (MAC->L2/DRAM), DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
+        uint64_t reserved_109_111      : 3;
+        uint64_t csel                  : 1;  /**< [108:108] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
+                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
+                                                                 DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
+                                                                 instruction execution.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CSEL] must be zero. */
+        uint64_t ca                    : 1;  /**< [107:107] Add to a counter that can interrupt a remote host.
+
+                                                                 When [CA] = 1, DPI updates a selected counter after it completes the DMA
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY instruction.
+
+                                                                 _ If [CSEL] = 0, DPI updates SLI_DMA(0)_CNT[CNT].
+                                                                 _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
+
+                                                                 Note that these updates may indirectly cause
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
+                                                                 (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
+                                                                 be sent to a remote MAC host.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 1, DPI updates the counter by 1.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 0, DPI updates the counter by the total bytes in
+                                                                 the transfer.
+
+                                                                 When [CA] = 0, DPI does not update any SLI_DMA()_CNT[CNT].
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CA] must never be set, and DPI never adds to any
+                                                                 SLI_DMA()_CNT[CNT]. */
+        uint64_t fi                    : 1;  /**< [106:106] Force interrupt to a remote host.
+
+                                                                 When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
+                                                                 interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
+                                                                 cause an interrupt to be sent to a remote host.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions, [II] must be clear, and DPI never sets DMAFI interrupt bits. */
+        uint64_t ii                    : 1;  /**< [105:105] Ignore I. Determines if DPI_DMA_LOCAL_PTR_S[I]'s influence whether
+                                                                 DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction processing.
+
+                                                                 If [II] is set, [FL] solely determines whether DPI frees, and
+                                                                 all DPI_DMA_LOCAL_PTR_S[PTR]'s in the DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction are either freed or not.
+
+                                                                 If [II] is clear, ([FL] XOR DPI_DMA_LOCAL_PTR_S[I]) determines
+                                                                 whether DPI frees a given DPI_DMA_LOCAL_PTR_S[PTR] in the
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction, and each .
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [II] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t fl                    : 1;  /**< [104:104] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction processing
+                                                                 (along with [II] and DPI_DMA_LOCAL_PTR_S[I]).
+
+                                                                 During DPI_HDR_XTYPE_E::OUTBOUND instruction processing, DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA when:
+
+                                                                 _ [FL] XOR (![II] AND DPI_DMA_LOCAL_PTR_S[I])
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t pt                    : 2;  /**< [101:100] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
+                                                                 upon completion of the DPI DMA instruction: byte write, SSO
+                                                                 work add, or counter add.
+
+                                                                 If no completion indication is desired for the DPI DMA instruction,
+                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
+        uint64_t reserved_98_99        : 2;
+        uint64_t pvfe                  : 1;  /**< [ 97: 97] Function enable. When [PVFE] is set, DPI directs all MAC reads/writes
+                                                                 to the function (physical or virtual) that [DEALLOCV] selects within
+                                                                 MAC/port [LPORT]. When [PVFE] is clear, DPI directs all MAC reads/writes
+                                                                 to physical function 0 within the MACs/ports [LPORT] or [FPORT]. [PVFE]
+                                                                 must not be set when [DEALLOCE] is set. [PVFE] must not be set when
+                                                                 [XTYPE] is DPI_HDR_XTYPE_E::INTERNAL_ONLY or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY. [PVFE] can only be set when MAC/PORT
+                                                                 [LPORT] is a PCIe MAC that either has multiple physical functions or
+                                                                 has SR-IOV enabled. */
+        uint64_t dealloce              : 1;  /**< [ 96: 96] Aura count subtract enable. When [DEALLOCE] is set, DPI subtracts
+                                                                 [DEALLOCV] from the FPA aura count selected by [AURA]. When [DEALLOCE]
+                                                                 is clear, DPI does not subtract [DEALLOCV] from any aura count.
+                                                                 [DEALLOCE] can only be set when [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND.
+                                                                 [DEALLOCE] must not be set when [PVFE] is set. [DEALLOCV] must not be 0
+                                                                 when [DEALLOCE] is set.
+
+                                                                 The [DEALLOCV] aura count subtract is in addition to other
+                                                                 aura count activity. When FPA_AURA([AURA])_CFG[PTR_DIS]==0, FPA also
+                                                                 decrements the aura count by one for each DPI_DMA_LOCAL_PTR_S local
+                                                                 pointer free. */
+        uint64_t deallocv              : 16; /**< [ 95: 80] The DEALLOCV/FUNC field.
 
                                                                  When [DEALLOCE] is set, [DEALLOCV] is the value to decrement the aura count on
                                                                  the instruction's final pointer return.
@@ -1016,16 +908,26 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  When [PVFE] is set, DPI_DMA_FUNC_SEL_S describes the [DEALLOCV] format.
                                                                  [DEALLOCV] selects the function within the MAC selected by [LPORT]
                                                                  when [PVFE] is set. */
-        uint64_t reserved_106_111      : 6;
-        uint64_t ptr                   : 42; /**< [105: 64] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
-                                                                 enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
+        uint64_t reserved_76_79        : 4;
+        uint64_t aura                  : 12; /**< [ 75: 64] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
+                                                                 DPI DMA instruction. [AURA] can only be used when
+                                                                 [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
+
+                                                                 During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
+                                                                 and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
+                                                                 whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
 #else /* Word 1 - Little Endian */
-        uint64_t ptr                   : 42; /**< [105: 64] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
-                                                                 enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
-        uint64_t reserved_106_111      : 6;
-        uint64_t deallocv              : 16; /**< [127:112] The DEALLOCV/FUNC field.
+        uint64_t aura                  : 12; /**< [ 75: 64] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
+                                                                 DPI DMA instruction. [AURA] can only be used when
+                                                                 [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
+
+                                                                 During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
+                                                                 and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
+                                                                 whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
+        uint64_t reserved_76_79        : 4;
+        uint64_t deallocv              : 16; /**< [ 95: 80] The DEALLOCV/FUNC field.
 
                                                                  When [DEALLOCE] is set, [DEALLOCV] is the value to decrement the aura count on
                                                                  the instruction's final pointer return.
@@ -1033,7 +935,155 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  When [PVFE] is set, DPI_DMA_FUNC_SEL_S describes the [DEALLOCV] format.
                                                                  [DEALLOCV] selects the function within the MAC selected by [LPORT]
                                                                  when [PVFE] is set. */
+        uint64_t dealloce              : 1;  /**< [ 96: 96] Aura count subtract enable. When [DEALLOCE] is set, DPI subtracts
+                                                                 [DEALLOCV] from the FPA aura count selected by [AURA]. When [DEALLOCE]
+                                                                 is clear, DPI does not subtract [DEALLOCV] from any aura count.
+                                                                 [DEALLOCE] can only be set when [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND.
+                                                                 [DEALLOCE] must not be set when [PVFE] is set. [DEALLOCV] must not be 0
+                                                                 when [DEALLOCE] is set.
+
+                                                                 The [DEALLOCV] aura count subtract is in addition to other
+                                                                 aura count activity. When FPA_AURA([AURA])_CFG[PTR_DIS]==0, FPA also
+                                                                 decrements the aura count by one for each DPI_DMA_LOCAL_PTR_S local
+                                                                 pointer free. */
+        uint64_t pvfe                  : 1;  /**< [ 97: 97] Function enable. When [PVFE] is set, DPI directs all MAC reads/writes
+                                                                 to the function (physical or virtual) that [DEALLOCV] selects within
+                                                                 MAC/port [LPORT]. When [PVFE] is clear, DPI directs all MAC reads/writes
+                                                                 to physical function 0 within the MACs/ports [LPORT] or [FPORT]. [PVFE]
+                                                                 must not be set when [DEALLOCE] is set. [PVFE] must not be set when
+                                                                 [XTYPE] is DPI_HDR_XTYPE_E::INTERNAL_ONLY or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY. [PVFE] can only be set when MAC/PORT
+                                                                 [LPORT] is a PCIe MAC that either has multiple physical functions or
+                                                                 has SR-IOV enabled. */
+        uint64_t reserved_98_99        : 2;
+        uint64_t pt                    : 2;  /**< [101:100] Pointer Type. Enumerated by DPI_HDR_PT_E. Indicates how [PTR] is used
+                                                                 upon completion of the DPI DMA instruction: byte write, SSO
+                                                                 work add, or counter add.
+
+                                                                 If no completion indication is desired for the DPI DMA instruction,
+                                                                 software should set [PT]=DPI_HDR_PT_E::ZBW_CA (0) and [PTR]=0. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t fl                    : 1;  /**< [104:104] Determines whether DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction processing
+                                                                 (along with [II] and DPI_DMA_LOCAL_PTR_S[I]).
+
+                                                                 During DPI_HDR_XTYPE_E::OUTBOUND instruction processing, DPI frees a
+                                                                 DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA when:
+
+                                                                 _ [FL] XOR (![II] AND DPI_DMA_LOCAL_PTR_S[I])
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [FL] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t ii                    : 1;  /**< [105:105] Ignore I. Determines if DPI_DMA_LOCAL_PTR_S[I]'s influence whether
+                                                                 DPI frees a DPI_DMA_LOCAL_PTR_S[PTR] during DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction processing.
+
+                                                                 If [II] is set, [FL] solely determines whether DPI frees, and
+                                                                 all DPI_DMA_LOCAL_PTR_S[PTR]'s in the DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 instruction are either freed or not.
+
+                                                                 If [II] is clear, ([FL] XOR DPI_DMA_LOCAL_PTR_S[I]) determines
+                                                                 whether DPI frees a given DPI_DMA_LOCAL_PTR_S[PTR] in the
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND instruction, and each .
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND, DPI_HDR_XTYPE_E::INTERNAL_ONLY, or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions, [II] must be clear,
+                                                                 and DPI never frees local buffers. */
+        uint64_t fi                    : 1;  /**< [106:106] Force interrupt to a remote host.
+
+                                                                 When [FI] is set for a (DPI_HDR_XTYPE_E::OUTBOUND or
+                                                                 DPI_HDR_XTYPE_E::EXTERNAL_ONLY) DPI DMA instruction, DPI sets an
+                                                                 interrupt bit after completing instruction. If [CSEL] = 0, DPI sets
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<0>] for all MACs, else DPI sets
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI<1>] for all MACs. This may
+                                                                 cause an interrupt to be sent to a remote host.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions, [II] must be clear, and DPI never sets DMAFI interrupt bits. */
+        uint64_t ca                    : 1;  /**< [107:107] Add to a counter that can interrupt a remote host.
+
+                                                                 When [CA] = 1, DPI updates a selected counter after it completes the DMA
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY instruction.
+
+                                                                 _ If [CSEL] = 0, DPI updates SLI_DMA(0)_CNT[CNT].
+                                                                 _ If [CSEL] = 1, DPI updates SLI_DMA(1)_CNT[CNT].
+
+                                                                 Note that these updates may indirectly cause
+                                                                 SLI_MAC(0..3)_PF(0..1)_INT_SUM[DCNT,DTIME] to become set for all MACs
+                                                                 (depending on the SLI_DMA()_INT_LEVEL settings), so may cause interrupts to
+                                                                 be sent to a remote MAC host.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 1, DPI updates the counter by 1.
+
+                                                                 If DPI()_DMA_CONTROL[O_ADD1] = 0, DPI updates the counter by the total bytes in
+                                                                 the transfer.
+
+                                                                 When [CA] = 0, DPI does not update any SLI_DMA()_CNT[CNT].
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CA] must never be set, and DPI never adds to any
+                                                                 SLI_DMA()_CNT[CNT]. */
+        uint64_t csel                  : 1;  /**< [108:108] Counter and interrupt select. See [CA] and [FI]. [CSEL] selects which of two counters
+                                                                 (SLI_DMA()_CNT[CNT]) and/or two interrupt bits (SLI_MAC(0..3)_PF(0..1)_INT_SUM[DMAFI])
+                                                                 DPI can modify during DPI_HDR_XTYPE_E::OUTBOUND or DPI_HDR_XTYPE_E::EXTERNAL_ONLY
+                                                                 instruction execution.
+
+                                                                 For DPI_HDR_XTYPE_E::INBOUND or DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA
+                                                                 instructions, [CSEL] must be zero. */
+        uint64_t reserved_109_111      : 3;
+        uint64_t xtype                 : 2;  /**< [113:112] Transfer type of the instruction. Enumerated by DPI_HDR_XTYPE_E. Each DPI DMA
+                                                                 instruction can be DPI_HDR_XTYPE_E::OUTBOUND (L2/DRAM->MAC),
+                                                                 DPI_HDR_XTYPE_E::INBOUND (MAC->L2/DRAM), DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 (L2/DRAM->L2/DRAM), or DPI_HDR_XTYPE_E::EXTERNAL_ONLY (MAC->MAC). */
+        uint64_t reserved_114_115      : 2;
+        uint64_t reserved_116_119      : 4;
+        uint64_t fport                 : 2;  /**< [121:120] Port for the first pointers block.
+
+                                                                 DPI sends MAC memory space reads for the MAC addresses in the first
+                                                                 pointers block to the MAC selected by [FPORT] while processing
+                                                                 a DPI_HDR_XTYPE_E::EXTERNAL_ONLY DPI DMA instruction.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for
+                                                                 DPI_HDR_XTYPE_E::OUTBOUND and DPI_HDR_XTYPE_E::INBOUND instructions.
+
+                                                                 [FPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [FPORT<1>] must be zero for DPI_HDR_XTYPE_E::OUTBOUND,
+                                                                 DPI_HDR_XTYPE_E::INBOUND, and DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_122_123      : 2;
+        uint64_t lport                 : 2;  /**< [125:124] Port for the last pointers block.
+
+                                                                 DPI sends MAC memory space reads and writes for the MAC addresses
+                                                                 in the last pointers block to the MAC selected by [LPORT]
+                                                                 while processing DPI_HDR_XTYPE_E::OUTBOUND, DPI_HDR_XTYPE_E::INBOUND,
+                                                                 and DPI_HDR_XTYPE_E::EXTERNAL_ONLY instructions.
+
+                                                                 [LPORT<0>] normally determines the IOI/NCB DPI uses for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions.
+
+                                                                 [LPORT<1>] must be zero for DPI_HDR_XTYPE_E::INTERNAL_ONLY
+                                                                 instructions. */
+        uint64_t reserved_126_127      : 2;
 #endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t reserved_176_191      : 16;
+        uint64_t ptr                   : 48; /**< [175:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+                                                                 enumeration describes the supported [PT] values and the [PTR] usage
+                                                                 and requirements in each case. */
+#else /* Word 2 - Little Endian */
+        uint64_t ptr                   : 48; /**< [175:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+                                                                 enumeration describes the supported [PT] values and the [PTR] usage
+                                                                 and requirements in each case. */
+        uint64_t reserved_176_191      : 16;
+#endif /* Word 2 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
+        uint64_t reserved_192_255      : 64;
+#else /* Word 3 - Little Endian */
+        uint64_t reserved_192_255      : 64;
+#endif /* Word 3 - End */
     } cn;
 };
 
@@ -1045,11 +1095,13 @@ union bdk_dpi_dma_instr_hdr_s
  */
 union bdk_dpi_dma_local_ptr_s
 {
-    uint64_t u;
+    uint64_t u[2];
     struct bdk_dpi_dma_local_ptr_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t i                     : 1;  /**< [ 63: 63] Invert free. This bit gives the software the ability to free buffers
+        uint64_t i                     : 1;  /**< [ 63: 63] Invert free. Only used with L2/DRAM Pointers.
+
+                                                                 This bit gives the software the ability to free buffers
                                                                  independently for a DPI_HDR_XTYPE_E::OUTBOUND DMA transfer when
                                                                  DPI_DMA_INSTR_HDR_S[II] is clear. See DPI_DMA_INSTR_HDR_S[II] and
                                                                  DPI_DMA_INSTR_HDR_S[FL].
@@ -1058,6 +1110,7 @@ union bdk_dpi_dma_local_ptr_s
                                                                  and DPI never frees buffers for DPI_HDR_XTYPE_E::INBOUND and
                                                                  DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions. */
         uint64_t f                     : 1;  /**< [ 62: 62] Full-block write operations are allowed.
+                                                                 Only used with L2/DRAM Pointers.
 
                                                                  When set, the hardware is permitted to write all the bytes in the cache blocks
                                                                  covered by [PTR] .. [PTR] + [SIZE] - 1. This can improve memory system performance
@@ -1075,7 +1128,8 @@ union bdk_dpi_dma_local_ptr_s
 
                                                                  * The DPI_DMA_LOCAL_PTR_S's in the first-pointers area for DPI_HDR_XTYPE_E::OUTBOUND
                                                                    and DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions */
-        uint64_t ac                    : 1;  /**< [ 61: 61] Allocate L2. This is a hint to DPI that the cache blocks should be allocated in
+        uint64_t ac                    : 1;  /**< [ 61: 61] Allocate L2.  Only used with L2/DRAM Pointers.
+                                                                 This is a hint to DPI that the cache blocks should be allocated in
                                                                  the L2 cache (if they were not already). Should typically be set to allocate the
                                                                  referenced cache blocks into the L2 cache.
 
@@ -1092,7 +1146,12 @@ union bdk_dpi_dma_local_ptr_s
                                                                  * the entire cache block is written by this DPI_DMA_LOCAL_PTR_S, or
 
                                                                  * [F] is set so that the entire cache block can be written. */
-        uint64_t size                  : 13; /**< [ 60: 48] Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
+        uint64_t bed                   : 1;  /**< [ 60: 60] Big-endian data.
+                                                                 Only used with L2/DRAM Pointers */
+        uint64_t reserved_16_59        : 44;
+        uint64_t length                : 16; /**< [ 15:  0] For L2/DRAM - only bits 75:64 used. bits 79:76 should be zero.
+
+                                                                 Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
                                                                  illegal.
 
                                                                  Note that the sum of the sizes in the first-pointers area must always exactly
@@ -1107,20 +1166,10 @@ union bdk_dpi_dma_local_ptr_s
                                                                    [NFST] DPI_DMA_LOCAL_PTR_S[SIZE]'s in the first pointers block must exactly
                                                                    equal the sum of the [NLST] DPI_DMA_LOCAL_PTR_S[SIZE]'s in the last pointers
                                                                    block. */
-        uint64_t l                     : 1;  /**< [ 47: 47] Little-endian.
-                                                                 When L is set, the data at PTR is in little-endian format rather than big-endian. */
-        uint64_t reserved_42_46        : 5;
-        uint64_t ptr                   : 42; /**< [ 41:  0] L2/DRAM byte pointer. Points to where the packet data starts. PTR can be any
-                                                                 byte alignment. Note that PTR is interpreted as a big-endian byte pointer when L
-                                                                 is clear, a little-endian byte pointer when L is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t ptr                   : 42; /**< [ 41:  0] L2/DRAM byte pointer. Points to where the packet data starts. PTR can be any
-                                                                 byte alignment. Note that PTR is interpreted as a big-endian byte pointer when L
-                                                                 is clear, a little-endian byte pointer when L is set. */
-        uint64_t reserved_42_46        : 5;
-        uint64_t l                     : 1;  /**< [ 47: 47] Little-endian.
-                                                                 When L is set, the data at PTR is in little-endian format rather than big-endian. */
-        uint64_t size                  : 13; /**< [ 60: 48] Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
+        uint64_t length                : 16; /**< [ 15:  0] For L2/DRAM - only bits 75:64 used. bits 79:76 should be zero.
+
+                                                                 Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
                                                                  illegal.
 
                                                                  Note that the sum of the sizes in the first-pointers area must always exactly
@@ -1135,7 +1184,11 @@ union bdk_dpi_dma_local_ptr_s
                                                                    [NFST] DPI_DMA_LOCAL_PTR_S[SIZE]'s in the first pointers block must exactly
                                                                    equal the sum of the [NLST] DPI_DMA_LOCAL_PTR_S[SIZE]'s in the last pointers
                                                                    block. */
-        uint64_t ac                    : 1;  /**< [ 61: 61] Allocate L2. This is a hint to DPI that the cache blocks should be allocated in
+        uint64_t reserved_16_59        : 44;
+        uint64_t bed                   : 1;  /**< [ 60: 60] Big-endian data.
+                                                                 Only used with L2/DRAM Pointers */
+        uint64_t ac                    : 1;  /**< [ 61: 61] Allocate L2.  Only used with L2/DRAM Pointers.
+                                                                 This is a hint to DPI that the cache blocks should be allocated in
                                                                  the L2 cache (if they were not already). Should typically be set to allocate the
                                                                  referenced cache blocks into the L2 cache.
 
@@ -1153,6 +1206,7 @@ union bdk_dpi_dma_local_ptr_s
 
                                                                  * [F] is set so that the entire cache block can be written. */
         uint64_t f                     : 1;  /**< [ 62: 62] Full-block write operations are allowed.
+                                                                 Only used with L2/DRAM Pointers.
 
                                                                  When set, the hardware is permitted to write all the bytes in the cache blocks
                                                                  covered by [PTR] .. [PTR] + [SIZE] - 1. This can improve memory system performance
@@ -1170,7 +1224,9 @@ union bdk_dpi_dma_local_ptr_s
 
                                                                  * The DPI_DMA_LOCAL_PTR_S's in the first-pointers area for DPI_HDR_XTYPE_E::OUTBOUND
                                                                    and DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions */
-        uint64_t i                     : 1;  /**< [ 63: 63] Invert free. This bit gives the software the ability to free buffers
+        uint64_t i                     : 1;  /**< [ 63: 63] Invert free. Only used with L2/DRAM Pointers.
+
+                                                                 This bit gives the software the ability to free buffers
                                                                  independently for a DPI_HDR_XTYPE_E::OUTBOUND DMA transfer when
                                                                  DPI_DMA_INSTR_HDR_S[II] is clear. See DPI_DMA_INSTR_HDR_S[II] and
                                                                  DPI_DMA_INSTR_HDR_S[FL].
@@ -1179,6 +1235,21 @@ union bdk_dpi_dma_local_ptr_s
                                                                  and DPI never frees buffers for DPI_HDR_XTYPE_E::INBOUND and
                                                                  DPI_HDR_XTYPE_E::INTERNAL_ONLY DPI DMA instructions. */
 #endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t ptr                   : 64; /**< [127: 64] For L2/DRAM - bits [48:0] used for byte pointer. Points to where the packet data starts.
+                                                                 PTR can be any
+                                                                 byte alignment. Note that PTR is interpreted as a big-endian byte pointer when L
+                                                                 is clear, a little-endian byte pointer when L is set. Bits [63:49] ignored and should be
+                                                                 zero
+                                                                 For MAC - 64-bit memory space pointer */
+#else /* Word 1 - Little Endian */
+        uint64_t ptr                   : 64; /**< [127: 64] For L2/DRAM - bits [48:0] used for byte pointer. Points to where the packet data starts.
+                                                                 PTR can be any
+                                                                 byte alignment. Note that PTR is interpreted as a big-endian byte pointer when L
+                                                                 is clear, a little-endian byte pointer when L is set. Bits [63:49] ignored and should be
+                                                                 zero
+                                                                 For MAC - 64-bit memory space pointer */
+#endif /* Word 1 - End */
     } s;
     /* struct bdk_dpi_dma_local_ptr_s_s cn; */
 };
@@ -1196,35 +1267,33 @@ typedef union
     struct bdk_dpix_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_57_63        : 7;
-        uint64_t bist                  : 57; /**< [ 56:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails.
+        uint64_t reserved_56_63        : 8;
+        uint64_t bist                  : 56; /**< [ 55:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails.
                                                                  Internal:
-                                                                 dpi.dma.csr.r_pkt__csr_bstatus_summary,    56    -- from the packet logic
-                                                                   dpi.dma.csr.spi__csr_bist_status[7:0],     55:48
-                                                                   dpi.dma.csr.r_rdb_buff__bist_status[23:0], 47:24
-                                                                   dpi.dma.csr.rdb_tmem__bist_status,         23
-                                                                   dpi.dma.csr.req_mem__bist_status[1:0],     22:21
-                                                                   dpi.dma.csr.req_ctl__bist_status[1:0],     20:19 -- these bits are tied off to zero
-                                                                   dpi.dma.csr.dsi1__bist_status[3:0],        18:15
-                                                                   dpi.dma.csr.dsi0__bist_status[3:0],        14:11
-                                                                   dpi.dma.csr.ncbo__bist_status[2:0],        10:8
-                                                                   dpi.dma.csr.ncbib__csr_bist_status[3:0],    7:4
-                                                                   dpi.dma.csr.ncbia__csr_bist_status[3:0]     3:0 */
+                                                                 dpi.dma.csr.spi__csr_bist_status[7:0],     55:48
+                                                                 dpi.dma.csr.r_rdb_buff__bist_status[23:0], 47:24
+                                                                 dpi.dma.csr.rdb_tmem__bist_status,         23
+                                                                 dpi.dma.csr.req_mem__bist_status[1:0],     22:21
+                                                                 dpi.dma.csr.req_ctl__bist_status[1:0],     20:19 -- these bits are tied off to zero
+                                                                 dpi.dma.csr.dsi1__bist_status[3:0],        18:15
+                                                                 dpi.dma.csr.dsi0__bist_status[3:0],        14:11
+                                                                 dpi.dma.csr.ncbo__bist_status[2:0],        10:8
+                                                                 dpi.dma.csr.ncbib__csr_bist_status[3:0],    7:4
+                                                                 dpi.dma.csr.ncbia__csr_bist_status[3:0]     3:0 */
 #else /* Word 0 - Little Endian */
-        uint64_t bist                  : 57; /**< [ 56:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails.
+        uint64_t bist                  : 56; /**< [ 55:  0](RO/H) BIST results. Hardware sets a bit in BIST for memory that fails.
                                                                  Internal:
-                                                                 dpi.dma.csr.r_pkt__csr_bstatus_summary,    56    -- from the packet logic
-                                                                   dpi.dma.csr.spi__csr_bist_status[7:0],     55:48
-                                                                   dpi.dma.csr.r_rdb_buff__bist_status[23:0], 47:24
-                                                                   dpi.dma.csr.rdb_tmem__bist_status,         23
-                                                                   dpi.dma.csr.req_mem__bist_status[1:0],     22:21
-                                                                   dpi.dma.csr.req_ctl__bist_status[1:0],     20:19 -- these bits are tied off to zero
-                                                                   dpi.dma.csr.dsi1__bist_status[3:0],        18:15
-                                                                   dpi.dma.csr.dsi0__bist_status[3:0],        14:11
-                                                                   dpi.dma.csr.ncbo__bist_status[2:0],        10:8
-                                                                   dpi.dma.csr.ncbib__csr_bist_status[3:0],    7:4
-                                                                   dpi.dma.csr.ncbia__csr_bist_status[3:0]     3:0 */
-        uint64_t reserved_57_63        : 7;
+                                                                 dpi.dma.csr.spi__csr_bist_status[7:0],     55:48
+                                                                 dpi.dma.csr.r_rdb_buff__bist_status[23:0], 47:24
+                                                                 dpi.dma.csr.rdb_tmem__bist_status,         23
+                                                                 dpi.dma.csr.req_mem__bist_status[1:0],     22:21
+                                                                 dpi.dma.csr.req_ctl__bist_status[1:0],     20:19 -- these bits are tied off to zero
+                                                                 dpi.dma.csr.dsi1__bist_status[3:0],        18:15
+                                                                 dpi.dma.csr.dsi0__bist_status[3:0],        14:11
+                                                                 dpi.dma.csr.ncbo__bist_status[2:0],        10:8
+                                                                 dpi.dma.csr.ncbib__csr_bist_status[3:0],    7:4
+                                                                 dpi.dma.csr.ncbia__csr_bist_status[3:0]     3:0 */
+        uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_bist_status_s cn; */
@@ -1241,6 +1310,7 @@ static inline uint64_t BDK_DPIX_BIST_STATUS(unsigned long a)
 #define typedef_BDK_DPIX_BIST_STATUS(a) bdk_dpix_bist_status_t
 #define bustype_BDK_DPIX_BIST_STATUS(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_BIST_STATUS(a) "DPIX_BIST_STATUS"
+#define device_bar_BDK_DPIX_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_BIST_STATUS(a) (a)
 #define arguments_BDK_DPIX_BIST_STATUS(a) (a),-1,-1,-1
 
@@ -1277,6 +1347,7 @@ static inline uint64_t BDK_DPIX_CTL(unsigned long a)
 #define typedef_BDK_DPIX_CTL(a) bdk_dpix_ctl_t
 #define bustype_BDK_DPIX_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_CTL(a) "DPIX_CTL"
+#define device_bar_BDK_DPIX_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_CTL(a) (a)
 #define arguments_BDK_DPIX_CTL(a) (a),-1,-1,-1
 
@@ -1316,6 +1387,7 @@ static inline uint64_t BDK_DPIX_DMAX_COUNTS(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_DMAX_COUNTS(a,b) bdk_dpix_dmax_counts_t
 #define bustype_BDK_DPIX_DMAX_COUNTS(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMAX_COUNTS(a,b) "DPIX_DMAX_COUNTS"
+#define device_bar_BDK_DPIX_DMAX_COUNTS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_COUNTS(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_COUNTS(a,b) (a),(b),-1,-1
 
@@ -1354,6 +1426,7 @@ static inline uint64_t BDK_DPIX_DMAX_DBELL(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_DMAX_DBELL(a,b) bdk_dpix_dmax_dbell_t
 #define bustype_BDK_DPIX_DMAX_DBELL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMAX_DBELL(a,b) "DPIX_DMAX_DBELL"
+#define device_bar_BDK_DPIX_DMAX_DBELL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_DBELL(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_DBELL(a,b) (a),(b),-1,-1
 
@@ -1397,6 +1470,7 @@ static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned lo
 #define typedef_BDK_DPIX_DMAX_ERR_RSP_STATUS(a,b) bdk_dpix_dmax_err_rsp_status_t
 #define bustype_BDK_DPIX_DMAX_ERR_RSP_STATUS(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMAX_ERR_RSP_STATUS(a,b) "DPIX_DMAX_ERR_RSP_STATUS"
+#define device_bar_BDK_DPIX_DMAX_ERR_RSP_STATUS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_ERR_RSP_STATUS(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_ERR_RSP_STATUS(a,b) (a),(b),-1,-1
 
@@ -1454,6 +1528,7 @@ static inline uint64_t BDK_DPIX_DMAX_IBUFF_SADDR(unsigned long a, unsigned long 
 #define typedef_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) bdk_dpix_dmax_ibuff_saddr_t
 #define bustype_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) "DPIX_DMAX_IBUFF_SADDR"
+#define device_bar_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) (a),(b),-1,-1
 
@@ -1491,6 +1566,7 @@ static inline uint64_t BDK_DPIX_DMAX_IFLIGHT(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_DMAX_IFLIGHT(a,b) bdk_dpix_dmax_iflight_t
 #define bustype_BDK_DPIX_DMAX_IFLIGHT(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMAX_IFLIGHT(a,b) "DPIX_DMAX_IFLIGHT"
+#define device_bar_BDK_DPIX_DMAX_IFLIGHT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_IFLIGHT(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_IFLIGHT(a,b) (a),(b),-1,-1
 
@@ -1527,6 +1603,7 @@ static inline uint64_t BDK_DPIX_DMAX_NADDR(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_DMAX_NADDR(a,b) bdk_dpix_dmax_naddr_t
 #define bustype_BDK_DPIX_DMAX_NADDR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMAX_NADDR(a,b) "DPIX_DMAX_NADDR"
+#define device_bar_BDK_DPIX_DMAX_NADDR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_NADDR(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_NADDR(a,b) (a),(b),-1,-1
 
@@ -1561,6 +1638,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_DMAX_REQBNK0(a,b) bdk_dpix_dmax_reqbnk0_t
 #define bustype_BDK_DPIX_DMAX_REQBNK0(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMAX_REQBNK0(a,b) "DPIX_DMAX_REQBNK0"
+#define device_bar_BDK_DPIX_DMAX_REQBNK0(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_REQBNK0(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_REQBNK0(a,b) (a),(b),-1,-1
 
@@ -1595,6 +1673,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_DMAX_REQBNK1(a,b) bdk_dpix_dmax_reqbnk1_t
 #define bustype_BDK_DPIX_DMAX_REQBNK1(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMAX_REQBNK1(a,b) "DPIX_DMAX_REQBNK1"
+#define device_bar_BDK_DPIX_DMAX_REQBNK1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_REQBNK1(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_REQBNK1(a,b) (a),(b),-1,-1
 
@@ -1651,6 +1730,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQQ_CTL(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_DMAX_REQQ_CTL(a,b) bdk_dpix_dmax_reqq_ctl_t
 #define bustype_BDK_DPIX_DMAX_REQQ_CTL(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMAX_REQQ_CTL(a,b) "DPIX_DMAX_REQQ_CTL"
+#define device_bar_BDK_DPIX_DMAX_REQQ_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMAX_REQQ_CTL(a,b) (a)
 #define arguments_BDK_DPIX_DMAX_REQQ_CTL(a,b) (a),(b),-1,-1
 
@@ -1841,6 +1921,7 @@ static inline uint64_t BDK_DPIX_DMA_CONTROL(unsigned long a)
 #define typedef_BDK_DPIX_DMA_CONTROL(a) bdk_dpix_dma_control_t
 #define bustype_BDK_DPIX_DMA_CONTROL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMA_CONTROL(a) "DPIX_DMA_CONTROL"
+#define device_bar_BDK_DPIX_DMA_CONTROL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMA_CONTROL(a) (a)
 #define arguments_BDK_DPIX_DMA_CONTROL(a) (a),-1,-1,-1
 
@@ -1897,6 +1978,7 @@ static inline uint64_t BDK_DPIX_DMA_ENGX_EN(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_DMA_ENGX_EN(a,b) bdk_dpix_dma_engx_en_t
 #define bustype_BDK_DPIX_DMA_ENGX_EN(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMA_ENGX_EN(a,b) "DPIX_DMA_ENGX_EN"
+#define device_bar_BDK_DPIX_DMA_ENGX_EN(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMA_ENGX_EN(a,b) (a)
 #define arguments_BDK_DPIX_DMA_ENGX_EN(a,b) (a),(b),-1,-1
 
@@ -1946,6 +2028,7 @@ static inline uint64_t BDK_DPIX_DMA_PPX_CNT(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_DMA_PPX_CNT(a,b) bdk_dpix_dma_ppx_cnt_t
 #define bustype_BDK_DPIX_DMA_PPX_CNT(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMA_PPX_CNT(a,b) "DPIX_DMA_PPX_CNT"
+#define device_bar_BDK_DPIX_DMA_PPX_CNT(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMA_PPX_CNT(a,b) (a)
 #define arguments_BDK_DPIX_DMA_PPX_CNT(a,b) (a),(b),-1,-1
 
@@ -1983,6 +2066,7 @@ static inline uint64_t BDK_DPIX_DMA_PP_INT(unsigned long a)
 #define typedef_BDK_DPIX_DMA_PP_INT(a) bdk_dpix_dma_pp_int_t
 #define bustype_BDK_DPIX_DMA_PP_INT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_DMA_PP_INT(a) "DPIX_DMA_PP_INT"
+#define device_bar_BDK_DPIX_DMA_PP_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_DMA_PP_INT(a) (a)
 #define arguments_BDK_DPIX_DMA_PP_INT(a) (a),-1,-1,-1
 
@@ -2031,6 +2115,7 @@ static inline uint64_t BDK_DPIX_ECC_CTL(unsigned long a)
 #define typedef_BDK_DPIX_ECC_CTL(a) bdk_dpix_ecc_ctl_t
 #define bustype_BDK_DPIX_ECC_CTL(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_ECC_CTL(a) "DPIX_ECC_CTL"
+#define device_bar_BDK_DPIX_ECC_CTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_ECC_CTL(a) (a)
 #define arguments_BDK_DPIX_ECC_CTL(a) (a),-1,-1,-1
 
@@ -2040,21 +2125,6 @@ static inline uint64_t BDK_DPIX_ECC_CTL(unsigned long a)
  * DPI ECC Interrupt Register
  * This register contains ECC error interrupt summary bits.
  * Internal:
- * RAM[14] = dpi.pnl.pkt.sli_pkt_msix.msix_vfaddr
- * RAM[13] = dpi.pnl.pkt.sli_pkt_msix.msix_vfdata
- * RAM[12] = dpi.pnl.pkt.sli_pkt_csr.pcsr_in_done
- * RAM[11] = dpi.pnl.pkt.sli_pkt_csr.pcsr_instr_mem
- * RAM[10] = dpi.pnl.pkt.sli_pkt_csr.pcsr_pout_size
- * RAM[ 9] = dpi.pnl.pkt.sli_pkt_csr.pcsr_slist
- * RAM[ 8] = dpi.pnl.pkt.sli_pkt_csr.pout_int
- * RAM[ 7] = dpi.pnl.pkt.sli_pkt_msix.msix_mailbox
- * RAM[ 6] = dpi.pnl.pkt.sli_pkt_pof.sli_pkt_poi.poi_fifo
- * RAM[ 5] = dpi.pnl.pkt.sli_pkt_pof.sli_pkt_psf.psf_fifo
- * RAM[ 4] = dpi.pnl.pkt.sli_pkt_pof.sli_pkt_pdf.pdf_fifo
- * RAM[ 3] = dpi.pnl.pkt.sli_pkt_pop.sli_pkt_pbn.pbn_fifo
- * RAM[ 2] = dpi.pnl.pkt.sli_pkt_pop.sli_pkt_pfp.pfp_fifo
- * RAM[ 1] = dpi.pnl.pkt.sli_pkt_pop.pop_fifos.pop_mem1
- * RAM[ 1] = dpi.pnl.pkt.sli_pkt_pop.pop_fifos.pop_mem0
  * RAM[ 0] = dpi.dma.rdb.buff.bnk0a
  * RAM[ 0] = dpi.dma.rdb.buff.bnk0b
  * RAM[ 0] = dpi.dma.rdb.buff.bnk1a
@@ -2103,6 +2173,7 @@ static inline uint64_t BDK_DPIX_ECC_INT(unsigned long a)
 #define typedef_BDK_DPIX_ECC_INT(a) bdk_dpix_ecc_int_t
 #define bustype_BDK_DPIX_ECC_INT(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_ECC_INT(a) "DPIX_ECC_INT"
+#define device_bar_BDK_DPIX_ECC_INT(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_ECC_INT(a) (a)
 #define arguments_BDK_DPIX_ECC_INT(a) (a),-1,-1,-1
 
@@ -2172,6 +2243,7 @@ static inline uint64_t BDK_DPIX_ENGX_BUF(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_ENGX_BUF(a,b) bdk_dpix_engx_buf_t
 #define bustype_BDK_DPIX_ENGX_BUF(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_ENGX_BUF(a,b) "DPIX_ENGX_BUF"
+#define device_bar_BDK_DPIX_ENGX_BUF(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_ENGX_BUF(a,b) (a)
 #define arguments_BDK_DPIX_ENGX_BUF(a,b) (a),(b),-1,-1
 
@@ -2217,19 +2289,162 @@ static inline uint64_t BDK_DPIX_INFO_REG(unsigned long a)
 #define typedef_BDK_DPIX_INFO_REG(a) bdk_dpix_info_reg_t
 #define bustype_BDK_DPIX_INFO_REG(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_INFO_REG(a) "DPIX_INFO_REG"
+#define device_bar_BDK_DPIX_INFO_REG(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_INFO_REG(a) (a)
 #define arguments_BDK_DPIX_INFO_REG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) dpi#_int_reg
+ * Register (NCB) dpi#_int_ena_w1c
  *
- * DPI Interrupt Register
+ * DPI Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_23_63        : 41;
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADFIL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_INULL].
+                                                                 Internal:
+                                                                 The interrupt means that the DPI unit
+                                                                 received fill data in which one or more or the 64-bit instruction words was all
+                                                                 0's. In previous DPI implementations, there was never a case in which a valid
+                                                                 instruction stream would have all 0's. In the new dual-instruction word scheme,
+                                                                 the 2nd word could be zero. For example, if no completion operation is requested
+                                                                 on the instruction and both PTR and DEALLOCV are zero. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_ANULL]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_UNDFLW]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_OVRFLW]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADLEN]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADADR]. */
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[DMADBO]. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[NDERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[NFOVR]. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[DMADBO]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADADR]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADLEN]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_OVRFLW]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_UNDFLW]. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_ANULL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_INULL].
+                                                                 Internal:
+                                                                 The interrupt means that the DPI unit
+                                                                 received fill data in which one or more or the 64-bit instruction words was all
+                                                                 0's. In previous DPI implementations, there was never a case in which a valid
+                                                                 instruction stream would have all 0's. In the new dual-instruction word scheme,
+                                                                 the 2nd word could be zero. For example, if no completion operation is requested
+                                                                 on the instruction and both PTR and DEALLOCV are zero. */
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DPI(0)_INT_SUM[REQ_BADFIL]. */
+        uint64_t reserved_23_63        : 41;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_int_ena_w1c_s cn; */
+} bdk_dpix_int_ena_w1c_t;
+
+static inline uint64_t BDK_DPIX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_INT_ENA_W1C(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86e000000b10ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_INT_ENA_W1C", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DPIX_INT_ENA_W1C(a) bdk_dpix_int_ena_w1c_t
+#define bustype_BDK_DPIX_INT_ENA_W1C(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_INT_ENA_W1C(a) "DPIX_INT_ENA_W1C"
+#define device_bar_BDK_DPIX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_INT_ENA_W1C(a) (a)
+#define arguments_BDK_DPIX_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_int_ena_w1s
+ *
+ * DPI Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_23_63        : 41;
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADFIL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_INULL].
+                                                                 Internal:
+                                                                 The interrupt means that the DPI unit
+                                                                 received fill data in which one or more or the 64-bit instruction words was all
+                                                                 0's. In previous DPI implementations, there was never a case in which a valid
+                                                                 instruction stream would have all 0's. In the new dual-instruction word scheme,
+                                                                 the 2nd word could be zero. For example, if no completion operation is requested
+                                                                 on the instruction and both PTR and DEALLOCV are zero. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_ANULL]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_UNDFLW]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_OVRFLW]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADLEN]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADADR]. */
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[DMADBO]. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[NDERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[NFOVR]. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[DMADBO]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADADR]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADLEN]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_OVRFLW]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_UNDFLW]. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_ANULL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_INULL].
+                                                                 Internal:
+                                                                 The interrupt means that the DPI unit
+                                                                 received fill data in which one or more or the 64-bit instruction words was all
+                                                                 0's. In previous DPI implementations, there was never a case in which a valid
+                                                                 instruction stream would have all 0's. In the new dual-instruction word scheme,
+                                                                 the 2nd word could be zero. For example, if no completion operation is requested
+                                                                 on the instruction and both PTR and DEALLOCV are zero. */
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DPI(0)_INT_SUM[REQ_BADFIL]. */
+        uint64_t reserved_23_63        : 41;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_int_ena_w1s_s cn; */
+} bdk_dpix_int_ena_w1s_t;
+
+static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_INT_ENA_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86e000000b18ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_INT_ENA_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DPIX_INT_ENA_W1S(a) bdk_dpix_int_ena_w1s_t
+#define bustype_BDK_DPIX_INT_ENA_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_INT_ENA_W1S(a) "DPIX_INT_ENA_W1S"
+#define device_bar_BDK_DPIX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_INT_ENA_W1S(a) (a)
+#define arguments_BDK_DPIX_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_int_sum
+ *
+ * DPI Interrupt Summary Register
  * This register contains error flags for DPI.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_dpix_int_reg_s
+    struct bdk_dpix_int_sum_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_23_63        : 41;
@@ -2285,22 +2500,230 @@ typedef union
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dpix_int_reg_s cn; */
-} bdk_dpix_int_reg_t;
+    /* struct bdk_dpix_int_sum_s cn; */
+} bdk_dpix_int_sum_t;
 
-static inline uint64_t BDK_DPIX_INT_REG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_INT_REG(unsigned long a)
+static inline uint64_t BDK_DPIX_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_INT_SUM(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000008ll + 0x10000000000ll * ((a) & 0x0);
-    __bdk_csr_fatal("DPIX_INT_REG", 1, a, 0, 0, 0);
+        return 0x86e000000b00ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_INT_SUM", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DPIX_INT_REG(a) bdk_dpix_int_reg_t
-#define bustype_BDK_DPIX_INT_REG(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_INT_REG(a) "DPIX_INT_REG"
-#define busnum_BDK_DPIX_INT_REG(a) (a)
-#define arguments_BDK_DPIX_INT_REG(a) (a),-1,-1,-1
+#define typedef_BDK_DPIX_INT_SUM(a) bdk_dpix_int_sum_t
+#define bustype_BDK_DPIX_INT_SUM(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_INT_SUM(a) "DPIX_INT_SUM"
+#define device_bar_BDK_DPIX_INT_SUM(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_INT_SUM(a) (a)
+#define arguments_BDK_DPIX_INT_SUM(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_int_sum_w1s
+ *
+ * DPI Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_int_sum_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_23_63        : 41;
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADFIL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_INULL].
+                                                                 Internal:
+                                                                 The interrupt means that the DPI unit
+                                                                 received fill data in which one or more or the 64-bit instruction words was all
+                                                                 0's. In previous DPI implementations, there was never a case in which a valid
+                                                                 instruction stream would have all 0's. In the new dual-instruction word scheme,
+                                                                 the 2nd word could be zero. For example, if no completion operation is requested
+                                                                 on the instruction and both PTR and DEALLOCV are zero. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_ANULL]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_UNDFLW]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_OVRFLW]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADLEN]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADADR]. */
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets DPI(0)_INT_SUM[DMADBO]. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_INT_SUM[NFOVR]. */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_INT_SUM[NDERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t nderr                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_INT_SUM[NDERR]. */
+        uint64_t nfovr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DPI(0)_INT_SUM[NFOVR]. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t dmadbo                : 8;  /**< [ 15:  8](R/W1S/H) Reads or sets DPI(0)_INT_SUM[DMADBO]. */
+        uint64_t req_badadr            : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADADR]. */
+        uint64_t req_badlen            : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADLEN]. */
+        uint64_t req_ovrflw            : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_OVRFLW]. */
+        uint64_t req_undflw            : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_UNDFLW]. */
+        uint64_t req_anull             : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_ANULL]. */
+        uint64_t req_inull             : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_INULL].
+                                                                 Internal:
+                                                                 The interrupt means that the DPI unit
+                                                                 received fill data in which one or more or the 64-bit instruction words was all
+                                                                 0's. In previous DPI implementations, there was never a case in which a valid
+                                                                 instruction stream would have all 0's. In the new dual-instruction word scheme,
+                                                                 the 2nd word could be zero. For example, if no completion operation is requested
+                                                                 on the instruction and both PTR and DEALLOCV are zero. */
+        uint64_t req_badfil            : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DPI(0)_INT_SUM[REQ_BADFIL]. */
+        uint64_t reserved_23_63        : 41;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_int_sum_w1s_s cn; */
+} bdk_dpix_int_sum_w1s_t;
+
+static inline uint64_t BDK_DPIX_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_INT_SUM_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x86e000000b08ll + 0x10000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DPIX_INT_SUM_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DPIX_INT_SUM_W1S(a) bdk_dpix_int_sum_w1s_t
+#define bustype_BDK_DPIX_INT_SUM_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_INT_SUM_W1S(a) "DPIX_INT_SUM_W1S"
+#define device_bar_BDK_DPIX_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_INT_SUM_W1S(a) (a)
+#define arguments_BDK_DPIX_INT_SUM_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_msix_pba#
+ *
+ * PKI MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the DPI_INT_VEC_E
+ * enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DPI_MSIX_VEC()_CTL, enumerated by
+                                                                 DPI_INT_VEC_E. Bits that have no associated DPI_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DPI_MSIX_VEC()_CTL, enumerated by
+                                                                 DPI_INT_VEC_E. Bits that have no associated DPI_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_msix_pbax_s cn; */
+} bdk_dpix_msix_pbax_t;
+
+static inline uint64_t BDK_DPIX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_MSIX_PBAX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
+        return 0x86e0010f0000ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("DPIX_MSIX_PBAX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_MSIX_PBAX(a,b) bdk_dpix_msix_pbax_t
+#define bustype_BDK_DPIX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_MSIX_PBAX(a,b) "DPIX_MSIX_PBAX"
+#define device_bar_BDK_DPIX_MSIX_PBAX(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_DPIX_MSIX_PBAX(a,b) (a)
+#define arguments_BDK_DPIX_MSIX_PBAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_msix_vec#_addr
+ *
+ * DPI MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the DPI_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 =  This vector's DPI_MSIX_VEC()_ADDR, DPI_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of DPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_PKI_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
+                                                                 [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 =  This vector's DPI_MSIX_VEC()_ADDR, DPI_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of DPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_PKI_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
+                                                                 [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_msix_vecx_addr_s cn; */
+} bdk_dpix_msix_vecx_addr_t;
+
+static inline uint64_t BDK_DPIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
+        return 0x86e001000000ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("DPIX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_MSIX_VECX_ADDR(a,b) bdk_dpix_msix_vecx_addr_t
+#define bustype_BDK_DPIX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_MSIX_VECX_ADDR(a,b) "DPIX_MSIX_VECX_ADDR"
+#define device_bar_BDK_DPIX_MSIX_VECX_ADDR(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_DPIX_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_BDK_DPIX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#_msix_vec#_ctl
+ *
+ * DPI MSI-X Vector-Table Control and Data Register
+ * This register is the MSI-X vector table, indexed by the DPI_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_msix_vecx_ctl_s cn; */
+} bdk_dpix_msix_vecx_ctl_t;
+
+static inline uint64_t BDK_DPIX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
+        return 0x86e001000008ll + 0x10000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("DPIX_MSIX_VECX_CTL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_MSIX_VECX_CTL(a,b) bdk_dpix_msix_vecx_ctl_t
+#define bustype_BDK_DPIX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_MSIX_VECX_CTL(a,b) "DPIX_MSIX_VECX_CTL"
+#define device_bar_BDK_DPIX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
+#define busnum_BDK_DPIX_MSIX_VECX_CTL(a,b) (a)
+#define arguments_BDK_DPIX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) dpi#_ncb#_cfg
@@ -2340,6 +2763,7 @@ static inline uint64_t BDK_DPIX_NCBX_CFG(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_NCBX_CFG(a,b) bdk_dpix_ncbx_cfg_t
 #define bustype_BDK_DPIX_NCBX_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_NCBX_CFG(a,b) "DPIX_NCBX_CFG"
+#define device_bar_BDK_DPIX_NCBX_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_NCBX_CFG(a,b) (a)
 #define arguments_BDK_DPIX_NCBX_CFG(a,b) (a),(b),-1,-1
 
@@ -2380,6 +2804,7 @@ static inline uint64_t BDK_DPIX_PINT_INFO(unsigned long a)
 #define typedef_BDK_DPIX_PINT_INFO(a) bdk_dpix_pint_info_t
 #define bustype_BDK_DPIX_PINT_INFO(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_PINT_INFO(a) "DPIX_PINT_INFO"
+#define device_bar_BDK_DPIX_PINT_INFO(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_PINT_INFO(a) (a)
 #define arguments_BDK_DPIX_PINT_INFO(a) (a),-1,-1,-1
 
@@ -2415,6 +2840,7 @@ static inline uint64_t BDK_DPIX_PKT_ERR_RSP(unsigned long a)
 #define typedef_BDK_DPIX_PKT_ERR_RSP(a) bdk_dpix_pkt_err_rsp_t
 #define bustype_BDK_DPIX_PKT_ERR_RSP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_PKT_ERR_RSP(a) "DPIX_PKT_ERR_RSP"
+#define device_bar_BDK_DPIX_PKT_ERR_RSP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_PKT_ERR_RSP(a) (a)
 #define arguments_BDK_DPIX_PKT_ERR_RSP(a) (a),-1,-1,-1
 
@@ -2454,6 +2880,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RSP(unsigned long a)
 #define typedef_BDK_DPIX_REQ_ERR_RSP(a) bdk_dpix_req_err_rsp_t
 #define bustype_BDK_DPIX_REQ_ERR_RSP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_REQ_ERR_RSP(a) "DPIX_REQ_ERR_RSP"
+#define device_bar_BDK_DPIX_REQ_ERR_RSP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_REQ_ERR_RSP(a) (a)
 #define arguments_BDK_DPIX_REQ_ERR_RSP(a) (a),-1,-1,-1
 
@@ -2491,6 +2918,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RSP_EN(unsigned long a)
 #define typedef_BDK_DPIX_REQ_ERR_RSP_EN(a) bdk_dpix_req_err_rsp_en_t
 #define bustype_BDK_DPIX_REQ_ERR_RSP_EN(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_REQ_ERR_RSP_EN(a) "DPIX_REQ_ERR_RSP_EN"
+#define device_bar_BDK_DPIX_REQ_ERR_RSP_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_REQ_ERR_RSP_EN(a) (a)
 #define arguments_BDK_DPIX_REQ_ERR_RSP_EN(a) (a),-1,-1,-1
 
@@ -2526,6 +2954,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RST(unsigned long a)
 #define typedef_BDK_DPIX_REQ_ERR_RST(a) bdk_dpix_req_err_rst_t
 #define bustype_BDK_DPIX_REQ_ERR_RST(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_REQ_ERR_RST(a) "DPIX_REQ_ERR_RST"
+#define device_bar_BDK_DPIX_REQ_ERR_RST(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_REQ_ERR_RST(a) (a)
 #define arguments_BDK_DPIX_REQ_ERR_RST(a) (a),-1,-1,-1
 
@@ -2561,6 +2990,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RST_EN(unsigned long a)
 #define typedef_BDK_DPIX_REQ_ERR_RST_EN(a) bdk_dpix_req_err_rst_en_t
 #define bustype_BDK_DPIX_REQ_ERR_RST_EN(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_REQ_ERR_RST_EN(a) "DPIX_REQ_ERR_RST_EN"
+#define device_bar_BDK_DPIX_REQ_ERR_RST_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_REQ_ERR_RST_EN(a) (a)
 #define arguments_BDK_DPIX_REQ_ERR_RST_EN(a) (a),-1,-1,-1
 
@@ -2600,6 +3030,7 @@ static inline uint64_t BDK_DPIX_REQ_ERR_SKIP_COMP(unsigned long a)
 #define typedef_BDK_DPIX_REQ_ERR_SKIP_COMP(a) bdk_dpix_req_err_skip_comp_t
 #define bustype_BDK_DPIX_REQ_ERR_SKIP_COMP(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_REQ_ERR_SKIP_COMP(a) "DPIX_REQ_ERR_SKIP_COMP"
+#define device_bar_BDK_DPIX_REQ_ERR_SKIP_COMP(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_REQ_ERR_SKIP_COMP(a) (a)
 #define arguments_BDK_DPIX_REQ_ERR_SKIP_COMP(a) (a),-1,-1,-1
 
@@ -2637,6 +3068,7 @@ static inline uint64_t BDK_DPIX_REQ_GBL_EN(unsigned long a)
 #define typedef_BDK_DPIX_REQ_GBL_EN(a) bdk_dpix_req_gbl_en_t
 #define bustype_BDK_DPIX_REQ_GBL_EN(a) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_REQ_GBL_EN(a) "DPIX_REQ_GBL_EN"
+#define device_bar_BDK_DPIX_REQ_GBL_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_REQ_GBL_EN(a) (a)
 #define arguments_BDK_DPIX_REQ_GBL_EN(a) (a),-1,-1,-1
 
@@ -2778,6 +3210,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_CFG(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_SLI_PRTX_CFG(a,b) bdk_dpix_sli_prtx_cfg_t
 #define bustype_BDK_DPIX_SLI_PRTX_CFG(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_SLI_PRTX_CFG(a,b) "DPIX_SLI_PRTX_CFG"
+#define device_bar_BDK_DPIX_SLI_PRTX_CFG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_SLI_PRTX_CFG(a,b) (a)
 #define arguments_BDK_DPIX_SLI_PRTX_CFG(a,b) (a),(b),-1,-1
 
@@ -2818,6 +3251,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_ERR(unsigned long a, unsigned long b)
 #define typedef_BDK_DPIX_SLI_PRTX_ERR(a,b) bdk_dpix_sli_prtx_err_t
 #define bustype_BDK_DPIX_SLI_PRTX_ERR(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_SLI_PRTX_ERR(a,b) "DPIX_SLI_PRTX_ERR"
+#define device_bar_BDK_DPIX_SLI_PRTX_ERR(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_SLI_PRTX_ERR(a,b) (a)
 #define arguments_BDK_DPIX_SLI_PRTX_ERR(a,b) (a),(b),-1,-1
 
@@ -2892,6 +3326,7 @@ static inline uint64_t BDK_DPIX_SLI_PRTX_ERR_INFO(unsigned long a, unsigned long
 #define typedef_BDK_DPIX_SLI_PRTX_ERR_INFO(a,b) bdk_dpix_sli_prtx_err_info_t
 #define bustype_BDK_DPIX_SLI_PRTX_ERR_INFO(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_DPIX_SLI_PRTX_ERR_INFO(a,b) "DPIX_SLI_PRTX_ERR_INFO"
+#define device_bar_BDK_DPIX_SLI_PRTX_ERR_INFO(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_SLI_PRTX_ERR_INFO(a,b) (a)
 #define arguments_BDK_DPIX_SLI_PRTX_ERR_INFO(a,b) (a),(b),-1,-1
 

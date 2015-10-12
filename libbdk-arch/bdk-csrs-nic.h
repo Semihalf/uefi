@@ -255,8 +255,7 @@
                                        than CRC, IMM, GATHER or MEM. */
 #define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_CONFLICT_CN81XX (0x85) /**< Timestamp conflict. Set with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP to
                                        indicate that the timestamp packet was scheduled while another timestamp operation was
-                                       pending on the same Ethernet LMAC, as specified by
-                                       NIC_QS()_SQ()_CFG[TSTMP_BGX_INTF]. */
+                                       pending on the same Ethernet LMAC. */
 #define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_CONFLICT_CN88XX (0x85) /**< Timestamp conflict. Set with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP to
                                        indicate that the timestamp packet was scheduled while another timestamp operation was
                                        pending on the same Ethernet port, as specified by
@@ -375,7 +374,15 @@
                                        length - 8_if_PTP_present - 8_if_NIC_RX_HDR_present < NIC_PF_PKIND()_CFG[MINLEN]
                                        bytes. Or, a pause packet was ignored by BGX because it was received with
                                        length < (BGX()_SMU()_RX_FRM_CHK[FCSERR] ? 64 : 60). */
-#define BDK_NIC_ERROP_E_L3_ICRC (0x46) /**< RoCE ICRC error. NIC_CQE_RX_S[L3TY]==GRH and the 4-byte ICRC mismatches. */
+#define BDK_NIC_ERROP_E_L3_ICRC_CN81XX (0x46) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RoCE ICRC error. NIC_CQE_RX_S[L3TY]==GRH and the 4-byte ICRC mismatches. */
+#define BDK_NIC_ERROP_E_L3_ICRC_CN88XX (0x46) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RoCE ICRC error. NIC_CQE_RX_S[L3TY]==GRH and the 4-byte ICRC mismatches. */
+#define BDK_NIC_ERROP_E_L3_ICRC_CN83XX (0x46) /**< RoCE ICRC error. NIC_CQE_RX_S[L3TY]==GRH and the 4-byte ICRC mismatches. */
 #define BDK_NIC_ERROP_E_L3_PCLP (0x47) /**< The parsing engine stopped because it had reached the 255 byte limit. */
 #define BDK_NIC_ERROP_E_L4_CHK (0x62) /**< L4 checksum error:. The L4 TCP/UDP checksum value is bad. For TCP/UDP the hardware
                                        checksum calculation complies with section 5 of RFC 1624.
@@ -524,7 +531,15 @@
  */
 #define BDK_NIC_L3TYPE_E_ET_STOP (0xd) /**< L2 Parser stopped on Ethertype that matched a value in the NIC_PF_RX_ETYPE() which had
                                        the ALG field set to NIC_ETYPE_ALG_E::ENDPARSE. */
-#define BDK_NIC_L3TYPE_E_GRH (1) /**< RoCE global routing header. */
+#define BDK_NIC_L3TYPE_E_GRH_CN81XX (1) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RoCE global routing header. */
+#define BDK_NIC_L3TYPE_E_GRH_CN88XX (1) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RoCE global routing header. */
+#define BDK_NIC_L3TYPE_E_GRH_CN83XX (1) /**< RoCE global routing header. */
 #define BDK_NIC_L3TYPE_E_IP4 (4) /**< IPv4 without options. The IP version field is 4, and the IP HLEN field is 5.
                                        Note IP4/IP4_OPT/IP6/IP6_OPT codes differ only in the lower two bits, so a AND mask may be
                                        applied to test for all of these encodings in parallel. */
@@ -554,10 +569,19 @@
  * Enumerates the values of
  * NIC_CQE_RX_S[L4TY].
  */
-#define BDK_NIC_L4TYPE_E_BTH_CN88XXP1 (8) /**< RoCE base transport header. */
-#define BDK_NIC_L4TYPE_E_BTH_CN81XX (5) /**< RoCE base transport header. */
+#define BDK_NIC_L4TYPE_E_BTH_CN88XXP1 (8) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RoCE base transport header. */
+#define BDK_NIC_L4TYPE_E_BTH_CN81XX (5) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RoCE base transport header. */
 #define BDK_NIC_L4TYPE_E_BTH_CN83XX (5) /**< RoCE base transport header. */
-#define BDK_NIC_L4TYPE_E_BTH_CN88XXP2 (5) /**< RoCE base transport header. Changed mapping in pass 2. */
+#define BDK_NIC_L4TYPE_E_BTH_CN88XXP2 (5) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RoCE base transport header. Changed mapping in pass 2. */
 #define BDK_NIC_L4TYPE_E_GRE (7) /**< GRE. */
 #define BDK_NIC_L4TYPE_E_IPCOMP (3) /**< IP Compressed. Previous layer (L3/IL3) protocol value or IPv6 next header equals 108. */
 #define BDK_NIC_L4TYPE_E_IPFRAG (2) /**< Fragment. Previous layer (L3/IL3) indicated a fragment. */
@@ -574,16 +598,28 @@
 #define BDK_NIC_L4TYPE_E_NVGRE_CN83XX (0xc) /**< NVGRE tunneling layer. */
 #define BDK_NIC_L4TYPE_E_NVGRE_CN88XXP2 (0xc) /**< NVGRE tunneling layer. Added in pass 2. */
 #define BDK_NIC_L4TYPE_E_OTHER (0xe) /**< Protocol Field in the L3 Layer did not match any supported by the hardware parser */
-#define BDK_NIC_L4TYPE_E_SCTP (6) /**< SCTP. */
+#define BDK_NIC_L4TYPE_E_SCTP_CN81XX (6) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. */
+#define BDK_NIC_L4TYPE_E_SCTP_CN88XX (6) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. */
+#define BDK_NIC_L4TYPE_E_SCTP_CN83XX (6) /**< SCTP. */
 #define BDK_NIC_L4TYPE_E_TCP (4) /**< TCP. */
 #define BDK_NIC_L4TYPE_E_UDP_CN88XXP1 (5) /**< UDP. */
 #define BDK_NIC_L4TYPE_E_UDP_CN81XX (8) /**< UDP. */
 #define BDK_NIC_L4TYPE_E_UDP_CN83XX (8) /**< UDP. */
 #define BDK_NIC_L4TYPE_E_UDP_CN88XXP2 (8) /**< UDP. Changed mapping in pass 2. */
 #define BDK_NIC_L4TYPE_E_UDP_BTH_CN88XXP1 (0xb) /**< Reserved. */
-#define BDK_NIC_L4TYPE_E_UDP_BTH_CN81XX (0xb) /**< RoCE v2, which has UDP layer with BTH layer. */
+#define BDK_NIC_L4TYPE_E_UDP_BTH_CN81XX (0xb) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RoCE v2, which has UDP layer with BTH layer. */
 #define BDK_NIC_L4TYPE_E_UDP_BTH_CN83XX (0xb) /**< RoCE v2, which has UDP layer with BTH layer. */
-#define BDK_NIC_L4TYPE_E_UDP_BTH_CN88XXP2 (0xb) /**< RoCE v2, which has UDP layer with BTH layer. Added in pass 2. */
+#define BDK_NIC_L4TYPE_E_UDP_BTH_CN88XXP2 (0xb) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RoCE v2, which has UDP layer with BTH layer. Added in pass 2. */
 #define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN88XXP1 (9) /**< Reserved. */
 #define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN81XX (9) /**< UDP with GENEVE tunneling layer. */
 #define BDK_NIC_L4TYPE_E_UDP_GENEVE_CN83XX (9) /**< UDP with GENEVE tunneling layer. */
@@ -703,7 +739,10 @@
                                        This algorithm is Msoft-compatible; the
                                        NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
 #define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN88XXP1 (0xd) /**< Reserved. */
-#define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN81XX (0xd) /**< RSS was done on the inner layer of a tunneling packet
+#define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN81XX (0xd) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RSS was done on the inner layer of a tunneling packet
                                        RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
                                        destqp. Enabled when NIC_PF_CPI()_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
                                        NIC_CQE_RX_S[L4TY]=BTH.
@@ -715,7 +754,10 @@
                                        NIC_CQE_RX_S[L4TY]=BTH.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN88XXP2 (0xd) /**< RSS was done on the inner layer of a tunneling packet
+#define BDK_NIC_RSS_ALG_E_INNER_ROCE_CN88XXP2 (0xd) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RSS was done on the inner layer of a tunneling packet
                                        RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
                                        destqp. Enabled when NIC_PF_CPI()_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
                                        NIC_CQE_RX_S[L4TY]=BTH.
@@ -724,7 +766,10 @@
                                        
                                        Added in pass 2. */
 #define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN88XXP1 (0xb) /**< Reserved. */
-#define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN81XX (0xb) /**< RSS was done on the inner layer of a tunneling packet
+#define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN81XX (0xb) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RSS was done on the inner layer of a tunneling packet
                                        SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, SCTP source port, and SCTP destination port. Enabled when
                                        NIC_PF_CPI()_CFG[RSS_L3ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
@@ -738,7 +783,10 @@
                                        NIC_CQE_RX_S[L4TY]=SCTP.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
-#define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN88XXP2 (0xb) /**< RSS was done on the inner layer of a tunneling packet
+#define BDK_NIC_RSS_ALG_E_INNER_SCTP_IP_CN88XXP2 (0xb) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RSS was done on the inner layer of a tunneling packet
                                        SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, SCTP source port, and SCTP destination port. Enabled when
                                        NIC_PF_CPI()_CFG[RSS_L3ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
@@ -826,12 +874,46 @@
                                          4'h0, chan[11:0],
                                          128'h0, 16'h0, 16'h0}.
                                        </pre> */
-#define BDK_NIC_RSS_ALG_E_ROCE (7) /**< RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
+#define BDK_NIC_RSS_ALG_E_ROCE_CN81XX (7) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
                                        destqp. Enabled when NIC_PF_CPI()_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
                                        NIC_CQE_RX_S[L4TY]=BTH.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
-#define BDK_NIC_RSS_ALG_E_SCTP_IP (5) /**< SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+#define BDK_NIC_RSS_ALG_E_ROCE_CN88XX (7) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
+                                       destqp. Enabled when NIC_PF_CPI()_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
+                                       NIC_CQE_RX_S[L4TY]=BTH.
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
+#define BDK_NIC_RSS_ALG_E_ROCE_CN83XX (7) /**< RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
+                                       destqp. Enabled when NIC_PF_CPI()_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
+                                       NIC_CQE_RX_S[L4TY]=BTH.
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
+#define BDK_NIC_RSS_ALG_E_SCTP_IP_CN81XX (5) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+                                       destination, SCTP source port, and SCTP destination port. Enabled when
+                                       NIC_PF_CPI()_CFG[RSS_L3ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
+                                       NIC_CQE_RX_S[L4TY]=SCTP.
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
+#define BDK_NIC_RSS_ALG_E_SCTP_IP_CN88XX (5) /**< Reserved.
+                                       Internal:
+                                       Not implemented in RTL. Old definition:
+                                       SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+                                       destination, SCTP source port, and SCTP destination port. Enabled when
+                                       NIC_PF_CPI()_CFG[RSS_L3ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
+                                       NIC_CQE_RX_S[L4TY]=SCTP.
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
+#define BDK_NIC_RSS_ALG_E_SCTP_IP_CN83XX (5) /**< SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, SCTP source port, and SCTP destination port. Enabled when
                                        NIC_PF_CPI()_CFG[RSS_L3ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
                                        NIC_CQE_RX_S[L4TY]=SCTP.
@@ -3633,8 +3715,9 @@ typedef union
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -3646,8 +3729,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -3702,8 +3786,9 @@ typedef union
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -3715,8 +3800,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -10226,9 +10312,9 @@ typedef union
         uint64_t reserved_16_19        : 4;
         uint64_t reserved_12_15        : 4;
         uint64_t reserved_8_11         : 4;
-        uint64_t rssi_base             : 8;  /**< [  7:  0](R/W) Base index into NIC_PF_RSSI()_RQ. Must be less than 256. */
+        uint64_t rssi_base             : 8;  /**< [  7:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
 #else /* Word 0 - Little Endian */
-        uint64_t rssi_base             : 8;  /**< [  7:  0](R/W) Base index into NIC_PF_RSSI()_RQ. Must be less than 256. */
+        uint64_t rssi_base             : 8;  /**< [  7:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
         uint64_t reserved_8_11         : 4;
         uint64_t reserved_12_15        : 4;
         uint64_t reserved_16_19        : 4;
@@ -11224,25 +11310,23 @@ typedef union
                                                                  0x3 = First two aligned cache blocks are allocated into the L2C. All remaining
                                                                  cache blocks are not allocated. */
         uint64_t reserved_22_25        : 4;
-        uint64_t cq_qs                 : 3;  /**< [ 21: 19](R/W) CQ's QS for this RQ. The CQ's QS must be assigned to the same VNIC as the RQ's QS. Must be
-                                                                 less than 8. */
+        uint64_t cq_qs                 : 3;  /**< [ 21: 19](R/W) CQ's QS for this RQ. The CQ's QS must be assigned to the same VNIC as the RQ's QS. */
         uint64_t cq_idx                : 3;  /**< [ 18: 16](R/W) CQ within [CQ_QS] for this RQ. */
         uint64_t reserved_12_15        : 4;
-        uint64_t rbdr_cont_qs          : 3;  /**< [ 11:  9](R/W) QS portion of RBDR to use for continue buffers. Must be less than 8. */
+        uint64_t rbdr_cont_qs          : 3;  /**< [ 11:  9](R/W) QS portion of RBDR to use for continue buffers. */
         uint64_t rbdr_cont_idx         : 1;  /**< [  8:  8](R/W) Index within QS of RBDR to use for continue buffers. */
         uint64_t reserved_4_7          : 4;
-        uint64_t rbdr_strt_qs          : 3;  /**< [  3:  1](R/W) QS portion of RBDR to use used for first buffer. Must be less than 8. */
+        uint64_t rbdr_strt_qs          : 3;  /**< [  3:  1](R/W) QS portion of RBDR to use used for first buffer. */
         uint64_t rbdr_strt_idx         : 1;  /**< [  0:  0](R/W) Index within OQ of RBDR to use for first buffer. */
 #else /* Word 0 - Little Endian */
         uint64_t rbdr_strt_idx         : 1;  /**< [  0:  0](R/W) Index within OQ of RBDR to use for first buffer. */
-        uint64_t rbdr_strt_qs          : 3;  /**< [  3:  1](R/W) QS portion of RBDR to use used for first buffer. Must be less than 8. */
+        uint64_t rbdr_strt_qs          : 3;  /**< [  3:  1](R/W) QS portion of RBDR to use used for first buffer. */
         uint64_t reserved_4_7          : 4;
         uint64_t rbdr_cont_idx         : 1;  /**< [  8:  8](R/W) Index within QS of RBDR to use for continue buffers. */
-        uint64_t rbdr_cont_qs          : 3;  /**< [ 11:  9](R/W) QS portion of RBDR to use for continue buffers. Must be less than 8. */
+        uint64_t rbdr_cont_qs          : 3;  /**< [ 11:  9](R/W) QS portion of RBDR to use for continue buffers. */
         uint64_t reserved_12_15        : 4;
         uint64_t cq_idx                : 3;  /**< [ 18: 16](R/W) CQ within [CQ_QS] for this RQ. */
-        uint64_t cq_qs                 : 3;  /**< [ 21: 19](R/W) CQ's QS for this RQ. The CQ's QS must be assigned to the same VNIC as the RQ's QS. Must be
-                                                                 less than 8. */
+        uint64_t cq_qs                 : 3;  /**< [ 21: 19](R/W) CQ's QS for this RQ. The CQ's QS must be assigned to the same VNIC as the RQ's QS. */
         uint64_t reserved_22_25        : 4;
         uint64_t caching               : 2;  /**< [ 27: 26](R/W) Select the style of write to the L2C.
                                                                  0x0 = Writes of RBDR data will not allocate into the L2C.
@@ -11639,8 +11723,9 @@ typedef union
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -11652,8 +11737,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -11806,8 +11892,9 @@ typedef union
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -11819,8 +11906,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -11879,11 +11967,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
         uint64_t reserved_6_9          : 4;
-        uint64_t rq_qs                 : 3;  /**< [  5:  3](R/W) RQ's QS. Must be less than 8. */
+        uint64_t rq_qs                 : 3;  /**< [  5:  3](R/W) RQ's QS. */
         uint64_t rq_idx                : 3;  /**< [  2:  0](R/W) RQ within [RQ_QS]. */
 #else /* Word 0 - Little Endian */
         uint64_t rq_idx                : 3;  /**< [  2:  0](R/W) RQ within [RQ_QS]. */
-        uint64_t rq_qs                 : 3;  /**< [  5:  3](R/W) RQ's QS. Must be less than 8. */
+        uint64_t rq_qs                 : 3;  /**< [  5:  3](R/W) RQ's QS. */
         uint64_t reserved_6_9          : 4;
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
@@ -12319,9 +12407,13 @@ static inline uint64_t BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC(void)
 /**
  * Register (NCB) nic_pf_rx_rocev2_def
  *
- * NIC Receive RoCEv2 Control Register
+ * INTERNAL: NIC Receive RoCEv2 Control Register
+ *
  * This register defines and enables RoCE version 2 parsing.
  * Added in pass 2.
+ *
+ * Internal:
+ * Unused register.
  */
 typedef union
 {
@@ -12566,8 +12658,9 @@ typedef union
                                                                  cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD]. */
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -12579,8 +12672,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -12615,8 +12709,9 @@ typedef union
         uint64_t reserved_24           : 1;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -12628,8 +12723,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -12666,8 +12762,9 @@ typedef union
                                                                  cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD]. */
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -12679,8 +12776,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -12867,8 +12965,9 @@ typedef union
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -12880,8 +12979,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -12936,8 +13036,9 @@ typedef union
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -12949,8 +13050,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -16190,17 +16292,17 @@ typedef union
                                                                  Note that the usable size of the ring is the specified size minus 1 when [LDWB] is clear
                                                                  (HEAD==TAIL always means empty). If [LDWB] is set, the usable size of the ring is the
                                                                  specified size minus 8. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t tstmp_bgx_intf        : 4;  /**< [  3:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
+        uint64_t reserved_3_7          : 5;
+        uint64_t tstmp_bgx_intf        : 3;  /**< [  2:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
                                                                  the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
                                                                  packet with NIC_SEND_HDR_S[TSTMP]=1, this field selects the Ethernet port from which the
                                                                  timestamp will be captured. */
 #else /* Word 0 - Little Endian */
-        uint64_t tstmp_bgx_intf        : 4;  /**< [  3:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
+        uint64_t tstmp_bgx_intf        : 3;  /**< [  2:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
                                                                  the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
                                                                  packet with NIC_SEND_HDR_S[TSTMP]=1, this field selects the Ethernet port from which the
                                                                  timestamp will be captured. */
-        uint64_t reserved_4_7          : 4;
+        uint64_t reserved_3_7          : 5;
         uint64_t qsize                 : 3;  /**< [ 10:  8](R/W/H) Specifies SQ ring size in entries of 16 bytes:
                                                                  0x0 = 1K entries.
                                                                  0x1 = 2K entries.
@@ -16238,92 +16340,7 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_nic_qsx_sqx_cfg_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cq_limit              : 8;  /**< [ 31: 24](RAZ) Reserved. */
-        uint64_t reserved_20_23        : 4;
-        uint64_t ena                   : 1;  /**< [ 19: 19](R/W/H) Enable SQ. Software can clear this bit at any time to disable the SQ, at which time
-                                                                 hardware stops servicing the SQ and sets NIC_QS()_SQ()_STATUS[STOPPED] when
-                                                                 done. */
-        uint64_t reserved_18           : 1;
-        uint64_t reset                 : 1;  /**< [ 17: 17](WO) SQ Reset. Writing a 1 resets internal state for this SQ and the following registers:
-                                                                 * NIC_PF_QS()_SQ()_STAT().
-                                                                 * NIC_QS()_SQ()_CFG.
-                                                                 * NIC_QS()_SQ()_THRESH.
-                                                                 * NIC_QS()_SQ()_BASE.
-                                                                 * NIC_QS()_SQ()_HEAD.
-                                                                 * NIC_QS()_SQ()_TAIL.
-                                                                 * NIC_QS()_SQ()_DOOR.
-                                                                 * NIC_QS()_SQ()_STATUS.
-                                                                 * NIC_QS()_SQ()_STAT(). */
-        uint64_t ldwb                  : 1;  /**< [ 16: 16](R/W/H) When reading SQEs for a scheduled send packet that include the last byte of the SQE cache
-                                                                 line, use LDWB transaction to invalidate the cache line. When set, software must reserve
-                                                                 one cache line of unused SQEs in the SQ ring, i.e. SQ should be considered full when
-                                                                 NIC_QS()_SQ()_STATUS[QCOUNT] equals the SQ ring size minus 8. */
-        uint64_t reserved_11_15        : 5;
-        uint64_t qsize                 : 3;  /**< [ 10:  8](R/W/H) Specifies SQ ring size in entries of 16 bytes:
-                                                                 0x0 = 1K entries.
-                                                                 0x1 = 2K entries.
-                                                                 0x2 = 4K entries.
-                                                                 0x3 = 8K entries.
-                                                                 0x4 = 16K entries.
-                                                                 0x5 = 32K entries.
-                                                                 0x6 = 64K entries.
-                                                                 0x7 = Reserved.
-
-                                                                 Note that the usable size of the ring is the specified size minus 1 when [LDWB] is clear
-                                                                 (HEAD==TAIL always means empty). If [LDWB] is set, the usable size of the ring is the
-                                                                 specified size minus 8. */
-        uint64_t reserved_3_7          : 5;
-        uint64_t tstmp_bgx_intf        : 3;  /**< [  2:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
-                                                                 the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
-                                                                 packet with NIC_SEND_HDR_S[TSTMP]=1, this field selects the Ethernet port from which the
-                                                                 timestamp will be captured. */
-#else /* Word 0 - Little Endian */
-        uint64_t tstmp_bgx_intf        : 3;  /**< [  2:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
-                                                                 the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
-                                                                 packet with NIC_SEND_HDR_S[TSTMP]=1, this field selects the Ethernet port from which the
-                                                                 timestamp will be captured. */
-        uint64_t reserved_3_7          : 5;
-        uint64_t qsize                 : 3;  /**< [ 10:  8](R/W/H) Specifies SQ ring size in entries of 16 bytes:
-                                                                 0x0 = 1K entries.
-                                                                 0x1 = 2K entries.
-                                                                 0x2 = 4K entries.
-                                                                 0x3 = 8K entries.
-                                                                 0x4 = 16K entries.
-                                                                 0x5 = 32K entries.
-                                                                 0x6 = 64K entries.
-                                                                 0x7 = Reserved.
-
-                                                                 Note that the usable size of the ring is the specified size minus 1 when [LDWB] is clear
-                                                                 (HEAD==TAIL always means empty). If [LDWB] is set, the usable size of the ring is the
-                                                                 specified size minus 8. */
-        uint64_t reserved_11_15        : 5;
-        uint64_t ldwb                  : 1;  /**< [ 16: 16](R/W/H) When reading SQEs for a scheduled send packet that include the last byte of the SQE cache
-                                                                 line, use LDWB transaction to invalidate the cache line. When set, software must reserve
-                                                                 one cache line of unused SQEs in the SQ ring, i.e. SQ should be considered full when
-                                                                 NIC_QS()_SQ()_STATUS[QCOUNT] equals the SQ ring size minus 8. */
-        uint64_t reset                 : 1;  /**< [ 17: 17](WO) SQ Reset. Writing a 1 resets internal state for this SQ and the following registers:
-                                                                 * NIC_PF_QS()_SQ()_STAT().
-                                                                 * NIC_QS()_SQ()_CFG.
-                                                                 * NIC_QS()_SQ()_THRESH.
-                                                                 * NIC_QS()_SQ()_BASE.
-                                                                 * NIC_QS()_SQ()_HEAD.
-                                                                 * NIC_QS()_SQ()_TAIL.
-                                                                 * NIC_QS()_SQ()_DOOR.
-                                                                 * NIC_QS()_SQ()_STATUS.
-                                                                 * NIC_QS()_SQ()_STAT(). */
-        uint64_t reserved_18           : 1;
-        uint64_t ena                   : 1;  /**< [ 19: 19](R/W/H) Enable SQ. Software can clear this bit at any time to disable the SQ, at which time
-                                                                 hardware stops servicing the SQ and sets NIC_QS()_SQ()_STATUS[STOPPED] when
-                                                                 done. */
-        uint64_t reserved_20_23        : 4;
-        uint64_t cq_limit              : 8;  /**< [ 31: 24](RAZ) Reserved. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn88xxp1;
+    /* struct bdk_nic_qsx_sqx_cfg_s cn88xxp1; */
     struct bdk_nic_qsx_sqx_cfg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -16364,17 +16381,9 @@ typedef union
                                                                  Note that the usable size of the ring is the specified size minus 1 when [LDWB] is clear
                                                                  (HEAD==TAIL always means empty). If [LDWB] is set, the usable size of the ring is the
                                                                  specified size minus 8. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t tstmp_bgx_intf        : 4;  /**< [  3:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
-                                                                 the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
-                                                                 packet with NIC_SEND_HDR_S[TSTMP]=1, this field selects the Ethernet port from which the
-                                                                 timestamp will be captured. */
+        uint64_t reserved_0_7          : 8;
 #else /* Word 0 - Little Endian */
-        uint64_t tstmp_bgx_intf        : 4;  /**< [  3:  0](R/W/H) Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
-                                                                 the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
-                                                                 packet with NIC_SEND_HDR_S[TSTMP]=1, this field selects the Ethernet port from which the
-                                                                 timestamp will be captured. */
-        uint64_t reserved_4_7          : 4;
+        uint64_t reserved_0_7          : 8;
         uint64_t qsize                 : 3;  /**< [ 10:  8](R/W/H) Specifies SQ ring size in entries of 16 bytes:
                                                                  0x0 = 1K entries.
                                                                  0x1 = 2K entries.
@@ -17901,8 +17910,11 @@ typedef union
         uint64_t rss_tun_geneve        : 1;  /**< [ 10: 10](RAZ) Reserved. */
         uint64_t rss_tun_vxlan         : 1;  /**< [  9:  9](RAZ) Reserved. */
         uint64_t rss_l4_bidi           : 1;  /**< [  8:  8](R/W) Enable bidirectional flow symmetry RSS for the L4 TCP/UDP RSS layer. */
-        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6, ROCE RSS layer. */
-        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6 RSS layer. */
+        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 Unused field. Old definition:
+                                                                 Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::ROCE. */
         uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
                                                                  NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
@@ -17927,9 +17939,12 @@ typedef union
                                                                  NIC_RSS_ALG_E::UDP_IP. */
         uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
                                                                  NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
-        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 Unused field. Old definition:
+                                                                 Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::ROCE. */
-        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6, ROCE RSS layer. */
+        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6 RSS layer. */
         uint64_t rss_l4_bidi           : 1;  /**< [  8:  8](R/W) Enable bidirectional flow symmetry RSS for the L4 TCP/UDP RSS layer. */
         uint64_t rss_tun_vxlan         : 1;  /**< [  9:  9](RAZ) Reserved. */
         uint64_t rss_tun_geneve        : 1;  /**< [ 10: 10](RAZ) Reserved. */
@@ -17946,6 +17961,56 @@ typedef union
         uint64_t rss_tun_geneve        : 1;  /**< [ 10: 10](R/W) Enable GENEVE tunnelling support. */
         uint64_t rss_tun_vxlan         : 1;  /**< [  9:  9](R/W) Enable VXLAN tunnel support. */
         uint64_t rss_l4_bidi           : 1;  /**< [  8:  8](R/W) Enable bidirectional flow symmetry RSS for the L4 TCP/UDP RSS layer. */
+        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6 RSS layer. */
+        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 Unused field. Old definition:
+                                                                 Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+                                                                 NIC_RSS_ALG_E::ROCE. */
+        uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
+                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
+        uint64_t rss_udp               : 1;  /**< [  4:  4](R/W) Enable IP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+                                                                 NIC_RSS_ALG_E::UDP_IP. */
+        uint64_t rss_syn_dis           : 1;  /**< [  3:  3](R/W) Disable RSS on TCP SYN packets. If set, TCP packets with SYN & !ACK will have RSS disabled. */
+        uint64_t rss_tcp               : 1;  /**< [  2:  2](R/W) Enable TCP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+                                                                 NIC_RSS_ALG_E::TCP_IP. */
+        uint64_t rss_ip                : 1;  /**< [  1:  1](R/W) Enable IPv4/6 RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+                                                                 NIC_RSS_ALG_E::IP. */
+        uint64_t rss_l2etc             : 1;  /**< [  0:  0](R/W) Enable L2 extended RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+                                                                 NIC_RSS_ALG_E::PORT. */
+#else /* Word 0 - Little Endian */
+        uint64_t rss_l2etc             : 1;  /**< [  0:  0](R/W) Enable L2 extended RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+                                                                 NIC_RSS_ALG_E::PORT. */
+        uint64_t rss_ip                : 1;  /**< [  1:  1](R/W) Enable IPv4/6 RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+                                                                 NIC_RSS_ALG_E::IP. */
+        uint64_t rss_tcp               : 1;  /**< [  2:  2](R/W) Enable TCP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+                                                                 NIC_RSS_ALG_E::TCP_IP. */
+        uint64_t rss_syn_dis           : 1;  /**< [  3:  3](R/W) Disable RSS on TCP SYN packets. If set, TCP packets with SYN & !ACK will have RSS disabled. */
+        uint64_t rss_udp               : 1;  /**< [  4:  4](R/W) Enable IP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+                                                                 NIC_RSS_ALG_E::UDP_IP. */
+        uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
+                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
+        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 Unused field. Old definition:
+                                                                 Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+                                                                 NIC_RSS_ALG_E::ROCE. */
+        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6 RSS layer. */
+        uint64_t rss_l4_bidi           : 1;  /**< [  8:  8](R/W) Enable bidirectional flow symmetry RSS for the L4 TCP/UDP RSS layer. */
+        uint64_t rss_tun_vxlan         : 1;  /**< [  9:  9](R/W) Enable VXLAN tunnel support. */
+        uint64_t rss_tun_geneve        : 1;  /**< [ 10: 10](R/W) Enable GENEVE tunnelling support. */
+        uint64_t rss_tun_nvgre         : 1;  /**< [ 11: 11](R/W) Enable NVGRE tunnelling support. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_nic_vnicx_rss_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t rss_tun_nvgre         : 1;  /**< [ 11: 11](R/W) Enable NVGRE tunnelling support. */
+        uint64_t rss_tun_geneve        : 1;  /**< [ 10: 10](R/W) Enable GENEVE tunnelling support. */
+        uint64_t rss_tun_vxlan         : 1;  /**< [  9:  9](R/W) Enable VXLAN tunnel support. */
+        uint64_t rss_l4_bidi           : 1;  /**< [  8:  8](R/W) Enable bidirectional flow symmetry RSS for the L4 TCP/UDP RSS layer. */
         uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6, ROCE RSS layer. */
         uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::ROCE. */
@@ -17981,8 +18046,7 @@ typedef union
         uint64_t rss_tun_nvgre         : 1;  /**< [ 11: 11](R/W) Enable NVGRE tunnelling support. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_nic_vnicx_rss_cfg_cn81xx cn83xx; */
+    } cn83xx;
     struct bdk_nic_vnicx_rss_cfg_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -17991,8 +18055,11 @@ typedef union
         uint64_t rss_tun_geneve        : 1;  /**< [ 10: 10](R/W) Enable GENEVE tunnelling support. Added in pass 2. */
         uint64_t rss_tun_vxlan         : 1;  /**< [  9:  9](R/W) Enable VXLAN tunnel support. Added in pass 2. */
         uint64_t rss_l4_bidi           : 1;  /**< [  8:  8](R/W) Enable bidirectional flow symmetry RSS for the L4 TCP/UDP RSS layer. */
-        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6, ROCE RSS layer. */
-        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6 RSS layer. */
+        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 Unused field. Old definition:
+                                                                 Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::ROCE. */
         uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
                                                                  NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
@@ -18017,9 +18084,12 @@ typedef union
                                                                  NIC_RSS_ALG_E::UDP_IP. */
         uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
                                                                  NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
-        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
+        uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 Unused field. Old definition:
+                                                                 Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::ROCE. */
-        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6, ROCE RSS layer. */
+        uint64_t rss_l3_bidi           : 1;  /**< [  7:  7](R/W) Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6 RSS layer. */
         uint64_t rss_l4_bidi           : 1;  /**< [  8:  8](R/W) Enable bidirectional flow symmetry RSS for the L4 TCP/UDP RSS layer. */
         uint64_t rss_tun_vxlan         : 1;  /**< [  9:  9](R/W) Enable VXLAN tunnel support. Added in pass 2. */
         uint64_t rss_tun_geneve        : 1;  /**< [ 10: 10](R/W) Enable GENEVE tunnelling support. Added in pass 2. */

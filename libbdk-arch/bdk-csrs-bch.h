@@ -302,8 +302,9 @@ typedef union
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = Reserved.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -315,8 +316,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = Reserved.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.

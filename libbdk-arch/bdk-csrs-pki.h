@@ -80,7 +80,9 @@
  * Enumeration pki_chan_e
  *
  * PKI Channel Enumeration
- * Enumerates the values of PKI_WQE_S[CHAN], PKI_FEWQ_S[PORT] and PKI_BEQE_S[PORT].
+ * Enumerates the value of PKI_WQE_S[CHAN].
+ * Internal:
+ * PKI_CHAN_E also enumerates the values of PKI_FEWQ_S[PORT] and PKI_BEWQ_S[PORT].
  */
 #define BDK_PKI_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX {a} port {b} channel {c}. The channel is always 0 when used as a port
                                        number, then made non-zero as part of the conversion to a channel number via
@@ -101,7 +103,9 @@
  * Enumeration pki_errlev_e
  *
  * PKI Error Level Enumeration
- * Enumerates the values of PKI_WQE_S[ERRLEV], PKI_FEQE_S[ERRLEV] and PKI_BEWQ_S[ERRLEV].
+ * Enumerates the value of PKI_WQE_S[ERRLEV].
+ * Internal:
+ * PKI_ERRLEV_E also enumerates the values of PKI_FEWQ_S[ERRLEV] and PKI_BEWQ_S[ERRLEV].
  */
 #define BDK_PKI_ERRLEV_E_LA (1) /**< Layer A error. */
 #define BDK_PKI_ERRLEV_E_LB (2) /**< Layer B error. */
@@ -179,12 +183,16 @@
  *
  * PKI Layer Type Enumeration
  * Enumerates the values of PKI_WQE_S[LBTY], PKI_WQE_S[LCTY], PKI_WQE_S[LDTY],
- * PKI_WQE_S[LETY], PKI_WQE_S[LFTY] and PKI_WQE_S[LGTY], and associated PKI_BEWQ_S
- * fields.
+ * PKI_WQE_S[LETY], PKI_WQE_S[LFTY] and PKI_WQE_S[LGTY].
  *
- * Also shows the setting of PKI_LTYPE()_MAP[BELTYPE], which layers create this layer
- * type, and (in each value's description) the usage of
- * PKI_CL()_PCAM()_ACTION()[SETTY].
+ * This table also recommends PKI_LTYPE()_MAP[BELTYPE] (PKI_BELTYPE_E) values
+ * for each PKI_LTYPE_E, indicates which layers can hold the PKI_LTYPE_E,
+ * and also indicates (in the descriptions) PKI_CL()_PCAM()_ACTION()[SETTY]
+ * usage of the PKI_LTYPE_E.
+ *
+ * Internal:
+ * PKI_LTYPE_E also enumerates the values of PKI_BEWQ_S[LBTY], PKI_BEWQ_S[LCTY],
+ * PKI_BEWQ_S[LDTY], PKI_BEWQ_S[LETY], PKI_BEWQ_S[LFTY] and PKI_BEWQ_S[LGTY].
  */
 #define BDK_PKI_LTYPE_E_ARP (6) /**< ARP. The packet's L2 HDR TYPE field indicates ARP (i.e. equals 0x0835). */
 #define BDK_PKI_LTYPE_E_ENET (1) /**< Reserved. */
@@ -241,7 +249,9 @@
  * Enumeration pki_opcode_e
  *
  * PKI Error Opcode Enumeration
- * Enumerates the values of PKI_WQE_S[OPCODE], PKI_FEWQ_S[OPCODE], and PKI_BEWQ_S[OPCODE].
+ * Enumerates the value of PKI_WQE_S[OPCODE].
+ * Internal:
+ * PKI_OPCODE_E also enumerates the values of PKI_FEWQ_S[OPCODE] and PKI_BEWQ_S[OPCODE].
  */
 #define BDK_PKI_OPCODE_E_IP_CHK (0x42) /**< IPv4 header checksum error: the IPv4 header has a checksum violation. Note that the
                                        hardware checksum calculation complies with section 5 of RFC 1624.  Note that this
@@ -632,7 +642,8 @@
 /**
  * Structure pki_bewq_s
  *
- * PKI Back-end WQE Structure
+ * INTERNAL: PKI Back-end WQE Structure
+ *
  * This structure describes the handoff structure between an IPE sequencer and PKI
  * back-end, and how the field is modified to create PKI_WQE_S. The fields names are
  * generally similar to PKI_WQE_S; see the respective PKI_WQE_S field definitions for
@@ -991,7 +1002,8 @@ union bdk_pki_buflink_s
 /**
  * Structure pki_fewq_s
  *
- * PKI Front-end WQE Structure
+ * INTERNAL: PKI Front-end WQE Structure
+ *
  * This structure describes the handoff structure between the PKI front end and IPE
  * sequencer code. The fields are similar to PKI_WQE_S.
  */
@@ -1226,10 +1238,14 @@ union bdk_pki_wqe_s
                                                                  Channel numbers are computed by the PKI BE by the following algorithm:
                                                                  <pre>
                                                                  void pki_channel () {
-                                                                    port = PKI_CHAN_E from interface via PKI_BEWQ_S[CHAN]
+                                                                    port = PKI-port or pre-QPG PKI_CHAN_E (from the physical interface)
                                                                     [CHAN] = port + portadd();   // From QPG calculation
                                                                  }
-                                                                 </pre> */
+                                                                 </pre>
+
+                                                                 Internal:
+                                                                 The port in the [CHAN] pseudocode above is PKI_BEWQ_S[CHAN] and probably
+                                                                 also PKI_FEWQ_S[PORT]. */
         uint64_t bufs                  : 8;  /**< [ 31: 24] Number of data buffers used to store the packet data, never zero. For example,
                                                                  the value will be 1 if PKI_STYLE()_BUF[DIS_WQ_DAT]=0 and all of the data fit
                                                                  into a combined buffer comprising the work queue entry and first data
@@ -1265,10 +1281,14 @@ union bdk_pki_wqe_s
                                                                  Channel numbers are computed by the PKI BE by the following algorithm:
                                                                  <pre>
                                                                  void pki_channel () {
-                                                                    port = PKI_CHAN_E from interface via PKI_BEWQ_S[CHAN]
+                                                                    port = PKI-port or pre-QPG PKI_CHAN_E (from the physical interface)
                                                                     [CHAN] = port + portadd();   // From QPG calculation
                                                                  }
-                                                                 </pre> */
+                                                                 </pre>
+
+                                                                 Internal:
+                                                                 The port in the [CHAN] pseudocode above is PKI_BEWQ_S[CHAN] and probably
+                                                                 also PKI_FEWQ_S[PORT]. */
         uint64_t apad                  : 3;  /**< [ 46: 44] Number of bytes of alignment padding that were applied. The pad is calculated by
                                                                  the sequencer by the following algorithm:
 
@@ -2183,7 +2203,7 @@ typedef union
                                                                  <15> = WQEOUT.
                                                                  <14> = DOA.
                                                                  <13> = BPID.
-                                                                 <12 =10> = Reserved.
+                                                                 <12:10> = Reserved.
                                                                  <9> = PLC.
                                                                  <8> = PKTWQ.
                                                                  <7> = Reserved.
@@ -2212,7 +2232,7 @@ typedef union
                                                                  <15> = WQEOUT.
                                                                  <14> = DOA.
                                                                  <13> = BPID.
-                                                                 <12 =10> = Reserved.
+                                                                 <12:10> = Reserved.
                                                                  <9> = PLC.
                                                                  <8> = PKTWQ.
                                                                  <7> = Reserved.
@@ -2339,8 +2359,9 @@ typedef union
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -2352,8 +2373,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -2410,8 +2432,9 @@ typedef union
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -2423,8 +2446,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -2481,8 +2505,9 @@ typedef union
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -2494,8 +2519,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -3484,10 +3510,14 @@ static inline uint64_t BDK_PKI_CLX_PCAMX_TERMX(unsigned long a, unsigned long b,
  * Register (NCB) pki_cl#_pkind#_cfg
  *
  * PKI Per-Pkind Configuration Registers
- * This register is inside PKI_CL()_PKIND()_KMEM(). It is opaque to PKI HW, and fields
- * are sequencer-defined.
+ * This register is inside PKI_CL()_PKIND()_KMEM(). These CSRs are used only by
+ * the PKI parse engine/sequencer.
  *
  * For each legal j, PKI_CL(i)_PKIND(j)_CFG must be configured identically for i=0..1.
+ *
+ * Internal:
+ * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them to the
+ * sequencer code for parsing/sequencing.
  */
 typedef union
 {
@@ -3513,7 +3543,9 @@ typedef union
                                                                  0 = FCS not present. FCS may not be checked nor stripped.
                                                                  1 = FCS present; the last four bytes of the packet are part of the FCS and may not be
                                                                  considered part of a IP, TCP or other header for length error checks.
-                                                                 PKI_CL()_STYLE()_CFG[FCS_CHK or FCS_STRIP] may optionally be set. */
+
+                                                                 When either PKI_CL()_STYLE()_CFG[FCS_CHK or FCS_STRIP] are set, [FCS_PRES]
+                                                                 must be set. */
         uint64_t mpls_en               : 1;  /**< [  6:  6](R/W) Enable MPLS parsing.
                                                                  0 = Any MPLS labels are ignored, but may be handled by custom Ethertype PCAM matchers.
                                                                  1 = MPLS label stacks are parsed and skipped over. PKI_GBL_PEN[MPLS_PEN] must be set. */
@@ -3567,7 +3599,9 @@ typedef union
                                                                  0 = FCS not present. FCS may not be checked nor stripped.
                                                                  1 = FCS present; the last four bytes of the packet are part of the FCS and may not be
                                                                  considered part of a IP, TCP or other header for length error checks.
-                                                                 PKI_CL()_STYLE()_CFG[FCS_CHK or FCS_STRIP] may optionally be set. */
+
+                                                                 When either PKI_CL()_STYLE()_CFG[FCS_CHK or FCS_STRIP] are set, [FCS_PRES]
+                                                                 must be set. */
         uint64_t lg_custom_layer       : 3;  /**< [ 10:  8](R/W) Layer G custom match enable.
                                                                  0x0 = Disable custom LG header extraction
                                                                  0x1 = Enable custom LG header extraction after layer C.
@@ -3607,7 +3641,7 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_CFG(unsigned long a, unsigned long b)
  *
  * PKI KMEM Registers
  * This register initializes the KMEM, which initializes the sequencer state for each
- * pkind.
+ * pkind. These CSRs are used only by the PKI parse engine/sequencer.
  *
  * Inside the KMEM are the following sequencer registers. These registers are the
  * preferred access method for software:
@@ -3631,6 +3665,9 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_CFG(unsigned long a, unsigned long b)
  * The register initialization value for each PKIND and register number (plus 32 or 48
  * based on PKI_ICG()_CFG[MLO]). The other PKI_PKND* registers alias inside regions of
  * PKI_CL()_PKIND()_KMEM().
+ *
+ * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them
+ * to the sequencer code for parsing/sequencing.
  */
 typedef union
 {
@@ -3667,10 +3704,14 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_KMEMX(unsigned long a, unsigned long b
  * Register (NCB) pki_cl#_pkind#_l2_custom
  *
  * PKI Per-Pkind L2 Custom Extract Registers
- * This register is inside PKI_CL()_PKIND()_KMEM(). It is opaque to PKI HW, and fields
- * are sequencer-defined.
+ * This register is inside PKI_CL()_PKIND()_KMEM(). These CSRs are used only by
+ * the PKI parse engine/sequencer.
  *
  * For each legal j, PKI_CL(i)_PKIND(j)_L2_CUSTOM must be configured identically for i=0..1.
+ *
+ * Internal:
+ * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them to the
+ * sequencer code for parsing/sequencing.
  */
 typedef union
 {
@@ -3721,10 +3762,14 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_L2_CUSTOM(unsigned long a, unsigned lo
  * Register (NCB) pki_cl#_pkind#_lg_custom
  *
  * PKI Per-Pkind LG Custom Extract Registers
- * This register is inside PKI_CL()_PKIND()_KMEM(). It is opaque to PKI HW, and fields
- * are sequencer-defined.
+ * This register is inside PKI_CL()_PKIND()_KMEM(). These CSRs are used only by
+ * the PKI parse engine/sequencer.
  *
  * For each legal j, PKI_CL(i)_PKIND(j)_LG_CUSTOM must be configured identically for i=0..1.
+ *
+ * Internal:
+ * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them to the
+ * sequencer code for parsing/sequencing.
  */
 typedef union
 {
@@ -3773,10 +3818,14 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_LG_CUSTOM(unsigned long a, unsigned lo
  * Register (NCB) pki_cl#_pkind#_skip
  *
  * PKI Per-Pkind L2 Skip Registers
- * This register is inside PKI_CL()_PKIND()_KMEM(). It is opaque to PKI HW, and fields
- * are sequencer-defined.
+ * This register is inside PKI_CL()_PKIND()_KMEM(). These CSRs are used only by
+ * the PKI parse engine/sequencer.
  *
  * For each legal j, PKI_CL(i)_PKIND(j)_SKIP must be configured identically for i=0..1.
+ *
+ * Internal:
+ * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them to the
+ * sequencer code for parsing/sequencing.
  */
 typedef union
 {
@@ -3827,10 +3876,14 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_SKIP(unsigned long a, unsigned long b)
  * Register (NCB) pki_cl#_pkind#_style
  *
  * PKI Per-Pkind Initial Style Registers
- * This register is inside PKI_CL()_PKIND()_KMEM(). It is opaque to PKI HW, and fields
- * are sequencer-defined.
+ * This register is inside PKI_CL()_PKIND()_KMEM(). These CSRs are used only by
+ * the PKI parse engine/sequencer.
  *
  * For each legal j, PKI_CL(i)_PKIND(j)_STYLE must be configured identically for i=0..1.
+ *
+ * Internal:
+ * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them to the
+ * sequencer code for parsing/sequencing.
  */
 typedef union
 {
@@ -3907,7 +3960,8 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_STYLE(unsigned long a, unsigned long b
  * Register (NCB) pki_cl#_smem#
  *
  * PKI SMEM Registers
- * This register initializes the SMEM, which configures the sequencer.
+ * This register initializes the SMEM, which configures the sequencer. These CSRs
+ * are used by the PKI parse engine/sequencer and other PKI HW.
  *
  * Inside the SMEM are the following sequencer registers. These registers are the
  * preferred access method for software:
@@ -3923,6 +3977,12 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_STYLE(unsigned long a, unsigned long b
  * PKI_CL()_ECC_INT[SMEM_SBE] or PKI_CL()_ECC_INT[SMEM_DBE].
  *
  * For each legal j, PKI_CL(i)_SMEM(j) must be configured identically for i=0..1.
+ *
+ * Internal:
+ * The value of these CSRs do not directly influence PKI HW, but the sequencer code
+ * gets them, and the sequencer code will typically indirectly construct
+ * PKI_BEWQ_S[CFG,CFG2] from them. So not very indirectly, some of these CSRs influence
+ * PKI HW.
  */
 typedef union
 {
@@ -3996,9 +4056,14 @@ static inline uint64_t BDK_PKI_CLX_START(unsigned long a)
  * Register (NCB) pki_cl#_style#_alg
  *
  * PKI Per-Style Algorithm Configuration Registers
- * This register is inside PKI_CL()_SMEM(). This register is opaque to PKI HW.
+ * This register is inside PKI_CL()_SMEM(). These CSRs are used only by
+ * the PKI parse engine/sequencer.
  *
  * For each legal j, PKI_CL(i)_STYLE(j)_ALG must be configured identically for i=0..1.
+ *
+ * Internal:
+ * The value of these CSRs do not directly influence PKI HW. But PKI HW supplies them
+ * to the sequencer code.
  */
 typedef union
 {
@@ -4089,10 +4154,15 @@ static inline uint64_t BDK_PKI_CLX_STYLEX_ALG(unsigned long a, unsigned long b)
  * Register (NCB) pki_cl#_style#_cfg
  *
  * PKI Per-Style Configuration Registers
- * This register is inside PKI_CL()_SMEM(). The contents of each address are opaque to
- * PKI HW, however the field definitions are used by PKI BE via PKI_BEWQ_S[CFG].
+ * This register is inside PKI_CL()_SMEM(). These CSRs are used by
+ * the PKI parse engine/sequencer and other PKI HW.
  *
  * For each legal j, PKI_CL(i)_STYLE(j)_CFG must be configured identically for i=0..1.
+ *
+ * Internal:
+ * The value of these CSRs do not directly influence PKI HW, but the sequencer code
+ * gets them, and the sequencer code will typically indirectly construct
+ * PKI_BEWQ_S[CFG] from them. So not very indirectly, these CSRs influence PKI HW.
  */
 typedef union
 {
@@ -4110,8 +4180,8 @@ typedef union
                                                                  is typically not enabled for incoming packets on the DPI ports.
 
                                                                  Internal:
-                                                                 The sequencer clears this bit for PKI_BE when SNAP length checks are not
-                                                                 appropriate. */
+                                                                 The parse engine/sequencer clears this bit in PKI_BEWQ_S[CFG] when SNAP length checks
+                                                                 are not appropriate. */
         uint64_t lenerr_eqpad          : 1;  /**< [ 28: 28](R/W) L2 length checks exact pad size.
                                                                  0 = Length check uses greater then or equal comparison. Packets must have at least minimum
                                                                  padding, but may have more. This mode must be used when there may be extra Etherypes
@@ -4141,17 +4211,25 @@ typedef union
         uint64_t qpg_dis_padd          : 1;  /**< [ 18: 18](R/W) Disable computing port adder by QPG algorithm. */
         uint64_t qpg_dis_grp           : 1;  /**< [ 17: 17](R/W) Disable computing group by QPG algorithm. */
         uint64_t qpg_dis_aura          : 1;  /**< [ 16: 16](R/W) Disable computing aura by QPG algorithm. */
-        uint64_t rsvdrw15              : 5;  /**< [ 15: 11](R/W) Reserved. The sequencer may generate a carry-out when adding to QPG_BASE to
-                                                                 compute PKI_BEWQ_S, therefore bit <11> here is unpredictable. */
-        uint64_t qpg_base              : 11; /**< [ 10:  0](R/W) Base index into PKI_QPG_TBL(). The sequencer typically starts with QPG_BASE,
-                                                                 performs the QPG calculation and packs the resulting QPG index back into this
-                                                                 field for PKI_BEWQ_S. */
+        uint64_t rsvdrw15              : 5;  /**< [ 15: 11](R/W) Reserved. Must be zero.
+                                                                 Internal:
+                                                                 Sequencer code may corrupt PKI_BEWQ_S[CFG<11>] during QPG calculations. See [QPG_BASE].
+                                                                 Effectively, PKI_BEWQ_S[CFG<11>] is unpredictable. */
+        uint64_t qpg_base              : 11; /**< [ 10:  0](R/W) Base index into PKI_QPG_TBL().
+                                                                 Internal:
+                                                                 The parse engine/sequencer typically starts with [QPG_BASE], performs the
+                                                                 QPG add in place, and passes the result through to PKI_BEWQ_S[CFG]. The
+                                                                 carry from the add may corrupt PKI_BEWQ_S[CFG<11>]. */
 #else /* Word 0 - Little Endian */
-        uint64_t qpg_base              : 11; /**< [ 10:  0](R/W) Base index into PKI_QPG_TBL(). The sequencer typically starts with QPG_BASE,
-                                                                 performs the QPG calculation and packs the resulting QPG index back into this
-                                                                 field for PKI_BEWQ_S. */
-        uint64_t rsvdrw15              : 5;  /**< [ 15: 11](R/W) Reserved. The sequencer may generate a carry-out when adding to QPG_BASE to
-                                                                 compute PKI_BEWQ_S, therefore bit <11> here is unpredictable. */
+        uint64_t qpg_base              : 11; /**< [ 10:  0](R/W) Base index into PKI_QPG_TBL().
+                                                                 Internal:
+                                                                 The parse engine/sequencer typically starts with [QPG_BASE], performs the
+                                                                 QPG add in place, and passes the result through to PKI_BEWQ_S[CFG]. The
+                                                                 carry from the add may corrupt PKI_BEWQ_S[CFG<11>]. */
+        uint64_t rsvdrw15              : 5;  /**< [ 15: 11](R/W) Reserved. Must be zero.
+                                                                 Internal:
+                                                                 Sequencer code may corrupt PKI_BEWQ_S[CFG<11>] during QPG calculations. See [QPG_BASE].
+                                                                 Effectively, PKI_BEWQ_S[CFG<11>] is unpredictable. */
         uint64_t qpg_dis_aura          : 1;  /**< [ 16: 16](R/W) Disable computing aura by QPG algorithm. */
         uint64_t qpg_dis_grp           : 1;  /**< [ 17: 17](R/W) Disable computing group by QPG algorithm. */
         uint64_t qpg_dis_padd          : 1;  /**< [ 18: 18](R/W) Disable computing port adder by QPG algorithm. */
@@ -4185,8 +4263,8 @@ typedef union
                                                                  is typically not enabled for incoming packets on the DPI ports.
 
                                                                  Internal:
-                                                                 The sequencer clears this bit for PKI_BE when SNAP length checks are not
-                                                                 appropriate. */
+                                                                 The parse engine/sequencer clears this bit in PKI_BEWQ_S[CFG] when SNAP length checks
+                                                                 are not appropriate. */
         uint64_t ip6_udp_opt           : 1;  /**< [ 30: 30](R/W) IPv6/UDP checksum is optional. IPv4 allows an optional UDP checksum by sending the all-0s
                                                                  patterns. IPv6 outlaws this and the spec says to always check UDP checksum.
                                                                  0 = Spec compliant, do not allow optional code.
@@ -4217,10 +4295,15 @@ static inline uint64_t BDK_PKI_CLX_STYLEX_CFG(unsigned long a, unsigned long b)
  * Register (NCB) pki_cl#_style#_cfg2
  *
  * PKI Per-Style Configuration 2 Registers
- * This register is inside PKI_CL()_SMEM(). The contents of each address are opaque to
- * PKI HW, however the field definitions are used by PKI BE via PKI_BEWQ_S[CFG2].
+ * This register is inside PKI_CL()_SMEM(). These CSRs are used by
+ * the PKI parse engine/sequencer and other PKI HW.
  *
  * For each legal j, PKI_CL(i)_STYLE(j)_CFG2 must be configured identically for i=0..1.
+ *
+ * Internal:
+ * The value of these CSRs do not directly influence PKI HW, but the sequencer code
+ * gets them, and the sequencer code will typically indirectly construct
+ * PKI_BEWQ_S[CFG2] from them. So not very indirectly, these CSRs influence PKI HW.
  */
 typedef union
 {
@@ -8415,7 +8498,11 @@ static inline uint64_t BDK_PKI_STRMX_CFG(unsigned long a)
  *
  * PKI Per-Style Buffer Configuration Register
  * This register configures the PKI BE skip amounts and other information.
- * It is indexed by final style, PKI_BEWQ_S[STYLE]<5:0>.
+ * It is indexed by final style, PKI_WQE_S[STYLE]<5:0>.
+ *
+ * Internal:
+ * This CSR is really indexed by PKI_BEWQ_S[STYLE]<5:0>, which should match
+ * PKI_WQE_S[STYLE]<5:0>.
  */
 typedef union
 {
@@ -8583,7 +8670,11 @@ static inline uint64_t BDK_PKI_STYLEX_BUF(unsigned long a)
  *
  * PKI Per-Style Tag Generation Mask Registers
  * This register configures the PKI BE tag algorithm.
- * It is indexed by final style, PKI_BEWQ_S[STYLE]<5:0>.
+ * It is indexed by final style, PKI_WQE_S[STYLE]<5:0>.
+ *
+ * Internal:
+ * This CSR is really indexed by PKI_BEWQ_S[STYLE]<5:0>, which should match
+ * PKI_WQE_S[STYLE]<5:0>.
  */
 typedef union
 {
@@ -8625,7 +8716,11 @@ static inline uint64_t BDK_PKI_STYLEX_TAG_MASK(unsigned long a)
  *
  * PKI Per-Style Configuration 2 Registers
  * This register configures the PKI BE tag algorithm.
- * It is indexed by final style, PKI_BEWQ_S[STYLE]<5:0>.
+ * It is indexed by final style, PKI_WQE_S[STYLE]<5:0>.
+ *
+ * Internal:
+ * This CSR is really indexed by PKI_BEWQ_S[STYLE]<5:0>, which should match
+ * PKI_WQE_S[STYLE]<5:0>.
  */
 typedef union
 {
@@ -8677,7 +8772,11 @@ static inline uint64_t BDK_PKI_STYLEX_TAG_SEL(unsigned long a)
  *
  * PKI Per-Style WQ Word 2 Registers
  * This register configures the PKI BE WQE generation.
- * It is indexed by final style, PKI_BEWQ_S[STYLE]<5:0>.
+ * It is indexed by final style, PKI_WQE_S[STYLE]<5:0>.
+ *
+ * Internal:
+ * This CSR is really indexed by PKI_BEWQ_S[STYLE]<5:0>, which should match
+ * PKI_WQE_S[STYLE]<5:0>.
  */
 typedef union
 {
@@ -8719,7 +8818,11 @@ static inline uint64_t BDK_PKI_STYLEX_WQ2(unsigned long a)
  *
  * PKI Per-Style WQ Word 4 Registers
  * This register configures the PKI BE WQE generation.
- * It is indexed by final style, PKI_BEWQ_S[STYLE]<5:0>.
+ * It is indexed by final style, PKI_WQE_S[STYLE]<5:0>.
+ *
+ * Internal:
+ * This CSR is really indexed by PKI_BEWQ_S[STYLE]<5:0>, which should match
+ * PKI_WQE_S[STYLE]<5:0>.
  */
 typedef union
 {

@@ -68,7 +68,7 @@
 #define BDK_PCC_DEV_CON_E_DAP (0x102) /**< Debug access point. */
 #define BDK_PCC_DEV_CON_E_DDF0 (0x700) /**< DDF. */
 #define BDK_PCC_DEV_CON_E_DFA (0x400) /**< HFA. */
-#define BDK_PCC_DEV_CON_E_DPI (0xf00) /**< DPI. */
+#define BDK_PCC_DEV_CON_E_DPI0 (0xf00) /**< DPI 0. */
 #define BDK_PCC_DEV_CON_E_FPA (0xd00) /**< FPA. */
 #define BDK_PCC_DEV_CON_E_FUSF (0x104) /**< Field Fuses. */
 #define BDK_PCC_DEV_CON_E_GIC (0x18) /**< GIC interrupt unit. */
@@ -102,7 +102,7 @@
 #define BDK_PCC_DEV_CON_E_PCCBR_CPT1 (0x68) /**< Bridge for CPT 1, creating ECAM 0's bus 6. */
 #define BDK_PCC_DEV_CON_E_PCCBR_DDF0 (0xb8) /**< Bridge for DDF0, creating ECAM 0's bus 7. */
 #define BDK_PCC_DEV_CON_E_PCCBR_DFA (0xb0) /**< Bridge for DFA, creating ECAM 0's bus 4. */
-#define BDK_PCC_DEV_CON_E_PCCBR_DPI (0xf8) /**< Bridge for DPI, creating ECAM 0's bus 15. */
+#define BDK_PCC_DEV_CON_E_PCCBR_DPI0 (0xf8) /**< Bridge for DPI 0, creating ECAM 0's bus 15. */
 #define BDK_PCC_DEV_CON_E_PCCBR_FPA (0xe8) /**< Bridge for FPA, creating ECAM 0's bus 13. */
 #define BDK_PCC_DEV_CON_E_PCCBR_MRML (8) /**< Bridge for MRML, creating ECAM 0's bus 1. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC (0x20010) /**< Bridge for NIC, creating ECAM 2's bus 1. */

@@ -438,9 +438,9 @@ static inline uint64_t BDK_NDF_ECO_FUNC(void) __attribute__ ((pure, always_inlin
 static inline uint64_t BDK_NDF_ECO_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x8080000000f8ll;
+        return 0x808000000078ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8080000000f8ll;
+        return 0x808000000078ll;
     __bdk_csr_fatal("NDF_ECO", 0, 0, 0, 0, 0);
 }
 
@@ -551,9 +551,9 @@ static inline uint64_t BDK_NDF_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_NDF_INT_ENA_W1C_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x8080000000a0ll;
+        return 0x808000000060ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8080000000a0ll;
+        return 0x808000000060ll;
     __bdk_csr_fatal("NDF_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
@@ -605,9 +605,9 @@ static inline uint64_t BDK_NDF_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, alwa
 static inline uint64_t BDK_NDF_INT_ENA_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-        return 0x8080000000a8ll;
+        return 0x808000000068ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8080000000a8ll;
+        return 0x808000000068ll;
     __bdk_csr_fatal("NDF_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 

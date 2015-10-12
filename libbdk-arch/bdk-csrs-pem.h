@@ -7861,34 +7861,27 @@ typedef union
     struct bdk_pemx_p2n_bar2_start_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t addr                  : 14; /**< [ 63: 50](R/W) The starting address of the 2^50 address space
+                                                                 that is the BAR2 address space. */
+        uint64_t spares                : 2;  /**< [ 49: 48](R/W) Spare flops. */
+        uint64_t reserved_0_47         : 48;
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_0_47         : 48;
+        uint64_t spares                : 2;  /**< [ 49: 48](R/W) Spare flops. */
+        uint64_t addr                  : 14; /**< [ 63: 50](R/W) The starting address of the 2^50 address space
+                                                                 that is the BAR2 address space. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_p2n_bar2_start_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 14; /**< [ 63: 50](R/W) The starting address of the 2^50 address space
-                                                                 that is the BAR2 address space. */
-        uint64_t spares                : 2;  /**< [ 49: 48](R/W) Spare flops. */
-        uint64_t reserved_0_47         : 48;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_47         : 48;
-        uint64_t spares                : 2;  /**< [ 49: 48](R/W) Spare flops. */
-        uint64_t addr                  : 14; /**< [ 63: 50](R/W) The starting address of the 2^50 address space
-                                                                 that is the BAR2 address space. */
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_pemx_p2n_bar2_start_cn81xx cn88xx; */
+    /* struct bdk_pemx_p2n_bar2_start_s cn81xx; */
+    /* struct bdk_pemx_p2n_bar2_start_s cn88xx; */
     struct bdk_pemx_p2n_bar2_start_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 19; /**< [ 63: 45](R/W) The starting address of the 2^45 BAR2 address space. */
-        uint64_t reserved_0_44         : 45;
+        uint64_t addr                  : 14; /**< [ 63: 50](R/W) The starting address of the 2^50 BAR2 address space. */
+        uint64_t reserved_0_49         : 50;
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_44         : 45;
-        uint64_t addr                  : 19; /**< [ 63: 45](R/W) The starting address of the 2^45 BAR2 address space. */
+        uint64_t reserved_0_49         : 50;
+        uint64_t addr                  : 14; /**< [ 63: 50](R/W) The starting address of the 2^50 BAR2 address space. */
 #endif /* Word 0 - End */
     } cn83xx;
 } bdk_pemx_p2n_bar2_start_t;

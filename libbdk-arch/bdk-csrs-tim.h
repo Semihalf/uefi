@@ -183,13 +183,13 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t tstmp_mem             : 1;  /**< [  3:  3](RO/H) BIST result of the Time Stamp memory. */
-        uint64_t wqe_fifo              : 1;  /**< [  2:  2](RO/H) BIST result of the NCB_WQE FIFO. */
-        uint64_t lslr_fifo             : 1;  /**< [  1:  1](RO/H) BIST result of the NCB_LSLR FIFO. */
+        uint64_t wqe_fifo              : 1;  /**< [  2:  2](RO/H) BIST result of the NCB WQE FIFO. */
+        uint64_t lslr_fifo             : 1;  /**< [  1:  1](RO/H) BIST result of the NCB LSLR FIFO. */
         uint64_t rds_mem               : 1;  /**< [  0:  0](RO/H) BIST result of the RDS memory. */
 #else /* Word 0 - Little Endian */
         uint64_t rds_mem               : 1;  /**< [  0:  0](RO/H) BIST result of the RDS memory. */
-        uint64_t lslr_fifo             : 1;  /**< [  1:  1](RO/H) BIST result of the NCB_LSLR FIFO. */
-        uint64_t wqe_fifo              : 1;  /**< [  2:  2](RO/H) BIST result of the NCB_WQE FIFO. */
+        uint64_t lslr_fifo             : 1;  /**< [  1:  1](RO/H) BIST result of the NCB LSLR FIFO. */
+        uint64_t wqe_fifo              : 1;  /**< [  2:  2](RO/H) BIST result of the NCB WQE FIFO. */
         uint64_t tstmp_mem             : 1;  /**< [  3:  3](RO/H) BIST result of the Time Stamp memory. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
@@ -235,8 +235,9 @@ typedef union
         uint64_t reserved_24_59        : 36;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -248,8 +249,9 @@ typedef union
         uint64_t reserved_12_15        : 4;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
-                                                                 There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
-                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -650,10 +652,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t gpio_en               : 64; /**< [ 63:  0](RO/H) Each bit corresponds to rings [63:0] respectively. This register reflects the
-                                                                 values written to TIM_RING()_CTL1[ENA_GPIO]. For debug only; Reserved. */
+                                                                 values written to TIM_RING()_CTL1[CLK_SRC] with TIM_CLK_SRCS_E::GPIO. For debug
+                                                                 only; Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t gpio_en               : 64; /**< [ 63:  0](RO/H) Each bit corresponds to rings [63:0] respectively. This register reflects the
-                                                                 values written to TIM_RING()_CTL1[ENA_GPIO]. For debug only; Reserved. */
+                                                                 values written to TIM_RING()_CTL1[CLK_SRC] with TIM_CLK_SRCS_E::GPIO. For debug
+                                                                 only; Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_gpio_en_s cn; */
@@ -1154,35 +1158,39 @@ typedef union
                                                                  0x2 = TIM counts high to low transitions.
                                                                  0x3 = TIM counts both low to high and high to low transitions. */
         uint64_t reserved_3_4          : 2;
-        uint64_t reset                 : 1;  /**< [  2:  2](WO) Reset. One-shot pulse for free-running timer FR_RN_HT. */
+        uint64_t reset                 : 1;  /**< [  2:  2](WO) Reset. One-shot pulse for free-running timer TIM_FR_RN_CYCLES. */
         uint64_t reserved_1            : 1;
         uint64_t ena_tim               : 1;  /**< [  0:  0](R/W) When set, TIM is in normal operation. When clear, time is effectively stopped for all
                                                                  rings in TIM.
 
-                                                                 TIM has a counter (see FR_RN_HT) that causes a periodic tick. This counter is shared by
-                                                                 all rings. Each Timer tick causes the hardware to decrement the time count for all enabled
-                                                                 rings.
+                                                                 TIM has a counter (see TIM_FR_RN_CYCLES) that causes a periodic tick. This
+                                                                 counter is shared by all rings. Each Timer tick causes the hardware to decrement
+                                                                 the time count for all enabled rings.
 
-                                                                 When ENA_TIM = 0, the hardware stops the shared periodic counter, FR_RN_HT, so there are
-                                                                 no more ticks, and there are no more new bucket traversals.
+                                                                 When [ENA_TIM] = 0, the hardware stops the shared periodic counter,
+                                                                 TIM_FR_RN_CYCLES, so there are no more ticks, and there are no more new bucket
+                                                                 traversals.
 
-                                                                 If ENA_TIM transitions 1->0, TIM longer creates new bucket traversals, but does traverse
-                                                                 any rings that previously expired and are pending hardware traversal. */
+                                                                 If [ENA_TIM] transitions 1->0, TIM longer creates new bucket traversals, but
+                                                                 does traverse any rings that previously expired and are pending hardware
+                                                                 traversal. */
 #else /* Word 0 - Little Endian */
         uint64_t ena_tim               : 1;  /**< [  0:  0](R/W) When set, TIM is in normal operation. When clear, time is effectively stopped for all
                                                                  rings in TIM.
 
-                                                                 TIM has a counter (see FR_RN_HT) that causes a periodic tick. This counter is shared by
-                                                                 all rings. Each Timer tick causes the hardware to decrement the time count for all enabled
-                                                                 rings.
+                                                                 TIM has a counter (see TIM_FR_RN_CYCLES) that causes a periodic tick. This
+                                                                 counter is shared by all rings. Each Timer tick causes the hardware to decrement
+                                                                 the time count for all enabled rings.
 
-                                                                 When ENA_TIM = 0, the hardware stops the shared periodic counter, FR_RN_HT, so there are
-                                                                 no more ticks, and there are no more new bucket traversals.
+                                                                 When [ENA_TIM] = 0, the hardware stops the shared periodic counter,
+                                                                 TIM_FR_RN_CYCLES, so there are no more ticks, and there are no more new bucket
+                                                                 traversals.
 
-                                                                 If ENA_TIM transitions 1->0, TIM longer creates new bucket traversals, but does traverse
-                                                                 any rings that previously expired and are pending hardware traversal. */
+                                                                 If [ENA_TIM] transitions 1->0, TIM longer creates new bucket traversals, but
+                                                                 does traverse any rings that previously expired and are pending hardware
+                                                                 traversal. */
         uint64_t reserved_1            : 1;
-        uint64_t reset                 : 1;  /**< [  2:  2](WO) Reset. One-shot pulse for free-running timer FR_RN_HT. */
+        uint64_t reset                 : 1;  /**< [  2:  2](WO) Reset. One-shot pulse for free-running timer TIM_FR_RN_CYCLES. */
         uint64_t reserved_3_4          : 2;
         uint64_t gpio_edge             : 2;  /**< [  6:  5](R/W) Edge used for GPIO timing.
                                                                  0x0 = no edges and the timer tick is not generated.
@@ -1222,24 +1230,25 @@ typedef union
     struct bdk_tim_ringx_ctl0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_RING()_REL
+        uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_VRING()_REL
                                                                  for the position relative to current time.
 
                                                                  If TIM_RING()_CTL1[ENA] = 0, then contains an offset. When ENA transitions from a
                                                                  zero to a one this offset will be added to the current time and loaded back into
-                                                                 EXPIRE_OFFSET. Thus the offset sets the delta time between ENA transitioning to one and
+                                                                 [EXPIRE_OFFSET]. Thus the offset sets the delta time between ENA transitioning to one and
                                                                  the very first time the ring will be serviced. Software should program different offsets
                                                                  on each ring to reduce congestion to prevent many rings from otherwise expiring
                                                                  concurrently.
 
                                                                  If TIM_RING()_CTL1[ENA] = 1, then contains the time the next bucket will be serviced.
 
-                                                                 When EXPIRE_OFFSET reaches the current time (TIM_FR_RN_CYCLES or TIM_FR_RN_GPIOS),
-                                                                 EXPIRE_OFFSET is set to the next expiration time (current time plus
+                                                                 When [EXPIRE_OFFSET] reaches the current time (TIM_FR_RN_CYCLES or TIM_FR_RN_GPIOS),
+                                                                 [EXPIRE_OFFSET] is set to the next expiration time (current time plus
                                                                  TIM_RING()_CTL0[INTERVAL]).
-                                                                 EXPIRE_OFFSET is unpredictable after ENA_GPIO changes or TIM_RING()_CTL1[ENA]
-                                                                 transitions from 1 to 0, and must be reprogrammed before (re-) setting
-                                                                 TIM_RING()_CTL1[ENA]. */
+
+                                                                 [EXPIRE_OFFSET] is unpredictable after TIM_RING()_CTL1[CLK_SRC] changes or
+                                                                 TIM_RING()_CTL1[ENA] transitions from 1 to 0, and must be reprogrammed before
+                                                                 (re-) setting TIM_RING()_CTL1[ENA]. */
         uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions.
                                                                  For every 64 entries in a bucket, the interval should be at least 1u. Minimal recommended
                                                                  value is 1u. */
@@ -1247,24 +1256,25 @@ typedef union
         uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions.
                                                                  For every 64 entries in a bucket, the interval should be at least 1u. Minimal recommended
                                                                  value is 1u. */
-        uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_RING()_REL
+        uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_VRING()_REL
                                                                  for the position relative to current time.
 
                                                                  If TIM_RING()_CTL1[ENA] = 0, then contains an offset. When ENA transitions from a
                                                                  zero to a one this offset will be added to the current time and loaded back into
-                                                                 EXPIRE_OFFSET. Thus the offset sets the delta time between ENA transitioning to one and
+                                                                 [EXPIRE_OFFSET]. Thus the offset sets the delta time between ENA transitioning to one and
                                                                  the very first time the ring will be serviced. Software should program different offsets
                                                                  on each ring to reduce congestion to prevent many rings from otherwise expiring
                                                                  concurrently.
 
                                                                  If TIM_RING()_CTL1[ENA] = 1, then contains the time the next bucket will be serviced.
 
-                                                                 When EXPIRE_OFFSET reaches the current time (TIM_FR_RN_CYCLES or TIM_FR_RN_GPIOS),
-                                                                 EXPIRE_OFFSET is set to the next expiration time (current time plus
+                                                                 When [EXPIRE_OFFSET] reaches the current time (TIM_FR_RN_CYCLES or TIM_FR_RN_GPIOS),
+                                                                 [EXPIRE_OFFSET] is set to the next expiration time (current time plus
                                                                  TIM_RING()_CTL0[INTERVAL]).
-                                                                 EXPIRE_OFFSET is unpredictable after ENA_GPIO changes or TIM_RING()_CTL1[ENA]
-                                                                 transitions from 1 to 0, and must be reprogrammed before (re-) setting
-                                                                 TIM_RING()_CTL1[ENA]. */
+
+                                                                 [EXPIRE_OFFSET] is unpredictable after TIM_RING()_CTL1[CLK_SRC] changes or
+                                                                 TIM_RING()_CTL1[ENA] transitions from 1 to 0, and must be reprogrammed before
+                                                                 (re-) setting TIM_RING()_CTL1[ENA]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_ringx_ctl0_s cn; */
@@ -1298,7 +1308,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_55_63        : 9;
         uint64_t be                    : 1;  /**< [ 54: 54](R/W) Ring big endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
-        uint64_t clk_src               : 3;  /**< [ 53: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change CLK_SRC:
+        uint64_t clk_src               : 3;  /**< [ 53: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change [CLK_SRC]:
 
                                                                  1. TIM_RING()_CTL1[ENA] is cleared.
 
@@ -1312,15 +1322,16 @@ typedef union
         uint64_t intc                  : 2;  /**< [ 49: 48](R/W) Interval count for error. Defines how many intervals could elapse from bucket expiration
                                                                  until actual bucket traversal before hardware asserts an error. Typical value is 0x0, 0x1,
                                                                  0x2. */
-        uint64_t ena                   : 1;  /**< [ 47: 47](R/W) Ring timer enable. After a 1 to 0 transition on ENA, the hardware still completes a bucket
-                                                                 traversal for the ring if it were pending or active prior to the transition. When
-                                                                 clearing, software must delay until TIM_RING()_REL[RING_ESR] = 0 to ensure the
-                                                                 completion of the traversal before reprogramming the ring. When setting, RCF_BUSY must be
-                                                                 clear. */
+        uint64_t ena                   : 1;  /**< [ 47: 47](R/W) Ring timer enable. After a 1 to 0 transition on ENA, the hardware still
+                                                                 completes a bucket traversal for the ring if it were pending or active prior to
+                                                                 the transition. When clearing, software must delay until
+                                                                 TIM_VRING()_REL[RING_ESR] = 0 to ensure the completion of the traversal before
+                                                                 reprogramming the ring. When setting, [RCF_BUSY] must be clear. */
         uint64_t reserved_46           : 1;
-        uint64_t ena_prd               : 1;  /**< [ 45: 45](R/W) Enable periodic mode, which disables the memory write of zeros to NUM_ENTRIES and
-                                                                 CHUNK_REMAINDER when a bucket is traversed. In periodic mode ENA_DFB and ENA_LDWB must
-                                                                 also be clear. */
+        uint64_t ena_prd               : 1;  /**< [ 45: 45](R/W) Enable periodic mode, which disables the memory write of zeros to
+                                                                 TIM_MEM_BUCKET_S[NUM_ENTRIES] and TIM_MEM_BUCKET_S[CHUNK_REMAINDER] when a
+                                                                 bucket is traversed. In periodic mode [ENA_DFB] and [ENA_LDWB] must also be
+                                                                 clear. */
         uint64_t ena_ldwb              : 1;  /**< [ 44: 44](R/W) When set, enables the use of Load and Don't-Write-Back when reading timer entry cache lines. */
         uint64_t ena_dfb               : 1;  /**< [ 43: 43](R/W) Enable don't free buffer. When set, chunk buffer is not released by the TIM back to FPA. */
         uint64_t reserved_40_42        : 3;
@@ -1334,21 +1345,22 @@ typedef union
         uint64_t reserved_40_42        : 3;
         uint64_t ena_dfb               : 1;  /**< [ 43: 43](R/W) Enable don't free buffer. When set, chunk buffer is not released by the TIM back to FPA. */
         uint64_t ena_ldwb              : 1;  /**< [ 44: 44](R/W) When set, enables the use of Load and Don't-Write-Back when reading timer entry cache lines. */
-        uint64_t ena_prd               : 1;  /**< [ 45: 45](R/W) Enable periodic mode, which disables the memory write of zeros to NUM_ENTRIES and
-                                                                 CHUNK_REMAINDER when a bucket is traversed. In periodic mode ENA_DFB and ENA_LDWB must
-                                                                 also be clear. */
-        uint64_t reserved_46           : 1;
-        uint64_t ena                   : 1;  /**< [ 47: 47](R/W) Ring timer enable. After a 1 to 0 transition on ENA, the hardware still completes a bucket
-                                                                 traversal for the ring if it were pending or active prior to the transition. When
-                                                                 clearing, software must delay until TIM_RING()_REL[RING_ESR] = 0 to ensure the
-                                                                 completion of the traversal before reprogramming the ring. When setting, RCF_BUSY must be
+        uint64_t ena_prd               : 1;  /**< [ 45: 45](R/W) Enable periodic mode, which disables the memory write of zeros to
+                                                                 TIM_MEM_BUCKET_S[NUM_ENTRIES] and TIM_MEM_BUCKET_S[CHUNK_REMAINDER] when a
+                                                                 bucket is traversed. In periodic mode [ENA_DFB] and [ENA_LDWB] must also be
                                                                  clear. */
+        uint64_t reserved_46           : 1;
+        uint64_t ena                   : 1;  /**< [ 47: 47](R/W) Ring timer enable. After a 1 to 0 transition on ENA, the hardware still
+                                                                 completes a bucket traversal for the ring if it were pending or active prior to
+                                                                 the transition. When clearing, software must delay until
+                                                                 TIM_VRING()_REL[RING_ESR] = 0 to ensure the completion of the traversal before
+                                                                 reprogramming the ring. When setting, [RCF_BUSY] must be clear. */
         uint64_t intc                  : 2;  /**< [ 49: 48](R/W) Interval count for error. Defines how many intervals could elapse from bucket expiration
                                                                  until actual bucket traversal before hardware asserts an error. Typical value is 0x0, 0x1,
                                                                  0x2. */
         uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When ENA is cleared, this bit will remain set until hardware
                                                                  completes the idling of the ring. ENA must not be re-enabled until clear. */
-        uint64_t clk_src               : 3;  /**< [ 53: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change CLK_SRC:
+        uint64_t clk_src               : 3;  /**< [ 53: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change [CLK_SRC]:
 
                                                                  1. TIM_RING()_CTL1[ENA] is cleared.
 
@@ -1844,33 +1856,33 @@ typedef union
                                                                  This field is zeroed when TIM_RING()_CTL1[ENA] transitions from 0 to 1.
                                                                  In normal operation, the values of this register are dynamically changing due to the
                                                                  status of the ring. */
-        uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval expiration,
-                                                                 calculated as TIM_RING()_CTL0[EXPIRE_OFFSET] minus current time (TIM_FR_RN_CYCLES or
-                                                                 TIM_FR_RN_GPIOS).
+        uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval
+                                                                 expiration, calculated as TIM_RING()_CTL0[EXPIRE_OFFSET] minus current time
+                                                                 (TIM_FR_RN_CYCLES, TIM_FR_RN_GPIOS, TIM_FR_RN_GTI, or TIM_FR_RN_PTP).
 
-                                                                 Once ENA = 1, TIMERCOUNT will be observed to count down timer ticks. When TIMERCOUNT
-                                                                 reaches 0x0, the ring's interval expired and the hardware forces a bucket traversal (and
-                                                                 increments RING_ESR).
+                                                                 Once TIM_RING()_CTL1[ENA] = 1, [TIMERCOUNT] will be observed to count down timer
+                                                                 ticks. When [TIMERCOUNT] reaches 0x0, the ring's interval expired and the
+                                                                 hardware forces a bucket traversal (and increments [RING_ESR]).
 
-                                                                 Typical initialization value should be interval/constant; Cavium recommends that the
-                                                                 constant be unique per ring. This creates an offset between the rings.
-                                                                 TIMERCOUNT becomes and remains unpredictable whenever ENA = 0 or ENA_GPIO changes. It is
-                                                                 software's responsibility to set TIMERCOUNT before TIM_RING()_CTL1[ENA] transitions
-                                                                 from 0 -> 1. */
+                                                                 Typical initialization value should be interval/constant; Cavium recommends that
+                                                                 the constant be unique per ring. This creates an offset between the rings.
+                                                                 [TIMERCOUNT] becomes and remains unpredictable whenever TIM_RING()_CTL1[ENA] = 0
+                                                                 or TIM_RING()_CTL1[CLK_SRC] changes. It is software's responsibility to set
+                                                                 [TIMERCOUNT] before TIM_RING()_CTL1[ENA] transitions from 0 -> 1. */
 #else /* Word 0 - Little Endian */
-        uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval expiration,
-                                                                 calculated as TIM_RING()_CTL0[EXPIRE_OFFSET] minus current time (TIM_FR_RN_CYCLES or
-                                                                 TIM_FR_RN_GPIOS).
+        uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval
+                                                                 expiration, calculated as TIM_RING()_CTL0[EXPIRE_OFFSET] minus current time
+                                                                 (TIM_FR_RN_CYCLES, TIM_FR_RN_GPIOS, TIM_FR_RN_GTI, or TIM_FR_RN_PTP).
 
-                                                                 Once ENA = 1, TIMERCOUNT will be observed to count down timer ticks. When TIMERCOUNT
-                                                                 reaches 0x0, the ring's interval expired and the hardware forces a bucket traversal (and
-                                                                 increments RING_ESR).
+                                                                 Once TIM_RING()_CTL1[ENA] = 1, [TIMERCOUNT] will be observed to count down timer
+                                                                 ticks. When [TIMERCOUNT] reaches 0x0, the ring's interval expired and the
+                                                                 hardware forces a bucket traversal (and increments [RING_ESR]).
 
-                                                                 Typical initialization value should be interval/constant; Cavium recommends that the
-                                                                 constant be unique per ring. This creates an offset between the rings.
-                                                                 TIMERCOUNT becomes and remains unpredictable whenever ENA = 0 or ENA_GPIO changes. It is
-                                                                 software's responsibility to set TIMERCOUNT before TIM_RING()_CTL1[ENA] transitions
-                                                                 from 0 -> 1. */
+                                                                 Typical initialization value should be interval/constant; Cavium recommends that
+                                                                 the constant be unique per ring. This creates an offset between the rings.
+                                                                 [TIMERCOUNT] becomes and remains unpredictable whenever TIM_RING()_CTL1[ENA] = 0
+                                                                 or TIM_RING()_CTL1[CLK_SRC] changes. It is software's responsibility to set
+                                                                 [TIMERCOUNT] before TIM_RING()_CTL1[ENA] transitions from 0 -> 1. */
         uint64_t ring_esr              : 2;  /**< [ 33: 32](RO/H) Ring expiration status register dynamic status. These registers hold the expiration status
                                                                  of the ring.
                                                                  0x0 = Ring has not expired.

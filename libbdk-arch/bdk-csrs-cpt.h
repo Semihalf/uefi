@@ -229,13 +229,17 @@ union bdk_cpt_inst_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When DONEINT is set and the instruction completes,
-                                                                 CPT()_VQ()_DONE[DONE] will be incremented. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt.
+                                                                 0 = No interrupts related to this instruction.
+                                                                 1 = When the instruction completes, CPT()_VQ()_DONE[DONE] will be incremented,
+                                                                 and based on the rules described there an interrupt may occur. */
         uint64_t reserved_0_15         : 16;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_15         : 16;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When DONEINT is set and the instruction completes,
-                                                                 CPT()_VQ()_DONE[DONE] will be incremented. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt.
+                                                                 0 = No interrupts related to this instruction.
+                                                                 1 = When the instruction completes, CPT()_VQ()_DONE[DONE] will be incremented,
+                                                                 and based on the rules described there an interrupt may occur. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -266,11 +270,11 @@ union bdk_cpt_inst_s
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_241_255      : 15;
-        uint64_t wq_ptr                : 49; /**< [240:192] If WQ_PTR is non-zero, it is a pointer to a work-queue entry that CPT submits
+        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores. */
 #else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 49; /**< [240:192] If WQ_PTR is non-zero, it is a pointer to a work-queue entry that CPT submits
+        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores. */
         uint64_t reserved_241_255      : 15;
@@ -300,15 +304,19 @@ union bdk_cpt_inst_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When DONEINT is set and the instruction completes,
-                                                                 CPT()_VQ()_DONE[DONE] will be incremented. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt.
+                                                                 0 = No interrupts related to this instruction.
+                                                                 1 = When the instruction completes, CPT()_VQ()_DONE[DONE] will be incremented,
+                                                                 and based on the rules described there an interrupt may occur. */
         uint64_t reserved_8_15         : 8;
         uint64_t reserved_0_7          : 8;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_7          : 8;
         uint64_t reserved_8_15         : 8;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When DONEINT is set and the instruction completes,
-                                                                 CPT()_VQ()_DONE[DONE] will be incremented. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt.
+                                                                 0 = No interrupts related to this instruction.
+                                                                 1 = When the instruction completes, CPT()_VQ()_DONE[DONE] will be incremented,
+                                                                 and based on the rules described there an interrupt may occur. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -339,11 +347,11 @@ union bdk_cpt_inst_s
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_241_255      : 15;
-        uint64_t wq_ptr                : 49; /**< [240:192] If WQ_PTR is non-zero, it is a pointer to a work-queue entry that CPT submits
+        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores. */
 #else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 49; /**< [240:192] If WQ_PTR is non-zero, it is a pointer to a work-queue entry that CPT submits
+        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores. */
         uint64_t reserved_241_255      : 15;

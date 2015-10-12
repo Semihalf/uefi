@@ -15494,8 +15494,8 @@ static inline uint64_t BDK_PKO_VDQX_OP_QUERY(unsigned long a)
  * Software must ensure that all L2/DRAM locations that will be referenced
  * by PKO while processing this descriptor, including all packet data, post-PKO_SEND_JUMP_S
  * subdescriptors, work queue entries, and/or PKO_SEND_MEM_S locations, contain the latest
- * updates before issuing the LMTDMA/LMTST. A SYNCW/SYNCWS/SYNC/SYNCS instruction may
- * be required prior to the LMTDMA/LMTST to ensure this. A SYNCW/SYNCWS/SYNC/SYNCS
+ * updates before issuing the LMTDMA/LMTST. A DMB instruction may
+ * be required prior to the LMTDMA/LMTST to ensure this. A DMB
  * following the LMTDMA/LMTST may be useful if DQ descriptor ordering matters and
  * more than one CPU core is simultaneously enqueueing to the same DQ. For more
  * information on ordering, refer to the HRM "Core Memory Reference Ordering" section

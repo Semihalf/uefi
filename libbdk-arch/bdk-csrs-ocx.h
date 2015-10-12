@@ -2033,13 +2033,15 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t lock                  : 1;  /**< [  3:  3](RO/H) Training frame boundary locked. */
         uint64_t done                  : 1;  /**< [  2:  2](R/W/H) Training done. For diagnostic use only may be written to 1 to force training done. */
-        uint64_t ena                   : 1;  /**< [  1:  1](RO/H) Training enabled.
-                                                                 Should match corresponding OCX_QLM()_CFG[TRN_ENA]. */
+        uint64_t ena                   : 1;  /**< [  1:  1](RO/H) OCX_LNEX_TRN_CTL[TRN_ENA]=1 indicates that the lane is currently training.  It is a status
+                                                                 bit used for debug.  It will read as zero when training has completed or when the QLM
+                                                                 isn't ready for training. */
         uint64_t eie_detect            : 1;  /**< [  0:  0](RO/H) Electrical idle exit (EIE) detected. */
 #else /* Word 0 - Little Endian */
         uint64_t eie_detect            : 1;  /**< [  0:  0](RO/H) Electrical idle exit (EIE) detected. */
-        uint64_t ena                   : 1;  /**< [  1:  1](RO/H) Training enabled.
-                                                                 Should match corresponding OCX_QLM()_CFG[TRN_ENA]. */
+        uint64_t ena                   : 1;  /**< [  1:  1](RO/H) OCX_LNEX_TRN_CTL[TRN_ENA]=1 indicates that the lane is currently training.  It is a status
+                                                                 bit used for debug.  It will read as zero when training has completed or when the QLM
+                                                                 isn't ready for training. */
         uint64_t done                  : 1;  /**< [  2:  2](R/W/H) Training done. For diagnostic use only may be written to 1 to force training done. */
         uint64_t lock                  : 1;  /**< [  3:  3](RO/H) Training frame boundary locked. */
         uint64_t reserved_4_63         : 60;

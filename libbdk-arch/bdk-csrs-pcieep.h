@@ -2899,7 +2899,8 @@ typedef union
     struct bdk_pcieepx_cfg068_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_15_31        : 17;
+        uint32_t reserved_16_31        : 16;
+        uint32_t chlo                  : 1;  /**< [ 15: 15](R/W1C) Corrected header log overflow status. */
         uint32_t cies                  : 1;  /**< [ 14: 14](R/W1C) Corrected internal error status. */
         uint32_t anfes                 : 1;  /**< [ 13: 13](R/W1C/H) Advisory nonfatal error status. */
         uint32_t rtts                  : 1;  /**< [ 12: 12](R/W1C/H) Replay timer timeout status. */
@@ -2919,7 +2920,8 @@ typedef union
         uint32_t rtts                  : 1;  /**< [ 12: 12](R/W1C/H) Replay timer timeout status. */
         uint32_t anfes                 : 1;  /**< [ 13: 13](R/W1C/H) Advisory nonfatal error status. */
         uint32_t cies                  : 1;  /**< [ 14: 14](R/W1C) Corrected internal error status. */
-        uint32_t reserved_15_31        : 17;
+        uint32_t chlo                  : 1;  /**< [ 15: 15](R/W1C) Corrected header log overflow status. */
+        uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg068_s cn; */
@@ -2951,7 +2953,8 @@ typedef union
     struct bdk_pcieepx_cfg069_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_15_31        : 17;
+        uint32_t reserved_16_31        : 16;
+        uint32_t chlom                 : 1;  /**< [ 15: 15](R/W) Corrected header log overflow error mask. */
         uint32_t ciem                  : 1;  /**< [ 14: 14](R/W) Corrected internal error mask. */
         uint32_t anfem                 : 1;  /**< [ 13: 13](R/W) Advisory nonfatal error mask. */
         uint32_t rttm                  : 1;  /**< [ 12: 12](R/W) Replay timer timeout mask. */
@@ -2971,7 +2974,8 @@ typedef union
         uint32_t rttm                  : 1;  /**< [ 12: 12](R/W) Replay timer timeout mask. */
         uint32_t anfem                 : 1;  /**< [ 13: 13](R/W) Advisory nonfatal error mask. */
         uint32_t ciem                  : 1;  /**< [ 14: 14](R/W) Corrected internal error mask. */
-        uint32_t reserved_15_31        : 17;
+        uint32_t chlom                 : 1;  /**< [ 15: 15](R/W) Corrected header log overflow error mask. */
+        uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg069_s cn; */
@@ -3785,13 +3789,13 @@ typedef union
     struct bdk_pcieepx_cfg094_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. Points to the resizable BAR capabilities by default. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. Points to the Vendor Specific capabilities. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability. */
 #else /* Word 0 - Little Endian */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. Points to the resizable BAR capabilities by default. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/H) Next capability offset. Points to the Vendor Specific capabilities. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg094_s cn; */
@@ -4436,7 +4440,7 @@ static inline uint64_t BDK_PCIEEPX_CFG109(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg110
  *
- * PCI Express Resizable BAR (RBAR) Capability Header Register
+ * PCI Express Vendor Specific RAS Datapath Protection Header Register
  * This register contains the one hundred eleventh 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4445,13 +4449,13 @@ typedef union
     struct bdk_pcieepx_cfg110_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset.  Points to the resizable BAR capabilities by default. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
 #else /* Word 0 - Little Endian */
         uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset.  Points to the resizable BAR capabilities by default. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg110_s cn; */
@@ -4474,7 +4478,7 @@ static inline uint64_t BDK_PCIEEPX_CFG110(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg111
  *
- * PCI Express Resizable BAR (RBAR) Capability Register
+ * PCI Express Vendor Specific Header Register
  * This register contains the one hundred twelfth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4483,19 +4487,13 @@ typedef union
     struct bdk_pcieepx_cfg111_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_30_31        : 2;
-        uint32_t srs                   : 26; /**< [ 29:  4](RO/WRSL) "Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
-                                                                 0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CNXXXX
-                                                                 advertises a BAR size of 32TB (0x3FF_FFFF). The BAR is disabled at runtime by writing all
-                                                                 zeros through PEM()_CFG_WR to this field." */
-        uint32_t reserved_0_3          : 4;
+        uint32_t vsec_length           : 12; /**< [ 31: 20](RO) Next capability offset.  Points to the resizable BAR capabilities by default. */
+        uint32_t vsec_rev              : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t vsec_id               : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t srs                   : 26; /**< [ 29:  4](RO/WRSL) "Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
-                                                                 0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CNXXXX
-                                                                 advertises a BAR size of 32TB (0x3FF_FFFF). The BAR is disabled at runtime by writing all
-                                                                 zeros through PEM()_CFG_WR to this field." */
-        uint32_t reserved_30_31        : 2;
+        uint32_t vsec_id               : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
+        uint32_t vsec_rev              : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t vsec_length           : 12; /**< [ 31: 20](RO) Next capability offset.  Points to the resizable BAR capabilities by default. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg111_s cn; */
@@ -4518,7 +4516,7 @@ static inline uint64_t BDK_PCIEEPX_CFG111(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg112
  *
- * PCI Express Resizable BAR (RBAR) Control Register
+ * PCI Express RAS Data Path Error Protection Control Register
  * This register contains the one hundred thirteenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -4527,19 +4525,39 @@ typedef union
     struct bdk_pcieepx_cfg112_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_13_31        : 19;
-        uint32_t rbars                 : 5;  /**< [ 12:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
-                                                                 values as large as 0x19 (32TB). */
-        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
-        uint32_t reserved_3_4          : 2;
-        uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
+        uint32_t reserved_23_31        : 9;
+        uint32_t ep_dis_adm_rx         : 1;  /**< [ 22: 22](R/W) Error correction disable for ADM Rx path. */
+        uint32_t ep_dis_l3_rx          : 1;  /**< [ 21: 21](R/W) Error correction disable for Layer 3 Rx path. */
+        uint32_t ep_dis_l2_rx          : 1;  /**< [ 20: 20](R/W) Error correction disable for Layer 2 Rx path. */
+        uint32_t ep_dis_dma_rd         : 1;  /**< [ 19: 19](R/W) Error correction disable for DMA Read (Not supported). */
+        uint32_t ep_dis_axib_inbr      : 1;  /**< [ 18: 18](R/W) Error correction disable for AXI Bridge inbound request path (Not supported). */
+        uint32_t ep_dis_axib_inbc      : 1;  /**< [ 17: 17](R/W) Error correction disable for AXI Bridge inbound completion composer (Not supported). */
+        uint32_t ep_dis_rx             : 1;  /**< [ 16: 16](R/W) Global error correction disable for all RX Layers. */
+        uint32_t reserved_7_15         : 9;
+        uint32_t ep_dis_adm_tx         : 1;  /**< [  6:  6](R/W) Error correction disable for ADM TX path. */
+        uint32_t ep_dis_l3_tx          : 1;  /**< [  5:  5](R/W) Error correction disable for Layer 3 TX path. */
+        uint32_t ep_dis_l2_tx          : 1;  /**< [  4:  4](R/W) Error correction disable for Layer 2 TX path. */
+        uint32_t ep_dis_dma_wr         : 1;  /**< [  3:  3](R/W) Error correction disable for DMA Write (Not supported). */
+        uint32_t ep_dis_axib_outb      : 1;  /**< [  2:  2](R/W) Error correction disable for AXI Bridge outbound request path (Not supported). */
+        uint32_t ep_dis_axib_masc      : 1;  /**< [  1:  1](R/W) Error correction disable for AXI Bridge master completion buffer (Not supported). */
+        uint32_t ep_dis_tx             : 1;  /**< [  0:  0](R/W) Global error correction disable for all TX Layers. */
 #else /* Word 0 - Little Endian */
-        uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
-        uint32_t reserved_3_4          : 2;
-        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
-        uint32_t rbars                 : 5;  /**< [ 12:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
-                                                                 values as large as 0x19 (32TB). */
-        uint32_t reserved_13_31        : 19;
+        uint32_t ep_dis_tx             : 1;  /**< [  0:  0](R/W) Global error correction disable for all TX Layers. */
+        uint32_t ep_dis_axib_masc      : 1;  /**< [  1:  1](R/W) Error correction disable for AXI Bridge master completion buffer (Not supported). */
+        uint32_t ep_dis_axib_outb      : 1;  /**< [  2:  2](R/W) Error correction disable for AXI Bridge outbound request path (Not supported). */
+        uint32_t ep_dis_dma_wr         : 1;  /**< [  3:  3](R/W) Error correction disable for DMA Write (Not supported). */
+        uint32_t ep_dis_l2_tx          : 1;  /**< [  4:  4](R/W) Error correction disable for Layer 2 TX path. */
+        uint32_t ep_dis_l3_tx          : 1;  /**< [  5:  5](R/W) Error correction disable for Layer 3 TX path. */
+        uint32_t ep_dis_adm_tx         : 1;  /**< [  6:  6](R/W) Error correction disable for ADM TX path. */
+        uint32_t reserved_7_15         : 9;
+        uint32_t ep_dis_rx             : 1;  /**< [ 16: 16](R/W) Global error correction disable for all RX Layers. */
+        uint32_t ep_dis_axib_inbc      : 1;  /**< [ 17: 17](R/W) Error correction disable for AXI Bridge inbound completion composer (Not supported). */
+        uint32_t ep_dis_axib_inbr      : 1;  /**< [ 18: 18](R/W) Error correction disable for AXI Bridge inbound request path (Not supported). */
+        uint32_t ep_dis_dma_rd         : 1;  /**< [ 19: 19](R/W) Error correction disable for DMA Read (Not supported). */
+        uint32_t ep_dis_l2_rx          : 1;  /**< [ 20: 20](R/W) Error correction disable for Layer 2 Rx path. */
+        uint32_t ep_dis_l3_rx          : 1;  /**< [ 21: 21](R/W) Error correction disable for Layer 3 Rx path. */
+        uint32_t ep_dis_adm_rx         : 1;  /**< [ 22: 22](R/W) Error correction disable for ADM Rx path. */
+        uint32_t reserved_23_31        : 9;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg112_s cn; */
@@ -4558,6 +4576,834 @@ static inline uint64_t BDK_PCIEEPX_CFG112(unsigned long a)
 #define basename_BDK_PCIEEPX_CFG112(a) "PCIEEPX_CFG112"
 #define busnum_BDK_PCIEEPX_CFG112(a) (a)
 #define arguments_BDK_PCIEEPX_CFG112(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg113
+ *
+ * PCI Express RAS Data Path Correctable Error Control Register
+ * This register contains the one hundred fourteenth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg113_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO) Counter Selection.  This field selects the counter ID (within
+                                                                 the region defined by CORR_CNT_SEL_REG) whose contents
+                                                                 can be read from the CFG114 register.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t corr_en_cntrs         : 1;  /**< [  4:  4](R/W) Error correction disable for ADM Rx path. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all correctable error counters. */
+#else /* Word 0 - Little Endian */
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all correctable error counters. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t corr_en_cntrs         : 1;  /**< [  4:  4](R/W) Error correction disable for ADM Rx path. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO) Counter Selection.  This field selects the counter ID (within
+                                                                 the region defined by CORR_CNT_SEL_REG) whose contents
+                                                                 can be read from the CFG114 register.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg113_s cn; */
+} bdk_pcieepx_cfg113_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG113(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG113(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001c8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG113", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG113(a) bdk_pcieepx_cfg113_t
+#define bustype_BDK_PCIEEPX_CFG113(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG113(a) "PCIEEPX_CFG113"
+#define busnum_BDK_PCIEEPX_CFG113(a) (a)
+#define arguments_BDK_PCIEEPX_CFG113(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg114
+ *
+ * PCI Express RAS Data Path Correctable Error Report Register
+ * This register contains the one hundred fifteenth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg114_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO) Counter Selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](RO) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t corr_count            : 8;  /**< [  7:  0](R/W) Current corrected count for the selected counter. */
+#else /* Word 0 - Little Endian */
+        uint32_t corr_count            : 8;  /**< [  7:  0](R/W) Current corrected count for the selected counter. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t corr_cnt_sel_reg      : 4;  /**< [ 23: 20](RO) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t corr_cnt_sel          : 8;  /**< [ 31: 24](RO) Counter Selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg114_s cn; */
+} bdk_pcieepx_cfg114_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG114(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG114(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001ccll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG114", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG114(a) bdk_pcieepx_cfg114_t
+#define bustype_BDK_PCIEEPX_CFG114(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG114(a) "PCIEEPX_CFG114"
+#define busnum_BDK_PCIEEPX_CFG114(a) (a)
+#define arguments_BDK_PCIEEPX_CFG114(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg115
+ *
+ * PCI Express RAS Data Path Uncorrectable Error Control Register
+ * This register contains the one hundred sixteenth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg115_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO) Counter Selection.  This field selects the counter ID (within
+                                                                 the region defined by UCORR_CNT_SEL_REG) whose contents
+                                                                 can be read from the CFG114 register.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t ucorr_en_cntrs        : 1;  /**< [  4:  4](R/W) Error correction disable for ADM Rx path. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all uncorrectable error counters. */
+#else /* Word 0 - Little Endian */
+        uint32_t ep_dis_l3_rx          : 1;  /**< [  0:  0](R/W1C) Clears all uncorrectable error counters. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t ucorr_en_cntrs        : 1;  /**< [  4:  4](R/W) Error correction disable for ADM Rx path. */
+        uint32_t reserved_5_19         : 15;
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](R/W) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO) Counter Selection.  This field selects the counter ID (within
+                                                                 the region defined by UCORR_CNT_SEL_REG) whose contents
+                                                                 can be read from the CFG114 register.  You can
+                                                                 cycle this field value from 0 to 255 to access all counters. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg115_s cn; */
+} bdk_pcieepx_cfg115_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG115(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG115(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001d0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG115", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG115(a) bdk_pcieepx_cfg115_t
+#define bustype_BDK_PCIEEPX_CFG115(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG115(a) "PCIEEPX_CFG115"
+#define busnum_BDK_PCIEEPX_CFG115(a) (a)
+#define arguments_BDK_PCIEEPX_CFG115(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg116
+ *
+ * PCI Express RAS Data Path Uncorrectable Error Report Register
+ * This register contains the one hundred seventeenth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg116_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO) Counter Selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](RO) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t ucorr_count           : 8;  /**< [  7:  0](R/W) Current uncorrected count for the selected counter. */
+#else /* Word 0 - Little Endian */
+        uint32_t ucorr_count           : 8;  /**< [  7:  0](R/W) Current uncorrected count for the selected counter. */
+        uint32_t reserved_8_19         : 12;
+        uint32_t ucorr_cnt_sel_reg     : 4;  /**< [ 23: 20](RO) Selected correctable counter region.
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t ucorr_cnt_sel         : 8;  /**< [ 31: 24](RO) Counter Selection.  Returns the value set in the CFG113CORR_CNT_SEL] register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg116_s cn; */
+} bdk_pcieepx_cfg116_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG116(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG116(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001d8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG116", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG116(a) bdk_pcieepx_cfg116_t
+#define bustype_BDK_PCIEEPX_CFG116(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG116(a) "PCIEEPX_CFG116"
+#define busnum_BDK_PCIEEPX_CFG116(a) (a)
+#define arguments_BDK_PCIEEPX_CFG116(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg117
+ *
+ * PCI Express RAS Data Correctable Error Injection Control Register
+ * This register contains the one hundred eighteenth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg117_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t err_inj_loc           : 8;  /**< [ 23: 16](R/W) Error injection location.  Selects where error injection takes place.  You
+                                                                 can cycle this field value from 0 to 255 to access all locations. */
+        uint32_t err_inj_cnt           : 8;  /**< [ 15:  8](R/W) Error injection count.
+                                                                 0x0 = errors are injected in every TLP until ERR_INJ_EN is cleared.
+                                                                 0x1 - 0xff = number of errors injected. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t err_inj_type          : 2;  /**< [  5:  4](R/W) Error injection type.
+                                                                 0x0 = none.
+                                                                 0x1 = 1-bit.
+                                                                 0x2 = 2-bit.
+                                                                 0x3 = reserved. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t err_inj_en            : 1;  /**< [  0:  0](R/W) Error injection global enable.  When set, enables the error
+                                                                 insertion logic. */
+#else /* Word 0 - Little Endian */
+        uint32_t err_inj_en            : 1;  /**< [  0:  0](R/W) Error injection global enable.  When set, enables the error
+                                                                 insertion logic. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t err_inj_type          : 2;  /**< [  5:  4](R/W) Error injection type.
+                                                                 0x0 = none.
+                                                                 0x1 = 1-bit.
+                                                                 0x2 = 2-bit.
+                                                                 0x3 = reserved. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t err_inj_cnt           : 8;  /**< [ 15:  8](R/W) Error injection count.
+                                                                 0x0 = errors are injected in every TLP until ERR_INJ_EN is cleared.
+                                                                 0x1 - 0xff = number of errors injected. */
+        uint32_t err_inj_loc           : 8;  /**< [ 23: 16](R/W) Error injection location.  Selects where error injection takes place.  You
+                                                                 can cycle this field value from 0 to 255 to access all locations. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg117_s cn; */
+} bdk_pcieepx_cfg117_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG117(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG117(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001e0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG117", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG117(a) bdk_pcieepx_cfg117_t
+#define bustype_BDK_PCIEEPX_CFG117(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG117(a) "PCIEEPX_CFG117"
+#define busnum_BDK_PCIEEPX_CFG117(a) (a)
+#define arguments_BDK_PCIEEPX_CFG117(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg118
+ *
+ * PCI Express RAS Data Correctable Error Location Register
+ * This register contains the one hundred eighteenth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg118_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t loc_last_corr_err     : 8;  /**< [ 31: 24](RO) Location/ID of the last corrected error within the region defined by
+                                                                 REG_LAST_CORR_ERR. */
+        uint32_t reg_last_corr_err     : 4;  /**< [ 23: 20](RO) Region of last corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t loc_first_corr_err    : 8;  /**< [ 15:  8](RO) Location/ID of the first corrected error within the region defined by
+                                                                 REG_FIRST_CORR_ERR. */
+        uint32_t reg_first_corr_err    : 4;  /**< [  7:  4](RO) Region of first corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t reg_first_corr_err    : 4;  /**< [  7:  4](RO) Region of first corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t loc_first_corr_err    : 8;  /**< [ 15:  8](RO) Location/ID of the first corrected error within the region defined by
+                                                                 REG_FIRST_CORR_ERR. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t reg_last_corr_err     : 4;  /**< [ 23: 20](RO) Region of last corrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t loc_last_corr_err     : 8;  /**< [ 31: 24](RO) Location/ID of the last corrected error within the region defined by
+                                                                 REG_LAST_CORR_ERR. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg118_s cn; */
+} bdk_pcieepx_cfg118_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG118(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG118(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001e8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG118", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG118(a) bdk_pcieepx_cfg118_t
+#define bustype_BDK_PCIEEPX_CFG118(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG118(a) "PCIEEPX_CFG118"
+#define busnum_BDK_PCIEEPX_CFG118(a) (a)
+#define arguments_BDK_PCIEEPX_CFG118(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg119
+ *
+ * PCI Express RAS Data Uncorrectable Error Location Register
+ * This register contains the one hundred twentyith 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg119_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t loc_last_ucorr_err    : 8;  /**< [ 31: 24](RO) Location/ID of the last uncorrected error within the region defined by
+                                                                 REG_LAST_CORR_ERR. */
+        uint32_t reg_last_ucorr_err    : 4;  /**< [ 23: 20](RO) Region of last uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t loc_first_ucorr_err   : 8;  /**< [ 15:  8](RO) Location/ID of the first uncorrected error within the region defined by
+                                                                 REG_FIRST_CORR_ERR. */
+        uint32_t reg_first_ucorr_err   : 4;  /**< [  7:  4](RO) Region of first uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t reg_first_ucorr_err   : 4;  /**< [  7:  4](RO) Region of first uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t loc_first_ucorr_err   : 8;  /**< [ 15:  8](RO) Location/ID of the first uncorrected error within the region defined by
+                                                                 REG_FIRST_CORR_ERR. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t reg_last_ucorr_err    : 4;  /**< [ 23: 20](RO) Region of last uncorrected error
+                                                                 0x0 = ADM RX path.
+                                                                 0x1 = Layer 3 RX path.
+                                                                 0x2 = Layer 2 RX path.
+                                                                 0x3 = DMA read engine (not supported).
+                                                                 0x4 = AXI bridge inbound request path (not supported).
+                                                                 0x5 = AXI bridge inbound completion composer (not supported).
+                                                                 0x6 = ADM TX path.
+                                                                 0x7 = Layer 3 TX path.
+                                                                 0x8 = Layer 2 TX path.
+                                                                 0x9 = DMA write engine (not supported).
+                                                                 0xa = AXI bridge outbound request path (not supported).
+                                                                 0xb = AXI bridge outbound master completion (not supported).
+                                                                 0xc - 0xf = Reserved. */
+        uint32_t loc_last_ucorr_err    : 8;  /**< [ 31: 24](RO) Location/ID of the last uncorrected error within the region defined by
+                                                                 REG_LAST_CORR_ERR. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg119_s cn; */
+} bdk_pcieepx_cfg119_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG119(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG119(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001f0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG119", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG119(a) bdk_pcieepx_cfg119_t
+#define bustype_BDK_PCIEEPX_CFG119(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG119(a) "PCIEEPX_CFG119"
+#define busnum_BDK_PCIEEPX_CFG119(a) (a)
+#define arguments_BDK_PCIEEPX_CFG119(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg120
+ *
+ * PCI Express RAS Data Error Mode Enable Register
+ * This register contains the one hundred twenty-first  32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg120_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t auto_lnk_dn_en        : 1;  /**< [  1:  1](R/W) Set this bit to enablea the core to bring the link down when RASDP error mode is entered.
+                                                                 REG_LAST_CORR_ERR. */
+        uint32_t err_mode_en           : 1;  /**< [  0:  0](R/W) Set this bit to enables the core to enter RASDP error mode when it detects an uncorrectable error. */
+#else /* Word 0 - Little Endian */
+        uint32_t err_mode_en           : 1;  /**< [  0:  0](R/W) Set this bit to enables the core to enter RASDP error mode when it detects an uncorrectable error. */
+        uint32_t auto_lnk_dn_en        : 1;  /**< [  1:  1](R/W) Set this bit to enablea the core to bring the link down when RASDP error mode is entered.
+                                                                 REG_LAST_CORR_ERR. */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg120_s cn; */
+} bdk_pcieepx_cfg120_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG120(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG120(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000001f8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG120", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG120(a) bdk_pcieepx_cfg120_t
+#define bustype_BDK_PCIEEPX_CFG120(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG120(a) "PCIEEPX_CFG120"
+#define busnum_BDK_PCIEEPX_CFG120(a) (a)
+#define arguments_BDK_PCIEEPX_CFG120(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg121
+ *
+ * PCI Express RAS Data Error Mode Enable Register
+ * This register contains the one hundred twenty-second  32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg121_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t err_mode_clr          : 1;  /**< [  0:  0](R/W) Set this bit to take the core out of RASDP error mode.  The core will then report
+                                                                 uncorrectable
+                                                                 errors (through AER internal error reporting) and also stop nullifying/discarding TLPs. */
+#else /* Word 0 - Little Endian */
+        uint32_t err_mode_clr          : 1;  /**< [  0:  0](R/W) Set this bit to take the core out of RASDP error mode.  The core will then report
+                                                                 uncorrectable
+                                                                 errors (through AER internal error reporting) and also stop nullifying/discarding TLPs. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg121_s cn; */
+} bdk_pcieepx_cfg121_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG121(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG121(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000200ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG121", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG121(a) bdk_pcieepx_cfg121_t
+#define bustype_BDK_PCIEEPX_CFG121(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG121(a) "PCIEEPX_CFG121"
+#define busnum_BDK_PCIEEPX_CFG121(a) (a)
+#define arguments_BDK_PCIEEPX_CFG121(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg122
+ *
+ * PCI Express RAS RAM Address Corrected Error Register
+ * This register contains the one hundred twenty-third  32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg122_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ram_idx_corr_err      : 4;  /**< [ 31: 28](RO) RAM index where a corrected error has been detected. */
+        uint32_t reserved_27           : 1;
+        uint32_t ram_addr_corr_err     : 27; /**< [ 26:  0](R/W) RAM address where a corrected error has been detected. */
+#else /* Word 0 - Little Endian */
+        uint32_t ram_addr_corr_err     : 27; /**< [ 26:  0](R/W) RAM address where a corrected error has been detected. */
+        uint32_t reserved_27           : 1;
+        uint32_t ram_idx_corr_err      : 4;  /**< [ 31: 28](RO) RAM index where a corrected error has been detected. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg122_s cn; */
+} bdk_pcieepx_cfg122_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG122(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG122(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000208ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG122", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG122(a) bdk_pcieepx_cfg122_t
+#define bustype_BDK_PCIEEPX_CFG122(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG122(a) "PCIEEPX_CFG122"
+#define busnum_BDK_PCIEEPX_CFG122(a) (a)
+#define arguments_BDK_PCIEEPX_CFG122(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg123
+ *
+ * PCI Express RAS RAM Address Uncorrected Error Register
+ * This register contains the one hundred twenty-fourth  32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg123_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ram_idx_ucorr_err     : 4;  /**< [ 31: 28](RO) RAM index where a uncorrected error has been detected. */
+        uint32_t reserved_27           : 1;
+        uint32_t ram_addr_ucorr_err    : 27; /**< [ 26:  0](R/W) RAM address where a uncorrected error has been detected. */
+#else /* Word 0 - Little Endian */
+        uint32_t ram_addr_ucorr_err    : 27; /**< [ 26:  0](R/W) RAM address where a uncorrected error has been detected. */
+        uint32_t reserved_27           : 1;
+        uint32_t ram_idx_ucorr_err     : 4;  /**< [ 31: 28](RO) RAM index where a uncorrected error has been detected. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg123_s cn; */
+} bdk_pcieepx_cfg123_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG123(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG123(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x30000000210ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG123", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG123(a) bdk_pcieepx_cfg123_t
+#define bustype_BDK_PCIEEPX_CFG123(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG123(a) "PCIEEPX_CFG123"
+#define busnum_BDK_PCIEEPX_CFG123(a) (a)
+#define arguments_BDK_PCIEEPX_CFG123(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg174
+ *
+ * PCI Express Resizable BAR (RBAR) Capability Header Register
+ * This register contains the two hundred seventy-five 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg174_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg174_s cn; */
+} bdk_pcieepx_cfg174_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG174(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG174(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000002b8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG174", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG174(a) bdk_pcieepx_cfg174_t
+#define bustype_BDK_PCIEEPX_CFG174(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG174(a) "PCIEEPX_CFG174"
+#define busnum_BDK_PCIEEPX_CFG174(a) (a)
+#define arguments_BDK_PCIEEPX_CFG174(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg175
+ *
+ * PCI Express Resizable BAR (RBAR) Capability Register
+ * This register contains the two hundred seventy-six 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg175_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t srs                   : 26; /**< [ 29:  4](RO/WRSL) "Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
+                                                                 0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CNXXXX
+                                                                 advertises a BAR size of 32TB (0x3FF_FFFF). The BAR is disabled at runtime by writing all
+                                                                 zeros through PEM()_CFG_WR to this field." */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t srs                   : 26; /**< [ 29:  4](RO/WRSL) "Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
+                                                                 0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CNXXXX
+                                                                 advertises a BAR size of 32TB (0x3FF_FFFF). The BAR is disabled at runtime by writing all
+                                                                 zeros through PEM()_CFG_WR to this field." */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg175_s cn; */
+} bdk_pcieepx_cfg175_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG175(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG175(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000002bcll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG175", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG175(a) bdk_pcieepx_cfg175_t
+#define bustype_BDK_PCIEEPX_CFG175(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG175(a) "PCIEEPX_CFG175"
+#define busnum_BDK_PCIEEPX_CFG175(a) (a)
+#define arguments_BDK_PCIEEPX_CFG175(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg176
+ *
+ * PCI Express Resizable BAR (RBAR) Control Register
+ * This register contains the two hundred seventy-seven 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg176_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_13_31        : 19;
+        uint32_t rbars                 : 5;  /**< [ 12:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
+                                                                 values as large as 0x19 (32TB). */
+        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
+        uint32_t reserved_3_4          : 2;
+        uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
+#else /* Word 0 - Little Endian */
+        uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
+        uint32_t reserved_3_4          : 2;
+        uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
+        uint32_t rbars                 : 5;  /**< [ 12:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
+                                                                 values as large as 0x19 (32TB). */
+        uint32_t reserved_13_31        : 19;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg176_s cn; */
+} bdk_pcieepx_cfg176_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG176(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG176(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000002c0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG176", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG176(a) bdk_pcieepx_cfg176_t
+#define bustype_BDK_PCIEEPX_CFG176(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG176(a) "PCIEEPX_CFG176"
+#define busnum_BDK_PCIEEPX_CFG176(a) (a)
+#define arguments_BDK_PCIEEPX_CFG176(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieep#_cfg448

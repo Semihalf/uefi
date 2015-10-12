@@ -72,8 +72,8 @@
 #define BDK_DDF_COMP_E_FAULT (2) /**< Memory fault was detected reading/writing data related to this instruction.  The
                                        instruction may have been partially completed, and as such the result and record state is
                                        now undefined. */
-#define BDK_DDF_COMP_E_FULL (3) /**< Insert operation not completed due to no space (nests all full, and if [VICTEN]=1 the
-                                       victim is full). */
+#define BDK_DDF_COMP_E_FULL (3) /**< Insert operation not completed due to no space (nests all full, and if
+                                       DDF_INST_FIND_S[VICTEN]=1 the victim is full). */
 #define BDK_DDF_COMP_E_GOOD (1) /**< Operation completed. */
 #define BDK_DDF_COMP_E_NOTDONE (0) /**< The COMPCODE value of zero is not written by hardware, but may be used by
                                        software to indicate the DDF_RES_FIND_S/DDF_RES_MATCH_S has not yet been
@@ -166,19 +166,19 @@ union bdk_ddf_inst_find_s
                                                                  1 = [HDR_ADDR] and [RANK_ADDR] point to an absolute rank. */
         uint64_t victen                : 1;  /**< [ 54: 54] Victim enable.
                                                                  _ 0: No victim present in header, or do not operate on the victim.
-                                                                 _ 1 and [OP]!=FABS_SET: Check for victim in filter header and put in to header
-                                                                 on add for overflow.
-                                                                 _ 1 and [OP]=FABS_SET: Modify the victim. */
-        uint64_t nest                  : 2;  /**< [ 53: 52] Nest location. If [OP] = FABS_SET, which nest number in the bucket, otherwise
-                                                                 reserved. */
+                                                                 _ 1 and [OP]!=DDF_OP_E::FABS_SET: Check for victim in filter header and put in
+                                                                 to header on add for overflow.
+                                                                 _ 1 and [OP]=DDF_OP_E::FABS_SET: Modify the victim. */
+        uint64_t nest                  : 2;  /**< [ 53: 52] Nest location. If [OP] = DDF_OP_E::FABS_SET, which nest number in the bucket,
+                                                                 otherwise reserved. */
         uint64_t way_abs               : 1;  /**< [ 51: 51] Way is absolute.
                                                                  0 = Search/delete from any way, insert into [WAY].
                                                                  1 = Search/insert/delete only in the way provided in [WAY]. */
-        uint64_t way                   : 3;  /**< [ 50: 48] Which way number. If [OP] = FIND_INS or FEMPTY_INS or FABS_SET, or [WAY_ABS] is
-                                                                 set, which way number, otherwise ignored. */
+        uint64_t way                   : 3;  /**< [ 50: 48] Which way number. If [OP] = DDF_OP_E::FIND_INS or DDF_OP_E::FEMPTY_INS or
+                                                                 DDF_OP_E::FABS_SET, or [WAY_ABS] is set, which way number, otherwise ignored. */
         uint64_t reserved_40_47        : 8;
         uint64_t pbkt                  : 8;  /**< [ 39: 32] Primary bucket number.
-                                                                 For [OP] = FABS_SET, which bucket number, otherwise reserved. */
+                                                                 For [OP] = DDF_OP_E::FABS_SET, which bucket number, otherwise reserved. */
         uint64_t reserved_22_31        : 10;
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_FIND_S. */
         uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
@@ -190,8 +190,10 @@ union bdk_ddf_inst_find_s
         uint64_t gang                  : 1;  /**< [ 17: 17] Gang with next instruction. If set, a hint to hardware that this instruction's
                                                                  filter or match data need not be immediately written to memory, in the hope that
                                                                  the next instruction will access the same data. */
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When DONEINT is set and the instruction completes,
-                                                                 DDF()_VQ()_DONE[DONE] will be incremented. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt.
+                                                                 0 = No interrupts related to this instruction.
+                                                                 1 = When the instruction completes, DDF()_VQ()_DONE[DONE] will be incremented,
+                                                                 and based on the rules described there an interrupt may occur. */
         uint64_t qwords                : 8;  /**< [ 15:  8] Number of 8-byte quadwords in request. Must be 1-16. If less than the size of
                                                                  this structure then structure elements described here are not read from memory
                                                                  and behave as if zero.
@@ -209,8 +211,10 @@ union bdk_ddf_inst_find_s
                                                                  Internal:
                                                                  In hardware, push/pop zeros for (QWORDS..15) into the
                                                                  instruction queue.  As VQs are virtualized, DDF must not hang on invalid instructions. */
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When DONEINT is set and the instruction completes,
-                                                                 DDF()_VQ()_DONE[DONE] will be incremented. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt.
+                                                                 0 = No interrupts related to this instruction.
+                                                                 1 = When the instruction completes, DDF()_VQ()_DONE[DONE] will be incremented,
+                                                                 and based on the rules described there an interrupt may occur. */
         uint64_t gang                  : 1;  /**< [ 17: 17] Gang with next instruction. If set, a hint to hardware that this instruction's
                                                                  filter or match data need not be immediately written to memory, in the hope that
                                                                  the next instruction will access the same data. */
@@ -223,20 +227,20 @@ union bdk_ddf_inst_find_s
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_FIND_S. */
         uint64_t reserved_22_31        : 10;
         uint64_t pbkt                  : 8;  /**< [ 39: 32] Primary bucket number.
-                                                                 For [OP] = FABS_SET, which bucket number, otherwise reserved. */
+                                                                 For [OP] = DDF_OP_E::FABS_SET, which bucket number, otherwise reserved. */
         uint64_t reserved_40_47        : 8;
-        uint64_t way                   : 3;  /**< [ 50: 48] Which way number. If [OP] = FIND_INS or FEMPTY_INS or FABS_SET, or [WAY_ABS] is
-                                                                 set, which way number, otherwise ignored. */
+        uint64_t way                   : 3;  /**< [ 50: 48] Which way number. If [OP] = DDF_OP_E::FIND_INS or DDF_OP_E::FEMPTY_INS or
+                                                                 DDF_OP_E::FABS_SET, or [WAY_ABS] is set, which way number, otherwise ignored. */
         uint64_t way_abs               : 1;  /**< [ 51: 51] Way is absolute.
                                                                  0 = Search/delete from any way, insert into [WAY].
                                                                  1 = Search/insert/delete only in the way provided in [WAY]. */
-        uint64_t nest                  : 2;  /**< [ 53: 52] Nest location. If [OP] = FABS_SET, which nest number in the bucket, otherwise
-                                                                 reserved. */
+        uint64_t nest                  : 2;  /**< [ 53: 52] Nest location. If [OP] = DDF_OP_E::FABS_SET, which nest number in the bucket,
+                                                                 otherwise reserved. */
         uint64_t victen                : 1;  /**< [ 54: 54] Victim enable.
                                                                  _ 0: No victim present in header, or do not operate on the victim.
-                                                                 _ 1 and [OP]!=FABS_SET: Check for victim in filter header and put in to header
-                                                                 on add for overflow.
-                                                                 _ 1 and [OP]=FABS_SET: Modify the victim. */
+                                                                 _ 1 and [OP]!=DDF_OP_E::FABS_SET: Check for victim in filter header and put in
+                                                                 to header on add for overflow.
+                                                                 _ 1 and [OP]=DDF_OP_E::FABS_SET: Modify the victim. */
         uint64_t rank_abs              : 1;  /**< [ 55: 55] Absolute rank.
                                                                  0 = [HDR_ADDR] and [RANK_ADDR] point to rank 0, and the rank used is calculated using rank
                                                                  bits from the key.
@@ -261,7 +265,7 @@ union bdk_ddf_inst_find_s
         uint64_t reserved_113_127      : 15;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t tag_rank              : 5;  /**< [191:187] If set, extract TAG_RANK number of bits from the computed nest number and
+        uint64_t tag_rank              : 5;  /**< [191:187] If set, extract [TAG_RANK] number of bits from the computed nest number and
                                                                  exclusive-or into the SSO TAG.
                                                                     0x00: SSO tag = [TAG] ^ {0x0}.
                                                                     0x01: SSO tag = [TAG] ^ {DDF_RES_FIND_S[RANK]<0>}.
@@ -278,7 +282,7 @@ union bdk_ddf_inst_find_s
         uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when DDF submits work to
                                                                  SSO. */
         uint64_t reserved_172_186      : 15;
-        uint64_t tag_rank              : 5;  /**< [191:187] If set, extract TAG_RANK number of bits from the computed nest number and
+        uint64_t tag_rank              : 5;  /**< [191:187] If set, extract [TAG_RANK] number of bits from the computed nest number and
                                                                  exclusive-or into the SSO TAG.
                                                                     0x00: SSO tag = [TAG] ^ {0x0}.
                                                                     0x01: SSO tag = [TAG] ^ {DDF_RES_FIND_S[RANK]<0>}.
@@ -287,11 +291,11 @@ union bdk_ddf_inst_find_s
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_241_255      : 15;
-        uint64_t wq_ptr                : 49; /**< [240:192] If WQ_PTR is non-zero, it is a pointer to a work-queue entry that DDF submits
+        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that DDF submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores. */
 #else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 49; /**< [240:192] If WQ_PTR is non-zero, it is a pointer to a work-queue entry that DDF submits
+        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that DDF submits
                                                                  work to SSO after all context, output data, and result write operations are
                                                                  visible to other CNXXXX units and the cores. */
         uint64_t reserved_241_255      : 15;
@@ -300,11 +304,11 @@ union bdk_ddf_inst_find_s
         uint64_t reserved_288_319      : 32;
         uint64_t set_bdis              : 32; /**< [287:256] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA3] byte. If
                                                                  that bit is clear the corresponding byte will be set in the record. Only bits
-                                                                 SET_BDIS<NESTSZM1:0> have an effect. */
+                                                                 [SET_BDIS]<NESTSZM1:0> have an effect. */
 #else /* Word 4 - Little Endian */
         uint64_t set_bdis              : 32; /**< [287:256] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA3] byte. If
                                                                  that bit is clear the corresponding byte will be set in the record. Only bits
-                                                                 SET_BDIS<NESTSZM1:0> have an effect. */
+                                                                 [SET_BDIS]<NESTSZM1:0> have an effect. */
         uint64_t reserved_288_319      : 32;
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
@@ -359,13 +363,13 @@ union bdk_ddf_inst_find_s
         uint64_t tagbitsm1             : 8;  /**< [367:360] Number of tag bits minus one. Maximum of 0xFF corresponds to a complete 256 bit key. */
         uint64_t reserved_359          : 1;
         uint64_t cuckoo                : 7;  /**< [358:352] Cuckoo retries.
-                                                                 For [OP] = FIND_INS, the the number of times to perform cuckoo replacements.
+                                                                 For [OP] = DDF_OP_E::FIND_INS, the the number of times to perform cuckoo replacements.
                                                                  0x0 disables retrying.  For a filter of 64 buckets, 64 would be a typical maximum. */
         uint64_t nrankm1               : 32; /**< [351:320] Number of ranks minus one. Does not need to be a power-of-2. */
 #else /* Word 5 - Little Endian */
         uint64_t nrankm1               : 32; /**< [351:320] Number of ranks minus one. Does not need to be a power-of-2. */
         uint64_t cuckoo                : 7;  /**< [358:352] Cuckoo retries.
-                                                                 For [OP] = FIND_INS, the the number of times to perform cuckoo replacements.
+                                                                 For [OP] = DDF_OP_E::FIND_INS, the the number of times to perform cuckoo replacements.
                                                                  0x0 disables retrying.  For a filter of 64 buckets, 64 would be a typical maximum. */
         uint64_t reserved_359          : 1;
         uint64_t tagbitsm1             : 8;  /**< [367:360] Number of tag bits minus one. Maximum of 0xFF corresponds to a complete 256 bit key. */
@@ -616,12 +620,12 @@ union bdk_ddf_inst_match_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t reserved_305_319      : 15;
         uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
-                                                                 For RABS_SET instruction, pointer to data to change.
+                                                                 For DDF_OP_E::RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
                                                                  If 0x0, this way is not used, and will never match. */
 #else /* Word 4 - Little Endian */
         uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
-                                                                 For RABS_SET instruction, pointer to data to change.
+                                                                 For DDF_OP_E::RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
                                                                  If 0x0, this way is not used, and will never match. */
         uint64_t reserved_305_319      : 15;
@@ -634,21 +638,21 @@ union bdk_ddf_inst_match_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
         uint64_t set_bdis              : 64; /**< [447:384] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7] byte. If
                                                                  that bit is clear the corresponding byte will be set in the record. Only bits
-                                                                 SET_BDIS<RECSZM1:0> have an effect. */
+                                                                 [SET_BDIS]<RECSZM1:0> have an effect. */
 #else /* Word 6 - Little Endian */
         uint64_t set_bdis              : 64; /**< [447:384] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7] byte. If
                                                                  that bit is clear the corresponding byte will be set in the record. Only bits
-                                                                 SET_BDIS<RECSZM1:0> have an effect. */
+                                                                 [SET_BDIS]<RECSZM1:0> have an effect. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t cmp_bdis              : 64; /**< [511:448] Compare byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7]
                                                                  byte. If that clear is set the corresponding byte must be identical to that byte
-                                                                 in the record to be considered a match. Only bits CMP_BDIS<RECSZM1:0> have an
+                                                                 in the record to be considered a match. Only bits [CMP_BDIS]<RECSZM1:0> have an
                                                                  effect. */
 #else /* Word 7 - Little Endian */
         uint64_t cmp_bdis              : 64; /**< [511:448] Compare byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7]
                                                                  byte. If that clear is set the corresponding byte must be identical to that byte
-                                                                 in the record to be considered a match. Only bits CMP_BDIS<RECSZM1:0> have an
+                                                                 in the record to be considered a match. Only bits [CMP_BDIS]<RECSZM1:0> have an
                                                                  effect. */
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
@@ -803,12 +807,12 @@ union bdk_ddf_inst_match_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t reserved_305_319      : 15;
         uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
-                                                                 For RABS_SET instruction, pointer to data to change.
+                                                                 For DDF_OP_E::RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
                                                                  If 0x0, this way is not used, and will never match. */
 #else /* Word 4 - Little Endian */
         uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
-                                                                 For RABS_SET instruction, pointer to data to change.
+                                                                 For DDF_OP_E::RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
                                                                  If 0x0, this way is not used, and will never match. */
         uint64_t reserved_305_319      : 15;
@@ -821,21 +825,21 @@ union bdk_ddf_inst_match_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
         uint64_t set_bdis              : 64; /**< [447:384] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7] byte. If
                                                                  that bit is clear the corresponding byte will be set in the record. Only bits
-                                                                 SET_BDIS<RECSZM1:0> have an effect. */
+                                                                 [SET_BDIS]<RECSZM1:0> have an effect. */
 #else /* Word 6 - Little Endian */
         uint64_t set_bdis              : 64; /**< [447:384] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7] byte. If
                                                                  that bit is clear the corresponding byte will be set in the record. Only bits
-                                                                 SET_BDIS<RECSZM1:0> have an effect. */
+                                                                 [SET_BDIS]<RECSZM1:0> have an effect. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t cmp_bdis              : 64; /**< [511:448] Compare byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7]
                                                                  byte. If that clear is set the corresponding byte must be identical to that byte
-                                                                 in the record to be considered a match. Only bits CMP_BDIS<RECSZM1:0> have an
+                                                                 in the record to be considered a match. Only bits [CMP_BDIS]<RECSZM1:0> have an
                                                                  effect. */
 #else /* Word 7 - Little Endian */
         uint64_t cmp_bdis              : 64; /**< [511:448] Compare byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA7]
                                                                  byte. If that clear is set the corresponding byte must be identical to that byte
-                                                                 in the record to be considered a match. Only bits CMP_BDIS<RECSZM1:0> have an
+                                                                 in the record to be considered a match. Only bits [CMP_BDIS]<RECSZM1:0> have an
                                                                  effect. */
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
@@ -888,12 +892,12 @@ union bdk_ddf_inst_match_s
  * This structure specifies the result structure written by DDF after it completes a
  * DDF_INST_FIND_S. Each instruction completion produces exactly one result structure
  *
- * DDF always writes the first 16 bytes of this structure.  If DDF_INST_MATCH_S[RR] is
+ * DDF always writes the first 16 bytes of this structure.  If DDF_INST_FIND_S[RR] is
  * set DDF will update an entire cache line, but only write valid data to the fields
  * specified depending on the required amount of [RDATA0]..[3] data.
  *
  * Internal:
- * When [RR] is set it can use a full-cacheline write with fewer than
+ * When DDF_INST_FIND_S[RR] is set it can use a full-cacheline write with fewer than
  * a cache-lines worth of NCB data ticks.
  */
 union bdk_ddf_res_find_s
@@ -1015,7 +1019,7 @@ union bdk_ddf_res_find_s
  * specified depending on the required amount of [RDATA0]..[7] data.
  *
  * Internal:
- * When [RR] is set it can use a full-cacheline write with fewer than
+ * When DDF_INST_MATCH_S[RR] is set it can use a full-cacheline write with fewer than
  * a cache-lines worth of NCB data ticks.
  */
 union bdk_ddf_res_match_s
@@ -1024,15 +1028,13 @@ union bdk_ddf_res_match_s
     struct bdk_ddf_res_match_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into. If
-                                                                 multiple record blocks hit (more than one bit set in [HITRB]), then unspecified
-                                                                 which record block this hit refers to.
+        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into.
 
                                                                  For DDF_OP_E::RABS_SET, unpredictable. */
         uint64_t reserved_23_47        : 25;
-        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for MATCH_INS,
-                                                                 will be set if the record hit an existing record and clear if inserted into a
-                                                                 previously empty location.
+        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for
+                                                                 DDF_OP_E::MATCH_INS, will be set if the record hit an existing record and clear
+                                                                 if inserted into a previously empty location.
 
                                                                  For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
         uint64_t reserved_17_21        : 5;
@@ -1044,15 +1046,13 @@ union bdk_ddf_res_match_s
         uint64_t res_type              : 8;  /**< [ 15:  8] See DDF_RES_FIND_S[RES_TYPE]. */
         uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_RES_FIND_S[DONEINT]. */
         uint64_t reserved_17_21        : 5;
-        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for MATCH_INS,
-                                                                 will be set if the record hit an existing record and clear if inserted into a
-                                                                 previously empty location.
+        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for
+                                                                 DDF_OP_E::MATCH_INS, will be set if the record hit an existing record and clear
+                                                                 if inserted into a previously empty location.
 
                                                                  For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
         uint64_t reserved_23_47        : 25;
-        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into. If
-                                                                 multiple record blocks hit (more than one bit set in [HITRB]), then unspecified
-                                                                 which record block this hit refers to.
+        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into.
 
                                                                  For DDF_OP_E::RABS_SET, unpredictable. */
 #endif /* Word 0 - End */
@@ -1109,16 +1109,14 @@ union bdk_ddf_res_match_s
     struct bdk_ddf_res_match_s_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into. If
-                                                                 multiple record blocks hit (more than one bit set in [HITRB]), then unspecified
-                                                                 which record block this hit refers to.
+        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into.
 
                                                                  For DDF_OP_E::RABS_SET, unpredictable. */
         uint64_t reserved_24_47        : 24;
         uint64_t reserved_23           : 1;
-        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for MATCH_INS,
-                                                                 will be set if the record hit an existing record and clear if inserted into a
-                                                                 previously empty location.
+        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for
+                                                                 DDF_OP_E::MATCH_INS, will be set if the record hit an existing record and clear
+                                                                 if inserted into a previously empty location.
 
                                                                  For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
         uint64_t reserved_17_21        : 5;
@@ -1130,16 +1128,14 @@ union bdk_ddf_res_match_s
         uint64_t res_type              : 8;  /**< [ 15:  8] See DDF_RES_FIND_S[RES_TYPE]. */
         uint64_t doneint               : 1;  /**< [ 16: 16] See DDF_RES_FIND_S[DONEINT]. */
         uint64_t reserved_17_21        : 5;
-        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for MATCH_INS,
-                                                                 will be set if the record hit an existing record and clear if inserted into a
-                                                                 previously empty location.
+        uint64_t hit                   : 1;  /**< [ 22: 22] Hit. Set if item was found before any change was applied, i.e. for
+                                                                 DDF_OP_E::MATCH_INS, will be set if the record hit an existing record and clear
+                                                                 if inserted into a previously empty location.
 
                                                                  For DDF_OP_E::REMPTY_INS, always clear.  For DDF_OP_E::RABS_SET, always set. */
         uint64_t reserved_23           : 1;
         uint64_t reserved_24_47        : 24;
-        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into. If
-                                                                 multiple record blocks hit (more than one bit set in [HITRB]), then unspecified
-                                                                 which record block this hit refers to.
+        uint64_t hitrec                : 16; /**< [ 63: 48] Hit record. Record number in which the key was found or inserted into.
 
                                                                  For DDF_OP_E::RABS_SET, unpredictable. */
 #endif /* Word 0 - End */
@@ -1628,14 +1624,16 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for an instruction to complete (have the store of
-                                                                 DDF_RES_S reach the commit point). Incremented every coprocessor-clock by the
-                                                                 number of instructions active in that cycle. This may be divided by
-                                                                 DDF()_PF_RD_REQ_PC to determine the average hardware instruction latency. */
+                                                                 DDF_RES_FIND_S/DDF_RES_MATCH_S reach the commit point). Incremented every
+                                                                 coprocessor-clock by the number of instructions active in that cycle. This may
+                                                                 be divided by DDF()_PF_RD_REQ_PC to determine the average hardware instruction
+                                                                 latency. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for an instruction to complete (have the store of
-                                                                 DDF_RES_S reach the commit point). Incremented every coprocessor-clock by the
-                                                                 number of instructions active in that cycle. This may be divided by
-                                                                 DDF()_PF_RD_REQ_PC to determine the average hardware instruction latency. */
+                                                                 DDF_RES_FIND_S/DDF_RES_MATCH_S reach the commit point). Incremented every
+                                                                 coprocessor-clock by the number of instructions active in that cycle. This may
+                                                                 be divided by DDF()_PF_RD_REQ_PC to determine the average hardware instruction
+                                                                 latency. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_inst_latency_pc_s cn; */
@@ -2190,7 +2188,7 @@ typedef union
                                                                  DDF()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
                                                                  for VF to PF. Writing DDF(0)_PF_VF(0..31)_MBOX(0) (but not
                                                                  DDF(0)_VF(0..31)_PF_MBOX(0)) will set the corresponding
-                                                                 DDF()_VF()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
+                                                                 DDF()_VQ()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
@@ -2198,7 +2196,7 @@ typedef union
                                                                  DDF()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
                                                                  for VF to PF. Writing DDF(0)_PF_VF(0..31)_MBOX(0) (but not
                                                                  DDF(0)_VF(0..31)_PF_MBOX(0)) will set the corresponding
-                                                                 DDF()_VF()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
+                                                                 DDF()_VQ()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #endif /* Word 0 - End */
     } s;
