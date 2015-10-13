@@ -19,9 +19,9 @@ BDK_REQUIRE_DEFINE(GPIO);
 int bdk_gpio_initialize(bdk_node_t node, int gpio, int is_output, int output_value)
 {
     if (output_value)
-        bdk_gpio_set(node, 1<<gpio);
+        bdk_gpio_set(node, 1ull<<gpio);
     else
-        bdk_gpio_clear(node, 1<<gpio);
+        bdk_gpio_clear(node, 1ull<<gpio);
 
     if (gpio <= 50)
     {
