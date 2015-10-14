@@ -349,7 +349,7 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
             case BDK_PCIE_MEM_PREFETCH: /* Memory, prefetchable */
                 ctype = 0;      /* Memory space */
                 nmerge = 0;     /* Merging allowed */
-                ordering = 0;   /* Yes "relaxed ordering" and "no snoop" */
+                ordering = 1;   /* Yes "relaxed ordering" and "no snoop" */
                 break;
             case BDK_PCIE_MEM_IO: /* IO */
                 ctype = 2;      /* I/O space */
@@ -364,14 +364,14 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
         {
             uint64_t address = 0;
             /* Address only applies to memory space */
-            if (ctype == 0)
+            if (mem_region == BDK_PCIE_MEM_NORMAL)
             {
-                /* Calculate the upper bits to match the core physical address. This
-                   was the PCIe bus address matches the core physical address. This
-                   only works because we assume all devices support 64bit addressing */
-                address = bdk_pcie_get_base_address(node, pcie_port, mem_region);
-                address >>= 32;
-                address += r - sli_region;
+                /* Normal starts at bus address 0 */
+                address = r - sli_region;
+            } else if (mem_region == BDK_PCIE_MEM_PREFETCH)
+            {
+                /* Normal starts at bus address 0x10.0000.0000 */
+                address = r - sli_region + 16;
             }
             BDK_CSR_MODIFY(c, node, BDK_SLIX_S2M_REGX_ACC(sli, r),
                 c.s.ctype = ctype;
@@ -402,6 +402,9 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
  */
 int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
 {
+    int i;
+    bdk_pemx_bar1_indexx_t bar1_idx;
+
     BDK_CSR_INIT(pemx_on, node, BDK_PEMX_ON(pcie_port));
     if (!pemx_on.s.pemon)
     {
@@ -482,15 +485,29 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     BDK_TRACE(PCIE, "N%d.PCIe%d: Setting up internal BARs\n", node, pcie_port);
     /* Disable BAR0 */
     BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR0_START(pcie_port), -1);
-    /* Disable BAR1 */
-    BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR1_START(pcie_port), -1);
+    /* BAR1 Starting at address 0 */
+    BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR1_START(pcie_port), 0);
     /* Set BAR2 to cover all memory starting at address 0 */
     BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR2_START(pcie_port), 0);
     /* Setup BAR attributes */
     BDK_CSR_MODIFY(c, node, BDK_PEMX_BAR_CTL(pcie_port),
-        c.s.bar1_siz = 1; /* 64MB BAR1 (not used) */
+        c.s.bar1_siz = 1; /* 64MB BAR1 */
         c.s.bar2_enb = 1; /* BAR2 is enabled */
         c.s.bar2_cax = 0); /* Cache in L2 */
+
+    /* Allow devices that truncate the bus address to 32-bits to reach the GITS_TRANSLATER */
+    bar1_idx.u          = 0;
+    bar1_idx.s.addr_idx = bdk_numa_get_address(node, BDK_GITS_TRANSLATER) >> 22;
+    bar1_idx.s.addr_v   = 1;
+
+    BDK_CSR_WRITE(node, BDK_PEMX_BAR1_INDEXX(pcie_port, 0), bar1_idx.u);
+
+    /* The rest of the windows map linearly to match the BAR2 translation. */
+    for (i = 1; i < 16; i++)
+    {
+        bar1_idx.s.addr_idx = i << 22;
+        BDK_CSR_WRITE(node, BDK_PEMX_BAR1_INDEXX(pcie_port, i), bar1_idx.u);
+    }
 
     /* Display the link status */
     BDK_CSR_INIT(pciercx_cfg032, node, BDK_PCIERCX_CFG032(pcie_port));
