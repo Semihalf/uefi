@@ -274,7 +274,7 @@ static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
         uint64_t sector_offset = loc &  (ERASE_SIZE-1); /* offset in sector where write buffer needs to go */
 
         int chunk = ERASE_SIZE - sector_offset; /* number of bytes to write in this loop */
-        chunk = chunk <= bytes_remain ? chunk : bytes_remain;
+        chunk = (chunk <= bytes_remain) ? chunk : bytes_remain;
 
         /* We only need to read-modify-erase-write if we:
          *  - are NOT on a sector boundary
@@ -284,7 +284,7 @@ static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
          */
         const void *write_buffer;
 
-        if (0 != sector_offset || chunk < ERASE_SIZE)
+        if ((0 != sector_offset) || (chunk < ERASE_SIZE))
         {
             /* Allocate a buffer for the sector read. */
             static char *sector_buf = NULL;
@@ -359,6 +359,7 @@ static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
 
         bytes_remain -= chunk;
         buffer       += chunk;
+        loc          += chunk;
     } /* while (bytes_remain) */
 
     return length;
