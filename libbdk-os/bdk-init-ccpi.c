@@ -911,6 +911,26 @@ static int ccpi_setup_nodes(bdk_node_t node)
 }
 
 /**
+ * After CCPI link is up and the connections are functional, we need to setup
+ * all remote hardware on the secondary nodes. This function does that. It
+ * is safe to call on all nodes, including the master.
+ *
+ * @param node   Node to configure
+ */
+static void ccpi_setup_node_hardware(bdk_node_t node)
+{
+    /* Enable secure access to all of memory */
+    BDK_CSR_WRITE(node, BDK_L2C_ASC_REGIONX_START(0), 0);
+    BDK_CSR_WRITE(node, BDK_L2C_ASC_REGIONX_END(0), -1);
+    BDK_CSR_WRITE(node, BDK_L2C_ASC_REGIONX_ATTR(0), 2);
+
+    /* Update way partition to allow core 0 to write to L2 */
+    BDK_CSR_WRITE(node, BDK_L2C_WPAR_PPX(0), 0);
+    BDK_CSR_READ(node, BDK_L2C_WPAR_PPX(0));
+    __bdk_init_node(node);
+}
+
+/**
  * Brings the CCPI lanes and links into an operational state without enabling
  * multi-node operation. Calling this function when the CCPI links are already
  * up does nothing. This function must return zero before you can go multi-node
@@ -1099,6 +1119,7 @@ int __bdk_init_ccpi_multinode(void)
                 bdk_warn("nodes for remote boot using GPIO_STRAP<3:0>=REMOTE.\n");
                 bdk_warn("*****************************************************\n");
             }
+            ccpi_setup_node_hardware(node);
         }
     }
     return 0;

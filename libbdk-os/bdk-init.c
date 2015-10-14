@@ -390,18 +390,6 @@ int bdk_reset_cores(bdk_node_t node, uint64_t coremask)
     return ((reset & coremask) == coremask) ? 0 : -1;
 }
 
-static void setup_node(bdk_node_t node)
-{
-    /* Enable secure access to all of memory */
-    BDK_CSR_WRITE(node, BDK_L2C_ASC_REGIONX_START(0), 0);
-    BDK_CSR_WRITE(node, BDK_L2C_ASC_REGIONX_END(0), -1);
-    BDK_CSR_WRITE(node, BDK_L2C_ASC_REGIONX_ATTR(0), 2);
-
-    /* Update way partition to allow core 0 to write to L2 */
-    BDK_CSR_WRITE(node, BDK_L2C_WPAR_PPX(0), 0);
-    BDK_CSR_READ(node, BDK_L2C_WPAR_PPX(0));
-}
-
 /**
  * Call this function to take secondary nodes and cores out of
  * reset and have them start running threads
@@ -437,24 +425,13 @@ int bdk_init_nodes(int skip_cores, int ccpi_sw_gbaud)
 
     if (do_oci_init)
     {
-        if (__bdk_init_ccpi_links(ccpi_sw_gbaud))
-            return -1;
-
-        /* Don't run OCI link init if L2C_OCI_CTL shows that it has already
-           been done */
-        BDK_CSR_INIT(l2c_oci_ctl, bdk_numa_local(), BDK_L2C_OCI_CTL);
-        if (l2c_oci_ctl.s.enaoci == 0)
+        if (__bdk_init_ccpi_links(ccpi_sw_gbaud) == 0)
         {
-            result |= __bdk_init_ccpi_multinode();
-            for (bdk_node_t node=0; node<BDK_NUMA_MAX_NODES; node++)
-            {
-                if (bdk_numa_exists(node))
-                {
-                    setup_node(node);
-                    if (node != bdk_numa_master())
-                        __bdk_init_node(node);
-                }
-            }
+            /* Don't run node init if L2C_OCI_CTL shows that it has already
+               been done */
+            BDK_CSR_INIT(l2c_oci_ctl, bdk_numa_local(), BDK_L2C_OCI_CTL);
+            if (l2c_oci_ctl.s.enaoci == 0)
+                result |= __bdk_init_ccpi_multinode();
         }
     }
 
