@@ -203,41 +203,58 @@ static void usb_bist(int node, int cnt, int clear_bist)
     BDK_CSR_WRITE(node, BDK_USBHX_UCTL_CTL(cnt), uctl.u);
 }
 
+static void usb_3_disable(int node, int port)
+{
+    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(port), c.s.uphy_rst = 1);
+    bdk_wait_usec(10000);
+    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(port), c.s.usb3_port_disable = 1);
+    bdk_wait_usec(10000);
+    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(port), c.s.uphy_rst = 0);
+}
+
 static void slt_boot_image(bdk_node_t node)
 {
-    printf(
-            "\n"
-            "Boot Menu\n"
-            "=========\n"
-            " 1) Load image from boot device\n"
-            " 2) Load ATF image from boot device\n"
-            " 3) BIST Check\n"
-            " 4) Do USB BIST check\n");
-    const char *input;
-    input = bdk_readline("Menu choice: ", NULL, 0);
-    int option = atoi(input);
-    switch (option)
+    while(1)
     {
+        printf(
+                "\n"
+                "Boot Menu\n"
+                "=========\n"
+                " 1) Load image from boot device\n"
+                " 2) Load ATF image from boot device\n"
+                " 3) BIST Check\n"
+                " 4) Do USB BIST check\n"
+                " 5) Disable USB-3.0 PHY\n");
+        const char *input;
+        input = bdk_readline("Menu choice: ", NULL, 0);
+        int option = atoi(input);
+        switch (option)
+        {
 
-        case 1:
-            choose_image("BOOT:");
-            break;
-        case 2:
-            /* Try to load ATF image from raw flash */
-            BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
-            bdk_image_boot("/boot", ATF_ADDRESS, 0);
-            bdk_error("Unable to load image\n");
-            break;
-        case 3:
-            bdk_bist_check();
-            break;
-        case 4:
-            usb_bist(0,0,0);
-            usb_bist(0,0,1);
-            usb_bist(0,1,0);
-            usb_bist(0,1,1);
-            printf("\nUSB BIST CHECK COMPLETE\n");
-            break;
+            case 1:
+                choose_image("BOOT:");
+                break;
+            case 2:
+                /* Try to load ATF image from raw flash */
+                BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
+                bdk_image_boot("/dev/n0.mmc0", ATF_ADDRESS, 0);
+                bdk_error("Unable to load image\n");
+                break;
+            case 3:
+                bdk_bist_check();
+                break;
+            case 4:
+                usb_bist(0,0,0);
+                usb_bist(0,0,1);
+                usb_bist(0,1,0);
+                usb_bist(0,1,1);
+                printf("\nUSB BIST CHECK COMPLETE\n");
+                break;
+            case 5:
+                usb_3_disable(0,0);
+                usb_3_disable(0,1);
+                break;
+        }
     }
 }
 
