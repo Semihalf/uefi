@@ -116,7 +116,6 @@ static void bist_t88xx_core(int verbose, void *unused1)
     //BDK_SYNCW;
 }
 
-
 static void dfa_bist(bdk_node_t node)
 {
     printf("Checking non-cleared DFA_BIST\n");
@@ -235,7 +234,7 @@ static void bist_t88xx_global(void)
     BIST_CHECK_REG0(OCX_COM_BIST_STATUS);
 
     for(int cnt=0;cnt<3;cnt++)
-        BIST_CHECK_REG0(OCX_TLKX_BIST_STATUS(0));
+        BIST_CHECK_REG0(OCX_TLKX_BIST_STATUS(cnt));
 
     for(int cnt=0;cnt<5;cnt++)
         BIST_CHECK_REG0(PEMX_BIST_STATUS(cnt));
@@ -248,13 +247,13 @@ static void bist_t88xx_global(void)
 
     for(int cnt=0;cnt<2;cnt++)
         BIST_CHECK_REG0(SLIX_BIST_STATUS(cnt));
-
-#if 0
-    // T88XX HACK: errata for SMMU BIST, so ignore...
-    for(int cnt=0;cnt<4;cnt++)
-        BIST_CHECK_REG0(SMMUX_BIST_STATUS(cnt));
-#endif
-
+    
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        // T88XX HACK: errata for SMMU BIST, so ignore...
+        for(int cnt=0;cnt<4;cnt++)
+            BIST_CHECK_REG0(SMMUX_BIST_STATUS(cnt));
+    }
 
     if (fus_dat3.s.tns_cripple)
     {
