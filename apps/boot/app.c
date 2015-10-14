@@ -154,6 +154,7 @@ int main(void)
     if (MFG_SYSTEM_LEVEL_TEST)
     {
         bdk_bist_check();
+        bdk_image_boot("/fatfs/init.bin", 0, 0);
     }
 
     /* If no DRAM config got the boot menu */
