@@ -666,9 +666,9 @@ function pcie.initialize(node, pcie_port)
         if #self.devices == 0 then
             self:scan()
         end
-        local io_address = cavium.c.bdk_pcie_get_base_address(self.node, self.port, cavium.PCIE_MEM_IO)
-        local mem_address = cavium.c.bdk_pcie_get_base_address(self.node, self.port, cavium.PCIE_MEM_NORMAL)
-        local pmem_address = cavium.c.bdk_pcie_get_base_address(self.node, self.port, cavium.PCIE_MEM_PREFETCH)
+        local io_address = self.port * 0x10000 -- 64KB of IO per PEM
+        local mem_address = 0x10000000 -- Normal mem starts at 256MB
+        local pmem_address = 0x1000000000 -- Prefetch starts at 64GB
         -- Assign resources to all top level devices
         for _,device in ipairs(self.devices) do
             io_address, mem_address, pmem_address = device:enumerate(io_address, mem_address, pmem_address)
