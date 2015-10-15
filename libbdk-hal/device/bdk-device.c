@@ -324,10 +324,10 @@ static void populate_device(bdk_device_t *device)
                 /* Single Root I/O Virtualization (SR-IOV) */
                 BDK_TRACE(DEVICE_SCAN, "%s:      SR-IOV\n", device->name);
                 /* Loop through all the SR-IOV BARs */
-                int bar = 0x24;
-                while (bar <=0x3c)
+                int bar = cap_loc + 0x24;
+                while (bar <= (cap_loc + 0x3c))
                 {
-                    int bar_index = (bar - 0x24) / 8;
+                    int bar_index = (bar - 0x24 - cap_loc) / 8;
                     /* Read the BAR address and config bits [3:0] */
                     uint64_t address = bdk_ecam_read32(device, bar);
                     int ismem = !(address & 1);         /* Bit 0: 0 = mem, 1 = io */
