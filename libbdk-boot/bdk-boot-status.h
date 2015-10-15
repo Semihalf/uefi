@@ -33,4 +33,12 @@ typedef enum
  */
 extern void bdk_boot_status(bdk_boot_status_t status);
 
+/**
+ * Set the boot status OK for the BMC. This menas any watchdog the BMC is using
+ * to track boot should be shutoff as the system has successfully booted. Note
+ * that this doesn't change the reported status from
+ * bdk_boot_status(), it just sets the complete bit.
+ */
+extern void bdk_boot_status_ok(void);
+
 /** @} */

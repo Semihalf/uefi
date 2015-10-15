@@ -28,6 +28,7 @@ void __bdk_require_depends(void)
 
 void boot_menu(void)
 {
+    bdk_boot_status_ok();
     bdk_menu_t menu;
     while (1)
     {

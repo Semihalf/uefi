@@ -62,3 +62,23 @@ void bdk_boot_status(bdk_boot_status_t status)
     }
 }
 
+/**
+ * Set the boot status OK for the BMC. This menas any watchdog the BMC is using
+ * to track boot should be shutoff as the system has successfully booted. Note
+ * that this doesn't change the reported status from
+ * bdk_boot_status(), it just sets the complete bit.
+ */
+void bdk_boot_status_ok(void)
+{
+    /* Try TWSI init if we don't have a boot status destination selected */
+    if (boot_status_twsi == -1)
+        init_twsi_slave();
+
+    /* Update status */
+    if (boot_status_twsi != -1)
+    {
+        BDK_CSR_MODIFY(c, boot_status_node, BDK_MIO_TWSX_SW_TWSI(boot_status_twsi),
+            c.s.v = 1;
+            c.s.data |= 0x80);
+    }
+}
