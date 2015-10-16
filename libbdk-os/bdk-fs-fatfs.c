@@ -72,10 +72,15 @@ static int fatfs_write(__bdk_fs_file_t *handle, const void *buffer, int length)
     return rc ? -1 : (int) count;
 }
 
+static int fatfs_unlink(const char *name)
+{
+    return f_unlink(name);
+}
+
 static const __bdk_fs_ops_t bdk_fs_fatfs_ops =
 {
     .stat = NULL,
-    .unlink = NULL,
+    .unlink = fatfs_unlink,
     .open = fatfs_open,
     .close = fatfs_close,
     .read = fatfs_read,
