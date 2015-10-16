@@ -38,8 +38,77 @@ static void bdk_dram_clear_ecc(bdk_node_t node)
     }
 }
 
+// this routine simply makes the calls to the tuning routines and returns any errors
+static int bdk_libdram_tune_node(int node)
+{
+    int errs, tot_errs;
+
+    // Automatically tune the data byte DLL read offsets
+    BDK_TRACE(DRAM, "N%d: Starting DLL Read Offset Tuning for LMCs\n", node);
+    errs = perform_dll_offset_tuning(node, 2); 
+    BDK_TRACE(DRAM, "N%d: Finished DLL Read Offset Tuning for LMCs, %d errors)\n",
+	      node, errs);
+    tot_errs = errs;
+
+    // Automatically tune the ECC byte DLL read offsets
+    BDK_TRACE(DRAM, "N%d: Starting ECC DLL Read Offset Tuning for LMCs\n", node);
+    errs = perform_ECC_dll_offset_tuning(node, 2); 
+    BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors)\n",
+	      node, errs);
+    tot_errs += errs;
+
+    return tot_errs;
+}
+
+// this routine makes the calls to the tuning routines when criteria are met
+// intended to be called for automated tuning, to apply filtering...
+static int bdk_libdram_maybe_tune_node(int node)
+{
+    int tot_errs;
+
+    // FIXME: allow an override here so that all configs can be tuned
+    if (getenv("ddr_tune_all_configs") != NULL) // just being defined is enough...
+	return bdk_libdram_tune_node(node);
+
+    // filter the tuning calls here...
+    // determine if we should/can run automatically for this configureation
+    // FIXME: for now, limit to DDR4, RDIMMs over 1880, UDIMMs over 1050
+    // FIXME: allow ability to override this behavior also, at a later date...
+    // FIXME: *only* 1-slot configs for now...
+    uint32_t ddr_speed = libdram_get_freq_from_pll(node, 0) / 1000000; // sample LMC0
+    BDK_CSR_INIT(lmc_config, node, BDK_LMCX_CONFIG(0)); // sample LMC0
+    int is_1slot = (lmc_config.s.init_status < 4); // HACK, should do better
+
+    if (__bdk_dram_is_ddr4(node, 0) && is_1slot) {
+	if (__bdk_dram_is_rdimm(node, 0) && (ddr_speed > 940)) {
+	    printf("N%d: DDR4 RDIMM %d MHz eligible for auto-tuning.\n",
+		   node, ddr_speed);
+	    // FIXME? allow override to NOT do tuning?
+	} else
+	if (!__bdk_dram_is_rdimm(node, 0) && (ddr_speed > 1050)) {
+	    printf("N%d: DDR4 UDIMM %d MHz eligible for auto-tuning.\n",
+		   node, ddr_speed);
+	    // FIXME? allow override to NOT do tuning?
+	} else {
+	    printf("N%d: DDR4 DIMM at %d MHz, low speed not eligible for auto-tuning.\n",
+		   node, ddr_speed);
+	    // FIXME? allow override to do tuning?
+	    return 0;
+	}
+    } else {
+	printf("N%d: DDR3 or 2-slot is not currently eligible for auto-tuning.\n", node);
+	// FIXME? allow override to do tuning?
+	return 0;
+    }
+
+    // call the tuning routines, done filtering...
+    tot_errs = bdk_libdram_tune_node(node);
+
+    return tot_errs;
+}
+
 /**
- * This the main DRAM init function. Users of libdram should call this function,
+ * This is the main DRAM init function. Users of libdram should call this function,
  * avoiding the other internal function. As a rule, functions starting with
  * "libdram_*" are part of the external API and should be used.
  *
@@ -113,16 +182,10 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     BDK_TRACE(DRAM, "N%d: DRAM init returned %d, measured %u Hz\n",
 	      node, mbytes, measured_ddr_hertz[node]);
 
-    // Automatically tune the data byte DLL read offsets
-    BDK_TRACE(DRAM, "N%d: Starting DLL Read Offset Tuning for LMCs\n", node);
-    errs = perform_dll_offset_tuning(node, 2); 
-    BDK_TRACE(DRAM, "N%d: Finished DLL Read Offset Tuning for LMCs, %d errors)\n",
-	      node, errs);
-
-    // Automatically tune the ECC byte DLL read offsets
-    BDK_TRACE(DRAM, "N%d: Starting ECC DLL Read Offset Tuning for LMCs\n", node);
-    errs = perform_ECC_dll_offset_tuning(node, 2); 
-    BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors)\n",
+    // call the tuning routines, with filtering...
+    BDK_TRACE(DRAM, "N%d: Calling DRAM tuning\n", node);
+    errs = bdk_libdram_maybe_tune_node(node);
+    BDK_TRACE(DRAM, "N%d: DRAM tuning returned %d errors\n",
 	      node, errs);
 
     // finally, clear memory and any left-over ECC errors
@@ -133,7 +196,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
 }
 
 /**
- * This the main DRAM tuning function. Users of libdram should call this function,
+ * This is the main DRAM tuning function. Users of libdram should call this function,
  * avoiding the other internal function. As a rule, functions starting with
  * "libdram_*" are part of the external API and should be used.
  *
@@ -143,7 +206,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
  */
 int libdram_tune(int node)
 {
-    int errs = 0, tot_errs = 0;
+    int tot_errs;
     const char *str;
 
     // check: maybe verbose was not set during init, but is now set...
@@ -153,19 +216,8 @@ int libdram_tune(int node)
     else
         dram_verbosity = 0;
 
-    // Automatically tune the data byte DLL read offsets
-    BDK_TRACE(DRAM, "N%d: Starting DLL Read Offset Tuning for LMCs\n", node);
-    errs = perform_dll_offset_tuning(node, 2); 
-    BDK_TRACE(DRAM, "N%d: Finished DLL Read Offset Tuning for LMCs, %d errors)\n",
-	      node, errs);
-    tot_errs += errs;
-
-    // Automatically tune the ECC byte DLL read offsets
-    BDK_TRACE(DRAM, "N%d: Starting ECC DLL Read Offset Tuning for LMCs\n", node);
-    errs = perform_ECC_dll_offset_tuning(node, 2); 
-    BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors)\n",
-	      node, errs);
-    tot_errs += errs;
+    // call the tuning routines, no filtering...
+    tot_errs = bdk_libdram_tune_node(node);
 
     // make sure to clear memory and any ECC errs when done... 
     bdk_dram_clear_mem(node);

@@ -90,7 +90,7 @@ static const uint64_t *dram_tune_test_pattern = test_pattern_1;
 // having this at 0 forces the testing to take place over the entire range every iteration
 #define EXIT_WHEN_ALL_LANES_HAVE_ERRORS 0
 
-#define DEFAULT_TEST_BURSTS 28 // FIXME: this is what works so far...
+#define DEFAULT_TEST_BURSTS 7 // FIXME: this is what works so far...
 int dram_tune_use_bursts = DEFAULT_TEST_BURSTS;
 
 // dram_tune_rank_offset is used to offset the second area used in test_dram_mem_xor.
@@ -713,6 +713,7 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 
     // run the test one last time 
     // print whether there are errors or not, but only when verbose...
+    bdk_watchdog_poke();
     tot_errors = run_test_dram_byte_threads(node, num_lmcs, bytemask);
     printf("DLL %s Offset Final Test: errors 0x%x\n",
 	   dll_offset_mode == 1 ? "Write" : "Read", tot_errors);
@@ -736,35 +737,6 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
     int dram_tune_use_rodt = -1, save_rodt[4];
     bdk_lmcx_comp_ctl2_t comp_ctl2;
     int loops = 1, loop;
-
-    // determine if we should/can run automatically for this configureation
-    // FIXME: for now, limit to DDR4, RDIMMs over 1880, UDIMMs over 1050
-    // FIXME: allow ability to override this behavior also, at a later date...
-    // FIXME: *only* 1-slot configs for now...
-    uint32_t ddr_speed = libdram_get_freq_from_pll(node, 0) / 1000000; // sample LMC0
-    lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(0)); // sample LMC0
-    int is_1slot = (lmc_config.s.init_status < 4); // HACK, should do better
-    if (__bdk_dram_is_ddr4(node, 0) && is_1slot) {
-	if (__bdk_dram_is_rdimm(node, 0) && (ddr_speed > 940)) {
-	    printf("N%d: DDR4 RDIMM %d MHz eligible for tuning.\n",
-		   node, ddr_speed);
-	    // FIXME? allow override to NOT do tuning?
-	} else
-	if (!__bdk_dram_is_rdimm(node, 0) && (ddr_speed > 1050)) {
-	    printf("N%d: DDR4 UDIMM %d MHz eligible for tuning.\n",
-		   node, ddr_speed);
-	    // FIXME? allow override to NOT do tuning?
-	} else {
-	    printf("N%d: DDR4 DIMM at %d MHz not eligible for tuning.\n",
-		   node, ddr_speed);
-	    // FIXME? allow override to do tuning?
-	    return 0;
-	}
-    } else {
-	printf("N%d: DDR3 or multi-slot is not currently eligible for tuning.\n", node);
-	// FIXME? allow override to do tuning?
-	return 0;
-    }
 
     // enable all the cores on this node
     bdk_init_cores(node, 0);
@@ -1143,11 +1115,17 @@ int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
     const char *s;
     //bdk_lmcx_comp_ctl2_t comp_ctl2;
     int loops = 1, loop;
+    int tune_enable = 0; // disable by default
 
-    // FIXME
-    printf("N%d: ECC DLL read offset currently not eligible for tuning.\n", node);
-    // FIXME? allow override to do tuning?
-    return 0;
+    // FIXME? allow override of the filtering
+    if ((s = getenv("ddr_tune_ecc_enable")) != NULL) {
+        tune_enable = !!strtoul(s, NULL, 10);
+    }
+    if (!tune_enable) {
+	printf("N%d: ECC DLL read offset currently not eligible for tuning.\n", node);
+	// FIXME? allow override to do tuning?
+	return 0;
+    }
 
     // see if we want to do the tuning more than once per LMC...
     if ((s = getenv("ddr_tune_ecc_loops"))) {
