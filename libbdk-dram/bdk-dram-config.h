@@ -25,6 +25,15 @@
 extern int bdk_dram_config(int node, const char *config_name, int ddr_clock_override);
 
 /**
+ * Do DRAM configuration tuning
+ *
+ * @param node   Node to tune
+ *
+ * @return Success or Fail
+ */
+extern int bdk_dram_tune(int node);
+
+/**
  * Get the amount of DRAM configured for a node. This is read from the LMC
  * controller after DRAM is setup.
  *

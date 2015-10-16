@@ -47,14 +47,14 @@ static const dram_config_t *bdk_find_dram_config_by_name(int node, const char *c
 }
 
 /**
- * Lookup a DRAM configuration by name and intialize dram with it
+ * Lookup a DRAM configuration by name and initialize DRAM using it
  *
  * @param node   Node to configure
  * @param config_name
  *               Name of the configuration to use
  * @param ddr_clock_override
- *               If non zero, override the DRAM frequency specified in the config with
- *               this value
+ *               If non zero, override the DRAM frequency specified
+ *               in the config with this value
  *
  * @return Amount of DRAM in MB, or negative on failure
  */
@@ -78,6 +78,22 @@ int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
     }
 
     return mbytes;
+}
+
+/**
+ * Do DRAM configuration tuning
+ *
+ * @param node   Node to tune
+ *
+ * @return Success or Fail
+ */
+int bdk_dram_tune(int node)
+{
+    int ret;
+    BDK_TRACE(DRAM, "N%d: Starting DRAM tuning\n", node);
+    ret = libdram_tune(node);
+    BDK_TRACE(DRAM, "N%d: DRAM tuning returned %d\n", node, ret);
+    return ret;
 }
 
 /**
