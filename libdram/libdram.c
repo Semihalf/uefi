@@ -62,49 +62,67 @@ static int bdk_libdram_tune_node(int node)
 
 // this routine makes the calls to the tuning routines when criteria are met
 // intended to be called for automated tuning, to apply filtering...
+
+#define IS_DDR4  1
+#define IS_DDR3  0
+#define IS_RDIMM 1
+#define IS_UDIMM 0
+#define IS_1SLOT 1
+#define IS_2SLOT 0
+
+// FIXME: DDR3 is not tuned
+static const uint32_t ddr_speed_filter[2][2][2] = {
+    [IS_DDR4] = { 
+	[IS_RDIMM] = {
+	    [IS_1SLOT] =  940,
+	    [IS_2SLOT] =  800
+	},
+	[IS_UDIMM] = {
+	    [IS_1SLOT] = 1050,
+	    [IS_2SLOT] =  940
+	}, 
+    },
+    [IS_DDR3] = {
+	[IS_RDIMM] = {
+	    [IS_1SLOT] =    0, // disabled
+	    [IS_2SLOT] =    0  // disabled
+	},
+	[IS_UDIMM] = {
+	    [IS_1SLOT] =    0, // disabled
+	    [IS_2SLOT] =    0  // disabled
+	}
+    }
+};
+
 static int bdk_libdram_maybe_tune_node(int node)
 {
-    int tot_errs;
-
     // FIXME: allow an override here so that all configs can be tuned
     if (getenv("ddr_tune_all_configs") != NULL) // just being defined is enough...
 	return bdk_libdram_tune_node(node);
 
     // filter the tuning calls here...
-    // determine if we should/can run automatically for this configureation
-    // FIXME: for now, limit to DDR4, RDIMMs over 1880, UDIMMs over 1050
-    // FIXME: allow ability to override this behavior also, at a later date...
-    // FIXME: *only* 1-slot configs for now...
+    // determine if we should/can run automatically for this configuration
+    //
+    // FIXME: tune only when the configuration indicates it will help:
+    //    DDR type, RDIMM or UDIMM, 1-slot or 2-slot, and speed
+    //
     uint32_t ddr_speed = libdram_get_freq_from_pll(node, 0) / 1000000; // sample LMC0
     BDK_CSR_INIT(lmc_config, node, BDK_LMCX_CONFIG(0)); // sample LMC0
-    int is_1slot = (lmc_config.s.init_status < 4); // HACK, should do better
 
-    if (__bdk_dram_is_ddr4(node, 0) && is_1slot) {
-	if (__bdk_dram_is_rdimm(node, 0) && (ddr_speed > 940)) {
-	    printf("N%d: DDR4 RDIMM %d MHz eligible for auto-tuning.\n",
-		   node, ddr_speed);
-	    // FIXME? allow override to NOT do tuning?
-	} else
-	if (!__bdk_dram_is_rdimm(node, 0) && (ddr_speed > 1050)) {
-	    printf("N%d: DDR4 UDIMM %d MHz eligible for auto-tuning.\n",
-		   node, ddr_speed);
-	    // FIXME? allow override to NOT do tuning?
-	} else {
-	    printf("N%d: DDR4 DIMM at %d MHz, low speed not eligible for auto-tuning.\n",
-		   node, ddr_speed);
-	    // FIXME? allow override to do tuning?
-	    return 0;
-	}
-    } else {
-	printf("N%d: DDR3 or 2-slot is not currently eligible for auto-tuning.\n", node);
-	// FIXME? allow override to do tuning?
-	return 0;
-    }
+    int is_ddr4  = !!__bdk_dram_is_ddr4(node, 0);
+    int is_rdimm = !!__bdk_dram_is_rdimm(node, 0);
+    int is_1slot = !!(lmc_config.s.init_status < 4); // HACK, should do better
+    int do_tune = 0;
+
+    uint32_t ddr_min_speed = ddr_speed_filter[is_ddr4][is_rdimm][is_1slot];
+    do_tune = (ddr_min_speed && (ddr_speed > ddr_min_speed));
+
+    printf("N%d: DDR%d %cDIMM %d-slot at %d MHz %s eligible for auto-tuning.\n",
+	   node, (is_ddr4)?4:3, (is_rdimm)?'R':'U', (is_1slot)?1:2,
+	   ddr_speed, (do_tune)?"is":"is not");
 
     // call the tuning routines, done filtering...
-    tot_errs = bdk_libdram_tune_node(node);
-
-    return tot_errs;
+    return ((do_tune) ? bdk_libdram_tune_node(node) : 0);
 }
 
 /**
