@@ -115,6 +115,9 @@ int dram_tune_use_bursts = DEFAULT_TEST_BURSTS;
 // defaults to DUPE, but will be set elsewhere to offset to next RANK if multi-rank DIMM
 static uint64_t dram_tune_rank_offset = AREA_DUPE_OFFSET; // default
 
+// defaults to 0, but will be set elsewhere to the address offset to next DIMM if multi-slot
+static uint64_t dram_tune_dimm_offset = 0; // default
+
 static int test_dram_mem_xor(uint64_t p, uint64_t bitmask)
 {
     uint64_t p1, p2, d1, d2;
@@ -467,6 +470,9 @@ static void test_dram_byte_thread(int arg, void *arg1)
      */
     rank_address  = bdk_numa_get_address(node, rank_address); // map to node
     rank_address |= (core << CORE_SHIFT); // FIXME: also put full core into address
+    if (dram_tune_dimm_offset) { // if multi-slot in some way, choose a DIMM for the core
+	rank_address |= (core & (1 << (test_info->num_lmcs >> 1))) ? dram_tune_dimm_offset : 0;
+    }
 
     debug_print("Node %d, core %d, Testing area 1 at 0x%011lx, area 2 at 0x%011lx\n",
 		node, core, rank_address + AREA_BASE_OFFSET,
@@ -581,14 +587,18 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
     // FIXME: must revise this for 2-slot!!!
     // FIXME? consult LMC0 only
     BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(0));
-    if (lmcx_config.s.rank_ena) // replace the default offset when there is more than 1 rank...
+    if (lmcx_config.s.rank_ena) { // replace the default offset when there is more than 1 rank...
 	dram_tune_rank_offset = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena + (num_lmcs/2));
+	ddr_print("N%d: auto_set_dll_offset: changing rank offset to 0x%lx\n", node, dram_tune_rank_offset);
+    }
+    if (lmcx_config.s.init_status & 0x0c) { // bit 2 or 3 set indicates 2 DIMMs
+	dram_tune_dimm_offset = 1ull << (28 + lmcx_config.s.pbank_lsb + (num_lmcs/2));
+	ddr_print("N%d: auto_set_dll_offset: changing dimm offset to 0x%lx\n", node, dram_tune_dimm_offset);
+    }
 
     // FIXME? do this for LMC0 only
     BDK_CSR_INIT(comp_ctl2, node, BDK_LMCX_COMP_CTL2(0));
     this_rodt = comp_ctl2.s.rodt_ctl;
-
-    ddr_print("N%d: auto_set_dll_offset: starting with rank offset 0x%lx\n", node, dram_tune_rank_offset);
 
     // construct the bytemask
     int bytes_todo = (ddr_interface_64b) ? 0xff : 0x0f; // FIXME: hack?
@@ -1098,7 +1108,7 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
     // run the test one last time 
     // print whether there are errors or not, but only when verbose...
     tot_errors = run_test_dram_byte_threads(node, num_lmcs, bytemask);
-    printf("DLL %s Offset Final Test: errors 0x%x\n",
+    printf("ECC DLL %s Offset Final Test: errors 0x%x\n",
 	   dll_offset_mode == 1 ? "Write" : "Read", tot_errors);
 #endif
 }
