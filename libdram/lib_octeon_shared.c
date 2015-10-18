@@ -716,6 +716,15 @@ static void cn78xx_lmc_dreset_init (bdk_node_t node, int ddr_interface_num)
 
         DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL2(ddr_interface_num),
 			c.s.dreset = 0);
+
+        /*
+	 * NEW STEP - necessary for O73, O78 P2.0, O75, and T88 P2.0
+	 * McBuggin: #24821
+	 *
+         * 11. Wait for a minimum of 10 LMC CK cycles.
+         */
+
+        bdk_wait_usec(1);
 }
 
 #define LMC_DDR3_RESET_ASSERT   0
