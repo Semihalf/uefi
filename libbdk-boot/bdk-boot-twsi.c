@@ -15,6 +15,21 @@ void bdk_boot_twsi(void)
         const char *str = bdk_brd_cfg_get_str(NULL, BDK_BRD_CFG_TWSI_WRITE, index);
         if (!str)
             break;
+        /* Check for the special case of a sleep line specifying a delay (ms) */
+        if (strncmp(str, "sleep,", 6) == 0)
+        {
+            int delay = 0;
+            int count = sscanf(str, "sleep,%i", &delay);
+            if (count != 1)
+            {
+                bdk_error("Parsing TWSI sleep failed: [%d]%s\n", index, str);
+                break;
+            }
+            bdk_wait_usec(delay * 1000);
+            /* Move to the next index */
+            index++;
+            continue;
+        }
         /* Read the parameters from the write */
         int node = 0;
         int twsi_id = 0;
