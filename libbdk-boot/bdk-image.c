@@ -119,7 +119,7 @@ int bdk_image_boot(const char *filename, uint64_t loc, uint64_t image_arg2)
         goto out;
     }
 
-    printf("    Verifying image\n");
+    //printf("    Verifying image\n");
     if (bdk_image_verify(image))
     {
         bdk_error("Image CRC32 is incorrect\n");
@@ -129,7 +129,7 @@ int bdk_image_boot(const char *filename, uint64_t loc, uint64_t image_arg2)
     /* Putting all cores except this one in reset */
     bdk_reset_cores(bdk_numa_local(), -2);
 
-    printf("    Jumping to image at %p\n---\n", image);
+    printf("---\n");
     fflush(NULL);
     BDK_MB;
 
