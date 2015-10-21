@@ -131,9 +131,11 @@ int main(void)
         "=========================\n"
         "Cavium THUNDERX Boot Stub\n"
         "=========================\n"
-        "Version: %s\n"
+        "Firmware Version: %s\n"
+        "BDK Version: %s\n"
         "\n",
-        version);
+        version,
+        bdk_version_string());
     bdk_boot_info_strapping(bdk_numa_master());
 
     /* Check if the board static manufacturing data is present */

@@ -283,7 +283,7 @@ int main(int argc, const char **argv)
         "=========================\n"
         "Cavium THUNDERX Boot Stub\n"
         "=========================\n"
-        "BDK version: %s\n"
+        "BDK Version: %s\n"
         "\n",
         bdk_version_string());
 

@@ -3,7 +3,7 @@
 print("")
 print("THUNDERX Diagnostics")
 print("Copyright (C) 2010-2015 Cavium Inc.")
-print("Version ".. require("bdk-version"))
+print("BDK Version: ".. require("bdk-version"))
 print("")
 
 local debug = require("debug")
