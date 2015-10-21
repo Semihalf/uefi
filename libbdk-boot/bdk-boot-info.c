@@ -87,5 +87,122 @@ void bdk_boot_info_strapping(bdk_node_t node)
         boot_method_str, boot_method,
         (vrm_disable) ? "Disabled" : "Enabled",
         (trust_mode) ? "Enabled" : "Disabled");
+
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    {
+        const char *ccpi;
+        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(8));
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        {
+            /* Pass 1.x used a different encoding than pass 2.x */
+            switch (gserx_spd.s.spd)
+            {
+                case 0x0:
+                    ccpi = "1.250 Ghz, ref 100 Mhz";
+                    break;
+                case 0x1:
+                    ccpi = "2.500 Ghz, ref 100 Mhz";
+                    break;
+                case 0x2:
+                    ccpi = "5.000 Ghz, ref 100 Mhz";
+                    break;
+                case 0x3:
+                    ccpi = "8.000 Ghz, ref 100 Mhz";
+                    break;
+                case 0x4:
+                    ccpi = "1.250 Ghz, ref 125 Mhz";
+                    break;
+                case 0x5:
+                    ccpi = "2.500 Ghz, ref 125 Mhz";
+                    break;
+                case 0x6:
+                    ccpi = "3.125 Ghz, ref 125 Mhz";
+                    break;
+                case 0x7:
+                    ccpi = "5.000 Ghz, ref 125 Mhz";
+                    break;
+                case 0x8:
+                    ccpi = "6.250 Ghz, ref 125 Mhz";
+                    break;
+                case 0x9:
+                    ccpi = "8.000 Ghz, ref 125 Mhz, KR training";
+                    break;
+                case 0xa:
+                    ccpi = "2.500 Ghz, ref 156.25 Mhz";
+                    break;
+                case 0xb:
+                    ccpi = "3.125 Ghz, ref 156.25 Mhz";
+                    break;
+                case 0xc:
+                    ccpi = "5.000 Ghz, ref 156.25 Mhz";
+                    break;
+                case 0xd:
+                    ccpi = "6.250 Ghz, ref 156.25 Mhz";
+                    break;
+                case 0xe:
+                    ccpi = "10.312 Ghz, ref 156.25 Mhz, KR training";
+                    break;
+                default: /* Software mode */
+                    ccpi = "Disabled";
+                    break;
+            }
+        }
+        else
+        {
+            /* This is for pass 2.x (and beyond) */
+            switch (gserx_spd.s.spd)
+            {
+                case 0x0:
+                    ccpi = "5.000 Ghz, ref 100 Mhz, RX Equalization";
+                    break;
+                case 0x1:
+                    ccpi = "2.500 Ghz, ref 100 Mhz";
+                    break;
+                case 0x2:
+                    ccpi = "5.000 Ghz, ref 100 Mhz";
+                    break;
+                case 0x3:
+                    ccpi = "8.000 Ghz, ref 100 Mhz";
+                    break;
+                case 0x4:
+                    ccpi = "8.000 Ghz, ref 100 Mhz, RX Equalization";
+                    break;
+                case 0x5:
+                    ccpi = "8.000 Ghz, ref 100 Mhz, KR Training";
+                    break;
+                case 0x6:
+                    ccpi = "3.125 Ghz, ref 156.25 Mhz";
+                    break;
+                case 0x7:
+                    ccpi = "5.000 Ghz, ref 125 Mhz";
+                    break;
+                case 0x8:
+                    ccpi = "6.250 Ghz, ref 156.25 Mhz";
+                    break;
+                case 0x9:
+                    ccpi = "8.000 Ghz, ref 125 Mhz";
+                    break;
+                case 0xa:
+                    ccpi = "10.312 Ghz, ref 156.25 Mhz, RX Equalization";
+                    break;
+                case 0xb:
+                    ccpi = "3.125 Ghz, ref 156.25 Mhz";
+                    break;
+                case 0xc:
+                    ccpi = "5.000 Ghz, ref 125 Mhz, RX Equalization";
+                    break;
+                case 0xd:
+                    ccpi = "6.250 Ghz, ref 156.25 Mhz, RX Equalization";
+                    break;
+                case 0xe:
+                    ccpi = "10.312 Ghz, ref 156.25 Mhz, KR Training";
+                    break;
+                default: /* Software mode */
+                    ccpi = "Disabled";
+                    break;
+            }
+        }
+        printf("CCPI:  %s\n", ccpi);
+    }
 }
 
