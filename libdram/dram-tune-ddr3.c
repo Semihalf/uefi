@@ -691,7 +691,8 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 		dll_offset_mode == 1 ? "Write" : "Read ", this_rodt);
 	printf("%-45s : ", sbuffer); // FIXME: force print
 	for (byte = 8; byte >= 0; --byte) { // print in "normal" reverse index order
-	    byte_offset =  byte_delay_best_start[lmc][byte] + (byte_delay_best_count[lmc][byte] / 2);
+	    byte_offset =  byte_delay_best_start[lmc][byte] +
+		((byte_delay_best_count[lmc][byte] - incr_offset) / 2); // adj by incr
 	    printf(" %3d", byte_offset); // FIXME: force print
 
 	    load_dll_offset(node, lmc, dll_offset_mode, byte_offset, byte);
