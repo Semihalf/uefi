@@ -21,13 +21,27 @@
 
 #undef DRAM_CSR_WRITE_INLINE
 
-#define RLEVEL_AVG_LOOPS_DEFAULT 1
+// define how many HW WL samples to take for majority voting
+// MUST BE odd!!
+// assume there should only be 2 possible values that will show up,
+// so treat ties as a problem!!!
+#define WLEVEL_LOOPS_DEFAULT     3 // NOTE: do not change this without code changes!!!
+
+// define how many HW RL samples per rank to take
+// multiple samples will allow either:
+// 1. looking for the best sample score
+// 2. averaging the samples into a composite score
+// symbol PICK_BEST_RANK_SCORE_NOT_AVG is used to choose
+// (see dram-init-ddr3.c: 
+#define RLEVEL_AVG_LOOPS_DEFAULT 3
+#define PICK_BEST_RANK_SCORE_NOT_AVG 1
 
 #define RLEVEL_AVG_LOOPS_DEBUG   0
 typedef struct {
     int delay;
     int loop_total;
     int loop_count;
+    int best;
 #if RLEVEL_AVG_LOOPS_DEBUG
     int last;
     int diffs;
@@ -117,6 +131,9 @@ static inline int get_dimm_module_type(bdk_node_t node, const dimm_config_t *dim
 }
 
 extern int common_ddr4_fixups(dram_config_t *cfg, uint32_t default_udimm_speed);
+
+#define DEFAULT_BEST_RANK_SCORE  9999999
+#define MAX_RANK_SCORE_LIMIT     99 // is this OK?
 
 unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num,
 			       int dll_offset_mode, int byte_offset, int byte);

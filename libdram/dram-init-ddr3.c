@@ -2,14 +2,15 @@
 #include "dram-internal.h"
 
 #define RLEXTRAS_PATCH     1 // write to unused RL rank entries
+#define WLEXTRAS_PATCH     1 // write to unused WL rank entries
 #define ADD_48_OHM_SKIP    1
 #define NOSKIP_40_48_OHM   1
 #define NOSKIP_48_STACKED  1
 #define MAJORITY_OVER_AVG  1
 #define SW_WL_CHECK_PATCH  1 // check validity after SW adjust
+#define HW_WL_MAJORITY     1
 
-#define DEFAULT_BEST_RANK_SCORE  9999999
-#define MAX_RANK_SCORE_LIMIT     99 // FIXME? 
+#define DISABLE_SW_WL_PASS_2 1
 
 #define DEBUG_VALIDATE_BITMASK 0
 #if DEBUG_VALIDATE_BITMASK
@@ -188,6 +189,7 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
     int unsaturated, locked;
     int sat_retries, lock_retries, lock_retries_total;
     int do_print;
+    int print_them_all = 0; // set to 1 for printing all deskew attempts
     deskew_counts_t dsk_counts;
 
     ddr_print("N%d.LMC%d: Performing Deskew Training.\n", node, ddr_interface_num);
@@ -195,6 +197,7 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
     sat_retries = 0;
     lock_retries_total = 0;
     unsaturated = 0;
+    do_print = 1; // print the first one
 
     do { /* while (sat_retries < sat_retry_limit) */
 
@@ -219,6 +222,7 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
 			phy_ctl.s.phy_dsk_reset = 1); /* Reset Deskew sequence */
         perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
 
+	// do not print the reset results
         Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 0);
 
 	lock_retries = 0;
@@ -228,14 +232,9 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
 			phy_ctl.s.phy_dsk_reset = 0);
         perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
 
-	do_print = 0;
-	if (1/*(sat_retries <= PRINT_RETRY_LIMIT) && (lock_retries == 0)*/) {
-	    ddr_print("N%d.LMC%d: Deskew Training: retry %d/%d: Training Results.\n",
-		      node, ddr_interface_num, sat_retries, lock_retries);
-	    do_print = 1;
-	}
-
         Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, do_print);
+	if (do_print && !print_them_all) // after printing the first and not doing them all, no more until exiting
+	    do_print = 0;
 
 #ifdef EARLY_NIBBLE_ERR_RETURN
 	if ((dsk_counts.nibsat_errs != 0) || (dsk_counts.nibunl_errs != 0)) {
@@ -262,8 +261,9 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
 			      node, ddr_interface_num, DEFAULT_LOCK_RETRY_LIMIT);
 		}
 	    } else {
-		ddr_print("N%d.LMC%d: LOCK RETRIES successful after %d retries\n",
-			  node, ddr_interface_num, lock_retries);
+		if (lock_retries_total > 0) // only print if we did try
+		    ddr_print("N%d.LMC%d: LOCK RETRIES successful after %d retries\n",
+			      node, ddr_interface_num, lock_retries);
 	    }
 	} /* if (unsaturated || spd_rawcard_AorB) */
 
@@ -281,6 +281,10 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
 	}
 
     } while (!unsaturated && (sat_retries < DEFAULT_SAT_RETRY_LIMIT));
+
+    // always print the last one unless there was only one
+    if ((sat_retries > 1) || (lock_retries_total > 0))
+	Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 1);
 
     ddr_print("N%d.LMC%d: Deskew Training %s. %d sat-retries, %d lock-retries\n", node, ddr_interface_num,
               (sat_retries >= DEFAULT_SAT_RETRY_LIMIT) ? "Timed Out" : "Completed", sat_retries-1, lock_retries_total);
@@ -752,6 +756,70 @@ static int  get_rlevel_rank_struct(bdk_lmcx_rlevel_rankx_t *lmc_rlevel_rank,
     return delay;
 }
 
+static void unpack_rlevel_settings(int ddr_interface_bytemask, int ecc_ena, 
+				   rlevel_byte_data_t *rlevel_byte,
+				   bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank)
+{
+    if ((ddr_interface_bytemask & 0xff) == 0xff) {
+	if (ecc_ena) {
+	    rlevel_byte[8].delay = lmc_rlevel_rank.s.byte7;
+	    rlevel_byte[7].delay = lmc_rlevel_rank.s.byte6;
+	    rlevel_byte[6].delay = lmc_rlevel_rank.s.byte5;
+	    rlevel_byte[5].delay = lmc_rlevel_rank.s.byte4;
+	    rlevel_byte[4].delay = lmc_rlevel_rank.s.byte8; /* ECC */
+	} else {
+	    rlevel_byte[7].delay = lmc_rlevel_rank.s.byte7;
+	    rlevel_byte[6].delay = lmc_rlevel_rank.s.byte6;
+	    rlevel_byte[5].delay = lmc_rlevel_rank.s.byte5;
+	    rlevel_byte[4].delay = lmc_rlevel_rank.s.byte4;
+	}
+    } else {
+	rlevel_byte[8].delay = lmc_rlevel_rank.s.byte8; /* unused */
+	rlevel_byte[7].delay = lmc_rlevel_rank.s.byte7; /* unused */
+	rlevel_byte[6].delay = lmc_rlevel_rank.s.byte6; /* unused */
+	rlevel_byte[5].delay = lmc_rlevel_rank.s.byte5; /* unused */
+	rlevel_byte[4].delay = lmc_rlevel_rank.s.byte4; /* ECC */
+    }
+    rlevel_byte[3].delay = lmc_rlevel_rank.s.byte3;
+    rlevel_byte[2].delay = lmc_rlevel_rank.s.byte2;
+    rlevel_byte[1].delay = lmc_rlevel_rank.s.byte1;
+    rlevel_byte[0].delay = lmc_rlevel_rank.s.byte0;
+}
+
+static void pack_rlevel_settings(int ddr_interface_bytemask, int ecc_ena, 
+				 rlevel_byte_data_t *rlevel_byte,
+				 bdk_lmcx_rlevel_rankx_t *final_rlevel_rank)
+{
+    bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank = *final_rlevel_rank; 
+
+    if ((ddr_interface_bytemask & 0xff) == 0xff) {
+	if (ecc_ena) {
+	    lmc_rlevel_rank.s.byte7 = rlevel_byte[8].delay;
+	    lmc_rlevel_rank.s.byte6 = rlevel_byte[7].delay;
+	    lmc_rlevel_rank.s.byte5 = rlevel_byte[6].delay;
+	    lmc_rlevel_rank.s.byte4 = rlevel_byte[5].delay;
+	    lmc_rlevel_rank.s.byte8 = rlevel_byte[4].delay; /* ECC */
+	} else {
+	    lmc_rlevel_rank.s.byte7 = rlevel_byte[7].delay;
+	    lmc_rlevel_rank.s.byte6 = rlevel_byte[6].delay;
+	    lmc_rlevel_rank.s.byte5 = rlevel_byte[5].delay;
+	    lmc_rlevel_rank.s.byte4 = rlevel_byte[4].delay;
+	}
+    } else {
+	lmc_rlevel_rank.s.byte8 = rlevel_byte[8].delay;
+	lmc_rlevel_rank.s.byte7 = rlevel_byte[7].delay;
+	lmc_rlevel_rank.s.byte6 = rlevel_byte[6].delay;
+	lmc_rlevel_rank.s.byte5 = rlevel_byte[5].delay;
+	lmc_rlevel_rank.s.byte4 = rlevel_byte[4].delay;
+    }
+    lmc_rlevel_rank.s.byte3 = rlevel_byte[3].delay;
+    lmc_rlevel_rank.s.byte2 = rlevel_byte[2].delay;
+    lmc_rlevel_rank.s.byte1 = rlevel_byte[1].delay;
+
+    *final_rlevel_rank = lmc_rlevel_rank;
+}
+
+#if !DISABLE_SW_WL_PASS_2
 static void rlevel_to_wlevel(bdk_lmcx_rlevel_rankx_t *lmc_rlevel_rank,
 			     bdk_lmcx_wlevel_rankx_t *lmc_wlevel_rank, int byte)
 {
@@ -763,6 +831,7 @@ static void rlevel_to_wlevel(bdk_lmcx_rlevel_rankx_t *lmc_rlevel_rank,
     debug_print("Wlevel=%d\n", byte_delay);
     update_wlevel_rank_struct(lmc_wlevel_rank, byte, byte_delay);
 }
+#endif /* !DISABLE_SW_WL_PASS_2 */
 
 /* Delay trend: constant=0, decreasing=-1, increasing=1 */
 static int64_t calc_delay_trend(int64_t v)
@@ -963,12 +1032,22 @@ static void display_RL_with_RODT(bdk_node_t node, int ddr_interface_num,
 	      );
 }
 
-static void display_WL(bdk_node_t node, int ddr_interface_num, bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank, int rank)
+static void
+do_display_WL(bdk_node_t node, int ddr_interface_num, bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank, int rank, int flags)
 {
-    ddr_print("N%d.LMC%d.R%d: Wlevel Rank %#4x, 0x%016lX  : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+    char *msg_buf;
+    char hex_buf[20];
+    if (flags & WITH_FINAL) {
+	msg_buf = "  FINAL SETTINGS  ";
+    } else {
+	snprintf(hex_buf, sizeof(hex_buf), "0x%016lX", lmc_wlevel_rank.u);
+	msg_buf = hex_buf;
+    }
+
+    ddr_print("N%d.LMC%d.R%d: Wlevel Rank %#4x, %s  : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
 	      node, ddr_interface_num, rank,
 	      lmc_wlevel_rank.s.status,
-	      lmc_wlevel_rank.u,
+	      msg_buf,
 	      lmc_wlevel_rank.s.byte8,
 	      lmc_wlevel_rank.s.byte7,
 	      lmc_wlevel_rank.s.byte6,
@@ -980,6 +1059,19 @@ static void display_WL(bdk_node_t node, int ddr_interface_num, bdk_lmcx_wlevel_r
 	      lmc_wlevel_rank.s.byte0
 	      );
 }
+
+static inline void
+display_WL(bdk_node_t node, int ddr_interface_num, bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank, int rank)
+{
+    do_display_WL(node, ddr_interface_num, lmc_wlevel_rank, rank, WITH_NOTHING);
+}
+
+static inline void
+display_WL_with_final(bdk_node_t node, int ddr_interface_num, bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank, int rank)
+{
+    do_display_WL(node, ddr_interface_num, lmc_wlevel_rank, rank, WITH_FINAL);
+}
+
 
 unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num,
 			       int dll_offset_mode, int byte_offset, int byte)
@@ -2367,8 +2459,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
         wlevel_loops = 0;
     else {
-	wlevel_loops = 1;
-	// accept generic or interface-specific
+	wlevel_loops = WLEVEL_LOOPS_DEFAULT;
+	// accept generic or interface-specific override but not for ASIM...
 	if ((s = lookup_env_parameter("ddr_wlevel_loops")) == NULL)
 	    s = lookup_env_parameter("ddr%d_wlevel_loops", ddr_interface_num);
 	if (s != NULL) {
@@ -3607,11 +3699,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         comp_ctl2.s.cmd_ctl	= (custom_lmc_config->cmd_ctl == 0) ? 4 : custom_lmc_config->cmd_ctl; /* Default 4=34.3 ohm */
         comp_ctl2.s.control_ctl	= (custom_lmc_config->ctl_ctl == 0) ? 4 : custom_lmc_config->ctl_ctl; /* Default 4=34.3 ohm */
 
-#if 0
-	// FIXME: these need to be done earlier, say Step 6.9.3
-        comp_ctl2.s.ntune_offset    = 0;
-        comp_ctl2.s.ptune_offset    = 0;
-#endif
+	// NOTE: these are now done earlier, in Step 6.9.3
+        // comp_ctl2.s.ntune_offset    = 0;
+        // comp_ctl2.s.ptune_offset    = 0;
 
         ddr_rodt_ctl_auto = custom_lmc_config->ddr_rodt_ctl_auto;
         if ((s = lookup_env_parameter("ddr_rodt_ctl_auto")) != NULL) {
@@ -4467,7 +4557,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #pragma pack(pop)
 
         if (wlevel_loops)
-            ddr_print("N%d.LMC%d: Performing Write-Leveling\n", node, ddr_interface_num);
+            ddr_print("N%d.LMC%d: Performing Hardware Write-Leveling\n", node, ddr_interface_num);
         else {
             wlevel_bitmask_errors = 1; /* Force software write-leveling to run */
             ddr_print("Forcing software Write-Leveling\n");
@@ -4482,6 +4572,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
 #endif
         lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
+	ecc_ena = lmc_config.s.ecc_ena;
         save_mode32b = lmc_config.s.mode32b;
         lmc_config.s.mode32b         = (! ddr_interface_64b);
         DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
@@ -4497,18 +4588,24 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #endif
 
 	for (rankx = 0; rankx < dimm_count * 4; rankx++) {
+
+	    if (!(rank_mask & (1 << rankx)))
+		continue;
+
+#if HW_WL_MAJORITY
+	    // array to collect counts of byte-lane values
+	    // assume low-order 3 bits and even, so really only 2 bit values
+	    int wlevel_bytes[9][4];
+	    memset(wlevel_bytes, 0, sizeof(wlevel_bytes));
+#endif
+
 	    for (int wloop = 0; wloop < wlevel_loops; wloop++) {
 
 #if RUN_INIT_SEQ_3
 		uint32_t mr_wr_addr;
 #endif
 
-		if (!(rank_mask & (1 << rankx)))
-		    continue;
-
 		wlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num));
-		lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
-		ecc_ena = lmc_config.s.ecc_ena;
 
 		wlevel_ctl.s.rtt_nom   = ddr4_rttnom_240ohm - 1; /* FIX */
 
@@ -4553,11 +4650,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			mr_wr_addr |=  ((lmc_modereg_params1.u >> (rank_disable*12+7)) & 3)  <<  1; /* DIC */
 			mr_wr_addr |=     3                                                    <<  3; /* Additive Latency */
 			mr_wr_addr |=     3                                                    <<  5; /* RFU */
-			mr_wr_addr |=     1                                                    <<  7; /* Turn off Write Leveling mode */
+			mr_wr_addr |=     1                                                    <<  7; /* Turn off WL mode */
 			mr_wr_addr |= (~(lmc_modereg_params1.u >> (rank_disable*12+9))  & 3) <<  8; /* RTT_NOM<0:1> */
 			mr_wr_addr |= ( (lmc_modereg_params1.u >> (rank_disable*12+11)) & 1) << 10; /* RTT_NOM<2> */
 			mr_wr_addr |=  lmc_modereg_params0.s.tdqs                              << 11; /* TDQS enable */
-			mr_wr_addr |=     1                                                    << 12; /* disable output buffer */
+			mr_wr_addr |=     1                                                    << 12; /* disable output buf */
 			mr_wr_addr |=     1                                                    << 13; /* RFU */
 			mr_wr_addr |=     0                                                    << 14;
 			mr_wr_addr |=     1                                                    << 17; /* RFU */
@@ -4643,6 +4740,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
 		    if (wlevel_bitmask[passx] == 0)
 			++wlevel_bitmask_errors;
+#if HW_WL_MAJORITY
+		    // increment count of byte-lane value
+		    int ix = (get_wlevel_rank_struct(&lmc_wlevel_rank, passx) >> 1) & 3;
+		    wlevel_bytes[passx][ix]++;
+#endif
 		} /* for (passx=0; passx<(8+ecc_ena); ++passx) */
 #else
 		wlevel_ctl.s.lanemask = 0x1ff;
@@ -4669,23 +4771,30 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
 		    if (wlevel_bitmask[passx] == 0)
 			++wlevel_bitmask_errors;
+#if HW_WL_MAJORITY
+		    // increment count of byte-lane value
+		    int ix = (get_wlevel_rank_struct(&lmc_wlevel_rank, passx) >> 1) & 3;
+		    wlevel_bytes[passx][ix]++;
+#endif
 		} /* for (passx=0; passx<(8+ecc_ena); ++passx) */
 #endif
 
-		ddr_print("N%d.LMC%d.R%d: Wlevel Debug Results                  : %05x %05x %05x %05x %05x %05x %05x %05x %05x\n",
-			  node, ddr_interface_num, rankx,
-			  wlevel_bitmask[8],
-			  wlevel_bitmask[7],
-			  wlevel_bitmask[6],
-			  wlevel_bitmask[5],
-			  wlevel_bitmask[4],
-			  wlevel_bitmask[3],
-			  wlevel_bitmask[2],
-			  wlevel_bitmask[1],
-			  wlevel_bitmask[0]
-			  );
-
-		display_WL(node, ddr_interface_num, lmc_wlevel_rank, rankx);
+		// when only 1, print the bitmasks first
+		if (wlevel_loops < 2) {
+		    ddr_print("N%d.LMC%d.R%d: Wlevel Debug Results                  : %05x %05x %05x %05x %05x %05x %05x %05x %05x\n",
+			      node, ddr_interface_num, rankx,
+			      wlevel_bitmask[8],
+			      wlevel_bitmask[7],
+			      wlevel_bitmask[6],
+			      wlevel_bitmask[5],
+			      wlevel_bitmask[4],
+			      wlevel_bitmask[3],
+			      wlevel_bitmask[2],
+			      wlevel_bitmask[1],
+			      wlevel_bitmask[0]
+			      );
+		    display_WL(node, ddr_interface_num, lmc_wlevel_rank, rankx);
+		}
 
 		if (ddr_wlevel_roundup) { /* Round up odd bitmask delays */
 		    for (byte_idx=0; byte_idx<(8+ecc_ena); ++byte_idx) {
@@ -4752,8 +4861,53 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    ddr_print("38) Repeat Step 31-34 for all ranks that needed to be write leveled.\n");
 		}
 #endif
-	    } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
-        } /* while(wlevel_loops--) */
+	    } /* for (int wloop = 0; wloop < wlevel_loops; wloop++) */
+
+#if HW_WL_MAJORITY
+	    if (wlevel_loops > 1) {
+		// look for the majority in each byte-lane
+		for (passx = 0; passx < (8+ecc_ena); ++passx) {
+		    int mx = -1, mc = 0;
+		    for (int ix = 0; ix < 4; ix++) {
+			int ic = wlevel_bytes[passx][ix];
+			if (ic > 1) { // a count of 2 or 3 must be majority
+			    mx = ix;
+			    break; // found majority for this byte-lane
+			} 
+			 // make a bitmask of the ones with a count
+			mc |= (ic << ix); // assume ic is 0 or 1
+		    }
+		    if (mx == -1) {
+			ddr_print("N%d.LMC%d.R%d: HW WL MAJORITY: bad byte-lane %d (0x%x).\n",
+				  node, ddr_interface_num, rankx, passx, mc);
+			// assume: counts for 3 indices are all 1
+			// possiblities are: 0/2/4, 2/4/6, 0/4/6, 0/2/6
+			// and the desired?:   2  ,   4  ,     6, 0
+			// we choose the middle, assuming one of the outliers is bad
+			// NOTE: this is an ugly hack at the moment; there must be a better way
+			switch (mc) {
+			case 0x7: mx = 1; break; // was 0/2/4, choose 2
+			case 0xb: mx = 0; break; // was 0/2/6, choose 0
+			case 0xd: mx = 3; break; // was 0/4/6, choose 6
+			case 0xe: mx = 2; break; // was 2/4/6, choose 4
+			default:
+			    // this should never happen, but...
+			    bdk_error("N%d.LMC%d.R%d: HW WL MAJORITY: bad byte-lane %d (0x%x).\n",
+				      node, ddr_interface_num, rankx, passx, mc);
+			    
+			    mx = 0; // choose something...
+			    break;
+			}
+
+		    }
+		    update_wlevel_rank_struct(&lmc_wlevel_rank, passx, mx << 1);
+		} /* for (passx=0; passx<(8+ecc_ena); ++passx) */
+
+		DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
+		display_WL_with_final(node, ddr_interface_num, lmc_wlevel_rank, rankx);
+	    }
+#endif
+	} /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
 
 #if RUN_INIT_SEQ_3
         if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
@@ -4974,7 +5128,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         rlevel_avg_loops = custom_lmc_config->rlevel_average_loops;
         if (rlevel_avg_loops == 0)
-	    rlevel_avg_loops = (dimm_count > 1) ? 1 : RLEVEL_AVG_LOOPS_DEFAULT;
+	    rlevel_avg_loops = RLEVEL_AVG_LOOPS_DEFAULT;
 
         ddr_rlevel_compute = custom_lmc_config->rlevel_compute;
         rlevel_ctl.s.offset_en = custom_lmc_config->offset_en;
@@ -5186,6 +5340,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			int average_loops;
 			int rlevel_rank_errors;
 			rlevel_bitmask_t rlevel_bitmask[9];
+#if PICK_BEST_RANK_SCORE_NOT_AVG
+			int rlevel_best_rank_score = DEFAULT_BEST_RANK_SCORE;
+#endif
 
 			if (!(rank_mask & (1 << rankx)))
 			    continue;
@@ -5281,6 +5438,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
 				    lmc_modereg_params0.s.mprloc = 0; /* MPR Page 0 Location 0 */
 				    DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
+
 				} /* if (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM)) */
 
 				/* Evaluate the quality of the read-leveling
@@ -5311,30 +5469,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 				/* Save a copy of the byte delays in physical
 				   order for sequential evaluation. */
-				if ((ddr_interface_bytemask & 0xff) == 0xff) {
-				    if (ecc_ena) {
-					rlevel_byte[8].delay = lmc_rlevel_rank.s.byte7;
-					rlevel_byte[7].delay = lmc_rlevel_rank.s.byte6;
-					rlevel_byte[6].delay = lmc_rlevel_rank.s.byte5;
-					rlevel_byte[5].delay = lmc_rlevel_rank.s.byte4;
-					rlevel_byte[4].delay = lmc_rlevel_rank.s.byte8; /* ECC */
-				    } else {
-					rlevel_byte[7].delay = lmc_rlevel_rank.s.byte7;
-					rlevel_byte[6].delay = lmc_rlevel_rank.s.byte6;
-					rlevel_byte[5].delay = lmc_rlevel_rank.s.byte5;
-					rlevel_byte[4].delay = lmc_rlevel_rank.s.byte4;
-				    }
-				} else {
-				    rlevel_byte[8].delay = lmc_rlevel_rank.s.byte8; /* unused */
-				    rlevel_byte[7].delay = lmc_rlevel_rank.s.byte7; /* unused */
-				    rlevel_byte[6].delay = lmc_rlevel_rank.s.byte6; /* unused */
-				    rlevel_byte[5].delay = lmc_rlevel_rank.s.byte5; /* unused */
-				    rlevel_byte[4].delay = lmc_rlevel_rank.s.byte4; /* ECC */
-				}
-				rlevel_byte[3].delay = lmc_rlevel_rank.s.byte3;
-				rlevel_byte[2].delay = lmc_rlevel_rank.s.byte2;
-				rlevel_byte[1].delay = lmc_rlevel_rank.s.byte1;
-				rlevel_byte[0].delay = lmc_rlevel_rank.s.byte0;
+				unpack_rlevel_settings(ddr_interface_bytemask, ecc_ena, rlevel_byte, lmc_rlevel_rank);
 
 				if (! disable_sequential_delay_check) {
 				    if ((ddr_interface_bytemask & 0xff) == 0xff) {
@@ -5362,20 +5497,23 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    }
 				}
 
-				ddr_print("N%d.LMC%d.R%d: Rlevel Debug Test Results  8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
-					  node, ddr_interface_num, rankx,
-					  rlevel_bitmask[8].bm,
-					  rlevel_bitmask[7].bm,
-					  rlevel_bitmask[6].bm,
-					  rlevel_bitmask[5].bm,
-					  rlevel_bitmask[4].bm,
-					  rlevel_bitmask[3].bm,
-					  rlevel_bitmask[2].bm,
-					  rlevel_bitmask[1].bm,
-					  rlevel_bitmask[0].bm
-					  );
+				// print here only if we are not really averaging or picking best
+				if (rlevel_avg_loops < 2) {
+				    ddr_print("N%d.LMC%d.R%d: Rlevel Debug Test Results  8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
+					      node, ddr_interface_num, rankx,
+					      rlevel_bitmask[8].bm,
+					      rlevel_bitmask[7].bm,
+					      rlevel_bitmask[6].bm,
+					      rlevel_bitmask[5].bm,
+					      rlevel_bitmask[4].bm,
+					      rlevel_bitmask[3].bm,
+					      rlevel_bitmask[2].bm,
+					      rlevel_bitmask[1].bm,
+					      rlevel_bitmask[0].bm
+					      );
 
-				display_RL_with_score(node, ddr_interface_num, lmc_rlevel_rank, rankx, rlevel_rank_errors);
+				    display_RL_with_score(node, ddr_interface_num, lmc_rlevel_rank, rankx, rlevel_rank_errors);
+				}
 
 				if (ddr_rlevel_compute) {
 				    /* Recompute the delays based on the bitmask */
@@ -5389,30 +5527,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    }
 
 				    /* Override the copy of byte delays with the computed results. */
-				    if ((ddr_interface_bytemask & 0xff) == 0xff) {
-					if (ecc_ena) {
-					    rlevel_byte[8].delay = lmc_rlevel_rank.s.byte7;
-					    rlevel_byte[7].delay = lmc_rlevel_rank.s.byte6;
-					    rlevel_byte[6].delay = lmc_rlevel_rank.s.byte5;
-					    rlevel_byte[5].delay = lmc_rlevel_rank.s.byte4;
-					    rlevel_byte[4].delay = lmc_rlevel_rank.s.byte8; /* ECC */
-					} else {
-					    rlevel_byte[7].delay = lmc_rlevel_rank.s.byte7;
-					    rlevel_byte[6].delay = lmc_rlevel_rank.s.byte6;
-					    rlevel_byte[5].delay = lmc_rlevel_rank.s.byte5;
-					    rlevel_byte[4].delay = lmc_rlevel_rank.s.byte4;
-					}
-				    } else {
-					rlevel_byte[4].delay = lmc_rlevel_rank.s.byte8; /* unused */
-					rlevel_byte[7].delay = lmc_rlevel_rank.s.byte7; /* unused */
-					rlevel_byte[6].delay = lmc_rlevel_rank.s.byte6; /* unused */
-					rlevel_byte[5].delay = lmc_rlevel_rank.s.byte5; /* unused */
-					rlevel_byte[4].delay = lmc_rlevel_rank.s.byte4; /* ECC */
-				    }
-				    rlevel_byte[3].delay = lmc_rlevel_rank.s.byte3;
-				    rlevel_byte[2].delay = lmc_rlevel_rank.s.byte2;
-				    rlevel_byte[1].delay = lmc_rlevel_rank.s.byte1;
-				    rlevel_byte[0].delay = lmc_rlevel_rank.s.byte0;
+				    unpack_rlevel_settings(ddr_interface_bytemask, ecc_ena, rlevel_byte, lmc_rlevel_rank);
 
 				    ddr_print("N%d.LMC%d.R%d: Computed delays                       : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
 					      node, ddr_interface_num, rankx,
@@ -5429,6 +5544,19 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				} /* if (ddr_rlevel_compute) */
 
 			    } // end bitmask interpretation block
+
+#if PICK_BEST_RANK_SCORE_NOT_AVG
+			    // if it is a better (lower) score, then  keep it
+			    if (rlevel_rank_errors < rlevel_best_rank_score) {
+				rlevel_best_rank_score = rlevel_rank_errors;
+
+				// save the new best delays in the best fields
+				for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
+				    rlevel_byte[byte_idx].best = rlevel_byte[byte_idx].delay;
+				}
+			    }
+
+#else /* PICK_BEST_RANK_SCORE_NOT_AVG */
 
 			    /* Accumulate the total score across averaging loops for this setting */
 			    debug_print("rlevel_scoreboard[rtt_nom=%d][rodt_ctl=%d][rankx=%d].score: %d [%d]\n",
@@ -5455,9 +5583,21 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #endif
 				}
 			    } /* for (byte_idx = 0; byte_idx < 9; ++byte_idx) */
+#endif /* PICK_BEST_RANK_SCORE_NOT_AVG */
 
 			    rlevel_rodt_errors += rlevel_rank_errors;
+
 			} /* for (average_loops = 0; average_loops < rlevel_avg_loops; average_loops++) */
+
+#if PICK_BEST_RANK_SCORE_NOT_AVG
+			/* We recorded the best score across the averaging loops */
+			rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score = rlevel_best_rank_score;
+
+			/* Restore the delays from the best fields that go with the best score */
+			for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
+			    rlevel_byte[byte_idx].delay = rlevel_byte[byte_idx].best;
+			}
+#else /* PICK_BEST_RANK_SCORE_NOT_AVG */
 
 			/* Compute the average score across averaging loops */
 			rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score =
@@ -5470,36 +5610,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    rlevel_byte[byte_idx].delay = divide_nint(rlevel_byte[byte_idx].loop_total,
 								      rlevel_byte[byte_idx].loop_count);
 			}
+#endif /* PICK_BEST_RANK_SCORE_NOT_AVG */
 
 			lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
-			if ((ddr_interface_bytemask & 0xff) == 0xff) {
-			    if (ecc_ena) {
-				lmc_rlevel_rank.s.byte7 = rlevel_byte[8].delay;
-				lmc_rlevel_rank.s.byte6 = rlevel_byte[7].delay;
-				lmc_rlevel_rank.s.byte5 = rlevel_byte[6].delay;
-				lmc_rlevel_rank.s.byte4 = rlevel_byte[5].delay;
-				lmc_rlevel_rank.s.byte8 = rlevel_byte[4].delay; /* ECC */
-			    } else {
-				lmc_rlevel_rank.s.byte7 = rlevel_byte[7].delay;
-				lmc_rlevel_rank.s.byte6 = rlevel_byte[6].delay;
-				lmc_rlevel_rank.s.byte5 = rlevel_byte[5].delay;
-				lmc_rlevel_rank.s.byte4 = rlevel_byte[4].delay;
-			    }
-			} else {
-			    lmc_rlevel_rank.s.byte8 = rlevel_byte[8].delay;
-			    lmc_rlevel_rank.s.byte7 = rlevel_byte[7].delay;
-			    lmc_rlevel_rank.s.byte6 = rlevel_byte[6].delay;
-			    lmc_rlevel_rank.s.byte5 = rlevel_byte[5].delay;
-			    lmc_rlevel_rank.s.byte4 = rlevel_byte[4].delay;
-			}
-			lmc_rlevel_rank.s.byte3 = rlevel_byte[3].delay;
-			lmc_rlevel_rank.s.byte2 = rlevel_byte[2].delay;
-			lmc_rlevel_rank.s.byte1 = rlevel_byte[1].delay;
-			lmc_rlevel_rank.s.byte0 = rlevel_byte[0].delay;
+			pack_rlevel_settings(ddr_interface_bytemask, ecc_ena, rlevel_byte, &lmc_rlevel_rank);
 
 			if (rlevel_avg_loops > 1) {
-
+#if PICK_BEST_RANK_SCORE_NOT_AVG
+			    display_RL_with_best(node, ddr_interface_num, lmc_rlevel_rank, rankx,
+						 rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score);
+#else /* PICK_BEST_RANK_SCORE_NOT_AVG */
 			    display_RL_with_average(node, ddr_interface_num, lmc_rlevel_rank, rankx,
 						    rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score);
 #if RLEVEL_AVG_LOOPS_DEBUG
@@ -5532,9 +5653,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					  );
 			    }
 #endif
+#endif /* PICK_BEST_RANK_SCORE_NOT_AVG */
+
 			} /* if (rlevel_avg_loops > 1) */
 
 			rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].setting = lmc_rlevel_rank.u;
+
 		    } /* for (rankx = 0; rankx < dimm_count*4; rankx++) */
 		} /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
 	    } /*  for (rtt_idx=min_rtt_nom_idx; rtt_idx<max_rtt_nom_idx; ++rtt_idx) */
@@ -6122,11 +6246,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				if (delay > (int)RLEVEL_BYTE_MSK) delay = RLEVEL_BYTE_MSK;
 				update_rlevel_rank_struct(&temp_rlevel_rank, byte, delay);
 			    }
-			    if (rankx == 0) { // if 0, write 1, and 2
+			    if (rankx == 0) { // if rank 0, write rank 1, and rank 2
 				DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 1), temp_rlevel_rank.u);
 				DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 2), temp_rlevel_rank.u);
 			    }
-			    // if 0, 1 or 2, write 3
+			    // if ranks 0, 1 or 2, write rank 3
 			    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 3), temp_rlevel_rank.u);
 			}
 		    }
@@ -6272,14 +6396,16 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #pragma pack(push,1)
         bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank;
         bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank_hw_results;
-        bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank;
         bdk_lmcx_config_t lmc_config;
         int byte;
         int delay;
         int rankx = 0;
         int save_ecc_ena;
         int active_rank;
+#if !DISABLE_SW_WL_PASS_2
+        bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank;
         int sw_wlevel_offset = 1;
+#endif
         int sw_wlevel_enable = 1; /* FIX... Should be customizable. */
         int interfaces;
 	int measured_vref_flag;
@@ -6433,7 +6559,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			uint64_t bytemask = 0;
 			uint64_t bitmask;
 			int bytes_todo = ddr_interface_bytemask;
-			uint64_t core_num = bdk_get_core_num();
 
 			for (byte = 0; byte < 8; ++byte) {
 			    if (!(bytes_todo & (1 << byte))) {
@@ -6445,18 +6570,23 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    }
 			} /* for (byte = 0; byte < 8; ++byte) */
 
-			while (bytemask != 0) {
+#define WL_MIN_NO_ERRORS_COUNT 3  // FIXME? three passes without errors
+			int no_errors_count = 0;
 
-			    // write this set of WL delays
+			do {
+			    // write the current set of WL delays
 			    DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
 			    lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
-			    BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(core_num), 0);
+			    bdk_watchdog_poke();
 
 			    // do the test
 			    errors = test_dram_byte(rank_addr, bytemask);
-			    debug_print("test_dram_byte returned 0x%x\n", errors);
+			    debug_print("WL pass1: test_dram_byte returned 0x%x\n", errors);
 
+			    // remember, errors will not be returned for byte-lanes that have maxxed out...
+			    no_errors_count = (errors == 0) ? no_errors_count + 1 : 0; // bump or reset
+			    
 			    // check errors by byte
 			    for (byte = 0; byte < 8; ++byte) {
 				if (!(bytes_todo & (1 << byte)))
@@ -6465,25 +6595,27 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				delay = byte_delay[byte];
 				if (errors & (1 << byte)) { // yes, an error in this byte lane
 				    debug_print("        byte %d delay %2d Errors\n", byte, delay);
-				    // since this byte had an error, we move to the next delay value, unless done with it
+				    // since this byte had an error, we move to the next delay value, unless maxxed out
 				    delay += 8; // incr by 8 to do delay high-order bits
 				    if (delay < 32) {
 					update_wlevel_rank_struct(&lmc_wlevel_rank, byte, delay);
 					debug_print("        byte %d delay %2d New\n", byte, delay);
 					byte_delay[byte] = delay;
-					continue; // leave the todo and mask untouched
-				    } else { // reached max delay, done with this byte
+				    } else { // reached max delay, really done with this byte
+					bytemask &= ~(0xffULL << (8*byte)); // test no longer, remove from byte mask
+					bytes_todo &= ~(1 << byte); // remove from bytes to do
+					byte_test_status[byte] = WL_ESTIMATED; // make sure this is set for this case
 					debug_print("        byte %d delay %2d Exhausted\n", byte, delay);
 				    }
-				} else { // no error, stay with current delay
+				} else { // no error, stay with current delay, but keep testing it...
 				    debug_print("        byte %d delay %2d Passed\n", byte, delay);
 				    byte_test_status[byte] = WL_HARDWARE; // change status
 				}
-				// no error, or error with max delay come here; error with more to do bypasses this
-				bytemask &= ~(0xffULL << (8*byte)); // test no longer, remove from byte mask
-				bytes_todo &= ~(1 << byte); // and bytes to do
+
 			    } /* for (byte = 0; byte < 8; ++byte) */
-			} /* while (bytemask != 0) */
+
+			} while (no_errors_count < WL_MIN_NO_ERRORS_COUNT);
+
 			if (errors) {
 			    debug_print("End WLEV_64 while loop: vref_value %d(0x%x), errors 0x%02x\n",
 				      vref_value, vref_value, errors);
@@ -6492,12 +6624,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                     if ((ddr_interface_bytemask & 0xff) == 0xff) {
                         if (save_ecc_ena) {
-                            int save_byte8 = lmc_wlevel_rank.s.byte8;
-                            byte_test_status[8] = WL_HARDWARE; /* H/W delay value */
+                            int save_byte8 = lmc_wlevel_rank.s.byte8; // save original HW delay
+                            byte_test_status[8] = WL_HARDWARE; /* say it is H/W delay value */
 
                             if ((save_byte8 != lmc_wlevel_rank.s.byte3) &&
-                                (save_byte8 != lmc_wlevel_rank.s.byte4)) {
-
+                                (save_byte8 != lmc_wlevel_rank.s.byte4))
+			    {
+				// try to calculate a workable delay using SW bytes 3 and 4 and HW byte 8
                                 int test_byte8 = save_byte8;
                                 int test_byte8_error;
                                 int byte8_error = 0x1f;
@@ -6514,31 +6647,29 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #if SW_WL_CHECK_PATCH
                                 test_byte8 &= ~1; /* Use only even settings, rounding down... */
 
-				{ // do validity check on the ECC delay value 
-				  // this depends on the DIMM type
-				    int new_byte8 = test_byte8; // in case we need to recompute...
-				    if (spd_rdimm) { // RDIMM
-					//if ((test_byte8 > lmc_wlevel_rank.s.byte3) || // FIXME? should be AND?
-					//    (test_byte8 > lmc_wlevel_rank.s.byte4)) {
-					// FIXME? loosen this up, it can be > byte4, but should never be > byte3
-					if (test_byte8 > lmc_wlevel_rank.s.byte3) {
-					    new_byte8 = test_byte8 - 8; // FIXME? subtract a whole clock
-					}
-				    } else { // UDIMM
-					if ((test_byte8 < lmc_wlevel_rank.s.byte3) ||
-					    (test_byte8 > lmc_wlevel_rank.s.byte4))
-					{ // use average, I guess...
-					    new_byte8 = ((lmc_wlevel_rank.s.byte3 + lmc_wlevel_rank.s.byte4) / 2) & ~1;
-					}
+				// do validity check on the calculated ECC delay value 
+				// this depends on the DIMM type
+				if (spd_rdimm) { // RDIMM
+				    // it can be > byte4, but should never be > byte3
+				    if (test_byte8 > lmc_wlevel_rank.s.byte3) {
+					byte_test_status[8] = WL_ESTIMATED; /* say it is still estimated */
 				    }
-				    if (new_byte8 != test_byte8) {
-					printf("N%d.LMC%d.R%d: ATTENTION (%cDIMM): forcing ECC delay to %d (%d/%d/%d)\n",
-					       node, ddr_interface_num, rankx, (spd_rdimm?'R':'U'), new_byte8,
-					       lmc_wlevel_rank.s.byte4, test_byte8, lmc_wlevel_rank.s.byte3);
-					test_byte8 = new_byte8;
+				} else { // UDIMM
+				    if ((test_byte8 < lmc_wlevel_rank.s.byte3) ||
+					(test_byte8 > lmc_wlevel_rank.s.byte4))
+				    { // should never be outside the byte 3-4 range
+					byte_test_status[8] = WL_ESTIMATED; /* say it is still estimated */
 				    }
 				}
-
+				// check if we came up with a bad calculation
+				// this happens if some of the original values were off
+				if (byte_test_status[8] == WL_ESTIMATED) {
+				    // ESTIMATED means there is an issue, will trigger bytes_failed later
+				    ddr_print("N%d.LMC%d.R%d: ATTENTION (%cDIMM): calculated ECC delay bogus (%d/%d/%d)\n",
+					      node, ddr_interface_num, rankx, (spd_rdimm?'R':'U'),
+					      lmc_wlevel_rank.s.byte4, test_byte8, lmc_wlevel_rank.s.byte3);
+				    test_byte8 = save_byte8; // restore orig HW value
+				}
 #endif /* SW_WL_CHECK_PATCH */
                                 lmc_wlevel_rank.s.byte8 = test_byte8 & ~1; /* Use only even settings */
                             }
@@ -6605,7 +6736,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	    int errors;
 
             if (bytes_failed) {
-		ddr_print("N%d.LMC%d.R%d: Starting SW Wwrite-leveling pass 2\n",
+
+#if !DISABLE_SW_WL_PASS_2
+
+		ddr_print("N%d.LMC%d.R%d: Starting SW Write-leveling pass 2\n",
 			  node, ddr_interface_num, rankx);
                 sw_wl_rank_status = WL_SOFTWARE;
 
@@ -6623,7 +6757,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    uint64_t bitmask;
                     int wl_offset;
 		    int bytes_todo;
-		    uint64_t core_num = bdk_get_core_num();
 
 		    for (byte = 0; byte < 8; ++byte) {
 			byte_passed[byte] = 0;
@@ -6655,7 +6788,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
 			    lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
-			    BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(core_num), 0);
+			    bdk_watchdog_poke();
 
 			    // do the test
 			    errors = test_dram_byte(rank_addr, bytemask);
@@ -6739,12 +6872,39 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					      lmc_wlevel_rank.s.byte0);
                     byte_test_status[byte] = WL_SOFTWARE;
                 }
+#else /* !DISABLE_SW_WL_PASS_2 */
+		// FIXME? the big hammer, did not even try SW WL pass2, assume only chip reset will help
+		ddr_print("N%d.LMC%d.R%d: SW write-leveling pass 1 failed\n",
+			  node, ddr_interface_num, rankx);
+		sw_wl_failed = 1;
+#endif /* !DISABLE_SW_WL_PASS_2 */
 
-            } /* if (bytes_failed) */
+            } else { /* if (bytes_failed) */
 
-            DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
-            lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
+		// SW WL pass 1 was OK, write the settings
+		DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
+		lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
+#if SW_WL_CHECK_PATCH
+		// do validity check on the delay values by running the test 1 more time...
+		// FIXME: we really need to check the ECC byte setting here as well,
+		//        so we need to enable ECC for this test!!!
+		// if there are any errors, claim SW WL failure
+		{
+		    uint64_t datamask = (ddr_interface_64b) ? 0xffffffffffffffffULL : 0x00000000ffffffffULL;
+
+		    errors = test_dram_byte(rank_addr, datamask);
+		    if (errors) {
+			ddr_print("N%d.LMC%d.R%d: Wlevel Rank Final Test errors 0x%x\n",
+			      node, ddr_interface_num, rankx, errors);
+			sw_wl_failed = 1;
+		    }
+		}
+#endif /* SW_WL_CHECK_PATCH */
+
+	    } /* if (bytes_failed) */
+
+	    // FIXME? dump the WL settings, so we get more of a clue as to what happened where
             ddr_print("N%d.LMC%d.R%d: Wlevel Rank %#4x, 0x%016lX  : %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %s\n",
                       node, ddr_interface_num, rankx,
                       lmc_wlevel_rank.s.status,
@@ -6761,21 +6921,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                       (sw_wl_rank_status == WL_HARDWARE) ? "" : "(s)"
                       );
 
-#if SW_WL_CHECK_PATCH
-	    // work in progress, needs more thought...
-	    // do validity check on the delay values by running the test 1 more time...
-	    // if there are any errors, claim SW WL failure
-	    {
-		uint64_t datamask = (ddr_interface_64b) ? 0xffffffffffffffffULL : 0x00000000ffffffffULL;
-
-		errors = test_dram_byte(rank_addr, datamask);
-		ddr_print("N%d.LMC%d.R%d: Wlevel Rank Final Test errors 0x%x\n",
-			  node, ddr_interface_num, rankx, errors);
-		if (errors)
-		    sw_wl_failed = 1;
-	    }
-#endif /* SW_WL_CHECK_PATCH */
-
+	    // finally, check that we should continue, otherwise chip reset here...
             if (((ddr_type == DDR4_DRAM) && (best_vref_values_count == 0)) || sw_wl_failed) {
                 error_print("INFO: Short memory test indicates a retry is needed on N%d.LMC%d.R%d. Resetting node...\n",
 			    node, ddr_interface_num, rankx);
@@ -6829,6 +6975,22 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 		display_WL(node, ddr_interface_num, lmc_wlevel_rank, rankx);
             }
+#if WLEXTRAS_PATCH
+	    {
+		if (rankx < 3) {
+		    ddr_print("N%d.LMC%d.R%d: writing WLEVEL_RANK unused entries.\n",
+			      node, ddr_interface_num, rankx);
+
+		    if (rankx == 0) { // if rank 0, write ranks 1 and 2 here
+			DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, 1), lmc_wlevel_rank.u);
+			DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, 2), lmc_wlevel_rank.u);
+		    }
+		    // if rank 0, 1 or 2, write rank 3 here
+		    DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, 3), lmc_wlevel_rank.u);
+		}
+	    }
+#endif /* WLEXTRAS_PATCH */
+
         } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
 
         /* Enable 32-bit mode if required. */
