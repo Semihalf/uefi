@@ -204,19 +204,19 @@ typedef union
         uint64_t reserved_29_31        : 3;
         uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
         uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
-        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
-                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
                                                                  indicating this behavior.
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
-                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
-                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t reserved_24           : 1;
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
@@ -254,19 +254,19 @@ typedef union
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
         uint64_t reserved_24           : 1;
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
-        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
-                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
                                                                  indicating this behavior.
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
-                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
-                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
         uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
         uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
         uint64_t reserved_29_31        : 3;
@@ -319,19 +319,19 @@ typedef union
         uint64_t reserved_29_31        : 3;
         uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
         uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
-        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
-                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
                                                                  indicating this behavior.
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
-                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
-                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t reserved_24           : 1;
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
@@ -369,19 +369,19 @@ typedef union
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
         uint64_t reserved_24           : 1;
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
-        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
-                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
                                                                  indicating this behavior.
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
-                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
-                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
         uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
         uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
         uint64_t reserved_29_31        : 3;
@@ -433,19 +433,19 @@ typedef union
         uint64_t reserved_29_31        : 3;
         uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
         uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
-        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
-                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
                                                                  indicating this behavior.
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
-                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
-                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t reserved_24           : 1;
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
@@ -483,19 +483,19 @@ typedef union
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
         uint64_t reserved_24           : 1;
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
-        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
-                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
                                                                  indicating this behavior.
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
-                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
-                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
         uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
         uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
         uint64_t reserved_29_31        : 3;
@@ -549,19 +549,19 @@ typedef union
         uint64_t reserved_29_31        : 3;
         uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
         uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
-        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
-                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
                                                                  indicating this behavior.
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
-                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
-                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t reserved_24           : 1;
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
@@ -599,19 +599,19 @@ typedef union
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
         uint64_t reserved_24           : 1;
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
-        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - [DORM_CRYPTO] and [NOCRYPTO] together select the crypto mode:
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 0: AES/SHA/PMULL enabled.
 
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
-                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 _ [DORM_CRYPTO] = 0, [NOCRYPTO] = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and AP_ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
                                                                  indicating this behavior.
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
-                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
-                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if [NOCRYPTO] = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if [NOCRYPTO] = 1).
 
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
+                                                                 _ [DORM_CRYPTO] = 1, [NOCRYPTO] = 1: Reserved. */
         uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
         uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
         uint64_t reserved_29_31        : 3;

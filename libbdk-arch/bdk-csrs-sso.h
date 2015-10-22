@@ -2149,6 +2149,48 @@ static inline uint64_t BDK_SSO_ERR2_W1S_FUNC(void)
 #define arguments_BDK_SSO_ERR2_W1S -1,-1,-1,-1
 
 /**
+ * Register (NCB) sso_grp#_aq_limit
+ *
+ * SSO Admission Queue Limit Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sso_grpx_aq_limit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t aq_limit              : 33; /**< [ 32:  0](RO/H) AQ limit. If an add work is requested to a group where [AQ_LIMIT] <=
+                                                                 SSO_VHGRP()_AQ_CNT[AQ_CNT], then the add work is dropped and
+                                                                 SSO_VHGRP()_INT[AQ_LIMIT] is set. When 0x0, limiting is disabled. Due to
+                                                                 pipelining, hardware may exceed this limit by up to TBD entries. */
+#else /* Word 0 - Little Endian */
+        uint64_t aq_limit              : 33; /**< [ 32:  0](RO/H) AQ limit. If an add work is requested to a group where [AQ_LIMIT] <=
+                                                                 SSO_VHGRP()_AQ_CNT[AQ_CNT], then the add work is dropped and
+                                                                 SSO_VHGRP()_INT[AQ_LIMIT] is set. When 0x0, limiting is disabled. Due to
+                                                                 pipelining, hardware may exceed this limit by up to TBD entries. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sso_grpx_aq_limit_s cn; */
+} bdk_sso_grpx_aq_limit_t;
+
+static inline uint64_t BDK_SSO_GRPX_AQ_LIMIT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SSO_GRPX_AQ_LIMIT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x860020000220ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("SSO_GRPX_AQ_LIMIT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SSO_GRPX_AQ_LIMIT(a) bdk_sso_grpx_aq_limit_t
+#define bustype_BDK_SSO_GRPX_AQ_LIMIT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SSO_GRPX_AQ_LIMIT(a) "SSO_GRPX_AQ_LIMIT"
+#define device_bar_BDK_SSO_GRPX_AQ_LIMIT(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SSO_GRPX_AQ_LIMIT(a) (a)
+#define arguments_BDK_SSO_GRPX_AQ_LIMIT(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) sso_grp#_ds_pc
  *
  * SSO Deschedule Performance Counter Register
@@ -2851,13 +2893,13 @@ typedef union
         uint64_t prev_index            : 10; /**< [ 25: 16](RO/H) The previous entry in the tag chain. Unpredictable if the entry is at the head of the list
                                                                  or the head of a conflicted tag chain. */
         uint64_t reserved_11_15        : 5;
-        uint64_t next_index_vld        : 1;  /**< [ 10: 10](RO/H) The NEXT_INDEX is valid. Unpredictable unless the entry is the tail entry of an atomic tag chain. */
+        uint64_t next_index_vld        : 1;  /**< [ 10: 10](RO/H) The [NEXT_INDEX] is valid. Unpredictable unless the entry is the tail entry of an atomic tag chain. */
         uint64_t next_index            : 10; /**< [  9:  0](RO/H) The next entry in the tag chain or conflicted tag chain. Unpredictable if the entry is at
                                                                  the tail of the list. */
 #else /* Word 0 - Little Endian */
         uint64_t next_index            : 10; /**< [  9:  0](RO/H) The next entry in the tag chain or conflicted tag chain. Unpredictable if the entry is at
                                                                  the tail of the list. */
-        uint64_t next_index_vld        : 1;  /**< [ 10: 10](RO/H) The NEXT_INDEX is valid. Unpredictable unless the entry is the tail entry of an atomic tag chain. */
+        uint64_t next_index_vld        : 1;  /**< [ 10: 10](RO/H) The [NEXT_INDEX] is valid. Unpredictable unless the entry is the tail entry of an atomic tag chain. */
         uint64_t reserved_11_15        : 5;
         uint64_t prev_index            : 10; /**< [ 25: 16](RO/H) The previous entry in the tag chain. Unpredictable if the entry is at the head of the list
                                                                  or the head of a conflicted tag chain. */
@@ -3344,10 +3386,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t cnt                   : 32; /**< [ 31:  0](RO/H) In-use page count. Number of pages SSO has allocated and not yet returned. Excludes unused
+        uint64_t cnt                   : 32; /**< [ 31:  0](R/W/H) In-use page count. Number of pages SSO has allocated and not yet returned. Excludes unused
                                                                  pointers cached in SSO. Hardware updates this register. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 32; /**< [ 31:  0](RO/H) In-use page count. Number of pages SSO has allocated and not yet returned. Excludes unused
+        uint64_t cnt                   : 32; /**< [ 31:  0](R/W/H) In-use page count. Number of pages SSO has allocated and not yet returned. Excludes unused
                                                                  pointers cached in SSO. Hardware updates this register. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -4012,10 +4054,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-12. This provides the second index into
                                                                  SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP. */
-        uint64_t wae_tail              : 4;  /**< [ 59: 56](RO/H) When WAE_USED is non-zero, this provides the next free WAE number in the cache line of the
-                                                                 tail entry. If 0, the next entry will be placed at the beginning of a new cache line. This
-                                                                 provides the second index into
-                                                                 SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP. */
+        uint64_t wae_tail              : 4;  /**< [ 59: 56](RO/H) When [WAE_USED] is non-zero, this provides the next free WAE number in the cache
+                                                                 line of the tail entry. If 0x0, the next entry will be placed at the beginning of
+                                                                 a new cache line. This provides the second index into SSO_TAQ()_WAE()_TAG and
+                                                                 SSO_TAQ()_WAE()_WQP. */
         uint64_t reserved_47_55        : 9;
         uint64_t wae_used              : 15; /**< [ 46: 32](RO/H) Number of WAEs in use. */
         uint64_t reserved_23_31        : 9;
@@ -4033,10 +4075,10 @@ typedef union
         uint64_t reserved_23_31        : 9;
         uint64_t wae_used              : 15; /**< [ 46: 32](RO/H) Number of WAEs in use. */
         uint64_t reserved_47_55        : 9;
-        uint64_t wae_tail              : 4;  /**< [ 59: 56](RO/H) When WAE_USED is non-zero, this provides the next free WAE number in the cache line of the
-                                                                 tail entry. If 0, the next entry will be placed at the beginning of a new cache line. This
-                                                                 provides the second index into
-                                                                 SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP. */
+        uint64_t wae_tail              : 4;  /**< [ 59: 56](RO/H) When [WAE_USED] is non-zero, this provides the next free WAE number in the cache
+                                                                 line of the tail entry. If 0x0, the next entry will be placed at the beginning of
+                                                                 a new cache line. This provides the second index into SSO_TAQ()_WAE()_TAG and
+                                                                 SSO_TAQ()_WAE()_WQP. */
         uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-12. This provides the second index into
                                                                  SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP. */
 #endif /* Word 0 - End */
@@ -4297,9 +4339,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t aq_cnt                : 33; /**< [ 32:  0](RO/H) Number of total in-unit, transitional and external admission queue entries for each group */
+        uint64_t aq_cnt                : 33; /**< [ 32:  0](RO/H) Number of total in-unit, transitional and external admission queue entries for this group. */
 #else /* Word 0 - Little Endian */
-        uint64_t aq_cnt                : 33; /**< [ 32:  0](RO/H) Number of total in-unit, transitional and external admission queue entries for each group */
+        uint64_t aq_cnt                : 33; /**< [ 32:  0](RO/H) Number of total in-unit, transitional and external admission queue entries for this group. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
@@ -4378,8 +4420,10 @@ typedef union
                                                                  * The hardware decrements the time counter for this group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
-        uint64_t reserved_3_62         : 60;
-        uint64_t mbox                  : 1;  /**< [  2:  2](R/W1C/H) PF to VF mailbox interrupt. Set when SSO_VHGRP(0..63)_MBOX(0) is written. */
+        uint64_t reserved_4_62         : 59;
+        uint64_t mbox                  : 1;  /**< [  3:  3](R/W1C/H) PF to VF mailbox interrupt. Set when SSO_VHGRP(0..63)_MBOX(0) is written. */
+        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1C/H) Group AQ exceeded allocation limit. Set when SSO_VHGRP()_AQ_CNT[AQ_CNT] >=
+                                                                 SSO_GRP()_AQ_LIMIT[AQ_LIMIT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1C/H) Work-executable interrupt. Generally used to indicate work is waiting for software.
                                                                  Set by hardware whenever:
 
@@ -4417,8 +4461,10 @@ typedef union
                                                                  _ SSO_VHGRP()_INT_CNT[IAQ_CNT] > 0
                                                                  _ SSO_VHGRP()_INT_CNT[DS_CNT] > 0
                                                                  _ SSO_VHGRP()_INT_CNT[CQ_CNT] > 0 */
-        uint64_t mbox                  : 1;  /**< [  2:  2](R/W1C/H) PF to VF mailbox interrupt. Set when SSO_VHGRP(0..63)_MBOX(0) is written. */
-        uint64_t reserved_3_62         : 60;
+        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1C/H) Group AQ exceeded allocation limit. Set when SSO_VHGRP()_AQ_CNT[AQ_CNT] >=
+                                                                 SSO_GRP()_AQ_LIMIT[AQ_LIMIT]. */
+        uint64_t mbox                  : 1;  /**< [  3:  3](R/W1C/H) PF to VF mailbox interrupt. Set when SSO_VHGRP(0..63)_MBOX(0) is written. */
+        uint64_t reserved_4_62         : 59;
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
@@ -4531,15 +4577,17 @@ typedef union
                                                                  * The hardware decrements the time counter for this group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
-        uint64_t reserved_3_62         : 60;
-        uint64_t mbox                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[MBOX]. */
+        uint64_t reserved_4_62         : 59;
+        uint64_t mbox                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[MBOX]. */
+        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[EXE_INT]. */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[AQ_INT]. */
 #else /* Word 0 - Little Endian */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[AQ_INT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[EXE_INT]. */
-        uint64_t mbox                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[MBOX]. */
-        uint64_t reserved_3_62         : 60;
+        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
+        uint64_t mbox                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[MBOX]. */
+        uint64_t reserved_4_62         : 59;
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
@@ -4584,15 +4632,17 @@ typedef union
                                                                  * The hardware decrements the time counter for this group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
-        uint64_t reserved_3_62         : 60;
-        uint64_t mbox                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[MBOX]. */
+        uint64_t reserved_4_62         : 59;
+        uint64_t mbox                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[MBOX]. */
+        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[EXE_INT]. */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[AQ_INT]. */
 #else /* Word 0 - Little Endian */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[AQ_INT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[EXE_INT]. */
-        uint64_t mbox                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[MBOX]. */
-        uint64_t reserved_3_62         : 60;
+        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
+        uint64_t mbox                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[MBOX]. */
+        uint64_t reserved_4_62         : 59;
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
@@ -4705,15 +4755,17 @@ typedef union
                                                                  * The hardware decrements the time counter for this group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
-        uint64_t reserved_3_62         : 60;
-        uint64_t mbox                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[MBOX]. */
+        uint64_t reserved_4_62         : 59;
+        uint64_t mbox                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[MBOX]. */
+        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[EXE_INT]. */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[AQ_INT]. */
 #else /* Word 0 - Little Endian */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[AQ_INT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[EXE_INT]. */
-        uint64_t mbox                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[MBOX]. */
-        uint64_t reserved_3_62         : 60;
+        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
+        uint64_t mbox                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[MBOX]. */
+        uint64_t reserved_4_62         : 59;
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
@@ -4744,9 +4796,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_W1S(unsigned long a)
  * Register (NCB) sso_vhgrp#_op_add_work0
  *
  * SSO Add Work Register 0
- * A write to this register performs an add work. A single-transaction 128-bit store
- * (SDP) may be used to ADD_WORK0 and ADD_WORK1 to perform a single add work with both
- * a tag and work pointer.
+ * See SSO_VHGRP()_OP_ADD_WORK1.
  */
 typedef union
 {
@@ -4785,9 +4835,13 @@ static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK0(unsigned long a)
  * Register (NCB) sso_vhgrp#_op_add_work1
  *
  * SSO Add Work Register 1
- * A write to this register performs an add work. A single-transaction 128-bit store
- * (SDP) may be used to ADD_WORK0 and ADD_WORK1 to perform a single add work with both
- * a tag and work pointer.
+ * A write to this register performs an add work. Either:
+ *   * A single-transaction 128-bit store (SDP) is used to ADD_WORK0 and ADD_WORK1 to
+ *   perform a single add work with both a tag and work pointer.
+ *   * Or, a single 64-bit store is used to ADD_WORK1 to perform a single add work which
+ *   is untagged.
+ *   * Writing SSO_VHGRP()_OP_ADD_WORK0 without a simultanious write to ADD_WORK1
+ *   as described above is ignored.
  */
 typedef union
 {

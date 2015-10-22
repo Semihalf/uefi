@@ -1500,12 +1500,11 @@ typedef union
                                                                  0 = Use the divided coprocessor clock from the H_CLKDIV divider.
                                                                  1 = Use the bypass clock from the GPIO pins.
 
-                                                                 This signal is just a multiplexer-select signal; it does not enable the UART controller
-                                                                 and APB
-                                                                 clock. You must still set H_CLKDIV_EN separately. H_CLK_BYP_SEL select should not be
-                                                                 changed unless H_CLKDIV_EN is disabled.
-                                                                 The bypass clock can be selected and running even if the UART controller clock dividers
-                                                                 are not running.
+                                                                 This signal is just a multiplexer-select signal; it does not enable the UART
+                                                                 controller and APB clock. Software must still set [H_CLK_EN]
+                                                                 separately. [H_CLK_BYP_SEL] select should not be changed unless [H_CLK_EN] is
+                                                                 disabled.  The bypass clock can be selected and running even if the UART
+                                                                 controller clock dividers are not running.
 
                                                                  Internal:
                                                                  Generally bypass is only used for scan purposes. */
@@ -1525,8 +1524,8 @@ typedef union
                                                                  0x7 = Divide by 32.
 
                                                                  The max and min frequency of the UARTCLK is determined by the following:
-                                                                 _ F_UARTCLK(min) >= 16 * baud_rate(max)
-                                                                 _ F_UARTCLK(max) <= 16 * 65535 * baud_rate(min) */
+                                                                 _ f_uartclk(min) >= 16 * baud_rate(max)
+                                                                 _ f_uartclk(max) <= 16 * 65535 * baud_rate(min) */
         uint64_t reserved_5_23         : 19;
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the UCTL interface clock (coprocessor clock).
                                                                  This enables the UCTL registers starting from 0x30 via the RSL bus. */
@@ -1539,7 +1538,7 @@ typedef union
                                                                  Resets UCTL RSL registers 0x30-0xF8.
                                                                  Does not reset UCTL RSL registers 0x0-0x28.
                                                                  UCTL RSL registers starting from 0x30 can be accessed only after the UART controller clock
-                                                                 is active and UCTL_RST is deasserted.
+                                                                 is active and [UCTL_RST] is deasserted.
 
                                                                  Internal:
                                                                  Note that soft-resetting the UCTL while it is active may cause violations of
@@ -1549,7 +1548,7 @@ typedef union
                                                                  Resets UCTL RSL registers 0x30-0xF8.
                                                                  Does not reset UCTL RSL registers 0x0-0x28.
                                                                  UCTL RSL registers starting from 0x30 can be accessed only after the UART controller clock
-                                                                 is active and UCTL_RST is deasserted.
+                                                                 is active and [UCTL_RST] is deasserted.
 
                                                                  Internal:
                                                                  Note that soft-resetting the UCTL while it is active may cause violations of
@@ -1574,8 +1573,8 @@ typedef union
                                                                  0x7 = Divide by 32.
 
                                                                  The max and min frequency of the UARTCLK is determined by the following:
-                                                                 _ F_UARTCLK(min) >= 16 * baud_rate(max)
-                                                                 _ F_UARTCLK(max) <= 16 * 65535 * baud_rate(min) */
+                                                                 _ f_uartclk(min) >= 16 * baud_rate(max)
+                                                                 _ f_uartclk(max) <= 16 * 65535 * baud_rate(min) */
         uint64_t reserved_27           : 1;
         uint64_t h_clkdiv_rst          : 1;  /**< [ 28: 28](R/W) UART controller clock divider reset. Divided clocks are not generated while the divider is
                                                                  being reset.
@@ -1584,12 +1583,11 @@ typedef union
                                                                  0 = Use the divided coprocessor clock from the H_CLKDIV divider.
                                                                  1 = Use the bypass clock from the GPIO pins.
 
-                                                                 This signal is just a multiplexer-select signal; it does not enable the UART controller
-                                                                 and APB
-                                                                 clock. You must still set H_CLKDIV_EN separately. H_CLK_BYP_SEL select should not be
-                                                                 changed unless H_CLKDIV_EN is disabled.
-                                                                 The bypass clock can be selected and running even if the UART controller clock dividers
-                                                                 are not running.
+                                                                 This signal is just a multiplexer-select signal; it does not enable the UART
+                                                                 controller and APB clock. Software must still set [H_CLK_EN]
+                                                                 separately. [H_CLK_BYP_SEL] select should not be changed unless [H_CLK_EN] is
+                                                                 disabled.  The bypass clock can be selected and running even if the UART
+                                                                 controller clock dividers are not running.
 
                                                                  Internal:
                                                                  Generally bypass is only used for scan purposes. */

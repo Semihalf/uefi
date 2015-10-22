@@ -430,6 +430,46 @@ union bdk_cpt_res_s
 };
 
 /**
+ * Register (NCB) cpt#_active_cycles_pc
+ *
+ * CPT Active Cycles Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_active_cycles_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the conditional clocks are active.
+                                                                 Internal:
+                                                                 Includes CDE internal or any engine clock being enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the conditional clocks are active.
+                                                                 Internal:
+                                                                 Includes CDE internal or any engine clock being enabled. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_active_cycles_pc_s cn; */
+} bdk_cptx_active_cycles_pc_t;
+
+static inline uint64_t BDK_CPTX_ACTIVE_CYCLES_PC(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_ACTIVE_CYCLES_PC(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x872000010080ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872000010080ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_ACTIVE_CYCLES_PC", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_ACTIVE_CYCLES_PC(a) bdk_cptx_active_cycles_pc_t
+#define bustype_BDK_CPTX_ACTIVE_CYCLES_PC(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_ACTIVE_CYCLES_PC(a) "CPTX_ACTIVE_CYCLES_PC"
+#define device_bar_BDK_CPTX_ACTIVE_CYCLES_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_CPTX_ACTIVE_CYCLES_PC(a) (a)
+#define arguments_BDK_CPTX_ACTIVE_CYCLES_PC(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) cpt#_pf_bist_status
  *
  * CPT PF Control Bist Status Register
@@ -468,6 +508,80 @@ static inline uint64_t BDK_CPTX_PF_BIST_STATUS(unsigned long a)
 #define device_bar_BDK_CPTX_PF_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_BIST_STATUS(a) (a)
 #define arguments_BDK_CPTX_PF_BIST_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_bp_test
+ *
+ * INTERNAL: CPT PF Backpressure Test Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_bp_test_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved. FIXME - add some.
+                                                                 <62> = Reserved. FIXME - add some.
+                                                                 <61> = Reserved. FIXME - add some.
+                                                                 <60> = Reserved. FIXME - add some. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = BP_CFG3.
+                                                                   <21:20> = BP_CFG2.
+                                                                   <19:18> = BP_CFG1.
+                                                                   <17:16> = BP_CFG0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = BP_CFG3.
+                                                                   <21:20> = BP_CFG2.
+                                                                   <19:18> = BP_CFG1.
+                                                                   <17:16> = BP_CFG0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved. FIXME - add some.
+                                                                 <62> = Reserved. FIXME - add some.
+                                                                 <61> = Reserved. FIXME - add some.
+                                                                 <60> = Reserved. FIXME - add some. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_bp_test_s cn; */
+} bdk_cptx_pf_bp_test_t;
+
+static inline uint64_t BDK_CPTX_PF_BP_TEST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_BP_TEST(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x872000000180ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872000000180ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_BP_TEST", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_BP_TEST(a) bdk_cptx_pf_bp_test_t
+#define bustype_BDK_CPTX_PF_BP_TEST(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_BP_TEST(a) "CPTX_PF_BP_TEST"
+#define device_bar_BDK_CPTX_PF_BP_TEST(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_CPTX_PF_BP_TEST(a) (a)
+#define arguments_BDK_CPTX_PF_BP_TEST(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) cpt#_pf_constants
@@ -1598,10 +1712,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 CPT_VF(0..63)_PF_MBOX(1) is written. */
+                                                                 CPT(0..1)_VF(0..63)_PF_MBOX(1) is written. */
 #else /* Word 0 - Little Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 CPT_VF(0..63)_PF_MBOX(1) is written. */
+                                                                 CPT(0..1)_VF(0..63)_PF_MBOX(1) is written. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_mbox_intx_s cn; */
@@ -1805,7 +1919,8 @@ static inline uint64_t BDK_CPTX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long 
  * Register (NCB) cpt#_pf_q#_ctl
  *
  * CPT Queue Control Register
- * This register configures queues.
+ * This register configures queues. This register should be changed only when quiescent
+ * (see CPT()_VQ()_STATUS[BUSY]).
  */
 typedef union
 {
@@ -1813,7 +1928,46 @@ typedef union
     struct bdk_cptx_pf_qx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_60_63        : 4;
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be even. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+
+                                                                 0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
+                                                                 CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 CPT(0..1)_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 pipelining, additional instructions may have been processed between the
+                                                                 instruction causing the error and the next instruction in the disabled queue
+                                                                 (the instruction at CPT()_VQ()_SADDR).
+
+                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
+                                                                 endian format in memory. */
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
+        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
+                                                                 will use STF. */
+        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
+                                                                 data.
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
         uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
@@ -1823,7 +1977,46 @@ typedef union
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
                                                                  0 = This queue has lower priority. Round-robin between lower priority queues. */
         uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
+                                                                 data.
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
+        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
+                                                                 will use STF. */
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
+                                                                 endian format in memory. */
+        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
+        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+
+                                                                 0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
+                                                                 CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 CPT(0..1)_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 pipelining, additional instructions may have been processed between the
+                                                                 instruction causing the error and the next instruction in the disabled queue
+                                                                 (the instruction at CPT()_VQ()_SADDR).
+
+                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be even. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set. */
+        uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_pf_qx_ctl_s cn; */
@@ -1850,7 +2043,8 @@ static inline uint64_t BDK_CPTX_PF_QX_CTL(unsigned long a, unsigned long b)
  * Register (NCB) cpt#_pf_q#_gmctl
  *
  * CPT Queue Guest Machine Control Register
- * This register configures queues.
+ * This register configures queues. This register should be changed only when quiescent
+ * (see CPT()_VQ()_STATUS[BUSY]).
  */
 typedef union
 {
@@ -2034,7 +2228,7 @@ typedef union
                                                                  CPT()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
                                                                  for VF to PF. Writing CPT(0..1)_PF_VF(0..63)_MBOX(0) (but not
                                                                  CPT(0..1)_VF(0..63)_PF_MBOX(0)) will set the corresponding
-                                                                 CPT()_VF()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
+                                                                 CPT()_VQ()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
@@ -2042,7 +2236,7 @@ typedef union
                                                                  CPT()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
                                                                  for VF to PF. Writing CPT(0..1)_PF_VF(0..63)_MBOX(0) (but not
                                                                  CPT(0..1)_VF(0..63)_PF_MBOX(0)) will set the corresponding
-                                                                 CPT()_VF()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
+                                                                 CPT()_VQ()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #endif /* Word 0 - End */
     } s;
@@ -2246,10 +2440,8 @@ static inline uint64_t BDK_CPTX_VFX_PF_MBOXX(unsigned long a, unsigned long b, u
  * Register (NCB) cpt#_vq#_ctl
  *
  * CPT VF Queue Control Registers
- * These registers set the buffer parameters for the instruction queues. When quiescent
- * (i.e. outstanding doorbell count is 0), it is safe to rewrite this register to
- * effectively reset the command buffer state machine. These registers must be
- * programmed before software programs the corresponding CPT()_VQ()_SADDR.
+ * This register configures queues. This register should be changed (other than
+ * clearing [ENA]) only when quiescent (see CPT()_VQ()_STATUS[BUSY]).
  */
 typedef union
 {
@@ -2257,67 +2449,17 @@ typedef union
     struct bdk_cptx_vqx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_45_63        : 19;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be even. */
-        uint64_t reserved_23_31        : 9;
-        uint64_t inst_free             : 1;  /**< [ 22: 22](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t inst_be               : 1;  /**< [ 21: 21](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
-        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a CDE instruction full cache lines will use NCB LDWB
-                                                                 read-and-invalidate to improve performance. If clear, use NCB LDI for
-                                                                 debugability. Partial cache line reads always use LDI. */
-        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) Internal:
-                                                                 TBD - THIS FIELD WILL BE GOING AWAY
-                                                                 When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
-        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) Internal:
-                                                                 TBD - THIS FIELD WILL BE GOING AWAY
-                                                                 New CSR Bit when set will replace LDWBs from CDEI-Units to a LDI.
-                                                                 Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t ena                   : 1;  /**< [ 16: 16](R/W) Enables the logical instruction queue.
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W/H) Enables the logical instruction queue. See also CPT()_PF_Q()_CTL[CONT_ERR] and
+                                                                 CPT()_VQ()_STATUS[BUSY].
                                                                  1 = Queue is enabled.
                                                                  0 = Queue is disabled. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t aura                  : 12; /**< [ 11:  0](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 12; /**< [ 11:  0](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t ena                   : 1;  /**< [ 16: 16](R/W) Enables the logical instruction queue.
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W/H) Enables the logical instruction queue. See also CPT()_PF_Q()_CTL[CONT_ERR] and
+                                                                 CPT()_VQ()_STATUS[BUSY].
                                                                  1 = Queue is enabled.
                                                                  0 = Queue is disabled. */
-        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) Internal:
-                                                                 TBD - THIS FIELD WILL BE GOING AWAY
-                                                                 New CSR Bit when set will replace LDWBs from CDEI-Units to a LDI.
-                                                                 Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) Internal:
-                                                                 TBD - THIS FIELD WILL BE GOING AWAY
-                                                                 When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
-        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a CDE instruction full cache lines will use NCB LDWB
-                                                                 read-and-invalidate to improve performance. If clear, use NCB LDI for
-                                                                 debugability. Partial cache line reads always use LDI. */
-        uint64_t inst_be               : 1;  /**< [ 21: 21](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
-        uint64_t inst_free             : 1;  /**< [ 22: 22](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t reserved_23_31        : 9;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be even. */
-        uint64_t reserved_45_63        : 19;
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_cptx_vqx_ctl_s cn; */
@@ -2851,10 +2993,10 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CPT(0..1)_VF(0..63)_MBOX(0)
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CPT(0..1)_VF(0..63)_PF_MBOX(0)
                                                                  is written. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CPT(0..1)_VF(0..63)_MBOX(0)
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CPT(0..1)_VF(0..63)_PF_MBOX(0)
                                                                  is written. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
@@ -2940,7 +3082,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 43; /**< [ 48:  6](R/W/H) Instruction buffer pointer IOVA <48:6> (64-byte aligned). When written, it is the initial
+        uint64_t ptr                   : 43; /**< [ 48:  6](R/W/H) Instruction buffer IOVA <48:6> (64-byte aligned). When written, it is the initial
                                                                  buffer starting address; when read, it is the next read pointer to be requested from L2C.
                                                                  The PTR field is overwritten with the next pointer each time that the command buffer
                                                                  segment is exhausted. New commands will then be read from the newly specified command
@@ -2948,7 +3090,7 @@ typedef union
         uint64_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_5          : 6;
-        uint64_t ptr                   : 43; /**< [ 48:  6](R/W/H) Instruction buffer pointer IOVA <48:6> (64-byte aligned). When written, it is the initial
+        uint64_t ptr                   : 43; /**< [ 48:  6](R/W/H) Instruction buffer IOVA <48:6> (64-byte aligned). When written, it is the initial
                                                                  buffer starting address; when read, it is the next read pointer to be requested from L2C.
                                                                  The PTR field is overwritten with the next pointer each time that the command buffer
                                                                  segment is exhausted. New commands will then be read from the newly specified command
@@ -2975,5 +3117,56 @@ static inline uint64_t BDK_CPTX_VQX_SADDR(unsigned long a, unsigned long b)
 #define device_bar_BDK_CPTX_VQX_SADDR(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CPTX_VQX_SADDR(a,b) (a)
 #define arguments_BDK_CPTX_VQX_SADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) cpt#_vq#_status
+ *
+ * CPT VF Queue Status Registers
+ * These registers return status of the instruction queues.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_vqx_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Queue busy. If set, CPT is fetching, executing or responding to
+                                                                 instructions. However this does not include any interrupts that are awaiting
+                                                                 software handling (CPT()_VQ()_DONE[DONE] != 0x0).
+
+                                                                 A queue may not be reconfigured until:
+                                                                   1. CPT()_VQ()_CTL[ENA] is cleared by software.
+                                                                   2. [BUSY] is polled until clear. */
+#else /* Word 0 - Little Endian */
+        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Queue busy. If set, CPT is fetching, executing or responding to
+                                                                 instructions. However this does not include any interrupts that are awaiting
+                                                                 software handling (CPT()_VQ()_DONE[DONE] != 0x0).
+
+                                                                 A queue may not be reconfigured until:
+                                                                   1. CPT()_VQ()_CTL[ENA] is cleared by software.
+                                                                   2. [BUSY] is polled until clear. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_vqx_status_s cn; */
+} bdk_cptx_vqx_status_t;
+
+static inline uint64_t BDK_CPTX_VQX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_VQX_STATUS(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
+        return 0x872020000120ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
+        return 0x872020000120ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    __bdk_csr_fatal("CPTX_VQX_STATUS", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_CPTX_VQX_STATUS(a,b) bdk_cptx_vqx_status_t
+#define bustype_BDK_CPTX_VQX_STATUS(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_VQX_STATUS(a,b) "CPTX_VQX_STATUS"
+#define device_bar_BDK_CPTX_VQX_STATUS(a,b) 0x10 /* VF_BAR0 */
+#define busnum_BDK_CPTX_VQX_STATUS(a,b) (a)
+#define arguments_BDK_CPTX_VQX_STATUS(a,b) (a),(b),-1,-1
 
 #endif /* __BDK_CSRS_CPT_H__ */

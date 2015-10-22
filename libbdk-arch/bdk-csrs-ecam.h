@@ -211,6 +211,53 @@ static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b)
 #define arguments_BDK_ECAMX_BUSX_SDIS(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) ecam#_bus#_skill
+ *
+ * ECAM Bus Secure Disable Registers
+ * Added in pass 3.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ecamx_busx_skill_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM bus kill.
+                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 the indexed ECAM bus/function/device number is RAO/WI when accessed via
+                                                                 the ECAM space with any (secure/non-secure) transactions. */
+#else /* Word 0 - Little Endian */
+        uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM bus kill.
+                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 the indexed ECAM bus/function/device number is RAO/WI when accessed via
+                                                                 the ECAM space with any (secure/non-secure) transactions. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ecamx_busx_skill_s cn; */
+} bdk_ecamx_busx_skill_t;
+
+static inline uint64_t BDK_ECAMX_BUSX_SKILL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_BUSX_SKILL(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=255)))
+        return 0x87e048080000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=255)))
+        return 0x87e048080000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=3) && (b<=255)))
+        return 0x87e048080000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    __bdk_csr_fatal("ECAMX_BUSX_SKILL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_ECAMX_BUSX_SKILL(a,b) bdk_ecamx_busx_skill_t
+#define bustype_BDK_ECAMX_BUSX_SKILL(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_BUSX_SKILL(a,b) "ECAMX_BUSX_SKILL"
+#define device_bar_BDK_ECAMX_BUSX_SKILL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_ECAMX_BUSX_SKILL(a,b) (a)
+#define arguments_BDK_ECAMX_BUSX_SKILL(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) ecam#_const
  *
  * ECAM Constants Register
@@ -342,6 +389,53 @@ static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long a, unsigned long b)
 #define device_bar_BDK_ECAMX_DEVX_SDIS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_DEVX_SDIS(a,b) (a)
 #define arguments_BDK_ECAMX_DEVX_SDIS(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ecam#_dev#_skill
+ *
+ * ECAM Device Secure Disable Registers
+ * Added in pass 3.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ecamx_devx_skill_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM device kill.
+                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 the indexed ECAM bus/function/device number is RAO/WI when accessed via
+                                                                 the ECAM space with any (secure/non-secure) transactions. */
+#else /* Word 0 - Little Endian */
+        uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM device kill.
+                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 the indexed ECAM bus/function/device number is RAO/WI when accessed via
+                                                                 the ECAM space with any (secure/non-secure) transactions. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ecamx_devx_skill_s cn; */
+} bdk_ecamx_devx_skill_t;
+
+static inline uint64_t BDK_ECAMX_DEVX_SKILL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_DEVX_SKILL(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=31)))
+        return 0x87e0480a0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=31)))
+        return 0x87e0480a0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=3) && (b<=31)))
+        return 0x87e0480a0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    __bdk_csr_fatal("ECAMX_DEVX_SKILL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_ECAMX_DEVX_SKILL(a,b) bdk_ecamx_devx_skill_t
+#define bustype_BDK_ECAMX_DEVX_SKILL(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_DEVX_SKILL(a,b) "ECAMX_DEVX_SKILL"
+#define device_bar_BDK_ECAMX_DEVX_SKILL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_ECAMX_DEVX_SKILL(a,b) (a)
+#define arguments_BDK_ECAMX_DEVX_SKILL(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) ecam#_nop_of
@@ -570,5 +664,52 @@ static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b)
 #define device_bar_BDK_ECAMX_RSLX_SDIS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_ECAMX_RSLX_SDIS(a,b) (a)
 #define arguments_BDK_ECAMX_RSLX_SDIS(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ecam#_rsl#_skill
+ *
+ * ECAM RSL Function Secure Disable Registers
+ * Added in pass 3. This register is only implemented for ECAM0 which sources RSL.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ecamx_rslx_skill_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM function kill.
+                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 the indexed ECAM bus/function/device number is RAO/WI when accessed via
+                                                                 the ECAM space with any (secure/non-secure) transactions. */
+#else /* Word 0 - Little Endian */
+        uint64_t skill                 : 1;  /**< [  0:  0](SR/W1S) ECAM function kill.
+                                                                 Write one to set, once set cannot be cleared until soft reset. If set,
+                                                                 the indexed ECAM bus/function/device number is RAO/WI when accessed via
+                                                                 the ECAM space with any (secure/non-secure) transactions. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ecamx_rslx_skill_s cn; */
+} bdk_ecamx_rslx_skill_t;
+
+static inline uint64_t BDK_ECAMX_RSLX_SKILL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_RSLX_SKILL(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=255)))
+        return 0x87e048090000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=255)))
+        return 0x87e048090000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=3) && (b<=255)))
+        return 0x87e048090000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    __bdk_csr_fatal("ECAMX_RSLX_SKILL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_ECAMX_RSLX_SKILL(a,b) bdk_ecamx_rslx_skill_t
+#define bustype_BDK_ECAMX_RSLX_SKILL(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_RSLX_SKILL(a,b) "ECAMX_RSLX_SKILL"
+#define device_bar_BDK_ECAMX_RSLX_SKILL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_ECAMX_RSLX_SKILL(a,b) (a)
+#define arguments_BDK_ECAMX_RSLX_SKILL(a,b) (a),(b),-1,-1
 
 #endif /* __BDK_CSRS_ECAM_H__ */

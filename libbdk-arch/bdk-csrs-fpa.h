@@ -87,7 +87,7 @@
  * Structure fpa_alloc_addr_s
  *
  * FPA Allocate Operation Address Structure
- * This structure forms the address for FPA_VHAURA()_OP_ALLOC.
+ * This structure forms the address for FPA_VHAURA()_OP_ALLOC().
  */
 union bdk_fpa_alloc_addr_s
 {
@@ -113,7 +113,7 @@ union bdk_fpa_alloc_addr_s
  * Structure fpa_free_addr_s
  *
  * FPA Free Operation Address Structure
- * This structure forms the address for FPA_VHAURA()_OP_FREE.
+ * This structure forms the address for FPA_VHAURA()_OP_FREE().
  */
 union bdk_fpa_free_addr_s
 {
@@ -124,23 +124,25 @@ union bdk_fpa_free_addr_s
         uint64_t reserved_15_63        : 49;
         uint64_t fabs                  : 1;  /**< [ 14: 14] Free absolute. */
         uint64_t reserved_12_13        : 2;
-        uint64_t dwb_count             : 9;  /**< [ 11:  3] Number of cache lines for which the hardware (in IOB) should try to execute 'don't-write-
-                                                                 back' commands. The hardware starts from the free operation's [ADDR] (i.e. to where the
-                                                                 address points) and marches forward linearly for [DWB_COUNT] cache lines. As the DWB
-                                                                 command can modify the value of memory locations, software must ensure that the maximum
-                                                                 addressed DWB'd ([ADDR] + [DWB_COUNT] * 128 - 1) does not go past the end of the buffer
-                                                                 being freed. As the DWB commands consume CMI bandwidth, software should keep the DWB_COUNT
-                                                                 low to cover only those cache blocks that may have been modified. */
+        uint64_t dwb_count             : 9;  /**< [ 11:  3] Number of cache lines for which the hardware (in IOB) should try to execute
+                                                                 'don't-write- back' commands. The hardware starts from the free operation's
+                                                                 FPA_VHAURA()_OP_FREE()[ADDR] (i.e. to where the address points) and marches
+                                                                 forward linearly for [DWB_COUNT] cache lines. As the DWB command can modify the
+                                                                 value of memory locations, software must ensure that the maximum addressed DWB'd
+                                                                 ([ADDR] + [DWB_COUNT] * 128 - 1) does not go past the end of the buffer being
+                                                                 freed. As the DWB commands consume CMI bandwidth, software should keep the
+                                                                 [DWB_COUNT] low to cover only those cache blocks that may have been modified. */
         uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_2          : 3;
-        uint64_t dwb_count             : 9;  /**< [ 11:  3] Number of cache lines for which the hardware (in IOB) should try to execute 'don't-write-
-                                                                 back' commands. The hardware starts from the free operation's [ADDR] (i.e. to where the
-                                                                 address points) and marches forward linearly for [DWB_COUNT] cache lines. As the DWB
-                                                                 command can modify the value of memory locations, software must ensure that the maximum
-                                                                 addressed DWB'd ([ADDR] + [DWB_COUNT] * 128 - 1) does not go past the end of the buffer
-                                                                 being freed. As the DWB commands consume CMI bandwidth, software should keep the DWB_COUNT
-                                                                 low to cover only those cache blocks that may have been modified. */
+        uint64_t dwb_count             : 9;  /**< [ 11:  3] Number of cache lines for which the hardware (in IOB) should try to execute
+                                                                 'don't-write- back' commands. The hardware starts from the free operation's
+                                                                 FPA_VHAURA()_OP_FREE()[ADDR] (i.e. to where the address points) and marches
+                                                                 forward linearly for [DWB_COUNT] cache lines. As the DWB command can modify the
+                                                                 value of memory locations, software must ensure that the maximum addressed DWB'd
+                                                                 ([ADDR] + [DWB_COUNT] * 128 - 1) does not go past the end of the buffer being
+                                                                 freed. As the DWB commands consume CMI bandwidth, software should keep the
+                                                                 [DWB_COUNT] low to cover only those cache blocks that may have been modified. */
         uint64_t reserved_12_13        : 2;
         uint64_t fabs                  : 1;  /**< [ 14: 14] Free absolute. */
         uint64_t reserved_15_63        : 49;
@@ -217,22 +219,24 @@ typedef union
                                                                  Note specific requests to change the count, including FPA_VHAURA()_CNT_ADD,
                                                                  PKO_SEND_AURA_S, or PKI_AURA()_CFG[PKT_ADD] will be applied regardless of the
                                                                  setting of this bit. */
-        uint64_t avg_con               : 9;  /**< [  8:  0](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
-                                                                 of the average resource level that will be used in the calculation:
-                                                                 _  next_LEVEL = (AVG_CON/256) * prev_LEVEL
-                                                                 _  + (1-(AVG_CON/256)) * count
+        uint64_t avg_con               : 9;  /**< [  8:  0](R/W) This value controls how much of each present average resource level is used to
+                                                                 calculate the new resource level. The value is a number from 0 to 256, which
+                                                                 represents [AVG_CON]/256 of the average resource level that will be used in the
+                                                                 calculation:
+                                                                 _  next_LEVEL = ([AVG_CON]/256) * prev_LEVEL
+                                                                 _  + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. FPA_GEN_CFG[AVG_EN] must be set and FPA_GEN_CFG[LVL_DLY] must be nonzero to
                                                                  globally enable averaging. FPA_RED_DELAY[AVG_DLY] controls the periodicity of the level
                                                                  calculations. */
 #else /* Word 0 - Little Endian */
-        uint64_t avg_con               : 9;  /**< [  8:  0](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
-                                                                 of the average resource level that will be used in the calculation:
-                                                                 _  next_LEVEL = (AVG_CON/256) * prev_LEVEL
-                                                                 _  + (1-(AVG_CON/256)) * count
+        uint64_t avg_con               : 9;  /**< [  8:  0](R/W) This value controls how much of each present average resource level is used to
+                                                                 calculate the new resource level. The value is a number from 0 to 256, which
+                                                                 represents [AVG_CON]/256 of the average resource level that will be used in the
+                                                                 calculation:
+                                                                 _  next_LEVEL = ([AVG_CON]/256) * prev_LEVEL
+                                                                 _  + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. FPA_GEN_CFG[AVG_EN] must be set and FPA_GEN_CFG[LVL_DLY] must be nonzero to
@@ -289,7 +293,7 @@ typedef union
         uint64_t red_ena               : 1;  /**< [ 38: 38](R/W) Enable aura RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY] must be
                                                                  nonzero.
                                                                  If set, aura RED is performed on core requests with
-                                                                 FPA_ALLOC_LD_S/FPA_ALLOC_IOBDMA_S[RED] set, and also may be performed on the
+                                                                 FPA_ALLOC_ADDR_S[RED] set, and also may be performed on the
                                                                  first PKI allocation request for a packet (depends on PKI style and aura
                                                                  configuration). */
         uint64_t shift                 : 6;  /**< [ 37: 32](R/W) Right shift to FPA_VHAURA()_CNT[CNT] to create a narrower depth for aura QOS and
@@ -336,7 +340,7 @@ typedef union
         uint64_t red_ena               : 1;  /**< [ 38: 38](R/W) Enable aura RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY] must be
                                                                  nonzero.
                                                                  If set, aura RED is performed on core requests with
-                                                                 FPA_ALLOC_LD_S/FPA_ALLOC_IOBDMA_S[RED] set, and also may be performed on the
+                                                                 FPA_ALLOC_ADDR_S[RED] set, and also may be performed on the
                                                                  first PKI allocation request for a packet (depends on PKI style and aura
                                                                  configuration). */
         uint64_t bp_ena                : 1;  /**< [ 39: 39](R/W) Enable backpressure based on [BP] level. If set FPA_GEN_CFG[LVL_DLY] must be nonzero.
@@ -420,7 +424,7 @@ typedef union
         uint64_t red_ena               : 1;  /**< [ 38: 38](R/W) Enable aura-unique pool RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY]
                                                                  must be nonzero.
                                                                  If set, aura-unique pool RED is performed on core requests with
-                                                                 FPA_ALLOC_LD_S/FPA_ALLOC_IOBDMA_S[RED] set, and also may be performed on the first PKI
+                                                                 FPA_ALLOC_ADDR_S[RED] set, and also may be performed on the first PKI
                                                                  allocation request for a packet (depending on PKI style and aura configuration). */
         uint64_t shift                 : 6;  /**< [ 37: 32](R/W) Right shift to FPA_VHPOOL()_AVAILABLE[COUNT] used to create a narrower depth for
                                                                  aura-unique pool QOS and backpressure calculations. PKI saturates the shifted
@@ -482,7 +486,7 @@ typedef union
         uint64_t red_ena               : 1;  /**< [ 38: 38](R/W) Enable aura-unique pool RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY]
                                                                  must be nonzero.
                                                                  If set, aura-unique pool RED is performed on core requests with
-                                                                 FPA_ALLOC_LD_S/FPA_ALLOC_IOBDMA_S[RED] set, and also may be performed on the first PKI
+                                                                 FPA_ALLOC_ADDR_S[RED] set, and also may be performed on the first PKI
                                                                  allocation request for a packet (depending on PKI style and aura configuration). */
         uint64_t bp_ena                : 1;  /**< [ 39: 39](R/W) Enable aura-unique pool backpressure based on [BP] level. If set FPA_GEN_CFG[LVL_DLY] must
                                                                  be nonzero. */
@@ -967,7 +971,10 @@ typedef union
     struct bdk_fpa_gen_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
+        uint64_t reserved_18_63        : 46;
+        uint64_t dwbq                  : 6;  /**< [ 17: 12](RAZ) Don't write back queue size. Number of transactions requesting DWB that may be
+                                                                 held waiting for DWB. Once the stack is full, additional DWB requests will be
+                                                                 ignored. 0x0 disables DWBs. 0x3F sets to maximum size. */
         uint64_t halfrate              : 1;  /**< [ 11: 11](R/W) Half rate. Limit peak alloc/free rate to half of peak to insure all alloc/frees are
                                                                  visible to OCLA. */
         uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure
@@ -1009,7 +1016,10 @@ typedef union
                                                                  alloc/frees. See also [HALFRATE]. */
         uint64_t halfrate              : 1;  /**< [ 11: 11](R/W) Half rate. Limit peak alloc/free rate to half of peak to insure all alloc/frees are
                                                                  visible to OCLA. */
-        uint64_t reserved_12_63        : 52;
+        uint64_t dwbq                  : 6;  /**< [ 17: 12](RAZ) Don't write back queue size. Number of transactions requesting DWB that may be
+                                                                 held waiting for DWB. Once the stack is full, additional DWB requests will be
+                                                                 ignored. 0x0 disables DWBs. 0x3F sets to maximum size. */
+        uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_cfg_s cn; */
@@ -1043,9 +1053,11 @@ typedef union
     struct bdk_fpa_gen_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_4_63         : 60;
+        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID
-                                                                 not mapped in FPA_PF_MAP. When a request thus dropped, even if this bit is
+                                                                 not mapped in FPA_PF_MAP(). When a request thus dropped, even if this bit is
                                                                  already set, FPA_UNMAP_INFO is loaded. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with
                                                                  GMID=0x0. See PKI_QPG_TBLB()[GMID], TIM_RING()_GMCTL[GMID], SSO_XAQ_GMCTL[GMID],
@@ -1055,9 +1067,11 @@ typedef union
                                                                  GMID=0x0. See PKI_QPG_TBLB()[GMID], TIM_RING()_GMCTL[GMID], SSO_XAQ_GMCTL[GMID],
                                                                  and other GMID registers. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID
-                                                                 not mapped in FPA_PF_MAP. When a request thus dropped, even if this bit is
+                                                                 not mapped in FPA_PF_MAP(). When a request thus dropped, even if this bit is
                                                                  already set, FPA_UNMAP_INFO is loaded. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_s cn; */
@@ -1091,13 +1105,17 @@ typedef union
     struct bdk_fpa_gen_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_4_63         : 60;
+        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_ena_w1c_s cn; */
@@ -1131,13 +1149,17 @@ typedef union
     struct bdk_fpa_gen_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_4_63         : 60;
+        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_ena_w1s_s cn; */
@@ -1171,13 +1193,17 @@ typedef union
     struct bdk_fpa_gen_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_4_63         : 60;
+        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_w1s_s cn; */
@@ -1212,7 +1238,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t alloc_dis             : 20; /**< [ 39: 20](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
-                                                                 queue, and if set add-works from the corresponding coprocessor will be dropped.
+                                                                 queue, and if set add-works from the corresponding coprocessor will be dropped
+                                                                 and FPA_GEN_INT[ALLOC_DIS] set.
                                                                  <0> = SSO.
                                                                  <1> = PKO queue.
                                                                  <2> = PKI.
@@ -1221,7 +1248,8 @@ typedef union
                                                                  Internal:
                                                                  FIXME update based on input bus connections in fpa_xfr.v. */
         uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
-                                                                 queue, and if set add-works from the corresponding coprocessor will be dropped.
+                                                                 queue, and if set add-works from the corresponding coprocessor will be dropped
+                                                                 and FPA_GEN_INT[FREE_DIS] set
                                                                  <0> = SSO.
                                                                  <1> = PKO queue.
                                                                  <2> = PKI.
@@ -1239,7 +1267,8 @@ typedef union
                                                                  FIXME update based on input bus connections in fpa_xpd.v. */
 #else /* Word 0 - Little Endian */
         uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
-                                                                 queue, and if set add-works from the corresponding coprocessor will be dropped.
+                                                                 queue, and if set add-works from the corresponding coprocessor will be dropped
+                                                                 and FPA_GEN_INT[FREE_DIS] set
                                                                  <0> = SSO.
                                                                  <1> = PKO queue.
                                                                  <2> = PKI.
@@ -1256,7 +1285,8 @@ typedef union
                                                                  Internal:
                                                                  FIXME update based on input bus connections in fpa_xpd.v. */
         uint64_t alloc_dis             : 20; /**< [ 39: 20](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
-                                                                 queue, and if set add-works from the corresponding coprocessor will be dropped.
+                                                                 queue, and if set add-works from the corresponding coprocessor will be dropped
+                                                                 and FPA_GEN_INT[ALLOC_DIS] set.
                                                                  <0> = SSO.
                                                                  <1> = PKO queue.
                                                                  <2> = PKI.
@@ -1948,7 +1978,7 @@ typedef union
                                                                  average calculations.
 
                                                                  Larger FPA_GEN_CFG[LVL_DLY] values cause the backpressure indications and moving averages
-                                                                 of all aura levels to track changes in the actual free space more slowly. Larger AVG_DLY
+                                                                 of all aura levels to track changes in the actual free space more slowly. Larger [AVG_DLY]
                                                                  also causes the moving averages of all aura levels to track changes in the actual free
                                                                  space more slowly, but does not affect backpressure. Larger
                                                                  FPA_AURA()_CFG[AVG_CON]) values causes a specific aura to track more slowly, but
@@ -1961,7 +1991,7 @@ typedef union
                                                                  average calculations.
 
                                                                  Larger FPA_GEN_CFG[LVL_DLY] values cause the backpressure indications and moving averages
-                                                                 of all aura levels to track changes in the actual free space more slowly. Larger AVG_DLY
+                                                                 of all aura levels to track changes in the actual free space more slowly. Larger [AVG_DLY]
                                                                  also causes the moving averages of all aura levels to track changes in the actual free
                                                                  space more slowly, but does not affect backpressure. Larger
                                                                  FPA_AURA()_CFG[AVG_CON]) values causes a specific aura to track more slowly, but
@@ -2005,11 +2035,11 @@ typedef union
         uint64_t reserved_1_62         : 62;
         uint64_t rst                   : 1;  /**< [  0:  0](R/W1/H) Reset. When set to 1 by software, FPA gets a short reset pulse (three cycles in duration).
                                                                  Following a write to this register and prior to performing another FPA operation, software
-                                                                 must write SSO_BIST_STATUS0 (or any register on the same IOI bus as FPA) and read it back. */
+                                                                 must write SSO_BIST_STATUS0 (or any register on the same NCB bus as FPA) and read it back. */
 #else /* Word 0 - Little Endian */
         uint64_t rst                   : 1;  /**< [  0:  0](R/W1/H) Reset. When set to 1 by software, FPA gets a short reset pulse (three cycles in duration).
                                                                  Following a write to this register and prior to performing another FPA operation, software
-                                                                 must write SSO_BIST_STATUS0 (or any register on the same IOI bus as FPA) and read it back. */
+                                                                 must write SSO_BIST_STATUS0 (or any register on the same NCB bus as FPA) and read it back. */
         uint64_t reserved_1_62         : 62;
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) When 1, FPA is busy completing reset. No access except the reading of this bit should
                                                                  occur to the FPA until this is clear. */
@@ -2090,10 +2120,10 @@ typedef union
                                                                  becomes less then, or value was less than, and becomes greater than). Each index
                                                                  is associated with each aura(0..15) in the aura set.
 
-                                                                 _ FPA_VF(0)_INT[THRESH]<0> is vaura 0.
-                                                                 _ FPA_VF(0)_INT[THRESH]<15> is vaura 15.
-                                                                 _ FPA_VF(1)_INT[THRESH]<0> is vaura 16.
-                                                                 _ FPA_VF(1)_INT[THRESH]<15> is vaura 31. */
+                                                                 _ FPA_VF(0)_INT[A_THRESH]<0> is vaura 0.
+                                                                 _ FPA_VF(0)_INT[A_THRESH]<15> is vaura 15.
+                                                                 _ FPA_VF(1)_INT[A_THRESH]<0> is vaura 16.
+                                                                 _ FPA_VF(1)_INT[A_THRESH]<15> is vaura 31. */
         uint64_t reserved_7_31         : 25;
         uint64_t p_fault               : 1;  /**< [  6:  6](R/W1C/H) Set when a stack read or write returned a fault, e.g. the address the FPA stack
                                                                  was trying to access does not have a page mapped in the SMMU. */
@@ -2134,10 +2164,10 @@ typedef union
                                                                  becomes less then, or value was less than, and becomes greater than). Each index
                                                                  is associated with each aura(0..15) in the aura set.
 
-                                                                 _ FPA_VF(0)_INT[THRESH]<0> is vaura 0.
-                                                                 _ FPA_VF(0)_INT[THRESH]<15> is vaura 15.
-                                                                 _ FPA_VF(1)_INT[THRESH]<0> is vaura 16.
-                                                                 _ FPA_VF(1)_INT[THRESH]<15> is vaura 31. */
+                                                                 _ FPA_VF(0)_INT[A_THRESH]<0> is vaura 0.
+                                                                 _ FPA_VF(0)_INT[A_THRESH]<15> is vaura 15.
+                                                                 _ FPA_VF(1)_INT[A_THRESH]<0> is vaura 16.
+                                                                 _ FPA_VF(1)_INT[A_THRESH]<15> is vaura 31. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -2361,7 +2391,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
  * Register (NCB) fpa_vf#_msix_vec#_addr
  *
  * FPA VF MSI-X Vector-Table Address Register
- * This register is the MSI-X vector table, indexed by the FPA_VF()_INT_VEC_E enumeration.
+ * This register is the MSI-X vector table, indexed by the FPA_VF_INT_VEC_E enumeration.
  */
 typedef union
 {
@@ -2406,7 +2436,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
  * Register (NCB) fpa_vf#_msix_vec#_ctl
  *
  * FPA MSI-X Vector-Table Control and Data Register
- * This register is the MSI-X vector table, indexed by the FPA_VF()_INT_VEC_E enumeration.
+ * This register is the MSI-X vector table, indexed by the FPA_VF_INT_VEC_E enumeration.
  */
 typedef union
 {
@@ -2494,7 +2524,7 @@ typedef union
         uint64_t cnt                   : 40; /**< [ 39:  0](R/W/H) The value to be added to FPA_VHAURA()_CNT. The value may alternatively be a 2's
                                                                  complement of a value to be subtracted. Subtraction or addition that results in
                                                                  overflow will zero the count, not roll-around, and set either
-                                                                 FPA_VHAURA()_INT[SW_WRAP] or FPA_VHAURA()_INT[HW_WRAP].
+                                                                 FPA_VF()_INT[AS_SW_WRAP] or FPA_VF()_INT[AS_HW_WRAP].
 
                                                                  This register is intended for use when FPA_AURA()_CFG[PTR_DIS] is set.  If
                                                                  FPA_AURA()_CFG[PTR_DIS] is clear, this register would typically only be used if buffers
@@ -2503,7 +2533,7 @@ typedef union
         uint64_t cnt                   : 40; /**< [ 39:  0](R/W/H) The value to be added to FPA_VHAURA()_CNT. The value may alternatively be a 2's
                                                                  complement of a value to be subtracted. Subtraction or addition that results in
                                                                  overflow will zero the count, not roll-around, and set either
-                                                                 FPA_VHAURA()_INT[SW_WRAP] or FPA_VHAURA()_INT[HW_WRAP].
+                                                                 FPA_VF()_INT[AS_SW_WRAP] or FPA_VF()_INT[AS_HW_WRAP].
 
                                                                  This register is intended for use when FPA_AURA()_CFG[PTR_DIS] is set.  If
                                                                  FPA_AURA()_CFG[PTR_DIS] is clear, this register would typically only be used if buffers
@@ -2583,11 +2613,11 @@ typedef union
         uint64_t reserved_40_63        : 24;
         uint64_t thresh                : 40; /**< [ 39:  0](R/W) When FPA_VHAURA()_CNT, after being modified, is equal to or crosses this value (i.e.
                                                                  value was greater than, then becomes less than, or the value was less than and becomes
-                                                                 greater than) the corresponding bit in FPA_VHAURA()_INT is set. */
+                                                                 greater than) the corresponding bit in FPA_VF()_INT[A_THRESH] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t thresh                : 40; /**< [ 39:  0](R/W) When FPA_VHAURA()_CNT, after being modified, is equal to or crosses this value (i.e.
                                                                  value was greater than, then becomes less than, or the value was less than and becomes
-                                                                 greater than) the corresponding bit in FPA_VHAURA()_INT is set. */
+                                                                 greater than) the corresponding bit in FPA_VF()_INT[A_THRESH] is set. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
     } s;

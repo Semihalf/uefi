@@ -181,8 +181,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t inc                   : 1;  /**< [ 16: 16](R/W) Automatically advance BUF_NUM/OFFSET after each access to MIO_EMM_BUF_DAT. Wraps after the
-                                                                 last offset of the last data buffer. */
+        uint64_t inc                   : 1;  /**< [ 16: 16](R/W) Automatically advance [BUF_NUM]/[OFFSET] after each access to
+                                                                 MIO_EMM_BUF_DAT. Wraps after the last offset of the last data buffer. */
         uint64_t reserved_7_15         : 9;
         uint64_t buf_num               : 1;  /**< [  6:  6](R/W/H) Specify the data buffer for the next access to MIO_EMM_BUF_DAT. */
         uint64_t offset                : 6;  /**< [  5:  0](R/W/H) Specify the 8B data buffer offset for the next access to MIO_EMM_BUF_DAT. */
@@ -190,8 +190,8 @@ typedef union
         uint64_t offset                : 6;  /**< [  5:  0](R/W/H) Specify the 8B data buffer offset for the next access to MIO_EMM_BUF_DAT. */
         uint64_t buf_num               : 1;  /**< [  6:  6](R/W/H) Specify the data buffer for the next access to MIO_EMM_BUF_DAT. */
         uint64_t reserved_7_15         : 9;
-        uint64_t inc                   : 1;  /**< [ 16: 16](R/W) Automatically advance BUF_NUM/OFFSET after each access to MIO_EMM_BUF_DAT. Wraps after the
-                                                                 last offset of the last data buffer. */
+        uint64_t inc                   : 1;  /**< [ 16: 16](R/W) Automatically advance [BUF_NUM]/[OFFSET] after each access to
+                                                                 MIO_EMM_BUF_DAT. Wraps after the last offset of the last data buffer. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -226,16 +226,16 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
 
-                                                                 Setting bit0 of BUS_ENA causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
+                                                                 Setting bit0 of [BUS_ENA] causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
                                                                  disabling any NOR use).
 
-                                                                 Setting bit1 of BUS_ENA causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
+                                                                 Setting bit1 of [BUS_ENA] causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
                                                                  disabling any NOR use).
 
-                                                                 Setting bit2 of BUS_ENA causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
+                                                                 Setting bit2 of [BUS_ENA] causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
                                                                  disabling any NOR use).
 
-                                                                 Bit3 of BUS_ENA is reserved.
+                                                                 Bit3 of [BUS_ENA] is reserved.
 
                                                                  Clearing all bits of this field will reset the other MIO_EMM_* registers.  It might be
                                                                  necessary
@@ -245,16 +245,16 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
 
-                                                                 Setting bit0 of BUS_ENA causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
+                                                                 Setting bit0 of [BUS_ENA] causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
                                                                  disabling any NOR use).
 
-                                                                 Setting bit1 of BUS_ENA causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
+                                                                 Setting bit1 of [BUS_ENA] causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
                                                                  disabling any NOR use).
 
-                                                                 Setting bit2 of BUS_ENA causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
+                                                                 Setting bit2 of [BUS_ENA] causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
                                                                  disabling any NOR use).
 
-                                                                 Bit3 of BUS_ENA is reserved.
+                                                                 Bit3 of [BUS_ENA] is reserved.
 
                                                                  Clearing all bits of this field will reset the other MIO_EMM_* registers.  It might be
                                                                  necessary
@@ -1360,10 +1360,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t card_rca              : 16; /**< [ 15:  0](R/W/H) Whenever software performs CMD7, hardware updates CARD_RCA with the relative card address
+        uint64_t card_rca              : 16; /**< [ 15:  0](R/W/H) Whenever software performs CMD7, hardware updates [CARD_RCA] with the relative card
+                                                                 address
                                                                  from the MIO_EMM_CMD[ARG], unless the operation encounters an error. */
 #else /* Word 0 - Little Endian */
-        uint64_t card_rca              : 16; /**< [ 15:  0](R/W/H) Whenever software performs CMD7, hardware updates CARD_RCA with the relative card address
+        uint64_t card_rca              : 16; /**< [ 15:  0](R/W/H) Whenever software performs CMD7, hardware updates [CARD_RCA] with the relative card
+                                                                 address
                                                                  from the MIO_EMM_CMD[ARG], unless the operation encounters an error. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -1554,31 +1556,34 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
         uint64_t bus_id                : 2;  /**< [ 61: 60](RO/H) eMMC bus ID to which the response status corresponds. */
-        uint64_t cmd_val               : 1;  /**< [ 59: 59](RO/H) Read-only copy of MIO_EMM_CMD[CMD_VAL]. CMD_VAL = 1 indicates that a direct operation is
+        uint64_t cmd_val               : 1;  /**< [ 59: 59](RO/H) Read-only copy of MIO_EMM_CMD[CMD_VAL]. [CMD_VAL] = 1 indicates that a direct operation is
                                                                  in progress. */
-        uint64_t switch_val            : 1;  /**< [ 58: 58](RO/H) Read-only copy of MIO_EMM_SWITCH[SWITCH_EXE]. SWITCH_VAL = 1 indicates that a switch
+        uint64_t switch_val            : 1;  /**< [ 58: 58](RO/H) Read-only copy of MIO_EMM_SWITCH[SWITCH_EXE]. [SWITCH_VAL] = 1 indicates that a switch
                                                                  operation is in progress. */
-        uint64_t dma_val               : 1;  /**< [ 57: 57](RO/H) Read-only copy of MIO_EMM_DMA[DMA_VAL]. DMA_VAL = 1 indicates that a DMA operation is in progress. */
+        uint64_t dma_val               : 1;  /**< [ 57: 57](RO/H) Read-only copy of MIO_EMM_DMA[DMA_VAL]. [DMA_VAL] = 1 indicates that a DMA operation is in
+                                                                 progress. */
         uint64_t dma_pend              : 1;  /**< [ 56: 56](RO/H) The DMA engine has a pending transfer resulting from an error. Software can resume the
                                                                  transfer by writing MIO_EMM_DMA[DMA_VAL] = 1.
 
                                                                  Software can terminate the transfer by writing MIO_EMM_DMA[DMA_VAL] = 1 and
-                                                                 MIO_EMM_DMA[DAT_NULL] = 1. Hardware will then clear DMA_PEND and perform the DMA
+                                                                 MIO_EMM_DMA[DAT_NULL] = 1. Hardware will then clear [DMA_PEND] and perform the DMA
                                                                  operation. */
         uint64_t acc_timeout           : 1;  /**< [ 55: 55](RO/H) The store operation to the device took longer than MIO_EMM_ACCESS_WDOG[CLK_CNT]
                                                                  coprocessor-clocks to complete.
-                                                                 Valid when DMA_PEND=1. */
+                                                                 Valid when [DMA_PEND] is set. */
         uint64_t reserved_29_54        : 26;
-        uint64_t dbuf_err              : 1;  /**< [ 28: 28](RO/H) For CMD_TYPE = 1, indicates that a DMA read data arrived from the card without a free
-                                                                 DBUF. For CMD_TYPE = 2, indicates a DBUF underflow occurred during a DMA write. See
+        uint64_t dbuf_err              : 1;  /**< [ 28: 28](RO/H) For [CMD_TYPE] = 1, indicates that a DMA read data arrived from the card without a free
+                                                                 DBUF. For [CMD_TYPE] = 2, indicates a DBUF underflow occurred during a DMA write. See
                                                                  MIO_EMM_DMA[THRES]. */
         uint64_t reserved_24_27        : 4;
         uint64_t dbuf                  : 1;  /**< [ 23: 23](RO/H) DBUF corresponding to the most recently attempted block transfer. */
         uint64_t blk_timeout           : 1;  /**< [ 22: 22](RO/H) Timeout waiting for read data or 3-bit CRC token. */
-        uint64_t blk_crc_err           : 1;  /**< [ 21: 21](RO/H) For CMD_TYPE = 1, indicates a card read data CRC mismatch. MIO_EMM_RSP_STS[DBUF] indicates
+        uint64_t blk_crc_err           : 1;  /**< [ 21: 21](RO/H) For [CMD_TYPE] = 1, indicates a card read data CRC mismatch. MIO_EMM_RSP_STS[DBUF]
+                                                                 indicates
                                                                  the failing data buffer.
 
-                                                                 For CMD_TYPE = 2, indicates card returned 3-bit CRC status token indicating that the card
+                                                                 For [CMD_TYPE] = 2, indicates card returned 3-bit CRC status token indicating that the
+                                                                 card
                                                                  encountered a write data CRC check mismatch. MIO_EMM_RSP_STS[DBUF] indicates the failing
                                                                  data buffer. */
         uint64_t rsp_busybit           : 1;  /**< [ 20: 20](RO/H) Debug only. eMMC protocol utilizes DAT0 as a busy signal during block writes and R1b
@@ -1618,32 +1623,35 @@ typedef union
         uint64_t stp_timeout           : 1;  /**< [ 19: 19](RO/H) Stop transmission response timeout. */
         uint64_t rsp_busybit           : 1;  /**< [ 20: 20](RO/H) Debug only. eMMC protocol utilizes DAT0 as a busy signal during block writes and R1b
                                                                  responses. This bit should read zero before any DMA or Command with data is executed. */
-        uint64_t blk_crc_err           : 1;  /**< [ 21: 21](RO/H) For CMD_TYPE = 1, indicates a card read data CRC mismatch. MIO_EMM_RSP_STS[DBUF] indicates
+        uint64_t blk_crc_err           : 1;  /**< [ 21: 21](RO/H) For [CMD_TYPE] = 1, indicates a card read data CRC mismatch. MIO_EMM_RSP_STS[DBUF]
+                                                                 indicates
                                                                  the failing data buffer.
 
-                                                                 For CMD_TYPE = 2, indicates card returned 3-bit CRC status token indicating that the card
+                                                                 For [CMD_TYPE] = 2, indicates card returned 3-bit CRC status token indicating that the
+                                                                 card
                                                                  encountered a write data CRC check mismatch. MIO_EMM_RSP_STS[DBUF] indicates the failing
                                                                  data buffer. */
         uint64_t blk_timeout           : 1;  /**< [ 22: 22](RO/H) Timeout waiting for read data or 3-bit CRC token. */
         uint64_t dbuf                  : 1;  /**< [ 23: 23](RO/H) DBUF corresponding to the most recently attempted block transfer. */
         uint64_t reserved_24_27        : 4;
-        uint64_t dbuf_err              : 1;  /**< [ 28: 28](RO/H) For CMD_TYPE = 1, indicates that a DMA read data arrived from the card without a free
-                                                                 DBUF. For CMD_TYPE = 2, indicates a DBUF underflow occurred during a DMA write. See
+        uint64_t dbuf_err              : 1;  /**< [ 28: 28](RO/H) For [CMD_TYPE] = 1, indicates that a DMA read data arrived from the card without a free
+                                                                 DBUF. For [CMD_TYPE] = 2, indicates a DBUF underflow occurred during a DMA write. See
                                                                  MIO_EMM_DMA[THRES]. */
         uint64_t reserved_29_54        : 26;
         uint64_t acc_timeout           : 1;  /**< [ 55: 55](RO/H) The store operation to the device took longer than MIO_EMM_ACCESS_WDOG[CLK_CNT]
                                                                  coprocessor-clocks to complete.
-                                                                 Valid when DMA_PEND=1. */
+                                                                 Valid when [DMA_PEND] is set. */
         uint64_t dma_pend              : 1;  /**< [ 56: 56](RO/H) The DMA engine has a pending transfer resulting from an error. Software can resume the
                                                                  transfer by writing MIO_EMM_DMA[DMA_VAL] = 1.
 
                                                                  Software can terminate the transfer by writing MIO_EMM_DMA[DMA_VAL] = 1 and
-                                                                 MIO_EMM_DMA[DAT_NULL] = 1. Hardware will then clear DMA_PEND and perform the DMA
+                                                                 MIO_EMM_DMA[DAT_NULL] = 1. Hardware will then clear [DMA_PEND] and perform the DMA
                                                                  operation. */
-        uint64_t dma_val               : 1;  /**< [ 57: 57](RO/H) Read-only copy of MIO_EMM_DMA[DMA_VAL]. DMA_VAL = 1 indicates that a DMA operation is in progress. */
-        uint64_t switch_val            : 1;  /**< [ 58: 58](RO/H) Read-only copy of MIO_EMM_SWITCH[SWITCH_EXE]. SWITCH_VAL = 1 indicates that a switch
+        uint64_t dma_val               : 1;  /**< [ 57: 57](RO/H) Read-only copy of MIO_EMM_DMA[DMA_VAL]. [DMA_VAL] = 1 indicates that a DMA operation is in
+                                                                 progress. */
+        uint64_t switch_val            : 1;  /**< [ 58: 58](RO/H) Read-only copy of MIO_EMM_SWITCH[SWITCH_EXE]. [SWITCH_VAL] = 1 indicates that a switch
                                                                  operation is in progress. */
-        uint64_t cmd_val               : 1;  /**< [ 59: 59](RO/H) Read-only copy of MIO_EMM_CMD[CMD_VAL]. CMD_VAL = 1 indicates that a direct operation is
+        uint64_t cmd_val               : 1;  /**< [ 59: 59](RO/H) Read-only copy of MIO_EMM_CMD[CMD_VAL]. [CMD_VAL] = 1 indicates that a direct operation is
                                                                  in progress. */
         uint64_t bus_id                : 2;  /**< [ 61: 60](RO/H) eMMC bus ID to which the response status corresponds. */
         uint64_t reserved_62_63        : 2;
@@ -1717,11 +1725,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t sts_msk               : 32; /**< [ 31:  0](R/W) Any bit set in STS_MSK causes the corresponding bit in the card status to be considered
-                                                                 when computing response bad status. */
+        uint64_t sts_msk               : 32; /**< [ 31:  0](R/W) Any bit set in [STS_MSK] causes the corresponding bit in the card status to be
+                                                                 considered when computing response bad status. */
 #else /* Word 0 - Little Endian */
-        uint64_t sts_msk               : 32; /**< [ 31:  0](R/W) Any bit set in STS_MSK causes the corresponding bit in the card status to be considered
-                                                                 when computing response bad status. */
+        uint64_t sts_msk               : 32; /**< [ 31:  0](R/W) Any bit set in [STS_MSK] causes the corresponding bit in the card status to be
+                                                                 considered when computing response bad status. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -1755,22 +1763,22 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
         uint64_t bus_id                : 2;  /**< [ 61: 60](R/W/H) Specifies the eMMC bus id. */
-        uint64_t switch_exe            : 1;  /**< [ 59: 59](R/W/H) When SWITCH_EXE is 0, the operating modes are updated directly without performing any
+        uint64_t switch_exe            : 1;  /**< [ 59: 59](R/W/H) When clear, the operating modes are updated directly without performing any
                                                                  SWITCH operations. This allows software to perform the SWITCH operations manually, then
                                                                  update the hardware.
 
                                                                  Software writes this bit to a 1 to indicate that hardware should perform the necessary
                                                                  SWITCH operations.
 
-                                                                 * First, the POWER_CLASS switch is performed. If it fails, SWITCH_ERR0 is set and the
-                                                                 remaining SWITCH operations are not performed. If it succeeds, the POWER_CLASS field is
+                                                                 * First, the POWER_CLASS switch is performed. If it fails, [SWITCH_ERR0] is set and the
+                                                                 remaining SWITCH operations are not performed. If it succeeds, [POWER_CLASS] is
                                                                  updated and the HS_TIMING switch is performed.
 
-                                                                 * If the HS_TIMING switch fails, SWITCH_ERR1 is set and the remaining SWITCH operations
-                                                                 are not performed. If it succeeds, the HS_TIMING field is updated and the BUS_WIDTH switch
+                                                                 * If the HS_TIMING switch fails, [SWITCH_ERR1] is set and the remaining SWITCH operations
+                                                                 are not performed. If it succeeds, [HS_TIMING] is updated and the BUS_WIDTH switch
                                                                  operation is performed.
 
-                                                                 * If the BUS_WIDTH switch operation fails, SWITCH_ERR2 is set. If it succeeds, the
+                                                                 * If the BUS_WIDTH switch operation fails, [SWITCH_ERR2] is set. If it succeeds, the
                                                                  BUS_WITDH is updated.
 
                                                                  Changes to CLK_HI and CLK_LO are discarded if any SWITCH_ERR occurs. */
@@ -1778,41 +1786,41 @@ typedef union
         uint64_t switch_err1           : 1;  /**< [ 57: 57](RO/H) Error encountered while performing HS_TIMING switch. See MIO_EMM_RSP_STS. */
         uint64_t switch_err2           : 1;  /**< [ 56: 56](RO/H) Error encountered while performing BUS_WIDTH switch. See MIO_EMM_RSP_STS. */
         uint64_t reserved_49_55        : 7;
-        uint64_t hs_timing             : 1;  /**< [ 48: 48](R/W) Requested update to HS_TIMING */
+        uint64_t hs_timing             : 1;  /**< [ 48: 48](R/W) Requested update to HS_TIMING. */
         uint64_t reserved_43_47        : 5;
-        uint64_t bus_width             : 3;  /**< [ 42: 40](R/W) Requested update to BUS_WIDTH */
+        uint64_t bus_width             : 3;  /**< [ 42: 40](R/W) Requested update to BUS_WIDTH. */
         uint64_t reserved_36_39        : 4;
-        uint64_t power_class           : 4;  /**< [ 35: 32](R/W) Requested update to POWER_CLASS */
-        uint64_t clk_hi                : 16; /**< [ 31: 16](R/W) Requested update to CLK_HI */
-        uint64_t clk_lo                : 16; /**< [ 15:  0](R/W) Requested update to CLK_LO */
+        uint64_t power_class           : 4;  /**< [ 35: 32](R/W) Requested update to POWER_CLASS. */
+        uint64_t clk_hi                : 16; /**< [ 31: 16](R/W) Requested update to CLK_HI. */
+        uint64_t clk_lo                : 16; /**< [ 15:  0](R/W) Requested update to CLK_LO. */
 #else /* Word 0 - Little Endian */
-        uint64_t clk_lo                : 16; /**< [ 15:  0](R/W) Requested update to CLK_LO */
-        uint64_t clk_hi                : 16; /**< [ 31: 16](R/W) Requested update to CLK_HI */
-        uint64_t power_class           : 4;  /**< [ 35: 32](R/W) Requested update to POWER_CLASS */
+        uint64_t clk_lo                : 16; /**< [ 15:  0](R/W) Requested update to CLK_LO. */
+        uint64_t clk_hi                : 16; /**< [ 31: 16](R/W) Requested update to CLK_HI. */
+        uint64_t power_class           : 4;  /**< [ 35: 32](R/W) Requested update to POWER_CLASS. */
         uint64_t reserved_36_39        : 4;
-        uint64_t bus_width             : 3;  /**< [ 42: 40](R/W) Requested update to BUS_WIDTH */
+        uint64_t bus_width             : 3;  /**< [ 42: 40](R/W) Requested update to BUS_WIDTH. */
         uint64_t reserved_43_47        : 5;
-        uint64_t hs_timing             : 1;  /**< [ 48: 48](R/W) Requested update to HS_TIMING */
+        uint64_t hs_timing             : 1;  /**< [ 48: 48](R/W) Requested update to HS_TIMING. */
         uint64_t reserved_49_55        : 7;
         uint64_t switch_err2           : 1;  /**< [ 56: 56](RO/H) Error encountered while performing BUS_WIDTH switch. See MIO_EMM_RSP_STS. */
         uint64_t switch_err1           : 1;  /**< [ 57: 57](RO/H) Error encountered while performing HS_TIMING switch. See MIO_EMM_RSP_STS. */
         uint64_t switch_err0           : 1;  /**< [ 58: 58](RO/H) Error encountered while performing POWER_CLASS switch. See MIO_EMM_RSP_STS. */
-        uint64_t switch_exe            : 1;  /**< [ 59: 59](R/W/H) When SWITCH_EXE is 0, the operating modes are updated directly without performing any
+        uint64_t switch_exe            : 1;  /**< [ 59: 59](R/W/H) When clear, the operating modes are updated directly without performing any
                                                                  SWITCH operations. This allows software to perform the SWITCH operations manually, then
                                                                  update the hardware.
 
                                                                  Software writes this bit to a 1 to indicate that hardware should perform the necessary
                                                                  SWITCH operations.
 
-                                                                 * First, the POWER_CLASS switch is performed. If it fails, SWITCH_ERR0 is set and the
-                                                                 remaining SWITCH operations are not performed. If it succeeds, the POWER_CLASS field is
+                                                                 * First, the POWER_CLASS switch is performed. If it fails, [SWITCH_ERR0] is set and the
+                                                                 remaining SWITCH operations are not performed. If it succeeds, [POWER_CLASS] is
                                                                  updated and the HS_TIMING switch is performed.
 
-                                                                 * If the HS_TIMING switch fails, SWITCH_ERR1 is set and the remaining SWITCH operations
-                                                                 are not performed. If it succeeds, the HS_TIMING field is updated and the BUS_WIDTH switch
+                                                                 * If the HS_TIMING switch fails, [SWITCH_ERR1] is set and the remaining SWITCH operations
+                                                                 are not performed. If it succeeds, [HS_TIMING] is updated and the BUS_WIDTH switch
                                                                  operation is performed.
 
-                                                                 * If the BUS_WIDTH switch operation fails, SWITCH_ERR2 is set. If it succeeds, the
+                                                                 * If the BUS_WIDTH switch operation fails, [SWITCH_ERR2] is set. If it succeeds, the
                                                                  BUS_WITDH is updated.
 
                                                                  Changes to CLK_HI and CLK_LO are discarded if any SWITCH_ERR occurs. */

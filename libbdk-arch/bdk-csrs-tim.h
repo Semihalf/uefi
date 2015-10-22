@@ -146,24 +146,29 @@ union bdk_tim_mem_bucket_s
  */
 union bdk_tim_mem_entry_s
 {
-    uint64_t u;
+    uint64_t u[2];
     struct bdk_tim_mem_entry_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
-        uint64_t grp                   : 10; /**< [ 61: 52] SSO group. Note the upper two bits correspond to a node number. */
-        uint64_t tt                    : 2;  /**< [ 51: 50] SSO tag type. */
-        uint64_t reserved_42_49        : 8;
-        uint64_t wqp                   : 42; /**< [ 41:  0] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
-                                                                 a NOP. <2:0> must be zero. */
+        uint64_t reserved_44_63        : 20;
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. */
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type.  Enumerated by SSO_TT_E. */
+        uint64_t tag                   : 32; /**< [ 31:  0] SSO tag. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 42; /**< [ 41:  0] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
-                                                                 a NOP. <2:0> must be zero. */
-        uint64_t reserved_42_49        : 8;
-        uint64_t tt                    : 2;  /**< [ 51: 50] SSO tag type. */
-        uint64_t grp                   : 10; /**< [ 61: 52] SSO group. Note the upper two bits correspond to a node number. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t tag                   : 32; /**< [ 31:  0] SSO tag. */
+        uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type.  Enumerated by SSO_TT_E. */
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. */
+        uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_113_127      : 15;
+        uint64_t wqp                   : 49; /**< [112: 64] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
+                                                                 a NOP. <2:0> must be zero. */
+#else /* Word 1 - Little Endian */
+        uint64_t wqp                   : 49; /**< [112: 64] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
+                                                                 a NOP. <2:0> must be zero. */
+        uint64_t reserved_113_127      : 15;
+#endif /* Word 1 - End */
     } s;
     /* struct bdk_tim_mem_entry_s_s cn; */
 };
@@ -1030,7 +1035,7 @@ static inline uint64_t BDK_TIM_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_TIM_PF_MSIX_PBAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x858000ff0008ll + 0ll * ((a) & 0x0);
+        return 0x858000ff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("TIM_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
@@ -1056,7 +1061,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's TIM_PF_MSIX_VEC()_ADDR, TIM_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of TIM_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -1066,7 +1071,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's TIM_PF_MSIX_VEC()_ADDR, TIM_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of TIM_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -1086,8 +1091,8 @@ typedef union
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x858000f00000ll + 0x10ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x858000f00000ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("TIM_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
@@ -1127,8 +1132,8 @@ typedef union
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x858000f00008ll + 0x10ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x858000f00008ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("TIM_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -1491,9 +1496,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Aura number used to free and return chucks to. Bits <15:12> must be zero. */
+        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Guest-aura number used to free and return chucks to. Bits <15:12> must be zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Aura number used to free and return chucks to. Bits <15:12> must be zero. */
+        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Guest-aura number used to free and return chucks to. Bits <15:12> must be zero. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;

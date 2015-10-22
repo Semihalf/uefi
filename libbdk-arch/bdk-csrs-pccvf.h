@@ -211,6 +211,46 @@ static inline uint64_t BDK_PCCVF_XXX_E_CAP_HDR_FUNC(void)
 #define arguments_BDK_PCCVF_XXX_E_CAP_HDR -1,-1,-1,-1
 
 /**
+ * Register (PCCVF) pccvf_xxx_e_dev_cap
+ *
+ * PCC VF PCI Express Device Capabilities Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pccvf_xxx_e_dev_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO) Role-based error reporting. Required to be set by PCIe 3.1. */
+        uint32_t reserved_0_14         : 15;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_14         : 15;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO) Role-based error reporting. Required to be set by PCIe 3.1. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccvf_xxx_e_dev_cap_s cn; */
+} bdk_pccvf_xxx_e_dev_cap_t;
+
+#define BDK_PCCVF_XXX_E_DEV_CAP BDK_PCCVF_XXX_E_DEV_CAP_FUNC()
+static inline uint64_t BDK_PCCVF_XXX_E_DEV_CAP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCCVF_XXX_E_DEV_CAP_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x74;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x74;
+    __bdk_csr_fatal("PCCVF_XXX_E_DEV_CAP", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PCCVF_XXX_E_DEV_CAP bdk_pccvf_xxx_e_dev_cap_t
+#define bustype_BDK_PCCVF_XXX_E_DEV_CAP BDK_CSR_TYPE_PCCVF
+#define basename_BDK_PCCVF_XXX_E_DEV_CAP "PCCVF_XXX_E_DEV_CAP"
+#define busnum_BDK_PCCVF_XXX_E_DEV_CAP 0
+#define arguments_BDK_PCCVF_XXX_E_DEV_CAP -1,-1,-1,-1
+
+/**
  * Register (PCCVF) pccvf_xxx_id
  *
  * PCC VF Vendor and Device Register

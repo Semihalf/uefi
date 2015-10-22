@@ -284,12 +284,12 @@ typedef union
         uint32_t dis_bnk               : 16; /**< [ 15:  0](R/W) Bitmask of sections of TLB to disable for fills caused by transactions to this
                                                                  context. May be used to partition the TLB to achieve QoS; note the WCU is not likewise
                                                                  partitioned. If a context is marked secure but accessed insecurely, than this register is
-                                                                 RAZ/WI. For nested translations, the primary context's DIS_BNK is used. */
+                                                                 RAZ/WI. For nested translations, the primary context's [DIS_BNK] is used. */
 #else /* Word 0 - Little Endian */
         uint32_t dis_bnk               : 16; /**< [ 15:  0](R/W) Bitmask of sections of TLB to disable for fills caused by transactions to this
                                                                  context. May be used to partition the TLB to achieve QoS; note the WCU is not likewise
                                                                  partitioned. If a context is marked secure but accessed insecurely, than this register is
-                                                                 RAZ/WI. For nested translations, the primary context's DIS_BNK is used. */
+                                                                 RAZ/WI. For nested translations, the primary context's [DIS_BNK] is used. */
         uint32_t reserved_16_27        : 12;
         uint32_t qos                   : 4;  /**< [ 31: 28](R/W) L2C quality-of-service value to use for transactions to this context. */
 #endif /* Word 0 - End */
@@ -2272,7 +2272,7 @@ typedef union
 
                                                                  If CTYPE=1, combined with the shared attributes of the previous translation stage.
 
-                                                                 If CTYPE=3, context bank index <7:4>, see [BPSHCFG_CNBDX0]. */
+                                                                 If CTYPE=3, context bank index <7:4>, see [BPSHCFG_CBNDX0]. */
         uint32_t fb_cbndx3             : 1;  /**< [ 11: 11](R/W) Force broadcast of TLB and cache maintenance operations or context bank index<3>.
 
                                                                  If CTYPE=0 or 2, reserved.
@@ -2280,7 +2280,7 @@ typedef union
                                                                  If CTYPE=1, force broadcast mode. Ignored in CNXXXX, as NCB clients do not initiate
                                                                  invalidates.
 
-                                                                 If CTYPE=3, context bank index <3>, see [BPSHCFG_CNBDX0]. */
+                                                                 If CTYPE=3, context bank index <3>, see [BPSHCFG_CBNDX0]. */
         uint32_t hypc_cbndx2           : 1;  /**< [ 10: 10](R/W) Hypervisor context or E2HC context or context bank index <2>.
 
                                                                  If CTYPE=0 or 2, reserved.
@@ -2300,7 +2300,7 @@ typedef union
                                                                  set HYPC to 1 for any non-secure translation context bank. Otherwise, UNPREDICTABLE
                                                                  behavior might occur.
 
-                                                                 If CTYPE=3, context bank index <2>, see [BPSHCFG_CNBDX0]. */
+                                                                 If CTYPE=3, context bank index <2>, see [BPSHCFG_CBNDX0]. */
         uint32_t bpshcfg_cbndx0        : 2;  /**< [  9:  8](R/W) Bypass shared configuration or context bank index <1:0>.
 
                                                                  If CTYPE=0 or 2, reserved.
@@ -2357,7 +2357,7 @@ typedef union
                                                                  set HYPC to 1 for any non-secure translation context bank. Otherwise, UNPREDICTABLE
                                                                  behavior might occur.
 
-                                                                 If CTYPE=3, context bank index <2>, see [BPSHCFG_CNBDX0]. */
+                                                                 If CTYPE=3, context bank index <2>, see [BPSHCFG_CBNDX0]. */
         uint32_t fb_cbndx3             : 1;  /**< [ 11: 11](R/W) Force broadcast of TLB and cache maintenance operations or context bank index<3>.
 
                                                                  If CTYPE=0 or 2, reserved.
@@ -2365,14 +2365,14 @@ typedef union
                                                                  If CTYPE=1, force broadcast mode. Ignored in CNXXXX, as NCB clients do not initiate
                                                                  invalidates.
 
-                                                                 If CTYPE=3, context bank index <3>, see [BPSHCFG_CNBDX0]. */
+                                                                 If CTYPE=3, context bank index <3>, see [BPSHCFG_CBNDX0]. */
         uint32_t memattr_cbndx4        : 4;  /**< [ 15: 12](R/W) Memory attributes, or context bank index <7:4>.
 
                                                                  If CTYPE=0 or 2, reserved.
 
                                                                  If CTYPE=1, combined with the shared attributes of the previous translation stage.
 
-                                                                 If CTYPE=3, context bank index <7:4>, see [BPSHCFG_CNBDX0]. */
+                                                                 If CTYPE=3, context bank index <7:4>, see [BPSHCFG_CBNDX0]. */
         uint32_t ctype                 : 2;  /**< [ 17: 16](R/W) Register type.   Indicates the context format. Enumerated by SMMU_CTYPE_E. */
         uint32_t bsu                   : 2;  /**< [ 19: 18](RO) Barrier sharability upgrade. Not implemented in CNXXXX. */
         uint32_t racfg                 : 2;  /**< [ 21: 20](RO) If CTYPE=1 or 3, read allocate configuration hint.
@@ -3506,13 +3506,13 @@ typedef union
                                                                  The value reported in NUMCB includes translation context banks that only support stage 2
                                                                  format. The number of translation context banks that support the stage 1 format is given
                                                                  by [NUMCB] - [NUMS2CB]. A read of this field by non-secure software gives the value
-                                                                 configured in [NSNUMCBO]. */
+                                                                 configured in SMMU()_SCR1[NSNUMCBO]. */
 #else /* Word 0 - Little Endian */
         uint32_t numcb                 : 8;  /**< [  7:  0](RO/H) Indicates the total number of implemented translation context banks in the range 0-128.
                                                                  The value reported in NUMCB includes translation context banks that only support stage 2
                                                                  format. The number of translation context banks that support the stage 1 format is given
                                                                  by [NUMCB] - [NUMS2CB]. A read of this field by non-secure software gives the value
-                                                                 configured in [NSNUMCBO]. */
+                                                                 configured in SMMU()_SCR1[NSNUMCBO]. */
         uint32_t numssdndxb            : 4;  /**< [ 11:  8](SRO) Indicates the number of SSD_Index bits for indexing the security state determination table. */
         uint32_t ssdtp                 : 2;  /**< [ 13: 12](SRO) Security state determination table present.
                                                                  0x0 = The security state determination address space is UNK/WI.
@@ -4303,8 +4303,8 @@ typedef union
 
                                                                  In pass 1, this field must be 0. */
         uint32_t hypmode               : 1;  /**< [ 30: 30](R/W) Hypervisor mode. Selects which hypervisor context is used:
-                                                                   0 = When SMMU()_CBAR()[TYPE] = 0x1, SMMU()_CBAR()<10> represents HYPC.
-                                                                   1 = When SMMU()_CBARn()[TYPE] = 0x1, SMMU()_CBAR()<10> represents E2HC.
+                                                                   0 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents HYPC.
+                                                                   1 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents E2HC.
 
                                                                  If this bit is changed, TLB maintenance is required.
 
@@ -4417,8 +4417,8 @@ typedef union
                                                                  1 = For this SSD, SMMU()_SMR() has the extended id format and the valid bit is
                                                                  held in the corresponding SMMU()_S2CR()[EXIDVALID].
 
-                                                                 Software should only change [EXIDENABLE] when all SMMU()_S2CR().[EXIDVALID] == 0
-                                                                 and SMMU()_SMR().[EXMASK[15]/VALID] == 0 for the appropriate security world,
+                                                                 Software should only change [EXIDENABLE] when all SMMU()_S2CR()[EXIDVALID] == 0
+                                                                 and SMMU()_SMR()[EXMASK[15]/VALID] == 0 for the appropriate security world,
                                                                  otherwise the effect is unpredictable. In particular, note that the reset values of
                                                                  SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized before use. */
@@ -4449,8 +4449,8 @@ typedef union
                                                                  1 = For this SSD, SMMU()_SMR() has the extended id format and the valid bit is
                                                                  held in the corresponding SMMU()_S2CR()[EXIDVALID].
 
-                                                                 Software should only change [EXIDENABLE] when all SMMU()_S2CR().[EXIDVALID] == 0
-                                                                 and SMMU()_SMR().[EXMASK[15]/VALID] == 0 for the appropriate security world,
+                                                                 Software should only change [EXIDENABLE] when all SMMU()_S2CR()[EXIDVALID] == 0
+                                                                 and SMMU()_SMR()[EXMASK[15]/VALID] == 0 for the appropriate security world,
                                                                  otherwise the effect is unpredictable. In particular, note that the reset values of
                                                                  SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized before use. */
@@ -4557,8 +4557,8 @@ typedef union
                                                                  10 = Secure.
                                                                  11 = Non-secure. */
         uint32_t hypmode               : 1;  /**< [ 30: 30](R/W) Hypervisor mode. Selects which hypervisor context is used:
-                                                                   0 = When SMMU()_CBAR()[TYPE] = 0x1, SMMU()_CBAR()<10> represents HYPC.
-                                                                   1 = When SMMU()_CBARn()[TYPE] = 0x1, SMMU()_CBAR()<10> represents E2HC.
+                                                                   0 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents HYPC.
+                                                                   1 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents E2HC.
 
                                                                  If this bit is changed, TLB maintenance is required.
 
@@ -4948,7 +4948,7 @@ typedef union
                                                                  accessible to configuration accesses by secure software. Non-secure configuration accesses
                                                                  treat this field as RAZ/WI.
 
-                                                                 For CNXXXX, the SSD_INDEX is always the same as [STREAMID]. */
+                                                                 For CNXXXX, [SSD_INDEX] is always the same as [STREAMID]. */
         uint32_t streamid              : 16; /**< [ 15:  0](R/W/H) The stream ID of the transaction that caused the fault. */
 #else /* Word 0 - Little Endian */
         uint32_t streamid              : 16; /**< [ 15:  0](R/W/H) The stream ID of the transaction that caused the fault. */
@@ -4956,7 +4956,7 @@ typedef union
                                                                  accessible to configuration accesses by secure software. Non-secure configuration accesses
                                                                  treat this field as RAZ/WI.
 
-                                                                 For CNXXXX, the SSD_INDEX is always the same as [STREAMID]. */
+                                                                 For CNXXXX, [SSD_INDEX] is always the same as [STREAMID]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_nsgfsynr1_s cn; */
@@ -5906,8 +5906,8 @@ typedef union
 
                                                                  In pass 1, this field must be 0. */
         uint32_t hypmode               : 1;  /**< [ 30: 30](R/W) Hypervisor mode. Selects which hypervisor context is used:
-                                                                   0 = When SMMU()_CBAR()[TYPE] = 0x1, SMMU()_CBAR()<10> represents HYPC.
-                                                                   1 = When SMMU()_CBARn()[TYPE] = 0x1, SMMU()_CBAR()<10> represents E2HC.
+                                                                   0 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents HYPC.
+                                                                   1 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents E2HC.
 
                                                                  If this bit is changed, TLB maintenance is required.
 
@@ -6020,8 +6020,8 @@ typedef union
                                                                  1 = For this SSD, SMMU()_SMR() has the extended id format and the valid bit is
                                                                  held in the corresponding SMMU()_S2CR()[EXIDVALID].
 
-                                                                 Software should only change [EXIDENABLE] when all SMMU()_S2CR().[EXIDVALID] == 0
-                                                                 and SMMU()_SMR().[EXMASK[15]/VALID] == 0 for the appropriate security world,
+                                                                 Software should only change [EXIDENABLE] when all SMMU()_S2CR()[EXIDVALID] == 0
+                                                                 and SMMU()_SMR()[EXMASK[15]/VALID] == 0 for the appropriate security world,
                                                                  otherwise the effect is unpredictable. In particular, note that the reset values of
                                                                  SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized before use. */
@@ -6052,8 +6052,8 @@ typedef union
                                                                  1 = For this SSD, SMMU()_SMR() has the extended id format and the valid bit is
                                                                  held in the corresponding SMMU()_S2CR()[EXIDVALID].
 
-                                                                 Software should only change [EXIDENABLE] when all SMMU()_S2CR().[EXIDVALID] == 0
-                                                                 and SMMU()_SMR().[EXMASK[15]/VALID] == 0 for the appropriate security world,
+                                                                 Software should only change [EXIDENABLE] when all SMMU()_S2CR()[EXIDVALID] == 0
+                                                                 and SMMU()_SMR()[EXMASK[15]/VALID] == 0 for the appropriate security world,
                                                                  otherwise the effect is unpredictable. In particular, note that the reset values of
                                                                  SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
                                                                  initialized before use. */
@@ -6160,8 +6160,8 @@ typedef union
                                                                  10 = Secure.
                                                                  11 = Non-secure. */
         uint32_t hypmode               : 1;  /**< [ 30: 30](R/W) Hypervisor mode. Selects which hypervisor context is used:
-                                                                   0 = When SMMU()_CBAR()[TYPE] = 0x1, SMMU()_CBAR()<10> represents HYPC.
-                                                                   1 = When SMMU()_CBARn()[TYPE] = 0x1, SMMU()_CBAR()<10> represents E2HC.
+                                                                   0 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents HYPC.
+                                                                   1 = When SMMU()_CBAR()[CTYPE] = 0x1, SMMU()_CBAR()<10> represents E2HC.
 
                                                                  If this bit is changed, TLB maintenance is required.
 
@@ -6891,7 +6891,7 @@ typedef union
                                                                  accessible to configuration accesses by secure software. Non-secure configuration accesses
                                                                  treat this field as RAZ/WI.
 
-                                                                 For CNXXXX, the SSD_INDEX is always the same as [STREAMID]. */
+                                                                 For CNXXXX, [SSD_INDEX] is always the same as [STREAMID]. */
         uint32_t streamid              : 16; /**< [ 15:  0](R/W/H) The stream ID of the transaction that caused the fault. */
 #else /* Word 0 - Little Endian */
         uint32_t streamid              : 16; /**< [ 15:  0](R/W/H) The stream ID of the transaction that caused the fault. */
@@ -6899,7 +6899,7 @@ typedef union
                                                                  accessible to configuration accesses by secure software. Non-secure configuration accesses
                                                                  treat this field as RAZ/WI.
 
-                                                                 For CNXXXX, the SSD_INDEX is always the same as [STREAMID]. */
+                                                                 For CNXXXX, [SSD_INDEX] is always the same as [STREAMID]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_smmux_sgfsynr1_s cn; */

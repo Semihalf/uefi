@@ -690,7 +690,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
         uint64_t done                  : 21; /**< [ 20:  0](R/W/H) When an instruction with RAD_CWORD_S[DN] completes, [DONE] is incremented. Writes to this
-                                                                 field are for diagnostic use only; instead software writes RAD_DONE_ACK[DONE] with the
+                                                                 field are for diagnostic use only; instead software writes RAD_DONE_ACK[DONE_ACK] with the
                                                                  number of decrements for this field.
 
                                                                  Interrupts are sent as follows:
@@ -714,7 +714,7 @@ typedef union
                                                                  above still occurs. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 21; /**< [ 20:  0](R/W/H) When an instruction with RAD_CWORD_S[DN] completes, [DONE] is incremented. Writes to this
-                                                                 field are for diagnostic use only; instead software writes RAD_DONE_ACK[DONE] with the
+                                                                 field are for diagnostic use only; instead software writes RAD_DONE_ACK[DONE_ACK] with the
                                                                  number of decrements for this field.
 
                                                                  Interrupts are sent as follows:
@@ -1337,25 +1337,25 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t csr_msix              : 1;  /**< [  7:  7](RO) BIST result of the CSR_MSIX memory.
+        uint64_t csr_msix              : 1;  /**< [  7:  7](RO) BIST result of the CSR MSIX memory.
                                                                  Internal:
                                                                  csr.msix_mem. */
-        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO) BIST result of the CSR_FIFO memory.
+        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO) BIST result of the CSR FIFO memory.
                                                                  Internal:
                                                                  csr.csr_fifo. */
-        uint64_t sta                   : 1;  /**< [  5:  5](RO) BIST result of the STA memories */
-        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO) BIST result of the NCB_OUB memories */
-        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO) BIST result of the NCB_INB memories */
-        uint64_t dat                   : 2;  /**< [  1:  0](RO) BIST result of the DAT memories */
+        uint64_t sta                   : 1;  /**< [  5:  5](RO) BIST result of the STA memories. */
+        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO) BIST result of the NCB OUB memories. */
+        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO) BIST result of the NCB INB memories. */
+        uint64_t dat                   : 2;  /**< [  1:  0](RO) BIST result of the DAT memories. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 2;  /**< [  1:  0](RO) BIST result of the DAT memories */
-        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO) BIST result of the NCB_INB memories */
-        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO) BIST result of the NCB_OUB memories */
-        uint64_t sta                   : 1;  /**< [  5:  5](RO) BIST result of the STA memories */
-        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO) BIST result of the CSR_FIFO memory.
+        uint64_t dat                   : 2;  /**< [  1:  0](RO) BIST result of the DAT memories. */
+        uint64_t ncb_inb               : 2;  /**< [  3:  2](RO) BIST result of the NCB INB memories. */
+        uint64_t ncb_oub               : 1;  /**< [  4:  4](RO) BIST result of the NCB OUB memories. */
+        uint64_t sta                   : 1;  /**< [  5:  5](RO) BIST result of the STA memories. */
+        uint64_t csr_fifo              : 1;  /**< [  6:  6](RO) BIST result of the CSR FIFO memory.
                                                                  Internal:
                                                                  csr.csr_fifo. */
-        uint64_t csr_msix              : 1;  /**< [  7:  7](RO) BIST result of the CSR_MSIX memory.
+        uint64_t csr_msix              : 1;  /**< [  7:  7](RO) BIST result of the CSR MSIX memory.
                                                                  Internal:
                                                                  csr.msix_mem. */
         uint64_t reserved_8_63         : 56;
@@ -1577,7 +1577,7 @@ typedef union
         uint64_t wc_dis                : 1;  /**< [  6:  6](R/W/H) Reserved.
                                                                  Internal:
                                                                  Bug 17188 diagnostic disable. */
-        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands. MAX_READ is a throttle to control IOB
+        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands as a throttle to control IOB
                                                                  usage. Values greater than 0x8 are illegal. */
         uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big endian. Generaly this is not changed as data is
                                                                  byte invariant. */
@@ -1586,7 +1586,7 @@ typedef union
         uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset one-shot pulse (lasts for 4 cycles). */
         uint64_t store_be              : 1;  /**< [  1:  1](R/W) Force STORE0 byte write address to big endian. Generaly this is not changed as data is
                                                                  byte invariant. */
-        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands. MAX_READ is a throttle to control IOB
+        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands as a throttle to control IOB
                                                                  usage. Values greater than 0x8 are illegal. */
         uint64_t wc_dis                : 1;  /**< [  6:  6](R/W/H) Reserved.
                                                                  Internal:

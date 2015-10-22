@@ -190,7 +190,7 @@ typedef union
                                                                  ...
                                                                  0xF = 15/8 seconds. */
         uint32_t max_on                : 4;  /**< [ 11:  8](R/W) Maximum activity on time. The maximum amount of time to enable the activity indicator if
-                                                                 SGP_TX(0..3)[*_ACT] is 0x4 or 0x5. Note all drives will not reach the MAX_ON time
+                                                                 SGP_TX(0..3)[*_ACT] is 0x4 or 0x5. Note all drives will not reach the [MAX_ON] time
                                                                  simultaneously, the pattern will appear somewhat random.
                                                                  0x0 = No maximum.
                                                                  0x1 = 1/4 second.
@@ -222,7 +222,7 @@ typedef union
                                                                  ...
                                                                  0xF = 15/64 seconds. */
         uint32_t max_on                : 4;  /**< [ 11:  8](R/W) Maximum activity on time. The maximum amount of time to enable the activity indicator if
-                                                                 SGP_TX(0..3)[*_ACT] is 0x4 or 0x5. Note all drives will not reach the MAX_ON time
+                                                                 SGP_TX(0..3)[*_ACT] is 0x4 or 0x5. Note all drives will not reach the [MAX_ON] time
                                                                  simultaneously, the pattern will appear somewhat random.
                                                                  0x0 = No maximum.
                                                                  0x1 = 1/4 second.
@@ -378,7 +378,7 @@ typedef union
                                                                  from SATA controller number [CTRLR].  Else, the activity indication is controlled by
                                                                  software alone.
 
-                                                                 If [PRES_DET] is set, SATA controller number [CTRL] will receive the index'ed drive's
+                                                                 If [PRES_DET] is set, SATA controller number [CTRLR] will receive the index'ed drive's
                                                                  presence detect. */
 #else /* Word 0 - Little Endian */
         uint32_t ctrlr                 : 4;  /**< [  3:  0](R/W) SATA controller attached to this index's SGPIO drive. Indicates which SATA(0..15) connects
@@ -389,7 +389,7 @@ typedef union
                                                                  from SATA controller number [CTRLR].  Else, the activity indication is controlled by
                                                                  software alone.
 
-                                                                 If [PRES_DET] is set, SATA controller number [CTRL] will receive the index'ed drive's
+                                                                 If [PRES_DET] is set, SATA controller number [CTRLR] will receive the index'ed drive's
                                                                  presence detect. */
         uint32_t reserved_4_7          : 4;
         uint32_t pres_det              : 1;  /**< [  8:  8](R/W) "Presence detect. If set, logically OR GPIO_SDATAIN's ID#.0 bit with any GPIO related

@@ -80,7 +80,9 @@ typedef union
 static inline uint64_t BDK_PCCBR_XXX_ARI_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCBR_XXX_ARI_CAP_HDR_FUNC(void)
 {
-    return 0x100;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x100;
+    __bdk_csr_fatal("PCCBR_XXX_ARI_CAP_HDR", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCBR_XXX_ARI_CAP_HDR bdk_pccbr_xxx_ari_cap_hdr_t
@@ -304,6 +306,21 @@ typedef union
     struct bdk_pccbr_xxx_e_cap2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_7_31         : 25;
+        uint32_t atomfwd               : 1;  /**< [  6:  6](RO) Atomic operation forwarding. The bridge does forwarding. */
+        uint32_t arifwd                : 1;  /**< [  5:  5](RO) ARI forwarding. The bridge does forwarding. */
+        uint32_t reserved_0_4          : 5;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_4          : 5;
+        uint32_t arifwd                : 1;  /**< [  5:  5](RO) ARI forwarding. The bridge does forwarding. */
+        uint32_t atomfwd               : 1;  /**< [  6:  6](RO) Atomic operation forwarding. The bridge does forwarding. */
+        uint32_t reserved_7_31         : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccbr_xxx_e_cap2_s cn81xx; */
+    struct bdk_pccbr_xxx_e_cap2_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
         uint32_t arifwd                : 1;  /**< [  5:  5](RO) ARI forwarding. The bridge does forwarding. */
         uint32_t reserved_0_4          : 5;
@@ -312,8 +329,8 @@ typedef union
         uint32_t arifwd                : 1;  /**< [  5:  5](RO) ARI forwarding. The bridge does forwarding. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pccbr_xxx_e_cap2_s cn; */
+    } cn88xx;
+    /* struct bdk_pccbr_xxx_e_cap2_s cn83xx; */
 } bdk_pccbr_xxx_e_cap2_t;
 
 #define BDK_PCCBR_XXX_E_CAP2 BDK_PCCBR_XXX_E_CAP2_FUNC()
@@ -404,6 +421,46 @@ static inline uint64_t BDK_PCCBR_XXX_E_CAP_HDR_FUNC(void)
 #define basename_BDK_PCCBR_XXX_E_CAP_HDR "PCCBR_XXX_E_CAP_HDR"
 #define busnum_BDK_PCCBR_XXX_E_CAP_HDR 0
 #define arguments_BDK_PCCBR_XXX_E_CAP_HDR -1,-1,-1,-1
+
+/**
+ * Register (PCCBR) pccbr_xxx_e_dev_cap
+ *
+ * PCC Bridge PCI Express Device Capabilities Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pccbr_xxx_e_dev_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO) Role-based error reporting. Required to be set by PCIe 3.1. */
+        uint32_t reserved_0_14         : 15;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_14         : 15;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO) Role-based error reporting. Required to be set by PCIe 3.1. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccbr_xxx_e_dev_cap_s cn; */
+} bdk_pccbr_xxx_e_dev_cap_t;
+
+#define BDK_PCCBR_XXX_E_DEV_CAP BDK_PCCBR_XXX_E_DEV_CAP_FUNC()
+static inline uint64_t BDK_PCCBR_XXX_E_DEV_CAP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCCBR_XXX_E_DEV_CAP_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x74;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x74;
+    __bdk_csr_fatal("PCCBR_XXX_E_DEV_CAP", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PCCBR_XXX_E_DEV_CAP bdk_pccbr_xxx_e_dev_cap_t
+#define bustype_BDK_PCCBR_XXX_E_DEV_CAP BDK_CSR_TYPE_PCCBR
+#define basename_BDK_PCCBR_XXX_E_DEV_CAP "PCCBR_XXX_E_DEV_CAP"
+#define busnum_BDK_PCCBR_XXX_E_DEV_CAP 0
+#define arguments_BDK_PCCBR_XXX_E_DEV_CAP -1,-1,-1,-1
 
 /**
  * Register (PCCBR) pccbr_xxx_ea_br
@@ -601,7 +658,13 @@ typedef union
 static inline uint64_t BDK_PCCBR_XXX_VSEC_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCBR_XXX_VSEC_CAP_HDR_FUNC(void)
 {
-    return 0x108;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x100;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x100;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x108;
+    __bdk_csr_fatal("PCCBR_XXX_VSEC_CAP_HDR", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCBR_XXX_VSEC_CAP_HDR bdk_pccbr_xxx_vsec_cap_hdr_t
@@ -641,7 +704,13 @@ typedef union
 static inline uint64_t BDK_PCCBR_XXX_VSEC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCBR_XXX_VSEC_CTL_FUNC(void)
 {
-    return 0x110;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x108;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x108;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x110;
+    __bdk_csr_fatal("PCCBR_XXX_VSEC_CTL", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCBR_XXX_VSEC_CTL bdk_pccbr_xxx_vsec_ctl_t
@@ -683,7 +752,13 @@ typedef union
 static inline uint64_t BDK_PCCBR_XXX_VSEC_ID_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCBR_XXX_VSEC_ID_FUNC(void)
 {
-    return 0x10c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x104;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x104;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x10c;
+    __bdk_csr_fatal("PCCBR_XXX_VSEC_ID", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCBR_XXX_VSEC_ID bdk_pccbr_xxx_vsec_id_t
@@ -719,7 +794,13 @@ typedef union
 static inline uint64_t BDK_PCCBR_XXX_VSEC_SCTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCBR_XXX_VSEC_SCTL_FUNC(void)
 {
-    return 0x114;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x10c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x10c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x114;
+    __bdk_csr_fatal("PCCBR_XXX_VSEC_SCTL", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCBR_XXX_VSEC_SCTL bdk_pccbr_xxx_vsec_sctl_t

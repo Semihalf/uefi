@@ -3419,6 +3419,171 @@ static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b)
 #define arguments_BDK_IOBNX_NCBX_CTL(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) iobn#_ncb#_rw#_lat_pc
+ *
+ * IOBN NCB Secure Kill-Device Registers
+ * Added in pass 3.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_iobnx_ncbx_rwx_lat_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Latency performance counter.
+
+                                                                 _ RW(0) increments every cycle by the number of read transactions that have
+                                                                 entered IOB from the given NCB, but have not returned read data to the device.
+
+                                                                 _ RW(1) increments every cycle by the number of write transactions that have
+                                                                 entered IOB from the given NCB, but have not returned write commits to the
+                                                                 device.
+
+                                                                 This counter should be divided by IOBN()_NCB()_RW()_REQ_PC to determine each NCB
+                                                                 bus's average read and write latency. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Latency performance counter.
+
+                                                                 _ RW(0) increments every cycle by the number of read transactions that have
+                                                                 entered IOB from the given NCB, but have not returned read data to the device.
+
+                                                                 _ RW(1) increments every cycle by the number of write transactions that have
+                                                                 entered IOB from the given NCB, but have not returned write commits to the
+                                                                 device.
+
+                                                                 This counter should be divided by IOBN()_NCB()_RW()_REQ_PC to determine each NCB
+                                                                 bus's average read and write latency. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_iobnx_ncbx_rwx_lat_pc_s cn; */
+} bdk_iobnx_ncbx_rwx_lat_pc_t;
+
+static inline uint64_t BDK_IOBNX_NCBX_RWX_LAT_PC(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_IOBNX_NCBX_RWX_LAT_PC(unsigned long a, unsigned long b, unsigned long c)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=1)))
+        return 0x87e0f000d000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=1)))
+        return 0x87e0f000d000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=1) && (b<=1) && (c<=1)))
+        return 0x87e0f000d000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    __bdk_csr_fatal("IOBNX_NCBX_RWX_LAT_PC", 3, a, b, c, 0);
+}
+
+#define typedef_BDK_IOBNX_NCBX_RWX_LAT_PC(a,b,c) bdk_iobnx_ncbx_rwx_lat_pc_t
+#define bustype_BDK_IOBNX_NCBX_RWX_LAT_PC(a,b,c) BDK_CSR_TYPE_RSL
+#define basename_BDK_IOBNX_NCBX_RWX_LAT_PC(a,b,c) "IOBNX_NCBX_RWX_LAT_PC"
+#define device_bar_BDK_IOBNX_NCBX_RWX_LAT_PC(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_BDK_IOBNX_NCBX_RWX_LAT_PC(a,b,c) (a)
+#define arguments_BDK_IOBNX_NCBX_RWX_LAT_PC(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RSL) iobn#_ncb#_rw#_req_pc
+ *
+ * IOBN NCB Secure Kill-Device Registers
+ * Added in pass 3.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_iobnx_ncbx_rwx_req_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Request performance counter.
+
+                                                                 _ RW(0) increments on read  transaction entering IOB on given NCB bus.
+
+                                                                 _ RW(1) increments on write transaction entering IOB on given NCB bus. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Request performance counter.
+
+                                                                 _ RW(0) increments on read  transaction entering IOB on given NCB bus.
+
+                                                                 _ RW(1) increments on write transaction entering IOB on given NCB bus. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_iobnx_ncbx_rwx_req_pc_s cn; */
+} bdk_iobnx_ncbx_rwx_req_pc_t;
+
+static inline uint64_t BDK_IOBNX_NCBX_RWX_REQ_PC(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_IOBNX_NCBX_RWX_REQ_PC(unsigned long a, unsigned long b, unsigned long c)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=1)))
+        return 0x87e0f000c000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=1)))
+        return 0x87e0f000c000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=1) && (b<=1) && (c<=1)))
+        return 0x87e0f000c000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    __bdk_csr_fatal("IOBNX_NCBX_RWX_REQ_PC", 3, a, b, c, 0);
+}
+
+#define typedef_BDK_IOBNX_NCBX_RWX_REQ_PC(a,b,c) bdk_iobnx_ncbx_rwx_req_pc_t
+#define bustype_BDK_IOBNX_NCBX_RWX_REQ_PC(a,b,c) BDK_CSR_TYPE_RSL
+#define basename_BDK_IOBNX_NCBX_RWX_REQ_PC(a,b,c) "IOBNX_NCBX_RWX_REQ_PC"
+#define device_bar_BDK_IOBNX_NCBX_RWX_REQ_PC(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_BDK_IOBNX_NCBX_RWX_REQ_PC(a,b,c) (a)
+#define arguments_BDK_IOBNX_NCBX_RWX_REQ_PC(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RSL) iobn#_ncb#_rw#_smmu_lat_pc
+ *
+ * IOBN NCB Secure Kill-Device Registers
+ * Added in pass 3.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_iobnx_ncbx_rwx_smmu_lat_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) SMMU latency performance counter.
+
+                                                                 _ RW(0) increments every cycle by the number of read transactions that have
+                                                                 entered IOB from the given NCB, but have not been address translated by the
+                                                                 SMMU.
+
+                                                                 _ RW(1) increments by the number of write transactions that have entered IOB
+                                                                 from the given NCB, but have not been address translated by the SMMU.
+
+                                                                 This counter should be divided by IOBN()_NCB()_RW()_REQ_PC to determine each NCB
+                                                                 bus's average read and write SMMU plus IOB front-end latency. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) SMMU latency performance counter.
+
+                                                                 _ RW(0) increments every cycle by the number of read transactions that have
+                                                                 entered IOB from the given NCB, but have not been address translated by the
+                                                                 SMMU.
+
+                                                                 _ RW(1) increments by the number of write transactions that have entered IOB
+                                                                 from the given NCB, but have not been address translated by the SMMU.
+
+                                                                 This counter should be divided by IOBN()_NCB()_RW()_REQ_PC to determine each NCB
+                                                                 bus's average read and write SMMU plus IOB front-end latency. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_iobnx_ncbx_rwx_smmu_lat_pc_s cn; */
+} bdk_iobnx_ncbx_rwx_smmu_lat_pc_t;
+
+static inline uint64_t BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(unsigned long a, unsigned long b, unsigned long c)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=1)))
+        return 0x87e0f000e000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=1)))
+        return 0x87e0f000e000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=1) && (b<=1) && (c<=1)))
+        return 0x87e0f000e000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    __bdk_csr_fatal("IOBNX_NCBX_RWX_SMMU_LAT_PC", 3, a, b, c, 0);
+}
+
+#define typedef_BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(a,b,c) bdk_iobnx_ncbx_rwx_smmu_lat_pc_t
+#define bustype_BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(a,b,c) BDK_CSR_TYPE_RSL
+#define basename_BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(a,b,c) "IOBNX_NCBX_RWX_SMMU_LAT_PC"
+#define device_bar_BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(a,b,c) (a)
+#define arguments_BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(a,b,c) (a),(b),(c),-1
+
+/**
  * Register (RSL) iobn#_ncb0_hp
  *
  * IOBN NCBI0 High Performance Register
@@ -3458,7 +3623,6 @@ static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a)
  * Register (RSL) iobn#_ncb0_sdis#
  *
  * IOBN NCB Secure Disable Register
- * SDIS(3) = DIDs 255:192, SDIS(2) = DIDs 191:128, SDIS(1) = DIDs 127:64, SDIS(0) = DIDs 63:0.
  */
 typedef union
 {
@@ -3466,11 +3630,17 @@ typedef union
     struct bdk_iobnx_ncb0_sdisx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t did                   : 64; /**< [ 63:  0](SR/W) When set a secure operation is required to access the NCBDID. If a non-secure operation
-                                                                 occurs it will result in a R/W to ECAM0_NOP_ZF. */
+        uint64_t did                   : 64; /**< [ 63:  0](SR/W) When set a secure operation is required to access the NCBDID. If a non-secure
+                                                                 operation occurs it will result in a R/W to ECAM0_NOP_ZF.
+
+                                                                 Index 0 corresponds to DIDs 63:0, index 1 to DIDs 127:64, index 2 to DISs
+                                                                 191:128, and index 3 to DIDs 255:192. */
 #else /* Word 0 - Little Endian */
-        uint64_t did                   : 64; /**< [ 63:  0](SR/W) When set a secure operation is required to access the NCBDID. If a non-secure operation
-                                                                 occurs it will result in a R/W to ECAM0_NOP_ZF. */
+        uint64_t did                   : 64; /**< [ 63:  0](SR/W) When set a secure operation is required to access the NCBDID. If a non-secure
+                                                                 operation occurs it will result in a R/W to ECAM0_NOP_ZF.
+
+                                                                 Index 0 corresponds to DIDs 63:0, index 1 to DIDs 127:64, index 2 to DISs
+                                                                 191:128, and index 3 to DIDs 255:192. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_ncb0_sdisx_s cn; */
@@ -3490,6 +3660,53 @@ static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long a, unsigned long b)
 #define device_bar_BDK_IOBNX_NCB0_SDISX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_IOBNX_NCB0_SDISX(a,b) (a)
 #define arguments_BDK_IOBNX_NCB0_SDISX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) iobn#_ncb0_skill#
+ *
+ * IOBN NCB Secure Kill-Device Registers
+ * Added in pass 3.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_iobnx_ncb0_skillx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) NCB function kill. If set, any operation to this device will be will be directed
+                                                                 to ECAM0_NOP_ZF. Write one to set, once set cannot be cleared until soft reset.
+
+                                                                 Index 0 corresponds to DIDs 63:0, index 1 to DIDs 127:64, index 2 to DISs
+                                                                 191:128, and index 3 to DIDs 255:192. */
+#else /* Word 0 - Little Endian */
+        uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) NCB function kill. If set, any operation to this device will be will be directed
+                                                                 to ECAM0_NOP_ZF. Write one to set, once set cannot be cleared until soft reset.
+
+                                                                 Index 0 corresponds to DIDs 63:0, index 1 to DIDs 127:64, index 2 to DISs
+                                                                 191:128, and index 3 to DIDs 255:192. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_iobnx_ncb0_skillx_s cn; */
+} bdk_iobnx_ncb0_skillx_t;
+
+static inline uint64_t BDK_IOBNX_NCB0_SKILLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_IOBNX_NCB0_SKILLX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0f000b000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x87e0f000b000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=1) && (b<=3)))
+        return 0x87e0f000b000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
+    __bdk_csr_fatal("IOBNX_NCB0_SKILLX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_IOBNX_NCB0_SKILLX(a,b) bdk_iobnx_ncb0_skillx_t
+#define bustype_BDK_IOBNX_NCB0_SKILLX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_IOBNX_NCB0_SKILLX(a,b) "IOBNX_NCB0_SKILLX"
+#define device_bar_BDK_IOBNX_NCB0_SKILLX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_IOBNX_NCB0_SKILLX(a,b) (a)
+#define arguments_BDK_IOBNX_NCB0_SKILLX(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) iobn#_roc_dll

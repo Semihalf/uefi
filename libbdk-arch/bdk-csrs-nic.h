@@ -2040,7 +2040,9 @@ union bdk_nic_send_hdr_s
                                                                  TCP headers, respectively. */
         uint64_t pnc                   : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
                                                                  NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
-                                                                 error. If [TSO] is set, a CQE is created for each TSO segment.
+                                                                 error. If [TSO] is set and NIC_PF_TSO_CFG[TSO_CMP_CQE] is clear, a CQE is created for each
+                                                                 TSO segment. If [TSO] is set and NIC_PF_TSO_CFG[TSO_CMP_CQE] is set, a single CQE is
+                                                                 created when the send operation completes for all TSO segments.
 
                                                                  If clear, no CQE is added on normal completion.
 
@@ -2193,7 +2195,9 @@ union bdk_nic_send_hdr_s
                                                                  it will still perform any NIC_SEND_MEM_S operations. */
         uint64_t pnc                   : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
                                                                  NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
-                                                                 error. If [TSO] is set, a CQE is created for each TSO segment.
+                                                                 error. If [TSO] is set and NIC_PF_TSO_CFG[TSO_CMP_CQE] is clear, a CQE is created for each
+                                                                 TSO segment. If [TSO] is set and NIC_PF_TSO_CFG[TSO_CMP_CQE] is set, a single CQE is
+                                                                 created when the send operation completes for all TSO segments.
 
                                                                  If clear, no CQE is added on normal completion.
 
@@ -2271,6 +2275,242 @@ union bdk_nic_send_hdr_s
 #endif /* Word 1 - End */
     } s;
     struct bdk_nic_send_hdr_s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
+        uint64_t tso                   : 1;  /**< [ 59: 59] TCP segmentation offload. Ignored and treated as clear when NIC_PF_TSO_CFG[ENABLE] is
+                                                                 clear. When set along with NIC_PF_TSO_CFG[ENABLE], the send descriptor is for a TCP
+                                                                 segmentation
+                                                                 operation to send one or more packets of a TCP flow, and the related [TSO_*] fields are
+                                                                 valid.
+                                                                 TSO can be tunneled or non-tunneled as follows:
+                                                                 * If [LFPTR] is non-zero, TSO is tunneled. [LEPTR] and [LFPTR] must point to the inner IP
+                                                                 and TCP headers, respectively, [L3PTR] must point to the outer IP, and [L4PTR] just point
+                                                                 to the tunneling header (e.g. UDP or GRE).
+                                                                 * If [LFPTR] is zero, TSO is non-tunneled. [L3PTR] and [L4PTR] must point to the IP and
+                                                                 TCP headers, respectively. */
+        uint64_t pnc                   : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
+                                                                 NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
+                                                                 error. If [TSO] is set, a CQE is created when the send operation completes for all TSO
+                                                                 segments.
+
+                                                                 If clear, no CQE is added on normal completion.
+
+                                                                 Note that a CQE is always added if the send operation terminates with an error after the
+                                                                 packet is scheduled; except for LOCK_VIOL, where a CQE is determined  by
+                                                                 NIC_PF_QS_CFG[LOCK_VIOL_CQE_EN].
+
+                                                                 NIC will not add a CQE for this send descriptor until after it has completed all L2/DRAM
+                                                                 fetches that service all prior NIC_SEND_GATHER_S subdescriptors, and it has fetched all
+                                                                 subdescriptors in the send descriptor. If NIC_SEND_MEM_S[WMEM]=1, NIC also will not post
+                                                                 the CQE until all NIC_SEND_MEM_S subdescriptors in the descriptor complete and commit. */
+        uint64_t ds                    : 1;  /**< [ 57: 57] Don't send. If set, NIC hardware will not send the packet bytes to the interface; however
+                                                                 it will still perform any NIC_SEND_MEM_S operations. */
+        uint64_t tstmp                 : 1;  /**< [ 56: 56] PTP timestamp. When this is set, [DS] is clear, [TSO] is clear and
+                                                                 NIC_PF_QS()_CFG[SEND_TSTMP_ENA]
+                                                                 is set, a CQE of NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP is posted when the
+                                                                 packet is transmitted by the targeted Ethernet port. NIC_CQE_SEND_S[PTP_TIMESTAMP] is set
+                                                                 to the packet's timestamp. The posted NIC_CQE_TYPE_E::SEND_PTP CQ entry is asynchronous
+                                                                 relative to NIC_CQE_TYPE_E::SEND CQ entries in the same CQ.
+
+                                                                 If this bit is set along with [PNC], two entries are posted to the CQ. The first CQ entry
+                                                                 is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND when the send descriptor's
+                                                                 operation is done as described above. The second CQ entry is posted with
+                                                                 NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP when the packet's timestamp is
+                                                                 captured or times out.
+
+                                                                 Only one timestamp operation may be outstanding at once for a given Ethernet port.
+                                                                 Ignored when [DS] is set, [TSO] is set or NIC_PF_QS()_CFG[SEND_TSTMP_ENA] is clear. */
+        uint64_t subdcnt               : 8;  /**< [ 55: 48] Subdescriptor count. Number of 128-bit subdescriptors following the send header
+                                                                 subdescriptor, including immediate data. Must be between 1 and 255, thus the maximum send
+                                                                 descriptor size is 256 subdescriptors (4KB). */
+        uint64_t ckl4                  : 2;  /**< [ 47: 46] Checksum L4, enumerated by NIC_SEND_CKL4_E. If nonzero (not NONE):
+                                                                 * NIC hardware calculates the Layer 4 TCP/UDP checksum for the packet and inserts it
+                                                                 into the packet, as described in L4 Checksum.
+                                                                 * [L4PTR] selects the first byte of the L4 header, and [L3PTR] must indicate the location
+                                                                 of the immediately proceeding and adjacent L3 header.
+                                                                 * The L4 length field must not require more than [TOTAL] bytes in the packet.
+                                                                 * When NIC_SEND_CRC_S are present, the bytes covered or inserted by NIC_SEND_CRC_S must
+                                                                 all reside in the L4 payload. Conceptually, NIC processes NIC_SEND_CRC_S before L4
+                                                                 checksums when both are present. */
+        uint64_t ckl3                  : 1;  /**< [ 45: 45] Checksum L3. If set, NIC hardware calculates the IPv4 header checksum and inserts it into
+                                                                 the packet, as described in L4 Checksum. When set, [L3PTR] selects the location of the
+                                                                 first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
+                                                                 any bytes covered or inserted by NIC_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
+                                                                 point to a valid IPv4 header. */
+        uint64_t cklf                  : 2;  /**< [ 44: 43] Inner Checksum L4, enumerated by NIC_SEND_CKL4_E. Similar to [CKL4] but for inner L4. */
+        uint64_t ckle                  : 1;  /**< [ 42: 42] Inner Checksum L3. Similar to [CKL3] but for inner IP. */
+        uint64_t reserved_40_41        : 2;
+        uint64_t l4ptr                 : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for L4
+                                                                 checksumming and/or TSO.
+                                                                 The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
+                                                                 packet. Software might populate this field for forwarded packets from a computation based
+                                                                 off NIC_CQE_RX_S[L4PTR], which is the IP location computed by NIC when the packet is
+                                                                 parsed. When [L4PTR] is used for any of [CKL4,TSO] calculations/modifications, no L4
+                                                                 header bytes indicated by [L4PTR] can overlap with any bytes covered by or inserted by
+                                                                 NIC_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap with the
+                                                                 NIC_SEND_CRC_S CRC bytes). */
+        uint64_t l3ptr                 : 8;  /**< [ 31: 24] Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for L3
+                                                                 checksum, L4 checksum and/or TSO. (See [CKL3,CKL4,TSO].) The IP packet must be exactly
+                                                                 [L3PTR] bytes from the beginning of the packet. Software might populate this field for
+                                                                 forwarded packets from a computation based off NIC_CQE_RX_S[L3PTR], which is the IP
+                                                                 location computed by NIC when the packet is parsed. When [L3PTR] is used for any of
+                                                                 [CKL3,CKL4,TSO] calculations/modifications, then no L3 nor L2 header bytes indicated by
+                                                                 [L3PTR] can overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t total                 : 20; /**< [ 19:  0] Total byte count. Must be greater than 0. For a non-TSO descriptor, the total number of
+                                                                 bytes to
+                                                                 send, including zero pad (if any), and should not exceed the lesser of 9212 (9216 minus 4
+                                                                 byte FCS) or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE].
+
+                                                                 For a TSO send descriptor, the total TCP payload size plus the size of the first packet's
+                                                                 L2, L3 and
+                                                                 L4 headers. In other words, the total TCP data payload size is [TOTAL] - [TSO_SB].
+
+                                                                 [TOTAL] does not include any of the outside FCS bytes that BGX may append to the
+                                                                 packet(s). NIC zero pads the packet when [TOTAL] is larger than the sum of all
+                                                                 NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
+                                                                 is less than the minimum size for the interface. */
+#else /* Word 0 - Little Endian */
+        uint64_t total                 : 20; /**< [ 19:  0] Total byte count. Must be greater than 0. For a non-TSO descriptor, the total number of
+                                                                 bytes to
+                                                                 send, including zero pad (if any), and should not exceed the lesser of 9212 (9216 minus 4
+                                                                 byte FCS) or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE].
+
+                                                                 For a TSO send descriptor, the total TCP payload size plus the size of the first packet's
+                                                                 L2, L3 and
+                                                                 L4 headers. In other words, the total TCP data payload size is [TOTAL] - [TSO_SB].
+
+                                                                 [TOTAL] does not include any of the outside FCS bytes that BGX may append to the
+                                                                 packet(s). NIC zero pads the packet when [TOTAL] is larger than the sum of all
+                                                                 NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
+                                                                 is less than the minimum size for the interface. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t l3ptr                 : 8;  /**< [ 31: 24] Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for L3
+                                                                 checksum, L4 checksum and/or TSO. (See [CKL3,CKL4,TSO].) The IP packet must be exactly
+                                                                 [L3PTR] bytes from the beginning of the packet. Software might populate this field for
+                                                                 forwarded packets from a computation based off NIC_CQE_RX_S[L3PTR], which is the IP
+                                                                 location computed by NIC when the packet is parsed. When [L3PTR] is used for any of
+                                                                 [CKL3,CKL4,TSO] calculations/modifications, then no L3 nor L2 header bytes indicated by
+                                                                 [L3PTR] can overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
+        uint64_t l4ptr                 : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for L4
+                                                                 checksumming and/or TSO.
+                                                                 The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
+                                                                 packet. Software might populate this field for forwarded packets from a computation based
+                                                                 off NIC_CQE_RX_S[L4PTR], which is the IP location computed by NIC when the packet is
+                                                                 parsed. When [L4PTR] is used for any of [CKL4,TSO] calculations/modifications, no L4
+                                                                 header bytes indicated by [L4PTR] can overlap with any bytes covered by or inserted by
+                                                                 NIC_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap with the
+                                                                 NIC_SEND_CRC_S CRC bytes). */
+        uint64_t reserved_40_41        : 2;
+        uint64_t ckle                  : 1;  /**< [ 42: 42] Inner Checksum L3. Similar to [CKL3] but for inner IP. */
+        uint64_t cklf                  : 2;  /**< [ 44: 43] Inner Checksum L4, enumerated by NIC_SEND_CKL4_E. Similar to [CKL4] but for inner L4. */
+        uint64_t ckl3                  : 1;  /**< [ 45: 45] Checksum L3. If set, NIC hardware calculates the IPv4 header checksum and inserts it into
+                                                                 the packet, as described in L4 Checksum. When set, [L3PTR] selects the location of the
+                                                                 first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
+                                                                 any bytes covered or inserted by NIC_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
+                                                                 point to a valid IPv4 header. */
+        uint64_t ckl4                  : 2;  /**< [ 47: 46] Checksum L4, enumerated by NIC_SEND_CKL4_E. If nonzero (not NONE):
+                                                                 * NIC hardware calculates the Layer 4 TCP/UDP checksum for the packet and inserts it
+                                                                 into the packet, as described in L4 Checksum.
+                                                                 * [L4PTR] selects the first byte of the L4 header, and [L3PTR] must indicate the location
+                                                                 of the immediately proceeding and adjacent L3 header.
+                                                                 * The L4 length field must not require more than [TOTAL] bytes in the packet.
+                                                                 * When NIC_SEND_CRC_S are present, the bytes covered or inserted by NIC_SEND_CRC_S must
+                                                                 all reside in the L4 payload. Conceptually, NIC processes NIC_SEND_CRC_S before L4
+                                                                 checksums when both are present. */
+        uint64_t subdcnt               : 8;  /**< [ 55: 48] Subdescriptor count. Number of 128-bit subdescriptors following the send header
+                                                                 subdescriptor, including immediate data. Must be between 1 and 255, thus the maximum send
+                                                                 descriptor size is 256 subdescriptors (4KB). */
+        uint64_t tstmp                 : 1;  /**< [ 56: 56] PTP timestamp. When this is set, [DS] is clear, [TSO] is clear and
+                                                                 NIC_PF_QS()_CFG[SEND_TSTMP_ENA]
+                                                                 is set, a CQE of NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP is posted when the
+                                                                 packet is transmitted by the targeted Ethernet port. NIC_CQE_SEND_S[PTP_TIMESTAMP] is set
+                                                                 to the packet's timestamp. The posted NIC_CQE_TYPE_E::SEND_PTP CQ entry is asynchronous
+                                                                 relative to NIC_CQE_TYPE_E::SEND CQ entries in the same CQ.
+
+                                                                 If this bit is set along with [PNC], two entries are posted to the CQ. The first CQ entry
+                                                                 is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND when the send descriptor's
+                                                                 operation is done as described above. The second CQ entry is posted with
+                                                                 NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP when the packet's timestamp is
+                                                                 captured or times out.
+
+                                                                 Only one timestamp operation may be outstanding at once for a given Ethernet port.
+                                                                 Ignored when [DS] is set, [TSO] is set or NIC_PF_QS()_CFG[SEND_TSTMP_ENA] is clear. */
+        uint64_t ds                    : 1;  /**< [ 57: 57] Don't send. If set, NIC hardware will not send the packet bytes to the interface; however
+                                                                 it will still perform any NIC_SEND_MEM_S operations. */
+        uint64_t pnc                   : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
+                                                                 NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
+                                                                 error. If [TSO] is set, a CQE is created when the send operation completes for all TSO
+                                                                 segments.
+
+                                                                 If clear, no CQE is added on normal completion.
+
+                                                                 Note that a CQE is always added if the send operation terminates with an error after the
+                                                                 packet is scheduled; except for LOCK_VIOL, where a CQE is determined  by
+                                                                 NIC_PF_QS_CFG[LOCK_VIOL_CQE_EN].
+
+                                                                 NIC will not add a CQE for this send descriptor until after it has completed all L2/DRAM
+                                                                 fetches that service all prior NIC_SEND_GATHER_S subdescriptors, and it has fetched all
+                                                                 subdescriptors in the send descriptor. If NIC_SEND_MEM_S[WMEM]=1, NIC also will not post
+                                                                 the CQE until all NIC_SEND_MEM_S subdescriptors in the descriptor complete and commit. */
+        uint64_t tso                   : 1;  /**< [ 59: 59] TCP segmentation offload. Ignored and treated as clear when NIC_PF_TSO_CFG[ENABLE] is
+                                                                 clear. When set along with NIC_PF_TSO_CFG[ENABLE], the send descriptor is for a TCP
+                                                                 segmentation
+                                                                 operation to send one or more packets of a TCP flow, and the related [TSO_*] fields are
+                                                                 valid.
+                                                                 TSO can be tunneled or non-tunneled as follows:
+                                                                 * If [LFPTR] is non-zero, TSO is tunneled. [LEPTR] and [LFPTR] must point to the inner IP
+                                                                 and TCP headers, respectively, [L3PTR] must point to the outer IP, and [L4PTR] just point
+                                                                 to the tunneling header (e.g. UDP or GRE).
+                                                                 * If [LFPTR] is zero, TSO is non-tunneled. [L3PTR] and [L4PTR] must point to the IP and
+                                                                 TCP headers, respectively. */
+        uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_104_127      : 24;
+        uint64_t lfptr                 : 8;  /**< [103: 96] Inner Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for
+                                                                 LF checksumming and/or tunneled TSO. Similar to [L4PTR], but specifies the location of the
+                                                                 first byte of inner the TCP/UDP header for inner L4 checksumming and tunneled TSO, as
+                                                                 directed by [CKLF,TSO]. If [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be >
+                                                                 [L4PTR] + 20. */
+        uint64_t leptr                 : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for LE
+                                                                 checksum, LF checksum and/or tunneled TSO. Similar to [L3PTR] but for inner IP as directed
+                                                                 by [CKLE,CKLF,TSO]. If [CKLE] and [CKL3] are set, then [LEPTR] must be > [L3PTR] + 20. */
+        uint64_t tso_sb                : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
+                                                                 the size of the headers preceding the payload). Must be non-zero and less than [TOTAL],
+                                                                 else the send descriptor is treated as non-TSO. */
+        uint64_t reserved_78_79        : 2;
+        uint64_t tso_mps               : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
+                                                                 size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which should not exceed the
+                                                                 lesser of 9212 bytes or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]. Must be non-zero, else the send
+                                                                 descriptor is treated as non-TSO.
+                                                                 Must be greater than 256 to support maximum [TOTAL] value of 2**20 - 1 (the number of
+                                                                 TSO segments must be less than 4094). */
+#else /* Word 1 - Little Endian */
+        uint64_t tso_mps               : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
+                                                                 size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which should not exceed the
+                                                                 lesser of 9212 bytes or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]. Must be non-zero, else the send
+                                                                 descriptor is treated as non-TSO.
+                                                                 Must be greater than 256 to support maximum [TOTAL] value of 2**20 - 1 (the number of
+                                                                 TSO segments must be less than 4094). */
+        uint64_t reserved_78_79        : 2;
+        uint64_t tso_sb                : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
+                                                                 the size of the headers preceding the payload). Must be non-zero and less than [TOTAL],
+                                                                 else the send descriptor is treated as non-TSO. */
+        uint64_t leptr                 : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for LE
+                                                                 checksum, LF checksum and/or tunneled TSO. Similar to [L3PTR] but for inner IP as directed
+                                                                 by [CKLE,CKLF,TSO]. If [CKLE] and [CKL3] are set, then [LEPTR] must be > [L3PTR] + 20. */
+        uint64_t lfptr                 : 8;  /**< [103: 96] Inner Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for
+                                                                 LF checksumming and/or tunneled TSO. Similar to [L4PTR], but specifies the location of the
+                                                                 first byte of inner the TCP/UDP header for inner L4 checksumming and tunneled TSO, as
+                                                                 directed by [CKLF,TSO]. If [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be >
+                                                                 [L4PTR] + 20. */
+        uint64_t reserved_104_127      : 24;
+#endif /* Word 1 - End */
+    } cn81xx;
+    /* struct bdk_nic_send_hdr_s_s cn88xx; */
+    struct bdk_nic_send_hdr_s_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
@@ -2502,9 +2742,7 @@ union bdk_nic_send_hdr_s
                                                                  [L4PTR] + 20. */
         uint64_t reserved_104_127      : 24;
 #endif /* Word 1 - End */
-    } cn81xx;
-    /* struct bdk_nic_send_hdr_s_s cn88xx; */
-    /* struct bdk_nic_send_hdr_s_cn81xx cn83xx; */
+    } cn83xx;
 };
 
 /**
@@ -3181,11 +3419,11 @@ typedef union
         uint64_t cpi_alg               : 2;  /**< [ 63: 62](R/W) Algorithm used in CPI calculation. Enumerated by NIC_CPI_ALG_E. */
         uint64_t reserved_59_61        : 3;
         uint64_t reserved_57_58        : 2;
-        uint64_t cpi_base              : 9;  /**< [ 56: 48](R/W) Base index into NIC_PF_CPI()_CFG. Must be less than 512. */
+        uint64_t cpi_base              : 9;  /**< [ 56: 48](R/W) Base index into NIC_PF_CPI()_CFG. */
         uint64_t reserved_0_47         : 48;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_47         : 48;
-        uint64_t cpi_base              : 9;  /**< [ 56: 48](R/W) Base index into NIC_PF_CPI()_CFG. Must be less than 512. */
+        uint64_t cpi_base              : 9;  /**< [ 56: 48](R/W) Base index into NIC_PF_CPI()_CFG. */
         uint64_t reserved_57_58        : 2;
         uint64_t reserved_59_61        : 3;
         uint64_t cpi_alg               : 2;  /**< [ 63: 62](R/W) Algorithm used in CPI calculation. Enumerated by NIC_CPI_ALG_E. */
@@ -11522,15 +11760,17 @@ typedef union
                                                                  in every packet transmitted by the SQ, as follows:
                                                                  * [SQ_INS_DATA]<7:0> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]
                                                                  * [SQ_INS_DATA]<15:8> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]+1 */
-        uint64_t reserved_10_31        : 22;
-        uint64_t cq_qs                 : 7;  /**< [  9:  3](R/W) CQ's QS for this SQ. The CQ's QS must be assigned to the same VNIC as the SQ's QS.
+        uint64_t reserved_8_31         : 24;
+        uint64_t reserved_6_7          : 2;
+        uint64_t cq_qs                 : 3;  /**< [  5:  3](R/W) CQ's QS for this SQ. The CQ's QS must be assigned to the same VNIC as the SQ's QS.
                                                                  Must be less than 8. */
         uint64_t cq_idx                : 3;  /**< [  2:  0](R/W) CQ within [CQ_QS] for this SQ. */
 #else /* Word 0 - Little Endian */
         uint64_t cq_idx                : 3;  /**< [  2:  0](R/W) CQ within [CQ_QS] for this SQ. */
-        uint64_t cq_qs                 : 7;  /**< [  9:  3](R/W) CQ's QS for this SQ. The CQ's QS must be assigned to the same VNIC as the SQ's QS.
+        uint64_t cq_qs                 : 3;  /**< [  5:  3](R/W) CQ's QS for this SQ. The CQ's QS must be assigned to the same VNIC as the SQ's QS.
                                                                  Must be less than 8. */
-        uint64_t reserved_10_31        : 22;
+        uint64_t reserved_6_7          : 2;
+        uint64_t reserved_8_31         : 24;
         uint64_t sq_ins_data           : 16; /**< [ 47: 32](R/W) SQ insertion data.If NIC_PF_QS()_CFG[SQ_INS_ENA] is set, this is the data inserted
                                                                  in every packet transmitted by the SQ, as follows:
                                                                  * [SQ_INS_DATA]<7:0> = packet byte NIC_PF_QS()_CFG[SQ_INS_POS]
@@ -11586,17 +11826,19 @@ typedef union
     struct bdk_nic_pf_qsx_sqx_cfg2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t tl4                   : 10; /**< [  9:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
+        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_6_7          : 2;
+        uint64_t tl4                   : 6;  /**< [  5:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
                                                                  NIC_PF_TL4()_CFG[SQ_QS]/[SQ_IDX] must point back to this SQ. As the VF controls
                                                                  NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs.
                                                                  Must be less than 64. */
 #else /* Word 0 - Little Endian */
-        uint64_t tl4                   : 10; /**< [  9:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
+        uint64_t tl4                   : 6;  /**< [  5:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
                                                                  NIC_PF_TL4()_CFG[SQ_QS]/[SQ_IDX] must point back to this SQ. As the VF controls
                                                                  NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs.
                                                                  Must be less than 64. */
-        uint64_t reserved_10_63        : 54;
+        uint64_t reserved_6_7          : 2;
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_pf_qsx_sqx_cfg2_s cn88xx; */
@@ -12038,7 +12280,7 @@ static inline uint64_t BDK_NIC_PF_RX_BP_STATEX(unsigned long a)
 /**
  * Register (NCB) nic_pf_rx_bpid_state#
  *
- * NIC RBDR Backpressure ID State Registers
+ * NIC Backpressure ID State Registers
  * Internal:
  * Renamed from NIC_PF_RBDR_BP_STATE() in 88XX.
  */
@@ -12561,7 +12803,7 @@ static inline uint64_t BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC(void)
 /**
  * Register (NCB) nic_pf_rx_wrr_cfg#
  *
- * NIC RBDR Backpressure ID State Registers
+ * NIC Receive Weighted Round Robin Configuration Registers
  */
 typedef union
 {
@@ -12584,19 +12826,27 @@ typedef union
         uint64_t slot3                 : 4;  /**< [ 15: 12](R/W) See [SLOT0]. */
         uint64_t slot2                 : 4;  /**< [ 11:  8](R/W) See [SLOT0]. */
         uint64_t slot1                 : 4;  /**< [  7:  4](R/W) See [SLOT0]. */
-        uint64_t slot0                 : 4;  /**< [  3:  0](R/W) RX supports a WRR baising of traffic received from the different X2P interfaces when there
-                                                                 is over subscription to the NCB drain.
-                                                                 There are a total of 32 "slots".  Which can be assigned to favor and interface.  If the
+        uint64_t slot0                 : 4;  /**< [  3:  0](R/W) NIC RX supports a WRR baising of traffic received from the different receive interfaces.
+                                                                 when there is over subscription to the NCB drain.
+                                                                 There are a total of 32 "slots" which can be assigned to favor an interface. If the
                                                                  slot does not match an active interface, then
-                                                                 data is processed in a round-robin fashion.  Default setting mismatches all X2P IDs so all
-                                                                 slots default to RR arbitration. */
+                                                                 data is processed in a round-robin fashion. Default setting does not match any receive
+                                                                 interface, so all slots default to RR arbitration.
+                                                                 Enumerated by NIC_INTF_BLOCK_E.
+
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of X2P channel ID. */
 #else /* Word 0 - Little Endian */
-        uint64_t slot0                 : 4;  /**< [  3:  0](R/W) RX supports a WRR baising of traffic received from the different X2P interfaces when there
-                                                                 is over subscription to the NCB drain.
-                                                                 There are a total of 32 "slots".  Which can be assigned to favor and interface.  If the
+        uint64_t slot0                 : 4;  /**< [  3:  0](R/W) NIC RX supports a WRR baising of traffic received from the different receive interfaces.
+                                                                 when there is over subscription to the NCB drain.
+                                                                 There are a total of 32 "slots" which can be assigned to favor an interface. If the
                                                                  slot does not match an active interface, then
-                                                                 data is processed in a round-robin fashion.  Default setting mismatches all X2P IDs so all
-                                                                 slots default to RR arbitration. */
+                                                                 data is processed in a round-robin fashion. Default setting does not match any receive
+                                                                 interface, so all slots default to RR arbitration.
+                                                                 Enumerated by NIC_INTF_BLOCK_E.
+
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of X2P channel ID. */
         uint64_t slot1                 : 4;  /**< [  7:  4](R/W) See [SLOT0]. */
         uint64_t slot2                 : 4;  /**< [ 11:  8](R/W) See [SLOT0]. */
         uint64_t slot3                 : 4;  /**< [ 15: 12](R/W) See [SLOT0]. */
@@ -12827,11 +13077,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t cut_disable           : 1;  /**< [  0:  0](R/W) Send cut-through context disable. Used for debug, should be clear for normal operation.
-                                                                 Setting the bit for either NIC interface disables cut-through for both interfaces. */
+        uint64_t cut_disable           : 1;  /**< [  0:  0](R/W) Send cut-through context disable. Used for debug, should be clear for normal operation. */
 #else /* Word 0 - Little Endian */
-        uint64_t cut_disable           : 1;  /**< [  0:  0](R/W) Send cut-through context disable. Used for debug, should be clear for normal operation.
-                                                                 Setting the bit for either NIC interface disables cut-through for both interfaces. */
+        uint64_t cut_disable           : 1;  /**< [  0:  0](R/W) Send cut-through context disable. Used for debug, should be clear for normal operation. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -13862,54 +14110,39 @@ typedef union
     struct bdk_nic_pf_tl3ax_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t tl3a                  : 6;  /**< [  5:  0](R/W) TL3 aggregation group. Index of TL2 that pulls from this TL3 group (TL3G), i.e. lowest
+        uint64_t reserved_5_63         : 59;
+        uint64_t tl3a                  : 5;  /**< [  4:  0](R/W) TL3 aggregation group. Index of TL2 that pulls from this TL3 group (TL3G), i.e. lowest
                                                                  numbered TL3G in this aggregation group. If this TL3G is not part of an aggregation group,
                                                                  TL3A must match the TL3G number (the index of this register). Resets to equal the index of
                                                                  this register. TL3A<5> is the same as TL3G<5>, and so is not stored here. */
 #else /* Word 0 - Little Endian */
-        uint64_t tl3a                  : 6;  /**< [  5:  0](R/W) TL3 aggregation group. Index of TL2 that pulls from this TL3 group (TL3G), i.e. lowest
+        uint64_t tl3a                  : 5;  /**< [  4:  0](R/W) TL3 aggregation group. Index of TL2 that pulls from this TL3 group (TL3G), i.e. lowest
                                                                  numbered TL3G in this aggregation group. If this TL3G is not part of an aggregation group,
                                                                  TL3A must match the TL3G number (the index of this register). Resets to equal the index of
                                                                  this register. TL3A<5> is the same as TL3G<5>, and so is not stored here. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     struct bdk_nic_pf_tl3ax_cfg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t tl3a                  : 6;  /**< [  5:  0](R/W) TL3 aggregation group. Index of TL2 that pulls from this TL3 group (TL3G), i.e. lowest
+        uint64_t reserved_4_5          : 2;
+        uint64_t tl3a                  : 4;  /**< [  3:  0](R/W) TL3 aggregation group. Index of TL2 that pulls from this TL3 group (TL3G), i.e. lowest
                                                                  numbered TL3G in this aggregation group. If this TL3G is not part of an aggregation group,
                                                                  TL3A must match the TL3G number (the index of this register). Resets to equal the index of
-                                                                 this register.
-                                                                 Must be less than 16. */
+                                                                 this register. */
 #else /* Word 0 - Little Endian */
-        uint64_t tl3a                  : 6;  /**< [  5:  0](R/W) TL3 aggregation group. Index of TL2 that pulls from this TL3 group (TL3G), i.e. lowest
+        uint64_t tl3a                  : 4;  /**< [  3:  0](R/W) TL3 aggregation group. Index of TL2 that pulls from this TL3 group (TL3G), i.e. lowest
                                                                  numbered TL3G in this aggregation group. If this TL3G is not part of an aggregation group,
                                                                  TL3A must match the TL3G number (the index of this register). Resets to equal the index of
-                                                                 this register.
-                                                                 Must be less than 16. */
+                                                                 this register. */
+        uint64_t reserved_4_5          : 2;
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn81xx;
-    struct bdk_nic_pf_tl3ax_cfg_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t tl3a                  : 5;  /**< [  4:  0](R/W) TL3 aggregation group. Index of TL2 that pulls from this TL3 group (TL3G), i.e. lowest
-                                                                 numbered TL3G in this aggregation group. If this TL3G is not part of an aggregation group,
-                                                                 TL3A must match the TL3G number (the index of this register). Resets to equal the index of
-                                                                 this register. TL3A<5> is the same as TL3G<5>, and so is not stored here. */
-#else /* Word 0 - Little Endian */
-        uint64_t tl3a                  : 5;  /**< [  4:  0](R/W) TL3 aggregation group. Index of TL2 that pulls from this TL3 group (TL3G), i.e. lowest
-                                                                 numbered TL3G in this aggregation group. If this TL3G is not part of an aggregation group,
-                                                                 TL3A must match the TL3G number (the index of this register). Resets to equal the index of
-                                                                 this register. TL3A<5> is the same as TL3G<5>, and so is not stored here. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_nic_pf_tl3ax_cfg_cn88xx cn83xx; */
+    /* struct bdk_nic_pf_tl3ax_cfg_s cn88xx; */
+    /* struct bdk_nic_pf_tl3ax_cfg_s cn83xx; */
 } bdk_nic_pf_tl3ax_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_TL3AX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -13962,15 +14195,17 @@ typedef union
     struct bdk_nic_pf_tl4x_cfg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_34_63        : 30;
-        uint64_t sq_qs                 : 7;  /**< [ 33: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 8. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_30_31        : 2;
+        uint64_t sq_qs                 : 3;  /**< [ 29: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 8. */
         uint64_t sq_idx                : 3;  /**< [ 26: 24](R/W) The SQ's index inside the QS which is associated with this TL4. */
         uint64_t reserved_0_23         : 24;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_23         : 24;
         uint64_t sq_idx                : 3;  /**< [ 26: 24](R/W) The SQ's index inside the QS which is associated with this TL4. */
-        uint64_t sq_qs                 : 7;  /**< [ 33: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 8. */
-        uint64_t reserved_34_63        : 30;
+        uint64_t sq_qs                 : 3;  /**< [ 29: 27](R/W) The SQ's QS that are associated with this TL4. Must be less than 8. */
+        uint64_t reserved_30_31        : 2;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_pf_tl4x_cfg_s cn88xx; */
@@ -14134,6 +14369,52 @@ typedef union
                                                                  all send descriptors as non-TSO. */
         uint64_t crc_enable            : 1;  /**< [ 62: 62](R/W) Enable NIC_SEND_CRC_S with TSO. When clear, NIC ignores NIC_SEND_CRC_S subdescriptors in a
                                                                  send descriptor with NIC_SEND_HDR_S[TSO]=1. */
+        uint64_t tso_cmp_cqe           : 1;  /**< [ 61: 61](RAZ) Reserved. */
+        uint64_t reserved_44_60        : 17;
+        uint64_t fsf                   : 12; /**< [ 43: 32](R/W) Modify the TCP header flags for the first TSO segmented packet by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [FSF]. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t msf                   : 12; /**< [ 27: 16](R/W) Modify the TCP header flags for the middle TSO segmented packets by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [MSF]. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lsf                   : 12; /**< [ 11:  0](R/W) Modify the TCP header flags for the last TSO segmented packet by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [LSF]. */
+#else /* Word 0 - Little Endian */
+        uint64_t lsf                   : 12; /**< [ 11:  0](R/W) Modify the TCP header flags for the last TSO segmented packet by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [LSF]. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t msf                   : 12; /**< [ 27: 16](R/W) Modify the TCP header flags for the middle TSO segmented packets by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [MSF]. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t fsf                   : 12; /**< [ 43: 32](R/W) Modify the TCP header flags for the first TSO segmented packet by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [FSF]. */
+        uint64_t reserved_44_60        : 17;
+        uint64_t tso_cmp_cqe           : 1;  /**< [ 61: 61](RAZ) Reserved. */
+        uint64_t crc_enable            : 1;  /**< [ 62: 62](R/W) Enable NIC_SEND_CRC_S with TSO. When clear, NIC ignores NIC_SEND_CRC_S subdescriptors in a
+                                                                 send descriptor with NIC_SEND_HDR_S[TSO]=1. */
+        uint64_t enable                : 1;  /**< [ 63: 63](R/W) TCP segmentation offload enable. When clear, NIC ignores NIC_SEND_HDR_S[TSO] and treats
+                                                                 all send descriptors as non-TSO. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_pf_tso_cfg_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 1;  /**< [ 63: 63](R/W) TCP segmentation offload enable. When clear, NIC ignores NIC_SEND_HDR_S[TSO] and treats
+                                                                 all send descriptors as non-TSO. */
+        uint64_t crc_enable            : 1;  /**< [ 62: 62](R/W) Enable NIC_SEND_CRC_S with TSO. When clear, NIC ignores NIC_SEND_CRC_S subdescriptors in a
+                                                                 send descriptor with NIC_SEND_HDR_S[TSO]=1. */
         uint64_t reserved_44_61        : 18;
         uint64_t fsf                   : 12; /**< [ 43: 32](R/W) Modify the TCP header flags for the first TSO segmented packet by logical AND
                                                                  with this configuration.
@@ -14170,8 +14451,9 @@ typedef union
         uint64_t enable                : 1;  /**< [ 63: 63](R/W) TCP segmentation offload enable. When clear, NIC ignores NIC_SEND_HDR_S[TSO] and treats
                                                                  all send descriptors as non-TSO. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_tso_cfg_s cn; */
+    } cn81xx;
+    /* struct bdk_nic_pf_tso_cfg_s cn88xx; */
+    /* struct bdk_nic_pf_tso_cfg_cn81xx cn83xx; */
 } bdk_nic_pf_tso_cfg_t;
 
 #define BDK_NIC_PF_TSO_CFG BDK_NIC_PF_TSO_CFG_FUNC()

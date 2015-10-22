@@ -138,14 +138,14 @@
  * DDF VF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_DDF_VF_INT_VEC_E_DONE (1) /**< See interrupt clears DDF(0)_VQ(0..31)_DONE_INT_W1C,
-                                       interrupt sets DDF(0)_VQ(0..31)_DONE_INT_W1S,
-                                       enable clears DDF(0)_VQ(0..31)_DONE_ENA_W1C
-                                       and enable sets DDF(0)_VQ(0..31)_DONE_ENA_W1S. */
-#define BDK_DDF_VF_INT_VEC_E_MISC (0) /**< See interrupt clears DDF(0)_VQ(0..31)_MISC_INT,
-                                       interrupt sets DDF(0)_VQ(0..31)_MISC_INT_W1S,
-                                       enable clears DDF(0)_VQ(0..31)_MISC_ENA_W1C
-                                       and enable sets DDF(0)_VQ(0..31)_MISC_ENA_W1S. */
+#define BDK_DDF_VF_INT_VEC_E_DONE (1) /**< See interrupt clears DDF(0)_VQ(0..63)_DONE_INT_W1C,
+                                       interrupt sets DDF(0)_VQ(0..63)_DONE_INT_W1S,
+                                       enable clears DDF(0)_VQ(0..63)_DONE_ENA_W1C
+                                       and enable sets DDF(0)_VQ(0..63)_DONE_ENA_W1S. */
+#define BDK_DDF_VF_INT_VEC_E_MISC (0) /**< See interrupt clears DDF(0)_VQ(0..63)_MISC_INT,
+                                       interrupt sets DDF(0)_VQ(0..63)_MISC_INT_W1S,
+                                       enable clears DDF(0)_VQ(0..63)_MISC_ENA_W1C
+                                       and enable sets DDF(0)_VQ(0..63)_MISC_ENA_W1S. */
 
 /**
  * Structure ddf_inst_find_s
@@ -1192,6 +1192,44 @@ union bdk_ddf_res_match_s
 };
 
 /**
+ * Register (NCB) ddf#_active_cycles_pc
+ *
+ * DDF Active Cycles Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_active_cycles_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the conditional clocks are active.
+                                                                 Internal:
+                                                                 Includes CDE internal or any engine clock being enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the conditional clocks are active.
+                                                                 Internal:
+                                                                 Includes CDE internal or any engine clock being enabled. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_active_cycles_pc_s cn; */
+} bdk_ddfx_active_cycles_pc_t;
+
+static inline uint64_t BDK_DDFX_ACTIVE_CYCLES_PC(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_ACTIVE_CYCLES_PC(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000010080ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_ACTIVE_CYCLES_PC", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_ACTIVE_CYCLES_PC(a) bdk_ddfx_active_cycles_pc_t
+#define bustype_BDK_DDFX_ACTIVE_CYCLES_PC(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_ACTIVE_CYCLES_PC(a) "DDFX_ACTIVE_CYCLES_PC"
+#define device_bar_BDK_DDFX_ACTIVE_CYCLES_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_ACTIVE_CYCLES_PC(a) (a)
+#define arguments_BDK_DDFX_ACTIVE_CYCLES_PC(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) ddf#_pf_bist_status
  *
  * DDF PF Control Bist Status Register
@@ -1228,6 +1266,78 @@ static inline uint64_t BDK_DDFX_PF_BIST_STATUS(unsigned long a)
 #define device_bar_BDK_DDFX_PF_BIST_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DDFX_PF_BIST_STATUS(a) (a)
 #define arguments_BDK_DDFX_PF_BIST_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_bp_test
+ *
+ * INTERNAL: DDF PF Backpressure Test Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_bp_test_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved. FIXME - add some.
+                                                                 <62> = Reserved. FIXME - add some.
+                                                                 <61> = Reserved. FIXME - add some.
+                                                                 <60> = Reserved. FIXME - add some. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = BP_CFG3.
+                                                                   <21:20> = BP_CFG2.
+                                                                   <19:18> = BP_CFG1.
+                                                                   <17:16> = BP_CFG0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = BP_CFG3.
+                                                                   <21:20> = BP_CFG2.
+                                                                   <19:18> = BP_CFG1.
+                                                                   <17:16> = BP_CFG0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved. FIXME - add some.
+                                                                 <62> = Reserved. FIXME - add some.
+                                                                 <61> = Reserved. FIXME - add some.
+                                                                 <60> = Reserved. FIXME - add some. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_bp_test_s cn; */
+} bdk_ddfx_pf_bp_test_t;
+
+static inline uint64_t BDK_DDFX_PF_BP_TEST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_BP_TEST(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000180ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_BP_TEST", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_BP_TEST(a) bdk_ddfx_pf_bp_test_t
+#define bustype_BDK_DDFX_PF_BP_TEST(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_BP_TEST(a) "DDFX_PF_BP_TEST"
+#define device_bar_BDK_DDFX_PF_BP_TEST(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_BP_TEST(a) (a)
+#define arguments_BDK_DDFX_PF_BP_TEST(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) ddf#_pf_constants
@@ -1770,10 +1880,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 DDF(0)_VF(0..31)_PF_MBOX(1) is written. */
+                                                                 DDF(0)_VF(0..63)_PF_MBOX(1) is written. */
 #else /* Word 0 - Little Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 DDF(0)_VF(0..31)_PF_MBOX(1) is written. */
+                                                                 DDF(0)_VF(0..63)_PF_MBOX(1) is written. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_mbox_intx_s cn; */
@@ -1884,22 +1994,20 @@ typedef union
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's DDF(0)_PF_MSIX_VEC()_ADDR, DDF(0)_PF_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of DDF(0)_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 1 = This vector's DDF()_PF_MSIX_VEC()_ADDR, DDF()_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of DDF()_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world.
 
-                                                                 If PCCPF_DDF(0)_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
-                                                                 is
+                                                                 If PCCPF_DDF_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's DDF(0)_PF_MSIX_VEC()_ADDR, DDF(0)_PF_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of DDF(0)_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 1 = This vector's DDF()_PF_MSIX_VEC()_ADDR, DDF()_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of DDF()_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world.
 
-                                                                 If PCCPF_DDF(0)_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
-                                                                 is
+                                                                 If PCCPF_DDF_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
@@ -1969,7 +2077,8 @@ static inline uint64_t BDK_DDFX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long 
  * Register (NCB) ddf#_pf_q#_ctl
  *
  * DDF Queue Control Register
- * This register configures queues.
+ * This register configures queues. This register should be changed only when quiescent
+ * (see DDF()_VQ()_STATUS[BUSY]).
  */
 typedef union
 {
@@ -1977,7 +2086,46 @@ typedef union
     struct bdk_ddfx_pf_qx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_60_63        : 4;
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be even. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+
+                                                                 0 = When DDF()_VQ()_MISC_INT[NWRP], DDF()_VQ()_MISC_INT[IRDE] or
+                                                                 DDF()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 DDF(0)_VQ()_MISC_INT_W1S, then DDF()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 pipelining, additional instructions may have been processed between the
+                                                                 instruction causing the error and the next instruction in the disabled queue
+                                                                 (the instruction at DDF()_VQ()_SADDR).
+
+                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when DDF reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
+                                                                 endian format in memory. */
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
+        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
+                                                                 will use STF. */
+        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
+                                                                 data.
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
         uint64_t grp                   : 3;  /**< [  3:  1](RO) Reserved. */
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
@@ -1987,7 +2135,46 @@ typedef union
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
                                                                  0 = This queue has lower priority. Round-robin between lower priority queues. */
         uint64_t grp                   : 3;  /**< [  3:  1](RO) Reserved. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
+                                                                 data.
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
+        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
+                                                                 will use STF. */
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
+                                                                 endian format in memory. */
+        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when DDF reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
+        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+
+                                                                 0 = When DDF()_VQ()_MISC_INT[NWRP], DDF()_VQ()_MISC_INT[IRDE] or
+                                                                 DDF()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 DDF(0)_VQ()_MISC_INT_W1S, then DDF()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 pipelining, additional instructions may have been processed between the
+                                                                 instruction causing the error and the next instruction in the disabled queue
+                                                                 (the instruction at DDF()_VQ()_SADDR).
+
+                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be even. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set. */
+        uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_pf_qx_ctl_s cn; */
@@ -1996,8 +2183,8 @@ typedef union
 static inline uint64_t BDK_DDFX_PF_QX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_QX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809008000000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809008000000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_PF_QX_CTL", 2, a, b, 0, 0);
 }
 
@@ -2012,7 +2199,8 @@ static inline uint64_t BDK_DDFX_PF_QX_CTL(unsigned long a, unsigned long b)
  * Register (NCB) ddf#_pf_q#_gmctl
  *
  * DDF Queue Guest Machine Control Register
- * This register configures queues.
+ * This register configures queues. This register should be changed only when quiescent
+ * (see DDF()_VQ()_STATUS[BUSY]).
  */
 typedef union
 {
@@ -2051,8 +2239,8 @@ typedef union
 static inline uint64_t BDK_DDFX_PF_QX_GMCTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_QX_GMCTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809008000020ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809008000020ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_PF_QX_GMCTL", 2, a, b, 0, 0);
 }
 
@@ -2186,16 +2374,16 @@ typedef union
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
                                                                  DDF()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing DDF(0)_PF_VF(0..31)_MBOX(0) (but not
-                                                                 DDF(0)_VF(0..31)_PF_MBOX(0)) will set the corresponding
+                                                                 for VF to PF. Writing DDF(0)_PF_VF(0..63)_MBOX(0) (but not
+                                                                 DDF(0)_VF(0..63)_PF_MBOX(0)) will set the corresponding
                                                                  DDF()_VQ()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
                                                                  DDF()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing DDF(0)_PF_VF(0..31)_MBOX(0) (but not
-                                                                 DDF(0)_VF(0..31)_PF_MBOX(0)) will set the corresponding
+                                                                 for VF to PF. Writing DDF(0)_PF_VF(0..63)_MBOX(0) (but not
+                                                                 DDF(0)_VF(0..63)_PF_MBOX(0)) will set the corresponding
                                                                  DDF()_VQ()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #endif /* Word 0 - End */
@@ -2206,8 +2394,8 @@ typedef union
 static inline uint64_t BDK_DDFX_PF_VFX_MBOXX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_PF_VFX_MBOXX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31) && (c<=1)))
-        return 0x809008001000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f) + 0x100ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63) && (c<=1)))
+        return 0x809008001000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 0x100ll * ((c) & 0x1);
     __bdk_csr_fatal("DDFX_PF_VFX_MBOXX", 3, a, b, c, 0);
 }
 
@@ -2244,8 +2432,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31) && (c==0)))
-        return 0x8090300f0000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f) + 8ll * ((c) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63) && (c==0)))
+        return 0x8090300f0000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 8ll * ((c) & 0x0);
     __bdk_csr_fatal("DDFX_VFX_MSIX_PBAX", 3, a, b, c, 0);
 }
 
@@ -2272,11 +2460,11 @@ typedef union
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
-                                                                 PCCPF_DDF(0)_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
+                                                                 PCCPF_DDF_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
-                                                                 PCCPF_DDF(0)_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
+                                                                 PCCPF_DDF_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
@@ -2289,8 +2477,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31) && (c<=1)))
-        return 0x809030000000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63) && (c<=1)))
+        return 0x809030000000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 0x10ll * ((c) & 0x1);
     __bdk_csr_fatal("DDFX_VFX_MSIX_VECX_ADDR", 3, a, b, c, 0);
 }
 
@@ -2330,8 +2518,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31) && (c<=1)))
-        return 0x809030000008ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63) && (c<=1)))
+        return 0x809030000008ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 0x10ll * ((c) & 0x1);
     __bdk_csr_fatal("DDFX_VFX_MSIX_VECX_CTL", 3, a, b, c, 0);
 }
 
@@ -2354,17 +2542,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
-                                                                 RAM. The PF may access the same storage using DDF(0)_PF_VF()_MBOX(). MBOX(0) is
+                                                                 RAM. The PF may access the same storage using DDF()_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 DDF(0)_VF(0..31)_PF_MBOX(1) (but not DDF(0)_PF_VF(0..31)_MBOX(1)) will set the
-                                                                 corresponding DDF(0)_PF_MBOX_INT() bit, which if appropriately enabled will send an
+                                                                 DDF(0)_VF(0..63)_PF_MBOX(1) (but not DDF(0)_PF_VF(0..63)_MBOX(1)) will set the
+                                                                 corresponding DDF()_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
-                                                                 RAM. The PF may access the same storage using DDF(0)_PF_VF()_MBOX(). MBOX(0) is
+                                                                 RAM. The PF may access the same storage using DDF()_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 DDF(0)_VF(0..31)_PF_MBOX(1) (but not DDF(0)_PF_VF(0..31)_MBOX(1)) will set the
-                                                                 corresponding DDF(0)_PF_MBOX_INT() bit, which if appropriately enabled will send an
+                                                                 DDF(0)_VF(0..63)_PF_MBOX(1) (but not DDF(0)_PF_VF(0..63)_MBOX(1)) will set the
+                                                                 corresponding DDF()_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #endif /* Word 0 - End */
     } s;
@@ -2374,8 +2562,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VFX_PF_MBOXX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VFX_PF_MBOXX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31) && (c<=1)))
-        return 0x809020001000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f) + 8ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63) && (c<=1)))
+        return 0x809020001000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("DDFX_VFX_PF_MBOXX", 3, a, b, c, 0);
 }
 
@@ -2390,10 +2578,8 @@ static inline uint64_t BDK_DDFX_VFX_PF_MBOXX(unsigned long a, unsigned long b, u
  * Register (NCB) ddf#_vq#_ctl
  *
  * DDF VF Queue Control Registers
- * These registers set the buffer parameters for the instruction queues. When quiescent
- * (i.e. outstanding doorbell count is 0), it is safe to rewrite this register to
- * effectively reset the command buffer state machine. These registers must be
- * programmed before software programs the corresponding DDF()_VQ()_SADDR.
+ * This register configures queues. This register should be changed (other than
+ * clearing [ENA]) only when quiescent (see DDF()_VQ()_STATUS[BUSY]).
  */
 typedef union
 {
@@ -2401,57 +2587,17 @@ typedef union
     struct bdk_ddfx_vqx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_45_63        : 19;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be even. */
-        uint64_t reserved_23_31        : 9;
-        uint64_t inst_free             : 1;  /**< [ 22: 22](R/W) Instruction FPA free. When set, when DDF reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t inst_be               : 1;  /**< [ 21: 21](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
-        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a DDF instruction full cache lines will use NCB LDWB
-                                                                 read-and-invalidate to improve performance. If clear, use NCB LDI for
-                                                                 debugability. Partial cache line reads always use LDI. */
-        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
-        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t ena                   : 1;  /**< [ 16: 16](R/W) Enables the logical instruction queue.
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W/H) Enables the logical instruction queue. See also DDF()_PF_Q()_CTL[CONT_ERR] and
+                                                                 DDF()_VQ()_STATUS[BUSY].
                                                                  1 = Queue is enabled.
                                                                  0 = Queue is disabled. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t aura                  : 12; /**< [ 11:  0](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 12; /**< [ 11:  0](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t ena                   : 1;  /**< [ 16: 16](R/W) Enables the logical instruction queue.
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W/H) Enables the logical instruction queue. See also DDF()_PF_Q()_CTL[CONT_ERR] and
+                                                                 DDF()_VQ()_STATUS[BUSY].
                                                                  1 = Queue is enabled.
                                                                  0 = Queue is disabled. */
-        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
-        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a DDF instruction full cache lines will use NCB LDWB
-                                                                 read-and-invalidate to improve performance. If clear, use NCB LDI for
-                                                                 debugability. Partial cache line reads always use LDI. */
-        uint64_t inst_be               : 1;  /**< [ 21: 21](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
-        uint64_t inst_free             : 1;  /**< [ 22: 22](R/W) Instruction FPA free. When set, when DDF reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t reserved_23_31        : 9;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be even. */
-        uint64_t reserved_45_63        : 19;
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ddfx_vqx_ctl_s cn; */
@@ -2460,8 +2606,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000100ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000100ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_CTL", 2, a, b, 0, 0);
 }
 
@@ -2555,8 +2701,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_DONE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000420ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000420ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE", 2, a, b, 0, 0);
 }
 
@@ -2600,8 +2746,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_DONE_ACK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_ACK(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000440ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000440ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_ACK", 2, a, b, 0, 0);
 }
 
@@ -2636,8 +2782,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000478ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000478ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_ENA_W1C", 2, a, b, 0, 0);
 }
 
@@ -2675,8 +2821,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000470ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000470ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_ENA_W1S", 2, a, b, 0, 0);
 }
 
@@ -2715,8 +2861,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1C(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000468ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000468ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_INT_W1C", 2, a, b, 0, 0);
 }
 
@@ -2755,8 +2901,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000460ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000460ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_INT_W1S", 2, a, b, 0, 0);
 }
 
@@ -2804,8 +2950,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_DONE_WAIT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DONE_WAIT(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000400ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000400ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DONE_WAIT", 2, a, b, 0, 0);
 }
 
@@ -2845,8 +2991,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_DOORBELL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_DOORBELL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000600ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000600ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_DOORBELL", 2, a, b, 0, 0);
 }
 
@@ -2870,15 +3016,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -2888,8 +3034,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000518ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000518ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_MISC_ENA_W1C", 2, a, b, 0, 0);
 }
 
@@ -2913,15 +3059,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -2931,8 +3077,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000510ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000510ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_MISC_ENA_W1S", 2, a, b, 0, 0);
 }
 
@@ -2959,10 +3105,10 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DDF(0)_VF(0..31)_MBOX(0)
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DDF(0)_VF(0..63)_PF_MBOX(0)
                                                                  is written. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DDF(0)_VF(0..31)_MBOX(0)
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DDF(0)_VF(0..63)_PF_MBOX(0)
                                                                  is written. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
@@ -2976,8 +3122,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_MISC_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_MISC_INT(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000500ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000500ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_MISC_INT", 2, a, b, 0, 0);
 }
 
@@ -3001,15 +3147,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF(0)_VQ(0..63)_MISC_INT[NWRP]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -3019,8 +3165,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000508ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000508ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_MISC_INT_W1S", 2, a, b, 0, 0);
 }
 
@@ -3070,8 +3216,8 @@ typedef union
 static inline uint64_t BDK_DDFX_VQX_SADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDFX_VQX_SADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
-        return 0x809020000200ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000200ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("DDFX_VQX_SADDR", 2, a, b, 0, 0);
 }
 
@@ -3081,5 +3227,54 @@ static inline uint64_t BDK_DDFX_VQX_SADDR(unsigned long a, unsigned long b)
 #define device_bar_BDK_DDFX_VQX_SADDR(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_DDFX_VQX_SADDR(a,b) (a)
 #define arguments_BDK_DDFX_VQX_SADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) ddf#_vq#_status
+ *
+ * DDF VF Queue Status Registers
+ * These registers return status of the instruction queues.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_vqx_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Queue busy. If set, DDF is fetching, executing or responding to
+                                                                 instructions. However this does not include any interrupts that are awaiting
+                                                                 software handling (DDF()_VQ()_DONE[DONE] != 0x0).
+
+                                                                 A queue may not be reconfigured until:
+                                                                   1. DDF()_VQ()_CTL[ENA] is cleared by software.
+                                                                   2. [BUSY] is polled until clear. */
+#else /* Word 0 - Little Endian */
+        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Queue busy. If set, DDF is fetching, executing or responding to
+                                                                 instructions. However this does not include any interrupts that are awaiting
+                                                                 software handling (DDF()_VQ()_DONE[DONE] != 0x0).
+
+                                                                 A queue may not be reconfigured until:
+                                                                   1. DDF()_VQ()_CTL[ENA] is cleared by software.
+                                                                   2. [BUSY] is polled until clear. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_vqx_status_s cn; */
+} bdk_ddfx_vqx_status_t;
+
+static inline uint64_t BDK_DDFX_VQX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_STATUS(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000120ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
+    __bdk_csr_fatal("DDFX_VQX_STATUS", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DDFX_VQX_STATUS(a,b) bdk_ddfx_vqx_status_t
+#define bustype_BDK_DDFX_VQX_STATUS(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_STATUS(a,b) "DDFX_VQX_STATUS"
+#define device_bar_BDK_DDFX_VQX_STATUS(a,b) 0x10 /* VF_BAR0 */
+#define busnum_BDK_DDFX_VQX_STATUS(a,b) (a)
+#define arguments_BDK_DDFX_VQX_STATUS(a,b) (a),(b),-1,-1
 
 #endif /* __BDK_CSRS_DDF_H__ */

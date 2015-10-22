@@ -279,7 +279,7 @@ union bdk_zip_inst_s
                                                                  For decompression, EXN, EXBITS must be 0x0 */
         uint64_t reserved_15           : 1;
         uint64_t halg                  : 3;  /**< [ 14: 12] Hash algorithm and enable. Enumerated by ZIP_HASH_ALG_E. */
-        uint64_t sf                    : 1;  /**< [ 11: 11] SYNC_FLUSH. When set, enables SYNC_FLUSH functionality.
+        uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
                                                                  SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
@@ -434,7 +434,7 @@ union bdk_zip_inst_s
                                                                  0x3 = lowest quality, best speed.
 
                                                                  For decompression, SS must be 0x0. */
-        uint64_t sf                    : 1;  /**< [ 11: 11] SYNC_FLUSH. When set, enables SYNC_FLUSH functionality.
+        uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
                                                                  SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
@@ -693,7 +693,7 @@ union bdk_zip_inst_s
 
                                                                  For decompression, EXN, EXBITS must be 0x0 */
         uint64_t reserved_12_15        : 4;
-        uint64_t sf                    : 1;  /**< [ 11: 11] SYNC_FLUSH. When set, enables SYNC_FLUSH functionality.
+        uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
                                                                  SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
@@ -854,7 +854,7 @@ union bdk_zip_inst_s
                                                                  0x3 = lowest quality, best speed.
 
                                                                  For decompression, SS must be 0x0. */
-        uint64_t sf                    : 1;  /**< [ 11: 11] SYNC_FLUSH. When set, enables SYNC_FLUSH functionality.
+        uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
                                                                  SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
@@ -1099,7 +1099,7 @@ union bdk_zip_inst_s
                                                                  For decompression, EXN, EXBITS must be 0x0 */
         uint64_t reserved_15           : 1;
         uint64_t halg                  : 3;  /**< [ 14: 12] Hash algorithm and enable. Enumerated by ZIP_HASH_ALG_E. */
-        uint64_t sf                    : 1;  /**< [ 11: 11] SYNC_FLUSH. When set, enables SYNC_FLUSH functionality.
+        uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
                                                                  SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
@@ -1254,7 +1254,7 @@ union bdk_zip_inst_s
                                                                  0x3 = lowest quality, best speed.
 
                                                                  For decompression, SS must be 0x0. */
-        uint64_t sf                    : 1;  /**< [ 11: 11] SYNC_FLUSH. When set, enables SYNC_FLUSH functionality.
+        uint64_t sf                    : 1;  /**< [ 11: 11] Sync flush. When set, enables SYNC_FLUSH functionality.
 
                                                                  For DEFLATE compression,
                                                                  SYNC_FLUSH forces ZIP hardware to append a zero-length nocompress
@@ -2418,10 +2418,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t halt                  : 1;  /**< [ 63: 63](R/W) If set, when timeout is detected, control will halt input and output and set the
-                                                                 completion code in
-                                                                 result buffer to ZIP_COMP_E[TIMEOUT]. If cleared (for diagnostic use only), if ZIP core
-                                                                 continues
-                                                                 outputing after timeout period the instruction will still be finished by the ZIP core. */
+                                                                 completion code in result buffer to ZIP_COMP_E::TIMEOUT. If cleared (for
+                                                                 diagnostic use only), if ZIP core continues outputing after timeout period the
+                                                                 instruction will still be finished by the ZIP core. */
         uint64_t ar                    : 1;  /**< [ 62: 62](R/W) Auto reset. This bit only takes effect when [HALT] is set. When [HALT] is cleared, [AR] is
                                                                  ignored.
                                                                  0 = On a timeout, the timed-out core will hold the timed-out operation and not be auto-
@@ -2466,10 +2465,9 @@ typedef union
                                                                  reset.
                                                                  1 = On a timeout, the timed-out core will be auto-reset. */
         uint64_t halt                  : 1;  /**< [ 63: 63](R/W) If set, when timeout is detected, control will halt input and output and set the
-                                                                 completion code in
-                                                                 result buffer to ZIP_COMP_E[TIMEOUT]. If cleared (for diagnostic use only), if ZIP core
-                                                                 continues
-                                                                 outputing after timeout period the instruction will still be finished by the ZIP core. */
+                                                                 completion code in result buffer to ZIP_COMP_E::TIMEOUT. If cleared (for
+                                                                 diagnostic use only), if ZIP core continues outputing after timeout period the
+                                                                 instruction will still be finished by the ZIP core. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_core_to_cfg_s cn; */
@@ -2497,7 +2495,7 @@ static inline uint64_t BDK_ZIP_CORE_TO_CFG_FUNC(void)
  * Register (NCB) zip_ctl_bist_status
  *
  * ZIP Control Bist Status Register
- * This register has the BIST status of memories in ZIP_CTL (instruction buffer, G/S pointer
+ * This register has the BIST status of memories in ZIP CTL (instruction buffer, G/S pointer
  * FIFO, input data buffer, output data buffers). Each bit is the BIST result of an individual
  * memory (per bit, 0 = pass and 1 = fail).
  */
@@ -3677,7 +3675,7 @@ typedef union
         uint64_t reserved_20_63        : 44;
         uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When ZIP_INST_S[DONEINT] set and that instruction completes,
                                                                  ZIP_QUE()_DONE[DONE] is incremented when the instruction finishes. Write to this
-                                                                 field are for diagnostic use only; instead software writes ZIP_QUE()_DONE_ACK[DONE]
+                                                                 field are for diagnostic use only; instead software writes ZIP_QUE()_DONE_ACK[DONE_ACK]
                                                                  with the number of decrements for this field.
 
                                                                  Interrupts are sent as follows:
@@ -3709,7 +3707,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When ZIP_INST_S[DONEINT] set and that instruction completes,
                                                                  ZIP_QUE()_DONE[DONE] is incremented when the instruction finishes. Write to this
-                                                                 field are for diagnostic use only; instead software writes ZIP_QUE()_DONE_ACK[DONE]
+                                                                 field are for diagnostic use only; instead software writes ZIP_QUE()_DONE_ACK[DONE_ACK]
                                                                  with the number of decrements for this field.
 
                                                                  Interrupts are sent as follows:
@@ -4592,7 +4590,7 @@ typedef union
         uint64_t inst_free             : 1;  /**< [ 30: 30](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
         uint64_t reserved_24_29        : 6;
-        uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) STREAM_ID is the lower 8-bits of stream ID for the queue. */
+        uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) Lower 8-bits of stream ID for this queue. */
         uint64_t reserved_12_15        : 4;
         uint64_t aura                  : 12; /**< [ 11:  0](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
                                                                  Only used when [INST_FREE] is set. */
@@ -4600,7 +4598,7 @@ typedef union
         uint64_t aura                  : 12; /**< [ 11:  0](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
                                                                  Only used when [INST_FREE] is set. */
         uint64_t reserved_12_15        : 4;
-        uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) STREAM_ID is the lower 8-bits of stream ID for the queue. */
+        uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) Lower 8-bits of stream ID for this queue. */
         uint64_t reserved_24_29        : 6;
         uint64_t inst_free             : 1;  /**< [ 30: 30](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
@@ -4620,13 +4618,13 @@ typedef union
                                                                  in
                                                                  memory. */
         uint64_t reserved_24_30        : 7;
-        uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) STREAM_ID is the lower 8-bits of stream ID for the queue. */
+        uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) Lower 8-bits of stream ID for this queue. */
         uint64_t reserved_12_15        : 4;
         uint64_t aura                  : 12; /**< [ 11:  0](RAZ) Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t aura                  : 12; /**< [ 11:  0](RAZ) Reserved. */
         uint64_t reserved_12_15        : 4;
-        uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) STREAM_ID is the lower 8-bits of stream ID for the queue. */
+        uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) Lower 8-bits of stream ID for this queue. */
         uint64_t reserved_24_30        : 7;
         uint64_t inst_be               : 1;  /**< [ 31: 31](R/W) Instruction big endian control. When set, instructions are storaged in big endian format
                                                                  in
@@ -4659,7 +4657,7 @@ static inline uint64_t BDK_ZIP_QUEX_SBUF_CTL(unsigned long a)
  * Register (NCB) zip_que_ena
  *
  * ZIP Queue Enable Register
- * If a queue is disabled, ZIP_CTL stops fetching instructions from the queue.
+ * If a queue is disabled, ZIP CTL stops fetching instructions from the queue.
  */
 typedef union
 {

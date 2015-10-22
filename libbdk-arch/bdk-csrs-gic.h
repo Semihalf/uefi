@@ -2837,12 +2837,12 @@ typedef union
         uint64_t pid                   : 32; /**< [ 31:  0](WO) Physical ID of the LPI to be set as not pending. If the LPI is already not pending, the
                                                                  write has no effect.
                                                                  If the LPI with the physical ID is not implemented, the write has no effect.
-                                                                 If GICR_(S)CTLR[ENABLE_LPI]s is zero, the write has no effect. */
+                                                                 If GICR()_(S)CTLR[ENABLE_LPI]s is zero, the write has no effect. */
 #else /* Word 0 - Little Endian */
         uint64_t pid                   : 32; /**< [ 31:  0](WO) Physical ID of the LPI to be set as not pending. If the LPI is already not pending, the
                                                                  write has no effect.
                                                                  If the LPI with the physical ID is not implemented, the write has no effect.
-                                                                 If GICR_(S)CTLR[ENABLE_LPI]s is zero, the write has no effect. */
+                                                                 If GICR()_(S)CTLR[ENABLE_LPI]s is zero, the write has no effect. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -2872,7 +2872,7 @@ static inline uint64_t BDK_GICRX_CLRLPIR(unsigned long a)
  * Register (NCB32b) gicr#_icactiver0
  *
  * GIC Redistributor Interrupt Clear-Active Register 0
- * Each bit in GICR_ICACTIVER0 provides a clear-active bit for an SGI or a PPI. Writing 1 to a
+ * Each bit in GICR()_ICACTIVER0 provides a clear-active bit for an SGI or a PPI. Writing 1 to a
  * clear-active bit clears the active status of the corresponding interrupt.
  */
 typedef union
@@ -2924,7 +2924,7 @@ static inline uint64_t BDK_GICRX_ICACTIVER0(unsigned long a)
  * Register (NCB32b) gicr#_icenabler0
  *
  * GIC Redistributor Interrupt Clear-Enable Register 0
- * Each bit in GICR_ICENABLER0 provides a clear-enable bit for an SGI or a PPI. Writing 1 to a
+ * Each bit in GICR()_ICENABLER0 provides a clear-enable bit for an SGI or a PPI. Writing 1 to a
  * clear-enable bit disables forwarding of the corresponding SGI or PPI from the redistributor
  * to the CPU interfaces. Reading a bit identifies whether the interrupt is enabled.
  */
@@ -2944,7 +2944,7 @@ typedef union
                                                                  Writes to the register cannot be considered complete until the effects of the write are
                                                                  visible throughout the affinity hierarchy. To ensure that an enable has been cleared,
                                                                  software must write to this register with bits set to clear the required enables. Software
-                                                                 must then poll GICR_(S)CTLR[RWP] (register writes pending) until it has the value zero. */
+                                                                 must then poll GICR()_(S)CTLR[RWP] (register writes pending) until it has the value zero. */
 #else /* Word 0 - Little Endian */
         uint32_t vec                   : 32; /**< [ 31:  0](R/W1C) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. Upon reading,
                                                                  if a bit is 0, then the interrupt is not enabled to be forwarded to the CPU interface.
@@ -2956,7 +2956,7 @@ typedef union
                                                                  Writes to the register cannot be considered complete until the effects of the write are
                                                                  visible throughout the affinity hierarchy. To ensure that an enable has been cleared,
                                                                  software must write to this register with bits set to clear the required enables. Software
-                                                                 must then poll GICR_(S)CTLR[RWP] (register writes pending) until it has the value zero. */
+                                                                 must then poll GICR()_(S)CTLR[RWP] (register writes pending) until it has the value zero. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_icenabler0_s cn; */
@@ -3096,7 +3096,7 @@ static inline uint64_t BDK_GICRX_ICFGR1(unsigned long a)
  * Register (NCB32b) gicr#_icpendr0
  *
  * GIC Redistributor Interrupt Clear-Pending Register 0
- * Each bit in GICR_ICPENDR0 provides a clear-pending bit for an SGI or a PPI. Writing 1 to a
+ * Each bit in GICR()_ICPENDR0 provides a clear-pending bit for an SGI or a PPI. Writing 1 to a
  * clear-pending bit clears the pending status of the corresponding interrupt.
  */
 typedef union
@@ -3441,7 +3441,7 @@ static inline uint64_t BDK_GICRX_IPRIORITYRX(unsigned long a, unsigned long b)
  * Register (NCB32b) gicr#_isactiver0
  *
  * GIC Redistributor Interrupt Set-Active Register 0
- * Each bit in GICR_ISACTIVER0 provides a set-active bit for an SGI or a PPI. Writing 1 to a
+ * Each bit in GICR()_ISACTIVER0 provides a set-active bit for an SGI or a PPI. Writing 1 to a
  * set-active bit sets the status of the corresponding interrupt to active.
  */
 typedef union
@@ -3493,7 +3493,7 @@ static inline uint64_t BDK_GICRX_ISACTIVER0(unsigned long a)
  * Register (NCB32b) gicr#_isenabler0
  *
  * GIC Redistributor Interrupt Set-Enable Register 0
- * Each bit in GICR_ISENABLER0 provides a set-enable bit for an SGI or a PPI. Writing 1
+ * Each bit in GICR()_ISENABLER0 provides a set-enable bit for an SGI or a PPI. Writing 1
  * to a set-enable bit enables forwarding of the corresponding SGI or PPI from the
  * redistributor to the CPU interfaces.
  */
@@ -3540,7 +3540,7 @@ static inline uint64_t BDK_GICRX_ISENABLER0(unsigned long a)
  * Register (NCB32b) gicr#_ispendr0
  *
  * GIC Redistributor Interrupt Set-Pending Register 0
- * Each bit in GICR_ISPENDR0 provides a set-pending bit for an SGI or a PPI. Writing 1
+ * Each bit in GICR()_ISPENDR0 provides a set-pending bit for an SGI or a PPI. Writing 1
  * to a set-pending bit sets the status of the corresponding interrupt to pending.
  */
 typedef union
@@ -3603,13 +3603,13 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t pa                    : 32; /**< [ 63: 32](WO) Target address <47:16>. Base address of the redistributor to which pending LPIs are to be
                                                                  moved.
-                                                                 If GICR_(S)CTLR[ENABLE_LPIS] is zero, the write has no effect. */
+                                                                 If GICR()_(S)CTLR[ENABLE_LPIS] is zero, the write has no effect. */
         uint64_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_31         : 32;
         uint64_t pa                    : 32; /**< [ 63: 32](WO) Target address <47:16>. Base address of the redistributor to which pending LPIs are to be
                                                                  moved.
-                                                                 If GICR_(S)CTLR[ENABLE_LPIS] is zero, the write has no effect. */
+                                                                 If GICR()_(S)CTLR[ENABLE_LPIS] is zero, the write has no effect. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_movallr_s cn; */
@@ -3649,11 +3649,11 @@ typedef union
                                                                  be moved. */
         uint64_t pid                   : 32; /**< [ 31:  0](WO) Physical LPI ID to be moved to the redistributor at [PA]. If the LPI with this
                                                                  PID is unimplemented, the write has no effect.
-                                                                 If GICR_(S)CTLR[ENABLE_LPIS] is zero, the write has no effect. */
+                                                                 If GICR()_(S)CTLR[ENABLE_LPIS] is zero, the write has no effect. */
 #else /* Word 0 - Little Endian */
         uint64_t pid                   : 32; /**< [ 31:  0](WO) Physical LPI ID to be moved to the redistributor at [PA]. If the LPI with this
                                                                  PID is unimplemented, the write has no effect.
-                                                                 If GICR_(S)CTLR[ENABLE_LPIS] is zero, the write has no effect. */
+                                                                 If GICR()_(S)CTLR[ENABLE_LPIS] is zero, the write has no effect. */
         uint64_t pa                    : 32; /**< [ 63: 32](WO) Target address <47:16>. Base address of the redistributor to which the physical LPI is to
                                                                  be moved. */
 #endif /* Word 0 - End */
@@ -4315,12 +4315,12 @@ typedef union
                                                                  one or more interrupts. */
         uint32_t reserved_1_2          : 2;
         uint32_t enable_lpis           : 1;  /**< [  0:  0](R/W) Enable LPIs. Common to both security states. When this bit is clear,
-                                                                 writes to generate physical LPIs to GICR_SETLPIR will be ignored.
+                                                                 writes to generate physical LPIs to GICR()_SETLPIR will be ignored.
                                                                  When a write changes this bit from zero to one, this bit becomes RAO/WI and the re-
                                                                  distributor must load the pending table from memory to check for any pending interrupts. */
 #else /* Word 0 - Little Endian */
         uint32_t enable_lpis           : 1;  /**< [  0:  0](R/W) Enable LPIs. Common to both security states. When this bit is clear,
-                                                                 writes to generate physical LPIs to GICR_SETLPIR will be ignored.
+                                                                 writes to generate physical LPIs to GICR()_SETLPIR will be ignored.
                                                                  When a write changes this bit from zero to one, this bit becomes RAO/WI and the re-
                                                                  distributor must load the pending table from memory to check for any pending interrupts. */
         uint32_t reserved_1_2          : 2;
@@ -4387,7 +4387,24 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicrx_seir_s cn; */
+    struct bdk_gicrx_seir_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t syndrome              : 16; /**< [ 15:  0](WO) Syndrome value for the SEI to be generated. If another write to this register occurs
+                                                                 before the previous has been forwarded to its receipients, the new value is ORed with the
+                                                                 existing value. The SYNDROME field is sticky and indicates that at least one error of a
+                                                                 lass has occurred. */
+#else /* Word 0 - Little Endian */
+        uint32_t syndrome              : 16; /**< [ 15:  0](WO) Syndrome value for the SEI to be generated. If another write to this register occurs
+                                                                 before the previous has been forwarded to its receipients, the new value is ORed with the
+                                                                 existing value. The SYNDROME field is sticky and indicates that at least one error of a
+                                                                 lass has occurred. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gicrx_seir_s cn88xx; */
+    /* struct bdk_gicrx_seir_s cn83xx; */
 } bdk_gicrx_seir_t;
 
 static inline uint64_t BDK_GICRX_SEIR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4472,12 +4489,12 @@ typedef union
         uint64_t pid                   : 32; /**< [ 31:  0](WO) Physical ID of the LPI to be generated. If the LPI is already pending, the write has no
                                                                  effect.
                                                                  If the LPI with the physical ID is not implemented, the write has no effect.
-                                                                 If GICR_(S)CTLR[ENABLE_LPI] is zero, the write has no effect. */
+                                                                 If GICR()_(S)CTLR[ENABLE_LPI] is zero, the write has no effect. */
 #else /* Word 0 - Little Endian */
         uint64_t pid                   : 32; /**< [ 31:  0](WO) Physical ID of the LPI to be generated. If the LPI is already pending, the write has no
                                                                  effect.
                                                                  If the LPI with the physical ID is not implemented, the write has no effect.
-                                                                 If GICR_(S)CTLR[ENABLE_LPI] is zero, the write has no effect. */
+                                                                 If GICR()_(S)CTLR[ENABLE_LPI] is zero, the write has no effect. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -4571,25 +4588,25 @@ typedef union
         uint32_t reserved_1_31         : 31;
         uint32_t busy                  : 1;  /**< [  0:  0](RO) Reserved. When this register is read, it will only return read-data with BUSY as zero when
                                                                  none of the following operations are in progress:
-                                                                 * Any writes to GICR_CLRLPIR within the redistributor.
-                                                                 * Any writes to GICR_MOVLPIR within the redistributor.
-                                                                 * Any writes to GICR_MOVALLR within the redistributor.
-                                                                 * Any writes to GICR_INVLPIR within the redistributor.
-                                                                 * Any writes to GICR_INVALLR within the redistributor.
+                                                                 * Any writes to GICR()_CLRLPIR within the redistributor.
+                                                                 * Any writes to GICR()_MOVLPIR within the redistributor.
+                                                                 * Any writes to GICR()_MOVALLR within the redistributor.
+                                                                 * Any writes to GICR()_INVLPIR within the redistributor.
+                                                                 * Any writes to GICR()_INVALLR within the redistributor.
                                                                  * Any writes to another redistributor performed as a result of a previous write to
-                                                                 GICR_MOVLPIR or GICR_MOVALLR have completed and arrived at the target redistributor.
-                                                                 Including operations initiated by writing to GICR_PENDBASER or GICR_PROPBASER. */
+                                                                 GICR()_MOVLPIR or GICR()_MOVALLR have completed and arrived at the target redistributor.
+                                                                 Including operations initiated by writing to GICR()_PENDBASER or GICR()_PROPBASER. */
 #else /* Word 0 - Little Endian */
         uint32_t busy                  : 1;  /**< [  0:  0](RO) Reserved. When this register is read, it will only return read-data with BUSY as zero when
                                                                  none of the following operations are in progress:
-                                                                 * Any writes to GICR_CLRLPIR within the redistributor.
-                                                                 * Any writes to GICR_MOVLPIR within the redistributor.
-                                                                 * Any writes to GICR_MOVALLR within the redistributor.
-                                                                 * Any writes to GICR_INVLPIR within the redistributor.
-                                                                 * Any writes to GICR_INVALLR within the redistributor.
+                                                                 * Any writes to GICR()_CLRLPIR within the redistributor.
+                                                                 * Any writes to GICR()_MOVLPIR within the redistributor.
+                                                                 * Any writes to GICR()_MOVALLR within the redistributor.
+                                                                 * Any writes to GICR()_INVLPIR within the redistributor.
+                                                                 * Any writes to GICR()_INVALLR within the redistributor.
                                                                  * Any writes to another redistributor performed as a result of a previous write to
-                                                                 GICR_MOVLPIR or GICR_MOVALLR have completed and arrived at the target redistributor.
-                                                                 Including operations initiated by writing to GICR_PENDBASER or GICR_PROPBASER. */
+                                                                 GICR()_MOVLPIR or GICR()_MOVALLR have completed and arrived at the target redistributor.
+                                                                 Including operations initiated by writing to GICR()_PENDBASER or GICR()_PROPBASER. */
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
@@ -4637,7 +4654,7 @@ typedef union
                                                                  be the logical processor number supported by the redistributor, which is the redistributor
                                                                  ID, ie. the variable a. */
         uint64_t reserved_6_7          : 2;
-        uint64_t dpgs                  : 1;  /**< [  5:  5](RAZ) GICR_(S)CTLR[DPG*] bits are NOT supported. */
+        uint64_t dpgs                  : 1;  /**< [  5:  5](RAZ) GICR()_(S)CTLR[DPG*] bits are NOT supported. */
         uint64_t last                  : 1;  /**< [  4:  4](RO/H) Last. This bit is only set for the last redistributor in a set of contiguous redistributor
                                                                  register pages. Needs to be determined from fuse signals or SKU. */
         uint64_t distributed           : 1;  /**< [  3:  3](RO) Distributed implementation:
@@ -4657,7 +4674,7 @@ typedef union
                                                                  1 = Distributed implementation registers supported. */
         uint64_t last                  : 1;  /**< [  4:  4](RO/H) Last. This bit is only set for the last redistributor in a set of contiguous redistributor
                                                                  register pages. Needs to be determined from fuse signals or SKU. */
-        uint64_t dpgs                  : 1;  /**< [  5:  5](RAZ) GICR_(S)CTLR[DPG*] bits are NOT supported. */
+        uint64_t dpgs                  : 1;  /**< [  5:  5](RAZ) GICR()_(S)CTLR[DPG*] bits are NOT supported. */
         uint64_t reserved_6_7          : 2;
         uint64_t pn                    : 16; /**< [ 23:  8](RO/H) The processor number, a unique identifier for the processor understood by the ITS. Should
                                                                  be the logical processor number supported by the redistributor, which is the redistributor
@@ -4729,7 +4746,38 @@ typedef union
         uint32_t quiescent             : 1;  /**< [ 31: 31](SRO) Indicates that redistributor is quiescent and can be powered off. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicrx_waker_s cn; */
+    struct bdk_gicrx_waker_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t quiescent             : 1;  /**< [ 31: 31](SRO/H) Indicates that redistributor is quiescent and can be powered off. */
+        uint32_t reserved_3_30         : 28;
+        uint32_t ca                    : 1;  /**< [  2:  2](SRO/H) Children asleep.
+                                                                 When [PS] is one, the redistributor treats the interrupt group enables as zero
+                                                                 until a subsequent update to the enables is received. */
+        uint32_t ps                    : 1;  /**< [  1:  1](SR/W) Processor sleep.
+                                                                 0 = The redistributor never asserts WakeRequest.
+                                                                 1 = The redistributor must assert WakeRequest and hold interrupts as pending if an enable
+                                                                 bit is zero for an interrupt group and there is a pending interrupt for that group. */
+        uint32_t sleep                 : 1;  /**< [  0:  0](SR/W) Sleep.
+                                                                 0 = The parent never asserts WakeRequest.
+                                                                 1 = The parent must assert WakeRequest and hold interrupts as pending. */
+#else /* Word 0 - Little Endian */
+        uint32_t sleep                 : 1;  /**< [  0:  0](SR/W) Sleep.
+                                                                 0 = The parent never asserts WakeRequest.
+                                                                 1 = The parent must assert WakeRequest and hold interrupts as pending. */
+        uint32_t ps                    : 1;  /**< [  1:  1](SR/W) Processor sleep.
+                                                                 0 = The redistributor never asserts WakeRequest.
+                                                                 1 = The redistributor must assert WakeRequest and hold interrupts as pending if an enable
+                                                                 bit is zero for an interrupt group and there is a pending interrupt for that group. */
+        uint32_t ca                    : 1;  /**< [  2:  2](SRO/H) Children asleep.
+                                                                 When [PS] is one, the redistributor treats the interrupt group enables as zero
+                                                                 until a subsequent update to the enables is received. */
+        uint32_t reserved_3_30         : 28;
+        uint32_t quiescent             : 1;  /**< [ 31: 31](SRO/H) Indicates that redistributor is quiescent and can be powered off. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gicrx_waker_s cn88xx; */
+    /* struct bdk_gicrx_waker_s cn83xx; */
 } bdk_gicrx_waker_t;
 
 static inline uint64_t BDK_GICRX_WAKER(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6751,7 +6799,7 @@ static inline uint64_t BDK_GITS_PIDR7_FUNC(void)
  * Note that this register is provided to enable the generation (and translation) of message
  * based interrupts from devices (e.g. MSI or MSI-X writes from PCIe devices).
  *
- * The register is at the same offset as GICD_SETSPI_NSR in the distributor and GICR_SETLPIR in
+ * The register is at the same offset as GICD_SETSPI_NSR in the distributor and GICR()_SETLPIR in
  * the redistributor to allow virtualization of guest operating systems
  * that directly program devices simply by ensuring the address programmed by the guest can be
  * translated by an SMMU to target GITS_TRANSLATER.

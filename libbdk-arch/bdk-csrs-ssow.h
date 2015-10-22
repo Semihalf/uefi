@@ -436,19 +436,17 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t index                 : 14; /**< [ 63: 50](RO/H) Index for the work-queue entry. Unpredictable when SSOW_VHWS()_OP_GET_WORK1[NO_WORK] set. */
         uint64_t reserved_44_49        : 6;
-        uint64_t grp                   : 10; /**< [ 43: 34](RO/H) Group of the returned work. Returns zero if [RTNGRP] was clear in the request, else
-                                                                 unpredictable if [NO_WORK] set. */
-        uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) Tag type of returned work, enumerated by SSO_TT_E. Returns zero if [RTNGRP] was clear in
-                                                                 the request, otherwise if [NO_WORK] set returns EMPTY if the work slot was previously
-                                                                 empty, else UNTAGGED. */
+        uint64_t grp                   : 10; /**< [ 43: 34](RO/H) Group of the returned work. Unpredictable if SSOW_VHWS()_OP_GET_WORK1[NO_WORK] set. */
+        uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) Tag type of returned work, enumerated by SSO_TT_E. If
+                                                                 SSOW_VHWS()_OP_GET_WORK1[NO_WORK] set, returns EMPTY if the work slot was
+                                                                 previously empty, else UNTAGGED. */
         uint64_t tag                   : 32; /**< [ 31:  0](RO/H) Tag of the work-queue entry. Unpredictable when SSOW_VHWS()_OP_GET_WORK1[NO_WORK] set. */
 #else /* Word 0 - Little Endian */
         uint64_t tag                   : 32; /**< [ 31:  0](RO/H) Tag of the work-queue entry. Unpredictable when SSOW_VHWS()_OP_GET_WORK1[NO_WORK] set. */
-        uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) Tag type of returned work, enumerated by SSO_TT_E. Returns zero if [RTNGRP] was clear in
-                                                                 the request, otherwise if [NO_WORK] set returns EMPTY if the work slot was previously
-                                                                 empty, else UNTAGGED. */
-        uint64_t grp                   : 10; /**< [ 43: 34](RO/H) Group of the returned work. Returns zero if [RTNGRP] was clear in the request, else
-                                                                 unpredictable if [NO_WORK] set. */
+        uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) Tag type of returned work, enumerated by SSO_TT_E. If
+                                                                 SSOW_VHWS()_OP_GET_WORK1[NO_WORK] set, returns EMPTY if the work slot was
+                                                                 previously empty, else UNTAGGED. */
+        uint64_t grp                   : 10; /**< [ 43: 34](RO/H) Group of the returned work. Unpredictable if SSOW_VHWS()_OP_GET_WORK1[NO_WORK] set. */
         uint64_t reserved_44_49        : 6;
         uint64_t index                 : 14; /**< [ 63: 50](RO/H) Index for the work-queue entry. Unpredictable when SSOW_VHWS()_OP_GET_WORK1[NO_WORK] set. */
 #endif /* Word 0 - End */
@@ -476,8 +474,8 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK0(unsigned long a)
  *
  * SSO Work Slot VF Get-Work Operation Register 1
  * A read to this register performs a get work. A single-transaction 128-bit load (LDP)
- * may be used to GET_WORK0 and GET_WORK1 to perform a single get work and return both
- * the tag and WQP.
+ * may be used to SSOW_VHWS()_OP_GET_WORK0 and SSOW_VHWS()_OP_GET_WORK1 to perform a
+ * single get work and return both the tag and WQP.
  *
  * The address offset is calculated using SSOW_GET_WORK_ADDR_S.
  */
@@ -928,29 +926,29 @@ typedef union
                                                                  the register read was issued after an indexed GET_WORK, the DESCHED portion of a
                                                                  SWTAG_DESCHED cannot still be pending. */
         uint64_t pend_get_work         : 1;  /**< [ 62: 62](RO/H) Set when there is a pending GET_WORK. */
-        uint64_t pend_get_work_wait    : 1;  /**< [ 61: 61](RO/H) When PEND_GET_WORK is set, indicates that the WAITW bit was set. */
-        uint64_t pend_nosched          : 1;  /**< [ 60: 60](RO/H) Set when nosched is desired and PEND_DESCHED is set. */
+        uint64_t pend_get_work_wait    : 1;  /**< [ 61: 61](RO/H) When [PEND_GET_WORK] is set, indicates that the WAITW bit was set. */
+        uint64_t pend_nosched          : 1;  /**< [ 60: 60](RO/H) Set when nosched is desired and [PEND_DESCHED] is set. */
         uint64_t pend_nosched_clr      : 1;  /**< [ 59: 59](RO/H) Set when there is a pending CLR_NSCHED. */
         uint64_t pend_desched          : 1;  /**< [ 58: 58](RO/H) Set when there is a pending DESCHED or SWTAG_DESCHED. */
         uint64_t pend_alloc_we         : 1;  /**< [ 57: 57](RO/H) Set when there is a pending ALLOC_WE. */
         uint64_t pend_gw_insert        : 1;  /**< [ 56: 56](RO/H) Set when there is a pending GET_WORK insertion. */
         uint64_t reserved_54_55        : 2;
-        uint64_t pend_index            : 10; /**< [ 53: 44](RO/H) The index when PEND_NOSCHED_CLR is set. */
+        uint64_t pend_index            : 10; /**< [ 53: 44](RO/H) The index when [PEND_NOSCHED_CLR] is set. */
         uint64_t reserved_34_43        : 10;
-        uint64_t pend_tt               : 2;  /**< [ 33: 32](RO/H) The tag type when PEND_SWITCH is set. */
-        uint64_t pend_tag              : 32; /**< [ 31:  0](RO/H) The tag when PEND_SWITCH is set. */
+        uint64_t pend_tt               : 2;  /**< [ 33: 32](RO/H) The tag type when [PEND_SWITCH] is set. */
+        uint64_t pend_tag              : 32; /**< [ 31:  0](RO/H) The tag when [PEND_SWITCH] is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend_tag              : 32; /**< [ 31:  0](RO/H) The tag when PEND_SWITCH is set. */
-        uint64_t pend_tt               : 2;  /**< [ 33: 32](RO/H) The tag type when PEND_SWITCH is set. */
+        uint64_t pend_tag              : 32; /**< [ 31:  0](RO/H) The tag when [PEND_SWITCH] is set. */
+        uint64_t pend_tt               : 2;  /**< [ 33: 32](RO/H) The tag type when [PEND_SWITCH] is set. */
         uint64_t reserved_34_43        : 10;
-        uint64_t pend_index            : 10; /**< [ 53: 44](RO/H) The index when PEND_NOSCHED_CLR is set. */
+        uint64_t pend_index            : 10; /**< [ 53: 44](RO/H) The index when [PEND_NOSCHED_CLR] is set. */
         uint64_t reserved_54_55        : 2;
         uint64_t pend_gw_insert        : 1;  /**< [ 56: 56](RO/H) Set when there is a pending GET_WORK insertion. */
         uint64_t pend_alloc_we         : 1;  /**< [ 57: 57](RO/H) Set when there is a pending ALLOC_WE. */
         uint64_t pend_desched          : 1;  /**< [ 58: 58](RO/H) Set when there is a pending DESCHED or SWTAG_DESCHED. */
         uint64_t pend_nosched_clr      : 1;  /**< [ 59: 59](RO/H) Set when there is a pending CLR_NSCHED. */
-        uint64_t pend_nosched          : 1;  /**< [ 60: 60](RO/H) Set when nosched is desired and PEND_DESCHED is set. */
-        uint64_t pend_get_work_wait    : 1;  /**< [ 61: 61](RO/H) When PEND_GET_WORK is set, indicates that the WAITW bit was set. */
+        uint64_t pend_nosched          : 1;  /**< [ 60: 60](RO/H) Set when nosched is desired and [PEND_DESCHED] is set. */
+        uint64_t pend_get_work_wait    : 1;  /**< [ 61: 61](RO/H) When [PEND_GET_WORK] is set, indicates that the WAITW bit was set. */
         uint64_t pend_get_work         : 1;  /**< [ 62: 62](RO/H) Set when there is a pending GET_WORK. */
         uint64_t pend_switch           : 1;  /**< [ 63: 63](RO/H) Set when there is a pending SWTAG, SWTAG_DESCHED, or SWTAG_FULL to ORDERED or ATOMIC. If
                                                                  the register read was issued after an indexed GET_WORK, the DESCHED portion of a
@@ -988,9 +986,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t pend_wqp              : 49; /**< [ 48:  0](RO/H) The WQP when PEND_NOSCHED_CLR is set. */
+        uint64_t pend_wqp              : 49; /**< [ 48:  0](RO/H) The WQP when SSOW_VHWS()_PENDTAG[PEND_NOSCHED_CLR] is set. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend_wqp              : 49; /**< [ 48:  0](RO/H) The WQP when PEND_NOSCHED_CLR is set. */
+        uint64_t pend_wqp              : 49; /**< [ 48:  0](RO/H) The WQP when SSOW_VHWS()_PENDTAG[PEND_NOSCHED_CLR] is set. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;

@@ -2425,7 +2425,7 @@ typedef union
                                                                  To avoid race conditions, software must first perform a CSR write operation that puts
                                                                  CLEAR_BIST into the correct state and then perform another CSR write operation to set
                                                                  START_BIST (keeping CLEAR_BIST constant). CLEAR BIST completion is indicated by
-                                                                 SATA()_UCTL_BIST_STATUS[NDONE].
+                                                                 SATA()_UCTL_BIST_STATUS[NDONE*] clear.
 
                                                                  A BIST clear operation takes almost 2,000 host-controller clock cycles for the largest
                                                                  RAM. */
@@ -2433,9 +2433,10 @@ typedef union
                                                                  controller clock must be both configured and enabled, and should be configured to the
                                                                  maximum available frequency given the available coprocessor clock and dividers.
 
-                                                                 Refer to Cold Reset for clock initialization procedures. BIST defect status can be checked
-                                                                 after FULL BIST completion, both of which are indicated in SATA_UCTL_BIST_STATUS. The FULL
-                                                                 BIST run takes almost 80,000 host-controller clock cycles for the largest RAM. */
+                                                                 Refer to Cold Reset for clock initialization procedures. BIST defect status can
+                                                                 be checked after FULL BIST completion, both of which are indicated in
+                                                                 SATA()_UCTL_BIST_STATUS. The FULL BIST run takes almost 80,000 host-controller
+                                                                 clock cycles for the largest RAM. */
         uint64_t reserved_31_61        : 31;
         uint64_t a_clk_en              : 1;  /**< [ 30: 30](R/W) Host-controller clock enable. When set to 1, the host-controller clock is generated. This
                                                                  also enables access to UCTL registers 0x30-0xF8. */
@@ -2537,9 +2538,10 @@ typedef union
                                                                  controller clock must be both configured and enabled, and should be configured to the
                                                                  maximum available frequency given the available coprocessor clock and dividers.
 
-                                                                 Refer to Cold Reset for clock initialization procedures. BIST defect status can be checked
-                                                                 after FULL BIST completion, both of which are indicated in SATA_UCTL_BIST_STATUS. The FULL
-                                                                 BIST run takes almost 80,000 host-controller clock cycles for the largest RAM. */
+                                                                 Refer to Cold Reset for clock initialization procedures. BIST defect status can
+                                                                 be checked after FULL BIST completion, both of which are indicated in
+                                                                 SATA()_UCTL_BIST_STATUS. The FULL BIST run takes almost 80,000 host-controller
+                                                                 clock cycles for the largest RAM. */
         uint64_t clear_bist            : 1;  /**< [ 63: 63](R/W) BIST fast-clear mode select. There are two major modes of BIST: FULL and CLEAR.
                                                                  0 = FULL BIST is run by the BIST state machine.
                                                                  1 = CLEAR BIST is run by the BIST state machine. A clear-BIST run clears all entries in
@@ -2548,7 +2550,7 @@ typedef union
                                                                  To avoid race conditions, software must first perform a CSR write operation that puts
                                                                  CLEAR_BIST into the correct state and then perform another CSR write operation to set
                                                                  START_BIST (keeping CLEAR_BIST constant). CLEAR BIST completion is indicated by
-                                                                 SATA()_UCTL_BIST_STATUS[NDONE].
+                                                                 SATA()_UCTL_BIST_STATUS[NDONE*] clear.
 
                                                                  A BIST clear operation takes almost 2,000 host-controller clock cycles for the largest
                                                                  RAM. */
@@ -2565,7 +2567,7 @@ typedef union
                                                                  To avoid race conditions, software must first perform a CSR write operation that puts
                                                                  CLEAR_BIST into the correct state and then perform another CSR write operation to set
                                                                  START_BIST (keeping CLEAR_BIST constant). CLEAR BIST completion is indicated by
-                                                                 SATA()_UCTL_BIST_STATUS[NDONE].
+                                                                 SATA()_UCTL_BIST_STATUS[NDONE*] clear.
 
                                                                  A BIST clear operation takes almost 2,000 host-controller clock cycles for the largest
                                                                  RAM. */
@@ -2573,9 +2575,10 @@ typedef union
                                                                  controller clock must be both configured and enabled, and should be configured to the
                                                                  maximum available frequency given the available coprocessor clock and dividers.
 
-                                                                 Refer to Cold Reset for clock initialization procedures. BIST defect status can be checked
-                                                                 after FULL BIST completion, both of which are indicated in SATA_UCTL_BIST_STATUS. The FULL
-                                                                 BIST run takes almost 80,000 host-controller clock cycles for the largest RAM. */
+                                                                 Refer to Cold Reset for clock initialization procedures. BIST defect status can
+                                                                 be checked after FULL BIST completion, both of which are indicated in
+                                                                 SATA()_UCTL_BIST_STATUS. The FULL BIST run takes almost 80,000 host-controller
+                                                                 clock cycles for the largest RAM. */
         uint64_t reserved_31_61        : 31;
         uint64_t a_clk_en              : 1;  /**< [ 30: 30](R/W) Host-controller clock enable. When set to 1, the host-controller clock is generated. This
                                                                  also enables access to UCTL registers 0x30-0xF8. */
@@ -2675,9 +2678,10 @@ typedef union
                                                                  controller clock must be both configured and enabled, and should be configured to the
                                                                  maximum available frequency given the available coprocessor clock and dividers.
 
-                                                                 Refer to Cold Reset for clock initialization procedures. BIST defect status can be checked
-                                                                 after FULL BIST completion, both of which are indicated in SATA_UCTL_BIST_STATUS. The FULL
-                                                                 BIST run takes almost 80,000 host-controller clock cycles for the largest RAM. */
+                                                                 Refer to Cold Reset for clock initialization procedures. BIST defect status can
+                                                                 be checked after FULL BIST completion, both of which are indicated in
+                                                                 SATA()_UCTL_BIST_STATUS. The FULL BIST run takes almost 80,000 host-controller
+                                                                 clock cycles for the largest RAM. */
         uint64_t clear_bist            : 1;  /**< [ 63: 63](R/W) BIST fast-clear mode select. There are two major modes of BIST: FULL and CLEAR.
                                                                  0 = FULL BIST is run by the BIST state machine.
                                                                  1 = CLEAR BIST is run by the BIST state machine. A clear-BIST run clears all entries in
@@ -2686,7 +2690,7 @@ typedef union
                                                                  To avoid race conditions, software must first perform a CSR write operation that puts
                                                                  CLEAR_BIST into the correct state and then perform another CSR write operation to set
                                                                  START_BIST (keeping CLEAR_BIST constant). CLEAR BIST completion is indicated by
-                                                                 SATA()_UCTL_BIST_STATUS[NDONE].
+                                                                 SATA()_UCTL_BIST_STATUS[NDONE*] clear.
 
                                                                  A BIST clear operation takes almost 2,000 host-controller clock cycles for the largest
                                                                  RAM. */
@@ -2742,7 +2746,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
-        uint64_t ecc_err_source        : 4;  /**< [ 61: 58](RO/H) Source of ECC error, see UCTL_ECC_ERR_SOURCE_E. */
+        uint64_t ecc_err_source        : 4;  /**< [ 61: 58](RO/H) Source of ECC error, see SATA_UCTL_ECC_ERR_SOURCE_E. */
         uint64_t ecc_err_syndrome      : 18; /**< [ 57: 40](RO/H) Syndrome bits of the ECC error. */
         uint64_t ecc_err_address       : 8;  /**< [ 39: 32](RO/H) RAM address of the ECC error. */
         uint64_t reserved_21_31        : 11;
@@ -2772,7 +2776,7 @@ typedef union
         uint64_t reserved_21_31        : 11;
         uint64_t ecc_err_address       : 8;  /**< [ 39: 32](RO/H) RAM address of the ECC error. */
         uint64_t ecc_err_syndrome      : 18; /**< [ 57: 40](RO/H) Syndrome bits of the ECC error. */
-        uint64_t ecc_err_source        : 4;  /**< [ 61: 58](RO/H) Source of ECC error, see UCTL_ECC_ERR_SOURCE_E. */
+        uint64_t ecc_err_source        : 4;  /**< [ 61: 58](RO/H) Source of ECC error, see SATA_UCTL_ECC_ERR_SOURCE_E. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;

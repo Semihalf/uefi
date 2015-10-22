@@ -65,8 +65,8 @@
  *
  * SMI Clock Control Register
  * This register determines the SMI timing characteristics.
- * If software wants to change SMI CLK timing parameters (SAMPLE/SAMPLE_HI), software
- * must delay the SMI_CLK CSR write by at least 512 coprocessor-clocks after the
+ * If software wants to change SMI CLK timing parameters ([SAMPLE]/[SAMPLE_HI]), software
+ * must delay the SMI_()_CLK CSR write by at least 512 coprocessor-clocks after the
  * previous SMI operation is finished.
  */
 typedef union
@@ -94,9 +94,9 @@ typedef union
         uint64_t sample                : 4;  /**< [ 11:  8](R/W) Sample read data. Specifies the number of coprocessor clock cycles after the rising edge
                                                                  of SMIn_MDC to wait before sampling read data.
 
-                                                                 _ (SAMPLE_HI,SAMPLE) > 1
+                                                                 _ ([SAMPLE_HI],[SAMPLE]) > 1
 
-                                                                 _ (SAMPLE_HI,SAMPLE) + 3 <= 2 * PHASE */
+                                                                 _ ([SAMPLE_HI],[SAMPLE]) + 3 <= 2 * [PHASE] */
         uint64_t phase                 : 8;  /**< [  7:  0](R/W) MDC clock phase. Specifies the number of coprocessor clock cycles that make up an SMIn_MDC
                                                                  phase.
 
@@ -109,9 +109,9 @@ typedef union
         uint64_t sample                : 4;  /**< [ 11:  8](R/W) Sample read data. Specifies the number of coprocessor clock cycles after the rising edge
                                                                  of SMIn_MDC to wait before sampling read data.
 
-                                                                 _ (SAMPLE_HI,SAMPLE) > 1
+                                                                 _ ([SAMPLE_HI],[SAMPLE]) > 1
 
-                                                                 _ (SAMPLE_HI,SAMPLE) + 3 <= 2 * PHASE */
+                                                                 _ ([SAMPLE_HI],[SAMPLE]) + 3 <= 2 * [PHASE] */
         uint64_t preamble              : 1;  /**< [ 12: 12](R/W) Preamble. When this bit is set, the 32-bit preamble is sent first on SMI transactions.
                                                                  This field must be set to 1 when MODE = 1 in order for the receiving PHY to correctly
                                                                  frame the transaction. */

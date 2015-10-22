@@ -133,7 +133,7 @@ static int is_any_internal_cn88xxp1_0(const bdk_device_t *device)
         BDK_PCC_DEV_CON_E_PEMX(4),
         BDK_PCC_DEV_CON_E_PEMX(5),
         BDK_PCC_DEV_CON_E_RAD,
-        BDK_PCC_DEV_CON_E_RNM,
+        BDK_PCC_DEV_CON_E_RNM_CN88XX,
         BDK_PCC_DEV_CON_E_RST,
         BDK_PCC_DEV_CON_E_SATA0,
         BDK_PCC_DEV_CON_E_SATA1,

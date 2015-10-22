@@ -64,14 +64,31 @@ typedef union
     struct bdk_pciercx_cfg000_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for PCIERC, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field.
+                                                                 _ <15:8> resets to PCC_PROD_E::CNXXXX.
+                                                                 _ <7:0> resets to PCC_DEV_IDL_E::PCIERC. */
+        uint32_t vendid                : 16; /**< [ 15:  0](RO/WRSL) Vendor ID, writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t vendid                : 16; /**< [ 15:  0](RO/WRSL) Vendor ID, writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID for PCIERC, writable through PEM()_CFG_WR. However, the application must not
+                                                                 change this field.
+                                                                 _ <15:8> resets to PCC_PROD_E::CNXXXX.
+                                                                 _ <7:0> resets to PCC_DEV_IDL_E::PCIERC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg000_s cn81xx; */
+    struct bdk_pciercx_cfg000_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID, writable through PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t vendid                : 16; /**< [ 15:  0](RO/WRSL) Vendor ID, writable through PEM()_CFG_WR. However, the application must not change this field. */
 #else /* Word 0 - Little Endian */
         uint32_t vendid                : 16; /**< [ 15:  0](RO/WRSL) Vendor ID, writable through PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t devid                 : 16; /**< [ 31: 16](RO/WRSL) Device ID, writable through PEM()_CFG_WR. However, the application must not change this field. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg000_s cn; */
+    } cn88xx;
+    /* struct bdk_pciercx_cfg000_s cn83xx; */
 } bdk_pciercx_cfg000_t;
 
 static inline uint64_t BDK_PCIERCX_CFG000(unsigned long a) __attribute__ ((pure, always_inline));

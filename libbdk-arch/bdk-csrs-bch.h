@@ -90,10 +90,10 @@ union bdk_bch_cword_s
                                                                  The number of parity bytes is equal to ceiling(15 * [ECC_LEVEL])/8.
                                                                  Must be 4, 8, 16, 24, 32, 40, 48, 56, 60, or 64. */
         uint64_t reserved_12_31        : 20;
-        uint64_t size                  : 12; /**< [ 11:  0] Indicates the size in bytes of the data block. SIZE must be a multiple of two
+        uint64_t size                  : 12; /**< [ 11:  0] Indicates the size in bytes of the data block. [SIZE] must be a multiple of two
                                                                  bytes (i.e. [SIZE]<0> must be 0). */
 #else /* Word 0 - Little Endian */
-        uint64_t size                  : 12; /**< [ 11:  0] Indicates the size in bytes of the data block. SIZE must be a multiple of two
+        uint64_t size                  : 12; /**< [ 11:  0] Indicates the size in bytes of the data block. [SIZE] must be a multiple of two
                                                                  bytes (i.e. [SIZE]<0> must be 0). */
         uint64_t reserved_12_31        : 20;
         uint64_t ecc_level             : 4;  /**< [ 35: 32] Indicates the maximum number of errors within a data block that can be corrected.
@@ -222,11 +222,11 @@ union bdk_bch_rword_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting IOVA of the L2/DRAM buffer that will receive the
-                                                                 2-byte BCH_RES_S. PTR must be naturally-aligned on an two boundary
+                                                                 2-byte BCH_RES_S. [PTR] must be naturally-aligned on an two boundary
                                                                  (i.e. <0> must be 0s). */
 #else /* Word 0 - Little Endian */
         uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting IOVA of the L2/DRAM buffer that will receive the
-                                                                 2-byte BCH_RES_S. PTR must be naturally-aligned on an two boundary
+                                                                 2-byte BCH_RES_S. [PTR] must be naturally-aligned on an two boundary
                                                                  (i.e. <0> must be 0s). */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
@@ -248,13 +248,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
-        uint64_t ncb_oub               : 1;  /**< [  5:  5](RO) BIST result of the NCB_OUB memories. */
-        uint64_t ncb_inb               : 1;  /**< [  4:  4](RO) BIST result of the NCB_INB memories. */
+        uint64_t ncb_oub               : 1;  /**< [  5:  5](RO) BIST result of the NCB OUB memories. */
+        uint64_t ncb_inb               : 1;  /**< [  4:  4](RO) BIST result of the NCB INB memories. */
         uint64_t dat                   : 4;  /**< [  3:  0](RO) BIST result of the DAT memories. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 4;  /**< [  3:  0](RO) BIST result of the DAT memories. */
-        uint64_t ncb_inb               : 1;  /**< [  4:  4](RO) BIST result of the NCB_INB memories. */
-        uint64_t ncb_oub               : 1;  /**< [  5:  5](RO) BIST result of the NCB_OUB memories. */
+        uint64_t ncb_inb               : 1;  /**< [  4:  4](RO) BIST result of the NCB INB memories. */
+        uint64_t ncb_oub               : 1;  /**< [  5:  5](RO) BIST result of the NCB OUB memories. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
@@ -668,10 +668,10 @@ typedef union
     struct bdk_bch_pf_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated BCH_MSIX_VEC()_CTL, enumerated by
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated BCH_PF_MSIX_VEC()_CTL, enumerated by
                                                                  BCH_INT_VEC_E. Bits that have no associated BCH_INT_VEC_E are 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated BCH_MSIX_VEC()_CTL, enumerated by
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated BCH_PF_MSIX_VEC()_CTL, enumerated by
                                                                  BCH_INT_VEC_E. Bits that have no associated BCH_INT_VEC_E are 0. */
 #endif /* Word 0 - End */
     } s;
@@ -712,8 +712,8 @@ typedef union
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's BCH_MSIX_VEC()_ADDR, BCH_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of BCH_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 1 = This vector's BCH_PF_MSIX_VEC()_ADDR, BCH_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of BCH_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world.
 
                                                                  If PCCPF_BCH_VSEC_SCTL[MSIX_SEC] (for documentation, see
@@ -722,8 +722,8 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's BCH_MSIX_VEC()_ADDR, BCH_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of BCH_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 1 = This vector's BCH_PF_MSIX_VEC()_ADDR, BCH_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of BCH_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world.
 
                                                                  If PCCPF_BCH_VSEC_SCTL[MSIX_SEC] (for documentation, see
@@ -954,24 +954,24 @@ typedef union
         uint64_t early_term            : 4;  /**< [ 21: 18](R/W) Threshold of zero delta interations before declaring early termination.
                                                                  0 will force all iterations to run.  For diagnostic use only. */
         uint64_t one_cmd               : 1;  /**< [ 17: 17](RAZ) Execute a single operation at a time.  For diagnostic use only. */
-        uint64_t erase_disable         : 1;  /**< [ 16: 16](R/W) When ERASE_DISABLE=0, erased blocks bypass the BCH correction.   The 16B result word
+        uint64_t erase_disable         : 1;  /**< [ 16: 16](R/W) When [ERASE_DISABLE]=0, erased blocks bypass the BCH correction.   The 16B result word
                                                                  contains an erased block indication.
 
                                                                  A block is considered erased if the number of zeros found in the block (data+ECC) is
                                                                  less than half the ECC level.   For instance, a 2 KB block using ECC32 is considered
                                                                  erased if few than 16 zeroes are found in the 2048+60 bytes. */
         uint64_t reserved_6_15         : 10;
-        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands. MAX_READ is a throttle to control IOB
+        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands. [MAX_READ] is a throttle to control NCB
                                                                  usage. Values greater than 0x8 are illegal. */
         uint64_t cmd_be                : 1;  /**< [  1:  1](R/W) Command queue and result word is big endian. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t cmd_be                : 1;  /**< [  1:  1](R/W) Command queue and result word is big endian. */
-        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands. MAX_READ is a throttle to control IOB
+        uint64_t max_read              : 4;  /**< [  5:  2](R/W) Maximum number of outstanding data read commands. [MAX_READ] is a throttle to control NCB
                                                                  usage. Values greater than 0x8 are illegal. */
         uint64_t reserved_6_15         : 10;
-        uint64_t erase_disable         : 1;  /**< [ 16: 16](R/W) When ERASE_DISABLE=0, erased blocks bypass the BCH correction.   The 16B result word
+        uint64_t erase_disable         : 1;  /**< [ 16: 16](R/W) When [ERASE_DISABLE]=0, erased blocks bypass the BCH correction.   The 16B result word
                                                                  contains an erased block indication.
 
                                                                  A block is considered erased if the number of zeros found in the block (data+ECC) is

@@ -111,13 +111,13 @@
  *
  * Enumerates the LMAC Types that BGX supports.
  */
-#define BDK_BGX_LMAC_TYPES_E_FORTYG_R (4) /**< 40GBASE-R */
-#define BDK_BGX_LMAC_TYPES_E_QSGMII (6) /**< Quad Serial Gigabit Media Independent Interface */
-#define BDK_BGX_LMAC_TYPES_E_RGMII (5) /**< Reduced Gigabit Media Independent Interface */
-#define BDK_BGX_LMAC_TYPES_E_RXAUI (2) /**< Reduced 10G Attachment Unit Interface */
-#define BDK_BGX_LMAC_TYPES_E_SGMII (0) /**< Serial Gigabit Media Independent Interface (SGMII/1000BASE-X) */
-#define BDK_BGX_LMAC_TYPES_E_TENG_R (3) /**< 10GBASE-R */
-#define BDK_BGX_LMAC_TYPES_E_XAUI (1) /**< 10G Attachment Unit Interface (10GBASE-X/XAUI or DXAUI) */
+#define BDK_BGX_LMAC_TYPES_E_FORTYG_R (4) /**< 40GBASE-R. */
+#define BDK_BGX_LMAC_TYPES_E_QSGMII (6) /**< Quad Serial Gigabit Media Independent Interface. */
+#define BDK_BGX_LMAC_TYPES_E_RGMII (5) /**< Reduced Gigabit Media Independent Interface. */
+#define BDK_BGX_LMAC_TYPES_E_RXAUI (2) /**< Reduced 10G Attachment Unit Interface. */
+#define BDK_BGX_LMAC_TYPES_E_SGMII (0) /**< Serial Gigabit Media Independent Interface (SGMII/1000BASE-X). */
+#define BDK_BGX_LMAC_TYPES_E_TENG_R (3) /**< 10GBASE-R. */
+#define BDK_BGX_LMAC_TYPES_E_XAUI (1) /**< 10G Attachment Unit Interface (10GBASE-X/XAUI or DXAUI). */
 
 /**
  * Enumeration bgx_opcode_e
@@ -5154,7 +5154,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
         uint64_t id                    : 2;  /**< [ 50: 49](R/W) Logical MAC ID that this DMAC CAM address applies to. BGX has 32 DMAC CAM entries that can
-                                                                 be accessed with the BGX*_CMR_RX_ADR_CAM() CSRs. These 32 DMAC entries can be used by
+                                                                 be accessed with the BGX()_CMR_RX_ADR_CAM() CSRs. These 32 DMAC entries can be used by
                                                                  any of the four SGMII MACs or the 10G/40G MACs using these register bits.
 
                                                                  A typical configuration is to provide eight CAM entries per LMAC ID, which is configured
@@ -5179,7 +5179,7 @@ typedef union
                                                                  1 = Include this address in the matching algorithm.
                                                                  0 = Don't include this address in the matching algorithm. */
         uint64_t id                    : 2;  /**< [ 50: 49](R/W) Logical MAC ID that this DMAC CAM address applies to. BGX has 32 DMAC CAM entries that can
-                                                                 be accessed with the BGX*_CMR_RX_ADR_CAM() CSRs. These 32 DMAC entries can be used by
+                                                                 be accessed with the BGX()_CMR_RX_ADR_CAM() CSRs. These 32 DMAC entries can be used by
                                                                  any of the four SGMII MACs or the 10G/40G MACs using these register bits.
 
                                                                  A typical configuration is to provide eight CAM entries per LMAC ID, which is configured
@@ -5877,8 +5877,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
         uint64_t rx_fc_type            : 1;  /**< [ 49: 49](R/W) Receive side flow control type select.
-                                                                 0 = GMI MAC recieves and processes ITU G.999.1 pause frames.
-                                                                 1 = GMI MAC recieves and processes 802.3 pause frames. */
+                                                                 0 = GMI MAC receives and processes ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC receives and processes 802.3 pause frames. */
         uint64_t tx_fc_type            : 1;  /**< [ 48: 48](R/W) Receive side flow control type select.
                                                                  0 = GMI MAC transmits ITU G.999.1 pause frames.
                                                                  1 = GMI MAC transmits 802.3 pause frames. */
@@ -5889,8 +5889,8 @@ typedef union
                                                                  0 = GMI MAC transmits ITU G.999.1 pause frames.
                                                                  1 = GMI MAC transmits 802.3 pause frames. */
         uint64_t rx_fc_type            : 1;  /**< [ 49: 49](R/W) Receive side flow control type select.
-                                                                 0 = GMI MAC recieves and processes ITU G.999.1 pause frames.
-                                                                 1 = GMI MAC recieves and processes 802.3 pause frames. */
+                                                                 0 = GMI MAC receives and processes ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC receives and processes 802.3 pause frames. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;
@@ -7460,13 +7460,15 @@ typedef union
                                                                  Padding is only appended when BGX()_GMP_GMI_TX()_APPEND[PAD] for the corresponding
                                                                  LMAC is set.
 
-                                                                 In SGMII/QSGMII mode, packets are padded to MIN_SIZE+1. The reset value pads to 60 bytes. */
+                                                                 When LMAC_TYPE=SGMII/QSGMII, packets are padded to MIN_SIZE+1. The reset value pads to 60
+                                                                 bytes. */
 #else /* Word 0 - Little Endian */
         uint64_t min_size              : 8;  /**< [  7:  0](R/W) Minimum frame size in bytes before the FCS is applied.
                                                                  Padding is only appended when BGX()_GMP_GMI_TX()_APPEND[PAD] for the corresponding
                                                                  LMAC is set.
 
-                                                                 In SGMII/QSGMII mode, packets are padded to MIN_SIZE+1. The reset value pads to 60 bytes. */
+                                                                 When LMAC_TYPE=SGMII/QSGMII, packets are padded to MIN_SIZE+1. The reset value pads to 60
+                                                                 bytes. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -7489,7 +7491,24 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_gmp_gmi_txx_min_pkt_s cn83xx; */
+    struct bdk_bgxx_gmp_gmi_txx_min_pkt_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t min_size              : 8;  /**< [  7:  0](R/W) Minimum frame size in bytes before the FCS is applied.
+                                                                 Padding is only appended when BGX()_GMP_GMI_TX()_APPEND[PAD] for the corresponding
+                                                                 LMAC is set.
+
+                                                                 In SGMII/QSGMII mode, packets are padded to MIN_SIZE+1. The reset value pads to 60 bytes. */
+#else /* Word 0 - Little Endian */
+        uint64_t min_size              : 8;  /**< [  7:  0](R/W) Minimum frame size in bytes before the FCS is applied.
+                                                                 Padding is only appended when BGX()_GMP_GMI_TX()_APPEND[PAD] for the corresponding
+                                                                 LMAC is set.
+
+                                                                 In SGMII/QSGMII mode, packets are padded to MIN_SIZE+1. The reset value pads to 60 bytes. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_gmp_gmi_txx_min_pkt_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_MIN_PKT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7539,19 +7558,42 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every (INTERVAL * 512) bit-times.
-                                                                 Normally, 0 < INTERVAL < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
+        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every ([INTERVAL] * 512)
+                                                                 bit-times. Normally, 0 < [INTERVAL] < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
 
-                                                                 INTERVAL = 0 only sends a single PAUSE packet for each backpressure event. */
+                                                                 [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
+                                                                 BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when [INTERVAL] = 0.
+                                                                 INTERVAL should be 0x0 if BGX_GMP_GMI_PAUSE_CTL[FC_TYPE] is clear (G.999.1) */
 #else /* Word 0 - Little Endian */
-        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every (INTERVAL * 512) bit-times.
-                                                                 Normally, 0 < INTERVAL < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
+        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every ([INTERVAL] * 512)
+                                                                 bit-times. Normally, 0 < [INTERVAL] < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
 
-                                                                 INTERVAL = 0 only sends a single PAUSE packet for each backpressure event. */
+                                                                 [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
+                                                                 BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when [INTERVAL] = 0.
+                                                                 INTERVAL should be 0x0 if BGX_GMP_GMI_PAUSE_CTL[FC_TYPE] is clear (G.999.1) */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_gmi_txx_pause_pkt_interval_s cn; */
+    /* struct bdk_bgxx_gmp_gmi_txx_pause_pkt_interval_s cn81xx; */
+    struct bdk_bgxx_gmp_gmi_txx_pause_pkt_interval_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every ([INTERVAL] * 512)
+                                                                 bit-times. Normally, 0 < [INTERVAL] < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
+
+                                                                 [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
+                                                                 BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when [INTERVAL] = 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every ([INTERVAL] * 512)
+                                                                 bit-times. Normally, 0 < [INTERVAL] < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
+
+                                                                 [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
+                                                                 BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when [INTERVAL] = 0. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn88xx;
+    /* struct bdk_bgxx_gmp_gmi_txx_pause_pkt_interval_cn88xx cn83xx; */
 } bdk_bgxx_gmp_gmi_txx_pause_pkt_interval_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7584,6 +7626,25 @@ typedef union
         uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets or CBFC PAUSE packets
                                                                  in 512 bit-times. Normally, P_TIME >
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
+                                                                 BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL.
+                                                                 PTIME should be 0x0 if BGX_GMP_GMI_PAUSE_CTL[FC_TYPE] is clear (G.999.1) */
+#else /* Word 0 - Little Endian */
+        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets or CBFC PAUSE packets
+                                                                 in 512 bit-times. Normally, P_TIME >
+                                                                 BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
+                                                                 BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL.
+                                                                 PTIME should be 0x0 if BGX_GMP_GMI_PAUSE_CTL[FC_TYPE] is clear (G.999.1) */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_gmp_gmi_txx_pause_pkt_time_s cn81xx; */
+    struct bdk_bgxx_gmp_gmi_txx_pause_pkt_time_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets or CBFC PAUSE packets
+                                                                 in 512 bit-times. Normally, P_TIME >
+                                                                 BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL. */
 #else /* Word 0 - Little Endian */
         uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets or CBFC PAUSE packets
@@ -7592,8 +7653,8 @@ typedef union
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_gmp_gmi_txx_pause_pkt_time_s cn; */
+    } cn88xx;
+    /* struct bdk_bgxx_gmp_gmi_txx_pause_pkt_time_cn88xx cn83xx; */
 } bdk_bgxx_gmp_gmi_txx_pause_pkt_time_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_TIME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7660,10 +7721,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t send                  : 1;  /**< [  0:  0](R/W) Send PAUSE-zero enable. When this bit is set, and the backpressure condition is clear, it
-                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel. */
+                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel.
+                                                                 SEND should be set if BGX_GMP_GMI_PAUSE_CTL[FC_TYPE] is clear (G.999.1) */
 #else /* Word 0 - Little Endian */
         uint64_t send                  : 1;  /**< [  0:  0](R/W) Send PAUSE-zero enable. When this bit is set, and the backpressure condition is clear, it
-                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel. */
+                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel.
+                                                                 SEND should be set if BGX_GMP_GMI_PAUSE_CTL[FC_TYPE] is clear (G.999.1) */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -7680,7 +7743,18 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_gmp_gmi_txx_pause_zero_s cn83xx; */
+    struct bdk_bgxx_gmp_gmi_txx_pause_zero_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t send                  : 1;  /**< [  0:  0](R/W) Send PAUSE-zero enable. When this bit is set, and the backpressure condition is clear, it
+                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel. */
+#else /* Word 0 - Little Endian */
+        uint64_t send                  : 1;  /**< [  0:  0](R/W) Send PAUSE-zero enable. When this bit is set, and the backpressure condition is clear, it
+                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_gmp_gmi_txx_pause_zero_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_ZERO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7833,13 +7907,26 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
+        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Back off the TX bus for (PTIME * 512) bit-times.
+                                                                 PTIME should be 0x0 if BGX_GMP_GMI_PAUSE_CTL[FC_TYPE] is clear (G.999.1) */
+#else /* Word 0 - Little Endian */
+        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Back off the TX bus for (PTIME * 512) bit-times.
+                                                                 PTIME should be 0x0 if BGX_GMP_GMI_PAUSE_CTL[FC_TYPE] is clear (G.999.1) */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_gmp_gmi_txx_soft_pause_s cn81xx; */
+    struct bdk_bgxx_gmp_gmi_txx_soft_pause_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
         uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Back off the TX bus for (PTIME * 512) bit-times. */
 #else /* Word 0 - Little Endian */
         uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Back off the TX bus for (PTIME * 512) bit-times. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_gmp_gmi_txx_soft_pause_s cn; */
+    } cn88xx;
+    /* struct bdk_bgxx_gmp_gmi_txx_soft_pause_cn88xx cn83xx; */
 } bdk_bgxx_gmp_gmi_txx_soft_pause_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SOFT_PAUSE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -8870,7 +8957,104 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_pcs_miscx_ctl_s cn81xx; */
+    struct bdk_bgxx_gmp_pcs_miscx_ctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t disp_en               : 1;  /**< [ 13: 13](R/W) Disparity check enable.  When LMAC_TYPE=QSGMII the running disparity check should be
+                                                                 disabled
+                                                                 to
+                                                                 prevent propogation across ports.
+                                                                 0 = disable disparity check
+                                                                 1 = enable disparity checking
+
+                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) SGMII mode.
+                                                                 0 = other mode selected.
+                                                                 1 = SGMII or 1000BASE-X mode selected.
+
+                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t gmxeno                : 1;  /**< [ 11: 11](R/W) GMI enable override. When set, forces GMI to appear disabled. The enable/disable status of
+                                                                 GMI is checked only at SOP of every packet. */
+        uint64_t loopbck2              : 1;  /**< [ 10: 10](R/W) Sets external loopback mode to return RX data back out via the TX data path. 0 = No
+                                                                 loopback, 1 = Loopback.
+                                                                 LOOPBCK1 and LOOPBCK2 modes may not be supported simultaneously. */
+        uint64_t mac_phy               : 1;  /**< [  9:  9](R/W) MAC/PHY.
+                                                                 0 = MAC.
+                                                                 1 = PHY decides the TX_CONFIG_REG value to be sent during autonegotiation. */
+        uint64_t mode                  : 1;  /**< [  8:  8](R/W) Mode bit.
+
+                                                                 _ 0 = SGMII mode is selected and the following note applies.
+                                                                 The SGMII AN advertisement register (BGX()_GMP_PCS_SGM()_AN_ADV) is sent during
+                                                                 autonegotiation if BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] = 1 (PHY mode). If [MAC_PHY]
+                                                                 = 0 (MAC mode), the TX_CONFIG_REG<14> becomes ACK bit and <0> is always 1. All other bits
+                                                                 in TX_CONFIG_REG sent are 0. The PHY dictates the autonegotiation results.
+
+                                                                 _ 1 = 1000Base-X mode is selected. Autonegotiation follows IEEE 802.3 clause 37. */
+        uint64_t an_ovrd               : 1;  /**< [  7:  7](R/W) Autonegotiation results override:
+                                                                 0 = Disable.
+                                                                 1 = Enable override. Autonegotiation is allowed to happen but the results are ignored
+                                                                 when this bit is set.  Duplex and Link speed values are set from BGX()_GMP_PCS_MISC()_CTL. */
+        uint64_t samp_pt               : 7;  /**< [  6:  0](R/W) Byte number in elongated frames for 10/100 Mb/s operation for data sampling on RX side in
+                                                                 PCS. Recommended values are 0x5 for 100 Mb/s operation and 0x32 for 10 Mb/s operation.
+
+                                                                 For 10 Mb/s operation, this field should be set to a value less than 99 and greater than
+                                                                 0.
+                                                                 If set out of this range, a value of 50 is used for actual sampling internally without
+                                                                 affecting the CSR field.
+
+                                                                 For 100 Mb/s operation this field should be set to a value less than 9 and greater than 0.
+                                                                 If set out of this range, a value of 5 is used for actual sampling internally without
+                                                                 affecting the CSR field. */
+#else /* Word 0 - Little Endian */
+        uint64_t samp_pt               : 7;  /**< [  6:  0](R/W) Byte number in elongated frames for 10/100 Mb/s operation for data sampling on RX side in
+                                                                 PCS. Recommended values are 0x5 for 100 Mb/s operation and 0x32 for 10 Mb/s operation.
+
+                                                                 For 10 Mb/s operation, this field should be set to a value less than 99 and greater than
+                                                                 0.
+                                                                 If set out of this range, a value of 50 is used for actual sampling internally without
+                                                                 affecting the CSR field.
+
+                                                                 For 100 Mb/s operation this field should be set to a value less than 9 and greater than 0.
+                                                                 If set out of this range, a value of 5 is used for actual sampling internally without
+                                                                 affecting the CSR field. */
+        uint64_t an_ovrd               : 1;  /**< [  7:  7](R/W) Autonegotiation results override:
+                                                                 0 = Disable.
+                                                                 1 = Enable override. Autonegotiation is allowed to happen but the results are ignored
+                                                                 when this bit is set.  Duplex and Link speed values are set from BGX()_GMP_PCS_MISC()_CTL. */
+        uint64_t mode                  : 1;  /**< [  8:  8](R/W) Mode bit.
+
+                                                                 _ 0 = SGMII mode is selected and the following note applies.
+                                                                 The SGMII AN advertisement register (BGX()_GMP_PCS_SGM()_AN_ADV) is sent during
+                                                                 autonegotiation if BGX()_GMP_PCS_MISC()_CTL[MAC_PHY] = 1 (PHY mode). If [MAC_PHY]
+                                                                 = 0 (MAC mode), the TX_CONFIG_REG<14> becomes ACK bit and <0> is always 1. All other bits
+                                                                 in TX_CONFIG_REG sent are 0. The PHY dictates the autonegotiation results.
+
+                                                                 _ 1 = 1000Base-X mode is selected. Autonegotiation follows IEEE 802.3 clause 37. */
+        uint64_t mac_phy               : 1;  /**< [  9:  9](R/W) MAC/PHY.
+                                                                 0 = MAC.
+                                                                 1 = PHY decides the TX_CONFIG_REG value to be sent during autonegotiation. */
+        uint64_t loopbck2              : 1;  /**< [ 10: 10](R/W) Sets external loopback mode to return RX data back out via the TX data path. 0 = No
+                                                                 loopback, 1 = Loopback.
+                                                                 LOOPBCK1 and LOOPBCK2 modes may not be supported simultaneously. */
+        uint64_t gmxeno                : 1;  /**< [ 11: 11](R/W) GMI enable override. When set, forces GMI to appear disabled. The enable/disable status of
+                                                                 GMI is checked only at SOP of every packet. */
+        uint64_t sgmii                 : 1;  /**< [ 12: 12](RO/H) SGMII mode.
+                                                                 0 = other mode selected.
+                                                                 1 = SGMII or 1000BASE-X mode selected.
+
+                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t disp_en               : 1;  /**< [ 13: 13](R/W) Disparity check enable.  When LMAC_TYPE=QSGMII the running disparity check should be
+                                                                 disabled
+                                                                 to
+                                                                 prevent propogation across ports.
+                                                                 0 = disable disparity check
+                                                                 1 = enable disparity checking
+
+                                                                 See GSER()_LANE_MODE[LMODE]. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn81xx;
     struct bdk_bgxx_gmp_pcs_miscx_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -9644,10 +9828,10 @@ typedef union
     struct bdk_bgxx_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated BGX_MSIX_VEC()_CTL, enumerated by BGX_INT_VEC_E.
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated BGX()_MSIX_VEC()_CTL, enumerated by BGX_INT_VEC_E.
                                                                  Bits that have no associated BGX_INT_VEC_E are zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated BGX_MSIX_VEC()_CTL, enumerated by BGX_INT_VEC_E.
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated BGX()_MSIX_VEC()_CTL, enumerated by BGX_INT_VEC_E.
                                                                  Bits that have no associated BGX_INT_VEC_E are zero. */
 #endif /* Word 0 - End */
     } s;
@@ -9686,20 +9870,20 @@ typedef union
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's BGX_MSIX_VEC()_ADDR, BGX_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of BGX_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 1 = This vector's BGX()_MSIX_VEC()_ADDR, BGX()_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of BGX()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world.
 
-                                                                 If PCCBGX_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCBGX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 If PCC_BGX_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCBGX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's BGX_MSIX_VEC()_ADDR, BGX_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of BGX_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 1 = This vector's BGX()_MSIX_VEC()_ADDR, BGX()_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of BGX()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world.
 
-                                                                 If PCCBGX_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCBGX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 If PCC_BGX_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCBGX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */

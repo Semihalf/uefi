@@ -464,6 +464,45 @@ static inline uint64_t BDK_MRML_NCBX_SDEV(unsigned long a)
 #define arguments_BDK_MRML_NCBX_SDEV(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) mrml_ncb#_skill
+ *
+ * MRML RSL Secure Kill-Device Registers
+ * Added in pass 3.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mrml_ncbx_skill_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) NCB function kill.  Similar to MRML_RSL()_SKILL except applies to NCB devices. */
+#else /* Word 0 - Little Endian */
+        uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) NCB function kill.  Similar to MRML_RSL()_SKILL except applies to NCB devices. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mrml_ncbx_skill_s cn; */
+} bdk_mrml_ncbx_skill_t;
+
+static inline uint64_t BDK_MRML_NCBX_SKILL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MRML_NCBX_SKILL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e0fc000500ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0fc000500ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=3))
+        return 0x87e0fc000500ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("MRML_NCBX_SKILL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MRML_NCBX_SKILL(a) bdk_mrml_ncbx_skill_t
+#define bustype_BDK_MRML_NCBX_SKILL(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MRML_NCBX_SKILL(a) "MRML_NCBX_SKILL"
+#define device_bar_BDK_MRML_NCBX_SKILL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_MRML_NCBX_SKILL(a) (a)
+#define arguments_BDK_MRML_NCBX_SKILL(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) mrml_rsl#_sdev
  *
  * MRML RSL Secure Device Registers
@@ -516,6 +555,53 @@ static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a)
 #define device_bar_BDK_MRML_RSLX_SDEV(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_MRML_RSLX_SDEV(a) (a)
 #define arguments_BDK_MRML_RSLX_SDEV(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) mrml_rsl#_skill
+ *
+ * MRML RSL Secure Kill-Device Registers
+ * Added in pass 3.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mrml_rslx_skill_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) RSL function kill. Write one to set, once set cannot be cleared
+                                                                 until soft reset. If set, read/writes from any agent
+                                                                 (secure/non-secure) will be RAZ/WI.
+                                                                 The register index 0..3 indicates which group of 64 functions, and bit index indicates
+                                                                 which mod-64 function, for 256 function bits total. */
+#else /* Word 0 - Little Endian */
+        uint64_t skill                 : 64; /**< [ 63:  0](SR/W1S) RSL function kill. Write one to set, once set cannot be cleared
+                                                                 until soft reset. If set, read/writes from any agent
+                                                                 (secure/non-secure) will be RAZ/WI.
+                                                                 The register index 0..3 indicates which group of 64 functions, and bit index indicates
+                                                                 which mod-64 function, for 256 function bits total. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mrml_rslx_skill_s cn; */
+} bdk_mrml_rslx_skill_t;
+
+static inline uint64_t BDK_MRML_RSLX_SKILL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MRML_RSLX_SKILL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e0fc000300ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0fc000300ll + 8ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=3))
+        return 0x87e0fc000300ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("MRML_RSLX_SKILL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MRML_RSLX_SKILL(a) bdk_mrml_rslx_skill_t
+#define bustype_BDK_MRML_RSLX_SKILL(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MRML_RSLX_SKILL(a) "MRML_RSLX_SKILL"
+#define device_bar_BDK_MRML_RSLX_SKILL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_MRML_RSLX_SKILL(a) (a)
+#define arguments_BDK_MRML_RSLX_SKILL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mrml_scfg

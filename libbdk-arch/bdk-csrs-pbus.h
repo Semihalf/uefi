@@ -72,10 +72,10 @@
                                        interrupt sets PBUS_INT_W1S[ADR_ERR],
                                        enable clears PBUS_INT_ENA_W1C[ADR_ERR],
                                        and enable sets PBUS_INT_ENA_W1S[ADR_ERR]. */
-#define BDK_PBUS_INT_VEC_E_DMA_DONEX(a) (2 + (a)) /**< See interrupt clears PBUS_INT[DMA_DONE<a>],
-                                       interrupt sets PBUS_INT_W1S[DMA_DONE<a>],
-                                       enable clears PBUS_INT_ENA_W1C[DMA_DONE<a>],
-                                       and enable sets PBUS_INT_ENA_W1S[DMA_DONE<a>]. */
+#define BDK_PBUS_INT_VEC_E_DMA_DONEX(a) (2 + (a)) /**< See interrupt clears PBUS_INT[DMA_DONE<{a}>],
+                                       interrupt sets PBUS_INT_W1S[DMA_DONE<{a}>],
+                                       enable clears PBUS_INT_ENA_W1C[DMA_DONE<{a}>],
+                                       and enable sets PBUS_INT_ENA_W1S[DMA_DONE<{a}>]. */
 #define BDK_PBUS_INT_VEC_E_WAIT_ERR (1) /**< See interrupt clears PBUS_INT[WAIT_ERR],
                                        interrupt sets PBUS_INT_W1S[WAIT_ERR],
                                        enable clears PBUS_INT_ENA_W1C[WAIT_ERR],
@@ -132,11 +132,11 @@ static inline uint64_t BDK_PBUS_DMA_ADRX(unsigned long a)
  * core clocks or the RML timeout specified in SLI_WINDOW_CTL[TIME] coprocessor clocks if
  * accesses to the bootbus occur while DMA operations are in progress.
  * The DMA operation duration in coprocessor clocks as:
- *   _ PBUS_DMA_CFG()[SIZE] * PBUS_DMA_TIM()[TIM_MULT] * CYCLE_TIME.
+ *   _ PBUS_DMA_CFG()[SIZE] * PBUS_DMA_TIM()[TIM_MULT] * cycle_time.
  *
  * Where:
  *
- *   _ CYCLE_TIME = PBUS_DMA_TIM()[RD_DLY+PAUSE+DMACK_H+WE_N+WE_A+OE_N+OE_A+DMACK_S].
+ *   _ cycle_time = PBUS_DMA_TIM()[RD_DLY+PAUSE+DMACK_H+WE_N+WE_A+OE_N+OE_A+DMACK_S].
  *
  * Coprocessor clocks can be converted to core clocks by multiplying the value by the clock ratio
  * RST_BOOT[C_MUL] / RST_BOOT[PNR_MUL].
@@ -219,17 +219,20 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
         uint64_t tim_mult              : 2;  /**< [ 61: 60](R/W) Timing multiplier. This field specifies the timing multiplier for an engine. The timing
-                                                                 multiplier applies to all timing parameters, except for DMARQ and RD_DLY, which simply
-                                                                 count coprocessor-clock cycles. TIM_MULT is encoded as follows: 0x0 = 4x, 0x1 = 1x, 0x2 =
-                                                                 2x, 0x3 = 8x. */
+                                                                 multiplier applies to all timing parameters, except for [DMARQ] and [RD_DLY], which simply
+                                                                 count coprocessor-clock cycles. [TIM_MULT] is encoded as follows:
+                                                                   0x0 = 4x multiplier.
+                                                                   0x1 = 1x multiplier.
+                                                                   0x2 = 2x multiplier.
+                                                                   0x3 = 8x multiplier. */
         uint64_t rd_dly                : 3;  /**< [ 59: 57](R/W) Read sample delay. This field specifies the read sample delay in coprocessor-clock cycles
                                                                  for an engine. For read operations, the data bus is normally sampled on the same
                                                                  coprocessor-clock edge that drives BOOT_OE_L high (and also low in DDR mode). This
                                                                  parameter can delay that sampling edge by up to seven coprocessor-clock cycles.
                                                                  The number of coprocessor-clock cycles counted by the OE_A and DMACK_H + PAUSE timing
-                                                                 parameters must be greater than RD_DLY. */
+                                                                 parameters must be greater than [RD_DLY]. */
         uint64_t ddr                   : 1;  /**< [ 56: 56](R/W) DDR mode. If DDR is set, then WE_N must be less than WE_A. */
-        uint64_t width                 : 1;  /**< [ 55: 55](R/W) DMA Bus width (0 = 16 bits, 1 = 32 bits). */
+        uint64_t width                 : 1;  /**< [ 55: 55](R/W) DMA bus width (0 = 16 bits, 1 = 32 bits). */
         uint64_t reserved_48_54        : 7;
         uint64_t pause                 : 6;  /**< [ 47: 42](R/W) Pause count. */
         uint64_t dmack_h               : 6;  /**< [ 41: 36](R/W) DMA acknowledgment hold count. */
@@ -249,18 +252,21 @@ typedef union
         uint64_t dmack_h               : 6;  /**< [ 41: 36](R/W) DMA acknowledgment hold count. */
         uint64_t pause                 : 6;  /**< [ 47: 42](R/W) Pause count. */
         uint64_t reserved_48_54        : 7;
-        uint64_t width                 : 1;  /**< [ 55: 55](R/W) DMA Bus width (0 = 16 bits, 1 = 32 bits). */
+        uint64_t width                 : 1;  /**< [ 55: 55](R/W) DMA bus width (0 = 16 bits, 1 = 32 bits). */
         uint64_t ddr                   : 1;  /**< [ 56: 56](R/W) DDR mode. If DDR is set, then WE_N must be less than WE_A. */
         uint64_t rd_dly                : 3;  /**< [ 59: 57](R/W) Read sample delay. This field specifies the read sample delay in coprocessor-clock cycles
                                                                  for an engine. For read operations, the data bus is normally sampled on the same
                                                                  coprocessor-clock edge that drives BOOT_OE_L high (and also low in DDR mode). This
                                                                  parameter can delay that sampling edge by up to seven coprocessor-clock cycles.
                                                                  The number of coprocessor-clock cycles counted by the OE_A and DMACK_H + PAUSE timing
-                                                                 parameters must be greater than RD_DLY. */
+                                                                 parameters must be greater than [RD_DLY]. */
         uint64_t tim_mult              : 2;  /**< [ 61: 60](R/W) Timing multiplier. This field specifies the timing multiplier for an engine. The timing
-                                                                 multiplier applies to all timing parameters, except for DMARQ and RD_DLY, which simply
-                                                                 count coprocessor-clock cycles. TIM_MULT is encoded as follows: 0x0 = 4x, 0x1 = 1x, 0x2 =
-                                                                 2x, 0x3 = 8x. */
+                                                                 multiplier applies to all timing parameters, except for [DMARQ] and [RD_DLY], which simply
+                                                                 count coprocessor-clock cycles. [TIM_MULT] is encoded as follows:
+                                                                   0x0 = 4x multiplier.
+                                                                   0x1 = 1x multiplier.
+                                                                   0x2 = 2x multiplier.
+                                                                   0x3 = 8x multiplier. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -734,21 +740,22 @@ typedef union
 
                                                                  The assertion level of PBUS_DMACK is specified by the corresponding
                                                                  GPIO_BIT_SEL[PIN_XOR]. */
-        uint64_t tim_mult              : 2;  /**< [ 41: 40](R/W) Region timing multiplier. Specifies the timing multiplier for the region.
-                                                                 The timing multiplier applies to all timing parameters, except for WAIT and
-                                                                 RD_DLY, which are specified in coprocessor-clock cycles. TIM_MULT is encoded
-                                                                 as follows:
+        uint64_t tim_mult              : 2;  /**< [ 41: 40](R/W) Region timing multiplier. Specifies the timing multiplier for the region. The
+                                                                 timing multiplier applies to all timing parameters, except for
+                                                                 PBUS_REG()_TIM[WAIT] and [RD_DLY], which are specified in coprocessor-clock
+                                                                 cycles. [TIM_MULT] is encoded as follows:
                                                                    0x0 = 4x multiplier.
                                                                    0x1 = 1x multiplier.
                                                                    0x2 = 2x multiplier.
                                                                    0x3 = 8x multiplier. */
         uint64_t rd_dly                : 3;  /**< [ 39: 37](R/W) Region read sample delay. Specifies the read sample delay in coprocessor-clock
                                                                  cycles for a region. For read operations, the data bus is normally sampled on
-                                                                 the same coprocessor-clock edge that drives PBUS_OE_L to the inactive state
-                                                                 (or the coprocessor-clock edge that toggles the lower address bits in page mode).
-                                                                 This parameter can delay that sampling edge by up to seven coprocessor-clock cycles.
-                                                                 The number of coprocessor-clock cycles counted by the PAGE and RD_HLD timing
-                                                                 parameters must be greater than or equal to RD_DLY. */
+                                                                 the same coprocessor-clock edge that drives PBUS_OE_L to the inactive state (or
+                                                                 the coprocessor-clock edge that toggles the lower address bits in page
+                                                                 mode). This parameter can delay that sampling edge by up to seven
+                                                                 coprocessor-clock cycles. The number of coprocessor-clock cycles counted by the
+                                                                 PBUS_REG()_TIM[PAGE] and PBUS_REG()_TIM[RD_HLD] timing parameters must be
+                                                                 greater than or equal to [RD_DLY]. */
         uint64_t sam                   : 1;  /**< [ 36: 36](R/W) Region strobe AND mode. Internally combines the output-enable and write-enable
                                                                  strobes into a single strobe that is then driven onto both PBUS_OE_L and PBUS_WE_L.
 
@@ -788,15 +795,16 @@ typedef union
                                                                  (the read/write bit can be driven from an address pin). */
         uint64_t rd_dly                : 3;  /**< [ 39: 37](R/W) Region read sample delay. Specifies the read sample delay in coprocessor-clock
                                                                  cycles for a region. For read operations, the data bus is normally sampled on
-                                                                 the same coprocessor-clock edge that drives PBUS_OE_L to the inactive state
-                                                                 (or the coprocessor-clock edge that toggles the lower address bits in page mode).
-                                                                 This parameter can delay that sampling edge by up to seven coprocessor-clock cycles.
-                                                                 The number of coprocessor-clock cycles counted by the PAGE and RD_HLD timing
-                                                                 parameters must be greater than or equal to RD_DLY. */
-        uint64_t tim_mult              : 2;  /**< [ 41: 40](R/W) Region timing multiplier. Specifies the timing multiplier for the region.
-                                                                 The timing multiplier applies to all timing parameters, except for WAIT and
-                                                                 RD_DLY, which are specified in coprocessor-clock cycles. TIM_MULT is encoded
-                                                                 as follows:
+                                                                 the same coprocessor-clock edge that drives PBUS_OE_L to the inactive state (or
+                                                                 the coprocessor-clock edge that toggles the lower address bits in page
+                                                                 mode). This parameter can delay that sampling edge by up to seven
+                                                                 coprocessor-clock cycles. The number of coprocessor-clock cycles counted by the
+                                                                 PBUS_REG()_TIM[PAGE] and PBUS_REG()_TIM[RD_HLD] timing parameters must be
+                                                                 greater than or equal to [RD_DLY]. */
+        uint64_t tim_mult              : 2;  /**< [ 41: 40](R/W) Region timing multiplier. Specifies the timing multiplier for the region. The
+                                                                 timing multiplier applies to all timing parameters, except for
+                                                                 PBUS_REG()_TIM[WAIT] and [RD_DLY], which are specified in coprocessor-clock
+                                                                 cycles. [TIM_MULT] is encoded as follows:
                                                                    0x0 = 4x multiplier.
                                                                    0x1 = 1x multiplier.
                                                                    0x2 = 2x multiplier.

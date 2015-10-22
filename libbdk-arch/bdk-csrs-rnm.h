@@ -141,8 +141,8 @@ typedef union
                                                                  bit from 1 to 0. */
         uint64_t rng_rst               : 1;  /**< [  3:  3](SR/W) Reset the RNG. Setting this bit to 1 cancels the generation of the current random
                                                                  number. The next random number is available 730 coprocessor-clock cycles after this
-                                                                 bit is cleared if EXP_ENT is set to 0. The next random number is available 80
-                                                                 coprocessor-clock cycles after this bit is cleared if EXP_ENT is set to 1. This bit is
+                                                                 bit is cleared if [EXP_ENT] is set to 0. The next random number is available 80
+                                                                 coprocessor-clock cycles after this bit is cleared if [EXP_ENT] is set to 1. This bit is
                                                                  not automatically cleared. */
         uint64_t rnm_rst               : 1;  /**< [  2:  2](SR/W) Reset the RNM. Setting this bit to 1 drops all RNM transactions in flight and clears
                                                                  all stored numbers in the random number memory. Any outstanding NCBO credits will
@@ -161,8 +161,8 @@ typedef union
                                                                  cleared and will not reset any CSR fields. */
         uint64_t rng_rst               : 1;  /**< [  3:  3](SR/W) Reset the RNG. Setting this bit to 1 cancels the generation of the current random
                                                                  number. The next random number is available 730 coprocessor-clock cycles after this
-                                                                 bit is cleared if EXP_ENT is set to 0. The next random number is available 80
-                                                                 coprocessor-clock cycles after this bit is cleared if EXP_ENT is set to 1. This bit is
+                                                                 bit is cleared if [EXP_ENT] is set to 0. The next random number is available 80
+                                                                 coprocessor-clock cycles after this bit is cleared if [EXP_ENT] is set to 1. This bit is
                                                                  not automatically cleared. */
         uint64_t exp_ent               : 1;  /**< [  4:  4](SR/W) Exported entropy enable for random number generator. The next random number is
                                                                  available 80 coprocessor-clock cycles after switching this bit from 0 to 1. The

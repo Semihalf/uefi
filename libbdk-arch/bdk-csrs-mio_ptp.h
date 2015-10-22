@@ -256,8 +256,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
-        uint64_t ckout                 : 1;  /**< [ 41: 41](RO/H) PTP CKOUT; reflects ptp__ckout after CKOUT_INV inverter. */
-        uint64_t pps                   : 1;  /**< [ 40: 40](RO/H) PTP PPS output; reflects ptp__pps after PPS_INV inverter. */
+        uint64_t ckout                 : 1;  /**< [ 41: 41](RO/H) PTP CKOUT; reflects ptp__ckout after [CKOUT_INV] inverter. */
+        uint64_t pps                   : 1;  /**< [ 40: 40](RO/H) PTP PPS output; reflects ptp__pps after [PPS_INV] inverter. */
         uint64_t ext_clk_edge          : 2;  /**< [ 39: 38](R/W) External clock input edge:
                                                                  00 = Rising edge.
                                                                  01 = Falling edge.
@@ -267,12 +267,12 @@ typedef union
         uint64_t pps_inv               : 1;  /**< [ 31: 31](R/W) Invert PTP PPS.
                                                                  0 = Don't invert.
                                                                  1 = Invert. */
-        uint64_t pps_en                : 1;  /**< [ 30: 30](R/W) Enable PTP PPS. (For output pin selection see GPIO_BIT_CFG.) */
+        uint64_t pps_en                : 1;  /**< [ 30: 30](R/W) Enable PTP PPS. (For output pin selection see GPIO_BIT_CFG().) */
         uint64_t reserved_26_29        : 4;
         uint64_t ckout_inv             : 1;  /**< [ 25: 25](R/W) Invert PTP CKOUT.
                                                                  0 = Don't invert.
                                                                  1 = Invert. */
-        uint64_t ckout_en              : 1;  /**< [ 24: 24](R/W) Enable PTP CKOUT. (For output pin selection see GPIO_BIT_CFG.) */
+        uint64_t ckout_en              : 1;  /**< [ 24: 24](R/W) Enable PTP CKOUT. (For output pin selection see GPIO_BIT_CFG().) */
         uint64_t evcnt_in              : 6;  /**< [ 23: 18](R/W) Source for event counter input:
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
         uint64_t evcnt_edge            : 1;  /**< [ 17: 17](R/W) Event counter input edge: 0 = falling edge, 1 = rising edge. */
@@ -281,14 +281,14 @@ typedef union
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
         uint64_t tstmp_edge            : 1;  /**< [  9:  9](R/W) External timestamp input edge: 0 = falling edge, 1 = rising edge. */
         uint64_t tstmp_en              : 1;  /**< [  8:  8](R/W) Enable external timestamp. */
-        uint64_t ext_clk_in            : 6;  /**< [  7:  2](R/W) Source for external clock when EXT_CLK_EN is set:
+        uint64_t ext_clk_in            : 6;  /**< [  7:  2](R/W) Source for external clock when [EXT_CLK_EN] is set:
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
         uint64_t ext_clk_en            : 1;  /**< [  1:  1](R/W) Use external clock for PTP clock. */
         uint64_t ptp_en                : 1;  /**< [  0:  0](R/W) Enable PTP module. */
 #else /* Word 0 - Little Endian */
         uint64_t ptp_en                : 1;  /**< [  0:  0](R/W) Enable PTP module. */
         uint64_t ext_clk_en            : 1;  /**< [  1:  1](R/W) Use external clock for PTP clock. */
-        uint64_t ext_clk_in            : 6;  /**< [  7:  2](R/W) Source for external clock when EXT_CLK_EN is set:
+        uint64_t ext_clk_in            : 6;  /**< [  7:  2](R/W) Source for external clock when [EXT_CLK_EN] is set:
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
         uint64_t tstmp_en              : 1;  /**< [  8:  8](R/W) Enable external timestamp. */
         uint64_t tstmp_edge            : 1;  /**< [  9:  9](R/W) External timestamp input edge: 0 = falling edge, 1 = rising edge. */
@@ -298,12 +298,12 @@ typedef union
         uint64_t evcnt_edge            : 1;  /**< [ 17: 17](R/W) Event counter input edge: 0 = falling edge, 1 = rising edge. */
         uint64_t evcnt_in              : 6;  /**< [ 23: 18](R/W) Source for event counter input:
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
-        uint64_t ckout_en              : 1;  /**< [ 24: 24](R/W) Enable PTP CKOUT. (For output pin selection see GPIO_BIT_CFG.) */
+        uint64_t ckout_en              : 1;  /**< [ 24: 24](R/W) Enable PTP CKOUT. (For output pin selection see GPIO_BIT_CFG().) */
         uint64_t ckout_inv             : 1;  /**< [ 25: 25](R/W) Invert PTP CKOUT.
                                                                  0 = Don't invert.
                                                                  1 = Invert. */
         uint64_t reserved_26_29        : 4;
-        uint64_t pps_en                : 1;  /**< [ 30: 30](R/W) Enable PTP PPS. (For output pin selection see GPIO_BIT_CFG.) */
+        uint64_t pps_en                : 1;  /**< [ 30: 30](R/W) Enable PTP PPS. (For output pin selection see GPIO_BIT_CFG().) */
         uint64_t pps_inv               : 1;  /**< [ 31: 31](R/W) Invert PTP PPS.
                                                                  0 = Don't invert.
                                                                  1 = Invert. */
@@ -313,8 +313,8 @@ typedef union
                                                                  01 = Falling edge.
                                                                  10 = Both rising and falling edge.
                                                                  11 = Reserved. */
-        uint64_t pps                   : 1;  /**< [ 40: 40](RO/H) PTP PPS output; reflects ptp__pps after PPS_INV inverter. */
-        uint64_t ckout                 : 1;  /**< [ 41: 41](RO/H) PTP CKOUT; reflects ptp__ckout after CKOUT_INV inverter. */
+        uint64_t pps                   : 1;  /**< [ 40: 40](RO/H) PTP PPS output; reflects ptp__pps after [PPS_INV] inverter. */
+        uint64_t ckout                 : 1;  /**< [ 41: 41](RO/H) PTP CKOUT; reflects ptp__ckout after [CKOUT_INV] inverter. */
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -497,11 +497,15 @@ typedef union
     struct bdk_mio_ptp_dpll_err_thresh_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t max                   : 32; /**< [ 63: 32](R/W) Highest acceptable value of MIO_PTP_DPLL_ERR_INT[N_SCLK] without asserting DPLL_INT interrupt. */
-        uint64_t min                   : 32; /**< [ 31:  0](R/W) Lowest acceptable value of MIO_PTP_DPLL_ERR_INT[N_SCLK] without asserting DPLL_INT interrupt. */
+        uint64_t max                   : 32; /**< [ 63: 32](R/W) Highest acceptable value of MIO_PTP_DPLL_ERR_INT[N_SCLK] without asserting
+                                                                 MIO_PTP_INT[DPLL_INT] interrupt. */
+        uint64_t min                   : 32; /**< [ 31:  0](R/W) Lowest acceptable value of MIO_PTP_DPLL_ERR_INT[N_SCLK] without asserting
+                                                                 MIO_PTP_INT[DPLL_INT] interrupt. */
 #else /* Word 0 - Little Endian */
-        uint64_t min                   : 32; /**< [ 31:  0](R/W) Lowest acceptable value of MIO_PTP_DPLL_ERR_INT[N_SCLK] without asserting DPLL_INT interrupt. */
-        uint64_t max                   : 32; /**< [ 63: 32](R/W) Highest acceptable value of MIO_PTP_DPLL_ERR_INT[N_SCLK] without asserting DPLL_INT interrupt. */
+        uint64_t min                   : 32; /**< [ 31:  0](R/W) Lowest acceptable value of MIO_PTP_DPLL_ERR_INT[N_SCLK] without asserting
+                                                                 MIO_PTP_INT[DPLL_INT] interrupt. */
+        uint64_t max                   : 32; /**< [ 63: 32](R/W) Highest acceptable value of MIO_PTP_DPLL_ERR_INT[N_SCLK] without asserting
+                                                                 MIO_PTP_INT[DPLL_INT] interrupt. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_ptp_dpll_err_thresh_s cn; */

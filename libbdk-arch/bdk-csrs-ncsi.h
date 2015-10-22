@@ -891,11 +891,11 @@ typedef union
         uint64_t rx_rsp_cor_dis        : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RX RSP FIFO. */
         uint64_t rx_pmac_synd          : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit for RX PMAC FIFO. */
         uint64_t rx_pmac_cor_dis       : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RX PMAC FIFO. */
-        uint64_t tx_mix_synd           : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit for TX MIX_FIFO. */
+        uint64_t tx_mix_synd           : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit for TX MIX FIFO. */
         uint64_t tx_mix_cor_dis        : 1;  /**< [  0:  0](R/W) ECC-correction disable for the TX MIX FIFO. */
 #else /* Word 0 - Little Endian */
         uint64_t tx_mix_cor_dis        : 1;  /**< [  0:  0](R/W) ECC-correction disable for the TX MIX FIFO. */
-        uint64_t tx_mix_synd           : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit for TX MIX_FIFO. */
+        uint64_t tx_mix_synd           : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit for TX MIX FIFO. */
         uint64_t rx_pmac_cor_dis       : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RX PMAC FIFO. */
         uint64_t rx_pmac_synd          : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit for RX PMAC FIFO. */
         uint64_t rx_rsp_cor_dis        : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RX RSP FIFO. */
@@ -1411,14 +1411,14 @@ typedef union
         uint64_t reserved_2_63         : 62;
         uint64_t ncsien                : 1;  /**< [  1:  1](SR/W) Master enable for the NCSI block. */
         uint64_t ncsisecen             : 1;  /**< [  0:  0](SR/W) For BMC access using the OEM command, allow or deny secure access into CNXXXX.
-                                                                 Also see NCSI_TX_NCP_PERM()_TABLE.
+                                                                 Also see NCSI_TX_NCP_PERM()_TABLE_HI/NCSI_TX_NCP_PERM()_TABLE_LOW.
                                                                  0 = OEM command address must pass the permision table filter before being forwarded to the
                                                                  MRML. Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed.
                                                                  1 = Bypass the permissions table and allow any secure or non-secure register access
                                                                  in the RSL address space. */
 #else /* Word 0 - Little Endian */
         uint64_t ncsisecen             : 1;  /**< [  0:  0](SR/W) For BMC access using the OEM command, allow or deny secure access into CNXXXX.
-                                                                 Also see NCSI_TX_NCP_PERM()_TABLE.
+                                                                 Also see NCSI_TX_NCP_PERM()_TABLE_HI/NCSI_TX_NCP_PERM()_TABLE_LOW.
                                                                  0 = OEM command address must pass the permision table filter before being forwarded to the
                                                                  MRML. Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed.
                                                                  1 = Bypass the permissions table and allow any secure or non-secure register access
@@ -1468,10 +1468,11 @@ typedef union
                                                                  0 = PREAMBLE + SFD is sent to core as part of frame.
                                                                  1 = PREAMBLE + SFD is dropped.
 
-                                                                 PRE_STRP determines if the PREAMBLE+SFD bytes are thrown away or sent to the core as part
-                                                                 of the packet. With either setting, the PREAMBLE+SFD bytes are not counted toward the
-                                                                 packet size when checking against the MIN and MAX bounds. Furthermore, the bytes are
-                                                                 skipped when locating the start of the L2 header for DMAC recognition. */
+                                                                 [PRE_STRP] determines if the PREAMBLE+SFD bytes are thrown away or sent to the
+                                                                 core as part of the packet. With either setting, the PREAMBLE and SFD bytes are
+                                                                 not counted toward the packet size when checking against the MIN and MAX
+                                                                 bounds. Furthermore, the bytes are skipped when locating the start of the L2
+                                                                 header for DMAC recognition. */
         uint64_t pre_chk_len           : 3;  /**< [  2:  0](R/W) Check that a correct preamble of a given length is present.
 
                                                                  With a setting of > 0, NCSI checks that a valid PREAMBLE is received and of the
@@ -1495,10 +1496,11 @@ typedef union
                                                                  0 = PREAMBLE + SFD is sent to core as part of frame.
                                                                  1 = PREAMBLE + SFD is dropped.
 
-                                                                 PRE_STRP determines if the PREAMBLE+SFD bytes are thrown away or sent to the core as part
-                                                                 of the packet. With either setting, the PREAMBLE+SFD bytes are not counted toward the
-                                                                 packet size when checking against the MIN and MAX bounds. Furthermore, the bytes are
-                                                                 skipped when locating the start of the L2 header for DMAC recognition. */
+                                                                 [PRE_STRP] determines if the PREAMBLE+SFD bytes are thrown away or sent to the
+                                                                 core as part of the packet. With either setting, the PREAMBLE and SFD bytes are
+                                                                 not counted toward the packet size when checking against the MIN and MAX
+                                                                 bounds. Furthermore, the bytes are skipped when locating the start of the L2
+                                                                 header for DMAC recognition. */
         uint64_t fcs_strp              : 1;  /**< [  4:  4](R/W) Strip off the FCS for pass through packets.
                                                                  0 = FCS is not removed from the pass through packets.
                                                                  1 = FCS is removed from the pass through packets. */
@@ -1519,10 +1521,11 @@ typedef union
                                                                  0 = PREAMBLE + SFD is sent to core as part of frame.
                                                                  1 = PREAMBLE + SFD is dropped.
 
-                                                                 PRE_STRP determines if the PREAMBLE+SFD bytes are thrown away or sent to the core as part
-                                                                 of the packet. With either setting, the PREAMBLE+SFD bytes are not counted toward the
-                                                                 packet size when checking against the MIN and MAX bounds. Furthermore, the bytes are
-                                                                 skipped when locating the start of the L2 header for DMAC recognition. */
+                                                                 [PRE_STRP] determines if the PREAMBLE+SFD bytes are thrown away or sent to the
+                                                                 core as part of the packet. With either setting, the PREAMBLE and SFD bytes are
+                                                                 not counted toward the packet size when checking against the MIN and MAX
+                                                                 bounds. Furthermore, the bytes are skipped when locating the start of the L2
+                                                                 header for DMAC recognition. */
         uint64_t pre_chk_len           : 3;  /**< [  2:  0](R/W) Check that a correct preamble of a given length is present.
 
                                                                  With a setting of > 0, NCSI checks that a valid PREAMBLE is received and of the
@@ -1546,10 +1549,11 @@ typedef union
                                                                  0 = PREAMBLE + SFD is sent to core as part of frame.
                                                                  1 = PREAMBLE + SFD is dropped.
 
-                                                                 PRE_STRP determines if the PREAMBLE+SFD bytes are thrown away or sent to the core as part
-                                                                 of the packet. With either setting, the PREAMBLE+SFD bytes are not counted toward the
-                                                                 packet size when checking against the MIN and MAX bounds. Furthermore, the bytes are
-                                                                 skipped when locating the start of the L2 header for DMAC recognition. */
+                                                                 [PRE_STRP] determines if the PREAMBLE+SFD bytes are thrown away or sent to the
+                                                                 core as part of the packet. With either setting, the PREAMBLE and SFD bytes are
+                                                                 not counted toward the packet size when checking against the MIN and MAX
+                                                                 bounds. Furthermore, the bytes are skipped when locating the start of the L2
+                                                                 header for DMAC recognition. */
         uint64_t fcs_strp              : 1;  /**< [  4:  4](R/W) Strip off the FCS for pass through packets.
                                                                  0 = FCS is not removed from the pass through packets.
                                                                  1 = FCS is removed from the pass through packets.
@@ -1567,10 +1571,11 @@ typedef union
                                                                  0 = PREAMBLE + SFD is sent to core as part of frame.
                                                                  1 = PREAMBLE + SFD is dropped.
 
-                                                                 PRE_STRP determines if the PREAMBLE+SFD bytes are thrown away or sent to the core as part
-                                                                 of the packet. With either setting, the PREAMBLE+SFD bytes are not counted toward the
-                                                                 packet size when checking against the MIN and MAX bounds. Furthermore, the bytes are
-                                                                 skipped when locating the start of the L2 header for DMAC recognition. */
+                                                                 [PRE_STRP] determines if the PREAMBLE+SFD bytes are thrown away or sent to the
+                                                                 core as part of the packet. With either setting, the PREAMBLE and SFD bytes are
+                                                                 not counted toward the packet size when checking against the MIN and MAX
+                                                                 bounds. Furthermore, the bytes are skipped when locating the start of the L2
+                                                                 header for DMAC recognition. */
         uint64_t pre_chk_len           : 3;  /**< [  2:  0](R/W) Check that a correct preamble of a given length is present.
 
                                                                  With a setting of > 0, NCSI checks that a valid PREAMBLE is received and of the
@@ -1594,10 +1599,11 @@ typedef union
                                                                  0 = PREAMBLE + SFD is sent to core as part of frame.
                                                                  1 = PREAMBLE + SFD is dropped.
 
-                                                                 PRE_STRP determines if the PREAMBLE+SFD bytes are thrown away or sent to the core as part
-                                                                 of the packet. With either setting, the PREAMBLE+SFD bytes are not counted toward the
-                                                                 packet size when checking against the MIN and MAX bounds. Furthermore, the bytes are
-                                                                 skipped when locating the start of the L2 header for DMAC recognition. */
+                                                                 [PRE_STRP] determines if the PREAMBLE+SFD bytes are thrown away or sent to the
+                                                                 core as part of the packet. With either setting, the PREAMBLE and SFD bytes are
+                                                                 not counted toward the packet size when checking against the MIN and MAX
+                                                                 bounds. Furthermore, the bytes are skipped when locating the start of the L2
+                                                                 header for DMAC recognition. */
         uint64_t fcs_strp              : 1;  /**< [  4:  4](RAZ) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */

@@ -110,6 +110,8 @@
 #define BDK_PCC_DEV_CON_E_PCCBR_PKI (0xc0) /**< Bridge for PKI, creating ECAM 0's bus 8. */
 #define BDK_PCC_DEV_CON_E_PCCBR_PKO (0xc8) /**< Bridge for PKO, creating ECAM 0's bus 9. */
 #define BDK_PCC_DEV_CON_E_PCCBR_RAD (0xa0) /**< Bridge for RAD, creating ECAM 0's bus 2. */
+#define BDK_PCC_DEV_CON_E_PCCBR_RNM_CN81XX (0x48) /**< Bridge for RNM, creating ECAM 0's bus 15. */
+#define BDK_PCC_DEV_CON_E_PCCBR_RNM_CN83XX (0x48) /**< Bridge for RNM, creating ECAM 0's bus 16. */
 #define BDK_PCC_DEV_CON_E_PCCBR_SSO (0xd0) /**< Bridge for SSO, creating ECAM 0's bus 10. */
 #define BDK_PCC_DEV_CON_E_PCCBR_SSOW (0xd8) /**< Bridge for SSOW, creating ECAM 0's bus 11. */
 #define BDK_PCC_DEV_CON_E_PCCBR_TIM (0xf0) /**< Bridge for TIM, creating ECAM 0's bus 14. */
@@ -128,7 +130,9 @@
 #define BDK_PCC_DEV_CON_E_PKO (0x900) /**< PKO. */
 #define BDK_PCC_DEV_CON_E_RAD (0x200) /**< RAID unit. */
 #define BDK_PCC_DEV_CON_E_RGXX(a) (0x190 + (a)) /**< Ethernet interface. */
-#define BDK_PCC_DEV_CON_E_RNM (0x48) /**< Random number generator. */
+#define BDK_PCC_DEV_CON_E_RNM_CN81XX (0xf00) /**< Random number generator. */
+#define BDK_PCC_DEV_CON_E_RNM_CN88XX (0x48) /**< Random number generator. */
+#define BDK_PCC_DEV_CON_E_RNM_CN83XX (0x1000) /**< Random number generator. */
 #define BDK_PCC_DEV_CON_E_RST (0x101) /**< Reset. */
 #define BDK_PCC_DEV_CON_E_SATA0 (0x10020) /**< SATA 0. */
 #define BDK_PCC_DEV_CON_E_SATA1 (0x10028) /**< SATA 1. */
@@ -249,9 +253,9 @@
                                        Reserved. */
 #define BDK_PCC_DEV_IDL_E_PBUS (0x35) /**< Parallel bus. */
 #define BDK_PCC_DEV_IDL_E_PCCBR (2) /**< PCC Bridge. */
-#define BDK_PCC_DEV_IDL_E_PCIERC (0x2d) /**< Reserved.
+#define BDK_PCC_DEV_IDL_E_PCIERC (0x2d) /**< PCIe host bridge.
                                        Internal:
-                                       This is fake for PCCBR_PCIERC. */
+                                       Also used by fake PCCBR_PCIERC inside IOB. */
 #define BDK_PCC_DEV_IDL_E_PCM (0x4e) /**< PCM interface. */
 #define BDK_PCC_DEV_IDL_E_PEM (0x20) /**< PCI controller. */
 #define BDK_PCC_DEV_IDL_E_PKI_CN81XX (0x47) /**< Internal:
@@ -555,14 +559,35 @@ typedef union
         uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to PCCPF_XXX_VSEC_CAP_HDR. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pccpf_xxx_ari_cap_hdr_s cn; */
+    struct bdk_pccpf_xxx_ari_cap_hdr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. If SR-IOV is supported as per PCC_DEV_IDL_E, points to
+                                                                 PCCPF_XXX_SRIOV_CAP_HDR, else 0x0. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version (0x1). */
+        uint32_t ariid                 : 16; /**< [ 15:  0](RO) PCIE extended capability (0xe). */
+#else /* Word 0 - Little Endian */
+        uint32_t ariid                 : 16; /**< [ 15:  0](RO) PCIE extended capability (0xe). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version (0x1). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. If SR-IOV is supported as per PCC_DEV_IDL_E, points to
+                                                                 PCCPF_XXX_SRIOV_CAP_HDR, else 0x0. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_pccpf_xxx_ari_cap_hdr_s cn88xx; */
+    /* struct bdk_pccpf_xxx_ari_cap_hdr_cn81xx cn83xx; */
 } bdk_pccpf_xxx_ari_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_ARI_CAP_HDR BDK_PCCPF_XXX_ARI_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_ARI_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_ARI_CAP_HDR_FUNC(void)
 {
-    return 0x100;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x140;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x140;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x100;
+    __bdk_csr_fatal("PCCPF_XXX_ARI_CAP_HDR", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_ARI_CAP_HDR bdk_pccpf_xxx_ari_cap_hdr_t
@@ -1222,7 +1247,9 @@ typedef union
     struct bdk_pccpf_xxx_e_cap_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_20_31        : 12;
+        uint32_t reserved_24_31        : 8;
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is non-zero) and
+                                                                 integrated endpoint (0x9) otherwise. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. If MSI-X is supported, points to
                                                                  PCCPF_XXX_MSIX_CAP_HDR, else 0x0. */
@@ -1232,15 +1259,34 @@ typedef union
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. If MSI-X is supported, points to
                                                                  PCCPF_XXX_MSIX_CAP_HDR, else 0x0. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
-        uint32_t reserved_20_31        : 12;
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is non-zero) and
+                                                                 integrated endpoint (0x9) otherwise. */
+        uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pccpf_xxx_e_cap_hdr_s cn88xxp1; */
-    struct bdk_pccpf_xxx_e_cap_hdr_cn81xx
+    struct bdk_pccpf_xxx_e_cap_hdr_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. If MSI-X is supported, points to
+                                                                 PCCPF_XXX_MSIX_CAP_HDR, else 0x0. */
+        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. If MSI-X is supported, points to
+                                                                 PCCPF_XXX_MSIX_CAP_HDR, else 0x0. */
+        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
+        uint32_t reserved_20_31        : 12;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+    struct bdk_pccpf_xxx_e_cap_hdr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is non-zero) and
+                                                                 integrated endpoint (0x9) otherwise. */
+        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If MSI-X is supported, points to
                                                                  PCCPF_XXX_MSIX_CAP_HDR, else if PCCPF_XXX_VSEC_SCTL[EA] is set points to
                                                                  PCCPF_XXX_EA_CAP_HDR, else 0x0. */
@@ -1251,11 +1297,32 @@ typedef union
                                                                  PCCPF_XXX_MSIX_CAP_HDR, else if PCCPF_XXX_VSEC_SCTL[EA] is set points to
                                                                  PCCPF_XXX_EA_CAP_HDR, else 0x0. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
-        uint32_t reserved_20_31        : 12;
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Device/port type. Indicates PCIe endpoint (0x0) for ARI devices (when bus is non-zero) and
+                                                                 integrated endpoint (0x9) otherwise. */
+        uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pccpf_xxx_e_cap_hdr_cn81xx cn83xx; */
-    /* struct bdk_pccpf_xxx_e_cap_hdr_cn81xx cn88xxp2; */
+    struct bdk_pccpf_xxx_e_cap_hdr_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Reserved. */
+        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If MSI-X is supported, points to
+                                                                 PCCPF_XXX_MSIX_CAP_HDR, else if PCCPF_XXX_VSEC_SCTL[EA] is set points to
+                                                                 PCCPF_XXX_EA_CAP_HDR, else 0x0. */
+        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If MSI-X is supported, points to
+                                                                 PCCPF_XXX_MSIX_CAP_HDR, else if PCCPF_XXX_VSEC_SCTL[EA] is set points to
+                                                                 PCCPF_XXX_EA_CAP_HDR, else 0x0. */
+        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
+        uint32_t dpt                   : 4;  /**< [ 23: 20](RO) Reserved. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } cn88xxp2;
 } bdk_pccpf_xxx_e_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_E_CAP_HDR BDK_PCCPF_XXX_E_CAP_HDR_FUNC()
@@ -1278,6 +1345,46 @@ static inline uint64_t BDK_PCCPF_XXX_E_CAP_HDR_FUNC(void)
 #define basename_BDK_PCCPF_XXX_E_CAP_HDR "PCCPF_XXX_E_CAP_HDR"
 #define busnum_BDK_PCCPF_XXX_E_CAP_HDR 0
 #define arguments_BDK_PCCPF_XXX_E_CAP_HDR -1,-1,-1,-1
+
+/**
+ * Register (PCCPF) pccpf_xxx_e_dev_cap
+ *
+ * PCC PF PCI Express Device Capabilities Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pccpf_xxx_e_dev_cap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO) Role-based error reporting. Required to be set by PCIe3.1. */
+        uint32_t reserved_0_14         : 15;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_14         : 15;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO) Role-based error reporting. Required to be set by PCIe3.1. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccpf_xxx_e_dev_cap_s cn; */
+} bdk_pccpf_xxx_e_dev_cap_t;
+
+#define BDK_PCCPF_XXX_E_DEV_CAP BDK_PCCPF_XXX_E_DEV_CAP_FUNC()
+static inline uint64_t BDK_PCCPF_XXX_E_DEV_CAP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCCPF_XXX_E_DEV_CAP_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x44;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x44;
+    __bdk_csr_fatal("PCCPF_XXX_E_DEV_CAP", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PCCPF_XXX_E_DEV_CAP bdk_pccpf_xxx_e_dev_cap_t
+#define bustype_BDK_PCCPF_XXX_E_DEV_CAP BDK_CSR_TYPE_PCCPF
+#define basename_BDK_PCCPF_XXX_E_DEV_CAP "PCCPF_XXX_E_DEV_CAP"
+#define busnum_BDK_PCCPF_XXX_E_DEV_CAP 0
+#define arguments_BDK_PCCPF_XXX_E_DEV_CAP -1,-1,-1,-1
 
 /**
  * Register (PCCPF) pccpf_xxx_ea_cap_hdr
@@ -1716,7 +1823,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_SARI_NXT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_SARI_NXT_FUNC(void)
 {
-    return 0x104;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x144;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x144;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x104;
+    __bdk_csr_fatal("PCCPF_XXX_SARI_NXT", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_SARI_NXT bdk_pccpf_xxx_sari_nxt_t
@@ -2638,7 +2751,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR0L_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR0L_FUNC(void)
 {
-    return 0x118;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x110;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x110;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x118;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_BAR0L", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_BAR0L bdk_pccpf_xxx_vsec_bar0l_t
@@ -2678,7 +2797,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR0U_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR0U_FUNC(void)
 {
-    return 0x11c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x114;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x114;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x11c;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_BAR0U", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_BAR0U bdk_pccpf_xxx_vsec_bar0u_t
@@ -2720,7 +2845,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR2L_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR2L_FUNC(void)
 {
-    return 0x120;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x118;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x118;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x120;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_BAR2L", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_BAR2L bdk_pccpf_xxx_vsec_bar2l_t
@@ -2760,7 +2891,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR2U_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR2U_FUNC(void)
 {
-    return 0x124;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x11c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x11c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x124;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_BAR2U", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_BAR2U bdk_pccpf_xxx_vsec_bar2u_t
@@ -2802,7 +2939,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR4L_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR4L_FUNC(void)
 {
-    return 0x128;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x120;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x120;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x128;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_BAR4L", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_BAR4L bdk_pccpf_xxx_vsec_bar4l_t
@@ -2842,7 +2985,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR4U_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR4U_FUNC(void)
 {
-    return 0x12c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x124;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x124;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x12c;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_BAR4U", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_BAR4U bdk_pccpf_xxx_vsec_bar4u_t
@@ -2875,14 +3024,35 @@ typedef union
                                                                  PCCPF_XXX_SRIOV_CAP_HDR, else 0x0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pccpf_xxx_vsec_cap_hdr_s cn; */
+    struct bdk_pccpf_xxx_vsec_cap_hdr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. If this device is on a non-zero bus, points to
+                                                                 PCCPF_XXX_ARI_CAP_HDR, else 0x0. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t vsecid                : 16; /**< [ 15:  0](RO) PCIE extended capability. Indicates vendor-specific capability. */
+#else /* Word 0 - Little Endian */
+        uint32_t vsecid                : 16; /**< [ 15:  0](RO) PCIE extended capability. Indicates vendor-specific capability. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. If this device is on a non-zero bus, points to
+                                                                 PCCPF_XXX_ARI_CAP_HDR, else 0x0. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_pccpf_xxx_vsec_cap_hdr_s cn88xx; */
+    /* struct bdk_pccpf_xxx_vsec_cap_hdr_cn81xx cn83xx; */
 } bdk_pccpf_xxx_vsec_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_VSEC_CAP_HDR BDK_PCCPF_XXX_VSEC_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_VSEC_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_CAP_HDR_FUNC(void)
 {
-    return 0x108;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x100;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x100;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x108;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_CAP_HDR", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_CAP_HDR bdk_pccpf_xxx_vsec_cap_hdr_t
@@ -2924,7 +3094,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_CTL_FUNC(void)
 {
-    return 0x110;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x108;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x108;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x110;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_CTL", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_CTL bdk_pccpf_xxx_vsec_ctl_t
@@ -2960,7 +3136,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_ID_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_ID_FUNC(void)
 {
-    return 0x10c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x104;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x104;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x10c;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_ID", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_ID bdk_pccpf_xxx_vsec_id_t
@@ -3028,9 +3210,7 @@ typedef union
                                                                  devices. */
         uint32_t rid                   : 8;  /**< [ 23: 16](SR/W) Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
         uint32_t reserved_6_15         : 10;
-        uint32_t node                  : 2;  /**< [  5:  4](SR/W/H) Node number.
-                                                                 Internal:
-                                                                 RAZ/WI for devices that have pcc_nodeless_bar attribute. */
+        uint32_t node                  : 2;  /**< [  5:  4](SR/W/H) Node number. */
         uint32_t ea                    : 1;  /**< [  3:  3](SR/W) Enable PCI enhanced allocation.
 
                                                                  0 = Addresses are discovered using standard BARs, however while the BARs are
@@ -3078,9 +3258,7 @@ typedef union
                                                                  PCCPF_XXX_BAR2L, PCCPF_XXX_BAR2U, PCCPF_XXX_BAR4L, PCCPF_XXX_BAR4U,
                                                                  PCCPF_XXX_SRIOV_BAR0L, PCCPF_XXX_SRIOV_BAR0U, PCCPF_XXX_SRIOV_BAR2L,
                                                                  PCCPF_XXX_SRIOV_BAR2U, PCCPF_XXX_SRIOV_BAR4L, PCCPF_XXX_SRIOV_BAR4U). */
-        uint32_t node                  : 2;  /**< [  5:  4](SR/W/H) Node number.
-                                                                 Internal:
-                                                                 RAZ/WI for devices that have pcc_nodeless_bar attribute. */
+        uint32_t node                  : 2;  /**< [  5:  4](SR/W/H) Node number. */
         uint32_t reserved_6_15         : 10;
         uint32_t rid                   : 8;  /**< [ 23: 16](SR/W) Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
         uint32_t nxtfn_s               : 8;  /**< [ 31: 24](SR/W) For secure accesses, the value to be presented in PCCPF_XXX_(S)ARI_NXT[NXTFN] indicating
@@ -3097,9 +3275,7 @@ typedef union
                                                                  devices. */
         uint32_t rid                   : 8;  /**< [ 23: 16](SR/W) Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
         uint32_t reserved_6_15         : 10;
-        uint32_t node                  : 2;  /**< [  5:  4](SR/W/H) Node number. Added in pass 2.
-                                                                 Internal:
-                                                                 RAZ/WI for devices that have pcc_nodeless_bar attribute. */
+        uint32_t node                  : 2;  /**< [  5:  4](SR/W/H) Node number. Added in pass 2. */
         uint32_t ea                    : 1;  /**< [  3:  3](SR/W) Enable PCI enhanced allocation.
 
                                                                  0 = Addresses are discovered using standard BARs, however while the BARs are
@@ -3151,9 +3327,7 @@ typedef union
                                                                  PCCPF_XXX_SRIOV_BAR2U, PCCPF_XXX_SRIOV_BAR4L, PCCPF_XXX_SRIOV_BAR4U).
 
                                                                  Added in pass 2. */
-        uint32_t node                  : 2;  /**< [  5:  4](SR/W/H) Node number. Added in pass 2.
-                                                                 Internal:
-                                                                 RAZ/WI for devices that have pcc_nodeless_bar attribute. */
+        uint32_t node                  : 2;  /**< [  5:  4](SR/W/H) Node number. Added in pass 2. */
         uint32_t reserved_6_15         : 10;
         uint32_t rid                   : 8;  /**< [ 23: 16](SR/W) Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
         uint32_t nxtfn_s               : 8;  /**< [ 31: 24](SR/W) For secure accesses, the value to be presented in PCCPF_XXX_(S)ARI_NXT[NXTFN] indicating
@@ -3167,7 +3341,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SCTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SCTL_FUNC(void)
 {
-    return 0x114;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x10c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x10c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x114;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_SCTL", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_SCTL bdk_pccpf_xxx_vsec_sctl_t
@@ -3209,7 +3389,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR0L_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR0L_FUNC(void)
 {
-    return 0x130;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x128;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x128;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x130;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_SRIOV_BAR0L", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_SRIOV_BAR0L bdk_pccpf_xxx_vsec_sriov_bar0l_t
@@ -3249,7 +3435,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR0U_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR0U_FUNC(void)
 {
-    return 0x134;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x12c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x12c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x134;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_SRIOV_BAR0U", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_SRIOV_BAR0U bdk_pccpf_xxx_vsec_sriov_bar0u_t
@@ -3291,7 +3483,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2L_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2L_FUNC(void)
 {
-    return 0x138;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x130;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x130;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x138;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_SRIOV_BAR2L", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2L bdk_pccpf_xxx_vsec_sriov_bar2l_t
@@ -3331,7 +3529,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC(void)
 {
-    return 0x13c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x134;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x134;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x13c;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_SRIOV_BAR2U", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U bdk_pccpf_xxx_vsec_sriov_bar2u_t
@@ -3373,7 +3577,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR4L_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR4L_FUNC(void)
 {
-    return 0x140;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x138;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x138;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x140;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_SRIOV_BAR4L", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_SRIOV_BAR4L bdk_pccpf_xxx_vsec_sriov_bar4l_t
@@ -3413,7 +3623,13 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR4U_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR4U_FUNC(void)
 {
-    return 0x144;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x13c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x13c;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x144;
+    __bdk_csr_fatal("PCCPF_XXX_VSEC_SRIOV_BAR4U", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_PCCPF_XXX_VSEC_SRIOV_BAR4U bdk_pccpf_xxx_vsec_sriov_bar4u_t

@@ -7042,52 +7042,24 @@ typedef union
     struct bdk_gserx_lane_vma_fine_ctrl_2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_10_63        : 54;
+        uint64_t rx_prectle_gain_max_fine : 4;/**< [  9:  6](R/W) RX PRE-CTLE gain maximum value in VMA fine mode (valid when
+                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
+        uint64_t rx_prectle_gain_min_fine : 4;/**< [  5:  2](R/W) RX PRE-CTLE gain minimum value in VMA fine mode (valid when
+                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
+        uint64_t rx_prectle_gain_step_fine : 2;/**< [  1:  0](R/W) RX PRE-CTLE gain step size in VMA fine mode (valid when
+                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t rx_prectle_gain_step_fine : 2;/**< [  1:  0](R/W) RX PRE-CTLE gain step size in VMA fine mode (valid when
+                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
+        uint64_t rx_prectle_gain_min_fine : 4;/**< [  5:  2](R/W) RX PRE-CTLE gain minimum value in VMA fine mode (valid when
+                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
+        uint64_t rx_prectle_gain_max_fine : 4;/**< [  9:  6](R/W) RX PRE-CTLE gain maximum value in VMA fine mode (valid when
+                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
+        uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gserx_lane_vma_fine_ctrl_2_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t rx_prectle_peak_max_fine : 4;/**< [  9:  6](R/W) RX PRE-CTLE peak maximum value in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-        uint64_t rx_prectle_peak_min_fine : 4;/**< [  5:  2](R/W) RX PRE-CTLE peak minimum value in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-        uint64_t rx_prectle_peak_step_fine : 2;/**< [  1:  0](R/W) RX PRE-CTLE peak step size in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_prectle_peak_step_fine : 2;/**< [  1:  0](R/W) RX PRE-CTLE peak step size in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-        uint64_t rx_prectle_peak_min_fine : 4;/**< [  5:  2](R/W) RX PRE-CTLE peak minimum value in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-        uint64_t rx_prectle_peak_max_fine : 4;/**< [  9:  6](R/W) RX PRE-CTLE peak maximum value in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-        uint64_t reserved_10_63        : 54;
-#endif /* Word 0 - End */
-    } cn81xx;
-    struct bdk_gserx_lane_vma_fine_ctrl_2_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t rx_prectle_gain_max_fine : 4;/**< [  9:  6](R/W) RX PRE-CTLE gain maximum value in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-        uint64_t rx_prectle_gain_min_fine : 4;/**< [  5:  2](R/W) RX PRE-CTLE gain minimum value in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-        uint64_t rx_prectle_gain_step_fine : 2;/**< [  1:  0](R/W) RX PRE-CTLE gain step size in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_prectle_gain_step_fine : 2;/**< [  1:  0](R/W) RX PRE-CTLE gain step size in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-        uint64_t rx_prectle_gain_min_fine : 4;/**< [  5:  2](R/W) RX PRE-CTLE gain minimum value in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-        uint64_t rx_prectle_gain_max_fine : 4;/**< [  9:  6](R/W) RX PRE-CTLE gain maximum value in VMA fine mode (valid when
-                                                                 GSER()_LANE_P()_MODE_1[VMA_FINE_CFG_SEL]=1 and GSER()_LANE_P()_MODE_1[VMA_MM]=0). */
-        uint64_t reserved_10_63        : 54;
-#endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_gserx_lane_vma_fine_ctrl_2_cn81xx cn83xx; */
+    /* struct bdk_gserx_lane_vma_fine_ctrl_2_s cn; */
 } bdk_gserx_lane_vma_fine_ctrl_2_t;
 
 static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_2(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8600,6 +8572,10 @@ typedef union
 static inline uint64_t BDK_GSERX_RX_TXDIR_CTRL_0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_RX_TXDIR_CTRL_0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e0904600e8ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
+        return 0x87e0904600e8ll + 0x1000000ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904600e8ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_TXDIR_CTRL_0", 1, a, 0, 0, 0);
@@ -8633,27 +8609,31 @@ typedef union
                                                                  The far-end TX POST direction output, pcs_mac_rx_txpost_dir,
                                                                  is set to increment if the local RX tap1 value from the VMA (after RX-EQ)
                                                                  is higher than this value, and the local RX boost value is higher than
-                                                                 its high threshold (RX_BOOST_HI_THRS). If RX_TAP1_CHG_DIR is asserted,
-                                                                 then the direction is decrement. */
+                                                                 its high threshold GSER()_RX_TXDIR_CTRL_0[RX_BOOST_HI_THRS].
+                                                                 Note that if GSER()_RX_TXDIR_CTRL_1[RX_TAP1_CHG_DIR]=1 then
+                                                                 the direction is decrement. */
         uint64_t rx_tap1_lo_thrs       : 5;  /**< [  4:  0](R/W) The low threshold for the local RX Tap1 count.
                                                                  The far-end TX POST direction output, pcs_mac_rx_txpost_dir,
                                                                  is set to decrement if the local RX tap1 value from the VMA (after RX-EQ)
                                                                  is lower than this value, and the local RX boost value is lower than
-                                                                 its low threshold (RX_BOOST_LO_THRS). If RX_TAP1_CHG_DIR is asserted,
-                                                                 then the direction is increment. */
+                                                                 its low threshold GSER()_RX_TXDIR_CTRL_0[RX_BOOST_LO_THRS].
+                                                                 Note that if GSER()_RX_TXDIR_CTRL_1[RX_TAP1_CHG_DIR]=1 then
+                                                                 the direction is increment. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_tap1_lo_thrs       : 5;  /**< [  4:  0](R/W) The low threshold for the local RX Tap1 count.
                                                                  The far-end TX POST direction output, pcs_mac_rx_txpost_dir,
                                                                  is set to decrement if the local RX tap1 value from the VMA (after RX-EQ)
                                                                  is lower than this value, and the local RX boost value is lower than
-                                                                 its low threshold (RX_BOOST_LO_THRS). If RX_TAP1_CHG_DIR is asserted,
-                                                                 then the direction is increment. */
+                                                                 its low threshold GSER()_RX_TXDIR_CTRL_0[RX_BOOST_LO_THRS].
+                                                                 Note that if GSER()_RX_TXDIR_CTRL_1[RX_TAP1_CHG_DIR]=1 then
+                                                                 the direction is increment. */
         uint64_t rx_tap1_hi_thrs       : 5;  /**< [  9:  5](R/W) The high threshold for the local RX Tap1 count.
                                                                  The far-end TX POST direction output, pcs_mac_rx_txpost_dir,
                                                                  is set to increment if the local RX tap1 value from the VMA (after RX-EQ)
                                                                  is higher than this value, and the local RX boost value is higher than
-                                                                 its high threshold (RX_BOOST_HI_THRS). If RX_TAP1_CHG_DIR is asserted,
-                                                                 then the direction is decrement. */
+                                                                 its high threshold GSER()_RX_TXDIR_CTRL_0[RX_BOOST_HI_THRS].
+                                                                 Note that if GSER()_RX_TXDIR_CTRL_1[RX_TAP1_CHG_DIR]=1 then
+                                                                 the direction is decrement. */
         uint64_t rx_tap1_chg_dir       : 1;  /**< [ 10: 10](R/W/H) When asserted, the default direction output for the far-end TX Post is reversed. */
         uint64_t rx_precorr_chg_dir    : 1;  /**< [ 11: 11](R/W/H) When asserted, the default direction output for the far-end TX Pre is reversed. */
         uint64_t reserved_12_63        : 52;
@@ -8771,6 +8751,10 @@ typedef union
 static inline uint64_t BDK_GSERX_RX_TXDIR_CTRL_2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_RX_TXDIR_CTRL_2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e0904600f8ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
+        return 0x87e0904600f8ll + 0x1000000ll * ((a) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904600f8ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_TXDIR_CTRL_2", 1, a, 0, 0, 0);
@@ -8909,15 +8893,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t l3_rst                : 1;  /**< [  3:  3](R/W) Unused. */
-        uint64_t l2_rst                : 1;  /**< [  2:  2](R/W) Unused. */
+        uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Unused. */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Unused.. */
         uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for Lane 1. */
         uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for Lane 0. */
 #else /* Word 0 - Little Endian */
         uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for Lane 0. */
         uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for Lane 1. */
-        uint64_t l2_rst                : 1;  /**< [  2:  2](R/W) Unused. */
-        uint64_t l3_rst                : 1;  /**< [  3:  3](R/W) Unused. */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Unused.. */
+        uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Unused. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -9045,8 +9029,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t l3_inv                : 1;  /**< [  3:  3](R/W) Unused. */
-        uint64_t l2_inv                : 1;  /**< [  2:  2](R/W) Unused. */
+        uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Unused. */
+        uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Unused. */
         uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
                                                                  lane 1 transmitted data. */
         uint64_t l0_inv                : 1;  /**< [  0:  0](R/W) Instructs the SATA PCS to perform a polarity inversion on the
@@ -9056,8 +9040,8 @@ typedef union
                                                                  lane 0 transmitted data. */
         uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
                                                                  lane 1 transmitted data. */
-        uint64_t l2_inv                : 1;  /**< [  2:  2](R/W) Unused. */
-        uint64_t l3_inv                : 1;  /**< [  3:  3](R/W) Unused. */
+        uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Unused. */
+        uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Unused. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;

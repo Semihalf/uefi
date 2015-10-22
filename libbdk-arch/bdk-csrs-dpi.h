@@ -658,15 +658,15 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t reserved_126_127      : 2;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t reserved_176_191      : 16;
-        uint64_t ptr                   : 48; /**< [175:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t reserved_177_191      : 15;
+        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
                                                                  and requirements in each case. */
 #else /* Word 2 - Little Endian */
-        uint64_t ptr                   : 48; /**< [175:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
                                                                  and requirements in each case. */
-        uint64_t reserved_176_191      : 16;
+        uint64_t reserved_177_191      : 15;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_192_255      : 64;
@@ -1069,15 +1069,15 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t reserved_126_127      : 2;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t reserved_176_191      : 16;
-        uint64_t ptr                   : 48; /**< [175:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t reserved_177_191      : 15;
+        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
                                                                  and requirements in each case. */
 #else /* Word 2 - Little Endian */
-        uint64_t ptr                   : 48; /**< [175:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
                                                                  and requirements in each case. */
-        uint64_t reserved_176_191      : 16;
+        uint64_t reserved_177_191      : 15;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_192_255      : 64;
@@ -1380,7 +1380,7 @@ static inline uint64_t BDK_DPIX_DMAX_COUNTS(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DPIX_DMAX_COUNTS(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000300ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000380ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_COUNTS", 2, a, b, 0, 0);
 }
 
@@ -1475,6 +1475,48 @@ static inline uint64_t BDK_DPIX_DMAX_ERR_RSP_STATUS(unsigned long a, unsigned lo
 #define arguments_BDK_DPIX_DMAX_ERR_RSP_STATUS(a,b) (a),(b),-1,-1
 
 /**
+ * Register (NCB) dpi#_dma#_ibuff_csize
+ *
+ * DPI DMA Instruction-Buffer Chunk Size Registers
+ * These registers provide the address to start reading instructions for the eight DMA
+ * instruction queues.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dmax_ibuff_csize_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t idle                  : 1;  /**< [ 63: 63](RO/H) DMA request queue is idle. When asserted, the associated request queue is idle. */
+        uint64_t reserved_14_62        : 49;
+        uint64_t csize                 : 14; /**< [ 13:  0](R/W) The size in 8-byte words of the DMA instruction chunk. This value should only be written
+                                                                 at known times in order to prevent corruption of the instruction queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t csize                 : 14; /**< [ 13:  0](R/W) The size in 8-byte words of the DMA instruction chunk. This value should only be written
+                                                                 at known times in order to prevent corruption of the instruction queue. */
+        uint64_t reserved_14_62        : 49;
+        uint64_t idle                  : 1;  /**< [ 63: 63](RO/H) DMA request queue is idle. When asserted, the associated request queue is idle. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dmax_ibuff_csize_s cn; */
+} bdk_dpix_dmax_ibuff_csize_t;
+
+static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DMAX_IBUFF_CSIZE(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000000300ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_DMAX_IBUFF_CSIZE", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DMAX_IBUFF_CSIZE(a,b) bdk_dpix_dmax_ibuff_csize_t
+#define bustype_BDK_DPIX_DMAX_IBUFF_CSIZE(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DMAX_IBUFF_CSIZE(a,b) "DPIX_DMAX_IBUFF_CSIZE"
+#define device_bar_BDK_DPIX_DMAX_IBUFF_CSIZE(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DMAX_IBUFF_CSIZE(a,b) (a)
+#define arguments_BDK_DPIX_DMAX_IBUFF_CSIZE(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB) dpi#_dma#_ibuff_saddr
  *
  * DPI DMA Instruction-Buffer Starting-Address Registers
@@ -1487,13 +1529,8 @@ typedef union
     struct bdk_dpix_dmax_ibuff_saddr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t idle                  : 1;  /**< [ 63: 63](RO/H) DMA request queue is idle. When asserted, the associated request queue is idle. */
-        uint64_t reserved_62           : 1;
-        uint64_t csize                 : 14; /**< [ 61: 48](R/W) The size in 8-byte words of the DMA instruction chunk. This value should only be written
-                                                                 at known times in order to prevent corruption of the instruction queue. The minimum CSIZE
-                                                                 is 16 (one cache block). */
-        uint64_t reserved_42_47        : 6;
-        uint64_t saddr                 : 35; /**< [ 41:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
+        uint64_t reserved_49_63        : 15;
+        uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
                                                                  <41:7> of the starting instructions address. When new chunks are fetched by the hardware,
                                                                  SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
                                                                  the queue's doorbell (DPI(0)_DMA()_COUNTS[DBELL) and its tail pointer
@@ -1501,17 +1538,12 @@ typedef union
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t saddr                 : 35; /**< [ 41:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
+        uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
                                                                  <41:7> of the starting instructions address. When new chunks are fetched by the hardware,
                                                                  SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
                                                                  the queue's doorbell (DPI(0)_DMA()_COUNTS[DBELL) and its tail pointer
                                                                  (DPI(0)_DMA()_NADDR[ADDR]). */
-        uint64_t reserved_42_47        : 6;
-        uint64_t csize                 : 14; /**< [ 61: 48](R/W) The size in 8-byte words of the DMA instruction chunk. This value should only be written
-                                                                 at known times in order to prevent corruption of the instruction queue. The minimum CSIZE
-                                                                 is 16 (one cache block). */
-        uint64_t reserved_62           : 1;
-        uint64_t idle                  : 1;  /**< [ 63: 63](RO/H) DMA request queue is idle. When asserted, the associated request queue is idle. */
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_ibuff_saddr_s cn; */
@@ -1582,11 +1614,11 @@ typedef union
     struct bdk_dpix_dmax_naddr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
-        uint64_t addr                  : 42; /**< [ 41:  0](RO/H) Address. Provides the next L2C address to read instructions. */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 42; /**< [ 41:  0](RO/H) Address. Provides the next L2C address to read instructions. */
-        uint64_t reserved_42_63        : 22;
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions. */
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_dmax_naddr_s cn; */
@@ -1596,7 +1628,7 @@ static inline uint64_t BDK_DPIX_DMAX_NADDR(unsigned long a, unsigned long b) __a
 static inline uint64_t BDK_DPIX_DMAX_NADDR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000380ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000400ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_NADDR", 2, a, b, 0, 0);
 }
 
@@ -1631,7 +1663,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_DMAX_REQBNK0(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000400ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000480ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_REQBNK0", 2, a, b, 0, 0);
 }
 
@@ -1666,7 +1698,7 @@ static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_DPIX_DMAX_REQBNK1(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
-        return 0x86e000000480ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+        return 0x86e000000500ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("DPIX_DMAX_REQBNK1", 2, a, b, 0, 0);
 }
 
