@@ -246,6 +246,10 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG554(pcie_port),
             c.s.prv = 0x593);
     }
+    /* (ECAM-27114) PCIERC has incorrect device code */
+    BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG002(pcie_port),
+        c.s.sc = 0x4;
+        c.s.bcc = 0x6);
 }
 
 
