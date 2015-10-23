@@ -237,6 +237,11 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
  */
 static int qlm_errata_gser_26150(bdk_node_t node, int qlm)
 {
+    /* Applying this errata twice causes problems */
+    BDK_CSR_INIT(pll_cfg_3, node, BDK_GSERX_GLBL_PLL_CFG_3(qlm));
+    if (pll_cfg_3.s.pll_vctrl_sel_lcvco_val == 0x2)
+        return 0;
+
     /* (GSER-26150) 10 Gb temperature excursions can cause lock failure */
     /* Change the calibration point of the VCO at start up to shift some
        available range of the VCO from -deltaT direction to the +deltaT
@@ -279,6 +284,95 @@ static int qlm_errata_gser_26150(bdk_node_t node, int qlm)
 
     /* Step 8: Wait 10ms to allow PLL to recalibrate */
     bdk_wait_usec(10000);
+    return 0;
+}
+
+/**
+ * (GSER-27140) SERDES temperature drift sensitivity in receiver
+ * Issues have been found with the Bit Error Rate (BER) reliability of
+ * 10GBASE-KR links over the commercial temperature range (0 to 100C),
+ * especially when subjected to rapid thermal ramp stress testing. (See
+ * HRM for corresponding case temperature requirements for each speed
+ * grade.)
+ *
+ * @param node
+ * @param qlm
+ *
+ * @return
+ */
+static int qlm_errata_gser_27140(bdk_node_t node, int qlm)
+{
+    /* I. For each GSER QLM: */
+    /* Workaround GSER-27140: */
+    /* (1) GSER-26150 */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        qlm_errata_gser_26150(node, qlm);
+    /* (2) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_MAX_FINE] = 0xE */
+    /* (3) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_MIN_FINE] = 0x8 */
+    /* (4) Write GSER()_LANE_VMA_FINE_CTRL_0[RX_SDLL_IQ_STEP_FINE] = 0x2 */
+    /* (5) Write GSER()_LANE_VMA_FINE_CTRL_0[VMA_WINDOW_WAIT_FINE] = 0x5 */
+    /* (6) Write GSER()_LANE_VMA_FINE_CTRL_0[LMS_WAIT_TIME_FINE] = 0x5 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_VMA_FINE_CTRL_0(qlm),
+        c.s.rx_sdll_iq_max_fine = 0xE;
+        c.s.rx_sdll_iq_min_fine = 0x8;
+        c.s.rx_sdll_iq_step_fine = 0x2;
+        c.s.vma_window_wait_fine = 0x5;
+        c.s.lms_wait_time_fine = 0x5);
+    /* (7) Write GSER()_LANE_VMA_FINE_CTRL_2[RX_PRECTLE_GAIN_MAX_FINE] = 0xB */
+    /* (8) Write GSER()_LANE_VMA_FINE_CTRL_2[RX_PRECTLE_GAIN_MIN_FINE] = 0x6 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_VMA_FINE_CTRL_2(qlm),
+        c.s.rx_prectle_gain_max_fine = 0xB;
+        c.s.rx_prectle_gain_min_fine = 0x6);
+    /* (9) Write GSER()_RX_TXDIR_CTRL_0[RX_BOOST_LO_THRES] = 0x8 */
+    /* (10) Write GSER()_RX_TXDIR_CTRL_0[RX_BOOST_HI_THRES] = 0xB */
+    /* (11) Write GSER()_RX_TXDIR_CTRL_0[RX_BOOST_HI_VAL] = 0xF */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_0(qlm),
+        c.s.rx_boost_lo_thrs = 0x8;
+        c.s.rx_boost_hi_thrs = 0xB;
+        c.s.rx_boost_hi_val = 0xF);
+    /* (12) Write GSER()_RX_TXDIR_CTRL_1[RX_TAP1_LO_THRS] = 0x8 */
+    /* (13) Write GSER()_RX_TXDIR_CTRL_1[RX_TAP1_HI_THRS] = 0x17 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
+        c.s.rx_tap1_lo_thrs = 0x8;
+        c.s.rx_tap1_hi_thrs = 0x17);
+
+    /* Workaround GSER-26636: Applied elsewhere */
+    /* (14) Write GSER()_RX_TXDIR_CTRL_1[RX_PRECORR_CHG_DIR] = 0x1 */
+    /* (15) Write GSER()_RX_TXDIR_CTRL_1[RX_TAP1_CHG_DIR] = 0x1 */
+
+    /* Workaround GSER-27140: */
+    /* (16) Write GSER()_EQ_WAIT_TIME[RXEQ_WAIT_CNT] = 0x6 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_EQ_WAIT_TIME(qlm),
+        c.s.rxeq_wait_cnt = 0x6);
+    /* (17) Write GSER()_RX_TXDIR_CTRL_2[RX_PRECORR_HI_THRS] = 0xFF */
+    /* (18) Write GSER()_RX_TXDIR_CTRL_2[RX_PRECORR_LO_THRS] = 0x00 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_2(qlm),
+        c.s.rx_precorr_hi_thrs = 0xFF;
+        c.s.rx_precorr_lo_thrs = 0x00);
+
+    /* II. For each GSER QLM SerDes lane: */
+    /* Establish typical values, which are already reset values in pass 2: */
+    int num_lanes = bdk_qlm_get_lanes(node, qlm);
+    for (int lane = 0; lane < num_lanes; lane++)
+    {
+        /* (19) For each GSER lane in the 10GBASE-KR link: */
+        /*    (a) Write GSER()_LANE()_RX_CTLE_CTRL[PCS_SDS_RX_CTLE_BIAS_CTRL] = 0x3 */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CTLE_CTRL(qlm, lane),
+            c.s.pcs_sds_rx_ctle_bias_ctrl = 0x3);
+        /*    (b) Write GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL] = 0xCD6F */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_CFG_4(qlm, lane),
+            c.s.cfg_rx_errdet_ctrl = 0xCD6F);
+
+        /* Workaround GSER-27140: */
+        /* (20) For each GSER lane in the 10GBASE-KR link: */
+        /*    (a) Write GSER()_LANE()_RX_VALBBD_CTRL_0[AGC_GAIN] = 0x3 */
+        /*    (b) Write GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_GAIN] = 0x2 */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(qlm, lane),
+            c.s.agc_gain = 0x3;
+            c.s.dfe_gain = 0x2);
+    }
+
+    /* III. The GSER QLM SerDes Lanes are now ready for 10GBASE-KR link training. */
     return 0;
 }
 
@@ -988,9 +1082,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         }
     }
 
-    /* (GSER-26150) 10 Gb temperature excursions can cause lock failure */
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-        qlm_errata_gser_26150(node, qlm);
+    /* (GSER-27140) SERDES temperature drift sensitivity in receiver */
+    qlm_errata_gser_27140(node, qlm);
 
     /* cdrlock will be checked in the BGX */
 
@@ -1212,6 +1305,10 @@ static void qlm_init(bdk_node_t node)
             BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
                 c.s.rx_precorr_chg_dir = 1;
                 c.s.rx_tap1_chg_dir = 1);
+            /* (GSER-27140) SERDES temperature drift sensitivity in receiver */
+            /* Don't apply to pass 1.x as it causes unrecoverable CCPI errors */
+            if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+                qlm_errata_gser_27140(node, qlm);
             bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, qlm);
             int baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
             __bdk_qlm_tune(node, qlm, mode, baud_mhz);
