@@ -41,6 +41,7 @@ typedef struct
     int         port;           /* Which physical port this handle connects to */
     int         num_port;       /* Number of physical ports on this interface */
     int         use_training;   /* True if this port is in 10G or 40G and uses training */
+    uint64_t    restart_auto_neg; /* Time we last restarted auto-neg. Ued to make sure we give auto-neg enough time */
 
     /* VNIC related config */
     int         vnic;           /* NIC index number (0-127) */
@@ -681,7 +682,7 @@ static int setup_auto_neg(bdk_if_handle_t handle)
     /* Errata (BGX-21947) 40G-KR Training does not restart on all 4 lanes
        after auto-negotiation */
     /* Disable auto-neg for 40G-KR */
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (priv->mode == BGX_MODE_40G_KR))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (priv->mode == BGX_MODE_40G_KR))
         use_auto_neg = 0;
 
     /* Software should do the following to execute Auto-Negotiation when
@@ -887,7 +888,7 @@ static int xaui_link(bdk_if_handle_t handle)
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
     const int TIMEOUT = 100; /* 100us */
-    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* Disable packet reception */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
@@ -902,6 +903,14 @@ static int xaui_link(bdk_if_handle_t handle)
             BDK_CSR_INIT(an_status, handle->node, BDK_BGXX_SPUX_AN_STATUS(bgx_block, bgx_index));
             if (!an_status.s.an_complete)
             {
+                uint64_t now = bdk_clock_get_count(BDK_CLOCK_TIME);
+                uint64_t next_restart = priv->restart_auto_neg + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) * 2;
+                if (now >= next_restart)
+                {
+                    BDK_TRACE(BGX, "%s: Waiting for auto negotiation\n", handle->name);
+                    return -1;
+                }
+                priv->restart_auto_neg = now;
                 /* Restart auto negotiation */
                 BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_AN_CONTROL(bgx_block, bgx_index),
                     c.s.an_restart = 1);
