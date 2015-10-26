@@ -57,7 +57,7 @@ IMAGE_END=`${CROSS}objdump -t $^ | grep " _end$$" | sed "s/^00000[0-9]\([0-9a-f]
 #
 %.bin: %
 	${CROSS}objcopy $^ -O binary $@.tmp
-	cat $@.tmp /dev/zero | dd of=$@ bs=$(IMAGE_END) count=1 &> /dev/null
+	cat $@.tmp /dev/zero | dd of=$@ bs=1 count=$(IMAGE_END) &> /dev/null
 	rm $@.tmp
 	$(BDK_ROOT)/bin/bdk-update-romfs $@ $@
 
