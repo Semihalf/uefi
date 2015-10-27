@@ -1897,7 +1897,7 @@ static void if_receive(int unused, void *hand)
             loc &= CQ_ENTRIES - 1;
             cq_next = cq_ptr + loc * 512;
             BDK_PREFETCH(cq_next, 0);
-            if (bdk_likely(cq_header->s.cqe_type == BDK_NIC_CQE_TYPE_E_RX))
+            if (bdk_likely(cq_header->s.cqe_type == BDK_NIC_CQE_TYPE_E_RX_CN88XX))
                 rbdr_doorbell += if_process_complete_rx(handle, &vnic_rbdr_state, cq_header);
             else
                 bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);

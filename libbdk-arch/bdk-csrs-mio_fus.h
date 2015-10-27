@@ -1529,6 +1529,45 @@ typedef union
                                                                  Set to initiate burning of defect fuses to fuse macro. Clears when fuses are
                                                                  blown. */
         uint64_t too_many              : 1;  /**< [ 16: 16](RO/H) Internal:
+                                                                 Set if the sum of fuse repairs and memory defects exceeds 48. */
+        uint64_t numdefects            : 8;  /**< [ 15:  8](RO/H) Internal:
+                                                                 After reset/BIST indicates the number of memory defects reported. Defects are
+                                                                 stored in REPAIR_MEM from bit address NUMREPAIRS*21 to (NUMREPAIRS*21 + NUMDEFECTS*21 -
+                                                                 1). */
+        uint64_t numrepairs            : 8;  /**< [  7:  0](R/W) Internal:
+                                                                 Indicates the number of soft repairs to load from repair mem to the memories on
+                                                                 a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem on a
+                                                                 cold reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t numrepairs            : 8;  /**< [  7:  0](R/W) Internal:
+                                                                 Indicates the number of soft repairs to load from repair mem to the memories on
+                                                                 a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem on a
+                                                                 cold reset. */
+        uint64_t numdefects            : 8;  /**< [ 15:  8](RO/H) Internal:
+                                                                 After reset/BIST indicates the number of memory defects reported. Defects are
+                                                                 stored in REPAIR_MEM from bit address NUMREPAIRS*21 to (NUMREPAIRS*21 + NUMDEFECTS*21 -
+                                                                 1). */
+        uint64_t too_many              : 1;  /**< [ 16: 16](RO/H) Internal:
+                                                                 Set if the sum of fuse repairs and memory defects exceeds 48. */
+        uint64_t autoblow              : 1;  /**< [ 17: 17](R/W/H) Internal:
+                                                                 Set to initiate burning of defect fuses to fuse macro. Clears when fuses are
+                                                                 blown. */
+        uint64_t rpr_flip_synd         : 2;  /**< [ 19: 18](R/W/H) Internal:
+                                                                 Flip syndrome bits on RPR_MEM writes. For diagnostic use only. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_soft_repair_s cn81xx; */
+    struct bdk_mio_fus_soft_repair_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t rpr_flip_synd         : 2;  /**< [ 19: 18](R/W/H) Internal:
+                                                                 Flip syndrome bits on RPR_MEM writes. For diagnostic use only. */
+        uint64_t autoblow              : 1;  /**< [ 17: 17](R/W/H) Internal:
+                                                                 Set to initiate burning of defect fuses to fuse macro. Clears when fuses are
+                                                                 blown. */
+        uint64_t too_many              : 1;  /**< [ 16: 16](RO/H) Internal:
                                                                  Set if the sum of fuse repairs and memory defects exceeds 195. */
         uint64_t numdefects            : 8;  /**< [ 15:  8](RO/H) Internal:
                                                                  After reset/BIST indicates the number of memory defects reported. Defects are
@@ -1556,8 +1595,8 @@ typedef union
                                                                  Flip syndrome bits on RPR_MEM writes. For diagnostic use only. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_soft_repair_s cn; */
+    } cn88xx;
+    /* struct bdk_mio_fus_soft_repair_s cn83xx; */
 } bdk_mio_fus_soft_repair_t;
 
 #define BDK_MIO_FUS_SOFT_REPAIR BDK_MIO_FUS_SOFT_REPAIR_FUNC()

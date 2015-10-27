@@ -208,12 +208,14 @@
 #define BDK_NIC_CQE_SEND_STATUS_E_GOOD (0) /**< No error. */
 #define BDK_NIC_CQE_SEND_STATUS_E_HDR_CONS_ERR_CN81XX (0x11) /**< Send Header consistency error. One of the following errors was detected when the send
                                        descriptor was read for a packet after it was scheduled:
-                                       * The first SQE of the send descriptor is not NIC_SEND_HDR_S, i.e. [SUBDC] is not HDR.
+                                       * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
+                                       i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
                                        * Inconsistent NIC_SEND_HDR_S[SUBDCNT] values were read on the first pass and second pass
                                        descriptor reads. */
 #define BDK_NIC_CQE_SEND_STATUS_E_HDR_CONS_ERR_CN88XX (0x11) /**< Send Header consistency error. One of the following errors was detected when the send
                                        descriptor was read for a packet after it was scheduled:
-                                       * The first SQE of the send descriptor is not NIC_SEND_HDR_S, i.e. [SUBDC] is not HDR.
+                                       * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
+                                       i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
                                        * Inconsistent NIC_SEND_HDR_S[SUBDCNT] values were read on the first pass and second pass
                                        descriptor reads.
                                        
@@ -250,7 +252,15 @@
 #define BDK_NIC_CQE_SEND_STATUS_E_MEM_SEQUENCE_ERR_CN83XX (0x82) /**< Reserved. */
 #define BDK_NIC_CQE_SEND_STATUS_E_MEM_SEQUENCE_ERR_CN88XXP2 (0x82) /**< Reserved. Not used in pass 2. */
 #define BDK_NIC_CQE_SEND_STATUS_E_MEM_SEQUENCE_ERR_CN88XXP1 (0x82) /**< Send descriptor contains a NIC_SEND_CRC_S after NIC_SEND_MEM_S. */
-#define BDK_NIC_CQE_SEND_STATUS_E_SUBDC_ERR (0x12) /**< Subdescriptor Code error. The send descriptor contains one or more invalid subdescriptors
+#define BDK_NIC_CQE_SEND_STATUS_E_SUBDC_ERR_CN81XX (0x12) /**< Subdescriptor Code error. The send descriptor contains one or more invalid subdescriptors
+                                       following NIC_SEND_HDR_S, i.e. an SQE other than immediate data with a
+                                       NIC_SEND_HDR_S[SUBDC] value other than NIC_SEND_SUBDC_E::CRC, NIC_SEND_SUBDC_E::IMM,
+                                       NIC_SEND_SUBDC_E::GATHER or NIC_SEND_SUBDC_E::MEM. */
+#define BDK_NIC_CQE_SEND_STATUS_E_SUBDC_ERR_CN88XX (0x12) /**< Subdescriptor Code error. The send descriptor contains one or more invalid subdescriptors
+                                       following NIC_SEND_HDR_S, i.e. an SQE other than immediate data with a
+                                       NIC_SEND_HDR_S[SUBDC] value other than NIC_SEND_SUBDC_E::CRC, NIC_SEND_SUBDC_E::IMM,
+                                       NIC_SEND_SUBDC_E::GATHER or NIC_SEND_SUBDC_E::MEM. */
+#define BDK_NIC_CQE_SEND_STATUS_E_SUBDC_ERR_CN83XX (0x12) /**< Subdescriptor Code error. The send descriptor contains one or more invalid subdescriptors
                                        following NIC_SEND_HDR_S, i.e. an SQE other than immediate data with a [SUBDC] value other
                                        than CRC, IMM, GATHER or MEM. */
 #define BDK_NIC_CQE_SEND_STATUS_E_TSTMP_CONFLICT_CN81XX (0x85) /**< Timestamp conflict. Set with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP to
@@ -280,12 +290,24 @@
  * NIC Completion-Queue Entry Type Enumeration
  * Enumerates CQE types, e.g. see NIC_CQE_SEND_S[CQE_TYPE].
  */
-#define BDK_NIC_CQE_TYPE_E_INVALID (0) /**< Invalid completion entry. Software may clear the CQE_TYPE field (making it
+#define BDK_NIC_CQE_TYPE_E_INVALID_CN81XX (0) /**< Invalid completion entry. Software may clear NIC_CQE_SEND_S[CQE_TYPE] (making it
+                                       NIC_CQE_TYPE_E::INVALID) when adding a free entry to the CQ ring, and hardware will update
+                                       as appropriate. Software then can poll NIC_CQE_SEND_S[CQE_TYPE] for a non-INVALID value at
+                                       the ring tail to detect a valid entry. */
+#define BDK_NIC_CQE_TYPE_E_INVALID_CN88XX (0) /**< Invalid completion entry. Software may clear NIC_CQE_SEND_S[CQE_TYPE] (making it
+                                       NIC_CQE_TYPE_E::INVALID) when adding a free entry to the CQ ring, and hardware will update
+                                       as appropriate. Software then can poll NIC_CQE_SEND_S[CQE_TYPE] for a non-INVALID value at
+                                       the ring tail to detect a valid entry. */
+#define BDK_NIC_CQE_TYPE_E_INVALID_CN83XX (0) /**< Invalid completion entry. Software may clear the CQE_TYPE field (making it
                                        NIC_CQE_TYPE_E::INVALID) when adding a free entry to the CQ ring, and hardware will update
                                        as appropriate. Software then can poll CQE_TYPE for a non-INVALID value at the ring tail
                                        to detect a valid entry. */
-#define BDK_NIC_CQE_TYPE_E_RX (2) /**< RX_CQE generated by the NIC RX interface. CQE structure is NIC_CQE_RX_S. */
-#define BDK_NIC_CQE_TYPE_E_RX_SPLT (3) /**< Receive split generated by the NIC RX interface. CQE structure is NIC_CQE_RX_S. */
+#define BDK_NIC_CQE_TYPE_E_RX_CN81XX (2) /**< Receive completion. CQE structure is NIC_CQE_RX_S. */
+#define BDK_NIC_CQE_TYPE_E_RX_CN88XX (2) /**< Receive completion. CQE structure is NIC_CQE_RX_S. */
+#define BDK_NIC_CQE_TYPE_E_RX_CN83XX (2) /**< RX_CQE generated by the NIC RX interface. CQE structure is NIC_CQE_RX_S. */
+#define BDK_NIC_CQE_TYPE_E_RX_SPLT_CN81XX (3) /**< Receive split completion. CQE structure is NIC_CQE_RX_S. */
+#define BDK_NIC_CQE_TYPE_E_RX_SPLT_CN88XX (3) /**< Receive split completion. CQE structure is NIC_CQE_RX_S. */
+#define BDK_NIC_CQE_TYPE_E_RX_SPLT_CN83XX (3) /**< Receive split generated by the NIC RX interface. CQE structure is NIC_CQE_RX_S. */
 #define BDK_NIC_CQE_TYPE_E_SEND (8) /**< Send completion. CQE structure is NIC_CQE_SEND_S. */
 #define BDK_NIC_CQE_TYPE_E_SEND_PTP (9) /**< Send IEEE 1588 PTP timestamp completion.CQE structure is NIC_CQE_SEND_S. */
 
@@ -676,7 +698,17 @@
  * Enumerates the values of
  * NIC_CQE_RX_S[RSS_ALG].
  */
-#define BDK_NIC_RSS_ALG_E_GRE_IP (6) /**< GRE under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+#define BDK_NIC_RSS_ALG_E_GRE_IP_CN81XX (6) /**< GRE under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+                                       destination and GRE call identification. Enabled when NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1
+                                       and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=GRE.
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}. */
+#define BDK_NIC_RSS_ALG_E_GRE_IP_CN88XX (6) /**< GRE under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+                                       destination and GRE call identification. Enabled when NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1
+                                       and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=GRE.
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}. */
+#define BDK_NIC_RSS_ALG_E_GRE_IP_CN83XX (6) /**< GRE under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination and GRE call identification. Enabled when NIC_PF_CPI()_CFG[RSS_L3ETC]=1
                                        and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=GRE.
                                        
@@ -684,7 +716,7 @@
 #define BDK_NIC_RSS_ALG_E_INNER_GRE_IP_CN88XXP1 (0xc) /**< Reserved. */
 #define BDK_NIC_RSS_ALG_E_INNER_GRE_IP_CN81XX (0xc) /**< This RSS was done on the inner layer of a tunneling packet
                                        GRE under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination and GRE call identification. Enabled when NIC_PF_CPI()_CFG[RSS_L3ETC]=1
+                                       destination and GRE call identification. Enabled when NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1
                                        and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=GRE.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}. */
@@ -696,7 +728,7 @@
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}. */
 #define BDK_NIC_RSS_ALG_E_INNER_GRE_IP_CN88XXP2 (0xc) /**< This RSS was done on the inner layer of a tunneling packet
                                        GRE under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
-                                       destination and GRE call identification. Enabled when NIC_PF_CPI()_CFG[RSS_L3ETC]=1
+                                       destination and GRE call identification. Enabled when NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1
                                        and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=GRE.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], 16'h0}.
@@ -706,8 +738,8 @@
 #define BDK_NIC_RSS_ALG_E_INNER_IP_CN81XX (8) /**< RSS was done on the inner layer of a tunneling packet
                                        IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
                                        Any extension headers, if present, are not included in the hash. Enabled when if
-                                       NIC_PF_CPI()_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
-                                       specific encoding (TCP_IPV4, etc).
+                                       NIC_VNIC()_RSS_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
+                                       specific encoding (TCP_IP, etc).
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
                                        
@@ -728,8 +760,8 @@
 #define BDK_NIC_RSS_ALG_E_INNER_IP_CN88XXP2 (8) /**< RSS was done on the inner layer of a tunneling packet
                                        IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
                                        Any extension headers, if present, are not included in the hash. Enabled when if
-                                       NIC_PF_CPI()_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
-                                       specific encoding (TCP_IPV4, etc).
+                                       NIC_VNIC()_RSS_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
+                                       specific encoding (TCP_IP, etc).
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
                                        
@@ -744,7 +776,7 @@
                                        Not implemented in RTL. Old definition:
                                        RSS was done on the inner layer of a tunneling packet
                                        RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
-                                       destqp. Enabled when NIC_PF_CPI()_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
+                                       destqp. Enabled when NIC_VNIC()_RSS_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
                                        NIC_CQE_RX_S[L4TY]=BTH.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
@@ -759,7 +791,7 @@
                                        Not implemented in RTL. Old definition:
                                        RSS was done on the inner layer of a tunneling packet
                                        RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
-                                       destqp. Enabled when NIC_PF_CPI()_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
+                                       destqp. Enabled when NIC_VNIC()_RSS_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
                                        NIC_CQE_RX_S[L4TY]=BTH.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
@@ -772,7 +804,7 @@
                                        RSS was done on the inner layer of a tunneling packet
                                        SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, SCTP source port, and SCTP destination port. Enabled when
-                                       NIC_PF_CPI()_CFG[RSS_L3ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
+                                       NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
                                        NIC_CQE_RX_S[L4TY]=SCTP.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
@@ -789,7 +821,7 @@
                                        RSS was done on the inner layer of a tunneling packet
                                        SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, SCTP source port, and SCTP destination port. Enabled when
-                                       NIC_PF_CPI()_CFG[RSS_L3ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
+                                       NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
                                        NIC_CQE_RX_S[L4TY]=SCTP.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
@@ -799,7 +831,7 @@
 #define BDK_NIC_RSS_ALG_E_INNER_TCP_IP_CN81XX (9) /**< RSS was done on the inner layer of a tunneling packet
                                        TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, TCP source port, and TCP destination port. Enabled when
-                                       NIC_PF_CPI()_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
+                                       NIC_VNIC()_RSS_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
                                        
@@ -819,7 +851,7 @@
 #define BDK_NIC_RSS_ALG_E_INNER_TCP_IP_CN88XXP2 (9) /**< RSS was done on the inner layer of a tunneling packet
                                        TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, TCP source port, and TCP destination port. Enabled when
-                                       NIC_PF_CPI()_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
+                                       NIC_VNIC()_RSS_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
                                        
@@ -832,7 +864,7 @@
 #define BDK_NIC_RSS_ALG_E_INNER_UDP_IP_CN81XX (0xa) /**< RSS was done on the inner layer of a tunneling packet
                                        UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, UDP source port, and UDP destination port. Enabled when
-                                       NIC_PF_CPI()_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
+                                       NIC_VNIC()_RSS_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
 #define BDK_NIC_RSS_ALG_E_INNER_UDP_IP_CN83XX (0xa) /**< RSS was done on the inner layer of a tunneling packet
@@ -844,12 +876,32 @@
 #define BDK_NIC_RSS_ALG_E_INNER_UDP_IP_CN88XXP2 (0xa) /**< RSS was done on the inner layer of a tunneling packet
                                        UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, UDP source port, and UDP destination port. Enabled when
-                                       NIC_PF_CPI()_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
+                                       NIC_VNIC()_RSS_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
                                        
                                        Added in pass 2. */
-#define BDK_NIC_RSS_ALG_E_IP (2) /**< IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
+#define BDK_NIC_RSS_ALG_E_IP_CN81XX (2) /**< IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
+                                       Any extension headers, if present, are not included in the hash. Enabled when if
+                                       NIC_VNIC()_RSS_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
+                                       specific encoding (TCP_IP, etc).
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
+                                       
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the
+                                       NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
+#define BDK_NIC_RSS_ALG_E_IP_CN88XX (2) /**< IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
+                                       Any extension headers, if present, are not included in the hash. Enabled when if
+                                       NIC_VNIC()_RSS_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
+                                       specific encoding (TCP_IP, etc).
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}.
+                                       
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the
+                                       NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
+#define BDK_NIC_RSS_ALG_E_IP_CN83XX (2) /**< IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/ IPv6 source and destination.
                                        Any extension headers, if present, are not included in the hash. Enabled when if
                                        NIC_PF_CPI()_CFG[RSS_IP]=1 and NIC_CQE_RX_S[L3TY]=IP* and cannot use a more
                                        specific encoding (TCP_IPV4, etc).
@@ -861,7 +913,33 @@
                                        NIC_CQE_RX_S[L3TY] field can be used to determine IPv4 vs. IPv6 hash sub-type. */
 #define BDK_NIC_RSS_ALG_E_NONE (0) /**< No RSS algorithm matched, or RSS is disabled. NIC_CQE_RX_S[RSS_TAG] is zero
                                        Extracted key format [287:0]=288'h0}. */
-#define BDK_NIC_RSS_ALG_E_PORT (1) /**< Port number. NIC_CQE_RX_S[RSS_TAG] contains a hash of the source port number and if
+#define BDK_NIC_RSS_ALG_E_PORT_CN81XX (1) /**< Port number. NIC_CQE_RX_S[RSS_TAG] contains a hash of the source port number and if
+                                       NIC_CQE_RX_S[VV] is set, the first VLAN 12-bit ID, and if NIC_CQE_RX_S[VS] is set, the
+                                       second VLAN 12-bit ID. Enabled when if NIC_VNIC()_RSS_CFG[RSS_L2ETC]=1 and cannot use
+                                       a more specific encoding (IP, etc).
+                                       
+                                       <pre>
+                                       Extracted key format [287:0] = {
+                                         80'h0,
+                                         6'h0, vlan1[9:0],
+                                         6'h0, vlan0[9:0],
+                                         4'h0, chan[11:0],
+                                         128'h0, 16'h0, 16'h0}.
+                                       </pre> */
+#define BDK_NIC_RSS_ALG_E_PORT_CN88XX (1) /**< Port number. NIC_CQE_RX_S[RSS_TAG] contains a hash of the source port number and if
+                                       NIC_CQE_RX_S[VV] is set, the first VLAN 12-bit ID, and if NIC_CQE_RX_S[VS] is set, the
+                                       second VLAN 12-bit ID. Enabled when if NIC_VNIC()_RSS_CFG[RSS_L2ETC]=1 and cannot use
+                                       a more specific encoding (IP, etc).
+                                       
+                                       <pre>
+                                       Extracted key format [287:0] = {
+                                         80'h0,
+                                         6'h0, vlan1[9:0],
+                                         6'h0, vlan0[9:0],
+                                         4'h0, chan[11:0],
+                                         128'h0, 16'h0, 16'h0}.
+                                       </pre> */
+#define BDK_NIC_RSS_ALG_E_PORT_CN83XX (1) /**< Port number. NIC_CQE_RX_S[RSS_TAG] contains a hash of the source port number and if
                                        NIC_CQE_RX_S[VV] is set, the first VLAN 12-bit ID, and if NIC_CQE_RX_S[VS] is set, the
                                        second VLAN 12-bit ID. Enabled when if NIC_PF_CPI()_CFG[RSS_L2ETC]=1 and cannot use
                                        a more specific encoding (IP, etc).
@@ -878,7 +956,7 @@
                                        Internal:
                                        Not implemented in RTL. Old definition:
                                        RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
-                                       destqp. Enabled when NIC_PF_CPI()_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
+                                       destqp. Enabled when NIC_VNIC()_RSS_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
                                        NIC_CQE_RX_S[L4TY]=BTH.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
@@ -886,7 +964,7 @@
                                        Internal:
                                        Not implemented in RTL. Old definition:
                                        RoCE BTH under GRH. NIC_CQE_RX_S[RSS_TAG] contains <31:24> = 0x0, and in <23:0> the BTH
-                                       destqp. Enabled when NIC_PF_CPI()_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
+                                       destqp. Enabled when NIC_VNIC()_RSS_CFG[RSS_ROCE]=1 and NIC_CQE_RX_S[L3TY]=GRH and
                                        NIC_CQE_RX_S[L4TY]=BTH.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], 16'h0, 16'h0}. */
@@ -900,7 +978,7 @@
                                        Not implemented in RTL. Old definition:
                                        SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, SCTP source port, and SCTP destination port. Enabled when
-                                       NIC_PF_CPI()_CFG[RSS_L3ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
+                                       NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
                                        NIC_CQE_RX_S[L4TY]=SCTP.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
@@ -909,7 +987,7 @@
                                        Not implemented in RTL. Old definition:
                                        SCTP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, SCTP source port, and SCTP destination port. Enabled when
-                                       NIC_PF_CPI()_CFG[RSS_L3ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
+                                       NIC_VNIC()_RSS_CFG[RSS_L4ETC]=1 and NIC_CQE_RX_S[L3TY]=IP* and
                                        NIC_CQE_RX_S[L4TY]=SCTP.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
@@ -919,7 +997,25 @@
                                        NIC_CQE_RX_S[L4TY]=SCTP.
                                        
                                        Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
-#define BDK_NIC_RSS_ALG_E_TCP_IP (3) /**< TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+#define BDK_NIC_RSS_ALG_E_TCP_IP_CN81XX (3) /**< TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+                                       destination, TCP source port, and TCP destination port. Enabled when
+                                       NIC_VNIC()_RSS_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
+                                       
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
+                                       determine IPv4 vs. IPv6 hash sub-type. */
+#define BDK_NIC_RSS_ALG_E_TCP_IP_CN88XX (3) /**< TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+                                       destination, TCP source port, and TCP destination port. Enabled when
+                                       NIC_VNIC()_RSS_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}.
+                                       
+                                       Internal:
+                                       This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
+                                       determine IPv4 vs. IPv6 hash sub-type. */
+#define BDK_NIC_RSS_ALG_E_TCP_IP_CN83XX (3) /**< TCP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, TCP source port, and TCP destination port. Enabled when
                                        NIC_PF_CPI()_CFG[RSS_TCP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=TCP.
                                        
@@ -928,7 +1024,17 @@
                                        Internal:
                                        This algorithm is Msoft-compatible; the NIC_CQE_RX_S[L3TY] field can be used to
                                        determine IPv4 vs. IPv6 hash sub-type. */
-#define BDK_NIC_RSS_ALG_E_UDP_IP (4) /**< UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+#define BDK_NIC_RSS_ALG_E_UDP_IP_CN81XX (4) /**< UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+                                       destination, UDP source port, and UDP destination port. Enabled when
+                                       NIC_VNIC()_RSS_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
+#define BDK_NIC_RSS_ALG_E_UDP_IP_CN88XX (4) /**< UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
+                                       destination, UDP source port, and UDP destination port. Enabled when
+                                       NIC_VNIC()_RSS_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
+                                       
+                                       Extracted key format [287:0] = {L3_SA[127:0], L3_DA[127:0], L4_SP[15:0], L4_DP[15:0]}. */
+#define BDK_NIC_RSS_ALG_E_UDP_IP_CN83XX (4) /**< UDP under IPv4/IPv6. NIC_CQE_RX_S[RSS_TAG] contains a hash of the IPv4/IPv6 source, IP
                                        destination, UDP source port, and UDP destination port. Enabled when
                                        NIC_PF_CPI()_CFG[RSS_UDP]=1 and NIC_CQE_RX_S[L3TY]=IP* and NIC_CQE_RX_S[L4TY]=UDP.
                                        
@@ -1866,7 +1972,7 @@ union bdk_nic_rx_hdr_s
  * Custom Checksum.
  * There may be up to two NIC_SEND_CRC_Ss per packet send descriptor. NIC_SEND_CRC_S constraints:
  * NIC_SEND_CRC_S subdescriptors must precede all NIC_SEND_GATHER_S, NIC_SEND_IMM_S and
- * NICX_SEND_MEM_S subdescriptors in the send descriptor.
+ * NIC_SEND_MEM_S subdescriptors in the send descriptor.
  *
  * NIC_SEND_CRC_S subdescriptors must follow the same order as their checksum and insert regions
  * in the packet, i.e. the checksum and insert regions of a NIC_SEND_CRC_S must come after the
@@ -2047,8 +2153,8 @@ union bdk_nic_send_hdr_s
                                                                  If clear, no CQE is added on normal completion.
 
                                                                  Note that a CQE is always added if the send operation terminates with an error after the
-                                                                 packet is scheduled; except for LOCK_VIOL, where a CQE is determined  by
-                                                                 NIC_PF_QS_CFG[LOCK_VIOL_CQE_EN].
+                                                                 packet is scheduled; except for NIC_CQE_SEND_STATUS_E::LOCK_VIOL, where a CQE is
+                                                                 determined  by NIC_PF_QS()_CFG[LOCK_VIOL_CQE_ENA].
 
                                                                  NIC will not add a CQE for this send descriptor until after it has completed all L2/DRAM
                                                                  fetches that service all prior NIC_SEND_GATHER_S subdescriptors, and it has fetched all
@@ -2202,8 +2308,8 @@ union bdk_nic_send_hdr_s
                                                                  If clear, no CQE is added on normal completion.
 
                                                                  Note that a CQE is always added if the send operation terminates with an error after the
-                                                                 packet is scheduled; except for LOCK_VIOL, where a CQE is determined  by
-                                                                 NIC_PF_QS_CFG[LOCK_VIOL_CQE_EN].
+                                                                 packet is scheduled; except for NIC_CQE_SEND_STATUS_E::LOCK_VIOL, where a CQE is
+                                                                 determined  by NIC_PF_QS()_CFG[LOCK_VIOL_CQE_ENA].
 
                                                                  NIC will not add a CQE for this send descriptor until after it has completed all L2/DRAM
                                                                  fetches that service all prior NIC_SEND_GATHER_S subdescriptors, and it has fetched all
@@ -2297,8 +2403,8 @@ union bdk_nic_send_hdr_s
                                                                  If clear, no CQE is added on normal completion.
 
                                                                  Note that a CQE is always added if the send operation terminates with an error after the
-                                                                 packet is scheduled; except for LOCK_VIOL, where a CQE is determined  by
-                                                                 NIC_PF_QS_CFG[LOCK_VIOL_CQE_EN].
+                                                                 packet is scheduled; except for NIC_CQE_SEND_STATUS_E::LOCK_VIOL, where a CQE is
+                                                                 determined  by NIC_PF_QS()_CFG[LOCK_VIOL_CQE_ENA].
 
                                                                  NIC will not add a CQE for this send descriptor until after it has completed all L2/DRAM
                                                                  fetches that service all prior NIC_SEND_GATHER_S subdescriptors, and it has fetched all
@@ -2447,8 +2553,8 @@ union bdk_nic_send_hdr_s
                                                                  If clear, no CQE is added on normal completion.
 
                                                                  Note that a CQE is always added if the send operation terminates with an error after the
-                                                                 packet is scheduled; except for LOCK_VIOL, where a CQE is determined  by
-                                                                 NIC_PF_QS_CFG[LOCK_VIOL_CQE_EN].
+                                                                 packet is scheduled; except for NIC_CQE_SEND_STATUS_E::LOCK_VIOL, where a CQE is
+                                                                 determined  by NIC_PF_QS()_CFG[LOCK_VIOL_CQE_ENA].
 
                                                                  NIC will not add a CQE for this send descriptor until after it has completed all L2/DRAM
                                                                  fetches that service all prior NIC_SEND_GATHER_S subdescriptors, and it has fetched all
@@ -3210,6 +3316,125 @@ typedef union
                                                                  - 1.
 
                                                                  In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
+                                                                 [CC_ENABLE] should be set to 1 and [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
+                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
+                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
+                                                                 and one TNS credit unit otherwise, as specified by
+                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
+                                                                 [CC_ENABLE] should be set to 1 and [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
+                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_pf_chanx_credit_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT]
+                                                                 should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT]
+                                                                 should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_chanx_credit_s cn88xx; */
+    struct bdk_nic_pf_chanx_credit_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
+                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
+                                                                 and one TNS credit unit otherwise, as specified by
+                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
                                                                  CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
 
                                                                  _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
@@ -3254,65 +3479,7 @@ typedef union
                                                                  192. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    struct bdk_nic_pf_chanx_credit_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
-                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
-                                                                 20-bit field represents a
-                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
-                                                                 flow when the count is less than zero. As such, the most significant bit should normally
-                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
-                                                                 - 1.
-
-                                                                 In order to prevent blocking between LMACs, CC_ENABLE should be set to 1 and CC_UNIT_CNT
-                                                                 should be less than
-
-                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
-
-                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
-                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
-                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
-                                                                 192. */
-        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
-                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
-                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
-                                                                 when the count is less than zero. As such the most significant bit should normally be
-                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
-        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
-        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
-                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
-                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
-                                                                 when the count is less than zero. As such the most significant bit should normally be
-                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
-        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
-                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
-                                                                 20-bit field represents a
-                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
-                                                                 flow when the count is less than zero. As such, the most significant bit should normally
-                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
-                                                                 - 1.
-
-                                                                 In order to prevent blocking between LMACs, CC_ENABLE should be set to 1 and CC_UNIT_CNT
-                                                                 should be less than
-
-                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
-
-                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
-                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
-                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
-                                                                 192. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_nic_pf_chanx_credit_s cn88xx; */
-    /* struct bdk_nic_pf_chanx_credit_s cn83xx; */
+    } cn83xx;
 } bdk_nic_pf_chanx_credit_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3347,9 +3514,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W) This bit is set to enable backpressure for this channel. */
         uint64_t reserved_8_62         : 55;
-        uint64_t bpid                  : 8;  /**< [  7:  0](R/W) BPID used for RX_CHAN backpressure. */
+        uint64_t bpid                  : 8;  /**< [  7:  0](R/W) BPID used for receive channel backpressure. */
 #else /* Word 0 - Little Endian */
-        uint64_t bpid                  : 8;  /**< [  7:  0](R/W) BPID used for RX_CHAN backpressure. */
+        uint64_t bpid                  : 8;  /**< [  7:  0](R/W) BPID used for receive channel backpressure. */
         uint64_t reserved_8_62         : 55;
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W) This bit is set to enable backpressure for this channel. */
 #endif /* Word 0 - End */
@@ -3359,17 +3526,28 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W) This bit is set to enable backpressure for this channel. */
         uint64_t reserved_8_62         : 55;
-        uint64_t reserved_6_7          : 2;
-        uint64_t bpid                  : 6;  /**< [  5:  0](R/W) BPID used for RX_CHAN backpressure. */
+        uint64_t reserved_7            : 1;
+        uint64_t bpid                  : 7;  /**< [  6:  0](R/W) BPID used for RX channel backpressure. */
 #else /* Word 0 - Little Endian */
-        uint64_t bpid                  : 6;  /**< [  5:  0](R/W) BPID used for RX_CHAN backpressure. */
-        uint64_t reserved_6_7          : 2;
+        uint64_t bpid                  : 7;  /**< [  6:  0](R/W) BPID used for RX channel backpressure. */
+        uint64_t reserved_7            : 1;
         uint64_t reserved_8_62         : 55;
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W) This bit is set to enable backpressure for this channel. */
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_pf_chanx_rx_bp_cfg_s cn88xx; */
-    /* struct bdk_nic_pf_chanx_rx_bp_cfg_s cn83xx; */
+    struct bdk_nic_pf_chanx_rx_bp_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) This bit is set to enable backpressure for this channel. */
+        uint64_t reserved_8_62         : 55;
+        uint64_t bpid                  : 8;  /**< [  7:  0](R/W) BPID used for RX_CHAN backpressure. */
+#else /* Word 0 - Little Endian */
+        uint64_t bpid                  : 8;  /**< [  7:  0](R/W) BPID used for RX_CHAN backpressure. */
+        uint64_t reserved_8_62         : 55;
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) This bit is set to enable backpressure for this channel. */
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_chanx_rx_bp_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_CHANX_RX_BP_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3830,6 +4008,42 @@ typedef union
                                                                  packets/sec, and a coprocessor clock of 800 MHz, approximately 400 packets may arrive
                                                                  between average calculations.
 
+                                                                 Larger [LVL_DLY] and [AVG_DLY] values cause the moving averages of all CQ levels to track
+                                                                 changes in the actual free space more slowly. Larger NIC_QS()_CQ()_CFG[AVG_CON] values
+                                                                 causes a specific CQ to track more slowly, but only affects an individual CQ level, rather
+                                                                 than all. */
+#else /* Word 0 - Little Endian */
+        uint64_t avg_dly               : 14; /**< [ 13:  0](R/W) Average-queue-size delay. Must be non-zero when [AVG_EN] is set. The moving average
+                                                                 calculation for each CQ is performed every 1024 * ([AVG_DLY]+1) * ([LVL_DLY]+1)
+                                                                 coprocessor clocks. Note the minimum value of 6144 cycles implies that at 50 M
+                                                                 packets/sec, and a coprocessor clock of 800 MHz, approximately 400 packets may arrive
+                                                                 between average calculations.
+
+                                                                 Larger [LVL_DLY] and [AVG_DLY] values cause the moving averages of all CQ levels to track
+                                                                 changes in the actual free space more slowly. Larger NIC_QS()_CQ()_CFG[AVG_CON] values
+                                                                 causes a specific CQ to track more slowly, but only affects an individual CQ level, rather
+                                                                 than all. */
+        uint64_t lvl_dly               : 6;  /**< [ 19: 14](R/W) Levelizer delay. See [AVG_DLY]. Must be >= 2 when [AVG_EN] is set. */
+        uint64_t avg_en                : 1;  /**< [ 20: 20](R/W) QoS averaging enable. When set, compute average buffer levels. When clear, do not compute
+                                                                 averages and save a few mW of power. */
+        uint64_t reserved_21_63        : 43;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_cq_avg_cfg_s cn81xx; */
+    /* struct bdk_nic_pf_cq_avg_cfg_s cn88xx; */
+    struct bdk_nic_pf_cq_avg_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_21_63        : 43;
+        uint64_t avg_en                : 1;  /**< [ 20: 20](R/W) QoS averaging enable. When set, compute average buffer levels. When clear, do not compute
+                                                                 averages and save a few mW of power. */
+        uint64_t lvl_dly               : 6;  /**< [ 19: 14](R/W) Levelizer delay. See [AVG_DLY]. Must be >= 2 when [AVG_EN] is set. */
+        uint64_t avg_dly               : 14; /**< [ 13:  0](R/W) Average-queue-size delay. Must be non-zero when [AVG_EN] is set. The moving average
+                                                                 calculation for each CQ is performed every 1024 * ([AVG_DLY]+1) * ([LVL_DLY]+1)
+                                                                 coprocessor clocks. Note the minimum value of 6144 cycles implies that at 50 M
+                                                                 packets/sec, and a coprocessor clock of 800 MHz, approximately 400 packets may arrive
+                                                                 between average calculations.
+
                                                                  Larger [LVL_DLY] and [AVG_DLV] values cause the moving averages of all CQ levels to track
                                                                  changes in the actual free space more slowly. Larger NIC_QS()_CQ()_CFG[AVG_CON] values
                                                                  causes a specific CQ to track more slowly, but only affects an individual CQ level, rather
@@ -3850,8 +4064,7 @@ typedef union
                                                                  averages and save a few mW of power. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_cq_avg_cfg_s cn; */
+    } cn83xx;
 } bdk_nic_pf_cq_avg_cfg_t;
 
 #define BDK_NIC_PF_CQ_AVG_CFG BDK_NIC_PF_CQ_AVG_CFG_FUNC()
@@ -3946,6 +4159,54 @@ typedef union
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = cqe_gnt_cont: Stall grant to REB for continuation cache lines of a CQE.
+                                                                 <62> = cqe_gnt_first: Stall grant to REB & SEB for first cache line of a CQE.
+                                                                 <61> = cqe_req: Stall CQE write requests from REB & SEB.
+                                                                 <60> = intr: Stall CQ interrupts to CSI. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = cqe_gnt_cont: Stall grant to REB for continuation cache lines of a CQE.
+                                                                 <62> = cqe_gnt_first: Stall grant to REB & SEB for first cache line of a CQE.
+                                                                 <61> = cqe_req: Stall CQE write requests from REB & SEB.
+                                                                 <60> = intr: Stall CQ interrupts to CSI. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_cqm_test_s cn81xx; */
+    /* struct bdk_nic_pf_cqm_test_s cn88xx; */
+    struct bdk_nic_pf_cqm_test_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = CQE_GNT_CONT: Stall grant to REB for continuation cache lines of a CQE.
                                                                  <62> = CQE_GNT_FIRST: Stall grant to REB & SEB for first cache line of a CQE.
                                                                  <61> = CQE_REQ: Stall CQE write requests from REB & SEB.
@@ -3984,8 +4245,7 @@ typedef union
                                                                  <61> = CQE_REQ: Stall CQE write requests from REB & SEB.
                                                                  <60> = INTR: Stall CQ interrupts to CSI. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_cqm_test_s cn; */
+    } cn83xx;
 } bdk_nic_pf_cqm_test_t;
 
 #define BDK_NIC_PF_CQM_TEST BDK_NIC_PF_CQM_TEST_FUNC()
@@ -4011,6 +4271,54 @@ typedef union
 {
     uint64_t u;
     struct bdk_nic_pf_csi_test_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
+                                                                 <62> = Reserved.
+                                                                 <61> = Reserved.
+                                                                 <60> = pib_stall. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
+                                                                 <62> = Reserved.
+                                                                 <61> = Reserved.
+                                                                 <60> = pib_stall. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_csi_test_s cn81xx; */
+    /* struct bdk_nic_pf_csi_test_s cn88xx; */
+    struct bdk_nic_pf_csi_test_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
@@ -4055,8 +4363,7 @@ typedef union
                                                                  <61> = Reserved.
                                                                  <60> = PIB_STALL. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_csi_test_s cn; */
+    } cn83xx;
 } bdk_nic_pf_csi_test_t;
 
 #define BDK_NIC_PF_CSI_TEST BDK_NIC_PF_CSI_TEST_FUNC()
@@ -9461,14 +9768,27 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
         uint64_t clk_per_int_tick      : 24; /**< [ 23:  0](R/W) Specifies tick period for the CQ interrupt timers in NIC_QS()_CQ()_STATUS2[GLOBAL_TIME].
+                                                                 The number of coprocessor-clock cycles per tick is 16*[CLK_PER_INT_TICK]. */
+#else /* Word 0 - Little Endian */
+        uint64_t clk_per_int_tick      : 24; /**< [ 23:  0](R/W) Specifies tick period for the CQ interrupt timers in NIC_QS()_CQ()_STATUS2[GLOBAL_TIME].
+                                                                 The number of coprocessor-clock cycles per tick is 16*[CLK_PER_INT_TICK]. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_int_timer_cfg_s cn81xx; */
+    /* struct bdk_nic_pf_int_timer_cfg_s cn88xx; */
+    struct bdk_nic_pf_int_timer_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t clk_per_int_tick      : 24; /**< [ 23:  0](R/W) Specifies tick period for the CQ interrupt timers in NIC_QS()_CQ()_STATUS2[GLOBAL_TIME].
                                                                  The number of coprocessor-clock cycles per tick is 16*CLK_PER_INT_TICK. */
 #else /* Word 0 - Little Endian */
         uint64_t clk_per_int_tick      : 24; /**< [ 23:  0](R/W) Specifies tick period for the CQ interrupt timers in NIC_QS()_CQ()_STATUS2[GLOBAL_TIME].
                                                                  The number of coprocessor-clock cycles per tick is 16*CLK_PER_INT_TICK. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_int_timer_cfg_s cn; */
+    } cn83xx;
 } bdk_nic_pf_int_timer_cfg_t;
 
 #define BDK_NIC_PF_INT_TIMER_CFG BDK_NIC_PF_INT_TIMER_CFG_FUNC()
@@ -9657,6 +9977,117 @@ typedef union
                                                                  NIC_SEND_CRC_S with NIC_SEND_CRCALG_E::CKSUM is ignored. */
         uint64_t cut_disable           : 1;  /**< [ 20: 20](R/W) Send cut-through context disable. Used for debug, should be clear for normal operation.
                                                                  Setting the bit for either TNS interface disables cut-through for both interfaces. */
+        uint64_t tstmp_wd_period       : 4;  /**< [ 19: 16](R/W) Timestamp watchdog timeout count. The timeout period is 4*(2^[TSTMP_WD_PERIOD]) timer
+                                                                 ticks,
+                                                                 where each tick is 1024 coprocessor-clock cycles: 0 = 4 ticks, 1 = 8 tick, ... 15 = 131072
+                                                                 ticks.  If NIC
+                                                                 sends a packet with NIC_SEND_HDR_S[TSTMP] = 1 and the packet is not transmitted by the
+                                                                 targeted Ethernet port within the timeout period (e.g. if the packet is dropped by TNS), a
+                                                                 CQ entry is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP and
+                                                                 NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::TSTMP_TIMEOUT. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t l2ptr                 : 6;  /**< [ 13:  8](R/W) Layer 2 Offset. Specifies the location of the first byte of the L2 (Ethernet) header for
+                                                                 all packets sent on the associated NIC TNS interface. NIC examines the L2 header to
+                                                                 determine the packet type (unicast, broadcast or multicast) for updating the VNIC transmit
+                                                                 statistics. */
+        uint64_t tns_nonbypass         : 1;  /**< [  7:  7](R/W) This bit must be clear when TNS is bypassed for this interface, and set when TNS is
+                                                                 not bypassed:
+                                                                 0 = 16 channels per LMAC; one octword (16 bytes) per send channel credit.
+                                                                 1 = 32 channels per LMAC; channel credit size is specified by [TNS_CREDIT_SIZE]. */
+        uint64_t reserved_6            : 1;
+        uint64_t tns_credit_size       : 2;  /**< [  5:  4](R/W) Send channel credit size when the TNS interface is not bypassed. Used only when
+                                                                 [TNS_NONBYPASS] is set, and must be set to a value consistent with the header extraction
+                                                                 size in TNS. Enumerated by NIC_TNS_CREDIT_SIZE_E. */
+        uint64_t block                 : 4;  /**< [  3:  0](R/W) Block ID for the NIC send interface. Enumerated by NIC_INTF_BLOCK_E. Must set to
+                                                                 NIC_INTF_BLOCK_E::TNS_PORT({a})_BLOCK if TNS is not bypassed,
+                                                                 NIC_INTF_BLOCK_E::BGX({a})_BLOCK if TNS is bypassed, where {a} is the index of this
+                                                                 register.
+
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of P2X channel ID. */
+#else /* Word 0 - Little Endian */
+        uint64_t block                 : 4;  /**< [  3:  0](R/W) Block ID for the NIC send interface. Enumerated by NIC_INTF_BLOCK_E. Must set to
+                                                                 NIC_INTF_BLOCK_E::TNS_PORT({a})_BLOCK if TNS is not bypassed,
+                                                                 NIC_INTF_BLOCK_E::BGX({a})_BLOCK if TNS is bypassed, where {a} is the index of this
+                                                                 register.
+
+                                                                 Internal:
+                                                                 Specifies upper 4 bits of P2X channel ID. */
+        uint64_t tns_credit_size       : 2;  /**< [  5:  4](R/W) Send channel credit size when the TNS interface is not bypassed. Used only when
+                                                                 [TNS_NONBYPASS] is set, and must be set to a value consistent with the header extraction
+                                                                 size in TNS. Enumerated by NIC_TNS_CREDIT_SIZE_E. */
+        uint64_t reserved_6            : 1;
+        uint64_t tns_nonbypass         : 1;  /**< [  7:  7](R/W) This bit must be clear when TNS is bypassed for this interface, and set when TNS is
+                                                                 not bypassed:
+                                                                 0 = 16 channels per LMAC; one octword (16 bytes) per send channel credit.
+                                                                 1 = 32 channels per LMAC; channel credit size is specified by [TNS_CREDIT_SIZE]. */
+        uint64_t l2ptr                 : 6;  /**< [ 13:  8](R/W) Layer 2 Offset. Specifies the location of the first byte of the L2 (Ethernet) header for
+                                                                 all packets sent on the associated NIC TNS interface. NIC examines the L2 header to
+                                                                 determine the packet type (unicast, broadcast or multicast) for updating the VNIC transmit
+                                                                 statistics. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t tstmp_wd_period       : 4;  /**< [ 19: 16](R/W) Timestamp watchdog timeout count. The timeout period is 4*(2^[TSTMP_WD_PERIOD]) timer
+                                                                 ticks,
+                                                                 where each tick is 1024 coprocessor-clock cycles: 0 = 4 ticks, 1 = 8 tick, ... 15 = 131072
+                                                                 ticks.  If NIC
+                                                                 sends a packet with NIC_SEND_HDR_S[TSTMP] = 1 and the packet is not transmitted by the
+                                                                 targeted Ethernet port within the timeout period (e.g. if the packet is dropped by TNS), a
+                                                                 CQ entry is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP and
+                                                                 NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::TSTMP_TIMEOUT. */
+        uint64_t cut_disable           : 1;  /**< [ 20: 20](R/W) Send cut-through context disable. Used for debug, should be clear for normal operation.
+                                                                 Setting the bit for either TNS interface disables cut-through for both interfaces. */
+        uint64_t cksum_enable          : 1;  /**< [ 21: 21](R/W) NIC_SEND_CRC_S checksum algorithm enable (NIC_SEND_CRCALG_E::CKSUM). Keeping the bit clear
+                                                                 for either interface disables the checksum algorithm for both interfaces. When disabled, a
+                                                                 NIC_SEND_CRC_S with NIC_SEND_CRCALG_E::CKSUM is ignored. */
+        uint64_t reserved_22_63        : 42;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_pf_intfx_send_cfg_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t tstmp_wd_period       : 4;  /**< [ 19: 16](R/W) Timestamp watchdog timeout count. The timeout period is 4*(2^[TSTMP_WD_PERIOD]) timer
+                                                                 ticks,
+                                                                 where each tick is 1024 coprocessor-clock cycles: 0 = 4 ticks, 1 = 8 tick, ... 15 = 131072
+                                                                 ticks.  If NIC
+                                                                 sends a packet with NIC_SEND_HDR_S[TSTMP] = 1 and the packet is not transmitted by the
+                                                                 targeted Ethernet port within the timeout period, a
+                                                                 CQ entry is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP and
+                                                                 NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::TSTMP_TIMEOUT. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t l2ptr                 : 6;  /**< [ 13:  8](R/W) Layer 2 Offset. Specifies the location of the first byte of the L2 (Ethernet) header for
+                                                                 all packets sent on the associated NIC interface. NIC examines the L2 header to
+                                                                 determine the packet type (unicast, broadcast or multicast) for updating the VNIC transmit
+                                                                 statistics. */
+        uint64_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_7          : 8;
+        uint64_t l2ptr                 : 6;  /**< [ 13:  8](R/W) Layer 2 Offset. Specifies the location of the first byte of the L2 (Ethernet) header for
+                                                                 all packets sent on the associated NIC interface. NIC examines the L2 header to
+                                                                 determine the packet type (unicast, broadcast or multicast) for updating the VNIC transmit
+                                                                 statistics. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t tstmp_wd_period       : 4;  /**< [ 19: 16](R/W) Timestamp watchdog timeout count. The timeout period is 4*(2^[TSTMP_WD_PERIOD]) timer
+                                                                 ticks,
+                                                                 where each tick is 1024 coprocessor-clock cycles: 0 = 4 ticks, 1 = 8 tick, ... 15 = 131072
+                                                                 ticks.  If NIC
+                                                                 sends a packet with NIC_SEND_HDR_S[TSTMP] = 1 and the packet is not transmitted by the
+                                                                 targeted Ethernet port within the timeout period, a
+                                                                 CQ entry is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP and
+                                                                 NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::TSTMP_TIMEOUT. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_intfx_send_cfg_s cn88xx; */
+    struct bdk_nic_pf_intfx_send_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_22_63        : 42;
+        uint64_t cksum_enable          : 1;  /**< [ 21: 21](R/W) NIC_SEND_CRC_S checksum algorithm enable (NIC_SEND_CRCALG_E::CKSUM). Keeping the bit clear
+                                                                 for either interface disables the checksum algorithm for both interfaces. When disabled, a
+                                                                 NIC_SEND_CRC_S with NIC_SEND_CRCALG_E::CKSUM is ignored. */
+        uint64_t cut_disable           : 1;  /**< [ 20: 20](R/W) Send cut-through context disable. Used for debug, should be clear for normal operation.
+                                                                 Setting the bit for either TNS interface disables cut-through for both interfaces. */
         uint64_t tstmp_wd_period       : 4;  /**< [ 19: 16](R/W) Timestamp watchdog timeout count. The timeout period is 4*(2^TSTMP_WD_PERIOD) timer ticks,
                                                                  where each tick is 1024 coprocessor-clock cycles: 0 = 4 ticks, 1 = 8 tick, ... 15 = 131072
                                                                  ticks.  If NIC
@@ -9719,43 +10150,7 @@ typedef union
                                                                  NIC_SEND_CRC_S with NIC_SEND_CRCALG_E::CKSUM is ignored. */
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
-    } s;
-    struct bdk_nic_pf_intfx_send_cfg_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t tstmp_wd_period       : 4;  /**< [ 19: 16](R/W) Timestamp watchdog timeout count. The timeout period is 4*(2^TSTMP_WD_PERIOD) timer ticks,
-                                                                 where each tick is 1024 coprocessor-clock cycles: 0 = 4 ticks, 1 = 8 tick, ... 15 = 131072
-                                                                 ticks.  If NIC
-                                                                 sends a packet with NIC_SEND_HDR_S[TSTMP] = 1 and the packet is not transmitted by the
-                                                                 targeted Ethernet port within the timeout period, a
-                                                                 CQ entry is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP and
-                                                                 NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::TSTMP_TIMEOUT. */
-        uint64_t reserved_14_15        : 2;
-        uint64_t l2ptr                 : 6;  /**< [ 13:  8](R/W) Layer 2 Offset. Specifies the location of the first byte of the L2 (Ethernet) header for
-                                                                 all packets sent on the associated NIC interface. NIC examines the L2 header to
-                                                                 determine the packet type (unicast, broadcast or multicast) for updating the VNIC transmit
-                                                                 statistics. */
-        uint64_t reserved_0_7          : 8;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_7          : 8;
-        uint64_t l2ptr                 : 6;  /**< [ 13:  8](R/W) Layer 2 Offset. Specifies the location of the first byte of the L2 (Ethernet) header for
-                                                                 all packets sent on the associated NIC interface. NIC examines the L2 header to
-                                                                 determine the packet type (unicast, broadcast or multicast) for updating the VNIC transmit
-                                                                 statistics. */
-        uint64_t reserved_14_15        : 2;
-        uint64_t tstmp_wd_period       : 4;  /**< [ 19: 16](R/W) Timestamp watchdog timeout count. The timeout period is 4*(2^TSTMP_WD_PERIOD) timer ticks,
-                                                                 where each tick is 1024 coprocessor-clock cycles: 0 = 4 ticks, 1 = 8 tick, ... 15 = 131072
-                                                                 ticks.  If NIC
-                                                                 sends a packet with NIC_SEND_HDR_S[TSTMP] = 1 and the packet is not transmitted by the
-                                                                 targeted Ethernet port within the timeout period, a
-                                                                 CQ entry is posted with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP and
-                                                                 NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::TSTMP_TIMEOUT. */
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_nic_pf_intfx_send_cfg_s cn88xx; */
-    /* struct bdk_nic_pf_intfx_send_cfg_s cn83xx; */
+    } cn83xx;
 } bdk_nic_pf_intfx_send_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9942,6 +10337,125 @@ typedef union
                                                                  - 1.
 
                                                                  In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
+                                                                 [CC_ENABLE] should be set to 1 and [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
+                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
+                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
+                                                                 and one TNS credit unit otherwise, as specified by
+                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
+                                                                 [CC_ENABLE] should be set to 1 and [CC_UNIT_CNT] should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
+                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_nic_pf_lmacx_credit_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT]
+                                                                 should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables [CC_UNIT_CNT] and [CC_PACKET_CNT] aggregate credit processing. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
+                                                                 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs, [CC_ENABLE] should be set to 1 and
+                                                                 [CC_UNIT_CNT]
+                                                                 should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
+                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then [CC_UNIT_CNT] should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_lmacx_credit_s cn88xx; */
+    struct bdk_nic_pf_lmacx_credit_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
+                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
+                                                                 and one TNS credit unit otherwise, as specified by
+                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
                                                                  CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
 
                                                                  _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
@@ -9986,65 +10500,7 @@ typedef union
                                                                  192. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    struct bdk_nic_pf_lmacx_credit_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
-                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
-                                                                 20-bit field represents a
-                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
-                                                                 flow when the count is less than zero. As such, the most significant bit should normally
-                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
-                                                                 - 1.
-
-                                                                 In order to prevent blocking between LMACs, CC_ENABLE should be set to 1 and CC_UNIT_CNT
-                                                                 should be less than
-
-                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
-
-                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
-                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
-                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
-                                                                 192. */
-        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
-                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
-                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
-                                                                 when the count is less than zero. As such the most significant bit should normally be
-                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
-        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
-        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
-                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
-                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
-                                                                 when the count is less than zero. As such the most significant bit should normally be
-                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
-        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
-                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes.  Note that this
-                                                                 20-bit field represents a
-                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
-                                                                 flow when the count is less than zero. As such, the most significant bit should normally
-                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
-                                                                 - 1.
-
-                                                                 In order to prevent blocking between LMACs, CC_ENABLE should be set to 1 and CC_UNIT_CNT
-                                                                 should be less than
-
-                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
-
-                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if
-                                                                 BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
-                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
-                                                                 192. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_nic_pf_lmacx_credit_s cn88xx; */
-    /* struct bdk_nic_pf_lmacx_credit_s cn83xx; */
+    } cn83xx;
 } bdk_nic_pf_lmacx_credit_t;
 
 static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10216,27 +10672,36 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX<63:0>] for VFs 63-0,
                                                                  NIC_PF_MBOX_INT(1)[MBOX<63:0>] for VFs 127-64.  Each bit is set when the associated
-                                                                 NIC_VF(0..127)_PF_MBOX(1) register is written. */
+                                                                 NIC_VF()_PF_MBOX(1) register is written. */
 #else /* Word 0 - Little Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX<63:0>] for VFs 63-0,
                                                                  NIC_PF_MBOX_INT(1)[MBOX<63:0>] for VFs 127-64.  Each bit is set when the associated
-                                                                 NIC_VF(0..127)_PF_MBOX(1) register is written. */
+                                                                 NIC_VF()_PF_MBOX(1) register is written. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_nic_pf_mbox_intx_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX<63:0>] for VFs 63-0,
-                                                                 NIC_PF_MBOX_INT(1)[MBOX<63:0>] for VFs 127-64.  Each bit is set when the associated
-                                                                 NIC_VF(0..7)_PF_MBOX(1) register is written. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, e.g. NIC_PF_MBOX_INT(0)[MBOX<5>] for VF 5.
+                                                                 Each bit is set when the associated NIC_VF()_PF_MBOX(1) register is written. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX<63:0>] for VFs 63-0,
-                                                                 NIC_PF_MBOX_INT(1)[MBOX<63:0>] for VFs 127-64.  Each bit is set when the associated
-                                                                 NIC_VF(0..7)_PF_MBOX(1) register is written. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, e.g. NIC_PF_MBOX_INT(0)[MBOX<5>] for VF 5.
+                                                                 Each bit is set when the associated NIC_VF()_PF_MBOX(1) register is written. */
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_pf_mbox_intx_s cn88xx; */
-    /* struct bdk_nic_pf_mbox_intx_s cn83xx; */
+    struct bdk_nic_pf_mbox_intx_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX<63:0>] for VFs 63-0,
+                                                                 NIC_PF_MBOX_INT(1)[MBOX<63:0>] for VFs 127-64.  Each bit is set when the associated
+                                                                 NIC_VF(0..127)_PF_MBOX(1) register is written. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF, NIC_PF_MBOX_INT(0)[MBOX<63:0>] for VFs 63-0,
+                                                                 NIC_PF_MBOX_INT(1)[MBOX<63:0>] for VFs 127-64.  Each bit is set when the associated
+                                                                 NIC_VF(0..127)_PF_MBOX(1) register is written. */
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_mbox_intx_t;
 
 static inline uint64_t BDK_NIC_PF_MBOX_INTX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10886,7 +11351,60 @@ typedef union
         uint64_t dext_abs              : 1;  /**< [ 63: 63](RAZ) Reserved. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_nic_pf_pkindx_cfg_s cn88xxp1; */
+    struct bdk_nic_pf_pkindx_cfg_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dext_abs              : 1;  /**< [ 63: 63](RAZ) Reserved. */
+        uint64_t dext_sl               : 7;  /**< [ 62: 56](RAZ) Reserved. */
+        uint64_t reserved_42_55        : 14;
+        uint64_t hdr_sl                : 5;  /**< [ 41: 37](R/W) Header skip length. Number of 2-byte words parser should skip between the start of the
+                                                                 packet and the NIC_RX_HDR_S (if [RX_HDR] is set) or Ethernet address (if [RX_HDR] is
+                                                                 clear). For BGX, should be 0x4 if a timestamp is present; see also
+                                                                 BGX()_SMU()_RX_FRM_CTL[PTP_MODE]. For TNS should be 0x8. */
+        uint64_t rx_hdr                : 3;  /**< [ 36: 34](R/W) Receive header present.
+                                                                 0x0 = No NIC_RX_HDR_S is present.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = NIC_RX_HDR_S is present, two bytes are valid; NIC_RX_HDR_S[RSS_FLOW], [HDR_SL] and
+                                                                 NIC_RX_HDR_S[RSS_DIS] are not read from the packet and treated as if zero.
+                                                                 0x3 = NIC_RX_HDR_S is present, three bytes are valid; NIC_RX_HDR_S[RSS_FLOW] are not read
+                                                                 from the packet and treated as if zero.
+                                                                 0x4 = NIC_RX_HDR_S is present, four bytes are valid.
+                                                                 0x5-0x7 = Reserved. */
+        uint64_t lenerr_en             : 1;  /**< [ 33: 33](R/W) L2 length error check enable. Check if frame was received with L2 length error, see
+                                                                 NIC_ERROP_E::L2_LENMISM. */
+        uint64_t reserved_32           : 1;
+        uint64_t maxlen                : 16; /**< [ 31: 16](R/W) Byte count for max-sized frame check. See NIC_ERROP_E::L2_OVERSIZE. This length must
+                                                                 include any timstamps or NIC_CQE_RX_S, and any VLANs which may be stripped. FCS bytes are
+                                                                 not included. Set to all-ones to disable this check. */
+        uint64_t minlen                : 16; /**< [ 15:  0](R/W) Byte count for min-sized frame check. See NIC_ERROP_E::L2_UNDERSIZE. Set to zero to
+                                                                 disable this check. */
+#else /* Word 0 - Little Endian */
+        uint64_t minlen                : 16; /**< [ 15:  0](R/W) Byte count for min-sized frame check. See NIC_ERROP_E::L2_UNDERSIZE. Set to zero to
+                                                                 disable this check. */
+        uint64_t maxlen                : 16; /**< [ 31: 16](R/W) Byte count for max-sized frame check. See NIC_ERROP_E::L2_OVERSIZE. This length must
+                                                                 include any timstamps or NIC_CQE_RX_S, and any VLANs which may be stripped. FCS bytes are
+                                                                 not included. Set to all-ones to disable this check. */
+        uint64_t reserved_32           : 1;
+        uint64_t lenerr_en             : 1;  /**< [ 33: 33](R/W) L2 length error check enable. Check if frame was received with L2 length error, see
+                                                                 NIC_ERROP_E::L2_LENMISM. */
+        uint64_t rx_hdr                : 3;  /**< [ 36: 34](R/W) Receive header present.
+                                                                 0x0 = No NIC_RX_HDR_S is present.
+                                                                 0x1 = Reserved.
+                                                                 0x2 = NIC_RX_HDR_S is present, two bytes are valid; NIC_RX_HDR_S[RSS_FLOW], [HDR_SL] and
+                                                                 NIC_RX_HDR_S[RSS_DIS] are not read from the packet and treated as if zero.
+                                                                 0x3 = NIC_RX_HDR_S is present, three bytes are valid; NIC_RX_HDR_S[RSS_FLOW] are not read
+                                                                 from the packet and treated as if zero.
+                                                                 0x4 = NIC_RX_HDR_S is present, four bytes are valid.
+                                                                 0x5-0x7 = Reserved. */
+        uint64_t hdr_sl                : 5;  /**< [ 41: 37](R/W) Header skip length. Number of 2-byte words parser should skip between the start of the
+                                                                 packet and the NIC_RX_HDR_S (if [RX_HDR] is set) or Ethernet address (if [RX_HDR] is
+                                                                 clear). For BGX, should be 0x4 if a timestamp is present; see also
+                                                                 BGX()_SMU()_RX_FRM_CTL[PTP_MODE]. For TNS should be 0x8. */
+        uint64_t reserved_42_55        : 14;
+        uint64_t dext_sl               : 7;  /**< [ 62: 56](RAZ) Reserved. */
+        uint64_t dext_abs              : 1;  /**< [ 63: 63](RAZ) Reserved. */
+#endif /* Word 0 - End */
+    } cn88xxp1;
     struct bdk_nic_pf_pkindx_cfg_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -11002,8 +11520,8 @@ typedef union
         uint64_t rx_hdr                : 3;  /**< [ 36: 34](R/W) Receive header present.
                                                                  0x0 = No NIC_RX_HDR_S is present.
                                                                  0x1 = Reserved.
-                                                                 0x2 = NIC_RX_HDR_S is present, two bytes are valid; NIC_RX_HDR_S[RSS_FLOW, HDR_SL and
-                                                                 RSS_DIS] are not read from the packet and treated as if zero.
+                                                                 0x2 = NIC_RX_HDR_S is present, two bytes are valid; NIC_RX_HDR_S[RSS_FLOW], [HDR_SL] and
+                                                                 NIC_RX_HDR_S[RSS_DIS] are not read from the packet and treated as if zero.
                                                                  0x3 = NIC_RX_HDR_S is present, three bytes are valid; NIC_RX_HDR_S[RSS_FLOW] are not read
                                                                  from the packet and treated as if zero.
                                                                  0x4 = NIC_RX_HDR_S is present, four bytes are valid.
@@ -11028,8 +11546,8 @@ typedef union
         uint64_t rx_hdr                : 3;  /**< [ 36: 34](R/W) Receive header present.
                                                                  0x0 = No NIC_RX_HDR_S is present.
                                                                  0x1 = Reserved.
-                                                                 0x2 = NIC_RX_HDR_S is present, two bytes are valid; NIC_RX_HDR_S[RSS_FLOW, HDR_SL and
-                                                                 RSS_DIS] are not read from the packet and treated as if zero.
+                                                                 0x2 = NIC_RX_HDR_S is present, two bytes are valid; NIC_RX_HDR_S[RSS_FLOW], [HDR_SL] and
+                                                                 NIC_RX_HDR_S[RSS_DIS] are not read from the packet and treated as if zero.
                                                                  0x3 = NIC_RX_HDR_S is present, three bytes are valid; NIC_RX_HDR_S[RSS_FLOW] are not read
                                                                  from the packet and treated as if zero.
                                                                  0x4 = NIC_RX_HDR_S is present, four bytes are valid.
@@ -11088,7 +11606,7 @@ typedef union
                                                                  with byte 0 the first byte onto the wire. */
         uint64_t lock_ena              : 1;  /**< [ 19: 19](R/W) Lockdown enable. When set, the NIC_PF_QS()_LOCK() registers can be used to lock
                                                                  down one of more bytes in packets transmitted by the QS. */
-        uint64_t lock_viol_cqe_ena     : 1;  /**< [ 18: 18](R/W) Enable generation of NIC_CQE_SEND_S with SEND_STATUS=NIC_CQE_SEND_STATUS_E::LOCK_VIOL. */
+        uint64_t lock_viol_cqe_ena     : 1;  /**< [ 18: 18](R/W) Enable generation of NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::LOCK_VIOL. */
         uint64_t send_tstmp_ena        : 1;  /**< [ 17: 17](R/W) Send timestamp enable. When set, the QS is allowed to send packets with NIC_SEND_HDR_S[TSTMP]=1. */
         uint64_t be                    : 1;  /**< [ 16: 16](R/W) Big-endian mode. Specifies big-endian for data structures in L2C/DRAM that are accessed by
                                                                  the QS.
@@ -11136,7 +11654,7 @@ typedef union
                                                                  for packet data that may be embedded in CQ entries that start with NIC_CQE_RX_S, or
                                                                  immediate data in or following NIC_SEND_IMM_S. */
         uint64_t send_tstmp_ena        : 1;  /**< [ 17: 17](R/W) Send timestamp enable. When set, the QS is allowed to send packets with NIC_SEND_HDR_S[TSTMP]=1. */
-        uint64_t lock_viol_cqe_ena     : 1;  /**< [ 18: 18](R/W) Enable generation of NIC_CQE_SEND_S with SEND_STATUS=NIC_CQE_SEND_STATUS_E::LOCK_VIOL. */
+        uint64_t lock_viol_cqe_ena     : 1;  /**< [ 18: 18](R/W) Enable generation of NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::LOCK_VIOL. */
         uint64_t lock_ena              : 1;  /**< [ 19: 19](R/W) Lockdown enable. When set, the NIC_PF_QS()_LOCK() registers can be used to lock
                                                                  down one of more bytes in packets transmitted by the QS. */
         uint64_t sq_ins_pos            : 6;  /**< [ 25: 20](R/W) SQ data insertion position. When [SQ_INS_ENA] is set, the byte number in the transmitted
@@ -11151,6 +11669,85 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     struct bdk_nic_pf_qsx_cfg_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ena                   : 1;  /**< [ 31: 31](R/W) Enable QS. */
+        uint64_t reserved_27_30        : 4;
+        uint64_t sq_ins_ena            : 1;  /**< [ 26: 26](R/W) SQ data insertion enable. When set, insert NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]
+                                                                 into transmitted packets. */
+        uint64_t sq_ins_pos            : 6;  /**< [ 25: 20](R/W) SQ data insertion position. When [SQ_INS_ENA] is set, the byte number in the transmitted
+                                                                 packet at which to insert the least significant byte of
+                                                                 NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]. Bytes are numbered in little endian form,
+                                                                 with byte 0 the first byte onto the wire. */
+        uint64_t lock_ena              : 1;  /**< [ 19: 19](R/W) Lockdown enable. When set, the NIC_PF_QS()_LOCK() registers can be used to lock
+                                                                 down one of more bytes in packets transmitted by the QS. */
+        uint64_t lock_viol_cqe_ena     : 1;  /**< [ 18: 18](R/W) Enable generation of NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::LOCK_VIOL. */
+        uint64_t send_tstmp_ena        : 1;  /**< [ 17: 17](R/W) Send timestamp enable. When set, the QS is allowed to send packets with NIC_SEND_HDR_S[TSTMP]=1. */
+        uint64_t be                    : 1;  /**< [ 16: 16](R/W) Big-endian mode. Specifies big-endian for data structures in L2C/DRAM that are accessed by
+                                                                 the QS.
+
+                                                                 When set, all data structures are in byte invariant big-endian format (BE8) with the
+                                                                 following ordering within each 64-bit word: <63:56> at byte address 0, <55:48> at address
+                                                                 1, ..., <7:0> at address 0x7.
+
+                                                                 When clear, all data structures are in byte invariant little-endian format (LE8) with the
+                                                                 following ordering within each 64-bit word: <7:0> at byte address 0, <15:8> at address 1,
+                                                                 ..., <63:56> at address 0x7.
+
+                                                                 The affected data structures are:
+                                                                 * Receive buffer descriptor: NIC_RBDR_ENTRY_S.
+                                                                 * All send subdescriptors: NIC_SEND_*_S.
+                                                                 * All CQ entries, i.e. all structures starting with  NIC_CQE_RX_S and NIC_CQE_SEND_S,
+                                                                 excluding any packet data embedded in these structures.
+                                                                 Note that this bit does not affect the byte ordering of packet data, which is treated as a
+                                                                 byte stream transmitted by incrementing byte address. The same byte ordering is also used
+                                                                 for packet data that may be embedded in CQ entries that start with NIC_CQE_RX_S, or
+                                                                 immediate data in or following NIC_SEND_IMM_S. */
+        uint64_t reserved_7_15         : 9;
+        uint64_t reserved_3_6          : 4;
+        uint64_t vnic                  : 3;  /**< [  2:  0](R/W) VNIC to which this QS is assigned. If this QS is a VNIC, then must be set to the QS number. */
+#else /* Word 0 - Little Endian */
+        uint64_t vnic                  : 3;  /**< [  2:  0](R/W) VNIC to which this QS is assigned. If this QS is a VNIC, then must be set to the QS number. */
+        uint64_t reserved_3_6          : 4;
+        uint64_t reserved_7_15         : 9;
+        uint64_t be                    : 1;  /**< [ 16: 16](R/W) Big-endian mode. Specifies big-endian for data structures in L2C/DRAM that are accessed by
+                                                                 the QS.
+
+                                                                 When set, all data structures are in byte invariant big-endian format (BE8) with the
+                                                                 following ordering within each 64-bit word: <63:56> at byte address 0, <55:48> at address
+                                                                 1, ..., <7:0> at address 0x7.
+
+                                                                 When clear, all data structures are in byte invariant little-endian format (LE8) with the
+                                                                 following ordering within each 64-bit word: <7:0> at byte address 0, <15:8> at address 1,
+                                                                 ..., <63:56> at address 0x7.
+
+                                                                 The affected data structures are:
+                                                                 * Receive buffer descriptor: NIC_RBDR_ENTRY_S.
+                                                                 * All send subdescriptors: NIC_SEND_*_S.
+                                                                 * All CQ entries, i.e. all structures starting with  NIC_CQE_RX_S and NIC_CQE_SEND_S,
+                                                                 excluding any packet data embedded in these structures.
+                                                                 Note that this bit does not affect the byte ordering of packet data, which is treated as a
+                                                                 byte stream transmitted by incrementing byte address. The same byte ordering is also used
+                                                                 for packet data that may be embedded in CQ entries that start with NIC_CQE_RX_S, or
+                                                                 immediate data in or following NIC_SEND_IMM_S. */
+        uint64_t send_tstmp_ena        : 1;  /**< [ 17: 17](R/W) Send timestamp enable. When set, the QS is allowed to send packets with NIC_SEND_HDR_S[TSTMP]=1. */
+        uint64_t lock_viol_cqe_ena     : 1;  /**< [ 18: 18](R/W) Enable generation of NIC_CQE_SEND_S[SEND_STATUS] = NIC_CQE_SEND_STATUS_E::LOCK_VIOL. */
+        uint64_t lock_ena              : 1;  /**< [ 19: 19](R/W) Lockdown enable. When set, the NIC_PF_QS()_LOCK() registers can be used to lock
+                                                                 down one of more bytes in packets transmitted by the QS. */
+        uint64_t sq_ins_pos            : 6;  /**< [ 25: 20](R/W) SQ data insertion position. When [SQ_INS_ENA] is set, the byte number in the transmitted
+                                                                 packet at which to insert the least significant byte of
+                                                                 NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]. Bytes are numbered in little endian form,
+                                                                 with byte 0 the first byte onto the wire. */
+        uint64_t sq_ins_ena            : 1;  /**< [ 26: 26](R/W) SQ data insertion enable. When set, insert NIC_PF_QS()_SQ()_CFG[SQ_INS_DATA]
+                                                                 into transmitted packets. */
+        uint64_t reserved_27_30        : 4;
+        uint64_t ena                   : 1;  /**< [ 31: 31](R/W) Enable QS. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_qsx_cfg_s cn88xx; */
+    struct bdk_nic_pf_qsx_cfg_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -11187,11 +11784,9 @@ typedef union
                                                                  for packet data that may be embedded in CQ entries that start with NIC_CQE_RX_S, or
                                                                  immediate data in or following NIC_SEND_IMM_S. */
         uint64_t reserved_7_15         : 9;
-        uint64_t reserved_3_6          : 4;
-        uint64_t vnic                  : 3;  /**< [  2:  0](R/W) VNIC to which this QS is assigned. If this QS is a VNIC, then must be set to the QS number. */
+        uint64_t vnic                  : 7;  /**< [  6:  0](R/W) VNIC to which this QS is assigned. If this QS is a VNIC, then must be set to the QS number. */
 #else /* Word 0 - Little Endian */
-        uint64_t vnic                  : 3;  /**< [  2:  0](R/W) VNIC to which this QS is assigned. If this QS is a VNIC, then must be set to the QS number. */
-        uint64_t reserved_3_6          : 4;
+        uint64_t vnic                  : 7;  /**< [  6:  0](R/W) VNIC to which this QS is assigned. If this QS is a VNIC, then must be set to the QS number. */
         uint64_t reserved_7_15         : 9;
         uint64_t be                    : 1;  /**< [ 16: 16](R/W) Big-endian mode. Specifies big-endian for data structures in L2C/DRAM that are accessed by
                                                                  the QS.
@@ -11227,9 +11822,7 @@ typedef union
         uint64_t ena                   : 1;  /**< [ 31: 31](R/W) Enable QS. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_nic_pf_qsx_cfg_s cn88xx; */
-    /* struct bdk_nic_pf_qsx_cfg_s cn83xx; */
+    } cn83xx;
 } bdk_nic_pf_qsx_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -11447,9 +12040,9 @@ typedef union
         uint64_t rbdr_bp               : 8;  /**< [ 23: 16](R/W) Threshold level for backpressuring channel, in units of 1/256th of RBDR level. */
         uint64_t cq_bp                 : 8;  /**< [ 15:  8](R/W) Threshold level for backpressuring channel, in units of 1/256th of CQ level. */
         uint64_t reserved_7            : 1;
-        uint64_t bpid                  : 7;  /**< [  6:  0](R/W) BPID used for RX_CHAN backpressure. */
+        uint64_t bpid                  : 7;  /**< [  6:  0](R/W) BPID used for RX channel backpressure. */
 #else /* Word 0 - Little Endian */
-        uint64_t bpid                  : 7;  /**< [  6:  0](R/W) BPID used for RX_CHAN backpressure. */
+        uint64_t bpid                  : 7;  /**< [  6:  0](R/W) BPID used for RX channel backpressure. */
         uint64_t reserved_7            : 1;
         uint64_t cq_bp                 : 8;  /**< [ 15:  8](R/W) Threshold level for backpressuring channel, in units of 1/256th of CQ level. */
         uint64_t rbdr_bp               : 8;  /**< [ 23: 16](R/W) Threshold level for backpressuring channel, in units of 1/256th of RBDR level. */
@@ -11620,6 +12213,60 @@ typedef union
         uint64_t rbdr_pass             : 8;  /**< [ 47: 40](R/W) Threshold level for RED accepting packets, in units of 1/256th of RBDR level.
                                                                  0xff represents a full ring, 0x0 repsents and empty ring.
                                                                  If the RBDR level is greater >= to this value then the packet is received.
+                                                                 If the RBDR level is less that this value but >= [RBDR_DROP] value then the packet is in
+                                                                 the RED zone
+                                                                 If the RBDR level is < [RBDR_DROP], then the packet is dropped. */
+        uint64_t rbdr_drop             : 8;  /**< [ 39: 32](R/W) Threshold level for RED dropping packets, in units of 1/256th of RBDR level. See
+                                                                 [RBDR_PASS]
+                                                                 for more details. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t cq_pass               : 8;  /**< [ 23: 16](R/W) Threshold level for RED accepting packets, in units of 1/256th of CQ level.
+                                                                 0xff represents a full ring, 0x0 repsents and empty ring.
+                                                                 If the CQ level is greater >= to this value then the packet is received.
+                                                                 If the CQ level is less that this value but >= [CQ_DROP] then the packet is in the
+                                                                 RED zone
+                                                                 If the CQ level is < [CQ_DROP], then the packet is dropped. */
+        uint64_t cq_drop               : 8;  /**< [ 15:  8](R/W) Threshold level for RED dropping packets, in units of 1/256th of CQ level. See [CQ_PASS]
+                                                                 for
+                                                                 more details. */
+        uint64_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_7          : 8;
+        uint64_t cq_drop               : 8;  /**< [ 15:  8](R/W) Threshold level for RED dropping packets, in units of 1/256th of CQ level. See [CQ_PASS]
+                                                                 for
+                                                                 more details. */
+        uint64_t cq_pass               : 8;  /**< [ 23: 16](R/W) Threshold level for RED accepting packets, in units of 1/256th of CQ level.
+                                                                 0xff represents a full ring, 0x0 repsents and empty ring.
+                                                                 If the CQ level is greater >= to this value then the packet is received.
+                                                                 If the CQ level is less that this value but >= [CQ_DROP] then the packet is in the
+                                                                 RED zone
+                                                                 If the CQ level is < [CQ_DROP], then the packet is dropped. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t rbdr_drop             : 8;  /**< [ 39: 32](R/W) Threshold level for RED dropping packets, in units of 1/256th of RBDR level. See
+                                                                 [RBDR_PASS]
+                                                                 for more details. */
+        uint64_t rbdr_pass             : 8;  /**< [ 47: 40](R/W) Threshold level for RED accepting packets, in units of 1/256th of RBDR level.
+                                                                 0xff represents a full ring, 0x0 repsents and empty ring.
+                                                                 If the RBDR level is greater >= to this value then the packet is received.
+                                                                 If the RBDR level is less that this value but >= [RBDR_DROP] value then the packet is in
+                                                                 the RED zone
+                                                                 If the RBDR level is < [RBDR_DROP], then the packet is dropped. */
+        uint64_t reserved_48_61        : 14;
+        uint64_t cq_red                : 1;  /**< [ 62: 62](R/W) Enable CQ RED drop between PASS and DROP levels. */
+        uint64_t rbdr_red              : 1;  /**< [ 63: 63](R/W) Enable RBDR RED drop between PASS and DROP levels. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_qsx_rqx_drop_cfg_s cn81xx; */
+    /* struct bdk_nic_pf_qsx_rqx_drop_cfg_s cn88xx; */
+    struct bdk_nic_pf_qsx_rqx_drop_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t rbdr_red              : 1;  /**< [ 63: 63](R/W) Enable RBDR RED drop between PASS and DROP levels. */
+        uint64_t cq_red                : 1;  /**< [ 62: 62](R/W) Enable CQ RED drop between PASS and DROP levels. */
+        uint64_t reserved_48_61        : 14;
+        uint64_t rbdr_pass             : 8;  /**< [ 47: 40](R/W) Threshold level for RED accepting packets, in units of 1/256th of RBDR level.
+                                                                 0xff represents a full ring, 0x0 repsents and empty ring.
+                                                                 If the RBDR level is greater >= to this value then the packet is received.
                                                                  If the RBDR level is less that this value but >= the RBDR_DROP value then the packet is in
                                                                  the RED zone
                                                                  If the RBDR level is < the RBDR_DROP level, then the packet is dropped. */
@@ -11658,8 +12305,7 @@ typedef union
         uint64_t cq_red                : 1;  /**< [ 62: 62](R/W) Enable CQ RED drop between PASS and DROP levels. */
         uint64_t rbdr_red              : 1;  /**< [ 63: 63](R/W) Enable RBDR RED drop between PASS and DROP levels. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_qsx_rqx_drop_cfg_s cn; */
+    } cn83xx;
 } bdk_nic_pf_qsx_rqx_drop_cfg_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_RQX_DROP_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -11814,11 +12460,13 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
         uint64_t tl4                   : 10; /**< [  9:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
-                                                                 NIC_PF_TL4()_CFG[SQ_QS]/[SQ_IDX] must point back to this SQ. As the VF controls
+                                                                 NIC_PF_TL4()_CFG[SQ_QS]/NIC_PF_TL4()_CFG[SQ_IDX] must point back to this SQ. As the VF
+                                                                 controls
                                                                  NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs. */
 #else /* Word 0 - Little Endian */
         uint64_t tl4                   : 10; /**< [  9:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
-                                                                 NIC_PF_TL4()_CFG[SQ_QS]/[SQ_IDX] must point back to this SQ. As the VF controls
+                                                                 NIC_PF_TL4()_CFG[SQ_QS]/NIC_PF_TL4()_CFG[SQ_IDX] must point back to this SQ. As the VF
+                                                                 controls
                                                                  NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
@@ -11829,12 +12477,14 @@ typedef union
         uint64_t reserved_8_63         : 56;
         uint64_t reserved_6_7          : 2;
         uint64_t tl4                   : 6;  /**< [  5:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
-                                                                 NIC_PF_TL4()_CFG[SQ_QS]/[SQ_IDX] must point back to this SQ. As the VF controls
+                                                                 NIC_PF_TL4()_CFG[SQ_QS]/NIC_PF_TL4()_CFG[SQ_IDX] must point back to this SQ. As the VF
+                                                                 controls
                                                                  NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs.
                                                                  Must be less than 64. */
 #else /* Word 0 - Little Endian */
         uint64_t tl4                   : 6;  /**< [  5:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
-                                                                 NIC_PF_TL4()_CFG[SQ_QS]/[SQ_IDX] must point back to this SQ. As the VF controls
+                                                                 NIC_PF_TL4()_CFG[SQ_QS]/NIC_PF_TL4()_CFG[SQ_IDX] must point back to this SQ. As the VF
+                                                                 controls
                                                                  NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs.
                                                                  Must be less than 64. */
         uint64_t reserved_6_7          : 2;
@@ -11842,7 +12492,20 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_nic_pf_qsx_sqx_cfg2_s cn88xx; */
-    /* struct bdk_nic_pf_qsx_sqx_cfg2_s cn83xx; */
+    struct bdk_nic_pf_qsx_sqx_cfg2_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t tl4                   : 10; /**< [  9:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
+                                                                 NIC_PF_TL4()_CFG[SQ_QS]/[SQ_IDX] must point back to this SQ. As the VF controls
+                                                                 NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs. */
+#else /* Word 0 - Little Endian */
+        uint64_t tl4                   : 10; /**< [  9:  0](R/W) TL4 index. Must point to the unique TL4 that will service this traffic, and
+                                                                 NIC_PF_TL4()_CFG[SQ_QS]/[SQ_IDX] must point back to this SQ. As the VF controls
+                                                                 NIC_QS()_SQ()_CFG[ENA], these pointers should be valid even for non-enabled SQs. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_nic_pf_qsx_sqx_cfg2_t;
 
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -11959,6 +12622,54 @@ typedef union
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
+                                                                 <62> = rqm_drop_intr_stall.
+                                                                 <61> = reb1_cq_stall.
+                                                                 <60> = reb0_cq_stall. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
+                                                                 <62> = rqm_drop_intr_stall.
+                                                                 <61> = reb1_cq_stall.
+                                                                 <60> = reb0_cq_stall. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_rqm_test_s cn81xx; */
+    /* struct bdk_nic_pf_rqm_test_s cn88xx; */
+    struct bdk_nic_pf_rqm_test_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
                                                                  <62> = RQM_DROP_INTR_STALL.
                                                                  <61> = REB1_CQ_STALL.
                                                                  <60> = REB0_CQ_STALL. */
@@ -11996,8 +12707,7 @@ typedef union
                                                                  <61> = REB1_CQ_STALL.
                                                                  <60> = REB0_CQ_STALL. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_rqm_test_s cn; */
+    } cn83xx;
 } bdk_nic_pf_rqm_test_t;
 
 #define BDK_NIC_PF_RQM_TEST BDK_NIC_PF_RQM_TEST_FUNC()
@@ -12035,6 +12745,42 @@ typedef union
                                                                  packets/sec, and a coprocessor clock of 800 MHz, approximately 250 packets may arrive
                                                                  between average calculations.
 
+                                                                 Larger [LVL_DLY] and [AVG_DLY] values cause the moving averages of all RBDR levels to
+                                                                 track changes in the actual free space more slowly. Larger NIC_QS()_RBDR()_CFG[AVG_CON]
+                                                                 values causes a specific RBDR to track more slowly, but only affects an individual RBDR
+                                                                 level, rather than all. */
+#else /* Word 0 - Little Endian */
+        uint64_t avg_dly               : 14; /**< [ 13:  0](R/W) Average-queue-size delay. Must be non-zero when [AVG_EN] is set. The moving average
+                                                                 calculation for each RBDR is performed every 1024 * ([AVG_DLY]+1) * ([LVL_DLY]+1)
+                                                                 coprocessor clocks. Note the minimum value of 8192 cycles implies that at 50 M
+                                                                 packets/sec, and a coprocessor clock of 800 MHz, approximately 250 packets may arrive
+                                                                 between average calculations.
+
+                                                                 Larger [LVL_DLY] and [AVG_DLY] values cause the moving averages of all RBDR levels to
+                                                                 track changes in the actual free space more slowly. Larger NIC_QS()_RBDR()_CFG[AVG_CON]
+                                                                 values causes a specific RBDR to track more slowly, but only affects an individual RBDR
+                                                                 level, rather than all. */
+        uint64_t lvl_dly               : 6;  /**< [ 19: 14](R/W) Levelizer delay. See [AVG_DLY]. Must be non-zero when [AVG_EN] is set. */
+        uint64_t avg_en                : 1;  /**< [ 20: 20](R/W) QoS averaging enable. When set, compute average buffer levels. When clear, do not compute
+                                                                 averages and save a few mW of power. */
+        uint64_t reserved_21_63        : 43;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_rrm_avg_cfg_s cn81xx; */
+    /* struct bdk_nic_pf_rrm_avg_cfg_s cn88xx; */
+    struct bdk_nic_pf_rrm_avg_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_21_63        : 43;
+        uint64_t avg_en                : 1;  /**< [ 20: 20](R/W) QoS averaging enable. When set, compute average buffer levels. When clear, do not compute
+                                                                 averages and save a few mW of power. */
+        uint64_t lvl_dly               : 6;  /**< [ 19: 14](R/W) Levelizer delay. See [AVG_DLY]. Must be non-zero when [AVG_EN] is set. */
+        uint64_t avg_dly               : 14; /**< [ 13:  0](R/W) Average-queue-size delay. Must be non-zero when [AVG_EN] is set. The moving average
+                                                                 calculation for each RBDR is performed every 1024 * ([AVG_DLY]+1) * ([LVL_DLY]+1)
+                                                                 coprocessor clocks. Note the minimum value of 8192 cycles implies that at 50 M
+                                                                 packets/sec, and a coprocessor clock of 800 MHz, approximately 250 packets may arrive
+                                                                 between average calculations.
+
                                                                  Larger [LVL_DLY] and [AVG_DLV] values cause the moving averages of all RBDR levels to
                                                                  track changes in the actual free space more slowly. Larger NIC_QS()_RBDR()_CFG[AVG_CON]
                                                                  values causes a specific RBDR to track more slowly, but only affects an individual RBDR
@@ -12055,8 +12801,7 @@ typedef union
                                                                  averages and save a few mW of power. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_rrm_avg_cfg_s cn; */
+    } cn83xx;
 } bdk_nic_pf_rrm_avg_cfg_t;
 
 #define BDK_NIC_PF_RRM_AVG_CFG BDK_NIC_PF_RRM_AVG_CFG_FUNC()
@@ -12128,6 +12873,54 @@ typedef union
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
+                                                                 <62> = rrm_ncb_req_stall.
+                                                                 <61> = rrm_ncb_rsp_stall.
+                                                                 <60> = rrm_intr_fifo. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
+                                                                 <62> = rrm_ncb_req_stall.
+                                                                 <61> = rrm_ncb_rsp_stall.
+                                                                 <60> = rrm_intr_fifo. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_rrm_test_s cn81xx; */
+    /* struct bdk_nic_pf_rrm_test_s cn88xx; */
+    struct bdk_nic_pf_rrm_test_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
                                                                  <62> = RRM_NCB_REQ_STALL.
                                                                  <61> = RRM_NCB_RSP_STALL.
                                                                  <60> = RRM_INTR_FIFO. */
@@ -12165,8 +12958,7 @@ typedef union
                                                                  <61> = RRM_NCB_RSP_STALL.
                                                                  <60> = RRM_INTR_FIFO. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_rrm_test_s cn; */
+    } cn83xx;
 } bdk_nic_pf_rrm_test_t;
 
 #define BDK_NIC_PF_RRM_TEST BDK_NIC_PF_RRM_TEST_FUNC()
@@ -12253,10 +13045,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t bp_state              : 64; /**< [ 63:  0](RO/H) Interface Backpressure state bit: 1=XOFF, 0=XON. Does not reflect channel backpressure
-                                                                 software overrides by NIC_PF_INTF()_BP_SW()[BP_SW] and NIC_PF_INTF()_BP_DIS[BP_DIS]. */
+                                                                 software overrides by NIC_PF_RX_CHAN_BP_SW()[BP_SW] and NIC_PF_RX_CHAN_BP_DIS()[BP_DIS]. */
 #else /* Word 0 - Little Endian */
         uint64_t bp_state              : 64; /**< [ 63:  0](RO/H) Interface Backpressure state bit: 1=XOFF, 0=XON. Does not reflect channel backpressure
-                                                                 software overrides by NIC_PF_INTF()_BP_SW()[BP_SW] and NIC_PF_INTF()_BP_DIS[BP_DIS]. */
+                                                                 software overrides by NIC_PF_RX_CHAN_BP_SW()[BP_SW] and NIC_PF_RX_CHAN_BP_DIS()[BP_DIS]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_bp_statex_s cn; */
@@ -12290,11 +13082,13 @@ typedef union
     struct bdk_nic_pf_rx_bpid_statex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t bpid_state            : 64; /**< [ 63:  0](RO/H) Backpressure state bit per BPID: 1=XOFF, 0=XON. Does not reflect channel backpressure
-                                                                 software overrides by NIC_PF_INTF()_BP_SW()[BP_SW] and NIC_PF_INTF()_BP_DIS[BP_DIS]. */
+        uint64_t bpid_state            : 64; /**< [ 63:  0](RO/H) Backpressure state bit per BPID: 1=XOFF, 0=XON.
+                                                                 Reflects the channel backpressure component that is calculated off the RQ's RBDR and CQ
+                                                                 level comparisions using registers NIC_PF_QS()_RQ()_BP_CFG and NIC_PF_CHAN()_RX_BP_CFG. */
 #else /* Word 0 - Little Endian */
-        uint64_t bpid_state            : 64; /**< [ 63:  0](RO/H) Backpressure state bit per BPID: 1=XOFF, 0=XON. Does not reflect channel backpressure
-                                                                 software overrides by NIC_PF_INTF()_BP_SW()[BP_SW] and NIC_PF_INTF()_BP_DIS[BP_DIS]. */
+        uint64_t bpid_state            : 64; /**< [ 63:  0](RO/H) Backpressure state bit per BPID: 1=XOFF, 0=XON.
+                                                                 Reflects the channel backpressure component that is calculated off the RQ's RBDR and CQ
+                                                                 level comparisions using registers NIC_PF_QS()_RQ()_BP_CFG and NIC_PF_CHAN()_RX_BP_CFG. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_rx_bpid_statex_s cn; */
@@ -12623,7 +13417,28 @@ typedef union
         uint64_t ena_ipv6              : 1;  /**< [ 63: 63](R/W) Enables the IPV6_PROT value. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_nic_pf_rx_nvgre_prot_def_s cn; */
+    struct bdk_nic_pf_rx_nvgre_prot_def_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ena_ipv6              : 1;  /**< [ 63: 63](R/W) Enables the [IPV6_PROT] value. */
+        uint64_t ena_ipv4              : 1;  /**< [ 62: 62](R/W) Enables the [IPV4_PROT] value. */
+        uint64_t ena_et                : 1;  /**< [ 61: 61](R/W) Enables the [ET_PROT] value. */
+        uint64_t reserved_48_60        : 13;
+        uint64_t ipv6_prot             : 16; /**< [ 47: 32](R/W) Protocal number to definite the next layer of the packet is an inner IPv6 layer. */
+        uint64_t ipv4_prot             : 16; /**< [ 31: 16](R/W) Protocal number to definite the next layer of the packet is an inner IPv4 layer. */
+        uint64_t et_prot               : 16; /**< [ 15:  0](R/W) Protocal number to definite the next layer of the packet is an inner Ethernet layer. */
+#else /* Word 0 - Little Endian */
+        uint64_t et_prot               : 16; /**< [ 15:  0](R/W) Protocal number to definite the next layer of the packet is an inner Ethernet layer. */
+        uint64_t ipv4_prot             : 16; /**< [ 31: 16](R/W) Protocal number to definite the next layer of the packet is an inner IPv4 layer. */
+        uint64_t ipv6_prot             : 16; /**< [ 47: 32](R/W) Protocal number to definite the next layer of the packet is an inner IPv6 layer. */
+        uint64_t reserved_48_60        : 13;
+        uint64_t ena_et                : 1;  /**< [ 61: 61](R/W) Enables the [ET_PROT] value. */
+        uint64_t ena_ipv4              : 1;  /**< [ 62: 62](R/W) Enables the [IPV4_PROT] value. */
+        uint64_t ena_ipv6              : 1;  /**< [ 63: 63](R/W) Enables the [IPV6_PROT] value. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_rx_nvgre_prot_def_cn81xx cn88xx; */
+    /* struct bdk_nic_pf_rx_nvgre_prot_def_s cn83xx; */
 } bdk_nic_pf_rx_nvgre_prot_def_t;
 
 #define BDK_NIC_PF_RX_NVGRE_PROT_DEF BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC()
@@ -12777,7 +13592,34 @@ typedef union
         uint64_t ena_ipv6              : 1;  /**< [ 63: 63](R/W) Enables the IPV6_PROT value (ENA_PROT must be also set). */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_nic_pf_rx_vxlan_prot_def_s cn; */
+    struct bdk_nic_pf_rx_vxlan_prot_def_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ena_ipv6              : 1;  /**< [ 63: 63](R/W) Enables the [IPV6_PROT] value ([ENA_PROT] must be also set). */
+        uint64_t ena_ipv4              : 1;  /**< [ 62: 62](R/W) Enables the [IPV4_PROT] value ([ENA_PROT] must be also set). */
+        uint64_t ena_et                : 1;  /**< [ 61: 61](R/W) Enables the [ET_PROT] value ([ENA_PROT] must be also set). */
+        uint64_t ena_prot              : 1;  /**< [ 60: 60](R/W) This enables protocal field checking inside the VXLAN header. */
+        uint64_t reserved_40_59        : 20;
+        uint64_t ipv6_prot             : 8;  /**< [ 39: 32](R/W) Protocal number to definite the next layer of the packet is an inner IPv6 layer. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t ipv4_prot             : 8;  /**< [ 23: 16](R/W) Protocal number to definite the next layer of the packet is an inner IPv4 layer. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t et_prot               : 8;  /**< [  7:  0](R/W) Protocal number to definite the next layer of the packet is an inner Ethernet layer. */
+#else /* Word 0 - Little Endian */
+        uint64_t et_prot               : 8;  /**< [  7:  0](R/W) Protocal number to definite the next layer of the packet is an inner Ethernet layer. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t ipv4_prot             : 8;  /**< [ 23: 16](R/W) Protocal number to definite the next layer of the packet is an inner IPv4 layer. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t ipv6_prot             : 8;  /**< [ 39: 32](R/W) Protocal number to definite the next layer of the packet is an inner IPv6 layer. */
+        uint64_t reserved_40_59        : 20;
+        uint64_t ena_prot              : 1;  /**< [ 60: 60](R/W) This enables protocal field checking inside the VXLAN header. */
+        uint64_t ena_et                : 1;  /**< [ 61: 61](R/W) Enables the [ET_PROT] value ([ENA_PROT] must be also set). */
+        uint64_t ena_ipv4              : 1;  /**< [ 62: 62](R/W) Enables the [IPV4_PROT] value ([ENA_PROT] must be also set). */
+        uint64_t ena_ipv6              : 1;  /**< [ 63: 63](R/W) Enables the [IPV6_PROT] value ([ENA_PROT] must be also set). */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_pf_rx_vxlan_prot_def_cn81xx cn88xx; */
+    /* struct bdk_nic_pf_rx_vxlan_prot_def_s cn83xx; */
 } bdk_nic_pf_rx_vxlan_prot_def_t;
 
 #define BDK_NIC_PF_RX_VXLAN_PROT_DEF BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC()
@@ -12898,9 +13740,9 @@ typedef union
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
-                                                                 <62> = SEB_INTERFACE_1_STALL.
-                                                                 <61> = SEB_INTERFACE_0_STALL.
-                                                                 <60> = SEB_FIFO_STALL. */
+                                                                 <62> = seb_interface_1_stall.
+                                                                 <61> = seb_interface_0_stall.
+                                                                 <60> = seb_fifo_stall. */
         uint64_t reserved_25_59        : 35;
         uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only.
                                                                  Internal:
@@ -12911,10 +13753,10 @@ typedef union
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
                                                                  0x3=75% of the time.
-                                                                   <23:22> = BP_CFG3.
-                                                                   <21:20> = BP_CFG2.
-                                                                   <19:18> = BP_CFG1.
-                                                                   <17:16> = BP_CFG0. */
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
         uint64_t reserved_12_15        : 4;
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
 #else /* Word 0 - Little Endian */
@@ -12925,10 +13767,10 @@ typedef union
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
                                                                  0x3=75% of the time.
-                                                                   <23:22> = BP_CFG3.
-                                                                   <21:20> = BP_CFG2.
-                                                                   <19:18> = BP_CFG1.
-                                                                   <17:16> = BP_CFG0. */
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
         uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only.
                                                                  Internal:
                                                                  Once the bit is set, it reduces the number of co-processor cycles from 1024
@@ -12939,9 +13781,9 @@ typedef union
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
-                                                                 <62> = SEB_INTERFACE_1_STALL.
-                                                                 <61> = SEB_INTERFACE_0_STALL.
-                                                                 <60> = SEB_FIFO_STALL. */
+                                                                 <62> = seb_interface_1_stall.
+                                                                 <61> = seb_interface_0_stall.
+                                                                 <60> = seb_fifo_stall. */
 #endif /* Word 0 - End */
     } s;
     struct bdk_nic_pf_seb_test_cn88xxp1
@@ -12952,9 +13794,9 @@ typedef union
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
-                                                                 <62> = SEB_INTERFACE_1_STALL.
-                                                                 <61> = SEB_INTERFACE_0_STALL.
-                                                                 <60> = SEB_FIFO_STALL. */
+                                                                 <62> = seb_interface_1_stall.
+                                                                 <61> = seb_interface_0_stall.
+                                                                 <60> = seb_fifo_stall. */
         uint64_t reserved_25_59        : 35;
         uint64_t reserved_24           : 1;
         uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
@@ -12962,10 +13804,10 @@ typedef union
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
                                                                  0x3=75% of the time.
-                                                                   <23:22> = BP_CFG3.
-                                                                   <21:20> = BP_CFG2.
-                                                                   <19:18> = BP_CFG1.
-                                                                   <17:16> = BP_CFG0. */
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
         uint64_t reserved_12_15        : 4;
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
 #else /* Word 0 - Little Endian */
@@ -12976,10 +13818,10 @@ typedef union
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
                                                                  0x3=75% of the time.
-                                                                   <23:22> = BP_CFG3.
-                                                                   <21:20> = BP_CFG2.
-                                                                   <19:18> = BP_CFG1.
-                                                                   <17:16> = BP_CFG0. */
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
         uint64_t reserved_24           : 1;
         uint64_t reserved_25_59        : 35;
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
@@ -12987,14 +13829,68 @@ typedef union
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
-                                                                 <62> = SEB_INTERFACE_1_STALL.
-                                                                 <61> = SEB_INTERFACE_0_STALL.
-                                                                 <60> = SEB_FIFO_STALL. */
+                                                                 <62> = seb_interface_1_stall.
+                                                                 <61> = seb_interface_0_stall.
+                                                                 <60> = seb_fifo_stall. */
 #endif /* Word 0 - End */
     } cn88xxp1;
-    /* struct bdk_nic_pf_seb_test_s cn81xx; */
-    /* struct bdk_nic_pf_seb_test_s cn83xx; */
-    struct bdk_nic_pf_seb_test_cn88xxp2
+    struct bdk_nic_pf_seb_test_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
+                                                                 <62> = seb_interface_1_stall.
+                                                                 <61> = seb_interface_0_stall.
+                                                                 <60> = seb_fifo_stall. */
+        uint64_t reserved_25_59        : 35;
+        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once the bit is set, it reduces the number of co-processor cycles from 1024
+                                                                 cycles to 1 co-processor cycle corresponding to the
+                                                                 NIC_PF_INTF()_SEND_CFG[TSTMP_WD_PERIOD]. */
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once the bit is set, it reduces the number of co-processor cycles from 1024
+                                                                 cycles to 1 co-processor cycle corresponding to the
+                                                                 NIC_PF_INTF()_SEND_CFG[TSTMP_WD_PERIOD]. */
+        uint64_t reserved_25_59        : 35;
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
+                                                                 <62> = seb_interface_1_stall.
+                                                                 <61> = seb_interface_0_stall.
+                                                                 <60> = seb_fifo_stall. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_nic_pf_seb_test_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
@@ -13006,7 +13902,7 @@ typedef union
                                                                  <61> = SEB_INTERFACE_0_STALL.
                                                                  <60> = SEB_FIFO_STALL. */
         uint64_t reserved_25_59        : 35;
-        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only. Added in pass 2.
+        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only.
                                                                  Internal:
                                                                  Once the bit is set, it reduces the number of co-processor cycles from 1024
                                                                  cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD]. */
@@ -13033,7 +13929,7 @@ typedef union
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
                                                                    <17:16> = BP_CFG0. */
-        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only. Added in pass 2.
+        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only.
                                                                  Internal:
                                                                  Once the bit is set, it reduces the number of co-processor cycles from 1024
                                                                  cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD]. */
@@ -13046,6 +13942,62 @@ typedef union
                                                                  <62> = SEB_INTERFACE_1_STALL.
                                                                  <61> = SEB_INTERFACE_0_STALL.
                                                                  <60> = SEB_FIFO_STALL. */
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_nic_pf_seb_test_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
+                                                                 <62> = seb_interface_1_stall.
+                                                                 <61> = seb_interface_0_stall.
+                                                                 <60> = seb_fifo_stall. */
+        uint64_t reserved_25_59        : 35;
+        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only. Added in pass 2.
+                                                                 Internal:
+                                                                 Once the bit is set, it reduces the number of co-processor cycles from 1024
+                                                                 cycles to 1 co-processor cycle corresponding to the
+                                                                 NIC_PF_INTF()_SEND_CFG[TSTMP_WD_PERIOD]. */
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t timeout_tick_test     : 1;  /**< [ 24: 24](R/W) Enable timeout testing. For diagnostic use only. Added in pass 2.
+                                                                 Internal:
+                                                                 Once the bit is set, it reduces the number of co-processor cycles from 1024
+                                                                 cycles to 1 co-processor cycle corresponding to the
+                                                                 NIC_PF_INTF()_SEND_CFG[TSTMP_WD_PERIOD]. */
+        uint64_t reserved_25_59        : 35;
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
+                                                                 <62> = seb_interface_1_stall.
+                                                                 <61> = seb_interface_0_stall.
+                                                                 <60> = seb_fifo_stall. */
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_nic_pf_seb_test_t;
@@ -13207,6 +14159,54 @@ typedef union
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved.
+                                                                 <62> = sq_vnic_stat_stall.
+                                                                 <61> = sq_door_stall.
+                                                                 <60> = sq_int_set_fifo_stall. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
+                                                                 <62> = sq_vnic_stat_stall.
+                                                                 <61> = sq_door_stall.
+                                                                 <60> = sq_int_set_fifo_stall. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_sqm_test1_s cn81xx; */
+    /* struct bdk_nic_pf_sqm_test1_s cn88xx; */
+    struct bdk_nic_pf_sqm_test1_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = Reserved.
                                                                  <62> = SQ_VNIC_STAT_STALL.
                                                                  <61> = SQ_DOOR_STALL.
                                                                  <60> = SQ_INT_SET_FIFO_STALL. */
@@ -13244,8 +14244,7 @@ typedef union
                                                                  <61> = SQ_DOOR_STALL.
                                                                  <60> = SQ_INT_SET_FIFO_STALL. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_sqm_test1_s cn; */
+    } cn83xx;
 } bdk_nic_pf_sqm_test1_t;
 
 #define BDK_NIC_PF_SQM_TEST1 BDK_NIC_PF_SQM_TEST1_FUNC()
@@ -13271,6 +14270,54 @@ typedef union
 {
     uint64_t u;
     struct bdk_nic_pf_sqm_test2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = mqm_fill_ack_stall.
+                                                                 <62> = mqm_send_cmd_stall.
+                                                                 <61> = mqm_sch_req_stall.
+                                                                 <60> = mqm_mdq_update_stall. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
+                                                                 0x3=75% of the time.
+                                                                   <23:22> = bp_cfg3.
+                                                                   <21:20> = bp_cfg2.
+                                                                   <19:18> = bp_cfg1.
+                                                                   <17:16> = bp_cfg0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 <63> = mqm_fill_ack_stall.
+                                                                 <62> = mqm_send_cmd_stall.
+                                                                 <61> = mqm_sch_req_stall.
+                                                                 <60> = mqm_mdq_update_stall. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_sqm_test2_s cn81xx; */
+    /* struct bdk_nic_pf_sqm_test2_s cn88xx; */
+    struct bdk_nic_pf_sqm_test2_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
@@ -13315,8 +14362,7 @@ typedef union
                                                                  <61> = MQM_SCH_REQ_STALL.
                                                                  <60> = MQM_MDQ_UPDATE_STALL. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_sqm_test2_s cn; */
+    } cn83xx;
 } bdk_nic_pf_sqm_test2_t;
 
 #define BDK_NIC_PF_SQM_TEST2 BDK_NIC_PF_SQM_TEST2_FUNC()
@@ -13399,7 +14445,7 @@ static inline uint64_t BDK_NIC_PF_STATUS_FUNC(void)
  *
  * INTERNAL: NIC SW SYNC Pipline CQ Counter Registers
  *
- * For diagnostic use only for debug of the SW_SYNC function.
+ * For diagnostic use only for debug of the NIC_PF_SW_SYNC_RX[SW_RX_SYNC] function.
  * Added in pass 2:
  */
 typedef union
@@ -13442,7 +14488,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a)
  *
  * INTERNAL: NIC SW SYNC Pipeline Packet Counter Registers
  *
- * For diagnostic use only for debug of the SW_SYNC function.
+ * For diagnostic use only for debug of the NIC_PF_SW_SYNC_RX[SW_RX_SYNC] function.
  * Added in pass 2.
  */
 typedef union
@@ -13524,7 +14570,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_FUNC(void)
  *
  * INTERNAL: NIC SW SYNC Registers
  *
- * For diagnostic use only for debug of the SW_SYNC function.
+ * For diagnostic use only for debug of the NIC_PF_SW_SYNC_RX[SW_RX_SYNC] function.
  * The first dimension indicates which the counter values, and is enumerated by
  * NIC_SW_SYNC_RX_CNTS_E.
  */
@@ -14067,6 +15113,24 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
+        uint64_t ch_xoff               : 1;  /**< [  1:  1](RO/H) Channel XOFF. When set, this TL3 does not send traffic due to
+                                                                 NIC_PF_CHAN()_SW_XOFF[SW_XOFF], channel backpressure, channel credits,
+                                                                 NIC_PF_LMAC()_SW_XOFF[SW_XOFF], or LMAC backpressure. */
+        uint64_t sw_xoff               : 1;  /**< [  0:  0](R/W) Software XOFF. When set, this TL3 does not send traffic. */
+#else /* Word 0 - Little Endian */
+        uint64_t sw_xoff               : 1;  /**< [  0:  0](R/W) Software XOFF. When set, this TL3 does not send traffic. */
+        uint64_t ch_xoff               : 1;  /**< [  1:  1](RO/H) Channel XOFF. When set, this TL3 does not send traffic due to
+                                                                 NIC_PF_CHAN()_SW_XOFF[SW_XOFF], channel backpressure, channel credits,
+                                                                 NIC_PF_LMAC()_SW_XOFF[SW_XOFF], or LMAC backpressure. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_tl3x_sw_xoff_s cn81xx; */
+    /* struct bdk_nic_pf_tl3x_sw_xoff_s cn88xx; */
+    struct bdk_nic_pf_tl3x_sw_xoff_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
         uint64_t ch_xoff               : 1;  /**< [  1:  1](RO/H) Channel XOFF. When set, this TL3 does not send traffic due to channel SW_XOFF, channel
                                                                  backpressure, channel credits, LMAC SW_XOFF, or LMAC backpressure. */
         uint64_t sw_xoff               : 1;  /**< [  0:  0](R/W) Software XOFF. When set, this TL3 does not send traffic. */
@@ -14076,8 +15140,7 @@ typedef union
                                                                  backpressure, channel credits, LMAC SW_XOFF, or LMAC backpressure. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_tl3x_sw_xoff_s cn; */
+    } cn83xx;
 } bdk_nic_pf_tl3x_sw_xoff_t;
 
 static inline uint64_t BDK_NIC_PF_TL3X_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
@@ -14527,38 +15590,38 @@ typedef union
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
                                                                  NIC_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing NIC_PF_VF(0..127)_MBOX(0) (but not
-                                                                 NIC_VF(0..127)_PF_MBOX(0)) will set the corresponding NIC_VF()_INT[MBOX] which
+                                                                 for VF to PF. Writing NIC_PF_VF()_MBOX(0) (but not
+                                                                 NIC_VF()_PF_MBOX(0)) will set the corresponding NIC_VF()_INT[MBOX] which
                                                                  if appropriately enabled will send an interrupt to the VF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
                                                                  NIC_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing NIC_PF_VF(0..127)_MBOX(0) (but not
-                                                                 NIC_VF(0..127)_PF_MBOX(0)) will set the corresponding NIC_VF()_INT[MBOX] which
+                                                                 for VF to PF. Writing NIC_PF_VF()_MBOX(0) (but not
+                                                                 NIC_VF()_PF_MBOX(0)) will set the corresponding NIC_VF()_INT[MBOX] which
                                                                  if appropriately enabled will send an interrupt to the VF. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_nic_pf_vfx_mboxx_cn81xx
+    /* struct bdk_nic_pf_vfx_mboxx_s cn81xx; */
+    /* struct bdk_nic_pf_vfx_mboxx_s cn88xx; */
+    struct bdk_nic_pf_vfx_mboxx_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
                                                                  NIC_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing NIC_PF_VF(0..7)_MBOX(0) (but not
-                                                                 NIC_VF(0..7)_PF_MBOX(0)) will set the corresponding NIC_VF()_INT[MBOX] which
+                                                                 for VF to PF. Writing NIC_PF_VF(0..127)_MBOX(0) (but not
+                                                                 NIC_VF(0..127)_PF_MBOX(0)) will set the corresponding NIC_VF()_INT[MBOX] which
                                                                  if appropriately enabled will send an interrupt to the VF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
                                                                  NIC_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing NIC_PF_VF(0..7)_MBOX(0) (but not
-                                                                 NIC_VF(0..7)_PF_MBOX(0)) will set the corresponding NIC_VF()_INT[MBOX] which
+                                                                 for VF to PF. Writing NIC_PF_VF(0..127)_MBOX(0) (but not
+                                                                 NIC_VF(0..127)_PF_MBOX(0)) will set the corresponding NIC_VF()_INT[MBOX] which
                                                                  if appropriately enabled will send an interrupt to the VF. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_nic_pf_vfx_mboxx_s cn88xx; */
-    /* struct bdk_nic_pf_vfx_mboxx_s cn83xx; */
+    } cn83xx;
 } bdk_nic_pf_vfx_mboxx_t;
 
 static inline uint64_t BDK_NIC_PF_VFX_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -14744,10 +15807,11 @@ typedef union
                                                                  means empty). */
         uint64_t reserved_25_31        : 7;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_CQ_AVG_CFG[AVG_EN] must be set and NIC_PF_CQ_AVG_CFG[LVL_DLY] must be
@@ -14757,10 +15821,11 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_15         : 16;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_CQ_AVG_CFG[AVG_EN] must be set and NIC_PF_CQ_AVG_CFG[LVL_DLY] must be
@@ -14799,7 +15864,7 @@ typedef union
         uint64_t ena                   : 1;  /**< [ 42: 42](R/W/H) Enable CQ. Writing a 1 to this bit enables the CQ. Writing a 0 gracefully disables the CQ.
                                                                  Software can poll this bit for a 0 to determine if all hardware processing for this CQ has
                                                                  stopped. */
-        uint64_t reset                 : 1;  /**< [ 41: 41](WO) CQ Reset. Writing a 1 resets all the NIC_QS(0..7)_CQ(0..7)_* registers and internal
+        uint64_t reset                 : 1;  /**< [ 41: 41](WO) CQ Reset. Writing a 1 resets all the NIC_QS()_CQ()_* registers and internal
                                                                  state for this CQ with the exception of NIC_QS()_CQ()_CFG2. */
         uint64_t caching               : 1;  /**< [ 40: 40](R/W) Select the style of write to the L2C.
                                                                  0 = writes of CQE data will not allocate into the L2C.
@@ -14819,10 +15884,11 @@ typedef union
                                                                  means empty). */
         uint64_t reserved_25_31        : 7;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_CQ_AVG_CFG[AVG_EN] must be set and NIC_PF_CQ_AVG_CFG[LVL_DLY] must be
@@ -14832,10 +15898,11 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_15         : 16;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_CQ_AVG_CFG[AVG_EN] must be set and NIC_PF_CQ_AVG_CFG[LVL_DLY] must be
@@ -14858,7 +15925,7 @@ typedef union
         uint64_t caching               : 1;  /**< [ 40: 40](R/W) Select the style of write to the L2C.
                                                                  0 = writes of CQE data will not allocate into the L2C.
                                                                  1 = writes of CQE data are allocated into the L2C. */
-        uint64_t reset                 : 1;  /**< [ 41: 41](WO) CQ Reset. Writing a 1 resets all the NIC_QS(0..7)_CQ(0..7)_* registers and internal
+        uint64_t reset                 : 1;  /**< [ 41: 41](WO) CQ Reset. Writing a 1 resets all the NIC_QS()_CQ()_* registers and internal
                                                                  state for this CQ with the exception of NIC_QS()_CQ()_CFG2. */
         uint64_t ena                   : 1;  /**< [ 42: 42](R/W/H) Enable CQ. Writing a 1 to this bit enables the CQ. Writing a 0 gracefully disables the CQ.
                                                                  Software can poll this bit for a 0 to determine if all hardware processing for this CQ has
@@ -14967,10 +16034,11 @@ typedef union
                                                                  means empty). */
         uint64_t reserved_25_31        : 7;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_CQ_AVG_CFG[AVG_EN] must be set and NIC_PF_CQ_AVG_CFG[LVL_DLY] must be
@@ -14980,10 +16048,11 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_15         : 16;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_CQ_AVG_CFG[AVG_EN] must be set and NIC_PF_CQ_AVG_CFG[LVL_DLY] must be
@@ -15139,6 +16208,20 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
+        uint64_t count                 : 16; /**< [ 15:  0](WO) Number of dequeued entries of 512 bytes. Hardware advances NIC_QS()_CQ()_HEAD[HEAD_PTR] by
+                                                                 this value if the CQ is enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 16; /**< [ 15:  0](WO) Number of dequeued entries of 512 bytes. Hardware advances NIC_QS()_CQ()_HEAD[HEAD_PTR] by
+                                                                 this value if the CQ is enabled. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_qsx_cqx_door_s cn81xx; */
+    /* struct bdk_nic_qsx_cqx_door_s cn88xx; */
+    struct bdk_nic_qsx_cqx_door_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
         uint64_t count                 : 16; /**< [ 15:  0](WO) Number of dequeued entries of 512 bytes. Hardware advances NIC_QS()_CQ()_TAIL[HEAD_PTR] by
                                                                  this value if the CQ is enabled. */
 #else /* Word 0 - Little Endian */
@@ -15146,8 +16229,7 @@ typedef union
                                                                  this value if the CQ is enabled. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_qsx_cqx_door_s cn; */
+    } cn83xx;
 } bdk_nic_qsx_cqx_door_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_DOOR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -15316,6 +16398,46 @@ typedef union
                                                                  per CQ counter, just provided here for reference. */
         uint64_t reserved_12_15        : 4;
         uint64_t int_timer             : 12; /**< [ 11:  0](RO/H) CQ interrupt timer.
+                                                                 Hardware sets [INT_TIMER] to the threshold value [GLOBAL_TIME] +
+                                                                 NIC_QS()_CQ()_CFG2[INT_TIMER_THR] whenever one of the following occurs:
+                                                                 * [TIMER_EN] goes from 0 to 1.
+                                                                 * [GLOBAL_TIME] crosses [INT_TIMER] and [TIMER_EN] is 1.
+                                                                 * NIC_VF()_INT[CQ] for this CQ is written with a 1 to clear and [TIMER_EN] is 1.
+                                                                 * Software writes to NIC_QS()_CQ()_CFG2 and [TIMER_EN] is 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t int_timer             : 12; /**< [ 11:  0](RO/H) CQ interrupt timer.
+                                                                 Hardware sets [INT_TIMER] to the threshold value [GLOBAL_TIME] +
+                                                                 NIC_QS()_CQ()_CFG2[INT_TIMER_THR] whenever one of the following occurs:
+                                                                 * [TIMER_EN] goes from 0 to 1.
+                                                                 * [GLOBAL_TIME] crosses [INT_TIMER] and [TIMER_EN] is 1.
+                                                                 * NIC_VF()_INT[CQ] for this CQ is written with a 1 to clear and [TIMER_EN] is 1.
+                                                                 * Software writes to NIC_QS()_CQ()_CFG2 and [TIMER_EN] is 1. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t global_time           : 12; /**< [ 27: 16](RO/H) Global time. A free-running timer that increments on each interrupt timer tick as
+                                                                 configured by NIC_PF_INT_TIMER_CFG[CLK_PER_INT_TICK]. Wraps around at maximum value. Not a
+                                                                 per CQ counter, just provided here for reference. */
+        uint64_t reserved_28_30        : 3;
+        uint64_t timer_en              : 1;  /**< [ 31: 31](RO/H) Interrupt-timer enable for this CQ. This is set by a hardware background task when:
+                                                                 NIC_QS()_CQ()_STATUS[QCOUNT] is not 0 and
+                                                                 NIC_QS()_CQ()_CFG2[INT_TIMER_THR] is not 0. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_qsx_cqx_status2_s cn81xx; */
+    /* struct bdk_nic_qsx_cqx_status2_s cn88xx; */
+    struct bdk_nic_qsx_cqx_status2_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t timer_en              : 1;  /**< [ 31: 31](RO/H) Interrupt-timer enable for this CQ. This is set by a hardware background task when:
+                                                                 NIC_QS()_CQ()_STATUS[QCOUNT] is not 0 and
+                                                                 NIC_QS()_CQ()_CFG2[INT_TIMER_THR] is not 0. */
+        uint64_t reserved_28_30        : 3;
+        uint64_t global_time           : 12; /**< [ 27: 16](RO/H) Global time. A free-running timer that increments on each interrupt timer tick as
+                                                                 configured by NIC_PF_INT_TIMER_CFG[CLK_PER_INT_TICK]. Wraps around at maximum value. Not a
+                                                                 per CQ counter, just provided here for reference. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t int_timer             : 12; /**< [ 11:  0](RO/H) CQ interrupt timer.
                                                                  Hardware sets [INT_TIMER] to the threshold value GLOBAL_TIME +
                                                                  NIC_QS()_CQ()_CFG2[INT_TIMER_THR] whenever one of the following occurs:
                                                                  * [TIMER_EN] goes from 0 to 1.
@@ -15340,8 +16462,7 @@ typedef union
                                                                  NIC_QS()_CQ()_CFG2[INT_TIMER_THR] is not 0. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_qsx_cqx_status2_s cn; */
+    } cn83xx;
 } bdk_nic_qsx_cqx_status2_t;
 
 static inline uint64_t BDK_NIC_QSX_CQX_STATUS2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -15541,10 +16662,11 @@ typedef union
                                                                  means empty). */
         uint64_t reserved_25_31        : 7;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_RRM_AVG_CFG[AVG_EN] must be set and NIC_PF_RRM_AVG_CFG[LVL_DLY] must be
@@ -15556,10 +16678,11 @@ typedef union
         uint64_t lines                 : 12; /**< [ 11:  0](R/W) Size of buffers linked to this ring in 128-byte cache lines. */
         uint64_t reserved_12_15        : 4;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_RRM_AVG_CFG[AVG_EN] must be set and NIC_PF_RRM_AVG_CFG[LVL_DLY] must be
@@ -15592,7 +16715,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_45_63        : 19;
         uint64_t ena                   : 1;  /**< [ 44: 44](R/W) Enable RBDR. */
-        uint64_t reset                 : 1;  /**< [ 43: 43](R/W) RBDR Reset. Writing a 1 resets all the NIC_QS(0..7)_RBDR(0..1)_* registers and internal
+        uint64_t reset                 : 1;  /**< [ 43: 43](R/W) RBDR Reset. Writing a 1 resets all the NIC_QS()_RBDR()_* registers and internal
                                                                  state for this RBDR. Software clears after the reset sequence is complete. */
         uint64_t ldwb                  : 1;  /**< [ 42: 42](R/W) When reading RBDR entry cache lines, use LDWB transactions to invalidate the cache line. */
         uint64_t reserved_36_41        : 6;
@@ -15610,10 +16733,11 @@ typedef union
                                                                  means empty). */
         uint64_t reserved_25_31        : 7;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_RRM_AVG_CFG[AVG_EN] must be set and NIC_PF_RRM_AVG_CFG[LVL_DLY] must be
@@ -15627,10 +16751,11 @@ typedef union
                                                                  0x0 is illegal and will get aliased to a setting of 0x1. */
         uint64_t reserved_9_15         : 7;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_RRM_AVG_CFG[AVG_EN] must be set and NIC_PF_RRM_AVG_CFG[LVL_DLY] must be
@@ -15651,7 +16776,7 @@ typedef union
                                                                  means empty). */
         uint64_t reserved_36_41        : 6;
         uint64_t ldwb                  : 1;  /**< [ 42: 42](R/W) When reading RBDR entry cache lines, use LDWB transactions to invalidate the cache line. */
-        uint64_t reset                 : 1;  /**< [ 43: 43](R/W) RBDR Reset. Writing a 1 resets all the NIC_QS(0..7)_RBDR(0..1)_* registers and internal
+        uint64_t reset                 : 1;  /**< [ 43: 43](R/W) RBDR Reset. Writing a 1 resets all the NIC_QS()_RBDR()_* registers and internal
                                                                  state for this RBDR. Software clears after the reset sequence is complete. */
         uint64_t ena                   : 1;  /**< [ 44: 44](R/W) Enable RBDR. */
         uint64_t reserved_45_63        : 19;
@@ -15750,10 +16875,11 @@ typedef union
                                                                  means empty). */
         uint64_t reserved_25_31        : 7;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_RRM_AVG_CFG[AVG_EN] must be set and NIC_PF_RRM_AVG_CFG[LVL_DLY] must be
@@ -15767,10 +16893,11 @@ typedef union
                                                                  0x0 is illegal and will get aliased to a setting of 0x1. */
         uint64_t reserved_9_15         : 7;
         uint64_t avg_con               : 9;  /**< [ 24: 16](R/W) This value controls how much of each present average resource level is used to calculate
-                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 the new resource level. The value is a number from 0 to 256, which represents
+                                                                 [AVG_CON]/256
                                                                  of the average resource level that will be used in the calculation:
 
-                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+                                                                 next_LEVEL = ([AVG_CON]/256) * prev_LEVEL + (1-([AVG_CON]/256)) * count
 
                                                                  Note setting this value to zero will disable averaging, and always use the most immediate
                                                                  levels. NIC_PF_RRM_AVG_CFG[AVG_EN] must be set and NIC_PF_RRM_AVG_CFG[LVL_DLY] must be
@@ -15982,6 +17109,38 @@ typedef union
         uint64_t reserved_55_61        : 7;
         uint64_t fifo_level            : 7;  /**< [ 54: 48](RO/H) Current level of the internal RBDR FIFO. */
         uint64_t reserved_43_47        : 5;
+        uint64_t prefetch_head         : 19; /**< [ 42: 24](RO/H) The current hardware head pointer position after prefetch to the internal pointer cache. */
+        uint64_t reserved_19_23        : 5;
+        uint64_t qcount                : 19; /**< [ 18:  0](RO/H) Number of valid entries in the RBDR. Computed by hardware from
+                                                                 NIC_QS()_RBDR()_CFG[QSIZE], NIC_QS()_RBDR()_TAIL[TAIL_PTR] and
+                                                                 NIC_QS()_RBDR()_HEAD[HEAD_PTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t qcount                : 19; /**< [ 18:  0](RO/H) Number of valid entries in the RBDR. Computed by hardware from
+                                                                 NIC_QS()_RBDR()_CFG[QSIZE], NIC_QS()_RBDR()_TAIL[TAIL_PTR] and
+                                                                 NIC_QS()_RBDR()_HEAD[HEAD_PTR]. */
+        uint64_t reserved_19_23        : 5;
+        uint64_t prefetch_head         : 19; /**< [ 42: 24](RO/H) The current hardware head pointer position after prefetch to the internal pointer cache. */
+        uint64_t reserved_43_47        : 5;
+        uint64_t fifo_level            : 7;  /**< [ 54: 48](RO/H) Current level of the internal RBDR FIFO. */
+        uint64_t reserved_55_61        : 7;
+        uint64_t fifo_state            : 2;  /**< [ 63: 62](RO/H) Current state of the RBDR FIFO. 00-Inactive, 01-Active, 10-Reset, 11-FAIL. The RBDR is
+                                                                 stopped  when the state is FAIL and all received packets for it are discarded. In order to
+                                                                 restart the RBDR, software must first reset it by writing a 1 to
+                                                                 NIC_QS()_RBDR()_CFG[RESET], then reconfigure and re-enable the RBDR. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_qsx_rbdrx_status0_s cn81xx; */
+    /* struct bdk_nic_qsx_rbdrx_status0_s cn88xx; */
+    struct bdk_nic_qsx_rbdrx_status0_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t fifo_state            : 2;  /**< [ 63: 62](RO/H) Current state of the RBDR FIFO. 00-Inactive, 01-Active, 10-Reset, 11-FAIL. The RBDR is
+                                                                 stopped  when the state is FAIL and all received packets for it are discarded. In order to
+                                                                 restart the RBDR, software must first reset it by writing a 1 to
+                                                                 NIC_QS()_RBDR()_CFG[RESET], then reconfigure and re-enable the RBDR. */
+        uint64_t reserved_55_61        : 7;
+        uint64_t fifo_level            : 7;  /**< [ 54: 48](RO/H) Current level of the internal RBDR FIFO. */
+        uint64_t reserved_43_47        : 5;
         uint64_t prefetch_head         : 19; /**< [ 42: 24](RO/H) The current HW_HEAD pointer position after it has prefetch pointers to load the internal
                                                                  pointer cache. */
         uint64_t reserved_19_23        : 5;
@@ -16003,8 +17162,7 @@ typedef union
                                                                  restart the RBDR, software must first reset it by writing a 1 to
                                                                  NIC_QS()_RBDR()_CFG[RESET], then reconfigure and re-enable the RBDR. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_qsx_rbdrx_status0_s cn; */
+    } cn83xx;
 } bdk_nic_qsx_rbdrx_status0_t;
 
 static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -16629,7 +17787,7 @@ typedef union
         uint64_t reserved_32_63        : 32;
         uint64_t cq_limit              : 8;  /**< [ 31: 24](R/W/H) Threshold level for suppressing packet send, in units of 1/256th of CQ level. 0xff
                                                                  represents an empty CQ ring, 0x0 represents a full ring. Packets will not be sent from the
-                                                                 SQ if the available space in the associated CQ is less than the CQ_LIMIT value. */
+                                                                 SQ if the available space in the associated CQ is less than the [CQ_LIMIT] value. */
         uint64_t reserved_20_23        : 4;
         uint64_t ena                   : 1;  /**< [ 19: 19](R/W/H) Enable SQ. Software can clear this bit at any time to disable the SQ, at which time
                                                                  hardware stops servicing the SQ and sets NIC_QS()_SQ()_STATUS[STOPPED] when
@@ -16701,7 +17859,7 @@ typedef union
         uint64_t reserved_20_23        : 4;
         uint64_t cq_limit              : 8;  /**< [ 31: 24](R/W/H) Threshold level for suppressing packet send, in units of 1/256th of CQ level. 0xff
                                                                  represents an empty CQ ring, 0x0 represents a full ring. Packets will not be sent from the
-                                                                 SQ if the available space in the associated CQ is less than the CQ_LIMIT value. */
+                                                                 SQ if the available space in the associated CQ is less than the [CQ_LIMIT] value. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -16801,7 +17959,7 @@ typedef union
         uint64_t reserved_32_63        : 32;
         uint64_t cq_limit              : 8;  /**< [ 31: 24](R/W/H) Threshold level for suppressing packet send, in units of 1/256th of CQ level. 0xff
                                                                  represents an empty CQ ring, 0x0 represents a full ring. Packets will not be sent from the
-                                                                 SQ if the available space in the associated CQ is less than the CQ_LIMIT value.
+                                                                 SQ if the available space in the associated CQ is less than the [CQ_LIMIT] value.
 
                                                                  Added in pass 2. */
         uint64_t reserved_20_23        : 4;
@@ -16883,7 +18041,7 @@ typedef union
         uint64_t reserved_20_23        : 4;
         uint64_t cq_limit              : 8;  /**< [ 31: 24](R/W/H) Threshold level for suppressing packet send, in units of 1/256th of CQ level. 0xff
                                                                  represents an empty CQ ring, 0x0 represents a full ring. Packets will not be sent from the
-                                                                 SQ if the available space in the associated CQ is less than the CQ_LIMIT value.
+                                                                 SQ if the available space in the associated CQ is less than the [CQ_LIMIT] value.
 
                                                                  Added in pass 2. */
         uint64_t reserved_32_63        : 32;
@@ -17128,11 +18286,13 @@ typedef union
         uint64_t send_err              : 1;  /**< [ 20: 20](RO/H) Send error. NIC sets this bit along with NIC_VF()_INT[QS_ERR] when it detects an
                                                                  error on a packet scheduled from this SQ. When this bit is set, NIC stops servicing the SQ
                                                                  and sets [STOPPED] in this register when the stop operation done. A NIC_CQE_SEND_S is
-                                                                 created with [CQE_TYPE] = NIC_CQE_TYPE_E::SEND and non-zero [SEND_STATUS] for every
-                                                                 scheduled packet that has an error until the SQ is stopped. */
+                                                                 created with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND and non-zero
+                                                                 NIC_CQE_SEND_S[SEND_STATUS] for every scheduled packet that has an error until the SQ is
+                                                                 stopped. */
         uint64_t dpe_err               : 1;  /**< [ 19: 19](RO/H) Descriptor Parsing Engine error. NIC sets this bit along with NIC_VF()_INT[QS_ERR]
                                                                  when any of the following errors is detected on a send descriptor:
-                                                                 * The first SQE of the send descriptor is not NIC_SEND_HDR_S, i.e. [SUBDC] is not HDR.
+                                                                 * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
+                                                                 i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
                                                                  * NIC_SEND_HDR_S[SUBDCNT] is 0.
                                                                  * NIC_SEND_HDR_S[TOTAL] is 0.
 
@@ -17160,7 +18320,8 @@ typedef union
         uint64_t soft_stop             : 1;  /**< [ 18: 18](RAZ) Reserved. */
         uint64_t dpe_err               : 1;  /**< [ 19: 19](RO/H) Descriptor Parsing Engine error. NIC sets this bit along with NIC_VF()_INT[QS_ERR]
                                                                  when any of the following errors is detected on a send descriptor:
-                                                                 * The first SQE of the send descriptor is not NIC_SEND_HDR_S, i.e. [SUBDC] is not HDR.
+                                                                 * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
+                                                                 i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
                                                                  * NIC_SEND_HDR_S[SUBDCNT] is 0.
                                                                  * NIC_SEND_HDR_S[TOTAL] is 0.
 
@@ -17178,8 +18339,9 @@ typedef union
         uint64_t send_err              : 1;  /**< [ 20: 20](RO/H) Send error. NIC sets this bit along with NIC_VF()_INT[QS_ERR] when it detects an
                                                                  error on a packet scheduled from this SQ. When this bit is set, NIC stops servicing the SQ
                                                                  and sets [STOPPED] in this register when the stop operation done. A NIC_CQE_SEND_S is
-                                                                 created with [CQE_TYPE] = NIC_CQE_TYPE_E::SEND and non-zero [SEND_STATUS] for every
-                                                                 scheduled packet that has an error until the SQ is stopped. */
+                                                                 created with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND and non-zero
+                                                                 NIC_CQE_SEND_S[SEND_STATUS] for every scheduled packet that has an error until the SQ is
+                                                                 stopped. */
         uint64_t stopped               : 1;  /**< [ 21: 21](RO/H) NIC has stopped servicing this SQ. This bit is set along with the associated
                                                                  NIC_VF()_INT[SQ<a>] interrupt after hardware sets [SEND_ERR], [DPE_ERR] and/or
                                                                  [SOFT_STOP]. Software can safely reset the SQ after this bit is set by writing a 1 to
@@ -17207,6 +18369,82 @@ typedef union
         uint64_t send_err              : 1;  /**< [ 20: 20](RO/H) Send error. NIC sets this bit along with NIC_VF()_INT[QS_ERR] when it detects an
                                                                  error on a packet scheduled from this SQ. When this bit is set, NIC stops servicing the SQ
                                                                  and sets [STOPPED] in this register when the stop operation done. A NIC_CQE_SEND_S is
+                                                                 created with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND and non-zero
+                                                                 NIC_CQE_SEND_S[SEND_STATUS] for every scheduled packet that has an error until the SQ is
+                                                                 stopped. */
+        uint64_t dpe_err               : 1;  /**< [ 19: 19](RO/H) Descriptor Parsing Engine error. NIC sets this bit along with NIC_VF()_INT[QS_ERR]
+                                                                 when any of the following errors is detected on a send descriptor:
+                                                                 * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
+                                                                 i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
+                                                                 * NIC_SEND_HDR_S[SUBDCNT] is 0.
+                                                                 * NIC_SEND_HDR_S[TOTAL] is 0.
+
+                                                                 When this bit is set, NIC stops servicing the SQ and sets [STOPPED] in this register when
+                                                                 the stop operation done. A NIC_CQE_SEND_S is not created for a descriptor error that sets
+                                                                 this bit. */
+        uint64_t soft_stop             : 1;  /**< [ 18: 18](RO/H) SQ stop by software CSR access. Set by one of the following:
+                                                                 * Software clears NIC_QS()_SQ()_CFG[ENA].
+                                                                 * A write to NIC_QS()_SQ()_DOOR causes an error.
+
+                                                                 When this bit is set, NIC stops servicing the SQ and sets [STOPPED] in this register when
+                                                                 the stop operation done. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t qcount                : 16; /**< [ 15:  0](RO/H) Number of valid entries in the SQ. Computed by hardware from
+                                                                 NIC_QS()_SQ()_CFG[QSIZE], NIC_QS()_SQ()_TAIL[TAIL_PTR] and
+                                                                 NIC_QS()_SQ()_HEAD[HEAD_PTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t qcount                : 16; /**< [ 15:  0](RO/H) Number of valid entries in the SQ. Computed by hardware from
+                                                                 NIC_QS()_SQ()_CFG[QSIZE], NIC_QS()_SQ()_TAIL[TAIL_PTR] and
+                                                                 NIC_QS()_SQ()_HEAD[HEAD_PTR]. */
+        uint64_t reserved_16_17        : 2;
+        uint64_t soft_stop             : 1;  /**< [ 18: 18](RO/H) SQ stop by software CSR access. Set by one of the following:
+                                                                 * Software clears NIC_QS()_SQ()_CFG[ENA].
+                                                                 * A write to NIC_QS()_SQ()_DOOR causes an error.
+
+                                                                 When this bit is set, NIC stops servicing the SQ and sets [STOPPED] in this register when
+                                                                 the stop operation done. */
+        uint64_t dpe_err               : 1;  /**< [ 19: 19](RO/H) Descriptor Parsing Engine error. NIC sets this bit along with NIC_VF()_INT[QS_ERR]
+                                                                 when any of the following errors is detected on a send descriptor:
+                                                                 * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
+                                                                 i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
+                                                                 * NIC_SEND_HDR_S[SUBDCNT] is 0.
+                                                                 * NIC_SEND_HDR_S[TOTAL] is 0.
+
+                                                                 When this bit is set, NIC stops servicing the SQ and sets [STOPPED] in this register when
+                                                                 the stop operation done. A NIC_CQE_SEND_S is not created for a descriptor error that sets
+                                                                 this bit. */
+        uint64_t send_err              : 1;  /**< [ 20: 20](RO/H) Send error. NIC sets this bit along with NIC_VF()_INT[QS_ERR] when it detects an
+                                                                 error on a packet scheduled from this SQ. When this bit is set, NIC stops servicing the SQ
+                                                                 and sets [STOPPED] in this register when the stop operation done. A NIC_CQE_SEND_S is
+                                                                 created with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND and non-zero
+                                                                 NIC_CQE_SEND_S[SEND_STATUS] for every scheduled packet that has an error until the SQ is
+                                                                 stopped. */
+        uint64_t stopped               : 1;  /**< [ 21: 21](RO/H) NIC has stopped servicing this SQ. This bit is set along with the associated
+                                                                 NIC_VF()_INT[SQ<a>] interrupt after hardware sets [SEND_ERR], [DPE_ERR] and/or
+                                                                 [SOFT_STOP]. Software can safely reset the SQ after this bit is set by writing a 1 to
+                                                                 NIC_QS()_SQ()_CFG[RESET].
+
+                                                                 Note that CQEs added by the SQ may be in flight when the SQ is stopped; software may need
+                                                                 to wait up to 50us after this bit is set to ensure that no more CQEs from the SQ are added
+                                                                 to the associated CQ. */
+        uint64_t reserved_22_63        : 42;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_nic_qsx_sqx_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_22_63        : 42;
+        uint64_t stopped               : 1;  /**< [ 21: 21](RO/H) NIC has stopped servicing this SQ. This bit is set along with the associated
+                                                                 NIC_VF()_INT[SQ<a>] interrupt after hardware sets [SEND_ERR], [DPE_ERR] and/or
+                                                                 [SOFT_STOP]. Software can safely reset the SQ after this bit is set by writing a 1 to
+                                                                 NIC_QS()_SQ()_CFG[RESET].
+
+                                                                 Note that CQEs added by the SQ may be in flight when the SQ is stopped; software may need
+                                                                 to wait up to 50us after this bit is set to ensure that no more CQEs from the SQ are added
+                                                                 to the associated CQ. */
+        uint64_t send_err              : 1;  /**< [ 20: 20](RO/H) Send error. NIC sets this bit along with NIC_VF()_INT[QS_ERR] when it detects an
+                                                                 error on a packet scheduled from this SQ. When this bit is set, NIC stops servicing the SQ
+                                                                 and sets [STOPPED] in this register when the stop operation done. A NIC_CQE_SEND_S is
                                                                  created with [CQE_TYPE] = NIC_CQE_TYPE_E::SEND and non-zero [SEND_STATUS] for every
                                                                  scheduled packet that has an error until the SQ is stopped. */
         uint64_t dpe_err               : 1;  /**< [ 19: 19](RO/H) Descriptor Parsing Engine error. NIC sets this bit along with NIC_VF()_INT[QS_ERR]
@@ -17263,8 +18501,7 @@ typedef union
                                                                  to the associated CQ. */
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_nic_qsx_sqx_status_cn81xx cn83xx; */
+    } cn83xx;
     struct bdk_nic_qsx_sqx_status_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -17280,11 +18517,13 @@ typedef union
         uint64_t send_err              : 1;  /**< [ 20: 20](RO/H) Send error. NIC sets this bit along with NIC_VF()_INT[QS_ERR] when it detects an
                                                                  error on a packet scheduled from this SQ. When this bit is set, NIC stops servicing the SQ
                                                                  and sets [STOPPED] in this register when the stop operation done. A NIC_CQE_SEND_S is
-                                                                 created with [CQE_TYPE] = NIC_CQE_TYPE_E::SEND and non-zero [SEND_STATUS] for every
-                                                                 scheduled packet that has an error until the SQ is stopped. */
+                                                                 created with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND and non-zero
+                                                                 NIC_CQE_SEND_S[SEND_STATUS] for every scheduled packet that has an error until the SQ is
+                                                                 stopped. */
         uint64_t dpe_err               : 1;  /**< [ 19: 19](RO/H) Descriptor Parsing Engine error. NIC sets this bit along with NIC_VF()_INT[QS_ERR]
                                                                  when any of the following errors is detected on a send descriptor:
-                                                                 * The first SQE of the send descriptor is not NIC_SEND_HDR_S, i.e. [SUBDC] is not HDR.
+                                                                 * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
+                                                                 i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
                                                                  * NIC_SEND_HDR_S[SUBDCNT] is 0.
                                                                  * NIC_SEND_HDR_S[TOTAL] is 0.
 
@@ -17326,7 +18565,8 @@ typedef union
                                                                  Added in pass 2. */
         uint64_t dpe_err               : 1;  /**< [ 19: 19](RO/H) Descriptor Parsing Engine error. NIC sets this bit along with NIC_VF()_INT[QS_ERR]
                                                                  when any of the following errors is detected on a send descriptor:
-                                                                 * The first SQE of the send descriptor is not NIC_SEND_HDR_S, i.e. [SUBDC] is not HDR.
+                                                                 * The first SQE of the send descriptor is not NIC_SEND_HDR_S,
+                                                                 i.e. NIC_SEND_HDR_S[SUBDC] != NIC_SEND_SUBDC_E::HDR.
                                                                  * NIC_SEND_HDR_S[SUBDCNT] is 0.
                                                                  * NIC_SEND_HDR_S[TOTAL] is 0.
 
@@ -17344,8 +18584,9 @@ typedef union
         uint64_t send_err              : 1;  /**< [ 20: 20](RO/H) Send error. NIC sets this bit along with NIC_VF()_INT[QS_ERR] when it detects an
                                                                  error on a packet scheduled from this SQ. When this bit is set, NIC stops servicing the SQ
                                                                  and sets [STOPPED] in this register when the stop operation done. A NIC_CQE_SEND_S is
-                                                                 created with [CQE_TYPE] = NIC_CQE_TYPE_E::SEND and non-zero [SEND_STATUS] for every
-                                                                 scheduled packet that has an error until the SQ is stopped. */
+                                                                 created with NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND and non-zero
+                                                                 NIC_CQE_SEND_S[SEND_STATUS] for every scheduled packet that has an error until the SQ is
+                                                                 stopped. */
         uint64_t stopped               : 1;  /**< [ 21: 21](RO/H) NIC has stopped servicing this SQ. This bit is set along with the associated
                                                                  NIC_VF()_INT[SQ<a>] interrupt after hardware sets [SEND_ERR], [DPE_ERR] and/or
                                                                  [SOFT_STOP]. Software can safely reset the SQ after this bit is set by writing a 1 to
@@ -17481,6 +18722,24 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t tcp_timer_int_ena     : 1;  /**< [  0:  0](R/W) TCP timer interrupt enable. When set along with NIC_PF_TCP_TIMER[ENA],
+                                                                 NIC_VF()_INT[TCP_TIMER] is set every NIC_PF_TCP_TIMER[DURATION]*256*128
+                                                                 coprocessor-clock
+                                                                 cycles. */
+#else /* Word 0 - Little Endian */
+        uint64_t tcp_timer_int_ena     : 1;  /**< [  0:  0](R/W) TCP timer interrupt enable. When set along with NIC_PF_TCP_TIMER[ENA],
+                                                                 NIC_VF()_INT[TCP_TIMER] is set every NIC_PF_TCP_TIMER[DURATION]*256*128
+                                                                 coprocessor-clock
+                                                                 cycles. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_vfx_cfg_s cn81xx; */
+    /* struct bdk_nic_vfx_cfg_s cn88xx; */
+    struct bdk_nic_vfx_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t tcp_timer_int_ena     : 1;  /**< [  0:  0](R/W) TCP timer interrupt enable. When set along with NIC_PF_TCP_TIMER[ENA],
                                                                  NIC_VF()_INT[TCP_TIMER_INT] is set every NIC_PF_TCP_TIMER[DURATION]*256*128
                                                                  coprocessor-clock
                                                                  cycles. */
@@ -17491,8 +18750,7 @@ typedef union
                                                                  cycles. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_vfx_cfg_s cn; */
+    } cn83xx;
 } bdk_nic_vfx_cfg_t;
 
 static inline uint64_t BDK_NIC_VFX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -17693,7 +18951,7 @@ typedef union
                                                                  * A send queue's NIC_QS()_SQ()_STATUS[SEND_ERR] or
                                                                  NIC_QS()_SQ()_STATUS[DPE_ERR] bit is set.
                                                                  * An RBDR's NIC_QS()_RBDR()_STATUS0[FIFO_STATE] field transitions to FAIL. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..127)_MBOX(0) register is written. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF()_MBOX(0) register is written. */
         uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
@@ -17721,7 +18979,8 @@ typedef union
         uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
                                                                  generates an interrupt message under any of the following conditions for its completion
                                                                  queue:
-                                                                 * In NIC_QS()_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
+                                                                 * NIC_QS()_CQ()_STATUS2[TIMER_EN]=1 and NIC_QS()_CQ()_STATUS2[GLOBAL_TIME] crosses
+                                                                 NIC_QS()_CQ()_STATUS2[INT_TIMER].
                                                                  * NIC_QS()_CQ()_STATUS[QCOUNT] increases to equal NIC_QS()_CQ()_THRESH when hardware
                                                                  advances NIC_QS()_CQ()_TAIL.
                                                                  * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] >=
@@ -17733,7 +18992,8 @@ typedef union
         uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
                                                                  generates an interrupt message under any of the following conditions for its completion
                                                                  queue:
-                                                                 * In NIC_QS()_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
+                                                                 * NIC_QS()_CQ()_STATUS2[TIMER_EN]=1 and NIC_QS()_CQ()_STATUS2[GLOBAL_TIME] crosses
+                                                                 NIC_QS()_CQ()_STATUS2[INT_TIMER].
                                                                  * NIC_QS()_CQ()_STATUS[QCOUNT] increases to equal NIC_QS()_CQ()_THRESH when hardware
                                                                  advances NIC_QS()_CQ()_TAIL.
                                                                  * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] >=
@@ -17765,7 +19025,7 @@ typedef union
         uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..127)_MBOX(0) register is written. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF()_MBOX(0) register is written. */
         uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Queue set error. Set when a CQ, SQ or RBDR in the QS has an error, as follows:
                                                                  * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_FULL] bit is set.
                                                                  * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_DISABLE] bit is set.
@@ -17815,6 +19075,103 @@ typedef union
         uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
                                                                  generates an interrupt message under any of the following conditions for its completion
                                                                  queue:
+                                                                 * NIC_QS()_CQ()_STATUS2[TIMER_EN]=1 and NIC_QS()_CQ()_STATUS2[GLOBAL_TIME] crosses
+                                                                 NIC_QS()_CQ()_STATUS2[INT_TIMER].
+                                                                 * NIC_QS()_CQ()_STATUS[QCOUNT] increases to equal NIC_QS()_CQ()_THRESH when hardware
+                                                                 advances NIC_QS()_CQ()_TAIL.
+                                                                 * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] >=
+                                                                 NIC_QS()_CQ()_THRESH when software writes a 1 to clear this bit.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+#else /* Word 0 - Little Endian */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
+                                                                 generates an interrupt message under any of the following conditions for its completion
+                                                                 queue:
+                                                                 * NIC_QS()_CQ()_STATUS2[TIMER_EN]=1 and NIC_QS()_CQ()_STATUS2[GLOBAL_TIME] crosses
+                                                                 NIC_QS()_CQ()_STATUS2[INT_TIMER].
+                                                                 * NIC_QS()_CQ()_STATUS[QCOUNT] increases to equal NIC_QS()_CQ()_THRESH when hardware
+                                                                 advances NIC_QS()_CQ()_TAIL.
+                                                                 * NIC_QS()_CQ()_THRESH is non-zero and NIC_QS()_CQ()_STATUS[QCOUNT] >=
+                                                                 NIC_QS()_CQ()_THRESH when software writes a 1 to clear this bit.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Send queue interrupt. One bit for each SQ in the QS. Hardware sets each bit and generates
+                                                                 an interrupt message under any of the following conditions for its send queue:
+                                                                 * NIC_QS()_SQ()_THRESH is non-zero and NIC_QS()_SQ()_STATUS[QCOUNT]
+                                                                 crosses NIC_QS()_SQ()_THRESH when hardware advances NIC_QS()_SQ()_HEAD
+                                                                 or NIC_QS()_SQ()_TAIL.
+                                                                 * NIC_QS()_SQ()_STATUS[STOPPED] is set.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) RBDR interrupt. One bit for each RBDR in the QS. Hardware sets each bit and generates
+                                                                 an interrupt message under any of the following condition for its RBDR:
+                                                                 * NIC_QS()_RBDR()_THRESH is non-zero and
+                                                                 NIC_QS()_RBDR()_STATUS0[QCOUNT] crosses NIC_QS()_RBDR()_THRESH when
+                                                                 hardware advances NIC_QS()_RBDR()_HEAD or NIC_QS()_RBDR()_TAIL.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+        uint64_t reserved_18_19        : 2;
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Packet dropped interrupt. Hardware sets this bit and generates an interrupt message when
+                                                                 any packet has been dropped. This is intended for diagnostic use; typical production
+                                                                 software will want this interrupt disabled. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
+                                                                 NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
+                                                                 NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..7)_MBOX(0) register is written. */
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Queue set error. Set when a CQ, SQ or RBDR in the QS has an error, as follows:
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_FULL] bit is set.
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_DISABLE] bit is set.
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_FAULT] bit is set.
+                                                                 * A send queue's NIC_QS()_SQ()_STATUS[SEND_ERR] or
+                                                                 NIC_QS()_SQ()_STATUS[DPE_ERR] bit is set.
+                                                                 * An RBDR's NIC_QS()_RBDR()_STATUS0[FIFO_STATE] field transitions to FAIL. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_nic_vfx_int_s cn88xx; */
+    struct bdk_nic_vfx_int_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Queue set error. Set when a CQ, SQ or RBDR in the QS has an error, as follows:
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_FULL] bit is set.
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_DISABLE] bit is set.
+                                                                 * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_FAULT] bit is set.
+                                                                 * A send queue's NIC_QS()_SQ()_STATUS[SEND_ERR] or
+                                                                 NIC_QS()_SQ()_STATUS[DPE_ERR] bit is set.
+                                                                 * An RBDR's NIC_QS()_RBDR()_STATUS0[FIFO_STATE] field transitions to FAIL. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..127)_MBOX(0) register is written. */
+        uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
+                                                                 NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
+                                                                 NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
+        uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Packet dropped interrupt. Hardware sets this bit and generates an interrupt message when
+                                                                 any packet has been dropped. This is intended for diagnostic use; typical production
+                                                                 software will want this interrupt disabled. */
+        uint64_t reserved_18_19        : 2;
+        uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) RBDR interrupt. One bit for each RBDR in the QS. Hardware sets each bit and generates
+                                                                 an interrupt message under any of the following condition for its RBDR:
+                                                                 * NIC_QS()_RBDR()_THRESH is non-zero and
+                                                                 NIC_QS()_RBDR()_STATUS0[QCOUNT] crosses NIC_QS()_RBDR()_THRESH when
+                                                                 hardware advances NIC_QS()_RBDR()_HEAD or NIC_QS()_RBDR()_TAIL.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+        uint64_t sq                    : 8;  /**< [ 15:  8](R/W1C/H) Send queue interrupt. One bit for each SQ in the QS. Hardware sets each bit and generates
+                                                                 an interrupt message under any of the following conditions for its send queue:
+                                                                 * NIC_QS()_SQ()_THRESH is non-zero and NIC_QS()_SQ()_STATUS[QCOUNT]
+                                                                 crosses NIC_QS()_SQ()_THRESH when hardware advances NIC_QS()_SQ()_HEAD
+                                                                 or NIC_QS()_SQ()_TAIL.
+                                                                 * NIC_QS()_SQ()_STATUS[STOPPED] is set.
+
+                                                                 Subsequent interrupt messages are only generated after the bit has been cleared by
+                                                                 software. */
+        uint64_t cq                    : 8;  /**< [  7:  0](R/W1C/H) Completion queue interrupt. One bit for each CQ in the QS. Hardware sets each bit and
+                                                                 generates an interrupt message under any of the following conditions for its completion
+                                                                 queue:
                                                                  * In NIC_QS()_CQ()_STATUS2, [TIMER_EN]=1 and [GLOBAL_TIME] crosses [INT_TIMER].
                                                                  * NIC_QS()_CQ()_STATUS[QCOUNT] increases to equal NIC_QS()_CQ()_THRESH when hardware
                                                                  advances NIC_QS()_CQ()_TAIL.
@@ -17859,7 +19216,7 @@ typedef union
         uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
-        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..7)_MBOX(0) register is written. */
+        uint64_t mbox                  : 1;  /**< [ 22: 22](R/W1C/H) PF to VF mailbox interrupt. Set when the NIC_PF_VF(0..127)_MBOX(0) register is written. */
         uint64_t qs_err                : 1;  /**< [ 23: 23](R/W1C/H) Queue set error. Set when a CQ, SQ or RBDR in the QS has an error, as follows:
                                                                  * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_FULL] bit is set.
                                                                  * A completion queue's NIC_QS()_CQ()_STATUS[CQ_WR_DISABLE] bit is set.
@@ -17869,9 +19226,7 @@ typedef union
                                                                  * An RBDR's NIC_QS()_RBDR()_STATUS0[FIFO_STATE] field transitions to FAIL. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_nic_vfx_int_s cn88xx; */
-    /* struct bdk_nic_vfx_int_s cn83xx; */
+    } cn83xx;
 } bdk_nic_vfx_int_t;
 
 static inline uint64_t BDK_NIC_VFX_INT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -18123,38 +19478,38 @@ typedef union
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. The PF may access the same storage using NIC_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 NIC_VF(0..127)_PF_MBOX(1) (but not NIC_PF_VF(0..127)_MBOX(1)) will set the
+                                                                 NIC_VF()_PF_MBOX(1) (but not NIC_PF_VF()_MBOX(1)) will set the
                                                                  corresponding NIC_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. The PF may access the same storage using NIC_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 NIC_VF(0..127)_PF_MBOX(1) (but not NIC_PF_VF(0..127)_MBOX(1)) will set the
+                                                                 NIC_VF()_PF_MBOX(1) (but not NIC_PF_VF()_MBOX(1)) will set the
                                                                  corresponding NIC_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_nic_vfx_pf_mboxx_cn81xx
+    /* struct bdk_nic_vfx_pf_mboxx_s cn81xx; */
+    /* struct bdk_nic_vfx_pf_mboxx_s cn88xx; */
+    struct bdk_nic_vfx_pf_mboxx_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. The PF may access the same storage using NIC_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 NIC_VF(0..7)_PF_MBOX(1) (but not NIC_PF_VF(0..7)_MBOX(1)) will set the
+                                                                 NIC_VF(0..127)_PF_MBOX(1) (but not NIC_PF_VF(0..127)_MBOX(1)) will set the
                                                                  corresponding NIC_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. The PF may access the same storage using NIC_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 NIC_VF(0..7)_PF_MBOX(1) (but not NIC_PF_VF(0..7)_MBOX(1)) will set the
+                                                                 NIC_VF(0..127)_PF_MBOX(1) (but not NIC_PF_VF(0..127)_MBOX(1)) will set the
                                                                  corresponding NIC_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_nic_vfx_pf_mboxx_s cn88xx; */
-    /* struct bdk_nic_vfx_pf_mboxx_s cn83xx; */
+    } cn83xx;
 } bdk_nic_vfx_pf_mboxx_t;
 
 static inline uint64_t BDK_NIC_VFX_PF_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -18199,7 +19554,7 @@ typedef union
                                                                  Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::ROCE. */
         uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
-                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
+                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP or NIC_RSS_ALG_E::INNER_GRE_IP. */
         uint64_t rss_udp               : 1;  /**< [  4:  4](R/W) Enable IP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::UDP_IP. */
         uint64_t rss_syn_dis           : 1;  /**< [  3:  3](R/W) Disable RSS on TCP SYN packets. If set, TCP packets with SYN & !ACK will have RSS disabled. */
@@ -18220,7 +19575,7 @@ typedef union
         uint64_t rss_udp               : 1;  /**< [  4:  4](R/W) Enable IP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::UDP_IP. */
         uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
-                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
+                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP or NIC_RSS_ALG_E::INNER_GRE_IP. */
         uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Reserved.
                                                                  Internal:
                                                                  Unused field. Old definition:
@@ -18250,7 +19605,7 @@ typedef union
                                                                  Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::ROCE. */
         uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
-                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
+                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP or NIC_RSS_ALG_E::INNER_GRE_IP. */
         uint64_t rss_udp               : 1;  /**< [  4:  4](R/W) Enable IP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::UDP_IP. */
         uint64_t rss_syn_dis           : 1;  /**< [  3:  3](R/W) Disable RSS on TCP SYN packets. If set, TCP packets with SYN & !ACK will have RSS disabled. */
@@ -18271,7 +19626,7 @@ typedef union
         uint64_t rss_udp               : 1;  /**< [  4:  4](R/W) Enable IP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::UDP_IP. */
         uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
-                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
+                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP or NIC_RSS_ALG_E::INNER_GRE_IP. */
         uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Reserved.
                                                                  Internal:
                                                                  Unused field. Old definition:
@@ -18344,7 +19699,7 @@ typedef union
                                                                  Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::ROCE. */
         uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
-                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
+                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP or NIC_RSS_ALG_E::INNER_GRE_IP. */
         uint64_t rss_udp               : 1;  /**< [  4:  4](R/W) Enable IP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::UDP_IP. */
         uint64_t rss_syn_dis           : 1;  /**< [  3:  3](R/W) Disable RSS on TCP SYN packets. If set, TCP packets with SYN & !ACK will have RSS disabled. */
@@ -18365,7 +19720,7 @@ typedef union
         uint64_t rss_udp               : 1;  /**< [  4:  4](R/W) Enable IP RSS hashing, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
                                                                  NIC_RSS_ALG_E::UDP_IP. */
         uint64_t rss_l4etc             : 1;  /**< [  5:  5](R/W) Enable L4 extended RSS hashing, including GRE, potentially resulting in setting
-                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP. */
+                                                                 NIC_CQE_RX_S[RSS_ALG] = NIC_RSS_ALG_E::GRE_IP or NIC_RSS_ALG_E::INNER_GRE_IP. */
         uint64_t rss_roce              : 1;  /**< [  6:  6](R/W) Reserved.
                                                                  Internal:
                                                                  Unused field. Old definition:

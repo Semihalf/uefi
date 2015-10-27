@@ -5285,15 +5285,19 @@ typedef union
                                                                  uTLB miss replay to complete the uTLB fill. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed (pass 1, pass 2).
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed (pass
+                                                                 1, pass 2). */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
-                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
+                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
+                                                                 uTLB is flushed when this value is changed (pass 1, pass 2). */
         uint64_t zval2cdis             : 1;  /**< [ 39: 39](R/W) ZVA bypass L2C.
                                                                  0 = DC_ZVA instructions to L2C are STFIL1 (full block store operation allocating in
                                                                  requester L2, fill 0s, self-invalidate L1 cache).
@@ -5328,13 +5332,13 @@ typedef union
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
 #else /* Word 0 - Little Endian */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
@@ -5371,13 +5375,17 @@ typedef union
                                                                  bypass home and requester L2, fill 0s, self-invalidate L1 cache). */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
-                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
+                                                                 uTLB is flushed when this value is changed (pass 1, pass 2). */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed (pass
+                                                                 1, pass 2). */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed (pass 1, pass 2).
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass (pass 2.0 only).
@@ -5477,15 +5485,19 @@ typedef union
                                                                  uTLB miss replay to complete the uTLB fill. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed (pass 1, pass 2).
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed (pass
+                                                                 1, pass 2). */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
-                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
+                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
+                                                                 uTLB is flushed when this value is changed (pass 1, pass 2). */
         uint64_t zval2cdis             : 1;  /**< [ 39: 39](R/W) ZVA bypass L2C.
                                                                  0 = DC_ZVA instructions to L2C are STFIL1 (full block store operation allocating in
                                                                  requester L2, fill 0s, self-invalidate L1 cache).
@@ -5520,13 +5532,13 @@ typedef union
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
 #else /* Word 0 - Little Endian */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
@@ -5563,13 +5575,17 @@ typedef union
                                                                  bypass home and requester L2, fill 0s, self-invalidate L1 cache). */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
-                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
+                                                                 uTLB is flushed when this value is changed (pass 1, pass 2). */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed (pass
+                                                                 1, pass 2). */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed (pass 1, pass 2).
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass (pass 2.0 only).
@@ -5669,15 +5685,19 @@ typedef union
                                                                  uTLB miss replay to complete the uTLB fill. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is not flushed with this value is
+                                                                 changed. */
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is not flushed with this value is
+                                                                 changed. */
         uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is not flushed with this value is changed. */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
-                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
+                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
+
+                                                                 uTLB is not flushed with this value is changed. */
         uint64_t zval2cdis             : 1;  /**< [ 39: 39](R/W) ZVA bypass L2C.
                                                                  0 = DC_ZVA instructions to L2C are STFIL1 (full block store operation allocating in
                                                                  requester L2, fill 0s, self-invalidate L1 cache).
@@ -5712,13 +5732,13 @@ typedef union
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  uTLB is flushed when this value is changed. */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
 #else /* Word 0 - Little Endian */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  uTLB is flushed when this value is changed. */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
@@ -5755,13 +5775,17 @@ typedef union
                                                                  bypass home and requester L2, fill 0s, self-invalidate L1 cache). */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
-                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
+                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
+
+                                                                 uTLB is not flushed with this value is changed. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is not flushed with this value is changed. */
         uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is not flushed with this value is
+                                                                 changed. */
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is not flushed with this value is
+                                                                 changed. */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass.
@@ -5868,15 +5892,19 @@ typedef union
                                                                  uTLB miss replay to complete the uTLB fill. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed (pass 1, pass 2).
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed (pass
+                                                                 1, pass 2). */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
-                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
+                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
+                                                                 uTLB is flushed when this value is changed (pass 1, pass 2). */
         uint64_t zval2cdis             : 1;  /**< [ 39: 39](R/W) ZVA bypass L2C.
                                                                  0 = DC_ZVA instructions to L2C are STFIL1 (full block store operation allocating in
                                                                  requester L2, fill 0s, self-invalidate L1 cache).
@@ -5911,13 +5939,13 @@ typedef union
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
 #else /* Word 0 - Little Endian */
         uint64_t mclkforce             : 1;  /**< [  0:  0](R/W) Force memory clock enable. When set, force memory conditional clocking. */
         uint64_t cclkforce             : 1;  /**< [  1:  1](R/W) Force CSR clock enable. When set, force CSR conditional clocking. */
-        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1. */
+        uint64_t utlbentriesm1         : 5;  /**< [  6:  2](R/W) Number of uTLB entries - 1.  Future allocation is limited to this size (pass 1, pass 2) */
         uint64_t wbfthresh             : 5;  /**< [ 11:  7](R/W) Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
                                                                  number of valid write-buffer entries reaches this threshold value. */
         uint64_t wbfto                 : 5;  /**< [ 16: 12](R/W) Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
@@ -5954,13 +5982,17 @@ typedef union
                                                                  bypass home and requester L2, fill 0s, self-invalidate L1 cache). */
         uint64_t replayprefdis         : 1;  /**< [ 40: 40](R/W) Replay PREF disable. uTLB miss PREF instruction behavior (see chapter body).
                                                                  0 = PREF instructions do attempt a replay for MTLB to uTLB refill.
-                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill. */
-        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss. */
-        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.
+                                                                 1 = PREF instructions do not attempt a replay for MTLB to uTLB refill.
+                                                                 uTLB is flushed when this value is changed (pass 1, pass 2). */
+        uint64_t wcumissforce          : 1;  /**< [ 41: 41](R/W) Force all walker cache lookups to miss.  uTLB is flushed when this value is changed (pass
+                                                                 1, pass 2). */
+        uint64_t ioglobalforce         : 1;  /**< [ 42: 42](R/W) Reserved.  uTLB is flushed when this value is changed (pass 1, pass 2).
                                                                  Internal:
                                                                  Force global order for IO references. */
-        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache. */
-        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH. */
+        uint64_t stexl2cforce          : 1;  /**< [ 43: 43](R/W) Send all store-exclusive instructions to L2 cache.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
+        uint64_t wbfdmbflushnext       : 1;  /**< [ 44: 44](R/W) DMB instruction to !NSH flushes next ST to !NSH.  uTLB is flushed when this value is
+                                                                 changed (pass 1, pass 2). */
         uint64_t wbfdsbflushall        : 1;  /**< [ 45: 45](R/W) Any DSB instruction flushes the write buffer. */
         uint64_t tlbiall               : 1;  /**< [ 46: 46](R/W) Treat all TLBIs like TLBI ALL for a specific exception level */
         uint64_t utlbfillbypdis        : 1;  /**< [ 47: 47](R/W) Disable uTLB fill bypass (pass 2.0 only).

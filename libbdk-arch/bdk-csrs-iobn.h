@@ -137,7 +137,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0005080ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0005080ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0005080ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_BISTR_REG", 1, a, 0, 0, 0);
 }
@@ -200,7 +204,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0005000ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0005000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0005000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_BISTS_REG", 1, a, 0, 0, 0);
 }
@@ -262,7 +270,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f000a110ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f000a110ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f000a110ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_CHIP_CUR_PWR", 1, a, 0, 0, 0);
 }
@@ -338,7 +350,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f000a100ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f000a100ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f000a100ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_CHIP_GLB_PWR_THROTTLE", 1, a, 0, 0, 0);
 }
@@ -394,7 +410,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f000a108ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f000a108ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f000a108ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_CHIP_PWR_OUT", 1, a, 0, 0, 0);
 }
@@ -449,7 +469,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0005008ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0005008ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0005008ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_CORE_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -653,7 +677,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0003000ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0003000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0003000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_DIS_NCBI_IO", 1, a, 0, 0, 0);
 }
@@ -715,7 +743,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_GBL_DLL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_GBL_DLL(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f000a000ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f000a000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f000a000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_GBL_DLL", 1, a, 0, 0, 0);
 }
@@ -1001,6 +1033,142 @@ typedef union
     struct bdk_iobnx_int_ena_w1c_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for IOBN(0)_INT_SUM[PEM_SIE]. */
+        uint64_t reserved_61_62        : 2;
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) Reads or clears enable for IOBN(0)_INT_SUM[IED0_DBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                      gmr_ixofifo_dbe_sclk,
+                                                                      icc0_xmc_fif_dbe,
+                                                                      icc1_xmc_fif_dbe,
+                                                                      icc_xmc_fifo_ecc_dbe,
+                                                                      sli_preq_0_dbe_sclk,
+                                                                      sli_req_0_dbe_sclk,
+                                                                      sli_preq_1_dbe_sclk,
+                                                                      sli_req_1_dbe_sclk,
+                                                                      sli_preq_2_dbe_sclk,
+                                                                      sli_req_2_dbe_sclk,
+                                                                      ixo_smmu_mem0_dbe_sclk,
+                                                                      iop_breq_fifo0_dbe,
+                                                                      iop_breq_fifo1_dbe ,
+                                                                      iop_breq_fifo2_dbe,
+                                                                      iop_breq_fifo3_dbe ,
+                                                                      iop_ffifo_dbe_sclk,
+                                                                      rsd_mem0_dbe,
+                                                                      rsd_mem1_dbe,
+                                                                      ics_cmd_fifo_dbe_sclk,
+                                                                      ixo_xmd_mem1_dbe_sclk,
+                                                                      ixo_xmd_mem0_dbe_sclk,
+                                                                      iobn_iorn_ffifo0__dbe_sclk,
+                                                                      iobn_iorn_ffifo1__dbe_sclk,
+                                                                      irp1_flid_mem_dbe,
+                                                                      irp0_flid_mem_dbe,
+                                                                      ixo_icc_fifo0_dbe_in_sclk,
+                                                                      ixo_icc_fifo1_dbe_in_sclk,
+                                                                      ixo_ics_mem_dbe_in_sclk. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1C/H) Reads or clears enable for IOBN(0)_INT_SUM[IED0_SBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                       gmr_ixofifo_sbe_sclk,
+                                                                       icc0_xmc_fif_sbe,
+                                                                       icc1_xmc_fif_sbe,
+                                                                       icc_xmc_fifo_ecc_sbe,
+                                                                       sli_preq_0_sbe_sclk,
+                                                                       sli_req_0_sbe_sclk,
+                                                                       sli_preq_1_sbe_sclk,
+                                                                       sli_req_1_sbe_sclk,
+                                                                       sli_preq_2_sbe_sclk,
+                                                                       sli_req_2_sbe_sclk,
+                                                                       ixo_smmu_mem0_sbe_sclk,
+                                                                       iop_breq_fifo0_sbe,
+                                                                       iop_breq_fifo1_sbe ,
+                                                                       iop_breq_fifo2_sbe,
+                                                                       iop_breq_fifo3_sbe ,
+                                                                       iop_ffifo_sbe_sclk,
+                                                                       rsd_mem0_sbe,
+                                                                       rsd_mem1_sbe,
+                                                                       ics_cmd_fifo_sbe_sclk,
+                                                                       ixo_xmd_mem1_sbe_sclk,
+                                                                       ixo_xmd_mem0_sbe_sclk,
+                                                                       iobn_iorn_ffifo0__sbe_sclk,
+                                                                       iobn_iorn_ffifo1__sbe_sclk,
+                                                                       irp1_flid_mem_sbe,
+                                                                       irp0_flid_mem_sbe,
+                                                                       ixo_icc_fifo0_sbe_in_sclk,
+                                                                       ixo_icc_fifo1_sbe_in_sclk,
+                                                                       ixo_ics_mem_sbe_in_sclk. */
+#else /* Word 0 - Little Endian */
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1C/H) Reads or clears enable for IOBN(0)_INT_SUM[IED0_SBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                       gmr_ixofifo_sbe_sclk,
+                                                                       icc0_xmc_fif_sbe,
+                                                                       icc1_xmc_fif_sbe,
+                                                                       icc_xmc_fifo_ecc_sbe,
+                                                                       sli_preq_0_sbe_sclk,
+                                                                       sli_req_0_sbe_sclk,
+                                                                       sli_preq_1_sbe_sclk,
+                                                                       sli_req_1_sbe_sclk,
+                                                                       sli_preq_2_sbe_sclk,
+                                                                       sli_req_2_sbe_sclk,
+                                                                       ixo_smmu_mem0_sbe_sclk,
+                                                                       iop_breq_fifo0_sbe,
+                                                                       iop_breq_fifo1_sbe ,
+                                                                       iop_breq_fifo2_sbe,
+                                                                       iop_breq_fifo3_sbe ,
+                                                                       iop_ffifo_sbe_sclk,
+                                                                       rsd_mem0_sbe,
+                                                                       rsd_mem1_sbe,
+                                                                       ics_cmd_fifo_sbe_sclk,
+                                                                       ixo_xmd_mem1_sbe_sclk,
+                                                                       ixo_xmd_mem0_sbe_sclk,
+                                                                       iobn_iorn_ffifo0__sbe_sclk,
+                                                                       iobn_iorn_ffifo1__sbe_sclk,
+                                                                       irp1_flid_mem_sbe,
+                                                                       irp0_flid_mem_sbe,
+                                                                       ixo_icc_fifo0_sbe_in_sclk,
+                                                                       ixo_icc_fifo1_sbe_in_sclk,
+                                                                       ixo_ics_mem_sbe_in_sclk. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) Reads or clears enable for IOBN(0)_INT_SUM[IED0_DBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                      gmr_ixofifo_dbe_sclk,
+                                                                      icc0_xmc_fif_dbe,
+                                                                      icc1_xmc_fif_dbe,
+                                                                      icc_xmc_fifo_ecc_dbe,
+                                                                      sli_preq_0_dbe_sclk,
+                                                                      sli_req_0_dbe_sclk,
+                                                                      sli_preq_1_dbe_sclk,
+                                                                      sli_req_1_dbe_sclk,
+                                                                      sli_preq_2_dbe_sclk,
+                                                                      sli_req_2_dbe_sclk,
+                                                                      ixo_smmu_mem0_dbe_sclk,
+                                                                      iop_breq_fifo0_dbe,
+                                                                      iop_breq_fifo1_dbe ,
+                                                                      iop_breq_fifo2_dbe,
+                                                                      iop_breq_fifo3_dbe ,
+                                                                      iop_ffifo_dbe_sclk,
+                                                                      rsd_mem0_dbe,
+                                                                      rsd_mem1_dbe,
+                                                                      ics_cmd_fifo_dbe_sclk,
+                                                                      ixo_xmd_mem1_dbe_sclk,
+                                                                      ixo_xmd_mem0_dbe_sclk,
+                                                                      iobn_iorn_ffifo0__dbe_sclk,
+                                                                      iobn_iorn_ffifo1__dbe_sclk,
+                                                                      irp1_flid_mem_dbe,
+                                                                      irp0_flid_mem_dbe,
+                                                                      ixo_icc_fifo0_dbe_in_sclk,
+                                                                      ixo_icc_fifo1_dbe_in_sclk,
+                                                                      ixo_ics_mem_dbe_in_sclk. */
+        uint64_t reserved_61_62        : 2;
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for IOBN(0)_INT_SUM[PEM_SIE]. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_iobnx_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
         uint64_t reserved_61_62        : 2;
         uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1C/H) Reads or clears enable for IOBN(0..1)_INT_SUM[IED0_DBE].
@@ -1133,8 +1301,7 @@ typedef union
         uint64_t reserved_61_62        : 2;
         uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1C/H) Reads or clears enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_iobnx_int_ena_w1c_cn81xx cn83xx; */
+    } cn83xx;
     struct bdk_iobnx_int_ena_w1c_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1276,7 +1443,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0008000ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0008000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0008000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -1562,6 +1733,142 @@ typedef union
     struct bdk_iobnx_int_ena_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for IOBN(0)_INT_SUM[PEM_SIE]. */
+        uint64_t reserved_61_62        : 2;
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets enable for IOBN(0)_INT_SUM[IED0_DBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                      gmr_ixofifo_dbe_sclk,
+                                                                      icc0_xmc_fif_dbe,
+                                                                      icc1_xmc_fif_dbe,
+                                                                      icc_xmc_fifo_ecc_dbe,
+                                                                      sli_preq_0_dbe_sclk,
+                                                                      sli_req_0_dbe_sclk,
+                                                                      sli_preq_1_dbe_sclk,
+                                                                      sli_req_1_dbe_sclk,
+                                                                      sli_preq_2_dbe_sclk,
+                                                                      sli_req_2_dbe_sclk,
+                                                                      ixo_smmu_mem0_dbe_sclk,
+                                                                      iop_breq_fifo0_dbe,
+                                                                      iop_breq_fifo1_dbe ,
+                                                                      iop_breq_fifo2_dbe,
+                                                                      iop_breq_fifo3_dbe ,
+                                                                      iop_ffifo_dbe_sclk,
+                                                                      rsd_mem0_dbe,
+                                                                      rsd_mem1_dbe,
+                                                                      ics_cmd_fifo_dbe_sclk,
+                                                                      ixo_xmd_mem1_dbe_sclk,
+                                                                      ixo_xmd_mem0_dbe_sclk,
+                                                                      iobn_iorn_ffifo0__dbe_sclk,
+                                                                      iobn_iorn_ffifo1__dbe_sclk,
+                                                                      irp1_flid_mem_dbe,
+                                                                      irp0_flid_mem_dbe,
+                                                                      ixo_icc_fifo0_dbe_in_sclk,
+                                                                      ixo_icc_fifo1_dbe_in_sclk,
+                                                                      ixo_ics_mem_dbe_in_sclk. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets enable for IOBN(0)_INT_SUM[IED0_SBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                       gmr_ixofifo_sbe_sclk,
+                                                                       icc0_xmc_fif_sbe,
+                                                                       icc1_xmc_fif_sbe,
+                                                                       icc_xmc_fifo_ecc_sbe,
+                                                                       sli_preq_0_sbe_sclk,
+                                                                       sli_req_0_sbe_sclk,
+                                                                       sli_preq_1_sbe_sclk,
+                                                                       sli_req_1_sbe_sclk,
+                                                                       sli_preq_2_sbe_sclk,
+                                                                       sli_req_2_sbe_sclk,
+                                                                       ixo_smmu_mem0_sbe_sclk,
+                                                                       iop_breq_fifo0_sbe,
+                                                                       iop_breq_fifo1_sbe ,
+                                                                       iop_breq_fifo2_sbe,
+                                                                       iop_breq_fifo3_sbe ,
+                                                                       iop_ffifo_sbe_sclk,
+                                                                       rsd_mem0_sbe,
+                                                                       rsd_mem1_sbe,
+                                                                       ics_cmd_fifo_sbe_sclk,
+                                                                       ixo_xmd_mem1_sbe_sclk,
+                                                                       ixo_xmd_mem0_sbe_sclk,
+                                                                       iobn_iorn_ffifo0__sbe_sclk,
+                                                                       iobn_iorn_ffifo1__sbe_sclk,
+                                                                       irp1_flid_mem_sbe,
+                                                                       irp0_flid_mem_sbe,
+                                                                       ixo_icc_fifo0_sbe_in_sclk,
+                                                                       ixo_icc_fifo1_sbe_in_sclk,
+                                                                       ixo_ics_mem_sbe_in_sclk. */
+#else /* Word 0 - Little Endian */
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets enable for IOBN(0)_INT_SUM[IED0_SBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                       gmr_ixofifo_sbe_sclk,
+                                                                       icc0_xmc_fif_sbe,
+                                                                       icc1_xmc_fif_sbe,
+                                                                       icc_xmc_fifo_ecc_sbe,
+                                                                       sli_preq_0_sbe_sclk,
+                                                                       sli_req_0_sbe_sclk,
+                                                                       sli_preq_1_sbe_sclk,
+                                                                       sli_req_1_sbe_sclk,
+                                                                       sli_preq_2_sbe_sclk,
+                                                                       sli_req_2_sbe_sclk,
+                                                                       ixo_smmu_mem0_sbe_sclk,
+                                                                       iop_breq_fifo0_sbe,
+                                                                       iop_breq_fifo1_sbe ,
+                                                                       iop_breq_fifo2_sbe,
+                                                                       iop_breq_fifo3_sbe ,
+                                                                       iop_ffifo_sbe_sclk,
+                                                                       rsd_mem0_sbe,
+                                                                       rsd_mem1_sbe,
+                                                                       ics_cmd_fifo_sbe_sclk,
+                                                                       ixo_xmd_mem1_sbe_sclk,
+                                                                       ixo_xmd_mem0_sbe_sclk,
+                                                                       iobn_iorn_ffifo0__sbe_sclk,
+                                                                       iobn_iorn_ffifo1__sbe_sclk,
+                                                                       irp1_flid_mem_sbe,
+                                                                       irp0_flid_mem_sbe,
+                                                                       ixo_icc_fifo0_sbe_in_sclk,
+                                                                       ixo_icc_fifo1_sbe_in_sclk,
+                                                                       ixo_ics_mem_sbe_in_sclk. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets enable for IOBN(0)_INT_SUM[IED0_DBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                      gmr_ixofifo_dbe_sclk,
+                                                                      icc0_xmc_fif_dbe,
+                                                                      icc1_xmc_fif_dbe,
+                                                                      icc_xmc_fifo_ecc_dbe,
+                                                                      sli_preq_0_dbe_sclk,
+                                                                      sli_req_0_dbe_sclk,
+                                                                      sli_preq_1_dbe_sclk,
+                                                                      sli_req_1_dbe_sclk,
+                                                                      sli_preq_2_dbe_sclk,
+                                                                      sli_req_2_dbe_sclk,
+                                                                      ixo_smmu_mem0_dbe_sclk,
+                                                                      iop_breq_fifo0_dbe,
+                                                                      iop_breq_fifo1_dbe ,
+                                                                      iop_breq_fifo2_dbe,
+                                                                      iop_breq_fifo3_dbe ,
+                                                                      iop_ffifo_dbe_sclk,
+                                                                      rsd_mem0_dbe,
+                                                                      rsd_mem1_dbe,
+                                                                      ics_cmd_fifo_dbe_sclk,
+                                                                      ixo_xmd_mem1_dbe_sclk,
+                                                                      ixo_xmd_mem0_dbe_sclk,
+                                                                      iobn_iorn_ffifo0__dbe_sclk,
+                                                                      iobn_iorn_ffifo1__dbe_sclk,
+                                                                      irp1_flid_mem_dbe,
+                                                                      irp0_flid_mem_dbe,
+                                                                      ixo_icc_fifo0_dbe_in_sclk,
+                                                                      ixo_icc_fifo1_dbe_in_sclk,
+                                                                      ixo_ics_mem_dbe_in_sclk. */
+        uint64_t reserved_61_62        : 2;
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for IOBN(0)_INT_SUM[PEM_SIE]. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_iobnx_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
         uint64_t reserved_61_62        : 2;
         uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets enable for IOBN(0..1)_INT_SUM[IED0_DBE].
@@ -1694,8 +2001,7 @@ typedef union
         uint64_t reserved_61_62        : 2;
         uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets enable for IOBN(0..1)_INT_SUM[PEM_SIE]. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_iobnx_int_ena_w1s_cn81xx cn83xx; */
+    } cn83xx;
     struct bdk_iobnx_int_ena_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1837,7 +2143,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_ENA_W1S(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0009000ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0009000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0009000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -2406,7 +2716,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0006000ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0006000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0006000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_INT_SUM", 1, a, 0, 0, 0);
 }
@@ -2692,6 +3006,142 @@ typedef union
     struct bdk_iobnx_int_sum_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets IOBN(0)_INT_SUM[PEM_SIE]. */
+        uint64_t reserved_61_62        : 2;
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets IOBN(0)_INT_SUM[IED0_DBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                      gmr_ixofifo_dbe_sclk,
+                                                                      icc0_xmc_fif_dbe,
+                                                                      icc1_xmc_fif_dbe,
+                                                                      icc_xmc_fifo_ecc_dbe,
+                                                                      sli_preq_0_dbe_sclk,
+                                                                      sli_req_0_dbe_sclk,
+                                                                      sli_preq_1_dbe_sclk,
+                                                                      sli_req_1_dbe_sclk,
+                                                                      sli_preq_2_dbe_sclk,
+                                                                      sli_req_2_dbe_sclk,
+                                                                      ixo_smmu_mem0_dbe_sclk,
+                                                                      iop_breq_fifo0_dbe,
+                                                                      iop_breq_fifo1_dbe ,
+                                                                      iop_breq_fifo2_dbe,
+                                                                      iop_breq_fifo3_dbe ,
+                                                                      iop_ffifo_dbe_sclk,
+                                                                      rsd_mem0_dbe,
+                                                                      rsd_mem1_dbe,
+                                                                      ics_cmd_fifo_dbe_sclk,
+                                                                      ixo_xmd_mem1_dbe_sclk,
+                                                                      ixo_xmd_mem0_dbe_sclk,
+                                                                      iobn_iorn_ffifo0__dbe_sclk,
+                                                                      iobn_iorn_ffifo1__dbe_sclk,
+                                                                      irp1_flid_mem_dbe,
+                                                                      irp0_flid_mem_dbe,
+                                                                      ixo_icc_fifo0_dbe_in_sclk,
+                                                                      ixo_icc_fifo1_dbe_in_sclk,
+                                                                      ixo_ics_mem_dbe_in_sclk. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets IOBN(0)_INT_SUM[IED0_SBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                       gmr_ixofifo_sbe_sclk,
+                                                                       icc0_xmc_fif_sbe,
+                                                                       icc1_xmc_fif_sbe,
+                                                                       icc_xmc_fifo_ecc_sbe,
+                                                                       sli_preq_0_sbe_sclk,
+                                                                       sli_req_0_sbe_sclk,
+                                                                       sli_preq_1_sbe_sclk,
+                                                                       sli_req_1_sbe_sclk,
+                                                                       sli_preq_2_sbe_sclk,
+                                                                       sli_req_2_sbe_sclk,
+                                                                       ixo_smmu_mem0_sbe_sclk,
+                                                                       iop_breq_fifo0_sbe,
+                                                                       iop_breq_fifo1_sbe ,
+                                                                       iop_breq_fifo2_sbe,
+                                                                       iop_breq_fifo3_sbe ,
+                                                                       iop_ffifo_sbe_sclk,
+                                                                       rsd_mem0_sbe,
+                                                                       rsd_mem1_sbe,
+                                                                       ics_cmd_fifo_sbe_sclk,
+                                                                       ixo_xmd_mem1_sbe_sclk,
+                                                                       ixo_xmd_mem0_sbe_sclk,
+                                                                       iobn_iorn_ffifo0__sbe_sclk,
+                                                                       iobn_iorn_ffifo1__sbe_sclk,
+                                                                       irp1_flid_mem_sbe,
+                                                                       irp0_flid_mem_sbe,
+                                                                       ixo_icc_fifo0_sbe_in_sclk,
+                                                                       ixo_icc_fifo1_sbe_in_sclk,
+                                                                       ixo_ics_mem_sbe_in_sclk. */
+#else /* Word 0 - Little Endian */
+        uint64_t ied0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets IOBN(0)_INT_SUM[IED0_SBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                       gmr_ixofifo_sbe_sclk,
+                                                                       icc0_xmc_fif_sbe,
+                                                                       icc1_xmc_fif_sbe,
+                                                                       icc_xmc_fifo_ecc_sbe,
+                                                                       sli_preq_0_sbe_sclk,
+                                                                       sli_req_0_sbe_sclk,
+                                                                       sli_preq_1_sbe_sclk,
+                                                                       sli_req_1_sbe_sclk,
+                                                                       sli_preq_2_sbe_sclk,
+                                                                       sli_req_2_sbe_sclk,
+                                                                       ixo_smmu_mem0_sbe_sclk,
+                                                                       iop_breq_fifo0_sbe,
+                                                                       iop_breq_fifo1_sbe ,
+                                                                       iop_breq_fifo2_sbe,
+                                                                       iop_breq_fifo3_sbe ,
+                                                                       iop_ffifo_sbe_sclk,
+                                                                       rsd_mem0_sbe,
+                                                                       rsd_mem1_sbe,
+                                                                       ics_cmd_fifo_sbe_sclk,
+                                                                       ixo_xmd_mem1_sbe_sclk,
+                                                                       ixo_xmd_mem0_sbe_sclk,
+                                                                       iobn_iorn_ffifo0__sbe_sclk,
+                                                                       iobn_iorn_ffifo1__sbe_sclk,
+                                                                       irp1_flid_mem_sbe,
+                                                                       irp0_flid_mem_sbe,
+                                                                       ixo_icc_fifo0_sbe_in_sclk,
+                                                                       ixo_icc_fifo1_sbe_in_sclk,
+                                                                       ixo_ics_mem_sbe_in_sclk. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets IOBN(0)_INT_SUM[IED0_DBE].
+                                                                 Internal:
+                                                                 iob_mem_data_xmd_sbe_sclk,
+                                                                      gmr_ixofifo_dbe_sclk,
+                                                                      icc0_xmc_fif_dbe,
+                                                                      icc1_xmc_fif_dbe,
+                                                                      icc_xmc_fifo_ecc_dbe,
+                                                                      sli_preq_0_dbe_sclk,
+                                                                      sli_req_0_dbe_sclk,
+                                                                      sli_preq_1_dbe_sclk,
+                                                                      sli_req_1_dbe_sclk,
+                                                                      sli_preq_2_dbe_sclk,
+                                                                      sli_req_2_dbe_sclk,
+                                                                      ixo_smmu_mem0_dbe_sclk,
+                                                                      iop_breq_fifo0_dbe,
+                                                                      iop_breq_fifo1_dbe ,
+                                                                      iop_breq_fifo2_dbe,
+                                                                      iop_breq_fifo3_dbe ,
+                                                                      iop_ffifo_dbe_sclk,
+                                                                      rsd_mem0_dbe,
+                                                                      rsd_mem1_dbe,
+                                                                      ics_cmd_fifo_dbe_sclk,
+                                                                      ixo_xmd_mem1_dbe_sclk,
+                                                                      ixo_xmd_mem0_dbe_sclk,
+                                                                      iobn_iorn_ffifo0__dbe_sclk,
+                                                                      iobn_iorn_ffifo1__dbe_sclk,
+                                                                      irp1_flid_mem_dbe,
+                                                                      irp0_flid_mem_dbe,
+                                                                      ixo_icc_fifo0_dbe_in_sclk,
+                                                                      ixo_icc_fifo1_dbe_in_sclk,
+                                                                      ixo_ics_mem_dbe_in_sclk. */
+        uint64_t reserved_61_62        : 2;
+        uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets IOBN(0)_INT_SUM[PEM_SIE]. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_iobnx_int_sum_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets IOBN(0..1)_INT_SUM[PEM_SIE]. */
         uint64_t reserved_61_62        : 2;
         uint64_t ied0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets IOBN(0..1)_INT_SUM[IED0_DBE].
@@ -2824,8 +3274,7 @@ typedef union
         uint64_t reserved_61_62        : 2;
         uint64_t pem_sie               : 1;  /**< [ 63: 63](R/W1S/H) Reads or sets IOBN(0..1)_INT_SUM[PEM_SIE]. */
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_iobnx_int_sum_w1s_cn81xx cn83xx; */
+    } cn83xx;
     struct bdk_iobnx_int_sum_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2967,7 +3416,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_SUM_W1S(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0007000ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0007000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0007000ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_INT_SUM_W1S", 1, a, 0, 0, 0);
 }
@@ -3072,7 +3525,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_MCTLR_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MCTLR_REG(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0005108ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0005108ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0005108ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_MCTLR_REG", 1, a, 0, 0, 0);
 }
@@ -3165,7 +3622,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_MCTLS_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MCTLS_REG(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0005100ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0005100ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0005100ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_MCTLS_REG", 1, a, 0, 0, 0);
 }
@@ -3202,7 +3663,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x87e0f0ff0000ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x87e0f0ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
         return 0x87e0f0ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("IOBNX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -3257,7 +3722,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x87e0f0f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x87e0f0f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
         return 0x87e0f0f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("IOBNX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -3298,7 +3767,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x87e0f0f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x87e0f0f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
         return 0x87e0f0f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("IOBNX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -3349,7 +3822,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCBX_CREDITS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_CREDITS(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x87e0f0001000ll + 0x1000000ll * ((a) & 0x0) + 0x100ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
+        return 0x87e0f0001000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
         return 0x87e0f0001000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
     __bdk_csr_fatal("IOBNX_NCBX_CREDITS", 2, a, b, 0, 0);
 }
@@ -3406,7 +3883,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x87e0f0004000ll + 0x1000000ll * ((a) & 0x0) + 0x100ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
+        return 0x87e0f0004000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
         return 0x87e0f0004000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
     __bdk_csr_fatal("IOBNX_NCBX_CTL", 2, a, b, 0, 0);
 }
@@ -3461,8 +3942,8 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCBX_RWX_LAT_PC(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_RWX_LAT_PC(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=1)))
-        return 0x87e0f000d000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0) && (c<=1)))
+        return 0x87e0f000d000ll + 0x1000000ll * ((a) & 0x0) + 0x100ll * ((b) & 0x0) + 0x10ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=1)))
         return 0x87e0f000d000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=1) && (b<=1) && (c<=1)))
@@ -3508,8 +3989,8 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCBX_RWX_REQ_PC(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_RWX_REQ_PC(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=1)))
-        return 0x87e0f000c000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0) && (c<=1)))
+        return 0x87e0f000c000ll + 0x1000000ll * ((a) & 0x0) + 0x100ll * ((b) & 0x0) + 0x10ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=1)))
         return 0x87e0f000c000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=1) && (b<=1) && (c<=1)))
@@ -3567,8 +4048,8 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_RWX_SMMU_LAT_PC(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=1)))
-        return 0x87e0f000e000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0) && (c<=1)))
+        return 0x87e0f000e000ll + 0x1000000ll * ((a) & 0x0) + 0x100ll * ((b) & 0x0) + 0x10ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=1)))
         return 0x87e0f000e000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1) + 0x10ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=1) && (b<=1) && (c<=1)))
@@ -3607,7 +4088,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0003008ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0003008ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0003008ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_NCB0_HP", 1, a, 0, 0, 0);
 }
@@ -3649,7 +4134,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=3)))
+        return 0x87e0f0002000ll + 0x1000000ll * ((a) & 0x0) + 0x100ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x87e0f0002000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0f0002000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
     __bdk_csr_fatal("IOBNX_NCB0_SDISX", 2, a, b, 0, 0);
 }
@@ -3692,8 +4181,8 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCB0_SKILLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCB0_SKILLX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
-        return 0x87e0f000b000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=3)))
+        return 0x87e0f000b000ll + 0x1000000ll * ((a) & 0x0) + 0x100ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x87e0f000b000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=1) && (b<=3)))
@@ -3797,7 +4286,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f000a008ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f000a008ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f000a008ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_ROC_DLL", 1, a, 0, 0, 0);
 }
@@ -3831,7 +4324,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_SCRATCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_SCRATCH(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0003020ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0003020ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0003020ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_SCRATCH", 1, a, 0, 0, 0);
 }
@@ -3999,7 +4496,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2)))
+        return 0x87e0f0000000ll + 0x1000000ll * ((a) & 0x0) + 0x100ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=2)))
+        return 0x87e0f0000000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
         return 0x87e0f0000000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
     __bdk_csr_fatal("IOBNX_SLITAGX_CONTROL", 2, a, b, 0, 0);
 }
@@ -4035,7 +4536,11 @@ typedef union
 static inline uint64_t BDK_IOBNX_TEST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_TEST(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0f0003010ll + 0x1000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0f0003010ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0f0003010ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("IOBNX_TEST", 1, a, 0, 0, 0);
 }

@@ -108,7 +108,7 @@ static int is_any_internal_cn88xxp1_0(const bdk_device_t *device)
         BDK_PCC_DEV_CON_E_MPI,
         BDK_PCC_DEV_CON_E_MRML,
         BDK_PCC_DEV_CON_E_NCSI,
-        BDK_PCC_DEV_CON_E_NIC,
+        BDK_PCC_DEV_CON_E_NIC_CN88XX,
         BDK_PCC_DEV_CON_E_OCLAX(0),
         BDK_PCC_DEV_CON_E_OCLAX(1),
         BDK_PCC_DEV_CON_E_OCLAX(2),
@@ -117,13 +117,13 @@ static int is_any_internal_cn88xxp1_0(const bdk_device_t *device)
         BDK_PCC_DEV_CON_E_OCX,
         BDK_PCC_DEV_CON_E_PCCBR_DFA,
         BDK_PCC_DEV_CON_E_PCCBR_MRML,
-        BDK_PCC_DEV_CON_E_PCCBR_NIC,
+        BDK_PCC_DEV_CON_E_PCCBR_NIC_CN88XX,
         BDK_PCC_DEV_CON_E_PCCBR_RAD,
         BDK_PCC_DEV_CON_E_PCCBR_ZIP,
-        BDK_PCC_DEV_CON_E_PCIERC0,
-        BDK_PCC_DEV_CON_E_PCIERC1,
-        BDK_PCC_DEV_CON_E_PCIERC2,
-        BDK_PCC_DEV_CON_E_PCIERC3,
+        BDK_PCC_DEV_CON_E_PCIERC0_CN88XX,
+        BDK_PCC_DEV_CON_E_PCIERC1_CN88XX,
+        BDK_PCC_DEV_CON_E_PCIERC2_CN88XX,
+        BDK_PCC_DEV_CON_E_PCIERC3_CN88XX,
         BDK_PCC_DEV_CON_E_PCIERC4,
         BDK_PCC_DEV_CON_E_PCIERC5,
         BDK_PCC_DEV_CON_E_PEMX(0),
@@ -135,8 +135,8 @@ static int is_any_internal_cn88xxp1_0(const bdk_device_t *device)
         BDK_PCC_DEV_CON_E_RAD,
         BDK_PCC_DEV_CON_E_RNM_CN88XX,
         BDK_PCC_DEV_CON_E_RST,
-        BDK_PCC_DEV_CON_E_SATA0,
-        BDK_PCC_DEV_CON_E_SATA1,
+        BDK_PCC_DEV_CON_E_SATA0_CN88XX,
+        BDK_PCC_DEV_CON_E_SATA1_CN88XX,
         BDK_PCC_DEV_CON_E_SATA10,
         BDK_PCC_DEV_CON_E_SATA11,
         BDK_PCC_DEV_CON_E_SATA12,
@@ -152,7 +152,7 @@ static int is_any_internal_cn88xxp1_0(const bdk_device_t *device)
         BDK_PCC_DEV_CON_E_SATA8,
         BDK_PCC_DEV_CON_E_SATA9,
         BDK_PCC_DEV_CON_E_SGP,
-        BDK_PCC_DEV_CON_E_SLI0,
+        BDK_PCC_DEV_CON_E_SLI0_CN88XX,
         BDK_PCC_DEV_CON_E_SLI1,
         BDK_PCC_DEV_CON_E_SMI,
         BDK_PCC_DEV_CON_E_SMMU0,
@@ -191,13 +191,13 @@ static int is_accessable_cn88xxp1_0(const bdk_device_t *device)
        out of reset. The PCIe ports don't work until the PEM is
        turned on. Check for one of the PCIe ports */
     int pem = -1;
-    if (is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_PCIERC0))
+    if (is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_PCIERC0_CN88XX))
         pem = 0;
-    if (is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_PCIERC1))
+    if (is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_PCIERC1_CN88XX))
         pem = 1;
-    if (is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_PCIERC2))
+    if (is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_PCIERC2_CN88XX))
         pem = 2;
-    if (is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_PCIERC3))
+    if (is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_PCIERC3_CN88XX))
         pem = 3;
     if (is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_PCIERC4))
         pem = 4;
@@ -213,8 +213,8 @@ static int is_accessable_cn88xxp1_0(const bdk_device_t *device)
     {
         /* SATA ports should be hidden if they aren't configured at the QLM */
         int qlm = -1;
-        if (is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_SATA0) ||
-            is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_SATA1) ||
+        if (is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_SATA0_CN88XX) ||
+            is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_SATA1_CN88XX) ||
             is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_SATA2) ||
             is_internal_cn88xxp1_0(device, BDK_PCC_DEV_CON_E_SATA3))
             qlm = 2;

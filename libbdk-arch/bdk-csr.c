@@ -45,16 +45,42 @@ uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, i
             switch (busnum)
             {
                 case 0:
-                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC0;
+                    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC0_CN88XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC0_CN83XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC0_CN81XX;
+                    else
+                        bdk_fatal("Update PCICONFIG in %s\n", __FUNCTION__);
                     break;
                 case 1:
-                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC1;
+                    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC1_CN88XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC1_CN83XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC1_CN81XX;
+                    else
+                        bdk_fatal("Update PCICONFIG in %s\n", __FUNCTION__);
                     break;
                 case 2:
-                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC2;
+                    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC2_CN88XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC2_CN83XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC2_CN81XX;
+                    else
+                        bdk_fatal("Update PCICONFIG in %s\n", __FUNCTION__);
                     break;
                 case 3:
-                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC3;
+                    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC3_CN88XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC3_CN83XX;
+                    else
+                        bdk_fatal("Update PCICONFIG in %s\n", __FUNCTION__);
                     break;
                 case 4:
                     dev_con.u = BDK_PCC_DEV_CON_E_PCIERC4;
@@ -115,16 +141,42 @@ void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int 
             switch (busnum)
             {
                 case 0:
-                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC0;
+                    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC0_CN88XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC0_CN83XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC0_CN81XX;
+                    else
+                        bdk_fatal("Update PCICONFIG in %s\n", __FUNCTION__);
                     break;
                 case 1:
-                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC1;
+                    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC1_CN88XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC1_CN83XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC1_CN81XX;
+                    else
+                        bdk_fatal("Update PCICONFIG in %s\n", __FUNCTION__);
                     break;
                 case 2:
-                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC2;
+                    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC2_CN88XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC2_CN83XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC2_CN81XX;
+                    else
+                        bdk_fatal("Update PCICONFIG in %s\n", __FUNCTION__);
                     break;
                 case 3:
-                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC3;
+                    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC3_CN88XX;
+                    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+                        dev_con.u = BDK_PCC_DEV_CON_E_PCIERC3_CN83XX;
+                    else
+                        bdk_fatal("Update PCICONFIG in %s\n", __FUNCTION__);
                     break;
                 case 4:
                     dev_con.u = BDK_PCC_DEV_CON_E_PCIERC4;

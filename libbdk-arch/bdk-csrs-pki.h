@@ -3932,8 +3932,8 @@ typedef union
         uint64_t mpls_en               : 1;  /**< [  6:  6](R/W) Enable MPLS parsing.
                                                                  0 = Any MPLS labels are ignored, but may be handled by custom Ethertype PCAM matchers.
                                                                  1 = MPLS label stacks are parsed and skipped over. PKI_GBL_PEN[MPLS_PEN] must be set. */
-        uint64_t inst_hdr              : 1;  /**< [  5:  5](R/W) INST header. When set, the eight-byte INST_HDR is present on all packets (except incoming
-                                                                 packets on the DPI ports). */
+        uint64_t inst_hdr              : 1;  /**< [  5:  5](R/W) INST header. When set, a PKI_INST_HDR_S is present PKI_CL()_PKIND()_SKIP[INST_SKIP]
+                                                                 bytes into the packet received by PKI. */
         uint64_t lg_custom             : 1;  /**< [  4:  4](R/W) Reserved. */
         uint64_t fulc_en               : 1;  /**< [  3:  3](R/W) Enable Fulcrum tag parsing.
                                                                  0 = Any Fulcrum header is ignored.
@@ -3967,8 +3967,8 @@ typedef union
                                                                  1 = Fulcrum header is parsed. PKI_GBL_PEN[FULC_PEN] must be set.
                                                                  At most one of FULC_EN, DSA_EN or HG_EN may be set. */
         uint64_t lg_custom             : 1;  /**< [  4:  4](R/W) Reserved. */
-        uint64_t inst_hdr              : 1;  /**< [  5:  5](R/W) INST header. When set, the eight-byte INST_HDR is present on all packets (except incoming
-                                                                 packets on the DPI ports). */
+        uint64_t inst_hdr              : 1;  /**< [  5:  5](R/W) INST header. When set, a PKI_INST_HDR_S is present PKI_CL()_PKIND()_SKIP[INST_SKIP]
+                                                                 bytes into the packet received by PKI. */
         uint64_t mpls_en               : 1;  /**< [  6:  6](R/W) Enable MPLS parsing.
                                                                  0 = Any MPLS labels are ignored, but may be handled by custom Ethertype PCAM matchers.
                                                                  1 = MPLS label stacks are parsed and skipped over. PKI_GBL_PEN[MPLS_PEN] must be set. */
