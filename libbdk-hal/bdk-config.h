@@ -105,6 +105,17 @@ extern int64_t bdk_config_get_int(bdk_config_t cfg_item, ...);
 extern const char *bdk_config_get_str(bdk_config_t cfg_item, ...);
 
 /**
+ * Get a binary blob
+ *
+ * @param blob_size Integer to receive the size of the blob
+ * @param cfg_item  Config item to get. If the item takes parameters (see bdk_config_t), then the
+ *                  parameters are listed following cfg_item.
+ *
+ * @return The value of the configuration item, or def_value if the item is not set
+ */
+extern const void *bdk_config_get_blob(int *blob_size, bdk_config_t cfg_item, ...);
+
+/**
  * Set an integer configuration item. Note this only sets the item in memory,
  * persistent storage is not updated.
  *

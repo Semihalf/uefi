@@ -5,7 +5,8 @@
 typedef enum
 {
     BDK_CONFIG_TYPE_INT,
-    BDK_CONFIG_TYPE_STR
+    BDK_CONFIG_TYPE_STR,
+    BDK_CONFIG_TYPE_STR_LIST,
 } bdk_config_type_t;
 
 typedef struct
@@ -103,36 +104,40 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .max_value = 10000,
     },
     [BDK_CONFIG_TWSI_WRITE] = {
-        .format = "TWSI-WRITE-%d", /* Parameters: Write number */
+        .format = "TWSI-WRITE", /* No parameters */
         .help =
             "Allow a sequence of TWSI writes to be performed during boot. Each\n"
-            "TWSI-WRITE-# line is executed in sequence starting with\n"
-            "TWSI-WRITE-0 and incrementing the number. The TWSI write format is:\n"
+            "string in the list line is executed in sequence. The TWSI write\n"
+            "format is:\n"
             "    node,twsi_id,dev_addr,internal_addr,num_bytes,ia_width_bytes,data\n"
+            "    sleep,ms\n"
             "node           = ThunderX node ID the twsi bus is on. -1 means the local node\n"
             "twsi_id        = ThunderX twsi bus to use\n"
             "dev_addr       = TWSI bus address\n"
             "internal_addr  = TWSI internal address, zero if not used\n"
             "num_bytes      = Number of bytes to write (1-8)\n"
             "ia_width_bytes = Internal address width in bytes (0-2)\n"
-            "data           = Data to write as a 64bit number",
-        .ctype = BDK_CONFIG_TYPE_STR,
+            "data           = Data to write as a 64bit number\n"
+            "sleep,ms       = This on a line delays for 'ms' milliseconds",
+        .ctype = BDK_CONFIG_TYPE_STR_LIST,
     },
     [BDK_CONFIG_MDIO_WRITE] = {
-        .format = "MDIO-WRITE-%d", /* Parameters: Write number */
+        .format = "MDIO-WRITE", /* No parameters */
         .help =
             "Allow a sequence of MDIO writes to be performed during boot. Each\n"
-            "MDIO-WRITE-# line is executed in sequence starting with\n"
-            "MDIO-WRITE-0 and incrementing the number. The MDIO write format is:\n"
+            "string in the list line is executed in sequence. The MDIO write\n"
+            "format is:\n"
             "    clause,node,bus_id,phy_id,device,location,val\n"
+            "    sleep,ms\n"
             "clause   = MDIO clause for the write (22 or 45)\n"
             "node     = ThunderX node the MDIO bus is connected, -1 for local\n"
             "bus_id   = ThunderX MDIO bus to use\n"
             "phy_id   = MDIO address\n"
             "device   = Clause 45 internal device address, zero for clause 22\n"
             "location = MDIO register\n"
-            "val      = Value to write",
-        .ctype = BDK_CONFIG_TYPE_STR,
+            "val      = Value to write\n"
+            "sleep,ms = This on a line delays for 'ms' milliseconds",
+        .ctype = BDK_CONFIG_TYPE_STR_LIST,
     },
 
     /* Board wiring of network ports and PHYs */
@@ -483,7 +488,7 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
  *
  * @return
  */
-static const char *get_value(const char *name)
+static const char *get_value(const char *name, int *blob_size)
 {
     if (!config_fdt)
     {
@@ -497,7 +502,7 @@ static const char *get_value(const char *name)
 
     while (*n)
     {
-        const char *val = fdt_getprop(config_fdt, config_node, n, NULL);
+        const char *val = fdt_getprop(config_fdt, config_node, n, blob_size);
         if (val)
             return val;
 
@@ -531,7 +536,7 @@ int64_t bdk_config_get_int(bdk_config_t cfg_item, ...)
     vsnprintf(name, sizeof(name)-1, config_info[cfg_item].format, args);
     va_end(args);
 
-    const char *val = get_value(name);
+    const char *val = get_value(name, NULL);
     if (val)
     {
         int64_t tmp;
@@ -575,11 +580,35 @@ const char *bdk_config_get_str(bdk_config_t cfg_item, ...)
     vsnprintf(name, sizeof(name)-1, config_info[cfg_item].format, args);
     va_end(args);
 
-    const char *val = get_value(name);
+    const char *val = get_value(name, NULL);
     if (val)
         return val;
     else
         return (const char *)config_info[cfg_item].default_value;
+}
+
+/**
+ * Get a binary blob
+ *
+ * @param blob_size Integer to receive the size of the blob
+ * @param cfg_item  Config item to get. If the item takes parameters (see bdk_config_t), then the
+ *                  parameters are listed following cfg_item.
+ *
+ * @return The value of the configuration item, or def_value if the item is not set
+ */
+const void* bdk_config_get_blob(int *blob_size, bdk_config_t cfg_item, ...)
+{
+    char name[64];
+    va_list args;
+    va_start(args, cfg_item);
+    vsnprintf(name, sizeof(name)-1, config_info[cfg_item].format, args);
+    va_end(args);
+
+    const void *val = get_value(name, blob_size);
+    if (val)
+        return val;
+    else
+        return (const void *)config_info[cfg_item].default_value;
 }
 
 /**
@@ -702,21 +731,24 @@ void bdk_config_help(void)
         printf(" */\n");
         /* Print the parameter and its default value a comment. This will be
            a reference that is easy for the user to change */
-        printf("\t//%s = \"", config_info[cfg].format);
+        printf("\t//%s = ", config_info[cfg].format);
         switch (config_info[cfg].ctype)
         {
             case BDK_CONFIG_TYPE_INT:
                 if (config_info[cfg].default_value < 10)
-                    printf("%ld", config_info[cfg].default_value);
+                    printf("\"%ld\"", config_info[cfg].default_value);
                 else
-                    printf("0x%lx", config_info[cfg].default_value);
+                    printf("\"0x%lx\"", config_info[cfg].default_value);
                 break;
             case BDK_CONFIG_TYPE_STR:
+            case BDK_CONFIG_TYPE_STR_LIST:
                 if (config_info[cfg].default_value)
-                    printf("%s", (const char *)config_info[cfg].default_value);
+                    printf("\"%s\"", (const char *)config_info[cfg].default_value);
+                else
+                    printf("\"\"");
                 break;
         }
-        printf("\";\n");
+        printf(";\n");
     }
     printf("}; /* cavium,bdk */\n");
     printf("}; /* / */\n");
@@ -846,8 +878,9 @@ static int config_parse_fdt(const void *fdt, const char *base_path)
     while (offset >= 0)
     {
         const char *name = NULL;
-        const char *data = fdt_getprop_by_offset(fdt, offset, &name, NULL);
-        result = fdt_setprop_string(config_fdt, config_node, name, data);
+        int blob_size = 0;
+        const char *data = fdt_getprop_by_offset(fdt, offset, &name, &blob_size);
+        result = fdt_setprop(config_fdt, config_node, name, data, blob_size);
         offset = fdt_next_property_offset(fdt, offset);
     }
     return 0;

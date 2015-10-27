@@ -39,31 +39,35 @@ cavium,bdk {
 	in milliseconds. Zero disables the watchdog. */
 	//WATCHDOG-TIMEOUT = "0";
 
-	/* Allow a sequence of TWSI writes to be performed during boot. Each
-	TWSI-WRITE-# line is executed in sequence starting with
-	TWSI-WRITE-0 and incrementing the number. The TWSI write format is:
-	    node,twsi_id,dev_addr,internal_addr,num_bytes,ia_width_bytes,data
-	node           = ThunderX node ID the twsi bus is on. -1 means the local node
-	twsi_id        = ThunderX twsi bus to use
-	dev_addr       = TWSI bus address
-	internal_addr  = TWSI internal address, zero if not used
-	num_bytes      = Number of bytes to write (1-8)
-	ia_width_bytes = Internal address width in bytes (0-2)
-	data           = Data to write as a 64bit number */
-	//TWSI-WRITE-%d = "";
+        /* Allow a sequence of TWSI writes to be performed during boot. Each
+        string in the list line is executed in sequence. The TWSI write
+        format is:
+            node,twsi_id,dev_addr,internal_addr,num_bytes,ia_width_bytes,data
+            sleep,ms
+        node           = ThunderX node ID the twsi bus is on. -1 means the local node
+        twsi_id        = ThunderX twsi bus to use
+        dev_addr       = TWSI bus address
+        internal_addr  = TWSI internal address, zero if not used
+        num_bytes      = Number of bytes to write (1-8)
+        ia_width_bytes = Internal address width in bytes (0-2)
+        data           = Data to write as a 64bit number
+        sleep,ms       = This on a line delays for 'ms' milliseconds */
+        //TWSI-WRITE = "";
 
-	/* Allow a sequence of MDIO writes to be performed during boot. Each
-	MDIO-WRITE-# line is executed in sequence starting with
-	MDIO-WRITE-0 and incrementing the number. The MDIO write format is:
-	    clause,node,bus_id,phy_id,device,location,val
-	clause   = MDIO clause for the write (22 or 45)
-	node     = ThunderX node the MDIO bus is connected, -1 for local
-	bus_id   = ThunderX MDIO bus to use
-	phy_id   = MDIO address
-	device   = Clause 45 internal device address, zero for clause 22
-	location = MDIO register
-	val      = Value to write */
-	//MDIO-WRITE-%d = "";
+        /* Allow a sequence of MDIO writes to be performed during boot. Each
+        string in the list line is executed in sequence. The MDIO write
+        format is:
+            clause,node,bus_id,phy_id,device,location,val
+            sleep,ms
+        clause   = MDIO clause for the write (22 or 45)
+        node     = ThunderX node the MDIO bus is connected, -1 for local
+        bus_id   = ThunderX MDIO bus to use
+        phy_id   = MDIO address
+        device   = Clause 45 internal device address, zero for clause 22
+        location = MDIO register
+        val      = Value to write
+        sleep,ms = This on a line delays for 'ms' milliseconds */
+        //MDIO-WRITE = "";
 
 	/* PHY address encoding:
 	    Bits[31:24]: Node ID, 0xff for node the ethernet device is on

@@ -6,94 +6,98 @@ cavium,bdk {
 	-1 = No connection exists. 0+ is TWSI bus number. */
 	BMC-TWSI = "5";
 
-	/* Allow a sequence of TWSI writes to be performed during boot. Each
-	TWSI-WRITE-# line is executed in sequence starting with
-	TWSI-WRITE-0 and incrementing the number. The TWSI write format is:
-	    node,twsi_id,dev_addr,internal_addr,num_bytes,ia_width_bytes,data
-	node           = ThunderX node ID the twsi bus is on. -1 means the local node
-	twsi_id        = ThunderX twsi bus to use
-	dev_addr       = TWSI bus address
-	internal_addr  = TWSI internal address, zero if not used
-	num_bytes      = Number of bytes to write (1-8)
-	ia_width_bytes = Internal address width in bytes (0-2)
-	data           = Data to write as a 64bit number */
+        /* Allow a sequence of TWSI writes to be performed during boot. Each
+        string in the list line is executed in sequence. The TWSI write
+        format is:
+            node,twsi_id,dev_addr,internal_addr,num_bytes,ia_width_bytes,data
+            sleep,ms
+        node           = ThunderX node ID the twsi bus is on. -1 means the local node
+        twsi_id        = ThunderX twsi bus to use
+        dev_addr       = TWSI bus address
+        internal_addr  = TWSI internal address, zero if not used
+        num_bytes      = Number of bytes to write (1-8)
+        ia_width_bytes = Internal address width in bytes (0-2)
+        data           = Data to write as a 64bit number
+        sleep,ms       = This on a line delays for 'ms' milliseconds */
+	TWSI-WRITE =
+		/* Initialize IO expander U29 to set SFP_TX_DISABLE_0=0 and SFP_TX_DISABLE_1=0
+		Set all pins as inputs except:
+		    Pin 0.4: QSFP_RST_N
+		    Pin 0.5: QSFP_MODSEL_N
+		    Pin 0.6: QSFP_LPMODE
+		    Pin 1.3: SFP_TX_DISABLE_0
+		    Pin 1.7: SFP_TX_DISABLE_1
+		    Data high means pin is input */
+		"-1,0,0x20,0x6,1,1,0x8f",
+		"-1,0,0x20,0x7,1,1,0x77",
 
-	/* Initialize IO expander U29 to set SFP_TX_DISABLE_0=0 and SFP_TX_DISABLE_1=0
-	Set all pins as inputs except:
-	    Pin 0.4: QSFP_RST_N
-	    Pin 0.5: QSFP_MODSEL_N
-	    Pin 0.6: QSFP_LPMODE
-	    Pin 1.3: SFP_TX_DISABLE_0
-	    Pin 1.7: SFP_TX_DISABLE_1
-	    Data high means pin is input */
-	TWSI-WRITE-0 = "-1,0,0x20,0x6,1,1,0x8f";
-	TWSI-WRITE-1 = "-1,0,0x20,0x7,1,1,0x77";
+		/* Drive output pins:
+		    Pin 0.4: QSFP_RST_N=1
+		    Pin 0.5: QSFP_MODSEL_N=1
+		    Pin 0.6: QSFP_LPMODE=1
+		    Pin 1.3: SFP_TX_DISABLE_0=0
+		    Pin 1.7: SFP_TX_DISABLE_1=0 */
+		"-1,0,0x20,0x2,1,1,0x70",
+		"-1,0,0x20,0x3,1,1,0x00";
 
-	/* Drive output pins:
-	    Pin 0.4: QSFP_RST_N=1
-	    Pin 0.5: QSFP_MODSEL_N=1
-	    Pin 0.6: QSFP_LPMODE=1
-	    Pin 1.3: SFP_TX_DISABLE_0=0
-	    Pin 1.7: SFP_TX_DISABLE_1=0 */
-	TWSI-WRITE-2 = "-1,0,0x20,0x2,1,1,0x70";
-	TWSI-WRITE-3 = "-1,0,0x20,0x3,1,1,0x00";
+        /* Allow a sequence of MDIO writes to be performed during boot. Each
+        string in the list line is executed in sequence. The MDIO write
+        format is:
+            clause,node,bus_id,phy_id,device,location,val
+            sleep,ms
+        clause   = MDIO clause for the write (22 or 45)
+        node     = ThunderX node the MDIO bus is connected, -1 for local
+        bus_id   = ThunderX MDIO bus to use
+        phy_id   = MDIO address
+        device   = Clause 45 internal device address, zero for clause 22
+        location = MDIO register
+        val      = Value to write
+        sleep,ms = This on a line delays for 'ms' milliseconds */
+	MDIO-WRITE =
+		/* The Cortina PHY shows up on MDIO bus 1, PHY address 0 and 1.
+		    Each PHY is divided into 4 slices, one per SERDES lane. The
+		    40G port uses all slices, where the 10G ports use one slice
+		    each. PHY Internal address is always zero.
+		    XLAUI0: Slice 0-3 of PHY address 1 (reg through reg + 0x3000)
+		    XFI1.0: Slice 3 of PHY address 0 (reg + 0x3000)
+		    XFI1.1: Slice 2 of PHY address 0 (reg + 0x2000)
 
-	/* Allow a sequence of MDIO writes to be performed during boot. Each
-	MDIO-WRITE-# line is executed in sequence starting with
-	MDIO-WRITE-0 and incrementing the number. The MDIO write format is:
-	    clause,node,bus_id,phy_id,device,location,val
-	clause   = MDIO clause for the write (22 or 45)
-	node     = ThunderX node the MDIO bus is connected, -1 for local
-	bus_id   = ThunderX MDIO bus to use
-	phy_id   = MDIO address
-	device   = Clause 45 internal device address, zero for clause 22
-	location = MDIO register
-	val      = Value to write */
-
-        /* The Cortina PHY shows up on MDIO bus 1, PHY address 0 and 1. Each PHY is
-	divided into 4 slices, one per SERDES lane. The 40G port uses all slices,
-	where the 10G ports use one slice each. PHY Internal address is always
-	zero.
-	XLAUI0: Slice 0-3 of PHY address 1 (reg through reg + 0x3000)
-	XFI1.0: Slice 3 of PHY address 0 (reg + 0x3000)
-	XFI1.1: Slice 2 of PHY address 0 (reg + 0x2000)
-
-	Reset the line side of the PHY. This is register 0x1000, which is
-	incremented by 0x1000 for each slice.
-	Reset the host side of the PHY. This is register 0x1800, which is
-	incremented by 0x1000 for each slice.
-	XLAUI0, all 4 slices */
-	MDIO-WRITE-0 = "45,0,1,1,0,0x1000,0x3";
-	MDIO-WRITE-1 = "45,0,1,1,0,0x1800,0x3";
-	MDIO-WRITE-2 = "45,0,1,1,0,0x2000,0x3";
-	MDIO-WRITE-3 = "45,0,1,1,0,0x2800,0x3";
-	MDIO-WRITE-4 = "45,0,1,1,0,0x3000,0x3";
-	MDIO-WRITE-5 = "45,0,1,1,0,0x3800,0x3";
-	MDIO-WRITE-6 = "45,0,1,1,0,0x4000,0x3";
-	MDIO-WRITE-7 = "45,0,1,1,0,0x4800,0x3";
-	/* XFI1.0, slice 3 */
-	MDIO-WRITE-8 = "45,0,1,0,0,0x4000,0x3";
-	MDIO-WRITE-9 = "45,0,1,0,0,0x4800,0x3";
-	/* XFI1.1, slice 2 */
-	MDIO-WRITE-10 = "45,0,1,0,0,0x3000,0x3";
-	MDIO-WRITE-11 = "45,0,1,0,0,0x3800,0x3";
-	/* Leave PHY in reset for 100ms */
-	MDIO-WRITE-12 = "sleep,100";
-	/* Take the line side out of reset */
-	MDIO-WRITE-13 = "45,0,1,1,0,0x1000,0";
-	MDIO-WRITE-14 = "45,0,1,1,0,0x1800,0";
-	MDIO-WRITE-15 = "45,0,1,1,0,0x2000,0";
-	MDIO-WRITE-16 = "45,0,1,1,0,0x2800,0";
-	MDIO-WRITE-17 = "45,0,1,1,0,0x3000,0";
-	MDIO-WRITE-18 = "45,0,1,1,0,0x3800,0";
-	MDIO-WRITE-19 = "45,0,1,1,0,0x4000,0";
-	MDIO-WRITE-20 = "45,0,1,1,0,0x4800,0";
-	/* XFI1.0, slice 3 */
-	MDIO-WRITE-21 = "45,0,1,0,0,0x4000,0";
-	MDIO-WRITE-22 = "45,0,1,0,0,0x4800,0";
-	/* XFI1.1, slice 2 */
-	MDIO-WRITE-23 = "45,0,1,0,0,0x3000,0";
-	MDIO-WRITE-24 = "45,0,1,0,0,0x3800,0";
+		    Reset the line side of the PHY. This is register 0x1000,
+		    which is incremented by 0x1000 for each slice.
+		    Reset the host side of the PHY. This is register 0x1800,
+		    which is incremented by 0x1000 for each slice. */
+		/* XLAUI0, all 4 slices */
+		"45,0,1,1,0,0x1000,0x3",
+		"45,0,1,1,0,0x1800,0x3",
+		"45,0,1,1,0,0x2000,0x3",
+		"45,0,1,1,0,0x2800,0x3",
+		"45,0,1,1,0,0x3000,0x3",
+		"45,0,1,1,0,0x3800,0x3",
+		"45,0,1,1,0,0x4000,0x3",
+		"45,0,1,1,0,0x4800,0x3",
+		/* XFI1.0, slice 3 */
+		"45,0,1,0,0,0x4000,0x3",
+		"45,0,1,0,0,0x4800,0x3",
+		/* XFI1.1, slice 2 */
+		"45,0,1,0,0,0x3000,0x3",
+		"45,0,1,0,0,0x3800,0x3",
+		/* Leave PHY in reset for 100ms */
+		"sleep,100",
+		/* Take the line side out of reset */
+		"45,0,1,1,0,0x1000,0",
+		"45,0,1,1,0,0x1800,0",
+		"45,0,1,1,0,0x2000,0",
+		"45,0,1,1,0,0x2800,0",
+		"45,0,1,1,0,0x3000,0",
+		"45,0,1,1,0,0x3800,0",
+		"45,0,1,1,0,0x4000,0",
+		"45,0,1,1,0,0x4800,0",
+		/* XFI1.0, slice 3 */
+		"45,0,1,0,0,0x4000,0",
+		"45,0,1,0,0,0x4800,0",
+		/* XFI1.1, slice 2 */
+		"45,0,1,0,0,0x3000,0",
+		"45,0,1,0,0,0x3800,0";
 
 	/* PHY address encoding:
 	    Bits[31:24]: Node ID, 0xff for node the ethernet device is on

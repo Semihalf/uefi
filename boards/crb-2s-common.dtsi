@@ -9,35 +9,37 @@ cavium,bdk {
 	in milliseconds. Zero disables the watchdog. */
 	WATCHDOG-TIMEOUT = "10000";
 
-	/* Allow a sequence of MDIO writes to be performed during boot. Each
-	MDIO-WRITE-# line is executed in sequence starting with
-	MDIO-WRITE-0 and incrementing the number. The MDIO write format is:
-	    clause,node,bus_id,phy_id,device,location,val
-	clause   = MDIO clause for the write (22 or 45)
-	node     = ThunderX node the MDIO bus is connected, -1 for local
-	bus_id   = ThunderX MDIO bus to use
-	phy_id   = MDIO address
-	device   = Clause 45 internal device address, zero for clause 22
-	location = MDIO register
-	val      = Value to write */
-
-	// On the CRB-2S the PHYs for both nodes are connect to node 0
-	// Setup the status lights for the PHYs
-	// CPU0 SFP+
-	MDIO-WRITE-0 = "45,0,1,1,0,0x010c,0xB610";
-	MDIO-WRITE-1 = "45,0,1,1,0,0x010d,0x0012";
-	MDIO-WRITE-2 = "45,0,1,1,0,0x0110,0x0000";
-	MDIO-WRITE-3 = "45,0,1,1,0,0x0111,0x0000";
-	// CPU0 QSFP+
-	MDIO-WRITE-4 = "45,0,1,0,0,0x0106,0x6610";
-	MDIO-WRITE-5 = "45,0,1,0,0,0x0107,0x0012";
-	MDIO-WRITE-6 = "45,0,1,0,0,0x010a,0x0000";
-	MDIO-WRITE-7 = "45,0,1,0,0,0x010b,0x0000";
-	// CPU1 SFP+
-	MDIO-WRITE-8 = "45,0,1,1,0,0x0106,0x6610";
-	MDIO-WRITE-9 = "45,0,1,1,0,0x0107,0x0032";
-	MDIO-WRITE-10 = "45,0,1,1,0,0x010a,0x0000";
-	MDIO-WRITE-11 = "45,0,1,1,0,0x010b,0x0000";
+        /* Allow a sequence of MDIO writes to be performed during boot. Each
+        string in the list line is executed in sequence. The MDIO write
+        format is:
+            clause,node,bus_id,phy_id,device,location,val
+            sleep,ms
+        clause   = MDIO clause for the write (22 or 45)
+        node     = ThunderX node the MDIO bus is connected, -1 for local
+        bus_id   = ThunderX MDIO bus to use
+        phy_id   = MDIO address
+        device   = Clause 45 internal device address, zero for clause 22
+        location = MDIO register
+        val      = Value to write
+        sleep,ms = This on a line delays for 'ms' milliseconds */
+	MDIO-WRITE =
+		/* On the CRB-2S the PHYs for both nodes are connect to node 0
+			Setup the status lights for the PHYs */
+		// CPU0 SFP+
+		"45,0,1,1,0,0x010c,0xB610",
+		"45,0,1,1,0,0x010d,0x0012",
+		"45,0,1,1,0,0x0110,0x0000",
+		"45,0,1,1,0,0x0111,0x0000",
+		// CPU0 QSFP+
+		"45,0,1,0,0,0x0106,0x6610",
+		"45,0,1,0,0,0x0107,0x0012",
+		"45,0,1,0,0,0x010a,0x0000",
+		"45,0,1,0,0,0x010b,0x0000",
+		// CPU1 SFP+
+		"45,0,1,1,0,0x0106,0x6610",
+		"45,0,1,1,0,0x0107,0x0032",
+		"45,0,1,1,0,0x010a,0x0000",
+		"45,0,1,1,0,0x010b,0x0000";
 
 	/* PHY address encoding:
 	    Bits[31:24]: Node ID, 0xff for node the ethernet device is on
