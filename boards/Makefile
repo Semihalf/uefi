@@ -15,8 +15,7 @@ all:  $(DTB_FILES)
 	    -1 "$(BDK_ROOT)/apps/init/init.bin" \
 	    -2 "$(BDK_ROOT)/apps/diagnostics/diagnostics.bin" \
 	    -3 "$(BDK_ROOT)/apps/setup/setup.bin" \
-	    -c "$(DTB_FILES)" \
-	    -l "lua-common/*.lua"
+	    -c "$(DTB_FILES)"
 
 #
 # This assumes that all binaries in target-bin that match our naming
