@@ -455,6 +455,18 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
 };
 
 /**
+ * Return a help string for the given configuration parameter
+ *
+ * @param cfg_item Configuration parameter to get help for
+ *
+ * @return Help string for the user
+ */
+const char* bdk_config_get_help(bdk_config_t cfg_item)
+{
+    return config_info[cfg_item].help;
+}
+
+/**
  * Look up a configuration item in the environment.
  *
  * @param name

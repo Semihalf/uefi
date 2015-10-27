@@ -76,6 +76,15 @@ typedef enum
 extern void __bdk_config_init(void);
 
 /**
+ * Return a help string for the given configuration parameter
+ *
+ * @param cfg_item Configuration parameter to get help for
+ *
+ * @return Help string for the user
+ */
+extern const char *bdk_config_get_help(bdk_config_t cfg_item);
+
+/**
  * Get an integer configuration item
  *
  * @param cfg_item  Config item to get. If the item takes parameters (see bdk_config_t), then the

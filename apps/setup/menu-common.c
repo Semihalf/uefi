@@ -22,6 +22,8 @@ static void do_prompt(bdk_menu_t *parent, char key, void *arg)
     else
         units[0] = 0;
 
+    printf("%s\n", bdk_config_get_help(info->config));
+
     if (!info->is_num)
     {
         /* Prompt for string value */
