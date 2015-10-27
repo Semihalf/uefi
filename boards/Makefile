@@ -15,6 +15,12 @@ BOARDS+=screen-ebb8800
 BOARDS+=screen-ebb8804
 
 #
+# Create a list of the device tree DTB files we need
+#
+DTS_FILES=$(wildcard $(BOARDS:%=%/*.dts))
+DTB_FILES=$(DTS_FILES:%.dts=%.dtb)
+
+#
 # This variable is the command line needed to pack all the files
 # needed for an image into the image. The "$${b}" will be replaced
 # by the board name on execution. Currently bdk-create-fatfs-image
@@ -26,14 +32,14 @@ CREATE_COMMAND+=-0 "$(BDK_ROOT)/apps/boot/boot.bin"
 CREATE_COMMAND+=-1 "$(BDK_ROOT)/apps/init/init.bin"
 CREATE_COMMAND+=-2 "$(BDK_ROOT)/apps/diagnostics/diagnostics.bin"
 CREATE_COMMAND+=-3 "$(BDK_ROOT)/apps/setup/setup.bin"
-CREATE_COMMAND+=-c "$${b}/default.cfg"
+CREATE_COMMAND+=-c "$${b}/default.cfg $${b}/$${b}*.dtb"
 CREATE_COMMAND+=-l "lua-common/*.lua $${b}/lua/*.lua"
 
 #
 # The all target calls CREATE_COMMAND for each board in BOARDS
 #
 .PHONY: all
-all:
+all:  $(DTB_FILES)
 	for b in $(BOARDS); do \
 	    $(CREATE_COMMAND); \
 	done
@@ -43,4 +49,7 @@ all:
 # pattern should be deleted.
 #
 clean:
-	rm -f $(BDK_ROOT)/target-bin/normal-*.bin
+	rm -f $(BDK_ROOT)/target-bin/normal-*.bin $(DTB_FILES)
+
+%.dtb: %.dts
+	dtc -I dts -O dtb -o $@ $^
