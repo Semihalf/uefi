@@ -4,7 +4,7 @@
 cavium,bdk {
 	/* THUNDERX TWSI port connected to the BMC for IPMI traffic.
 	-1 = No connection exists. 0+ is TWSI bus number. */
-	//BMC-TWSI = "5";
+	BMC-TWSI = "5";
 
 	/* Allow a sequence of TWSI writes to be performed during boot. Each
 	TWSI-WRITE-# line is executed in sequence starting with

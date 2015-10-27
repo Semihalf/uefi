@@ -2,7 +2,7 @@
 cavium,bdk {
 	/* THUNDERX TWSI port connected to the BMC for IPMI traffic.
 	-1 = No connection exists. 0+ is TWSI bus number. */
-	//BMC-TWSI = "1";
+	BMC-TWSI = "1";
 
 	/* This specifies a watchdog timer should run during boot and reset
 	the chip if boot hangs for some reason. The timeout is specified
