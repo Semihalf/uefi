@@ -9,6 +9,8 @@
  * @{
  */
 
+#define BDK_CONFIG_MANUFACTURING_ADDRESS 0xff0000 /* 16MB - 64KB */
+
 typedef enum
 {
     /* Board manufacturing data */

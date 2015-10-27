@@ -1,5 +1,6 @@
 #include <bdk.h>
 #include <stdarg.h>
+#include <libfdt.h>
 
 typedef enum
 {
@@ -16,6 +17,10 @@ typedef struct
     const int64_t min_value;/* Minimum valid value for INT parameters. Unused for Strings */
     const int64_t max_value;/* Maximum valid value for INT parameters. Unused for Strings */
 } bdk_config_info_t;
+
+/* Global variables that contain the config inside a FDT */
+static void *config_fdt;
+static int config_node;
 
 static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     /* Board manufacturing data */
@@ -458,13 +463,19 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
  */
 static const char *get_value(const char *name)
 {
+    if (!config_fdt)
+    {
+        bdk_error("bdk-config asked for %s before configuration loaded\n", name);
+        return NULL;
+    }
+
     char n[64];
     strncpy(n, name, sizeof(n));
     n[sizeof(n)-1] = '\0';
 
     while (*n)
     {
-        const char *val = getenv(n);
+        const char *val = fdt_getprop(config_fdt, config_node, n, NULL);
         if (val)
             return val;
 
@@ -571,6 +582,11 @@ void bdk_config_set_int(int64_t value, bdk_config_t cfg_item, ...)
     vsnprintf(name, sizeof(name)-1, config_info[cfg_item].format, args);
     va_end(args);
 
+    if (!config_fdt)
+    {
+        bdk_error("bdk-config set %s before configuration loaded\n", name);
+        return;
+    }
     if ((value < config_info[cfg_item].min_value) || (value > config_info[cfg_item].max_value))
     {
         bdk_error("Set out of range for %s = \"0x%lx\", ignoring\n", name, value);
@@ -578,7 +594,10 @@ void bdk_config_set_int(int64_t value, bdk_config_t cfg_item, ...)
     }
 
     snprintf(valstr, sizeof(valstr), "0x%lx", value);
-    setenv(name, valstr, 1);
+
+    int status = fdt_setprop_string(config_fdt, config_node, name, valstr);
+    if (status < 0)
+        bdk_fatal("Failed to set %s=%s in FDT\n", name, valstr);
 }
 
 /**
@@ -603,10 +622,20 @@ void bdk_config_set_str(const char *value, bdk_config_t cfg_item, ...)
     vsnprintf(name, sizeof(name)-1, config_info[cfg_item].format, args);
     va_end(args);
 
+    if (!config_fdt)
+    {
+        bdk_error("bdk-config set %s before configuration loaded\n", name);
+        return;
+    }
+
+    int status;
     if (value)
-       setenv(name, value, 1);
+        status = fdt_setprop_string(config_fdt, config_node, name, value);
     else
-       unsetenv(name);
+        status = fdt_delprop(config_fdt, config_node, name);
+
+    if ((status < 0) && (status != -FDT_ERR_NOTFOUND))
+        bdk_fatal("Failed to set %s=%s in FDT\n", name, value);
 }
 
 /**
@@ -614,18 +643,13 @@ void bdk_config_set_str(const char *value, bdk_config_t cfg_item, ...)
  */
 void bdk_config_show(void)
 {
-    extern char **environ;
-    if (!environ)
+    int offset = fdt_first_property_offset(config_fdt, config_node);
+    while (offset >= 0)
     {
-        bdk_error("Environment not allocated\n");
-        return;
-    }
-
-    char **ptr = environ;
-    while (*ptr)
-    {
-        printf("    %s\n", *ptr);
-        ptr++;
+        const char *name = NULL;
+        const char *data = fdt_getprop_by_offset(config_fdt, offset, &name, NULL);
+        printf("%s = %s\n", name,  data);
+        offset = fdt_next_property_offset(config_fdt, offset);
     }
 }
 
@@ -634,59 +658,56 @@ void bdk_config_show(void)
  */
 void bdk_config_help(void)
 {
+    /* Write out formatted as part of a device tree source (dts) file */
+    printf("/dts-v1/;\n");
+    printf("\n");
+    printf("/ {\n");
+    printf("chosen {\n");
+    printf("cavium-bdk {\n");
     for (bdk_config_t cfg = 0; cfg < __BDK_CONFIG_END; cfg++)
-        printf("\n%s:\n%s\n", config_info[cfg].format, config_info[cfg].help);
-}
-
-static int config_read(const char *filename)
-{
-    char line[128];
-
-    FILE *fp = fopen(filename, "r");
-    if (!fp)
-        return -1;
-
-    while (fgets(line, sizeof(line), fp))
     {
-        char *pv = line;
-        char *p;
-
-        /* ignore comments, empty lines and lines that start with a whitespace */
-        if ('#' == *pv || '\n' == *pv || '\t' == *pv || ' ' == *pv)
-            continue;
-
-        /* find the '=' */
-        pv = strchr(pv, '=');
-        if (!pv)
+        /* Print the help text as a comment before the entry */
+        /* Indent with tabs like Linux requires */
+        printf("\n");
+        printf("\t/* ");
+        const char *ptr = config_info[cfg].help;
+        while (*ptr)
         {
-            bdk_warn("Malformed entry in BDK configuration file. Missing '=':\n"
-                     "  %s\n", line);
-            continue; /* no '=' in line, skip */
+            putchar(*ptr);
+            if (*ptr == '\n')
+                putchar('\t');
+            ptr++;
         }
-        *pv = '\0'; /* split name and value */
-        pv++;       /* now points to value */
-
-        /* find '\n' and remove it */
-        p = strchr(pv, '\n');
-        if (p)
-            *p = '\0';
-        else
-            bdk_warn("Possibly truncated variable '%s', value '%s'\n", line, pv);
-
-        /* set variable */
-        if (0 != setenv(line, pv, 1))
-            break; /* bail on error */
+        printf(" */\n");
+        /* Print the parameter and its default value a comment. This will be
+           a reference that is easy for the user to change */
+        printf("\t//%s = \"", config_info[cfg].format);
+        switch (config_info[cfg].ctype)
+        {
+            case BDK_CONFIG_TYPE_INT:
+                if (config_info[cfg].default_value < 10)
+                    printf("%ld", config_info[cfg].default_value);
+                else
+                    printf("0x%lx", config_info[cfg].default_value);
+                break;
+            case BDK_CONFIG_TYPE_STR:
+                if (config_info[cfg].default_value)
+                    printf("%s", (const char *)config_info[cfg].default_value);
+                break;
+        }
+        printf("\";\n");
     }
-
-    fclose(fp);
-    return 0;
+    printf("}; /* cavium-bdk */\n");
+    printf("}; /* chosen */\n");
+    printf("}; /* / */\n");
 }
 
 /**
- * Internal BDK function to initialize the config system. Must be called before
- * any configuration functions are called
+ * Some of the default config values can vary based on runtime parameters. This
+ * function sets those default parameters. It must be run before anyone calls
+ * bdk_config_get_*().
  */
-void __bdk_config_init(void)
+static void config_set_defaults(void)
 {
     /* This is Cavium's OUI with the local admin bit. We will use this as a
         default as it won't collide with official addresses, but is sort of
@@ -713,6 +734,182 @@ void __bdk_config_init(void)
     /* Asim doesn't scale to 48 cores well. Limit to 4 */
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
         config_info[BDK_CONFIG_COREMASK].default_value = 0xf;
+}
 
-    config_read("/fatfs/default.cfg");
+/**
+ * BDK configuration items are stored in a device tree so thay can be passed to
+ * other software later. This function creates the initial empty device tree
+ * used for BDK configuration items. The values will be populated as configuration
+ * files are read from flash.
+ */
+static void config_setup_fdt(void)
+{
+    const int FDT_SIZE = 0x1000;
+    config_fdt = calloc(1, FDT_SIZE);
+    if (!config_fdt)
+        bdk_fatal("Unable to allocate memory for config FDT\n");
+    if (fdt_create_empty_tree(config_fdt, FDT_SIZE) < 0)
+        bdk_fatal("Unable to create FDT for config\n");
+    int chosen = fdt_add_subnode(config_fdt, 0, "chosen");
+    if (chosen < 0)
+        bdk_fatal("Unable to create chosen node in FDT\n");
+    config_node = fdt_add_subnode(config_fdt, chosen, "cavium-bdk");
+    if (config_node < 0)
+        bdk_fatal("Unable to create cavium-bdk node in FDT\n");
+}
+
+/**
+ * Parse a FDT and copy its properties to our configuration FDT
+ *
+ * @param fdt    FDT to parse
+ */
+static int config_parse_fdt(const void *fdt, const char *base_path)
+{
+    /* Check the FDT header */
+    int result = fdt_check_header(fdt);
+    if (result)
+        goto fail;
+
+    /* Find our node */
+    result = fdt_path_offset(fdt, base_path);
+    if (result < 0)
+        goto fail;
+
+    /* Copy all parameters to our in memory FDT */
+    int offset = fdt_first_property_offset(fdt, result);
+    while (offset >= 0)
+    {
+        const char *name = NULL;
+        const char *data = fdt_getprop_by_offset(fdt, offset, &name, NULL);
+        result = fdt_setprop_string(config_fdt, config_node, name, data);
+        offset = fdt_next_property_offset(fdt, offset);
+    }
+    return 0;
+fail:
+    bdk_error("FDT error %d: %s\n", result, fdt_strerror(result));
+    return -1;
+}
+
+/**
+ * Load a FDT from a file and pull in its configuration properties
+ *
+ * @param filename File to read from
+ * @param offset   Offset into the file to read from
+ *
+ * @return Zero on success, negative on failure
+ */
+static int config_load_file(const char *filename, uint64_t offset)
+{
+    /* Attempt to open the input file */
+    FILE *inf = fopen(filename, "rb");
+    if (!inf)
+        return -1; /* Fails silently so we can search for DTB files */
+
+    int ftd_size = 0x10000; /* Assume 64KB is big enough for FDT */
+    if (offset)
+        fseek(inf, offset, SEEK_SET);
+
+    /* The device tree is too large for the stack so we have to malloc() */
+    void *fdt = malloc(ftd_size);
+    if (!fdt)
+    {
+        bdk_error("Unable to allocate memory to load FDT\n");
+        fclose(inf);
+        return -1;
+    }
+
+    /* Read the entire device tree */
+    int count = fread(fdt, 1, ftd_size, inf);
+    fclose(inf);
+
+    /* Make sure the read succeeded */
+    if (count < (int)sizeof(struct fdt_header))
+    {
+        bdk_error("Unable to read %s\n", filename);
+        free(fdt);
+        return -1;
+    }
+
+    /* Make sure we read enough data to contain the FDT */
+    int correct_size = fdt_totalsize(fdt);
+    if (count < correct_size)
+    {
+        bdk_error("Unable to read FDT from %s\n", filename);
+        free(fdt);
+        return -1;
+    }
+
+    /* Check if a CRC32 was added on the end of the FDT */
+    if (count >= correct_size + 4)
+    {
+        uint32_t crc32 = bdk_crc32(fdt, correct_size, 0);
+        uint32_t correct_crc32 = *(uint32_t *)((const char *)fdt + correct_size);
+        /* CRC32 is stored in same endianness as FDT */
+        correct_crc32 = fdt32_to_cpu(correct_crc32);
+        if (crc32 != correct_crc32)
+        {
+            bdk_error("FDT failed CRC32 verification (%s)\n", filename);
+            free(fdt);
+            return -1;
+        }
+        //printf("PASS: FDT CRC32 verification (%s)\n", filename);
+    }
+
+    /* Parse the device tree, adding its configuration to ours */
+    if (config_parse_fdt(fdt, "/chosen/cavium-bdk"))
+    {
+        free(fdt);
+        return -1;
+    }
+
+    free(fdt);
+    return 0;
+}
+
+/**
+ * Internal BDK function to initialize the config system. Must be called before
+ * any configuration functions are called
+ */
+void __bdk_config_init(void)
+{
+    /* Set default that can vary dynamically at runtime */
+    config_set_defaults();
+
+    /* Create the global device tree used to store config items */
+    config_setup_fdt();
+
+    /* Load manufacturing data from the top 64KB of flash */
+    if (config_load_file("/boot", BDK_CONFIG_MANUFACTURING_ADDRESS) != 0)
+    {
+        bdk_warn("Board manufacturing information not found\n");
+        return;
+    }
+
+    /* Load default.dtb if it is there */
+    if (config_load_file("/fatfs/default.dtb", 0) == 0)
+        return;
+
+    const char *model = bdk_config_get_str(BDK_CONFIG_BOARD_MODEL);
+    const char *revision = bdk_config_get_str(BDK_CONFIG_BOARD_REVISION);
+
+    /* Load BOARD-REVISION.cfg if it is there */
+    if (model && revision)
+    {
+        char filename[64];
+        snprintf(filename, sizeof(filename), "/fatfs/%s-%s.dtb", model, revision);
+        if (config_load_file(filename, 0) == 0)
+            return;
+    }
+
+    /* Load BOARD.cfg if it is there */
+    if (model)
+    {
+        char filename[64];
+        snprintf(filename, sizeof(filename), "/fatfs/%s.dtb", model);
+        if (config_load_file(filename, 0) == 0)
+            return;
+    }
+
+    /* No board specific configuration was found. Warn the user */
+    bdk_warn("Configuration file not found, hardware will not be initialized\n");
 }
