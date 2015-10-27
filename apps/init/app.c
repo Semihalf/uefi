@@ -155,7 +155,7 @@ static void choose_image(const char *path)
     }
     else
         printf("One image found, automatically loading\n");
-    bdk_image_boot(image_names[use_image], 0, 0);
+    bdk_image_boot(image_names[use_image], 0);
 }
 
 static void usb_bist(int node, int cnt, int clear_bist)
@@ -231,7 +231,7 @@ static void slt_boot_image(bdk_node_t node)
             case 2:
                 /* Try to load ATF image from raw flash */
                 BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
-                bdk_image_boot("/dev/n0.mmc0", ATF_ADDRESS, 0);
+                bdk_image_boot("/dev/n0.mmc0", ATF_ADDRESS);
                 bdk_error("Unable to load image\n");
                 break;
             case 3:
@@ -320,7 +320,8 @@ int main(int argc, const char **argv)
     }
 
     /* Send status to the BMC: Loading ATF */
-    int use_atf = ((long)argv != 1); /* argv=1 means jump to diagnsotics */
+    int boot_path = bdk_config_get_int(BDK_CONFIG_BOOT_PATH_OPTION);
+    int use_atf = (boot_path == 0); /* 0 = normal, 1 - diagnostics */
     if (use_atf)
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_LOADING_ATF);
     else
@@ -331,13 +332,13 @@ int main(int argc, const char **argv)
     {
         /* Try to load ATF image from raw flash */
         BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
-        bdk_image_boot("/boot", ATF_ADDRESS, 0);
+        bdk_image_boot("/boot", ATF_ADDRESS);
         bdk_error("Unable to load image\n");
         printf("Trying diagnostics\n");
     }
 
     /* Load Diagnostics from FAT fs */
     BDK_TRACE(BOOT_STUB, "Looking for Diagnostics image\n");
-    bdk_image_boot("/fatfs/diagnostics.bin", 0, 0);
+    bdk_image_boot("/fatfs/diagnostics.bin", 0);
 }
 

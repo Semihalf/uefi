@@ -74,11 +74,10 @@ int bdk_image_read_header(FILE *handle, bdk_image_header_t *header)
  * @param filename   File to read the image from
  * @param loc        Offset into file for image. This is normally zero for normal files. Device
  *                   files, such as /dev/mem, will use this to locate the image.
- * @param image_arg2 The second argument (X1) for the image. X0 is filled with the environment
  *
  * @return Negative on failure. On success this function never returns.
  */
-int bdk_image_boot(const char *filename, uint64_t loc, uint64_t image_arg2)
+int bdk_image_boot(const char *filename, uint64_t loc)
 {
     void *image = NULL;
 
@@ -164,7 +163,7 @@ int bdk_image_boot(const char *filename, uint64_t loc, uint64_t image_arg2)
     }
     /* FIXME: End of board string hacks */
 
-    bdk_jump_address(bdk_ptr_to_phys(image), bdk_ptr_to_phys(image_env), image_arg2);
+    bdk_jump_address(bdk_ptr_to_phys(image), bdk_ptr_to_phys(image_env), __bdk_config_export_to_mem());
     /* Should never get here */
     bdk_error("Failed to jump to image\n");
 out:
@@ -292,6 +291,6 @@ void bdk_image_choose(const char *path)
     }
     else
         printf("One image found, automatically loading\n");
-    bdk_image_boot(image_names[use_image], 0, 0);
+    bdk_image_boot(image_names[use_image], 0);
 }
 

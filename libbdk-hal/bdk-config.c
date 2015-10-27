@@ -223,6 +223,18 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = 0,
         .max_value = 300,
     },
+    [BDK_CONFIG_BOOT_PATH_OPTION] = {
+        .format = "BDK-BOOT-PATH-OPTION",
+        .help =
+            "This is used by the boot menu to control which boot path the init\n"
+            "code chooses. The supported options are\n"
+            "    0 = Normal boot path\n"
+            "    1 = Diagnostics boot path",
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0, /* 0 = normal, 1 = diagnostics */
+        .min_value = 0,
+        .max_value = 1,
+    },
     [BDK_CONFIG_TRACE] = {
         .format = "BDK-CONFIG-TRACE",
         .help =
@@ -804,6 +816,47 @@ int bdk_config_save(void)
 }
 
 /**
+ * Takes the current live device tree and exports it to a memory address suitable
+ * for passing to the enxt binary in register X1.
+ *
+ * @return Physical address of the device tree, or 0 on failure
+ */
+uint64_t __bdk_config_export_to_mem(void)
+{
+    extern caddr_t sbrk(int incr);
+    void *end_ptr = sbrk(0);
+    bdk_node_t node = bdk_numa_master();
+    int fdt_size = fdt_totalsize(config_fdt);
+
+    /* Round size up to 4KB bondary */
+    fdt_size = (fdt_size + 0xfff) & -4096;
+    /* First try 4MB - FDT size as this keeps the FDT in the 4MB secure space
+        setup by ATF */
+    void *fdt_ptr = bdk_phys_to_ptr(0x400000 - fdt_size);
+    if (!__bdk_is_dram_enabled(node))
+    {
+        /* Address must be in L2 */
+        int l2_size = bdk_l2c_get_cache_size_bytes(node);
+        void *l2_ptr = bdk_phys_to_ptr(l2_size - fdt_size);
+        if (l2_ptr < fdt_ptr)
+            fdt_ptr = l2_ptr;
+        if (fdt_ptr < end_ptr)
+        {
+            bdk_error("No room for FDT to pass to next binary\n");
+            return 0;
+        }
+    }
+    else
+    {
+        /* We have DRAM, make sure we're past the end of this image */
+        if (fdt_ptr < end_ptr)
+            fdt_ptr = end_ptr;
+    }
+    fdt_move(config_fdt, fdt_ptr, fdt_size);
+    return bdk_ptr_to_phys(fdt_ptr);
+}
+
+/**
  * Some of the default config values can vary based on runtime parameters. This
  * function sets those default parameters. It must be run before anyone calls
  * bdk_config_get_*().
@@ -980,6 +1033,57 @@ void __bdk_config_init(void)
 {
     /* Set default that can vary dynamically at runtime */
     config_set_defaults();
+
+    /* Regsiter X1 is expected to be a device tree when we boot. Check that
+       the physical address seems correct, then load the device tree */
+    if ((__bdk_init_reg_x1 > 0) &&          /* Not zero */
+        (__bdk_init_reg_x1 < 0x400000) &&   /* In the lower 4MB */
+        ((__bdk_init_reg_x1 & 0xfff) == 0)) /* Aligned on a 4KB boundary */
+    {
+        const void *fdt = (const void *)__bdk_init_reg_x1;
+        /* Check the FDT header */
+        int result = fdt_check_header(fdt);
+        if (result)
+            result = -1; /* Invalid tree */
+        else
+            result = fdt_path_offset(fdt, "/cavium,bdk"); /* Find our node */
+        /* If tree is valid so far, attempt to move it into our memory space */
+        if (result > 0)
+        {
+            /* 4KB extra room for growth */
+            const int fdt_size = fdt_totalsize(fdt) + 4096;
+            config_fdt = calloc(1, fdt_size);
+            if (config_fdt)
+            {
+                int result = fdt_move(fdt, config_fdt, fdt_size);
+                if (result == 0)
+                {
+                    /* Find our node */
+                    config_node = fdt_path_offset(config_fdt, "/cavium,bdk");
+                    if (config_node > 0)
+                    {
+                        printf("Using configuration from previous image\n");
+                        goto done;
+                    }
+                    else
+                    {
+                        bdk_error("Unable to find BDK node after move\n");
+                        free(config_fdt);
+                        config_node = 0;
+                        config_fdt = NULL;
+                    }
+                }
+                else
+                {
+                    bdk_error("Unable to move passed device tree\n");
+                    free(config_fdt);
+                    config_fdt = NULL;
+                }
+            }
+            else
+                bdk_error("Failed to allocate memory for passed device tree (%d bytes)\n", fdt_size);
+        }
+    }
 
     /* Create the global device tree used to store config items */
     config_setup_fdt();

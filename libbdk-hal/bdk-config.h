@@ -36,6 +36,7 @@ typedef enum
     BDK_CONFIG_SHOW_LINK_STATUS,
     BDK_CONFIG_COREMASK,
     BDK_CONFIG_BOOT_MENU_TIMEOUT,
+    BDK_CONFIG_BOOT_PATH_OPTION,
     BDK_CONFIG_TRACE,
 
     /* Chip feature items */
@@ -151,5 +152,13 @@ extern void bdk_config_help(void);
  * @return Zero on success, negative on failure
  */
 extern int bdk_config_save(void);
+
+/**
+ * Takes the current live device tree and exports it to a memory address suitable
+ * for passing to the enxt binary in register X1.
+ *
+ * @return Physical address of the device tree, or 0 on failure
+ */
+extern uint64_t __bdk_config_export_to_mem(void);
 
 /** @} */

@@ -6,6 +6,8 @@
 #define MFG_SYSTEM_LEVEL_TEST 0
 #endif
 
+uint64_t __bdk_init_reg_x0; /* The contents of X0 when this image started */
+uint64_t __bdk_init_reg_x1; /* The contents of X1 when this image started */
 static int64_t __bdk_alive_coremask[BDK_NUMA_MAX_NODES];
 
 /**
@@ -102,8 +104,22 @@ void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_cont
         c.s.uarten = 1); /* Enable uart */
 }
 
-void __bdk_init(uint32_t image_crc, int argc, void *argv) __attribute((noreturn));
-void __bdk_init(uint32_t image_crc, int argc, void *argv)
+/**
+ * First C code run when a BDK application starts. It is called by bdk-start.S.
+ *
+ * @param image_crc A CRC32 of the entire image before any variables might have been updated by C.
+ *                  This should match the CRC32 in the image header.
+ * @param reg_x0    The contents of the X0 register when the image started. In images loaded after
+ *                  the boot stub, this contains a "environment" string containing "BOARD=xxx". The
+ *                  use of this is deprecated as it has been replaced with a expandable device tree
+ *                  in X1.
+ * @param reg_x1    The contents of the X1 register when the image started. For all images after the
+ *                  boot stub, this contains a physical address of a device tree in memory. This
+ *                  should be used by all images to identify and configure the board we are running
+ *                  on.
+ */
+void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1) __attribute((noreturn));
+void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1)
 {
     extern void __bdk_exception_current_el_sync_sp0();
     BDK_MSR(VBAR_EL3, __bdk_exception_current_el_sync_sp0);
@@ -258,7 +274,11 @@ void __bdk_init(uint32_t image_crc, int argc, void *argv)
     __bdk_init_exception_stack(exception_stack + EX_STACK_SIZE);
 
     bdk_atomic_add64(&__bdk_alive_coremask[node], bdk_core_to_mask());
-    bdk_thread_first(__bdk_init_main, argc, argv, 0);
+
+    /* Record our input registers for use later */
+    __bdk_init_reg_x0 = reg_x0;
+    __bdk_init_reg_x1 = reg_x1;
+    bdk_thread_first(__bdk_init_main, 0, NULL, 0);
 }
 
 /**

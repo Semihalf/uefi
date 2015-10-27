@@ -56,6 +56,7 @@ static inline int bdk_get_num_cores(bdk_node_t node)
  *
  * @return Boolean
  */
+static inline int __bdk_is_dram_enabled(bdk_node_t node) __attribute__((always_inline));
 static inline int __bdk_is_dram_enabled(bdk_node_t node)
 {
     BDK_CSR_INIT(lmcx_ddr_pll_ctl, node, BDK_LMCX_DDR_PLL_CTL(0));

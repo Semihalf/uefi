@@ -120,4 +120,7 @@ extern int bdk_get_num_running_cores(bdk_node_t node);
 #define BDK_UART_BAUDRATE 115200
 //#define BDK_UART_BAUDRATE 921600
 
+extern uint64_t __bdk_init_reg_x0; /* The contents of X0 when this image started */
+extern uint64_t __bdk_init_reg_x1; /* The contents of X1 when this image started */
+
 /** @}  */

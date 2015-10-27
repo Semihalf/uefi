@@ -47,22 +47,23 @@ void boot_menu(void)
 
         switch (bdk_menu_display(&menu))
         {
-            case 'N':
-                bdk_image_boot("/fatfs/init.bin", 0, 0); /* Boot normally */
+            case 'N': /* Boot normally */
+                bdk_image_boot("/fatfs/init.bin", 0);
                 break;
-            case 'S':
-                bdk_image_boot("/fatfs/setup.bin", 0, 0);
+            case 'S': /* Enter Setup */
+                bdk_image_boot("/fatfs/setup.bin", 0);
                 break;
-            case 'D':
-                bdk_image_boot("/fatfs/init.bin", 0, 1); /* Boot diagnostics */
+            case 'D': /* Boot diagnostics */
+                bdk_config_set_int(1, BDK_CONFIG_BOOT_PATH_OPTION);
+                bdk_image_boot("/fatfs/init.bin", 0);
                 break;
-            case 'E':
-                bdk_image_boot("/fatfs/diagnostics.bin", 0, 0);
+            case 'E': /* Enter diagnostics directly */
+                bdk_image_boot("/fatfs/diagnostics.bin", 0);
                 break;
-            case 'F':
+            case 'F': /* Select an image */
                 bdk_image_choose("BOOT:");
                 break;
-            case 'X':
+            case 'X': /* Xmodem to FatFS */
             {
                 const char *filename = bdk_readline("Filename: ", NULL, 0);
                 if (!filename || 0 == strlen(filename))
@@ -76,12 +77,12 @@ void boot_menu(void)
                 bdk_xmodem_upload(name, 0);
                 break;
             }
-            case 'W':
+            case 'W': /* Xmodem to ram flash */
             {
                 bdk_xmodem_upload("/boot", 0);
                 break;
             }
-            case 'U':
+            case 'U': /* Change baud rate */
             {
                 const char *baud = bdk_readline("Baudrate: ", NULL, 0);
                 if ((baud[0] == 0) || (baud[0] == 3))
@@ -103,7 +104,7 @@ void boot_menu(void)
                 printf("Baudrate is now %d\n", baudrate);
                 break;
             }
-            case 'R':
+            case 'R': /* Reboot */
                 printf("Rebooting THUNDERX\n");
                 bdk_reset_chip(bdk_numa_master());
                 break;
@@ -152,7 +153,7 @@ int main(void)
     if (MFG_SYSTEM_LEVEL_TEST)
     {
         bdk_bist_check();
-        bdk_image_boot("/fatfs/init.bin", 0, 0);
+        bdk_image_boot("/fatfs/init.bin", 0);
     }
 
     /* If no DRAM config got the boot menu */
@@ -172,7 +173,7 @@ int main(void)
     } while ((key != -1) && (key != 'B') && (key != 'b'));
 
     if (key == -1)
-        bdk_image_boot("/fatfs/init.bin", 0, 0);
+        bdk_image_boot("/fatfs/init.bin", 0);
 
 menu:
     boot_menu();
