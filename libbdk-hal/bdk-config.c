@@ -18,6 +18,9 @@ typedef struct
     const int64_t max_value;/* Maximum valid value for INT parameters. Unused for Strings */
 } bdk_config_info_t;
 
+/* Tracing defaults to the level specified here before config files are loaded */
+uint64_t bdk_trace_enables = 0;
+
 /* Global variables that contain the config inside a FDT */
 static void *config_fdt;
 static int config_node;
@@ -214,6 +217,17 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .default_value = 10, /* seconds */
         .min_value = 0,
         .max_value = 300,
+    },
+    [BDK_CONFIG_TRACE] = {
+        .format = "BDK-CONFIG-TRACE",
+        .help =
+            "BDK trace level. This is a bitmask of the enumeration defined in\n"
+            "bdk-trace.h. Each bit turns on tracing of a specific BDK\n"
+            "component.",
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0, /* bitmask */
+        .min_value = 0,
+        .max_value = 0x7fffffffffffffffull,
     },
 
     /* Chip feature items */
@@ -957,12 +971,12 @@ void __bdk_config_init(void)
         bdk_warn("********************************************************\n");
         bdk_warn("\n");
         printf("\33[0m"); /* Normal */
-        return;
+        goto done;
     }
 
     /* Load default.dtb if it is there */
     if (config_load_file("/fatfs/default.dtb", 0) == 0)
-        return;
+        goto done;
 
     const char *model = bdk_config_get_str(BDK_CONFIG_BOARD_MODEL);
     const char *revision = bdk_config_get_str(BDK_CONFIG_BOARD_REVISION);
@@ -973,7 +987,7 @@ void __bdk_config_init(void)
         char filename[64];
         snprintf(filename, sizeof(filename), "/fatfs/%s-%s.dtb", model, revision);
         if (config_load_file(filename, 0) == 0)
-            return;
+            goto done;
     }
 
     /* Load BOARD.cfg if it is there */
@@ -982,7 +996,7 @@ void __bdk_config_init(void)
         char filename[64];
         snprintf(filename, sizeof(filename), "/fatfs/%s.dtb", model);
         if (config_load_file(filename, 0) == 0)
-            return;
+            goto done;
     }
 
     /* No board specific configuration was found. Warn the user */
@@ -995,4 +1009,8 @@ void __bdk_config_init(void)
     bdk_warn("********************************************************\n");
     bdk_warn("\n");
     printf("\33[0m"); /* Normal */
+
+done:
+    /* Load the tracing level */
+    bdk_trace_enables = bdk_config_get_int(BDK_CONFIG_TRACE);
 }

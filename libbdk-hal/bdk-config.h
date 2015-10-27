@@ -36,6 +36,7 @@ typedef enum
     BDK_CONFIG_SHOW_LINK_STATUS,
     BDK_CONFIG_COREMASK,
     BDK_CONFIG_BOOT_MENU_TIMEOUT,
+    BDK_CONFIG_TRACE,
 
     /* Chip feature items */
     BDK_CONFIG_MULTI_NODE,          /* No parameters */

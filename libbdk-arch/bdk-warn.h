@@ -20,38 +20,42 @@ extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 
    BDK. Each one can be enabled(1) or disabled(0) independently. These
    should be disabled unless you are trying to debug something specific */
 
-#define BDK_TRACE_ENABLE_BGX        0   /* BGX networking block */
-#define BDK_TRACE_ENABLE_DRAM       0   /* DRAM initialzation */
-#define BDK_TRACE_ENABLE_DRAM_TEST  0   /* DRAM test code */
-#define BDK_TRACE_ENABLE_INIT       0   /* Early initialization, before main() */
-#define BDK_TRACE_ENABLE_ECAM       0   /* ECAM initialization */
-#define BDK_TRACE_ENABLE_QLM        0   /* QLM related debug */
-#define BDK_TRACE_ENABLE_EMMC       0   /* eMMC related debug */
-#define BDK_TRACE_ENABLE_PCIE       0   /* PCIe link init */
-#define BDK_TRACE_ENABLE_PCIE_CONFIG 0  /* PCIe config space reads / writes */
-#define BDK_TRACE_ENABLE_SATA       0   /* SATA/AHCI related debug */
-#define BDK_TRACE_ENABLE_CCPI       0   /* Multi-node related debug */
-#define BDK_TRACE_ENABLE_FATFS      0   /* FatFs related debug */
-#define BDK_TRACE_ENABLE_MPI        0   /* MPI related debug */
-#define BDK_TRACE_ENABLE_ENV        0   /* Environment variables related debug */
-#define BDK_TRACE_ENABLE_FPA        0   /* Free Pool Allocator */
-#define BDK_TRACE_ENABLE_PKI        0   /* Packet Input */
-#define BDK_TRACE_ENABLE_PKO        0   /* Packet Output */
-#define BDK_TRACE_ENABLE_SSO        0   /* SSO */
-#define BDK_TRACE_ENABLE_DEVICE     0   /* ECAM based device framework */
-#define BDK_TRACE_ENABLE_DEVICE_SCAN 0   /* ECAM based device scanning detail */
+typedef enum
+{
+    BDK_TRACE_ENABLE_BGX,               /* BGX networking block */
+    BDK_TRACE_ENABLE_DRAM,              /* DRAM initialzation */
+    BDK_TRACE_ENABLE_DRAM_TEST,         /* DRAM test code */
+    BDK_TRACE_ENABLE_INIT,              /* Early initialization, before main() */
+    BDK_TRACE_ENABLE_ECAM,              /* ECAM initialization */
+    BDK_TRACE_ENABLE_QLM,               /* QLM related debug */
+    BDK_TRACE_ENABLE_EMMC,              /* eMMC related debug */
+    BDK_TRACE_ENABLE_PCIE,              /* PCIe link init */
+    BDK_TRACE_ENABLE_PCIE_CONFIG,       /* PCIe config space reads / writes */
+    BDK_TRACE_ENABLE_SATA,              /* SATA/AHCI related debug */
+    BDK_TRACE_ENABLE_CCPI,              /* Multi-node related debug */
+    BDK_TRACE_ENABLE_FATFS,             /* FatFs related debug */
+    BDK_TRACE_ENABLE_MPI,               /* MPI related debug */
+    BDK_TRACE_ENABLE_ENV,               /* Environment variables related debug */
+    BDK_TRACE_ENABLE_FPA,               /* Free Pool Allocator */
+    BDK_TRACE_ENABLE_PKI,               /* Packet Input */
+    BDK_TRACE_ENABLE_PKO,               /* Packet Output */
+    BDK_TRACE_ENABLE_SSO,               /* SSO */
+    BDK_TRACE_ENABLE_DEVICE,            /* ECAM based device framework */
+    BDK_TRACE_ENABLE_DEVICE_SCAN,       /* ECAM based device scanning detail */
+} bdk_trace_enable_t;
+
+/* See bdk-config.c to change the trace level for before config files are loaded */
+extern uint64_t bdk_trace_enables;
 
 /**
  * Macro for low level tracing of BDK functions. When enabled,
- * these translate to printf() calls. If disabled, they are
- * removed by the compiler. The "area" is a string that is
- * appended to "BDK_TRACE_ENABLE_" to figure out which enable
- * macro to use. The macro expects a ';' after it.
+ * these translate to printf() calls. The "area" is a string
+ * that is appended to "BDK_TRACE_ENABLE_" to figure out which
+ * enable macro to use. The macro expects a ';' after it.
  */
-#define BDK_TRACE(area, format, ...) do {       \
-    if (BDK_TRACE_ENABLE_##area)                \
-        printf("[%s:%d]" #area ": " format,     \
-            __FILE__, __LINE__, ##__VA_ARGS__); \
+#define BDK_TRACE(area, format, ...) do {                       \
+    if (bdk_trace_enables & (1ull << BDK_TRACE_ENABLE_##area))  \
+        printf(#area ": " format, ##__VA_ARGS__);               \
 } while (0)
 
 /** @} */

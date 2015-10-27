@@ -497,7 +497,7 @@ static int ccpi_wait_for_lanes(bdk_node_t node)
     }
 
     /* Show final lane status to the user */
-    return (ccpi_report_lane(node, BDK_TRACE_ENABLE_CCPI) == CCPI_MIN_LANES) ? 0 : -1;
+    return (ccpi_report_lane(node, bdk_trace_enables & (1ull << BDK_TRACE_ENABLE_CCPI)) == CCPI_MIN_LANES) ? 0 : -1;
 }
 
 /**
@@ -615,7 +615,7 @@ static int ccpi_wait_for_links(bdk_node_t node)
         }
     }
 
-    return ccpi_are_links_good(node, BDK_TRACE_ENABLE_CCPI) ? 0 : -1;
+    return ccpi_are_links_good(node, bdk_trace_enables & (1ull << BDK_TRACE_ENABLE_CCPI)) ? 0 : -1;
 }
 
 /**

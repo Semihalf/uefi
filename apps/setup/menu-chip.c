@@ -12,6 +12,8 @@ void menu_chip(bdk_menu_t *parent, char key, void *arg)
             .is_num = 1 },
         { .key = 'W', .name = "Watchdog Timeout", .config = BDK_CONFIG_WATCHDOG_TIMEOUT,
             .is_num = 1, .units = "ms" },
+        { .key = 'T', .name = "BDK Tracing Level", .config = BDK_CONFIG_TRACE,
+            .is_num = 2 },
         { .key = 0, },
     };
     do
