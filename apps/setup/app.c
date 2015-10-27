@@ -23,6 +23,7 @@ void __bdk_require_depends(void)
 extern void menu_board(bdk_menu_t *menu, char key, void *arg);
 extern void menu_chip(bdk_menu_t *menu, char key, void *arg);
 extern void menu_dram(bdk_menu_t *menu, char key, void *arg);
+extern void menu_qlm(bdk_menu_t *menu, char key, void *arg);
 
 void item_factory(bdk_menu_t *menu, char key, void *arg)
 {
@@ -65,6 +66,7 @@ int main(void)
         bdk_menu_item(&menu, 'B', "Board Manufacturing Data", menu_board, NULL);
         bdk_menu_item(&menu, 'C', "Chip Features", menu_chip, NULL);
         bdk_menu_item(&menu, 'D', "DRAM Options", menu_dram, NULL);
+        bdk_menu_item(&menu, 'Q', "QLM Options", menu_qlm, NULL);
         bdk_menu_item(&menu, 'F', "Restore factory defaults", item_factory, NULL);
         bdk_menu_item(&menu, 'S', "Save Settings and Exit", item_save, NULL);
         bdk_menu_item(&menu, 'X', "Exit Setup, discarding changes", item_reboot, NULL);
