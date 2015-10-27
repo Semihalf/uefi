@@ -87,6 +87,13 @@ m:item("save",  "Save board configuration", cavium.c.bdk_saveenv, 0)
 if (not cavium.is_model(cavium.CN88XXP1)) or (cavium.c.bdk_numa_is_only_one() == 1) then
     m:item("throt", "Set power throttle level", do_throttle)
 end
+-- Look for a custom board test file
+local board = cavium.c.bdk_config_get_str(cavium.CONFIG_BOARD_MODEL)
+local board_test_name = ("board-test-%s" % board):lower()
+if package.searchpath(board_test_name, package.path) then
+    local test = require(board_test_name)
+    m:item("brdtest", "Run board test", test)
+end
 m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_chip, cavium.MASTER_NODE)
 if cavium.global then
     m:item("quit", "Exit menu")
