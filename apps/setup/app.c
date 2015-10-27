@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <unistd.h>
 
 /**
  * This function is not defined by the BDK libraries. It must be
@@ -23,6 +24,24 @@ extern void menu_board(bdk_menu_t *menu, char key, void *arg);
 extern void menu_chip(bdk_menu_t *menu, char key, void *arg);
 extern void menu_dram(bdk_menu_t *menu, char key, void *arg);
 
+void item_factory(bdk_menu_t *menu, char key, void *arg)
+{
+    printf("Restoring factory defaults\n");
+    unlink("/fatfs/default.dtb");
+    printf("Rebooting THUNDERX\n");
+    bdk_reset_chip(bdk_numa_master());
+}
+
+
+void item_save(bdk_menu_t *menu, char key, void *arg)
+{
+    printf("Saving settings\n");
+    if (bdk_config_save())
+        return;
+    printf("Rebooting THUNDERX\n");
+    bdk_reset_chip(bdk_numa_master());
+}
+
 void item_reboot(bdk_menu_t *menu, char key, void *arg)
 {
     printf("Rebooting THUNDERX\n");
@@ -46,7 +65,9 @@ int main(void)
         bdk_menu_item(&menu, 'B', "Board Manufacturing Data", menu_board, NULL);
         bdk_menu_item(&menu, 'C', "Chip Features", menu_chip, NULL);
         bdk_menu_item(&menu, 'D', "DRAM Options", menu_dram, NULL);
-        bdk_menu_item(&menu, 'R', "Reboot", item_reboot, NULL);
+        bdk_menu_item(&menu, 'F', "Restore factory defaults", item_factory, NULL);
+        bdk_menu_item(&menu, 'S', "Save Settings and Exit", item_save, NULL);
+        bdk_menu_item(&menu, 'X', "Exit Setup, discarding changes", item_reboot, NULL);
         bdk_menu_display(&menu);
     }
     return 0;
