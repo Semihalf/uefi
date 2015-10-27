@@ -13,7 +13,7 @@ void bdk_boot_ccpi_link(void)
     BDK_TRACE(INIT, "Initializing CCPI links\n");
     if (__bdk_init_ccpi_links(0))
     {
-        bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 0);
+        bdk_config_set_int(0, BDK_CONFIG_ENABLE_MULTINODE);
         if (1 == multi_node) /* fail case for 'on' setting */
         {
             printf("CCPI: Link timeout\n");
@@ -26,7 +26,7 @@ void bdk_boot_ccpi_link(void)
     }
     else
     {
-        bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
+        bdk_config_set_int(1, BDK_CONFIG_ENABLE_MULTINODE);
         if (2 == multi_node) /* success case for 'auto' setting */
             BDK_TRACE(INIT, "Auto configured 2 nodes.\n");
     }
@@ -39,7 +39,7 @@ void bdk_boot_ccpi_link(void)
  */
 void bdk_boot_ccpi_nodes(void)
 {
-    if (!bdk_config_get(BDK_CONFIG_ENABLE_MULTINODE))
+    if (!bdk_config_get_int(BDK_CONFIG_ENABLE_MULTINODE))
         return;
 
     BDK_TRACE(INIT, "Initializing CCPI\n");

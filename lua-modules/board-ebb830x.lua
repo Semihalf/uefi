@@ -1,7 +1,7 @@
 -- Configure the BDK for a ebb830x board.
 print("Configuring for the EBB830X")
 
-local set_config = cavium.c.bdk_config_set
+local set_config = cavium.c.bdk_config_set_int
 
 --------------------------------------------------------------
 -- Configuring PHY addresses for various BGX interfaces
@@ -14,21 +14,21 @@ local set_config = cavium.c.bdk_config_set
 --     Bits[7:0]: MDIO address
 
 -- BGX0 (QLM2)
-set_config(cavium.CONFIG_PHY_IF0_PORT0, 0xff000000)
-set_config(cavium.CONFIG_PHY_IF0_PORT1, 0xff000001)
-set_config(cavium.CONFIG_PHY_IF0_PORT2, 0xff000002)
-set_config(cavium.CONFIG_PHY_IF0_PORT3, 0xff000003)
+set_config(0xff000000, cavium.CONFIG_PHY_IF0_PORT0)
+set_config(0xff000001, cavium.CONFIG_PHY_IF0_PORT1)
+set_config(0xff000002, cavium.CONFIG_PHY_IF0_PORT2)
+set_config(0xff000003, cavium.CONFIG_PHY_IF0_PORT3)
 -- BGX1 (QLM3)
-set_config(cavium.CONFIG_PHY_IF1_PORT0, 0xff000104)
-set_config(cavium.CONFIG_PHY_IF1_PORT1, 0xff000105)
-set_config(cavium.CONFIG_PHY_IF1_PORT2, 0xff000106)
-set_config(cavium.CONFIG_PHY_IF1_PORT3, 0xff000107)
+set_config(0xff000104, cavium.CONFIG_PHY_IF1_PORT0)
+set_config(0xff000105, cavium.CONFIG_PHY_IF1_PORT1)
+set_config(0xff000106, cavium.CONFIG_PHY_IF1_PORT2)
+set_config(0xff000107, cavium.CONFIG_PHY_IF1_PORT3)
 -- BGX2 (DLM5-6)
-set_config(cavium.CONFIG_PHY_IF2_PORT0, 0xff000204)
-set_config(cavium.CONFIG_PHY_IF2_PORT1, 0xff000205)
-set_config(cavium.CONFIG_PHY_IF2_PORT2, 0xff000206)
-set_config(cavium.CONFIG_PHY_IF2_PORT3, 0xff000207)
+set_config(0xff000204, cavium.CONFIG_PHY_IF2_PORT0)
+set_config(0xff000205, cavium.CONFIG_PHY_IF2_PORT1)
+set_config(0xff000206, cavium.CONFIG_PHY_IF2_PORT2)
+set_config(0xff000207, cavium.CONFIG_PHY_IF2_PORT3)
 -- BGX3 (DLM4)
-set_config(cavium.CONFIG_PHY_IF3_PORT0, 0xff000304)
-set_config(cavium.CONFIG_PHY_IF3_PORT1, 0xff000305)
+set_config(0xff000304, cavium.CONFIG_PHY_IF3_PORT0)
+set_config(0xff000305, cavium.CONFIG_PHY_IF3_PORT1)
 

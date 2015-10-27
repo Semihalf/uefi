@@ -362,7 +362,7 @@ bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
         handle->link_info = link_info;
         if (__bdk_if_ops[handle->iftype]->if_link_set)
             __bdk_if_ops[handle->iftype]->if_link_set(handle, handle->link_info);
-        if (bdk_config_get(BDK_CONFIG_SHOW_LINK_STATUS))
+        if (bdk_config_get_int(BDK_CONFIG_SHOW_LINK_STATUS))
         {
             printf("%s: Link %s", bdk_if_name(handle), (link_info.s.up) ? "up" : "down");
             if (link_info.s.up)
@@ -476,7 +476,7 @@ int bdk_if_alloc(bdk_if_packet_t *packet, int length)
         bdk_error("Packets larger than 9212 (9216 with FCS) are not allowed\n");
         return -1;
     }
-    const int buf_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
+    const int buf_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
     packet->if_handle = NULL;
     packet->rx_error = 0;
     packet->length = length;

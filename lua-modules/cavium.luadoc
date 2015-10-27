@@ -30,8 +30,8 @@
 
 ---
 -- BDK configuration constants
--- Constants for use with cavium.c.bdk_config_get() and
--- cavium.c.bdk_config_set().
+-- Constants for use with cavium.c.bdk_config_get_int() and
+-- cavium.c.bdk_config_set_int().
 -- @field cavium.BDK_CONFIG_*
 
 ---

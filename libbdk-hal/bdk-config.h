@@ -50,8 +50,8 @@ typedef enum
 } bdk_config_t;
 
 extern void __bdk_config_init(void);
-extern uint64_t bdk_config_get(bdk_config_t cfg);
-extern void bdk_config_set(bdk_config_t cfg, uint64_t value);
+extern uint64_t bdk_config_get_int(bdk_config_t cfg);
+extern void bdk_config_set_int(uint64_t value, bdk_config_t cfg);
 extern const char *bdk_config_get_name(bdk_config_t cfg);
 
 /** @} */

@@ -8,8 +8,8 @@ static int segment_init(void)
 {
     bdk_spinlock_init(&free_list_lock);
 
-    const int num_bufs = bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS);
-    const int buf_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
+    const int num_bufs = bdk_config_get_int(BDK_CONFIG_NUM_PACKET_BUFFERS);
+    const int buf_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
 
     bdk_spinlock_lock(&free_list_lock);
 

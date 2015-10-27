@@ -90,7 +90,7 @@ static uint64_t __bdk_config_get_slow(bdk_config_t cfg)
 }
 
 
-uint64_t bdk_config_get(bdk_config_t cfg)
+uint64_t bdk_config_get_int(bdk_config_t cfg)
 {
     if (bdk_likely(__bdk_config_is_valid[cfg]))
         return __bdk_config_cache[cfg];
@@ -99,7 +99,7 @@ uint64_t bdk_config_get(bdk_config_t cfg)
 }
 
 
-void bdk_config_set(bdk_config_t cfg, uint64_t value)
+void bdk_config_set_int(uint64_t value, bdk_config_t cfg)
 {
     __bdk_config_cache[cfg] = value;
     BDK_WMB;
@@ -120,15 +120,15 @@ const char *bdk_config_get_name(bdk_config_t cfg)
 void __bdk_config_init(void)
 {
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
-        bdk_config_set(BDK_CONFIG_COREMASK, 0xff);
+        bdk_config_set_int(0xff, BDK_CONFIG_COREMASK);
 
     /* Set the lower MAC address bits based on the chip manufacturing
         information. This should give reasonable MAC address defaults
         for production parts */
     BDK_CSR_INIT(fus_dat0, bdk_numa_local(), BDK_MIO_FUS_DAT0);
-    uint64_t mac_address = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
+    uint64_t mac_address = bdk_config_get_int(BDK_CONFIG_MAC_ADDRESS);
     mac_address |= fus_dat0.u & 0xffffff;
-    bdk_config_set(BDK_CONFIG_MAC_ADDRESS, mac_address);
+    bdk_config_set_int(mac_address, BDK_CONFIG_MAC_ADDRESS);
 
     /* Set the number of packet buffers */
     int num_packet_buffers = 4096;
@@ -137,10 +137,10 @@ void __bdk_config_init(void)
     /* If DRAM is setup, allocate 8K buffers for 8 ports plus some slop */
     if (__bdk_is_dram_enabled(bdk_numa_master()))
         num_packet_buffers = 8192 * 16 + 1024;
-    bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
-    bdk_config_set(BDK_CONFIG_PACKET_BUFFER_SIZE, 1024);
+    bdk_config_set_int(num_packet_buffers, BDK_CONFIG_NUM_PACKET_BUFFERS);
+    bdk_config_set_int(1024, BDK_CONFIG_PACKET_BUFFER_SIZE);
 
     /* Asim doesn't scale to 48 cores well. Limit to 4 */
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
-        bdk_config_set(BDK_CONFIG_COREMASK, 0xf);
+        bdk_config_set_int(0xf, BDK_CONFIG_COREMASK);
 }

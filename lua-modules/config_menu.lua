@@ -11,7 +11,7 @@ local configPrompt -- This is needed so variable is defined in addMenu
 -- Add/update an option in the menu. The current value is attached to the
 -- menu text
 local function addMenuKey(key, description, config_item, min_value, max_value)
-    local v = cavium.c.bdk_config_get(config_item)
+    local v = cavium.c.bdk_config_get_int(config_item)
     local menu_text = "%s (0x%x)" % {description, v}
     m:item(key, menu_text, configPrompt, key, description, config_item, min_value, max_value)
 end
@@ -23,9 +23,9 @@ end
 
 -- Function that is run when a menu item is selected
 configPrompt = function(key, description, config_item, min_value, max_value)
-    local oldv = cavium.c.bdk_config_get(config_item)
+    local oldv = cavium.c.bdk_config_get_int(config_item)
     local v = menu.prompt_number(description, oldv, min_value, max_value)
-    cavium.c.bdk_config_set(config_item, v)
+    cavium.c.bdk_config_set_int(v, config_item)
     addMenuKey(key, description, config_item, min_value, max_value)
 end
 
@@ -33,7 +33,7 @@ end
 local promptPhy -- This is needed so variable is defined in addPhyMenu
 
 local function addPhyMenu(port_name, config_item)
-    local v = cavium.c.bdk_config_get(config_item)
+    local v = cavium.c.bdk_config_get_int(config_item)
     local text
     if v == -1 then
         text = "PHY not present"
@@ -70,7 +70,7 @@ promptPhy = function(port_name, config_item)
     else
         phy_addr = -1
     end
-    cavium.c.bdk_config_set(config_item, phy_addr)
+    cavium.c.bdk_config_set_int(phy_addr, config_item)
     addPhyMenu(port_name, config_item)
 end
 

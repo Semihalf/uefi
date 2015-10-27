@@ -49,7 +49,7 @@ int bdk_pki_global_init(bdk_node_t node)
         {
             /* Set all PKNDS to be the correct SSO tag type */
             BDK_CSR_MODIFY(c, node, BDK_PKI_CLX_STYLEX_ALG(cluster, pknd),
-                c.s.tt = bdk_config_get(BDK_SSO_TT_E_UNTAGGED));
+                c.s.tt = bdk_config_get_int(BDK_SSO_TT_E_UNTAGGED));
             /* Set all PKNDS to use style of same number */
             BDK_CSR_MODIFY(c, node, BDK_PKI_CLX_PKINDX_STYLE(cluster, pknd),
                 c.s.pm = 0;
@@ -122,7 +122,7 @@ int bdk_pki_port_init(bdk_if_handle_t handle)
     }
 
     /* FIXME: How many buffers should be given to each aura? */
-    int aura = bdk_fpa_init_aura(handle->node, -1, BDK_FPA_PACKET_POOL, bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS));
+    int aura = bdk_fpa_init_aura(handle->node, -1, BDK_FPA_PACKET_POOL, bdk_config_get_int(BDK_CONFIG_NUM_PACKET_BUFFERS));
     if (aura < 0)
         return -1;
     handle->aura = aura;

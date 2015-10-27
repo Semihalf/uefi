@@ -752,7 +752,7 @@ function TrafficGen.new()
         --  args[4] = increment, defaults to 1
         --  args[5] = scan loop count, defaults to 1
         -- Get the size of one buffer
-        local buf_size = cavium.c.bdk_config_get(cavium.CONFIG_PACKET_BUFFER_SIZE)
+        local buf_size = cavium.c.bdk_config_get_int(cavium.CONFIG_PACKET_BUFFER_SIZE)
         -- BGX/NIC on CN88XX only allows a max of 9212 bytes (9216 with FCS added)
         local max_packet = 9212
         -- Get our setup params

@@ -286,7 +286,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     coremask &= ~__bdk_alive_coremask[node];
 
     /* Limit to the cores that are specified in configuration menu */
-    uint64_t config_coremask = bdk_config_get(BDK_CONFIG_COREMASK);
+    uint64_t config_coremask = bdk_config_get_int(BDK_CONFIG_COREMASK);
     if (config_coremask)
         coremask &= config_coremask;
 
@@ -410,7 +410,7 @@ int bdk_init_nodes(int skip_cores, int ccpi_sw_gbaud)
     do_oci_init &= CAVIUM_IS_MODEL(CAVIUM_CN88XX);
 
     /* Check that the BDK config says multi-node is enabled */
-    if (bdk_config_get(BDK_CONFIG_ENABLE_MULTINODE) == 0)
+    if (bdk_config_get_int(BDK_CONFIG_ENABLE_MULTINODE) == 0)
         do_oci_init = 0;
 
     /* Simulation under Asim is a special case. Multi-node is simulaoted, but

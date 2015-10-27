@@ -771,7 +771,7 @@ static int do_clear(tg_port_t *tg_port)
  */
 static int do_reset(tg_port_t *tg_port)
 {
-    uint64_t mac_addr_base = bdk_config_get(BDK_CONFIG_MAC_ADDRESS);
+    uint64_t mac_addr_base = bdk_config_get_int(BDK_CONFIG_MAC_ADDRESS);
 
     int port_offset = 0xff & (long)tg_port->handle;
     uint64_t src_mac = mac_addr_base + port_offset;

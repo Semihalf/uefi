@@ -1,7 +1,7 @@
 -- Configure the BDK for a ebb810x board.
 print("Configuring for the EBB810X")
 
-local set_config = cavium.c.bdk_config_set
+local set_config = cavium.c.bdk_config_set_int
 
 --------------------------------------------------------------
 -- Configuring PHY addresses for various BGX interfaces
@@ -14,10 +14,10 @@ local set_config = cavium.c.bdk_config_set
 --     Bits[7:0]: MDIO address
 
 -- BGX0 (QLM2)
-set_config(cavium.CONFIG_PHY_IF0_PORT0, 0xff000000)
-set_config(cavium.CONFIG_PHY_IF0_PORT1, 0xff000001)
-set_config(cavium.CONFIG_PHY_IF0_PORT2, 0xff000002)
-set_config(cavium.CONFIG_PHY_IF0_PORT3, 0xff000003)
+set_config(0xff000000, cavium.CONFIG_PHY_IF0_PORT0)
+set_config(0xff000001, cavium.CONFIG_PHY_IF0_PORT1)
+set_config(0xff000002, cavium.CONFIG_PHY_IF0_PORT2)
+set_config(0xff000003, cavium.CONFIG_PHY_IF0_PORT3)
 -- RGMII
-set_config(cavium.CONFIG_PHY_IF1_PORT0, 0xff000104)
+set_config(0xff000104, cavium.CONFIG_PHY_IF1_PORT0)
 

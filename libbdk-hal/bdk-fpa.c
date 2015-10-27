@@ -75,7 +75,7 @@ int bdk_fpa_fill_pool(bdk_node_t node, bdk_fpa_pool_t pool, int num_blocks)
     switch (pool)
     {
         case BDK_FPA_PACKET_POOL: /* Stores PKI packet buffers */
-            block_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
+            block_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
             break;
         case BDK_FPA_SSO_POOL: /* Used for internal storage in the SSO */
         {

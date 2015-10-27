@@ -179,7 +179,7 @@ void __bdk_init_main(int argc, void *argv)
             }
         }
         if (!bdk_numa_is_only_one())
-            bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
+            bdk_config_set_int(1, BDK_CONFIG_ENABLE_MULTINODE);
 
         for (bdk_node_t n = 0; n < BDK_NUMA_MAX_NODES; n++)
         {

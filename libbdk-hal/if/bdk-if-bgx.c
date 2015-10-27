@@ -452,7 +452,7 @@ static int if_probe(bdk_if_handle_t handle)
 
 static int get_phy_address(bdk_if_handle_t handle)
 {
-    return (int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + handle->interface * 4 + handle->index);
+    return (int)bdk_config_get_int(BDK_CONFIG_PHY_IF0_PORT0 + handle->interface * 4 + handle->index);
 }
 
 static int sgmii_link(bdk_if_handle_t handle)
@@ -1119,7 +1119,7 @@ static int vnic_setup_cq(bdk_if_handle_t handle)
 
 static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
 {
-    const int buffer_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
+    const int buffer_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
     const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     int rbdr = priv->rbdr;
     int rbdr_idx = 0;
@@ -1182,7 +1182,7 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
         /* Configure the receive buffer ring (RBDR) */
         BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_RBDRX_BASE(rbdr, rbdr_idx),
             bdk_ptr_to_phys(rbdr_memory));
-        const int buffer_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
+        const int buffer_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
         BDK_CSR_MODIFY(c, handle->node, BDK_NIC_QSX_RBDRX_CFG(rbdr, rbdr_idx),
             c.s.ena = 1;
             c.s.ldwb = BDK_USE_DWB;
@@ -1230,7 +1230,7 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
         /* We probably don't have enough space to completely fill the RBDR. Use
            1/4 of the buffers available minus a few. We expect to only have 2
            RBDR rings per node and a max of 2 nodes */
-        int fill_num = (bdk_config_get(BDK_CONFIG_NUM_PACKET_BUFFERS) - 200) / 4;
+        int fill_num = (bdk_config_get_int(BDK_CONFIG_NUM_PACKET_BUFFERS) - 200) / 4;
         /* Note that RBDR must leave one spot empty */
         if (fill_num > RBDR_ENTRIES - 1)
             fill_num = RBDR_ENTRIES - 1;
@@ -1462,7 +1462,7 @@ static int if_init(bdk_if_handle_t handle)
         c.s.cnt = (0x800 / 2 / priv->num_port) - 1);
 #endif
     /* Configure to allow max sized frames */
-    const int buffer_size = bdk_config_get(BDK_CONFIG_PACKET_BUFFER_SIZE);
+    const int buffer_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
     int max_size = buffer_size * 12; /* 12 is from nic_cqe_rx_s */
     BDK_CSR_WRITE(handle->node, BDK_BGXX_GMP_GMI_RXX_JABBER(bgx_block, bgx_index), max_size);
     BDK_CSR_WRITE(handle->node, BDK_BGXX_SMUX_RX_JABBER(bgx_block, bgx_index), max_size);
