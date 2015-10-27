@@ -146,7 +146,7 @@ void __bdk_init(uint32_t image_crc, int argc, void *argv)
 
     if (bdk_is_boot_core())
     {
-		/* Initialize the platform */
+        /* Initialize the platform */
         __bdk_platform_init();
         if (!bdk_is_platform(BDK_PLATFORM_EMULATOR) && CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         {
@@ -194,18 +194,6 @@ void __bdk_init(uint32_t image_crc, int argc, void *argv)
         if (BDK_SHOW_BOOT_BANNERS)
             write(1, BANNER_1, sizeof(BANNER_1)-1);
 
-		/*Checking SATA fuses. This code will read the SATA fuses 
-		and determine if they have been set correctly. If not,
-		it will print out an error indicating the */
-		static int fuse111 = 0;
-		static int fuse113 = 0;
-		fuse111 = bdk_fuse_read(node, 111);
-		fuse113 = bdk_fuse_read(node, 113);
-		if(fuse111 == 1 && fuse113 ==0){
-			static const char fuse_banner[] = "ERROR INCORRECT FUSE BLOWN SATA BROKEN on QLM 4 -7\n";
-			write(1, fuse_banner, sizeof(fuse_banner)-1);
-		}
-		
         /* Only lock L2 if DDR3 isn't initialized */
         if (bdk_is_platform(BDK_PLATFORM_HW) && !__bdk_is_dram_enabled(node))
         {
