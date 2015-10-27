@@ -3,7 +3,7 @@
 /**
  * Called when the PHY is connected through TWSI
  *
- * @param dev_node Node the etherent device is on
+ * @param dev_node Node the ethernet device is on
  * @param phy_addr Encoded address, see bdk-if.h for format
  *
  * @return Link status
@@ -63,7 +63,7 @@ static bdk_if_link_t __bdk_if_phy_get_twsi(bdk_node_t dev_node, int phy_addr)
 /**
  * Read the status of a PHY
  *
- * @param dev_node Node the etherent device is on
+ * @param dev_node Node the ethernet device is on
  * @param phy_addr Encoded PHY address, see bdk-if.h for format
  *
  * @return Link status

@@ -664,7 +664,7 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
     ocr_register_t ocr_reg;
 
     // Disable buses, casues the clocking to reset to the default
-    // Errata (EMMC-26703) EMMC CSR reset doesn't consistantly work
+    // Errata (EMMC-26703) EMMC CSR reset doesn't consistently work
     BDK_CSR_INIT( mio_emm_modex, node, BDK_MIO_EMM_MODEX(chip_sel));
     while (mio_emm_modex.s.clk_lo != 2500)
     {

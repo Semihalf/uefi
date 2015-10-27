@@ -84,7 +84,7 @@ if not cavium.is_altpkg(cavium.CN88XX) then
     qlm_modes[12] = qlm_modes[8]
     qlm_modes[13] = qlm_modes[8]
 else
-    -- CN86XX, CN88XX in a CN83XX compatable package
+    -- CN86XX, CN88XX in a CN83XX compatible package
     qlm_display_order[0] = 4
     qlm_display_order[1] = 5
     qlm_display_order[2] = 0

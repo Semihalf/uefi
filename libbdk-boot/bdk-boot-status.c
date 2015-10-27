@@ -47,7 +47,7 @@ void bdk_boot_status(bdk_boot_status_t status)
     }
 
     /* As a special case, power cycle will display a message and try a
-       soft reset if we can't pwoer cycle in 5 seconds */
+       soft reset if we can't power cycle in 5 seconds */
     if (status == BDK_BOOT_STATUS_REQUEST_POWER_CYCLE)
     {
         if (boot_status_twsi != -1)

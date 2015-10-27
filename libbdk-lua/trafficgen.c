@@ -566,7 +566,7 @@ out:
 
 
 /**
- * Check the CRC on an incomming packet and return non zero if it
+ * Check the CRC on an incoming packet and return non zero if it
  * doesn't match the calculated value.
  *
  * @param work   Packet to process. We handle dynamic short.

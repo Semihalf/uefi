@@ -56,7 +56,7 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
             "The first MAC address assigned to the THUNDERX network ports. MAC\n"
             "addresses are in a contiguous block starting at this address and\n"
             "containing BOARD-MAC-ADDRESS-NUM number of addresses. The format\n"
-            "of this parameter is 0xXXXXXXXXXXXX, 12 hex digits startign with\n"
+            "of this parameter is 0xXXXXXXXXXXXX, 12 hex digits starting with\n"
             "'0x'.This parameter is stored in a static board manufacturing\n"
             "area at the top of the boot flash.",
         .ctype = BDK_CONFIG_TYPE_INT,
@@ -92,7 +92,7 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .format = "WATCHDOG-TIMEOUT", /* No parameters */
         .help =
             "This specifies a watchdog timer should run during boot and reset\n"
-            "the chip if boot hangs for soem reason. The timeout is specified\n"
+            "the chip if boot hangs for some reason. The timeout is specified\n"
             "in milliseconds. Zero disables the watchdog.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* 0 = disabled */
@@ -137,11 +137,11 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .format = "PHY-ADDRESS.N%d.BGX%d.P%d", /* Parameters: Node, Interface, Port */
         .help =
             "PHY address encoding:\n"
-            "    Bits[31:24]: Node ID, 0xff for node the etherent device is on\n"
+            "    Bits[31:24]: Node ID, 0xff for node the ethernet device is on\n"
             "    Bits[23:16]: Only used for TWSI\n"
             "    Bits[15:12]: PHY connection type (0=MDIO, 1=Fixed, 2=TWSI)\n"
             "For MDIO:\n"
-            "    Bits[31:24]: Node ID, 0xff for node the etherent device is on\n"
+            "    Bits[31:24]: Node ID, 0xff for node the ethernet device is on\n"
             "    Bits[23:16]: 0\n"
             "    Bits[15:12]: 0=MDIO\n"
             "    Bits[11:8]: MDIO bus number\n"
@@ -152,7 +152,7 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
             "    Bits[15:12]: 1=Fixed\n"
             "    Bits[11:0]:  0 = 1Gb, 1 = 100Mb\n"
             "For TWSI:\n"
-            "    Bits[31:24]: Node ID, 0xff for node the etherent device is on\n"
+            "    Bits[31:24]: Node ID, 0xff for node the ethernet device is on\n"
             "    Bits[23:16]: TWSI internal address width in bytes (0-2)\n"
             "    Bits[15:12]: 2=TWSI\n"
             "    Bits[11:8]: TWSI bus number\n"
@@ -296,7 +296,7 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .help =
             "Set the source of the QLM reference clock:\n"
             "    0 = Common clock 0\n"
-            "    1 = Common clokc 1\n"
+            "    1 = Common clock 1\n"
             "    2 = QLM external reference",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 2, /* 2 = External */

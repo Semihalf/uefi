@@ -16,7 +16,7 @@
  *
  * The traffig-gen command "use_tns" can then be used to enable traffic going
  * through the TNS for BGX0/NIC0 and BGX1/NIC1.  Optionally a 0 or 1 may
- * be specified as a paramter to "use_tns" to enable BGX0/NIC0 or BGX1/NIC1
+ * be specified as a parameter to "use_tns" to enable BGX0/NIC0 or BGX1/NIC1
  * respectively, while leaving the other in BYPASS mode.  Use "bypass_tns"
  * (again with an optional 0 and/or 1) to stop using the TNS.
  *

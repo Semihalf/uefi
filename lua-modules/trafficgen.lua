@@ -163,7 +163,7 @@ function TrafficGen.new()
         return list
     end
 
-    -- Build a new list with everyting in the old list but not in range
+    -- Build a new list with everything in the old list but not in range
     local function remove_entries(list, range)
         local is_entry = make_is_entry(range)
         local result = {}

@@ -408,7 +408,7 @@ static void monitor_ccpi(void)
                     /* No credits, perform a reinit */
                     ocx_com_linkx_ctl.s.reinit = 1;
                     BDK_CSR_WRITE(node, BDK_OCX_COM_LINKX_CTL(link), ocx_com_linkx_ctl.u);
-                    /* Reinit wil lbe cleared teh next time through the loop */
+                    /* Reinit wil lbe cleared the next time through the loop */
                     //bdk_dbg_uart_str("Re-init link ");
                     //bdk_dbg_uart_char('0' + link);
                     //bdk_dbg_uart_str("\r\n");

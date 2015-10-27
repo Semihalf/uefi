@@ -13,11 +13,11 @@
 #define BDK_IF_MAX_GATHER 12 /* CN88XX RX supports 12 at most */
 
 /*  PHY address encoding:
-        Bits[31:24]: Node ID, 0xff for node the etherent device is on
+        Bits[31:24]: Node ID, 0xff for node the ethernet device is on
         Bits[23:16]: Only used for TWSI
         Bits[15:12]: PHY connection type (0=MDIO, 1=Fixed, 2=TWSI)
     For MDIO:
-        Bits[31:24]: Node ID, 0xff for node the etherent device is on
+        Bits[31:24]: Node ID, 0xff for node the ethernet device is on
         Bits[23:16]: 0
         Bits[15:12]: 0=MDIO
         Bits[11:8]: MDIO bus number
@@ -28,7 +28,7 @@
         Bits[15:12]: 1=Fixed
         Bits[11:0]:  0 = 1Gb, 1 = 100Mb
     For TWSI:
-        Bits[31:24]: Node ID, 0xff for node the etherent device is on
+        Bits[31:24]: Node ID, 0xff for node the ethernet device is on
         Bits[23:16]: TWSI internal address width in bytes (0-2)
         Bits[15:12]: 2=TWSI
         Bits[11:8]: TWSI bus number

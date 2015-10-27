@@ -8,7 +8,7 @@ BDK_REQUIRE_DEFINE(CCPI);
 
 /* The functions in this file work with CCPI at the lane and link level. These
    initialize CCPI into a working link, but do not actually transition to
-   multi-node. Only after these functions have brought CCPI inot a work state
+   multi-node. Only after these functions have brought CCPI into a work state
    can the node functions in bdk-init.c start using the other nodes */
 
 #define CCPI_LANE_TIMEOUT 3 /* Seconds to wait for CCPI lanes */
