@@ -937,7 +937,14 @@ void __bdk_config_init(void)
     /* Load manufacturing data from the top 64KB of flash */
     if (config_load_file("/boot", BDK_CONFIG_MANUFACTURING_ADDRESS) != 0)
     {
-        bdk_warn("Board manufacturing information not found\n");
+        printf("\33[1m"); /* Bold */
+        bdk_warn("\n");
+        bdk_warn("********************************************************\n");
+        bdk_warn("* Board manufacturing information not found.  Program\n");
+        bdk_warn("* the board manufacturing information in the Setup menu.\n");
+        bdk_warn("********************************************************\n");
+        bdk_warn("\n");
+        printf("\33[0m"); /* Normal */
         return;
     }
 
@@ -967,5 +974,13 @@ void __bdk_config_init(void)
     }
 
     /* No board specific configuration was found. Warn the user */
-    bdk_warn("Configuration file not found, hardware will not be initialized\n");
+    printf("\33[1m"); /* Bold */
+    bdk_warn("\n");
+    bdk_warn("********************************************************\n");
+    bdk_warn("* Board configuration file not found. Either the board\n");
+    bdk_warn("* model is incorrect, or factory settings are not\n");
+    bdk_warn("* available. DTB file not found for board \"%s\".\n", model);
+    bdk_warn("********************************************************\n");
+    bdk_warn("\n");
+    printf("\33[0m"); /* Normal */
 }
