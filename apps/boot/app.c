@@ -157,7 +157,7 @@ int main(void)
 
     /* If no DRAM config got the boot menu */
     const char *dram_config = bdk_config_get_str(BDK_CONFIG_DRAM_NODE, node);
-    if (dram_config == NULL)
+    if ((dram_config == NULL) && !bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         is_misconfigured = 1;
         goto menu;
