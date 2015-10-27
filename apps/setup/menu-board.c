@@ -5,28 +5,29 @@
 static void write_board_fdt(bdk_menu_t *parent, char key, void *arg)
 {
     const int FDT_SIZE = 0x10000;
+    FILE *outf = NULL;
     void *fdt = calloc(1, FDT_SIZE);
     if (!fdt)
     {
         bdk_error("Unable to allocate memory for FDT\n");
-        return;
+        goto cleanup;
     }
     if (fdt_create_empty_tree(fdt, FDT_SIZE) < 0)
     {
         bdk_error("Unable to create FDT for board\n");
-        return;
+        goto cleanup;
     }
     int chosen = fdt_add_subnode(fdt, 0, "chosen");
     if (chosen < 0)
     {
         bdk_error("Unable to create chosen node in FDT\n");
-        return;
+        goto cleanup;
     }
     int node = fdt_add_subnode(fdt, chosen, "cavium-bdk");
     if (node < 0)
     {
         bdk_error("Unable to create cavium-bdk node in FDT\n");
-        return;
+        goto cleanup;
     }
 
     const char *model = bdk_config_get_str(BDK_CONFIG_BOARD_MODEL);
@@ -40,21 +41,21 @@ static void write_board_fdt(bdk_menu_t *parent, char key, void *arg)
     if (status < 0)
     {
         bdk_error("FDT error %d: %s\n", status, fdt_strerror(status));
-        return;
+        goto cleanup;
     }
 
     status = fdt_setprop_string(fdt, node, "BOARD-REVISION", revision);
     if (status < 0)
     {
         bdk_error("FDT error %d: %s\n", status, fdt_strerror(status));
-        return;
+        goto cleanup;
     }
 
     status = fdt_setprop_string(fdt, node, "BOARD-SERIAL", serial);
     if (status < 0)
     {
         bdk_error("FDT error %d: %s\n", status, fdt_strerror(status));
-        return;
+        goto cleanup;
     }
 
     snprintf(str, sizeof(str), "0x%lx", mac);
@@ -62,7 +63,7 @@ static void write_board_fdt(bdk_menu_t *parent, char key, void *arg)
     if (status < 0)
     {
         bdk_error("FDT error %d: %s\n", status, fdt_strerror(status));
-        return;
+        goto cleanup;
     }
 
     snprintf(str, sizeof(str), "%ld", num_mac);
@@ -70,34 +71,44 @@ static void write_board_fdt(bdk_menu_t *parent, char key, void *arg)
     if (status < 0)
     {
         bdk_error("FDT error %d: %s\n", status, fdt_strerror(status));
-        return;
+        goto cleanup;
     }
     status = fdt_pack(fdt);
     if (status < 0)
     {
         bdk_error("FDT error %d: %s\n", status, fdt_strerror(status));
-        return;
+        goto cleanup;
     }
 
     /* Calculate a CRC32 of the FDT */
     int fdt_size = fdt_totalsize(fdt);
     uint32_t crc32 = bdk_crc32(fdt, fdt_size, 0);
 
-    FILE *outf = fopen("/boot", "wb");
+    outf = fopen("/boot", "wb");
     if (!outf)
     {
         bdk_error("Failed to open flash");
-        return;
+        goto cleanup;
     }
     fseek(outf, BDK_CONFIG_MANUFACTURING_ADDRESS, SEEK_SET);
     if (fwrite(fdt, fdt_size, 1, outf) != 1)
+    {
         bdk_error("Failed to write flash");
+        goto cleanup;
+    }
     /* Save the CRC32 in the same endianness as the FDT */
     crc32 = cpu_to_fdt32(crc32);
     if (fwrite(&crc32, sizeof(crc32), 1, outf) != 1)
+    {
         bdk_error("Failed to write flash");
-    fclose(outf);
-    free(fdt);
+        goto cleanup;
+    }
+    printf("Board information written to flash\n");
+cleanup:
+    if (outf)
+        fclose(outf);
+    if (fdt)
+        free(fdt);
 }
 
 void menu_board(bdk_menu_t *parent, char key, void *arg)
@@ -113,6 +124,11 @@ void menu_board(bdk_menu_t *parent, char key, void *arg)
         { .key = 0, },
     };
 
+    printf("Board manufacturing data is stored in a different location in\n"
+        "flash than other configuration items, so the settings in this\n"
+        "menu persist across software upgrades. Once set, these should\n"
+        "normally not be changed.\n");
+
     do
     {
         bdk_menu_init(&menu, "THUNDERX Setup - Board");
@@ -122,7 +138,7 @@ void menu_board(bdk_menu_t *parent, char key, void *arg)
             menu_add_config(&menu, &info[i]);
             i++;
         }
-        bdk_menu_item(&menu, 'W', "Save to Flash", write_board_fdt, NULL);
+        bdk_menu_item(&menu, 'W', "Save Board Manufacturing Data to Flash", write_board_fdt, NULL);
         bdk_menu_item(&menu, 'Q', "Return to main menu", NULL, NULL);
         key = bdk_menu_display(&menu);
     } while (key != 'Q');
