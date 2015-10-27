@@ -34,7 +34,7 @@ void boot_menu(void)
     {
         bdk_menu_init(&menu, "Boot Options");
         if (!is_misconfigured) // Hidden if no board configuration
-            bdk_menu_item(&menu, 'B', "Boot Normally", NULL, NULL);
+            bdk_menu_item(&menu, 'N', "Boot Normally", NULL, NULL);
         bdk_menu_item(&menu, 'S', "Enter Setup", NULL, NULL);
         if (!is_misconfigured) // Hidden if no board configuration
             bdk_menu_item(&menu, 'D', "Enter Diagnostics", NULL, NULL);
@@ -47,7 +47,7 @@ void boot_menu(void)
 
         switch (bdk_menu_display(&menu))
         {
-            case 'B':
+            case 'N':
                 bdk_image_boot("/fatfs/init.bin", 0, 0); /* Boot normally */
                 break;
             case 'S':
