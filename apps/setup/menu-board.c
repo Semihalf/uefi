@@ -1,44 +1,6 @@
 #include <bdk.h>
 #include <libfdt.h>
-
-static void prompt_board_model(bdk_menu_t *parent, char key, void *arg)
-{
-    const char *str = bdk_readline("Board Model: ", NULL, 0);
-    if (str[0])
-        bdk_config_set_str(str, BDK_CONFIG_BOARD_MODEL);
-}
-
-static void prompt_board_revision(bdk_menu_t *parent, char key, void *arg)
-{
-    const char *str = bdk_readline("Board Revision: ", NULL, 0);
-    if (str[0])
-        bdk_config_set_str(str, BDK_CONFIG_BOARD_REVISION);
-}
-
-static void prompt_board_serial(bdk_menu_t *parent, char key, void *arg)
-{
-    const char *str = bdk_readline("Board Serial: ", NULL, 0);
-    if (str[0])
-        bdk_config_set_str(str, BDK_CONFIG_BOARD_SERIAL);
-}
-
-static void prompt_board_mac(bdk_menu_t *parent, char key, void *arg)
-{
-    const char *str = bdk_readline("Board MAC Address: ", NULL, 0);
-    long v = 0;
-    int count = sscanf(str, "%li", &v);
-    if (count == 1)
-        bdk_config_set_int(v, BDK_CONFIG_MAC_ADDRESS);
-}
-
-static void prompt_board_mac_num(bdk_menu_t *parent, char key, void *arg)
-{
-    const char *str = bdk_readline("Board Number of MAC Addresses: ", NULL, 0);
-    int v = 0;
-    int count = sscanf(str, "%i", &v);
-    if (count == 1)
-        bdk_config_set_int(v, BDK_CONFIG_MAC_ADDRESS_NUM);
-}
+#include "menu-common.h"
 
 static void write_board_fdt(bdk_menu_t *parent, char key, void *arg)
 {
@@ -140,33 +102,26 @@ static void write_board_fdt(bdk_menu_t *parent, char key, void *arg)
 
 void menu_board(bdk_menu_t *parent, char key, void *arg)
 {
-    char str[64];
     bdk_menu_t menu;
+    const struct menu_add_info info[] =
+    {
+        { .key = 'B', .name = "Board Model Number", .config = BDK_CONFIG_BOARD_MODEL },
+        { .key = 'R', .name = "Board Revision", .config = BDK_CONFIG_BOARD_REVISION },
+        { .key = 'S', .name = "Serial Number", .config = BDK_CONFIG_BOARD_SERIAL },
+        { .key = 'M', .name = "Base MAC Address", .config = BDK_CONFIG_MAC_ADDRESS, .is_num = 2 },
+        { .key = 'N', .name = "Number of MAC Addresses", .config = BDK_CONFIG_MAC_ADDRESS_NUM, .is_num = 1 },
+        { .key = 0, },
+    };
+
     do
     {
         bdk_menu_init(&menu, "THUNDERX Setup - Board");
-
-        const char *model = bdk_config_get_str(BDK_CONFIG_BOARD_MODEL);
-        const char *revision = bdk_config_get_str(BDK_CONFIG_BOARD_REVISION);
-        const char *serial = bdk_config_get_str(BDK_CONFIG_BOARD_SERIAL);
-        int64_t mac = bdk_config_get_int(BDK_CONFIG_MAC_ADDRESS);
-        int64_t num_mac = bdk_config_get_int(BDK_CONFIG_MAC_ADDRESS_NUM);
-
-        snprintf(str, sizeof(str), "Board Model Number (%s)", model);
-        bdk_menu_item(&menu, 'B', str, prompt_board_model, NULL);
-
-        snprintf(str, sizeof(str), "Board Revision (%s)", revision);
-        bdk_menu_item(&menu, 'R', str, prompt_board_revision, NULL);
-
-        snprintf(str, sizeof(str), "Serial Number (%s)", serial);
-        bdk_menu_item(&menu, 'S', str, prompt_board_serial, NULL);
-
-        snprintf(str, sizeof(str), "Base MAC Address (0x%lx)", mac);
-        bdk_menu_item(&menu, 'M', str, prompt_board_mac, NULL);
-
-        snprintf(str, sizeof(str), "Number of MAC Addresses (%d)", (int)num_mac);
-        bdk_menu_item(&menu, 'N', str, prompt_board_mac_num, NULL);
-
+        int i = 0;
+        while (info[i].key)
+        {
+            menu_add_config(&menu, &info[i]);
+            i++;
+        }
         bdk_menu_item(&menu, 'W', "Save to Flash", write_board_fdt, NULL);
         bdk_menu_item(&menu, 'Q', "Return to main menu", NULL, NULL);
         key = bdk_menu_display(&menu);
