@@ -55,8 +55,7 @@ void register_cavium_config(lua_State* L)
 
     /* High level DRAM options */
     push_bdk_enum(BDK_CONFIG_DRAM_NODE);
-    push_bdk_enum(BDK_CONFIG_DDR_UDIMM_SPEED);
-    push_bdk_enum(BDK_CONFIG_DDR_RDIMM_SPEED);
+    push_bdk_enum(BDK_CONFIG_DDR_SPEED);
     push_bdk_enum(BDK_CONFIG_DDR_ALT_REFCLK);
     push_bdk_enum(BDK_CONFIG_DRAM_VERBOSE);
     push_bdk_enum(BDK_CONFIG_DRAM_BOOT_TEST);

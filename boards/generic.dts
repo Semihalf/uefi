@@ -189,10 +189,7 @@ cavium-bdk {
 	//DDR-CONFIG.N%d = "";
 
 	/* FIXME */
-	//DDR-SPEED-UDIMM.N%d = "0";
-
-	/* FIXME */
-	//DDR-SPEED-RDIMM.N%d = "0";
+	//DDR-SPEED.N%d = "0";
 
 	/* Set to use a an alternate reference clock for DRAM than the usual
 	50Mhz reference. The value of here specifies the frequency of the

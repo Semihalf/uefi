@@ -53,8 +53,7 @@ typedef enum
 
     /* High level DRAM options */
     BDK_CONFIG_DRAM_NODE,           /* Parameters: Node */
-    BDK_CONFIG_DDR_UDIMM_SPEED,     /* Parameters: Node */
-    BDK_CONFIG_DDR_RDIMM_SPEED,     /* Parameters: Node */
+    BDK_CONFIG_DDR_SPEED,           /* Parameters: Node */
     BDK_CONFIG_DDR_ALT_REFCLK,      /* Parameters: Node */
     BDK_CONFIG_DRAM_VERBOSE,        /* Parameters: Node */
     BDK_CONFIG_DRAM_BOOT_TEST,      /* Parameters: Node */

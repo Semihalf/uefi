@@ -371,17 +371,13 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
             "a file in lib-dram/configs/config-*.c. FIXME",
         .ctype = BDK_CONFIG_TYPE_STR,
     },
-    [BDK_CONFIG_DDR_UDIMM_SPEED] = {
-        .format = "DDR-SPEED-UDIMM.N%d", /* Parameters: Node */
-        .help = "FIXME",
-        .ctype = BDK_CONFIG_TYPE_INT,
-        .default_value = 0, /* In MT/s */
-        .min_value = 0,
-        .max_value = 2400,
-    },
-    [BDK_CONFIG_DDR_RDIMM_SPEED] = {
-        .format = "DDR-SPEED-RDIMM.N%d", /* Parameters: Node */
-        .help = "FIXME",
+    [BDK_CONFIG_DDR_SPEED] = {
+        .format = "DDR-SPEED.N%d", /* Parameters: Node */
+        .help =
+            "Speed to use for DRAM in MT/s. Zero means use the factory\n"
+            "default. Hardware may adjust this value slightly to improve\n"
+            "DRAM stability, so scope measurements may not exactly match\n"
+            "the frequency with MT/s.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* In MT/s */
         .min_value = 0,

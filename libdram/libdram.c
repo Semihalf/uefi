@@ -150,6 +150,15 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
     int errs;
 
+    /* If the speed wasn't specified as a parameter, attempt to get it from
+       bdk-config. If it isn't there, we'll use the value from the structure */
+    if (ddr_clock_override == 0)
+    {
+        ddr_clock_override = bdk_config_get_int(BDK_CONFIG_DDR_SPEED, node);
+        if (ddr_clock_override)
+            ddr_clock_hertz = ddr_clock_override * 1000000 / 2;
+    }
+
     // look for an envvar or board config option to select 100 MHz or default to 50 MHz refclk
     // assumption: the alternate refclk is setup for 100MHz
     // note: we only need to turn on the alternate refclk select bit in LMC0
