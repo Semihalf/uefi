@@ -1,0 +1,64 @@
+/dts-v1/;
+
+/ {
+chosen {
+cavium-bdk {
+	/* PHY address encoding:
+	    Bits[31:24]: Node ID, 0xff for node the etherent device is on
+	    Bits[23:16]: Only used for TWSI
+	    Bits[15:12]: PHY connection type (0=MDIO, 1=Fixed, 2=TWSI)
+	For MDIO:
+	    Bits[31:24]: Node ID, 0xff for node the etherent device is on
+	    Bits[23:16]: 0
+	    Bits[15:12]: 0=MDIO
+	    Bits[11:8]: MDIO bus number
+	    Bits[7:0]: MDIO address
+	For Fixed:
+	    Bits[31:24]: 0
+	    Bits[23:16]: Zero
+	    Bits[15:12]: 1=Fixed
+	    Bits[11:0]:  0 = 1Gb, 1 = 100Mb
+	For TWSI:
+	    Bits[31:24]: Node ID, 0xff for node the etherent device is on
+	    Bits[23:16]: TWSI internal address width in bytes (0-2)
+	    Bits[15:12]: 2=TWSI
+	    Bits[11:8]: TWSI bus number
+	    Bits[7:0]: TWSI address */
+	// When board is running as Node 0
+	// BGX0 (QLM0) PHY addresses
+	PHY-ADDRESS.N0.BGX0.P0 = "0xff000108";
+	PHY-ADDRESS.N0.BGX0.P1 = "0xff000109";
+	PHY-ADDRESS.N0.BGX0.P2 = "0xff00010a";
+	PHY-ADDRESS.N0.BGX0.P3 = "0xff00010b";
+	// BGX1 (QLM1) PHY addresses
+	PHY-ADDRESS.N0.BGX1.P0 = "0xff00010c";
+	PHY-ADDRESS.N0.BGX1.P1 = "0xff00010d";
+	PHY-ADDRESS.N0.BGX1.P2 = "0xff00010e";
+	PHY-ADDRESS.N0.BGX1.P3 = "0xff00010f";
+
+	/* Determine how multi-node is supported for this system:
+	    0 = Multi-node is not supported
+	    1 = Multi-node is supported and booting requires two nodes
+	    2 = Multi-node is auto detected. Two nodes are used if
+		if available, otherwise fall back to single node. */
+	MULTI-NODE = "0";
+
+	/* For Cavium evaluation boards, query the MCU for QLM setup
+	information. The MCU supplies a TWSI protocol for THUNDERX to
+	query the modules plugged in and automatically set the QLMs to
+	the correct mode. This should only be enabled(1) on Cavium
+	EBB8XXX boards. Other boards should have it disabled(0). */
+	QLM-AUTO-CONFIG = "1";
+
+	/* DRAM configuration name to use for the board. This coresponds to
+	a file in lib-dram/configs/config-*.c. FIXME */
+	DDR-CONFIG = "ebb8604";
+
+	/* Specify the debug logging level during DRAM initialization. Zero
+	disables debug logging. The possible debug levels are:
+	    TBD */
+	//DDR-VERBOSE = "0";
+};
+};
+};
+
