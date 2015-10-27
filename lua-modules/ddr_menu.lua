@@ -5,11 +5,6 @@ require("utils")
 require("menu")
 require("fileio")
 
-local getenv = os.getenv
-if cavium.global then
-    getenv = cavium.global.os.getenv
-end
-
 local dram_enabled = (cavium.csr.LMCX_DDR_PLL_CTL(0).RESET_N ~= 0)
 if cavium.is_platform(cavium.PLATFORM_EMULATOR) then
     dram_enabled= true
@@ -32,15 +27,15 @@ m:item_node() -- Adds option to choose the node number
 
 local function update_verbose_label()
     local label = "Toggle verbose output (Currently OFF)"
-    if getenv("ddr_verbose") then
+    if cavium.c.bdk_config_get_int(cavium.CONFIG_DRAM_VERBOSE) ~= 0 then
         label = "Toggle verbose output (Currently ON)"
     end
     m:item("verbose", label, function()
         local value = cavium.c.bdk_config_get_int(cavium.CONFIG_DRAM_VERBOSE)
         if value ~= 0 then
-            cavium.c.bdk_config_set_int(cavium.CONFIG_DRAM_VERBOSE, 0)
+            cavium.c.bdk_config_set_int(0, cavium.CONFIG_DRAM_VERBOSE)
         else
-            cavium.c.bdk_config_set_int(cavium.CONFIG_DRAM_VERBOSE, 1)
+            cavium.c.bdk_config_set_int(1, cavium.CONFIG_DRAM_VERBOSE)
         end
         update_verbose_label()
     end)
