@@ -52,9 +52,9 @@
  *     EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <stddef.h>
-#include <stdint.h>
-#include <string.h>
+#ifndef __BDK_H__
+#include <bdk.h>
+#endif
 
 #ifdef __CHECKER__
 #define __force __attribute__((force))
@@ -79,29 +79,29 @@ typedef uint64_t __bitwise fdt64_t;
 
 static inline uint16_t fdt16_to_cpu(fdt16_t x)
 {
-	return (__force uint16_t)CPU_TO_FDT16(x);
+	return bdk_be16_to_cpu(x);
 }
 static inline fdt16_t cpu_to_fdt16(uint16_t x)
 {
-	return (__force fdt16_t)CPU_TO_FDT16(x);
+	return bdk_cpu_to_be16(x);
 }
 
 static inline uint32_t fdt32_to_cpu(fdt32_t x)
 {
-	return (__force uint32_t)CPU_TO_FDT32(x);
+	return bdk_be32_to_cpu(x);
 }
 static inline fdt32_t cpu_to_fdt32(uint32_t x)
 {
-	return (__force fdt32_t)CPU_TO_FDT32(x);
+	return bdk_cpu_to_be32(x);
 }
 
 static inline uint64_t fdt64_to_cpu(fdt64_t x)
 {
-	return (__force uint64_t)CPU_TO_FDT64(x);
+	return bdk_be64_to_cpu(x);
 }
 static inline fdt64_t cpu_to_fdt64(uint64_t x)
 {
-	return (__force fdt64_t)CPU_TO_FDT64(x);
+	return bdk_cpu_to_be64(x);
 }
 #undef CPU_TO_FDT64
 #undef CPU_TO_FDT32
