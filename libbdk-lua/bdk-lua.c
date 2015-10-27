@@ -9,6 +9,10 @@
 #include <string.h>
 #endif
 
+#ifndef MFG_SYSTEM_LEVEL_TEST
+#define MFG_SYSTEM_LEVEL_TEST 0
+#endif
+
 /**
  * This is the main enotry point for Lua, defined in liblua. It
  * should not be used directly.
@@ -115,6 +119,13 @@ int bdk_lua_start(void)
         NULL,
         NULL,
     };
+
+    if (MFG_SYSTEM_LEVEL_TEST)
+    {
+        init_paths[0] = "/ram/screen.lua";
+        init_paths[1] = "/fatfs/lua/screen.lua";
+        init_paths[2] = "/rom/screen.lua";
+    }
 
     int init_file = 0;
     while (init_paths[init_file])
