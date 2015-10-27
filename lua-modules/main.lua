@@ -68,7 +68,6 @@ end
 
 local m = menu.new("Main Menu")
 m:item("qlm",   "SERDES configuration",     menu.dofile, "qlm_menu")
-m:item("config","Software configuration",   menu.dofile, "config_menu")
 m:item("file",  "File options",             menu.dofile, "file")
 m:item("ddr",   "DDR options",              menu.dofile, "ddr_menu")
 m:item("pcie",  "PCIe options",             menu.dofile, "pcie_menu")
