@@ -146,6 +146,12 @@ void __bdk_init_main(int argc, void *argv)
        will not be run on the other nodes */
     if (bdk_is_boot_core())
     {
+        BDK_TRACE(INIT, "N%d: Setup environment\n", node);
+        extern char **environ;
+        environ = calloc(sizeof(*environ), 1);
+        if (!environ)
+            bdk_error("Failed to allocate environment, setenv will crash\n");
+
         if (BDK_IS_REQUIRED(DRIVER))
         {
             BDK_TRACE(INIT, "N%d: Registering drivers\n", node);
@@ -154,13 +160,10 @@ void __bdk_init_main(int argc, void *argv)
 
         BDK_TRACE(INIT, "N%d: Performing common initialization\n", node);
 
-        __bdk_config_init(); /* Some config setting are dynamically updated */
-
-        BDK_TRACE(INIT, "N%d: Setup environment\n", node);
-        extern char **environ;
-        environ = calloc(sizeof(*environ), 1);
-        if (!environ)
-            bdk_error("Failed to allocate environment, setenv will crash\n");
+        /* Load all file systems */
+        __bdk_fs_init_late();
+        /* Some config setting are dynamically updated */
+        __bdk_config_init();
 
         if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
         {
@@ -183,9 +186,6 @@ void __bdk_init_main(int argc, void *argv)
             if (bdk_numa_exists(n))
                 __bdk_init_node(n);
         }
-
-        /* Load all file systems */
-        __bdk_fs_init_late();
 
         /* Core 0 start main as another thread. We create a new thread so that
             the coremask will allow all cores in case the application
