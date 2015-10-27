@@ -1,5 +1,6 @@
 #include <bdk.h>
 #include <malloc.h>
+#include <ctype.h>
 
 #define HEADER_MAGIC 0x585245444e554854L
 
@@ -147,7 +148,21 @@ int bdk_image_boot(const char *filename, uint64_t loc, uint64_t image_arg2)
        two '\0' in a row. */
     static char image_env[64] = { 0 };
     const char  *board = bdk_config_get_str(BDK_CONFIG_BOARD_MODEL);
-    snprintf(image_env, sizeof(image_env), "BOARD=%s", board ? board : "none");
+    /* FIXME: The SDK currently (10/22/2015) has hard coded string matching
+       based on board names. We need to fixup CRB strings to match. We also
+       have to force the strings to lower case. This is a crazy ugly hack */
+    if (strcasecmp(board, "CRB-1S") == 0)
+        board = "crb_1s";
+    if (strcasecmp(board, "CRB-2S") == 0)
+        board = "crb_2s";
+    snprintf(image_env, sizeof(image_env), "BOARD=%s", board);
+    char *ptr = image_env + 6; /* Skip BOARD= */
+    while (*ptr)
+    {
+        *ptr = tolower((int)*ptr);
+        ptr++;
+    }
+    /* FIXME: End of board string hacks */
 
     bdk_jump_address(bdk_ptr_to_phys(image), bdk_ptr_to_phys(image_env), image_arg2);
     /* Should never get here */
