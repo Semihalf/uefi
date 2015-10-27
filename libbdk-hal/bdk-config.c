@@ -984,8 +984,17 @@ void __bdk_config_init(void)
     /* Create the global device tree used to store config items */
     config_setup_fdt();
 
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
+    {
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+            bdk_config_set_str("ASIM-CN88XX", BDK_CONFIG_BOARD_MODEL);
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+            bdk_config_set_str("ASIM-CN83XX", BDK_CONFIG_BOARD_MODEL);
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+            bdk_config_set_str("ASIM-CN81XX", BDK_CONFIG_BOARD_MODEL);
+    }
     /* Load manufacturing data from the top 64KB of flash */
-    if (config_load_file("/boot", BDK_CONFIG_MANUFACTURING_ADDRESS) != 0)
+    else if (config_load_file("/boot", BDK_CONFIG_MANUFACTURING_ADDRESS) != 0)
     {
         printf("\33[1m"); /* Bold */
         bdk_warn("\n");
