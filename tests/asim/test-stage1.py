@@ -26,10 +26,10 @@ UART0PORT = str(pipe_w)
 UART1PORT = "1"
 os.environ["UART0PORT"] = UART0PORT
 os.environ["UART1PORT"] = UART1PORT
-os.environ["BIN_IMAGE"] = BDK_ROOT + "/target-bin/normal-generic.bin"
+os.environ["BIN_IMAGE"] = BDK_ROOT + "/target-bin/bdk.bin"
 os.environ["SYMBOL_IMAGE"] = BDK_ROOT + "/apps/diagnostics/app"
 if not "ASIM_CHIP" in os.environ:
-    os.environ["ASIM_CHIP"] = "CN88XX:2.0"
+    os.environ["ASIM_CHIP"] = "CN88XX:1.0"
 #
 # Load the simulator
 #
@@ -77,22 +77,25 @@ wait_for("SCLK:  800 Mhz")
 wait_for("Boot:  SPI24(5)")
 wait_for("VRM:   Enabled")
 wait_for("Trust: Disabled")
+wait_for("Press 'B' within 10 seconds for boot menu")
+send("b")
+
 wait_for("============")
 wait_for("Boot Options")
 wait_for("============")
+wait_for("N) Boot Normally")
 wait_for("S) Enter Setup")
+wait_for("D) Enter Diagnostics")
 wait_for("E) Enter Diagnostics, skipping Setup")
 wait_for("F) Select Image from Flash")
 wait_for("X) Upload File to FatFS using Xmodem")
 wait_for("W) Burn boot flash using Xmodem")
 wait_for("U) Change baud rate and flow control")
-
+wait_for("R) Reboot")
 wait_for("Choice:")
 
 send("e")
 wait_for("Loading image file '/fatfs/diagnostics.bin'")
-wait_for("    Verifying image")
-wait_for("    Jumping to image at")
 wait_for("---")
 wait_for("Cavium THUNDERX")
 wait_for("PASS: CRC32 verification")
