@@ -1,8 +1,7 @@
 /dts-v1/;
 
 / {
-chosen {
-cavium-bdk {
+cavium,bdk {
 	/* THUNDERX TWSI port connected to the BMC for IPMI traffic.
 	-1 = No connection exists. 0+ is TWSI bus number. */
 	//BMC-TWSI = "5";
@@ -202,7 +201,6 @@ cavium-bdk {
 	during USB reset events. The default value assumes THUNDERX has no
 	control of the USB power and it is always on. */
 	//USB-PWR-GPIO.N%d.PORT%d = "-1";
-};
 };
 };
 

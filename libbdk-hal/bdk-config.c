@@ -684,8 +684,7 @@ void bdk_config_help(void)
     printf("/dts-v1/;\n");
     printf("\n");
     printf("/ {\n");
-    printf("chosen {\n");
-    printf("cavium-bdk {\n");
+    printf("cavium,bdk {\n");
     for (bdk_config_t cfg = 0; cfg < __BDK_CONFIG_END; cfg++)
     {
         /* Print the help text as a comment before the entry */
@@ -719,8 +718,7 @@ void bdk_config_help(void)
         }
         printf("\";\n");
     }
-    printf("}; /* cavium-bdk */\n");
-    printf("}; /* chosen */\n");
+    printf("}; /* cavium,bdk */\n");
     printf("}; /* / */\n");
 }
 
@@ -821,12 +819,9 @@ static void config_setup_fdt(void)
         bdk_fatal("Unable to allocate memory for config FDT\n");
     if (fdt_create_empty_tree(config_fdt, FDT_SIZE) < 0)
         bdk_fatal("Unable to create FDT for config\n");
-    int chosen = fdt_add_subnode(config_fdt, 0, "chosen");
-    if (chosen < 0)
-        bdk_fatal("Unable to create chosen node in FDT\n");
-    config_node = fdt_add_subnode(config_fdt, chosen, "cavium-bdk");
+    config_node = fdt_add_subnode(config_fdt, 0, "cavium,bdk");
     if (config_node < 0)
-        bdk_fatal("Unable to create cavium-bdk node in FDT\n");
+        bdk_fatal("Unable to create cavium,bdk node in FDT\n");
 }
 
 /**
@@ -934,7 +929,7 @@ static int config_load_file(const char *filename, uint64_t offset)
     }
 
     /* Parse the device tree, adding its configuration to ours */
-    if (config_parse_fdt(fdt, "/chosen/cavium-bdk"))
+    if (config_parse_fdt(fdt, "/cavium,bdk"))
     {
         free(fdt);
         return -1;

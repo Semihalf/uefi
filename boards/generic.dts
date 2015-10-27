@@ -1,8 +1,7 @@
 /dts-v1/;
 
 / {
-chosen {
-cavium-bdk {
+cavium,bdk {
 	/* Board model number. This is used to determine the name of the
 	configuration file containing the boards default settings. This
 	parameter is stored in a static board manufacturing area at the
@@ -226,7 +225,6 @@ cavium-bdk {
 	/* Time to settle after each movement in microseconds. The
 	default value should be good for most cases. */
 	//QLM-EYE-SETTLE-TIME = "0x32";
-};
 };
 };
 

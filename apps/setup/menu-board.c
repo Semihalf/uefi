@@ -17,16 +17,10 @@ static void write_board_fdt(bdk_menu_t *parent, char key, void *arg)
         bdk_error("Unable to create FDT for board\n");
         goto cleanup;
     }
-    int chosen = fdt_add_subnode(fdt, 0, "chosen");
-    if (chosen < 0)
-    {
-        bdk_error("Unable to create chosen node in FDT\n");
-        goto cleanup;
-    }
-    int node = fdt_add_subnode(fdt, chosen, "cavium-bdk");
+    int node = fdt_add_subnode(fdt, 0, "cavium,bdk");
     if (node < 0)
     {
-        bdk_error("Unable to create cavium-bdk node in FDT\n");
+        bdk_error("Unable to create cavium,bdk node in FDT\n");
         goto cleanup;
     }
 

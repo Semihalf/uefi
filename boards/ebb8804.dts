@@ -1,8 +1,7 @@
 /dts-v1/;
 
 / {
-chosen {
-cavium-bdk {
+cavium,bdk {
 	/* PHY address encoding:
 	    Bits[31:24]: Node ID, 0xff for node the ethernet device is on
 	    Bits[23:16]: Only used for TWSI
@@ -70,7 +69,6 @@ cavium-bdk {
 	disables debug logging. The possible debug levels are:
 	    TBD */
 	//DDR-VERBOSE = "0";
-};
 };
 };
 

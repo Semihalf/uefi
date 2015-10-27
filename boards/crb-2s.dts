@@ -3,12 +3,10 @@
 /include/ "crb-2s-common.dtsi"
 
 / {
-chosen {
-cavium-bdk {
+cavium,bdk {
 	/* The 100Mhz reference clock was only supported on the EVT4 and later
 	designs */
 	DDR-ALT-REFCLK = "100";
-};
 };
 };
 
