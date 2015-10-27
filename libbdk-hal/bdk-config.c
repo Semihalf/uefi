@@ -830,6 +830,13 @@ static int config_load_file(const char *filename, uint64_t offset)
         return -1;
     }
 
+    if (fdt_check_header(fdt))
+    {
+        bdk_error("Invalid FDT header read from %s\n", filename);
+        free(fdt);
+        return -1;
+    }
+
     /* Make sure we read enough data to contain the FDT */
     int correct_size = fdt_totalsize(fdt);
     if (count < correct_size)
