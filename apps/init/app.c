@@ -267,10 +267,6 @@ int main(int argc, const char **argv)
 {
     bdk_node_t node = bdk_numa_local();
 
-    if (bdk_loadenv(NULL))
-        bdk_warn("Could not read environment variables from config file. "
-                 "Will use empty configuration...\n");
-
     /* Enable watchdog. Must be after loading the config so we know the
        watchdog timeout */
     bdk_watchdog_set(0);

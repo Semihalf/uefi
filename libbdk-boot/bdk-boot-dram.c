@@ -15,18 +15,9 @@ void bdk_boot_dram(bdk_node_t node, int prompt_for_speed)
         return;
 
     /* Lookup the DRAM config to use */
-    const char *dram_config = bdk_brd_cfg_get_str(NULL, BDK_BRD_CFG_DRAM_NODE, node);
+    const char *dram_config = bdk_config_get_str(BDK_CONFIG_DRAM_NODE, node);
     if (dram_config == NULL)
         return;
-
-    /* Make sure the DRAM verbose level is set correctly */
-    int dram_verbose = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DRAM_VERBOSE);
-    if (dram_verbose)
-    {
-        char buf[8];
-        snprintf(buf, sizeof(buf), "%d", dram_verbose);
-        setenv("ddr_verbose", buf, 1);
-    }
 
     /* Prompt for the speed if necessary */
     int dram_speed = 0;
@@ -58,7 +49,7 @@ void bdk_boot_dram(bdk_node_t node, int prompt_for_speed)
     printf("Node %d: DRAM: %d MB, %u MHz\n", node, mbytes, freq);
 
     /* See if we should test this node's DRAM during boot */
-    int test_dram = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DRAM_BOOT_TEST, node);
+    int test_dram = bdk_config_get_int(BDK_CONFIG_DRAM_BOOT_TEST, node);
     if (test_dram)
     {
         /* Wake up one core on the other node */

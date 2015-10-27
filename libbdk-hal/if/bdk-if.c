@@ -353,8 +353,13 @@ bdk_if_link_t bdk_if_link_get(bdk_if_handle_t handle)
 bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
 {
     static bdk_rlock_t link_lock = { 0, 0 };
+    static int show_links = -1;
 
     bdk_rlock_lock(&link_lock);
+
+    if (show_links == -1)
+        show_links = bdk_config_get_int(BDK_CONFIG_SHOW_LINK_STATUS);
+
     bdk_if_link_t link_info = __bdk_if_ops[handle->iftype]->if_link_get(handle);
 
     if (link_info.u64 != handle->link_info.u64)
@@ -362,7 +367,7 @@ bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle)
         handle->link_info = link_info;
         if (__bdk_if_ops[handle->iftype]->if_link_set)
             __bdk_if_ops[handle->iftype]->if_link_set(handle, handle->link_info);
-        if (bdk_config_get_int(BDK_CONFIG_SHOW_LINK_STATUS))
+        if (show_links)
         {
             printf("%s: Link %s", bdk_if_name(handle), (link_info.s.up) ? "up" : "down");
             if (link_info.s.up)

@@ -18,7 +18,6 @@
 #define MAX_X           128 /* Maximum X location (time axis) */
 #define MIN_Y           -31 /* Minimum Y location (voltage axis) */
 #define MAX_Y           31  /* Maximum Y location (voltage axis) */
-#define FIND_NUM_ZEROS  2   /* Number of sequencial zeros to trigger finding the eye */
 
 /**
  * Get the error counter for the current sample location
@@ -118,7 +117,7 @@ static void ShadowPIVEnable(bdk_node_t node, int qlm, int lane, int enable)
 static void eye_move_location(bdk_node_t node, int qlm, int lane, int x, int y)
 {
     /* Time (us) to settle between location movements (Default 50us) */
-    const int SETTLE_TIME = bdk_brd_cfg_get_int(50, BDK_QLM_CFG_EYE_SETTLE_TIME);
+    const int SETTLE_TIME = bdk_config_get_int(BDK_CONFIG_EYE_SETTLE_TIME);
 
     /* Extract the current Y location from DWC_RX_CFG_4[13:8] */
     int current_y;
@@ -183,7 +182,7 @@ static void eye_move_location(bdk_node_t node, int qlm, int lane, int x, int y)
 static uint32_t eye_measure_errors(bdk_node_t node, int qlm, int lane, int x, int y)
 {
     /* Time (us) to count errors at each location (default 400us) */
-    const int SAMPLE_TIME = bdk_brd_cfg_get_int(400, BDK_QLM_CFG_EYE_SAMPLE_TIME);
+    const int SAMPLE_TIME = bdk_config_get_int(BDK_CONFIG_EYE_SAMPLE_TIME);
 
     eye_move_location(node, qlm, lane, x, y);
     ErrorCounterEnable(node, qlm, lane, 1);
@@ -228,7 +227,7 @@ int __bdk_qlm_eye_capture_cn8xxx(bdk_node_t node, int qlm, int lane, bdk_qlm_eye
 
     printf("Searching for eye...\n");
     /* Number of consecutive zeros that signals an eye (default 2) */
-    const int NUM_ZEROS = bdk_brd_cfg_get_int(FIND_NUM_ZEROS, BDK_QLM_CFG_EYE_ZEROS);
+    const int NUM_ZEROS = bdk_config_get_int(BDK_CONFIG_EYE_ZEROS);
 
     int zero_location = -1; /* Location of the eye */
     /* Step through all rotations looking for the eye */

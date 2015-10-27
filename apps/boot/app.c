@@ -138,22 +138,6 @@ int main(void)
         bdk_version_string());
     bdk_boot_info_strapping(bdk_numa_master());
 
-    /* Check if the board static manufacturing data is present */
-    if (0)
-        goto menu;
-
-    /* Load the board static manufacturing data. Display the board data to the
-        user */
-    if (0)
-        goto menu;
-
-    /* Check if a board configuration "dev-tree/default.dtb" and load it */
-    if (bdk_loadenv(NULL))
-    {
-        is_misconfigured = 1;
-        goto menu;
-    }
-
     if (MFG_SYSTEM_LEVEL_TEST)
     {
         bdk_bist_check();
@@ -161,14 +145,14 @@ int main(void)
     }
 
     /* If no DRAM config got the boot menu */
-    const char *dram_config = bdk_brd_cfg_get_str(NULL, BDK_BRD_CFG_DRAM_NODE, node);
+    const char *dram_config = bdk_config_get_str(BDK_CONFIG_DRAM_NODE, node);
     if (dram_config == NULL)
     {
         is_misconfigured = 1;
         goto menu;
     }
 
-    int boot_timeout = bdk_brd_cfg_get_int(3, "BOOT-MENU-TIMEOUT");
+    int boot_timeout = bdk_config_get_int(BDK_CONFIG_BOOT_MENU_TIMEOUT);
     printf("\nPress 'B' within %d seconds for boot menu\n", boot_timeout);
     int key;
     do

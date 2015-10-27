@@ -6,7 +6,6 @@ require("cavium")
 require("trafficgen")
 local bit64 = require("bit64")
 
-local set_config = cavium.c.bdk_config_set
 local node = 0
 local all_pass = true
 local bist_failures = 0

@@ -13,7 +13,7 @@ static void boot_init_qlm_clk(void)
         BDK_TRACE(INIT, "Initializing QLM clocks on Node %d\n", n);
         for (int qlm = 0; qlm < num_qlms; qlm++)
         {
-            bdk_qlm_clock_t clk = bdk_brd_cfg_get_int(BDK_QLM_CLK_LAST, BDK_BRD_CFG_QLM_CLK, n, qlm);
+            bdk_qlm_clock_t clk = bdk_config_get_int(BDK_CONFIG_QLM_CLK, n, qlm);
             if (BDK_QLM_CLK_LAST == clk) /* no entry */
                 continue;
 
@@ -36,7 +36,7 @@ static void boot_init_qlm_clk(void)
 static void boot_init_qlm_mode(void)
 {
     /* Check if QLM autoconfig is requested */
-    int qlm_auto = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_QLM_MODE_AUTO_CONFIG);
+    int qlm_auto = bdk_config_get_int(BDK_CONFIG_QLM_AUTO_CONFIG);
     if (qlm_auto)
     {
         /* Auto configuration of QLMs
@@ -66,7 +66,7 @@ static void boot_init_qlm_mode(void)
             {
                 const char *cfg_val;
 
-                cfg_val = bdk_brd_cfg_get_str(NULL, BDK_BRD_CFG_QLM_MODE, n, qlm);
+                cfg_val = bdk_config_get_str(BDK_CONFIG_QLM_MODE, n, qlm);
                 if (!cfg_val)
                     continue;
 
@@ -77,7 +77,7 @@ static void boot_init_qlm_mode(void)
                                 "Not configuring.\n", cfg_val, qlm, n);
                     continue;
                 }
-                int freq = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_FREQ, n, qlm);
+                int freq = bdk_config_get_int(BDK_CONFIG_QLM_FREQ, n, qlm);
                 if (-1 == freq)
                 {
                     bdk_error("No frequency setting for QLM%d on node %d. "

@@ -146,7 +146,7 @@ int bdk_image_boot(const char *filename, uint64_t loc, uint64_t image_arg2)
        series of NAME=VALUE pairs separated by '\0'. The end is marked with
        two '\0' in a row. */
     static char image_env[64] = { 0 };
-    const char  *board = bdk_brd_cfg_get_str("not-defined", BDK_BRD_CFG_BOARD);
+    const char  *board = bdk_config_get_str(BDK_CONFIG_BOARD_MODEL);
     snprintf(image_env, sizeof(image_env), "BOARD=%s", board ? board : "none");
 
     bdk_jump_address(bdk_ptr_to_phys(image), bdk_ptr_to_phys(image_env), image_arg2);

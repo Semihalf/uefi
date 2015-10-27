@@ -16,7 +16,7 @@
 void bdk_watchdog_set(unsigned int timeout_ms)
 {
     if (timeout_ms == 0)
-        timeout_ms = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_WATCHDOG_TIMEOUT);
+        timeout_ms = bdk_config_get_int(BDK_CONFIG_WATCHDOG_TIMEOUT);
 
     if (timeout_ms > 0)
     {

@@ -1174,7 +1174,7 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
         BDK_CSR_INIT(pre_emphasis, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane));
 
         /* TX Swing: First read any board specific setting from the environment */
-        int swing = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_SWING, node, qlm, lane);
+        int swing = bdk_config_get_int(BDK_CONFIG_QLM_TUNING_TX_SWING, node, qlm, lane);
         /* If no setting, use hard coded generic defaults */
         if ((swing == -1) && !cfg_1.s.tx_swing_ovrrd_en)
         {
@@ -1212,7 +1212,7 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
         }
 
         /* TX Premptap: First read any board specific setting from the environment */
-        int premptap = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_PREMPTAP, node, qlm, lane);
+        int premptap = bdk_config_get_int(BDK_CONFIG_QLM_TUNING_TX_PREMPTAP, node, qlm, lane);
         /* If no setting, use hard coded generic defaults */
         if ((premptap == -1) && !cfg_1.s.tx_premptap_ovrrd_val)
         {
@@ -1250,7 +1250,7 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
         }
 
         /* Apply TX gain settings */
-        int gain = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_GAIN, node, qlm, lane);
+        int gain = bdk_config_get_int(BDK_CONFIG_QLM_TUNING_TX_GAIN, node, qlm, lane);
         if (gain != -1)
         {
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_3(qlm, lane),
@@ -1259,7 +1259,7 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
         }
 
         /* Apply TX vboost settings */
-        int vboost = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_VBOOST, node, qlm, lane);
+        int vboost = bdk_config_get_int(BDK_CONFIG_QLM_TUNING_TX_VBOOST, node, qlm, lane);
         if (vboost != -1)
         {
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_3(qlm, lane),

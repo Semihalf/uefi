@@ -13,7 +13,6 @@
 #include "bdk-thread.h"
 #include "bdk-fs.h"
 #include "bdk-init.h"
-#include "bdk-env.h"
 #endif
 #include "bdk-menu.h"
 #include "bdk-readline.h"

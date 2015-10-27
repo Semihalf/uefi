@@ -49,7 +49,7 @@ int bdk_pki_global_init(bdk_node_t node)
         {
             /* Set all PKNDS to be the correct SSO tag type */
             BDK_CSR_MODIFY(c, node, BDK_PKI_CLX_STYLEX_ALG(cluster, pknd),
-                c.s.tt = bdk_config_get_int(BDK_SSO_TT_E_UNTAGGED));
+                c.s.tt = BDK_SSO_TT_E_UNTAGGED);
             /* Set all PKNDS to use style of same number */
             BDK_CSR_MODIFY(c, node, BDK_PKI_CLX_PKINDX_STYLE(cluster, pknd),
                 c.s.pm = 0;

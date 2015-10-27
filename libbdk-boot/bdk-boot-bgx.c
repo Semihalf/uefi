@@ -15,7 +15,7 @@ void bdk_boot_bgx(void)
             {
                 for (int p = 0; p < 4; p++)
                 {
-                    int en = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_BGX_ENABLE, n, bgx, p);
+                    int en = bdk_config_get_int(BDK_CONFIG_BGX_ENABLE, n, bgx, p);
                     if (-1 != en)
                         BDK_CSR_WRITE(n, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx, p), en);
                 }

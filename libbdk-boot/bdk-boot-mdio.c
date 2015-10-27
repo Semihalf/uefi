@@ -12,7 +12,7 @@ void bdk_boot_mdio(void)
     while (index < 0x10000)
     {
         /* Look for a MDIO write string for the current index */
-        const char *str = bdk_brd_cfg_get_str(NULL, BDK_BRD_CFG_MDIO_WRITE, index);
+        const char *str = bdk_config_get_str(BDK_CONFIG_MDIO_WRITE, index);
         if (!str)
             break;
         /* Check for the special case of a sleep line specifying a delay (ms) */

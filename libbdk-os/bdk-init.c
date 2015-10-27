@@ -410,7 +410,7 @@ int bdk_init_nodes(int skip_cores, int ccpi_sw_gbaud)
     do_oci_init &= CAVIUM_IS_MODEL(CAVIUM_CN88XX);
 
     /* Check that the BDK config says multi-node is enabled */
-    if (bdk_config_get_int(BDK_CONFIG_ENABLE_MULTINODE) == 0)
+    if (bdk_config_get_int(BDK_CONFIG_MULTI_NODE) == 0)
         do_oci_init = 0;
 
     /* Simulation under Asim is a special case. Multi-node is simulaoted, but

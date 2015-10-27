@@ -339,7 +339,7 @@ const dram_config_t *dram_get_config_crb_2s_V3(void)
     cfg->name = DEFAULT_NAME;
     cfg->ddr_clock_hertz = DEFAULT_RDIMM_SPEED;
 
-    int rdim_speed = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DDR_RDIMM_SPEED, 0);
+    int rdim_speed = bdk_config_get_int(BDK_CONFIG_DDR_RDIMM_SPEED, 0);
     if (rdim_speed)
         cfg->ddr_clock_hertz = rdim_speed;
 
@@ -380,7 +380,7 @@ const dram_config_t *dram_get_config_crb_2s_V3(void)
         cfg->config[3].dimm_config_table[0].spd_addrs[0] = 0x2053;
     }
 
-    int udimm_speed = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DDR_UDIMM_SPEED, 0);
+    int udimm_speed = bdk_config_get_int(BDK_CONFIG_DDR_UDIMM_SPEED, 0);
     if (!udimm_speed)
         udimm_speed = DEFAULT_UDIMM_SPEED;
 

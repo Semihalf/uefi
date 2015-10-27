@@ -13,7 +13,7 @@ static int boot_status_twsi = -1;
 static void init_twsi_slave(void)
 {
     boot_status_node = bdk_numa_local();
-    boot_status_twsi = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_BMC_TWSI);
+    boot_status_twsi = bdk_config_get_int(BDK_CONFIG_BMC_TWSI);
 
     if (boot_status_twsi == -1)
         return;

@@ -12,7 +12,7 @@ void bdk_boot_twsi(void)
     while (index < 0x10000)
     {
         /* Look for a TWSI write string for the current index */
-        const char *str = bdk_brd_cfg_get_str(NULL, BDK_BRD_CFG_TWSI_WRITE, index);
+        const char *str = bdk_config_get_str(BDK_CONFIG_TWSI_WRITE, index);
         if (!str)
             break;
         /* Check for the special case of a sleep line specifying a delay (ms) */

@@ -116,11 +116,6 @@ int bdk_lua_start(void)
         NULL,
     };
 
-    /* Read saved environment variables form config file. */
-    if (bdk_loadenv(NULL)) /* NULL == default filename */
-        bdk_warn("Could not read environment variables from config file. "
-                 "Will continue with defaults...\n");
-
     int init_file = 0;
     while (init_paths[init_file])
     {

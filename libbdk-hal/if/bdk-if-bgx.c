@@ -452,7 +452,7 @@ static int if_probe(bdk_if_handle_t handle)
 
 static int get_phy_address(bdk_if_handle_t handle)
 {
-    return (int)bdk_config_get_int(BDK_CONFIG_PHY_IF0_PORT0 + handle->interface * 4 + handle->index);
+    return bdk_config_get_int(BDK_CONFIG_PHY_ADDRESS, handle->node, handle->interface, handle->index);
 }
 
 static int sgmii_link(bdk_if_handle_t handle)

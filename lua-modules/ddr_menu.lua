@@ -36,11 +36,11 @@ local function update_verbose_label()
         label = "Toggle verbose output (Currently ON)"
     end
     m:item("verbose", label, function()
-        local value = getenv("ddr_verbose")
-        if value then
-            cavium.c.bdk_setenv("ddr_verbose", nil)
+        local value = cavium.c.bdk_config_get_int(cavium.CONFIG_DRAM_VERBOSE)
+        if value ~= 0 then
+            cavium.c.bdk_config_set_int(cavium.CONFIG_DRAM_VERBOSE, 0)
         else
-            cavium.c.bdk_setenv("ddr_verbose", "1")
+            cavium.c.bdk_config_set_int(cavium.CONFIG_DRAM_VERBOSE, 1)
         end
         update_verbose_label()
     end)
@@ -49,28 +49,9 @@ if not dram_enabled then
     update_verbose_label()
 end
 
-m:item("setenv", "Set environment variable", function()
-    local name = menu.prompt_string("Name")
-    local value = menu.prompt_string("Value", "")
-    if value == "" then
-        value = nil
-    end
-    cavium.c.bdk_setenv(name, value)
-end)
-
-m:item("getenv", "Get environment variable", function()
-    local name = menu.prompt_string("Name")
-    local value = getenv(name)
-    if value then
-        printf("%s = %s\n", name, value)
-    else
-        printf("%s is not in the environment\n", name)
-    end
-end)
-
 m:item("showenv", "Show environment variables", function()
     printf("Environment variable:\n")
-    cavium.c.bdk_showenv()
+    cavium.c.bdk_config_show()
 end)
 
 -- Build a list of choice for each CONFIG
