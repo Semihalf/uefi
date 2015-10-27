@@ -27,6 +27,8 @@ void menu_dram(bdk_menu_t *parent, char key, void *arg)
     {
         { .key = 'V', .name = "DRAM Verbose level", .config = BDK_CONFIG_DRAM_VERBOSE,
             .is_num = 1 },
+        { .key = 'T', .name = "Test DRAM on boot", .config = BDK_CONFIG_DRAM_BOOT_TEST,
+            .is_num = 1 },
         { .key = 0, },
     };
     do

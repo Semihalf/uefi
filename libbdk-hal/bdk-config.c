@@ -412,7 +412,7 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .max_value = 255,
     },
     [BDK_CONFIG_DRAM_BOOT_TEST] = {
-        .format = "DDR-TEST-BOOT.N%d", /* Parameters: Node */
+        .format = "DDR-TEST-BOOT", /* No parameters */
         .help =
             "Run a short DRAM test after DRAM is initialized as quick check\n"
             "for functionality. This is normally not needed required. Boards\n"

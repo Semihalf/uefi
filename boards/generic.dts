@@ -210,7 +210,7 @@ cavium,bdk {
 	with poor DRAM power supplies may use this to detect failures
 	during boot. This should be used in combination with the watchdog
 	timer. */
-	//DDR-TEST-BOOT.N%d = "0";
+	//DDR-TEST-BOOT = "0";
 
 	/* Specify a THUNDERX GPIO used to control power for a USB port. When
 	set, the USB host controller will toggle the GPIO automatically
