@@ -8,14 +8,8 @@
 #define DIAGS_ADDRESS 0x00080000
 /* Address of ATF in flash */
 #define ATF_ADDRESS 0x00400000
-/* How long to wait for selection of diagnostics (seconds) */
-#define DIAGS_TIMEOUT 3
-/* How long to wait for selection of safe boot (seconds) */
-#define SAFE_BOOT_TIMEOUT 1
 
-#ifdef MFG_SYSTEM_LEVEL_TEST
-#define DIAGS_TIMEOUT 0
-#else
+#ifndef MFG_SYSTEM_LEVEL_TEST
 #define MFG_SYSTEM_LEVEL_TEST 0
 #endif
 
@@ -318,18 +312,6 @@ int main(int argc, const char **argv)
     /* Poke the watchdog */
     bdk_watchdog_poke();
 
-    /* Check for 'D' override */
-    int use_atf = ((long)argv != 1); /* argv=1 means jump to diagnsotics without prompting */
-    if (use_atf && (DIAGS_TIMEOUT > 0) && !bdk_is_platform(BDK_PLATFORM_EMULATOR))
-    {
-        printf("\nPress 'D' within %d seconds to boot diagnostics\n", DIAGS_TIMEOUT);
-        int key = bdk_readline_getkey(DIAGS_TIMEOUT * 1000000);
-        use_atf = !((key == 'd') || (key == 'D'));
-    }
-
-    /* Poke the watchdog */
-    bdk_watchdog_poke();
-
     if (MFG_SYSTEM_LEVEL_TEST)
     {
         printf("Manufacturing System Level Test Boot Menu:\n");
@@ -338,6 +320,7 @@ int main(int argc, const char **argv)
     }
 
     /* Send status to the BMC: Loading ATF */
+    int use_atf = ((long)argv != 1); /* argv=1 means jump to diagnsotics */
     if (use_atf)
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_LOADING_ATF);
     else
