@@ -283,18 +283,18 @@ int main(int argc, const char **argv)
 
     if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
-        bdk_boot_ccpi_link();      /* Set up CCPI */
-
         bdk_boot_dram(bdk_numa_master(), MFG_SYSTEM_LEVEL_TEST); /* Initialize DRAM on node 0 */
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
 
-        bdk_boot_ccpi_nodes();     /* Set up CCPI */
+        bdk_boot_ccpi();     /* Set up CCPI */
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_CCPI_COMPLETE);
 
         if (bdk_numa_exists(BDK_NODE_1))
+        {
             bdk_boot_info_strapping(BDK_NODE_1);
-        bdk_boot_dram(BDK_NODE_1, MFG_SYSTEM_LEVEL_TEST); /* Initialize DRAM on node 1 */
-        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
+            bdk_boot_dram(BDK_NODE_1, MFG_SYSTEM_LEVEL_TEST); /* Initialize DRAM on node 1 */
+            bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
+        }
 
         bdk_boot_qlm();
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_QLM_COMPLETE);
