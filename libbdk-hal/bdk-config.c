@@ -702,6 +702,55 @@ void bdk_config_help(void)
     printf("}; /* / */\n");
 }
 
+
+/**
+ * Save the current configuration to flash
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_config_save(void)
+{
+    /* Pack the FDT so it uses less space */
+    int status = fdt_pack(config_fdt);
+    if (status < 0)
+    {
+        bdk_error("FDT error %d: %s\n", status, fdt_strerror(status));
+        return -1;
+    }
+
+    /* Calculate a CRC32 of the FDT */
+    int fdt_size = fdt_totalsize(config_fdt);
+    uint32_t crc32 = bdk_crc32(config_fdt, fdt_size, 0);
+
+    /* Open the output file */
+    FILE *outf = fopen("/fatfs/default.dtb", "wb");
+    if (!outf)
+    {
+        bdk_error("Failed to open flash");
+        return -1;
+    }
+
+    /* Write the FDT */
+    if (fwrite(config_fdt, fdt_size, 1, outf) != 1)
+    {
+        bdk_error("Failed to write FDT");
+        fclose(outf);
+        return -1;
+    }
+
+    /* Save the CRC32 in the same endianness as the FDT */
+    crc32 = cpu_to_fdt32(crc32);
+    if (fwrite(&crc32, sizeof(crc32), 1, outf) != 1)
+    {
+        bdk_error("Failed to write FDT CRC32");
+        fclose(outf);
+        return -1;
+    }
+
+    fclose(outf);
+    return 0;
+}
+
 /**
  * Some of the default config values can vary based on runtime parameters. This
  * function sets those default parameters. It must be run before anyone calls

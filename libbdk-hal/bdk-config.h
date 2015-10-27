@@ -125,4 +125,11 @@ extern void bdk_config_show(void);
  */
 extern void bdk_config_help(void);
 
+/**
+ * Save the current configuration to flash
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int bdk_config_save(void);
+
 /** @} */
