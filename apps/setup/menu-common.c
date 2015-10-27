@@ -33,7 +33,7 @@ static void do_prompt(bdk_menu_t *parent, char key, void *arg)
         else
             snprintf(prompt, sizeof(prompt), "%s: ", info->name);
         const char *result = bdk_readline(prompt, NULL, 0);
-        if (result[0])
+        if (result[0] && (result[0] != 3))
             bdk_config_set_str(result, info->config);
     }
     else

@@ -84,14 +84,18 @@ void boot_menu(void)
             case 'U':
             {
                 const char *baud = bdk_readline("Baudrate: ", NULL, 0);
-                const char *flow = bdk_readline("Use hardware flow control [y/n]: ", NULL, 0);
+                if ((baud[0] == 0) || (baud[0] == 3))
+                    break;
                 int baudrate = atoi(baud);
                 if ((baudrate < 9600) || (baudrate > 4000000))
                 {
                     bdk_error("Illegal baudrate\n");
                     break;
                 }
-                int use_flow = (*flow == 'y');
+                const char *flow = bdk_readline("Use hardware flow control(y/n) [n]: ", NULL, 0);
+                if (flow[0] == 3)
+                    break;
+                int use_flow = (toupper((int)*flow) == 'Y');
                 printf("Changing baudrate to %d\n", baudrate);
                 fflush(NULL);
                 bdk_wait_usec(500000);
