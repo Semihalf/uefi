@@ -32,7 +32,7 @@ CREATE_COMMAND+=-0 "$(BDK_ROOT)/apps/boot/boot.bin"
 CREATE_COMMAND+=-1 "$(BDK_ROOT)/apps/init/init.bin"
 CREATE_COMMAND+=-2 "$(BDK_ROOT)/apps/diagnostics/diagnostics.bin"
 CREATE_COMMAND+=-3 "$(BDK_ROOT)/apps/setup/setup.bin"
-CREATE_COMMAND+=-c "$${b}/default.cfg $${b}/$${b}*.dtb"
+CREATE_COMMAND+=-c "$${b}/$${b}*.dtb"
 CREATE_COMMAND+=-l "lua-common/*.lua $${b}/lua/*.lua"
 
 #
