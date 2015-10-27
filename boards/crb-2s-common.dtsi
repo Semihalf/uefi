@@ -169,29 +169,10 @@ cavium-bdk {
 	DDR-CONFIG.N0 = "cn88xx-crb-2s-V3";
 	DDR-CONFIG.N1 = "cn88xx-crb-2s-V3";
 
-	/* FIXME */
-	DDR-SPEED-UDIMM = "1066666666";
-
-	/* FIXME */
-	DDR-SPEED-RDIMM = "940000000";
-
-	/* Set to use a an alternate reference clock for DRAM than the usual
-	50Mhz reference. The value of here specifies the frequency of the
-	alternate clock in Mhz. Currently the only supported reference
-	clock frequencies are 50Mhz and 100Mhz. */
-	//DDR-ALT-REFCLK = "0";
-
 	/* Specify the debug logging level during DRAM initialization. Zero
 	disables debug logging. The possible debug levels are:
 	    TBD */
 	//DDR-VERBOSE = "0";
-
-	/* Run a short DRAM test after DRAM is initialized as quick check
-	for functionality. This is normally not needed required. Boards
-	with poor DRAM power supplies may use this to detect failures
-	during boot. This should be used in combination with the watchdog
-	timer. */
-	DDR-TEST-BOOT = "1";
 
 	/* Specify a THUNDERX GPIO used to control power for a USB port. When
 	set, the USB host controller will toggle the GPIO automatically
