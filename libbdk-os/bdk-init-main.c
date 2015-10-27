@@ -146,12 +146,6 @@ void __bdk_init_main(int argc, void *argv)
        will not be run on the other nodes */
     if (bdk_is_boot_core())
     {
-        BDK_TRACE(INIT, "N%d: Setup environment\n", node);
-        extern char **environ;
-        environ = calloc(sizeof(*environ), 1);
-        if (!environ)
-            bdk_error("Failed to allocate environment, setenv will crash\n");
-
         if (BDK_IS_REQUIRED(DRIVER))
         {
             BDK_TRACE(INIT, "N%d: Registering drivers\n", node);
