@@ -133,9 +133,16 @@ int main(void)
         "=========================\n"
         "Firmware Version: %s\n"
         "BDK Version: %s\n"
+        "\n"
+        "Board Model:    %s\n"
+        "Board Revision: %s\n"
+        "Board Serial:   %s\n"
         "\n",
         version,
-        bdk_version_string());
+        bdk_version_string(),
+        bdk_config_get_str(BDK_CONFIG_BOARD_MODEL),
+        bdk_config_get_str(BDK_CONFIG_BOARD_REVISION),
+        bdk_config_get_str(BDK_CONFIG_BOARD_SERIAL));
     bdk_boot_info_strapping(bdk_numa_master());
 
     if (MFG_SYSTEM_LEVEL_TEST)
