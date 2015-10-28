@@ -12,6 +12,7 @@ static uint8_t bdk_fuse_read_byte(bdk_node_t node, int byte_addr)
 
     read_cmd.u = 0;
     read_cmd.s.addr = byte_addr;
+    read_cmd.s.addr_hi = byte_addr >> 8;
     read_cmd.s.pend = 1;
     BDK_CSR_WRITE(node, BDK_MIO_FUS_RCMD, read_cmd.u);
     do
