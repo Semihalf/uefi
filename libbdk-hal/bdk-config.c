@@ -436,6 +436,21 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = 0,
         .max_value = 1,
     },
+    [BDK_CONFIG_DRAM_CONFIG_GPIO] = {
+        .format = "DDR-CONFIG-GPIO", /* No parameters */
+        .help =
+            "The DRAM initialization code has the ability to toggle a GPIO to\n"
+            "signal when it is running. Boards may need to mux TWSI access\n"
+            "between a BMC and THUNDERX so the BMC can monitor DIMM temperatures\n"
+            "and health. This GPIO will be driven high when THUNDERX may read\n"
+            "from the SPDs on the DIMMs. When driven low, another device (BMC)\n"
+            "may takeover the TWSI connections to the DIMMS. The default value\n"
+            "(-1) disables this feature.",
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = -1, /* -1 = disabled, otherwise GPIO number */
+        .min_value = -1,
+        .max_value = 63,
+    },
 
     /* USB */
     [BDK_CONFIG_USB_PWR_GPIO] = {

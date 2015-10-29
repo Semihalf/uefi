@@ -145,6 +145,12 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
         return bdk_dram_get_size_mbytes(node);
 
+    /* Boards may need to mux the TWSI connection between THUNDERX and the BMC.
+       This allows the BMC to monitor DIMM temeratures and health */
+    int gpio_select = bdk_config_get_int(BDK_CONFIG_DRAM_CONFIG_GPIO);
+    if (gpio_select != -1)
+        bdk_gpio_initialize(bdk_numa_master(), gpio_select, 1, 1);
+
     const char *str;
     const ddr_configuration_t *ddr_config = dram_config->config;
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
@@ -214,6 +220,11 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     // finally, clear memory and any left-over ECC errors
     bdk_dram_clear_mem(node);
     bdk_dram_clear_ecc(node);
+
+    /* Boards may need to mux the TWSI connection between THUNDERX and the BMC.
+       This allows the BMC to monitor DIMM temeratures and health */
+    if (gpio_select != -1)
+        bdk_gpio_initialize(bdk_numa_master(), gpio_select, 1, 0);
 
     return mbytes;
 }

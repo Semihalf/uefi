@@ -212,6 +212,15 @@ cavium,bdk {
 	timer. */
 	//DDR-TEST-BOOT = "0";
 
+	/* The DRAM initialization code has the ability to toggle a GPIO to
+	signal when it is running. Boards may need to mux TWSI access
+	between a BMC and THUNDERX so the BMC can monitor DIMM temperatures
+	and health. This GPIO will be driven high when THUNDERX may read
+	from the SPDs on the DIMMs. When driven low, another device (BMC)
+	may takeover the TWSI connections to the DIMMS. The default value
+	(-1) disables this feature. */
+	//DDR-CONFIG-GPIO = "-1";
+
 	/* Specify a THUNDERX GPIO used to control power for a USB port. When
 	set, the USB host controller will toggle the GPIO automatically
 	during USB reset events. The default value assumes THUNDERX has no

@@ -58,6 +58,7 @@ typedef enum
     BDK_CONFIG_DDR_ALT_REFCLK,      /* Parameters: Node */
     BDK_CONFIG_DRAM_VERBOSE,        /* Parameters: Node */
     BDK_CONFIG_DRAM_BOOT_TEST,      /* Parameters: Node */
+    BDK_CONFIG_DRAM_CONFIG_GPIO,    /* No parameters */
 
     /* USB */
     BDK_CONFIG_USB_PWR_GPIO,        /* Parameters: Node, Port */
