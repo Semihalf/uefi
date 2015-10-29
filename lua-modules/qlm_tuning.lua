@@ -315,8 +315,59 @@ local function set_vboost(qlm)
     cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
 end
 
+local function display_tuning_state(node, qlm, lane)
+    -- Extract a number where one bits represents the sign bit
+    local function s_ext(original, start_bit, stop_bit)
+        local v = bit64.bextract(original, start_bit, stop_bit-1)
+        local sign = bit64.bextract(original, stop_bit)
+        if sign == 1 then
+            v = -v
+        end
+        return v
+    end
+    local dir_label = {}
+    local rx_aeq_out_0 = cavium.csr[node].GSERX_LANEX_RX_AEQ_OUT_0(qlm, lane).read()
+    local rx_aeq_out_1 = cavium.csr[node].GSERX_LANEX_RX_AEQ_OUT_1(qlm, lane).read()
+    local rx_aeq_out_2 = cavium.csr[node].GSERX_LANEX_RX_AEQ_OUT_2(qlm, lane).read()
+    local rx_vma_status_0 = cavium.csr[node].GSERX_LANEX_RX_VMA_STATUS_0(qlm, lane).read()
+    local sds_pin_mon_2 = cavium.csr[node].GSERX_LANEX_SDS_PIN_MON_2(qlm, lane).read()
+    local br_rxx_eer = cavium.csr[node].GSERX_BR_RXX_EER(qlm, lane).read()
+    dir_label[0] = "Hold"
+    dir_label[1] = "Inc"
+    dir_label[2] = "Dec"
+    dir_label[3] = "Hold"
+
+    printf("N%d.QLM%d Lane %d:\n", node, qlm, lane)
+    printf("    DFE Tap 1: %d, Tap 2: %d, Tap 3: %d, Tap 4: %d, Tap 5: %d\n",
+           bit64.bextract(rx_aeq_out_1, 0, 4),
+           s_ext(rx_aeq_out_1, 5, 9),
+           s_ext(rx_aeq_out_1, 10, 14),
+           s_ext(rx_aeq_out_0, 0, 4),
+           s_ext(rx_aeq_out_0, 5, 9))
+    printf("    Pre-CTLE Gain: %d, Post-CTLE Gain: %d, CTLE Peak: %d, CTLE Pole: %d\n",
+           bit64.bextract(rx_aeq_out_2, 4, 7),
+           bit64.bextract(rx_aeq_out_2, 0, 3),
+           bit64.bextract(rx_vma_status_0, 2, 6),
+           bit64.bextract(rx_vma_status_0, 0, 1))
+    printf("    Pre-emphasis Pre-cursor: %d, Post-cursor: %d\n",
+           bit64.bextract(sds_pin_mon_2, 0, 3),
+           bit64.bextract(sds_pin_mon_2, 4, 8))
+    printf("    TX Boost Enable: %d, TX Turbo Mode: %d\n",
+           bit64.bextract(sds_pin_mon_2, 10),
+           bit64.bextract(sds_pin_mon_2, 9))
+    printf("    RX Equalization Tx Directions Hints TXPRE: %s, TXMAIN: %s, TXPOST: %s, Figure of Merit: %d\n",
+           dir_label[bit64.bextract(br_rxx_eer, 0,1)],
+           dir_label[bit64.bextract(br_rxx_eer, 2,3)],
+           dir_label[bit64.bextract(br_rxx_eer, 4,5)],
+           bit64.bextract(br_rxx_eer, 6,13))
+end
+
 local function manual_rx_evaluation(qlm)
     cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
+    local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_tuning.qlm)
+    for lane=0, num_lanes-1 do
+        display_tuning_state(menu.node, qlm, lane)
+    end
 end
 
 local function do_custom(mode)
