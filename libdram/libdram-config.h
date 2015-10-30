@@ -38,11 +38,13 @@
 #ifndef __LIBDRAM_CONFIG_H__
 #define __LIBDRAM_CONFIG_H__
 
+#define DDR_CFG_T_MAX_DIMMS     2 /* ThunderX supports a max of two DIMMs per LMC */
+
 /* Structure that provides DIMM information, either in the form of an SPD TWSI address,
 ** or a pointer to an array that contains SPD data.  One of the two fields must be valid. */
 typedef struct {
-    uint16_t spd_addrs[2];  /* TWSI address of SPD, 0 if not used */
-    const uint8_t *spd_ptrs[2];   /* pointer to SPD data array, NULL if not used */
+    uint16_t spd_addrs[DDR_CFG_T_MAX_DIMMS];  /* TWSI address of SPD, 0 if not used */
+    const uint8_t *spd_ptrs[DDR_CFG_T_MAX_DIMMS];   /* pointer to SPD data array, NULL if not used */
 } dimm_config_t;
 
 typedef struct {
@@ -219,12 +221,11 @@ typedef struct {
     const rlevel_table_t *rlevel_table;
 } ddr3_custom_config_t;
 
-#define DDR_CFG_T_MAX_DIMMS     5
 typedef struct {
     dimm_config_t dimm_config_table[DDR_CFG_T_MAX_DIMMS];
-    dimm_odt_config_t odt_1rank_config[4];
-    dimm_odt_config_t odt_2rank_config[4];
-    dimm_odt_config_t odt_4rank_config[4];
+    dimm_odt_config_t odt_1rank_config[DDR_CFG_T_MAX_DIMMS];
+    dimm_odt_config_t odt_2rank_config[DDR_CFG_T_MAX_DIMMS];
+    dimm_odt_config_t odt_4rank_config[DDR_CFG_T_MAX_DIMMS];
     ddr_delay_config_t unbuffered;
     ddr_delay_config_t registered;
     ddr3_custom_config_t custom_lmc_config;
@@ -232,7 +233,7 @@ typedef struct {
 
 typedef struct {
     const char *name;
-    ddr_configuration_t config[4];
+    ddr_configuration_t config[4]; /* Indexed by LMC */
     int ddr_clock_hertz;
 } dram_config_t;
 

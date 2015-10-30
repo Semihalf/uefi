@@ -2904,7 +2904,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 
 
-    odt_idx = min(dimm_count - 1, 3);
+    odt_idx = dimm_count - 1;
 
     switch (num_ranks) {
     case 1:
