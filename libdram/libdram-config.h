@@ -216,9 +216,9 @@ typedef struct {
     uint8_t fprch2;
     uint8_t mode32b;
     uint8_t measured_vref;
-    const int8_t *dll_write_offset;
-    const int8_t *dll_read_offset;
-    const rlevel_table_t *rlevel_table;
+    const int8_t *dll_write_offset; /* Indexed by byte number (0-8, includes ecc byte) */
+    const int8_t *dll_read_offset; /* Indexed by byte number (0-8, includes ecc byte) */
+    const rlevel_table_t *rlevel_table; /* Only used if ENABLE_CUSTOM_RLEVEL_TABLE. List of DIMMs to check */
 } ddr3_custom_config_t;
 
 typedef struct {
