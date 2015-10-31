@@ -98,12 +98,22 @@ int bdk_l2c_lock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
     return 0;
 }
 
-#if 0 /* Disable bdk_l2c_flush() until implemented */
 void bdk_l2c_flush(bdk_node_t node)
 {
-}
-#endif
+    int num_sets = bdk_l2c_get_num_sets(node);
+    int num_ways = bdk_l2c_get_num_assoc(node);
 
+    for (int l2_set = 0; l2_set < num_sets; l2_set++)
+    {
+        for (int l2_way = 0; l2_way < num_ways; l2_way++)
+        {
+            uint64_t encoded = 0; /* Normal tags */
+            encoded |= l2_set << 8;
+            encoded |= l2_way << 24;
+            BDK_CACHE_WBI_L2_INDEXED(encoded);
+        }
+    }
+}
 
 int bdk_l2c_unlock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
 {
