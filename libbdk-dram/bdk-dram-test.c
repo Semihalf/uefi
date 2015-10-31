@@ -207,7 +207,8 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
             if (flags & (1 << node))
                 total_cores_all_nodes += bdk_get_num_running_cores(node);
     }
-    printf("Starting Test \"%s\" for [0x%011lx:0x%011lx] using %d core(s)\n",
+    if (!(flags & BDK_DRAM_TEST_NO_BANNERS))
+        printf("Starting Test \"%s\" for [0x%011lx:0x%011lx] using %d core(s)\n",
 	   test_info->name, start_address, end_address - 1, total_cores_all_nodes);
 
     /* Remember the LMC perf counters for stats after the test */

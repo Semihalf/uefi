@@ -22,7 +22,8 @@ typedef enum
     BDK_DRAM_TEST_NO_STOP_ERROR = 1 << 8,  /**< Don't stop running tests on errors, continue counting all errors */
     BDK_DRAM_TEST_NO_PROGRESS   = 1 << 9,  /**< Don't report progress percentage during run, for batch runs */
     BDK_DRAM_TEST_NO_STATS      = 1 << 10, /**< Don't report usage status for LMC, or CCPI with USE_CCPI */
-    BDK_DRAM_TEST_USE_CCPI      = 1 << 11, /**< Test using other node across CCPI. Use to verify CCPI. This
+    BDK_DRAM_TEST_NO_BANNERS    = 1 << 11,  /**< Don't display banenrs at beginning of test */
+    BDK_DRAM_TEST_USE_CCPI      = 1 << 12, /**< Test using other node across CCPI. Use to verify CCPI. This
                                             automatically enables CCPI usage reporting unless NO_STATS is
                                             also specified */
 } bdk_dram_test_flags_t;
