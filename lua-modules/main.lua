@@ -92,6 +92,7 @@ if package.searchpath(board_test_name, package.path) then
     local test = require(board_test_name)
     m:item("brdtest", "Run board test", test)
 end
+m:item("ccpi",  "Test CCPI using internal loopback", cavium.c.bdk_ccpi_test_loopback)
 m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_chip, cavium.MASTER_NODE)
 if cavium.global then
     m:item("quit", "Exit menu")
