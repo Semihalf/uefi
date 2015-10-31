@@ -270,7 +270,6 @@ static void check_cn88xx(bdk_node_t node)
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, bad_word);
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, align_fail);
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, align_done);
-            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, up);
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, stop);
             if (c.s.blk_err)
             {
