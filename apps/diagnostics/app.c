@@ -40,6 +40,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(ECAM);
     BDK_REQUIRE(DRIVER);
 
+    BDK_REQUIRE(DRIVER_CCPI);
     BDK_REQUIRE(DRIVER_SMMU);
 }
 
