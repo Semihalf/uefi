@@ -205,7 +205,12 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
            is confusing to people */
         for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
             if (flags & (1 << node))
-                total_cores_all_nodes += bdk_get_num_running_cores(node);
+            {
+                if (flags & BDK_DRAM_TEST_USE_CCPI)
+                    total_cores_all_nodes += bdk_get_num_running_cores(node ^ 1);
+                else
+                    total_cores_all_nodes += bdk_get_num_running_cores(node);
+            }
     }
     if (!(flags & BDK_DRAM_TEST_NO_BANNERS))
         printf("Starting Test \"%s\" for [0x%011lx:0x%011lx] using %d core(s)\n",
