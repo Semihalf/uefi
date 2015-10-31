@@ -451,8 +451,16 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length, bdk_dram_te
     /* Remove nodes from the flags that don't exist */
     for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
     {
-        if (!bdk_numa_exists(node))
-            flags &= ~(1 << node);
+        if (flags & BDK_DRAM_TEST_USE_CCPI)
+        {
+            if (!bdk_numa_exists(node ^ 1))
+                flags &= ~(1 << node);
+        }
+        else
+        {
+            if (!bdk_numa_exists(node))
+                flags &= ~(1 << node);
+        }
     }
 
 
@@ -472,8 +480,9 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length, bdk_dram_te
     {
         if (flags & (1<<node))
         {
-            if (bdk_get_running_coremask(node) == 0)
-                bdk_init_cores(node, 1);
+            int use_node = (flags & BDK_DRAM_TEST_USE_CCPI) ? node ^ 1 : node;
+            if (bdk_get_running_coremask(use_node) == 0)
+                bdk_init_cores(use_node, 1);
         }
     }
 
