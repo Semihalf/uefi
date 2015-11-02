@@ -100,16 +100,28 @@ int bdk_l2c_lock_mem_region(bdk_node_t node, uint64_t start, uint64_t len)
 
 void bdk_l2c_flush(bdk_node_t node)
 {
+    /* The number of ways can be reduced with fuses, but the equations below
+       assume the max number of ways */
+    const int MAX_WAYS = 16;
     int num_sets = bdk_l2c_get_num_sets(node);
     int num_ways = bdk_l2c_get_num_assoc(node);
 
-    for (int l2_set = 0; l2_set < num_sets; l2_set++)
+    int is_rtg = 1; /* Clear remote tags */
+    for (int l2_way = 0; l2_way < num_ways; l2_way++)
     {
-        for (int l2_way = 0; l2_way < num_ways; l2_way++)
+        for (int l2_set = 0; l2_set < num_sets; l2_set++)
         {
-            uint64_t encoded = 0; /* Normal tags */
-            encoded |= l2_set << 8;
-            encoded |= l2_way << 24;
+            uint64_t encoded = 128 * (l2_set + num_sets * (l2_way + (is_rtg * MAX_WAYS)));
+            BDK_CACHE_WBI_L2_INDEXED(encoded);
+        }
+    }
+
+    is_rtg = 0; /* Clear local tags */
+    for (int l2_way = 0; l2_way < num_ways; l2_way++)
+    {
+        for (int l2_set = 0; l2_set < num_sets; l2_set++)
+        {
+            uint64_t encoded = 128 * (l2_set + num_sets * (l2_way + (is_rtg * MAX_WAYS)));
             BDK_CACHE_WBI_L2_INDEXED(encoded);
         }
     }
