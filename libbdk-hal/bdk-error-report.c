@@ -237,6 +237,13 @@ static void check_cn88xx(bdk_node_t node)
     BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
     if (l2c_oci_ctl.s.enaoci > 1)
     {
+        int loopback = 0;
+        for (int link = 0; link < 3; link++)
+        {
+            BDK_CSR_INIT(com_linkx_ctl, node, BDK_OCX_COM_LINKX_CTL(link));
+            loopback |= com_linkx_ctl.s.loopback;
+        }
+
         /* Check CCPI errors */
         BDK_CSR_INIT(c, node, BDK_OCX_COM_INT);
         CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, io_badid);
@@ -244,7 +251,7 @@ static void check_cn88xx(bdk_node_t node)
         CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, copr_badid);
         CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, win_req_badid);
         CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, win_req_tout);
-        if (c.s.rx_lane)
+        if (c.s.rx_lane && !loopback)
         {
             /* Check CCPI link errors */
             CLEAR_CHIP_ERROR(BDK_OCX_COM_INT, s, rx_lane);
@@ -267,17 +274,20 @@ static void check_cn88xx(bdk_node_t node)
         for (int link=0; link<3; link++)
         {
             BDK_CSR_INIT(c, node, BDK_OCX_COM_LINKX_INT(link));
-            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, bad_word);
-            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, align_fail);
-            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, align_done);
-            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, stop);
-            if (c.s.blk_err)
+            if (!loopback)
             {
-                BDK_CSR_MODIFY(c, node, BDK_OCX_RLKX_BLK_ERR(link), c.s.count = 0);
-                //CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, blk_err);
+                CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, bad_word);
+                CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, align_fail);
+                CLEAR_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, align_done);
+                CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, stop);
+                if (c.s.blk_err)
+                {
+                    BDK_CSR_MODIFY(c, node, BDK_OCX_RLKX_BLK_ERR(link), c.s.count = 0);
+                    //CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, blk_err);
+                }
+                CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, reinit);
             }
-            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, reinit);
-            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, lnk_data);
+            CLEAR_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, lnk_data);
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, rxfifo_dbe);
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, rxfifo_sbe);
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, txfifo_dbe);

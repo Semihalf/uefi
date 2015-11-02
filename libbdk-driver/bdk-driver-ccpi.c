@@ -85,6 +85,8 @@ int bdk_ccpi_test_loopback(void)
             c.s.auto_clr = 0;
             c.s.drop = 1;
             c.s.id = node_invalid);
+        BDK_CSR_MODIFY(c, node_master, BDK_OCX_LNKX_CFG(link),
+            c.s.qlm_select = 0);
     }
 
     /* Perform a memory test on the DRAM range we are going to use */
