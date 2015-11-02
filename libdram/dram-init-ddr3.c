@@ -2813,7 +2813,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
            supported speed.  Adjust timing to match the smallest supported
            CAS Latency. */
         if (CL < min_cas_latency) {
-            ulong adjusted_tclk = tAAmin / min_cas_latency;
+            uint64_t adjusted_tclk = tAAmin / min_cas_latency;
             CL = min_cas_latency;
             ddr_print("Slow clock speed. Adjusting timing: tClk = %lu, Adjusted tClk = %ld\n",
                       tclk_psecs, adjusted_tclk);
@@ -3108,7 +3108,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         if (ddr_type == DDR4_DRAM) {
             lmc_timing_params0.s.tzqcs    = divide_roundup(128*tclk_psecs, (16*tclk_psecs)); /* Always 8. */
-	    lmc_timing_params0.s.tcke     = divide_roundup(max(3*tclk_psecs, (ulong) DDR3_tCKE), tclk_psecs) - 1;
+	    lmc_timing_params0.s.tcke     = divide_roundup(max(3*tclk_psecs, (uint64_t) DDR3_tCKE), tclk_psecs) - 1;
 	    lmc_timing_params0.s.tmrd     = divide_roundup((DDR4_tMRD*tclk_psecs), tclk_psecs) - 1;
 	    //lmc_timing_params0.s.tmod     = divide_roundup(max(24*tclk_psecs, 15000ull), tclk_psecs) - 1;
 	    lmc_timing_params0.s.tmod     = 25; /* 25 is the max allowed */
