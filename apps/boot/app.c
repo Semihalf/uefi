@@ -150,11 +150,6 @@ int main(void)
         bdk_config_get_str(BDK_CONFIG_BOARD_SERIAL));
     bdk_boot_info_strapping(bdk_numa_master());
 
-    if (MFG_SYSTEM_LEVEL_TEST)
-    {
-        bdk_bist_check();
-        bdk_image_boot("/fatfs/init.bin", 0);
-    }
 
     /* If no DRAM config got the boot menu */
     const char *dram_config = bdk_config_get_str(BDK_CONFIG_DRAM_NODE, node);
@@ -162,6 +157,12 @@ int main(void)
     {
         is_misconfigured = 1;
         goto menu;
+    }
+
+    if (MFG_SYSTEM_LEVEL_TEST)
+    {
+        bdk_bist_check();
+        bdk_image_boot("/fatfs/init.bin", 0);
     }
 
     int boot_timeout = bdk_config_get_int(BDK_CONFIG_BOOT_MENU_TIMEOUT);
