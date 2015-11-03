@@ -192,6 +192,13 @@ BOARD_SETUP_DONE = true
 
 local board_name = menu.prompt_string("Board type: ", "ebb8800")
 local coremask = menu.prompt_number("Coremask: ", 0xffffffffffff)
+-- Config Number
+-- 0 = Regular I/O testing (Chip SLT)
+-- 1 = Board testing configuration for module testing (Board Mfg screen)
+-- 2 = Board testing configuration for module testing (Board Mfg screen)
+-- 3 = TNS BIST check
+-- 4 = TNS test (Config 0 with TNS 
+--
 local config_num = menu.prompt_number("Config Number: ", 0)
 local use_tns = 0
 
@@ -268,12 +275,18 @@ elseif (config_num == 2) then
 elseif (config_num == 3) then
     tns_bist_check();
 end
-if ((use_tns == 1) or (config_num == 100))then
+if (use_tns == 1) then
     if (cavium.csr.TNS_SDE_PE_KPUX_KPU_DBG_W0(0).HIT == 1) then
         print("TNS HIT TEST: PASS\n")
     else
         all_pass = 0
         print("TNS HIT TEST: FAIL\n")
+    end
+end
+
+if (config_num == 5) then
+    if cavium.c.bdk_ccpi_test_loopback() ~= 0 then
+        all_pass = 0
     end
 end
   
