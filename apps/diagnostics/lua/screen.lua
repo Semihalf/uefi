@@ -247,6 +247,13 @@ end
 print("Starting all requested cores");
 cavium.c.bdk_init_cores(0, coremask)
 
+if (config_num == 5) then
+    if cavium.c.bdk_ccpi_test_loopback() ~= 0 then
+        all_pass = 0
+    end
+    print("CCPI Loopback test done")
+end
+
 print("test start: traffic")
 local tg_pass = true
 local trafficgen = require("trafficgen")
@@ -284,11 +291,6 @@ if (use_tns == 1) then
     end
 end
 
-if (config_num == 5) then
-    if cavium.c.bdk_ccpi_test_loopback() ~= 0 then
-        all_pass = 0
-    end
-end
   
 --
 -- Summary
