@@ -226,10 +226,10 @@ typedef struct {
 } ddr3_custom_config_t;
 
 typedef struct {
-    dimm_config_t dimm_config_table[DDR_CFG_T_MAX_DIMMS];
-    dimm_odt_config_t odt_1rank_config[DDR_CFG_T_MAX_DIMMS];
-    dimm_odt_config_t odt_2rank_config[DDR_CFG_T_MAX_DIMMS];
-    dimm_odt_config_t odt_4rank_config[DDR_CFG_T_MAX_DIMMS];
+    dimm_config_t dimm_config_table[DDR_CFG_T_MAX_DIMMS]; /* Indexed by DIMM */
+    dimm_odt_config_t odt_1rank_config[DDR_CFG_T_MAX_DIMMS]; /* Indexed by number of DIMMs minus 1 */
+    dimm_odt_config_t odt_2rank_config[DDR_CFG_T_MAX_DIMMS]; /* Indexed by number of DIMMs minus 1 */
+    dimm_odt_config_t odt_4rank_config[DDR_CFG_T_MAX_DIMMS]; /* Indexed by number of DIMMs minus 1 */
     ddr_delay_config_t unbuffered;
     ddr_delay_config_t registered;
     ddr3_custom_config_t custom_lmc_config;
