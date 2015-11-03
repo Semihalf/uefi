@@ -68,7 +68,11 @@ static void populate_device(bdk_device_t *device)
     sctl.u = bdk_ecam_read32(device, BDK_PCCPF_XXX_VSEC_SCTL);
     sctl.s.rid = midr_el1.s.revision | (midr_el1.s.variant<<3);
     sctl.s.node = device->node; /* Program node bits */
-    sctl.s.ea = 1; /* Enable use of EA */
+    sctl.s.ea = bdk_config_get_int(BDK_CONFIG_PCIE_EA);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        sctl.s.ea = 0; /* EA is not supported on CN88XX pass 1.x */
+    else
+        sctl.s.ea = bdk_config_get_int(BDK_CONFIG_PCIE_EA);
     bdk_ecam_write32(device, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
 
     /* Read the Device ID */

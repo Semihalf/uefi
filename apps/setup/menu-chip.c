@@ -10,6 +10,8 @@ void menu_chip(bdk_menu_t *parent, char key, void *arg)
             .is_num = 1, .units = "s" },
         { .key = 'N', .name = "Support Multi-node", .config = BDK_CONFIG_MULTI_NODE,
             .is_num = 1 },
+        { .key = 'E', .name = "Support PCIe ECAM Enhanced Allocation (EA)", .config = BDK_CONFIG_PCIE_EA,
+            .is_num = 1 },
         { .key = 'W', .name = "Watchdog Timeout", .config = BDK_CONFIG_WATCHDOG_TIMEOUT,
             .is_num = 1, .units = "ms" },
         { .key = 'T', .name = "BDK Tracing Level", .config = BDK_CONFIG_TRACE,

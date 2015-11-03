@@ -261,6 +261,19 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = 0,
         .max_value = 2,
     },
+    [BDK_CONFIG_PCIE_EA] = {
+        .format = "PCIE-ENHANCED-ALLOCATION", /* No parameters */
+        .help =
+            "Determine if internal PCIe ECAMs support Enhanced Allocation(EA):\n"
+            "    0 = Enhanced Allocation is not supported\n"
+            "    1 = Enhanced Allocation is supported\n"
+            "Note EA is not supported on CN88XX pass 1.x, and is always\n"
+            "disabled.",
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 1, /* 1 = EA supported, 0 = EA not supported */
+        .min_value = 0,
+        .max_value = 1,
+    },
 
     /* QLM related config */
     [BDK_CONFIG_QLM_AUTO_CONFIG] = {
@@ -903,6 +916,9 @@ static void config_set_defaults(void)
     /* Asim doesn't scale to 48 cores well. Limit to 4 */
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
         config_info[BDK_CONFIG_COREMASK].default_value = 0xf;
+    /* CN88XX pass 1.x doesn't support EA */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        config_info[BDK_CONFIG_PCIE_EA].default_value = 0;
 }
 
 /**
