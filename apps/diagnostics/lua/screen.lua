@@ -187,10 +187,6 @@ if utils.isglobal("BOARD_SETUP_DONE") then
     -- Board setup is already complete, don't do it again
 elseif package.searchpath("board-setup", package.path) then
     menu.dofile("board-setup")
-elseif cavium.is_model(cavium.CN88XX) then
-    menu.dofile("board-ebb8800")
-elseif cavium.is_model(cavium.CN83XX) then
-    menu.dofile("board-ebb830x")
 end
 BOARD_SETUP_DONE = true
 
@@ -243,6 +239,7 @@ end
 --
 print("Starting all requested cores");
 cavium.c.bdk_init_cores(0, coremask)
+
 print("test start: traffic")
 local tg_pass = true
 local trafficgen = require("trafficgen")
