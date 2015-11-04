@@ -873,7 +873,7 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
     BDK_CSR_INIT(emm_mode, node, BDK_MIO_EMM_MODEX(chip_sel));
     BDK_CSR_DEFINE(emm_switch, BDK_MIO_EMM_SWITCH);
     emm_switch.u = 0;
-    emm_switch.s.bus_id = chip_sel;
+    emm_switch.s.bus_id = 0;
     emm_switch.s.switch_exe = 0;
     emm_switch.s.hs_timing = emm_mode.s.hs_timing;
     emm_switch.s.bus_width = emm_mode.s.bus_width;
@@ -883,6 +883,9 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
     BDK_CSR_WRITE(node, BDK_MIO_EMM_SWITCH, emm_switch.u);
     BDK_TRACE(EMMC, "Delay 2ms\n");
     mmc_delay_msec(2);
+
+    // Reset watchdog timer for the new bus speed
+    wdog_default(node);
 
     // Return the card size in bytes
     BDK_TRACE(EMMC, "MMC init done\n");
