@@ -347,7 +347,7 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
                 break;
             case BDK_PCIE_MEM_NORMAL: /* Memory, not prefetchable */
                 ctype = 0;      /* Memory space */
-                nmerge = 0;     /* Merging allowed */
+                nmerge = 1;     /* No merging allowed */
                 ordering = 0;   /* NO "relaxed ordering" or "no snoop" */
                 break;
             case BDK_PCIE_MEM_PREFETCH: /* Memory, prefetchable */
@@ -509,7 +509,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     /* The rest of the windows map linearly to match the BAR2 translation. */
     for (i = 1; i < 16; i++)
     {
-        bar1_idx.s.addr_idx = i << 22;
+        bar1_idx.s.addr_idx = i;
         BDK_CSR_WRITE(node, BDK_PEMX_BAR1_INDEXX(pcie_port, i), bar1_idx.u);
     }
 
