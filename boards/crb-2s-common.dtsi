@@ -39,7 +39,51 @@ cavium,bdk {
 		"45,0,1,1,0,0x0106,0x6610",
 		"45,0,1,1,0,0x0107,0x0032",
 		"45,0,1,1,0,0x010a,0x0000",
-		"45,0,1,1,0,0x010b,0x0000";
+		"45,0,1,1,0,0x010b,0x0000",
+		/* The Cortina PHY shows up on MDIO bus 1, PHY address 0 and 1.
+		    Each PHY is divided into 4 slices, one per SERDES lane. The
+		    40G port uses all slices, where the 10G ports use one slice
+		    each. PHY Internal address is always zero.
+		    N0.XLAUI0: Slice 0-3 of PHY address 0 (reg through reg + 0x3000)
+		    N0.XFI1.0: Slice 0 of PHY address 1 (reg)
+		    N1.XFI1.0: Slice 1 of PHY address 1 (reg + 0x1000)
+
+		    Reset the line side of the PHY. This is register 0x1000,
+		    which is incremented by 0x1000 for each slice.
+		    Reset the host side of the PHY. This is register 0x1800,
+		    which is incremented by 0x1000 for each slice. */
+		/* XLAUI0, all 4 slices */
+		"45,0,1,0,0,0x1000,0x3",
+		"45,0,1,0,0,0x1800,0x3",
+		"45,0,1,0,0,0x2000,0x3",
+		"45,0,1,0,0,0x2800,0x3",
+		"45,0,1,0,0,0x3000,0x3",
+		"45,0,1,0,0,0x3800,0x3",
+		"45,0,1,0,0,0x4000,0x3",
+		"45,0,1,0,0,0x4800,0x3",
+		/* N0.XFI1.0, slice 0 */
+		"45,0,1,1,0,0x1000,0x3",
+		"45,0,1,1,0,0x1800,0x3",
+		/* N1.XFI1.0, slice 1 */
+		"45,0,1,1,0,0x2000,0x3",
+		"45,0,1,1,0,0x2800,0x3",
+		/* Leave PHY in reset for 100ms */
+		"sleep,100",
+		/* Take the line side out of reset */
+		"45,0,1,0,0,0x1000,0",
+		"45,0,1,0,0,0x1800,0",
+		"45,0,1,0,0,0x2000,0",
+		"45,0,1,0,0,0x2800,0",
+		"45,0,1,0,0,0x3000,0",
+		"45,0,1,0,0,0x3800,0",
+		"45,0,1,0,0,0x4000,0",
+		"45,0,1,0,0,0x4800,0",
+		/* N0.XFI1.0, slice 0 */
+		"45,0,1,1,0,0x1000,0",
+		"45,0,1,1,0,0x1800,0",
+		/* N1.XFI1.0, slice 1 */
+		"45,0,1,1,0,0x2000,0",
+		"45,0,1,1,0,0x2800,0";
 
 	/* PHY address encoding:
 	    Bits[31:24]: Node ID, 0xff for node the ethernet device is on
