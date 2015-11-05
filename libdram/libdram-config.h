@@ -246,6 +246,16 @@ extern int libdram_tune(int node);
 extern uint32_t libdram_get_freq(int node);
 extern uint32_t libdram_get_freq_from_pll(int node, int lmc);
 
+/**
+ * Load a DRAM configuration based on the current bdk-config settings
+ *
+ * @param node   Node the DRAM config is for
+ *
+ * @return Pointer to __libdram_global_cfg, a global structure. Returns NULL if bdk-config
+ *         lacks information about DRAM.
+ */
+extern const dram_config_t* libdram_config_load(bdk_node_t node);
+
 /* The various DRAM configs in the libdram/configs directory need space
    to store the DRAM config. Since only one config is ever in active use
    at a time, store the configs in __libdram_global_cfg. In a multi-node

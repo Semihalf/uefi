@@ -53,10 +53,53 @@ typedef enum
     BDK_CONFIG_QLM_TUNING_TX_GAIN,  /* Parameters: Node, QLM, Lane */
     BDK_CONFIG_QLM_TUNING_TX_VBOOST, /* Parameters: Node, QLM, Lane */
 
+    /* DRAM configuration options */
+    BDK_CONFIG_DRAM_NODE,                                           /* Parameters: Node */
+    BDK_CONFIG_DDR_SPEED,                                           /* Parameters: Node */
+    BDK_CONFIG_DDR_ALT_REFCLK,                                      /* Parameters: Node */
+    BDK_CONFIG_DDR_SPD_ADDR,                                        /* Parameters: DIMM, LMC, Node */
+    BDK_CONFIG_DDR_SPD_DATA,                                        /* Parameters: DIMM, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_DQX_CTL,                                   /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_WODT_MASK,                                 /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_MODE1_PASR,                                /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_MODE1_ASR,                                 /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_MODE1_SRT,                                 /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_MODE1_RTT_WR,                              /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_MODE1_DIC,                                 /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_MODE1_RTT_NOM,                             /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_MODE1_DB_OUTPUT_IMPEDANCE,                 /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_MODE2_RTT_PARK,                            /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_MODE2_VREF_VALUE,                          /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_MODE2_VREF_RANGE,                          /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_MODE2_VREFDQ_TRAIN_EN,                     /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_RODT_CTL,                                  /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+    BDK_CONFIG_DDR_RANKS_RODT_MASK,                                 /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_MIN_RTT_NOM_IDX,                          /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_MAX_RTT_NOM_IDX,                          /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_MIN_RODT_CTL,                             /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_MAX_RODT_CTL,                             /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_CK_CTL,                                   /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_CMD_CTL,                                  /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_CTL_CTL,                                  /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_MIN_CAS_LATENCY,                          /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_OFFSET_EN,                                /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_OFFSET,                                   /* Parameters: Type(UDIMM,RDIMM), LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_RLEVEL_COMPUTE,                           /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_DDR_RTT_NOM_AUTO,                         /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_DDR_RODT_CTL_AUTO,                        /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_RLEVEL_COMP_OFFSET,                       /* Parameters: Type(UDIMM,RDIMM), LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_RLEVEL_AVERAGE_LOOPS,                     /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_DDR2T,                                    /* Parameters: Type(UDIMM,RDIMM), LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_DISABLE_SEQUENTIAL_DELAY_CHECK,           /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_MAXIMUM_ADJACENT_RLEVEL_DELAY_INCREMENT,  /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_PARITY,                                   /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_FPRCH2,                                   /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_MODE32B,                                  /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_MEASURED_VREF,                            /* Parameters: LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_DLL_WRITE_OFFSET,                         /* Parameters: Byte, LMC, Node */
+    BDK_CONFIG_DDR_CUSTOM_DLL_READ_OFFSET,                          /* Parameters: Byte, LMC, Node */
+
     /* High level DRAM options */
-    BDK_CONFIG_DRAM_NODE,           /* Parameters: Node */
-    BDK_CONFIG_DDR_SPEED,           /* Parameters: Node */
-    BDK_CONFIG_DDR_ALT_REFCLK,      /* Parameters: Node */
     BDK_CONFIG_DRAM_VERBOSE,        /* Parameters: Node */
     BDK_CONFIG_DRAM_BOOT_TEST,      /* Parameters: Node */
     BDK_CONFIG_DRAM_CONFIG_GPIO,    /* No parameters */

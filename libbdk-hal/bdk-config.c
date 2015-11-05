@@ -12,7 +12,6 @@ typedef enum
 typedef struct
 {
     const char *format;     /* Printf style format string to create the item name */
-    const char *help;       /* Help string for display to the user */
     const bdk_config_type_t ctype;/* Type of this item */
     int64_t default_value;  /* Default value when no present. String defaults are cast to pointers from this */
     const int64_t min_value;/* Minimum valid value for INT parameters. Unused for Strings */
@@ -30,39 +29,21 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     /* Board manufacturing data */
     [BDK_CONFIG_BOARD_MODEL] = {
         .format = "BOARD-MODEL", /* String, No parameters */
-        .help =
-            "Board model number. This is used to determine the name of the\n"
-            "configuration file containing the boards default settings. This\n"
-            "parameter is stored in a static board manufacturing area at the\n"
-            "top of the boot flash.",
         .ctype = BDK_CONFIG_TYPE_STR,
         .default_value = (long)"unknown",
     },
     [BDK_CONFIG_BOARD_REVISION] = {
         .format = "BOARD-REVISION", /* String, No parameters */
-        .help =
-            "The board revision level. This parameter is stored in a static\n"
-            "board manufacturing area at the top of the boot flash.",
         .ctype = BDK_CONFIG_TYPE_STR,
         .default_value = (long)"unknown",
     },
     [BDK_CONFIG_BOARD_SERIAL] = {
         .format = "BOARD-SERIAL", /* String, No parameters */
-        .help =
-            "Unique string used as a serial number. This parameter is stored\n"
-            "in a static board manufacturing area at the top of the boot flash.",
         .ctype = BDK_CONFIG_TYPE_STR,
         .default_value = (long)"unknown",
     },
     [BDK_CONFIG_MAC_ADDRESS] = {
         .format = "BOARD-MAC-ADDRESS", /* Int64, No parameters */
-        .help =
-            "The first MAC address assigned to the THUNDERX network ports. MAC\n"
-            "addresses are in a contiguous block starting at this address and\n"
-            "containing BOARD-MAC-ADDRESS-NUM number of addresses. The format\n"
-            "of this parameter is 0xXXXXXXXXXXXX, 12 hex digits starting with\n"
-            "'0x'.This parameter is stored in a static board manufacturing\n"
-            "area at the top of the boot flash.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* Default updated at boot based on fuses */
         .min_value = 0,
@@ -70,11 +51,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_MAC_ADDRESS_NUM] = {
         .format = "BOARD-MAC-ADDRESS-NUM", /* Int, No parameters */
-        .help =
-            "The number of MAC addresses assigned to the THUNDERX network\n"
-            "ports. See BOARD-MAC-ADDRESS for the actual MAC address numeric\n"
-            "value.This parameter is stored in a static board manufacturing\n"
-            "area at the top of the boot flash.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0,
         .min_value = 0,
@@ -84,9 +60,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     /* Board generic */
     [BDK_CONFIG_BMC_TWSI] = {
         .format = "BMC-TWSI", /* No parameters */
-        .help =
-            "THUNDERX TWSI port connected to the BMC for IPMI traffic.\n"
-            "-1 = No connection exists. 0+ is TWSI bus number.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = -1, /* TWSI bus number, -1 = disabled */
         .min_value = -1,
@@ -94,10 +67,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_WATCHDOG_TIMEOUT] = {
         .format = "WATCHDOG-TIMEOUT", /* No parameters */
-        .help =
-            "This specifies a watchdog timer should run during boot and reset\n"
-            "the chip if boot hangs for some reason. The timeout is specified\n"
-            "in milliseconds. Zero disables the watchdog.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* 0 = disabled */
         .min_value = 0,
@@ -105,66 +74,16 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_TWSI_WRITE] = {
         .format = "TWSI-WRITE", /* No parameters */
-        .help =
-            "Allow a sequence of TWSI writes to be performed during boot. Each\n"
-            "string in the list line is executed in sequence. The TWSI write\n"
-            "format is:\n"
-            "    node,twsi_id,dev_addr,internal_addr,num_bytes,ia_width_bytes,data\n"
-            "    sleep,ms\n"
-            "node           = ThunderX node ID the twsi bus is on. -1 means the local node\n"
-            "twsi_id        = ThunderX twsi bus to use\n"
-            "dev_addr       = TWSI bus address\n"
-            "internal_addr  = TWSI internal address, zero if not used\n"
-            "num_bytes      = Number of bytes to write (1-8)\n"
-            "ia_width_bytes = Internal address width in bytes (0-2)\n"
-            "data           = Data to write as a 64bit number\n"
-            "sleep,ms       = This on a line delays for 'ms' milliseconds",
         .ctype = BDK_CONFIG_TYPE_STR_LIST,
     },
     [BDK_CONFIG_MDIO_WRITE] = {
         .format = "MDIO-WRITE", /* No parameters */
-        .help =
-            "Allow a sequence of MDIO writes to be performed during boot. Each\n"
-            "string in the list line is executed in sequence. The MDIO write\n"
-            "format is:\n"
-            "    clause,node,bus_id,phy_id,device,location,val\n"
-            "    sleep,ms\n"
-            "clause   = MDIO clause for the write (22 or 45)\n"
-            "node     = ThunderX node the MDIO bus is connected, -1 for local\n"
-            "bus_id   = ThunderX MDIO bus to use\n"
-            "phy_id   = MDIO address\n"
-            "device   = Clause 45 internal device address, zero for clause 22\n"
-            "location = MDIO register\n"
-            "val      = Value to write\n"
-            "sleep,ms = This on a line delays for 'ms' milliseconds",
         .ctype = BDK_CONFIG_TYPE_STR_LIST,
     },
 
     /* Board wiring of network ports and PHYs */
     [BDK_CONFIG_PHY_ADDRESS] = {
         .format = "PHY-ADDRESS.N%d.BGX%d.P%d", /* Parameters: Node, Interface, Port */
-        .help =
-            "PHY address encoding:\n"
-            "    Bits[31:24]: Node ID, 0xff for node the ethernet device is on\n"
-            "    Bits[23:16]: Only used for TWSI\n"
-            "    Bits[15:12]: PHY connection type (0=MDIO, 1=Fixed, 2=TWSI)\n"
-            "For MDIO:\n"
-            "    Bits[31:24]: Node ID, 0xff for node the ethernet device is on\n"
-            "    Bits[23:16]: 0\n"
-            "    Bits[15:12]: 0=MDIO\n"
-            "    Bits[11:8]: MDIO bus number\n"
-            "    Bits[7:0]: MDIO address\n"
-            "For Fixed:\n"
-            "    Bits[31:24]: 0\n"
-            "    Bits[23:16]: Zero\n"
-            "    Bits[15:12]: 1=Fixed\n"
-            "    Bits[11:0]:  0 = 1Gb, 1 = 100Mb\n"
-            "For TWSI:\n"
-            "    Bits[31:24]: Node ID, 0xff for node the ethernet device is on\n"
-            "    Bits[23:16]: TWSI internal address width in bytes (0-2)\n"
-            "    Bits[15:12]: 2=TWSI\n"
-            "    Bits[11:8]: TWSI bus number\n"
-            "    Bits[7:0]: TWSI address",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = -1, /* Default to no PHY */
         .min_value = -1,
@@ -172,10 +91,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_BGX_ENABLE] = {
         .format = "BGX-ENABLE.N%d.BGX%d.P%d", /* Parameters: Node, BGX, Port */
-        .help =
-            "Independent enables for each BGX port of THUNDERX. Use this to\n"
-            "disable ports that are not wired on a board. Default is that all\n"
-            "ports are enabled.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 1, /* 0 = disable, 1 = enable */
         .min_value = 0,
@@ -185,7 +100,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     /* BDK Configuration params */
     [BDK_CONFIG_NUM_PACKET_BUFFERS] = {
         .format = "BDK-NUM-PACKET-BUFFERS",
-        .help = "Number of packet buffers in the BDK.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* Default updated at boot */
         .min_value = 0,
@@ -193,7 +107,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_PACKET_BUFFER_SIZE] = {
         .format = "BDK-PACKET-BUFFER-SIZE",
-        .help = "The size of each packet buffer in the BDK.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 1024, /* bytes */
         .min_value = 128,
@@ -201,7 +114,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_SHOW_LINK_STATUS] = {
         .format = "BDK-SHOW-LINK-STATUS",
-        .help = "Controls whether the BDK displays link status messages.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 1, /* 0 = off, 1 = on */
         .min_value = 0,
@@ -209,7 +121,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_COREMASK] = {
         .format = "BDK-COREMASK",
-        .help = "Controls the cores used by the BDK. Zero means all cores.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* Zero means all cores */
         .min_value = 0,
@@ -217,7 +128,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_BOOT_MENU_TIMEOUT] = {
         .format = "BDK-BOOT-MENU-TIMEOUT",
-        .help = "Timeout for the boot menu in seconds.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 10, /* seconds */
         .min_value = 0,
@@ -225,11 +135,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_BOOT_PATH_OPTION] = {
         .format = "BDK-BOOT-PATH-OPTION",
-        .help =
-            "This is used by the boot menu to control which boot path the init\n"
-            "code chooses. The supported options are\n"
-            "    0 = Normal boot path\n"
-            "    1 = Diagnostics boot path",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* 0 = normal, 1 = diagnostics */
         .min_value = 0,
@@ -237,10 +142,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_TRACE] = {
         .format = "BDK-CONFIG-TRACE",
-        .help =
-            "BDK trace level. This is a bitmask of the enumeration defined in\n"
-            "bdk-trace.h. Each bit turns on tracing of a specific BDK\n"
-            "component.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* bitmask */
         .min_value = 0,
@@ -250,12 +151,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     /* Chip feature items */
     [BDK_CONFIG_MULTI_NODE] = {
         .format = "MULTI-NODE", /* No parameters */
-        .help =
-            "Determine how multi-node is supported for this system:\n"
-            "    0 = Multi-node is not supported\n"
-            "    1 = Multi-node is supported and booting requires two nodes\n"
-            "    2 = Multi-node is auto detected. Two nodes are used if\n"
-            "        if available, otherwise fall back to single node.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 2, /* 2 = Auto */
         .min_value = 0,
@@ -263,12 +158,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_PCIE_EA] = {
         .format = "PCIE-ENHANCED-ALLOCATION", /* No parameters */
-        .help =
-            "Determine if internal PCIe ECAMs support Enhanced Allocation(EA):\n"
-            "    0 = Enhanced Allocation is not supported\n"
-            "    1 = Enhanced Allocation is supported\n"
-            "Note EA is not supported on CN88XX pass 1.x, and is always\n"
-            "disabled.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 1, /* 1 = EA supported, 0 = EA not supported */
         .min_value = 0,
@@ -278,12 +167,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     /* QLM related config */
     [BDK_CONFIG_QLM_AUTO_CONFIG] = {
         .format = "QLM-AUTO-CONFIG", /* Parameters: Node */
-        .help =
-            "For Cavium evaluation boards, query the MCU for QLM setup\n"
-            "information. The MCU supplies a TWSI protocol for THUNDERX to\n"
-            "query the modules plugged in and automatically set the QLMs to\n"
-            "the correct mode. This should only be enabled(1) on Cavium\n"
-            "EBB8XXX boards. Other boards should have it disabled(0).",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* 0 = off, 1 = on */
         .min_value = 0,
@@ -291,45 +174,10 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_QLM_MODE] = {
         .format = "QLM-MODE.N%d.QLM%d", /* Parameters: Node, QLM */
-        .help =
-            "Set the mode of a QLM. The possible mode strings are:\n"
-            "    DISABLED\n"
-            "    PCIE_1X1\n"
-            "    PCIE_2X1\n"
-            "    PCIE_1X2\n"
-            "    PCIE_1X4\n"
-            "    PCIE_1X8\n"
-            "    SATA_4X1\n"
-            "    SATA_2X1\n"
-            "    ILK\n"
-            "    SGMII_4X1\n"
-            "    SGMII_2X1\n"
-            "    XAUI_1X4\n"
-            "    RXAUI_2X2\n"
-            "    RXAUI_1X2\n"
-            "    OCI\n"
-            "    XFI_4X1\n"
-            "    XFI_2X1\n"
-            "    XLAUI_1X4\n"
-            "    10G_KR_4X1\n"
-            "    10G_KR_2X1\n"
-            "    40G_KR4_1X4",
         .ctype = BDK_CONFIG_TYPE_STR,
     },
     [BDK_CONFIG_QLM_FREQ] = {
         .format = "QLM-FREQ.N%d.QLM%d", /* Parameters: Node, QLM */
-        .help =
-            "Set the speed of a QLM in Mhz. The possible speeds are:\n"
-            "    1250\n"
-            "    1500\n"
-            "    2500\n"
-            "    3000\n"
-            "    3125\n"
-            "    5000\n"
-            "    6000\n"
-            "    6250\n"
-            "    8000\n"
-            "   10312",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* Mhz */
         .min_value = 0,
@@ -337,11 +185,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_QLM_CLK] = {
         .format = "QLM-CLK.N%d.QLM%d", /* Parameters: Node, QLM */
-        .help =
-            "Set the source of the QLM reference clock:\n"
-            "    0 = Common clock 0\n"
-            "    1 = Common clock 1\n"
-            "    2 = QLM external reference",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 2, /* 2 = External */
         .min_value = 0,
@@ -349,10 +192,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_QLM_TUNING_TX_SWING] = {
         .format = "QLM-TUNING-TX-SWING.N%d.QLM%d.LANE%d", /* Parameters: Node, QLM, Lane */
-        .help =
-            "Setting of GSERX_LANEX_TX_CFG_0[CFG_TX_SWING] for the QLM. This\n"
-            "should only be used for QLMs used for BGX and CCPI not using KR\n"
-            "training.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = -1, /* Default of no tuning */
         .min_value = -1,
@@ -360,11 +199,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_QLM_TUNING_TX_PREMPTAP] = {
         .format = "QLM-TUNING-TX-PREMPTAP.N%d.QLM%d.LANE%d", /* Parameters: Node, QLM, Lane */
-        .help =
-            "Setting of GSERX_LANEX_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] for the\n"
-            "QLM. This should only be used for QLMs used for BGX and CCPI not\n"
-            "using KR training. CFG_TX_PREMPTAP:\n"
-            "    Bits[8:5] = Tx Post Tap; Bits[3:0] = Tx Pre Tap",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = -1, /* Default of no tuning */
         .min_value = -1,
@@ -372,10 +206,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_QLM_TUNING_TX_GAIN] = {
         .format = "QLM-TUNING-TX-GAIN.N%d.QLM%d.LANE%d", /* Parameters: Node, QLM, Lane */
-        .help =
-            "Setting of GSERX_LANEX_TX_CFG_3[PCS_SDS_TX_GAIN] for the QLM. This\n"
-            "should only be used for QLMs used for BGX and CCPI not using KR\n"
-            "training.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = -1, /* Default of no tuning */
         .min_value = -1,
@@ -383,31 +213,19 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_QLM_TUNING_TX_VBOOST] = {
         .format = "QLM-TUNING-TX-VBOOST.N%d.QLM%d.LANE%d", /* Parameters: Node, QLM, Lane */
-        .help =
-            "Setting of GSERX_LANEX_TX_CFG_3[CFG_TX_VBOOST_EN] for the QLM. This\n"
-            "should only be used for QLMs used for BGX and CCPI not using KR\n"
-            "training.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = -1, /* Default of no tuning */
         .min_value = -1,
         .max_value = 1,
     },
 
-    /* High level DRAM options */
+    /* DRAM configuration options */
     [BDK_CONFIG_DRAM_NODE] = {
         .format = "DDR-CONFIG.N%d", /* Parameters: Node */
-        .help =
-            "DRAM configuration name to use for the board. This coresponds to\n"
-            "a file in lib-dram/configs/config-*.c. FIXME",
         .ctype = BDK_CONFIG_TYPE_STR,
     },
     [BDK_CONFIG_DDR_SPEED] = {
         .format = "DDR-SPEED.N%d", /* Parameters: Node */
-        .help =
-            "Speed to use for DRAM in MT/s. Zero means use the factory\n"
-            "default. Hardware may adjust this value slightly to improve\n"
-            "DRAM stability, so scope measurements may not exactly match\n"
-            "the frequency with MT/s.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* In MT/s */
         .min_value = 0,
@@ -415,22 +233,300 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_DDR_ALT_REFCLK] = {
         .format = "DDR-ALT-REFCLK.N%d", /* Parameters: Node */
-        .help =
-            "Set to use a an alternate reference clock for DRAM than the usual\n"
-            "50Mhz reference. The value of here specifies the frequency of the\n"
-            "alternate clock in Mhz. Currently the only supported reference\n"
-            "clock frequencies are 50Mhz and 100Mhz.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* Mhz */
         .min_value = 0,
         .max_value = 100,
     },
+    [BDK_CONFIG_DDR_SPD_ADDR] = {
+        .format = "DDR-CONFIG-SPD-ADDR.DIMM%d.LMC%d.N%d", /* Parameters: DIMM, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xffff,
+    },
+    [BDK_CONFIG_DDR_SPD_DATA] = {
+        .format = "DDR-CONFIG-SPD-DATA.DIMM%d.LMC%d.N%d", /* Parameters: DIMM, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_STR,
+    },
+    [BDK_CONFIG_DDR_RANKS_DQX_CTL] = {
+        .format = "DDR-CONFIG-DQX-CTL.RANKS%d.DIMMS%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xf,
+    },
+    [BDK_CONFIG_DDR_RANKS_WODT_MASK] = {
+        .format = "DDR-CONFIG-WODT-MASK.RANKS%d.DIMMS%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xfffffff,
+    },
+    [BDK_CONFIG_DDR_RANKS_MODE1_PASR] = {
+        .format = "DDR-CONFIG-MODE1-PASR.RANKS%d.DIMMS%d.RANK%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0x7,
+    },
+    [BDK_CONFIG_DDR_RANKS_MODE1_ASR] = {
+        .format = "DDR-CONFIG-MODE1-ASR.RANKS%d.DIMMS%d.RANK%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_RANKS_MODE1_SRT] = {
+        .format = "DDR-CONFIG-MODE1-SRT.RANKS%d.DIMMS%d.RANK%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_RANKS_MODE1_RTT_WR] = {
+        .format = "DDR-CONFIG-MODE1-RTT-WR.RANKS%d.DIMMS%d.RANK%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT, // Split for extension bit
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0x7,
+    },
+    [BDK_CONFIG_DDR_RANKS_MODE1_DIC] = {
+        .format = "DDR-CONFIG-MODE1-DIC.RANKS%d.DIMMS%d.RANK%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0x3,
+    },
+    [BDK_CONFIG_DDR_RANKS_MODE1_RTT_NOM] = {
+        .format = "DDR-CONFIG-MODE1-RTT-NOM.RANKS%d.DIMMS%d.RANK%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0x7,
+    },
+    [BDK_CONFIG_DDR_RANKS_MODE1_DB_OUTPUT_IMPEDANCE] = {
+        .format = "DDR-CONFIG-MODE1-DB-OUTPUT-IMPEDANCE.RANKS%d.DIMMS%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT, // Not per RANK, only one
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0x7,
+    },
+    [BDK_CONFIG_DDR_RANKS_MODE2_RTT_PARK] = {
+        .format = "DDR-CONFIG-MODE2-RTT-PARK.RANKS%d.DIMMS%d.RANK%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0x7,
+    },
+    [BDK_CONFIG_DDR_RANKS_MODE2_VREF_VALUE] = {
+        .format = "DDR-CONFIG-MODE2-VREF-VALUE.RANKS%d.DIMMS%d.RANK%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0x3f,
+    },
+    [BDK_CONFIG_DDR_RANKS_MODE2_VREF_RANGE] = {
+        .format = "DDR-CONFIG-MODE2-VREF-RANGE.RANKS%d.DIMMS%d.RANK%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, Rank, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_RANKS_MODE2_VREFDQ_TRAIN_EN] = {
+        .format = "DDR-CONFIG-MODE2-VREFDQ-TRAIN-EN.RANKS%d.DIMMS%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT, // Not per RANK, only one
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+
+    [BDK_CONFIG_DDR_RANKS_RODT_CTL] = {
+        .format = "DDR-CONFIG-RODT-CTL.RANKS%d.DIMMS%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xf,
+    },
+    [BDK_CONFIG_DDR_RANKS_RODT_MASK] = {
+        .format = "DDR-CONFIG-RODT-MASK.RANKS%d.DIMMS%d.LMC%d.N%d", /* Parameters: Num Ranks, Num DIMMs, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xfffffff,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_MIN_RTT_NOM_IDX] = {
+        .format = "DDR-CONFIG-CUSTOM-MIN-RTT-NOM-IDX.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 1,
+        .min_value = 0,
+        .max_value = 7,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_MAX_RTT_NOM_IDX] = {
+        .format = "DDR-CONFIG-CUSTOM-MAX-RTT-NOM-IDX.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 5,
+        .min_value = 0,
+        .max_value = 7,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_MIN_RODT_CTL] = {
+        .format = "DDR-CONFIG-CUSTOM-MIN-RODT-CTL.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 1,
+        .min_value = 0,
+        .max_value = 7,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_MAX_RODT_CTL] = {
+        .format = "DDR-CONFIG-CUSTOM-MAX-RODT-CTL.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 5,
+        .min_value = 0,
+        .max_value = 7,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_CK_CTL] = {
+        .format = "DDR-CONFIG-CUSTOM-CK-CTL.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xffff,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_CMD_CTL] = {
+        .format = "DDR-CONFIG-CUSTOM-CMD-CTL.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xffff,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_CTL_CTL] = {
+        .format = "DDR-CONFIG-CUSTOM-CTL-CTL.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xf,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_MIN_CAS_LATENCY] = {
+        .format = "DDR-CONFIG-CUSTOM-MIN-CAS-LATENCY.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xffff,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_OFFSET_EN] = {
+        .format = "DDR-CONFIG-CUSTOM-OFFSET-EN.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 1,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_OFFSET] = {
+        .format = "DDR-CONFIG-CUSTOM-OFFSET.%s.LMC%d.N%d", /* Parameters: Type(UDIMM,RDIMM), LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT, // UDIMM or RDIMM
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xf,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_RLEVEL_COMPUTE] = {
+        .format = "DDR-CONFIG-CUSTOM-RLEVEL-COMPUTE.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_DDR_RTT_NOM_AUTO] = {
+        .format = "DDR-CONFIG-CUSTOM-DDR-RTT-NOM-AUTO.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_DDR_RODT_CTL_AUTO] = {
+        .format = "DDR-CONFIG-CUSTOM-DDR-RODT-CTL-AUTO.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_RLEVEL_COMP_OFFSET] = {
+        .format = "DDR-CONFIG-CUSTOM-RLEVEL-COMP-OFFSET.%s.LMC%d.N%d", /* Parameters: Type(UDIMM,RDIMM), LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT, // UDIMM or RDIMM
+        .default_value = 2,
+        .min_value = 0,
+        .max_value = 0xffff,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_RLEVEL_AVERAGE_LOOPS] = {
+        .format = "DDR-CONFIG-CUSTOM-RLEVEL-AVERAGE-LOOPS.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xffff,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_DDR2T] = {
+        .format = "DDR-CONFIG-CUSTOM-DDR2T.%s.LMC%d.N%d", /* Parameters: Type(UDIMM,RDIMM), LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT, // UDIMM or RDIMM
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_DISABLE_SEQUENTIAL_DELAY_CHECK] = {
+        .format = "DDR-CONFIG-CUSTOM-DISABLE-SEQUENTIAL-DELAY-CHECK.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_MAXIMUM_ADJACENT_RLEVEL_DELAY_INCREMENT] = {
+        .format = "DDR-CONFIG-CUSTOM-MAXIMUM-ADJACENT-RLEVEL-DELAY-INCREMENT.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xffff,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_PARITY] = {
+        .format = "DDR-CONFIG-CUSTOM-PARITY.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_FPRCH2] = {
+        .format = "DDR-CONFIG-CUSTOM-FPRCH2.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 0xf,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_MODE32B] = {
+        .format = "DDR-CONFIG-CUSTOM-MODE32B.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_MEASURED_VREF] = {
+        .format = "DDR-CONFIG-CUSTOM-MEASURED-VREF.LMC%d.N%d", /* Parameters: LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = 0,
+        .max_value = 1,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_DLL_WRITE_OFFSET] = {
+        .format = "DDR-CONFIG-CUSTOM-DLL-WRITE-OFFSET.BYTE%d.LMC%d.N%d", /* Parameters: Byte, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = -63,
+        .max_value = 63,
+    },
+    [BDK_CONFIG_DDR_CUSTOM_DLL_READ_OFFSET] = {
+        .format = "DDR-CONFIG-CUSTOM-DLL-READ-OFFSET.BYTE%d.LMC%d.N%d", /* Parameters: Byte, LMC, Node */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0,
+        .min_value = -63,
+        .max_value = 63,
+    },
+
+    /* High level DRAM options */
     [BDK_CONFIG_DRAM_VERBOSE] = {
         .format = "DDR-VERBOSE", /* Parameters: Node */
-        .help =
-            "Specify the debug logging level during DRAM initialization. Zero\n"
-            "disables debug logging. The possible debug levels are:\n"
-            "    TBD",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* 0 = off */
         .min_value = 0,
@@ -438,12 +534,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_DRAM_BOOT_TEST] = {
         .format = "DDR-TEST-BOOT", /* No parameters */
-        .help =
-            "Run a short DRAM test after DRAM is initialized as quick check\n"
-            "for functionality. This is normally not needed required. Boards\n"
-            "with poor DRAM power supplies may use this to detect failures\n"
-            "during boot. This should be used in combination with the watchdog\n"
-            "timer.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 0, /* 0 = off, 1 = on */
         .min_value = 0,
@@ -451,14 +541,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_DRAM_CONFIG_GPIO] = {
         .format = "DDR-CONFIG-GPIO", /* No parameters */
-        .help =
-            "The DRAM initialization code has the ability to toggle a GPIO to\n"
-            "signal when it is running. Boards may need to mux TWSI access\n"
-            "between a BMC and THUNDERX so the BMC can monitor DIMM temperatures\n"
-            "and health. This GPIO will be driven high when THUNDERX may read\n"
-            "from the SPDs on the DIMMs. When driven low, another device (BMC)\n"
-            "may takeover the TWSI connections to the DIMMS. The default value\n"
-            "(-1) disables this feature.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = -1, /* -1 = disabled, otherwise GPIO number */
         .min_value = -1,
@@ -468,11 +550,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     /* USB */
     [BDK_CONFIG_USB_PWR_GPIO] = {
         .format = "USB-PWR-GPIO.N%d.PORT%d", /* Parameters: Node, Port */
-        .help =
-            "Specify a THUNDERX GPIO used to control power for a USB port. When\n"
-            "set, the USB host controller will toggle the GPIO automatically\n"
-            "during USB reset events. The default value assumes THUNDERX has no\n"
-            "control of the USB power and it is always on.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = -1, /* GPIO number, or -1 for none */
         .min_value = -1,
@@ -482,8 +559,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     /* How EYE diagrams are captured from a QLM */
     [BDK_CONFIG_EYE_ZEROS] = {
         .format = "QLM-EYE-NUM-ZEROS", /* No parameters */
-        .help = "Number of reading with no errors to signal the start of an\n"
-                "eye. The default value should be good for most cases.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 2,
         .min_value = 1,
@@ -491,8 +566,6 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_EYE_SAMPLE_TIME] = {
         .format = "QLM-EYE-SAMPLE-TIME", /* No parameters */
-        .help = "Time to sample at each location in microseconds. The default\n"
-                "value should be good for most cases.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 400, /* us */
         .min_value = 20, /* us */
@@ -500,26 +573,12 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
     },
     [BDK_CONFIG_EYE_SETTLE_TIME] = {
         .format = "QLM-EYE-SETTLE-TIME", /* No parameters */
-        .help = "Time to settle after each movement in microseconds. The\n"
-                "default value should be good for most cases.",
         .ctype = BDK_CONFIG_TYPE_INT,
         .default_value = 50, /* us */
         .min_value = 20, /* us */
         .max_value = 100000, /* us */
     },
 };
-
-/**
- * Return a help string for the given configuration parameter
- *
- * @param cfg_item Configuration parameter to get help for
- *
- * @return Help string for the user
- */
-const char* bdk_config_get_help(bdk_config_t cfg_item)
-{
-    return config_info[cfg_item].help;
-}
 
 /**
  * Look up a configuration item in the environment.
@@ -924,7 +983,7 @@ int bdk_config_save(void)
 
 /**
  * Takes the current live device tree and exports it to a memory address suitable
- * for passing to the enxt binary in register X1.
+ * for passing to the next binary in register X1.
  *
  * @return Physical address of the device tree, or 0 on failure
  */
@@ -935,7 +994,7 @@ uint64_t __bdk_config_export_to_mem(void)
     bdk_node_t node = bdk_numa_master();
     int fdt_size = fdt_totalsize(config_fdt);
 
-    /* Round size up to 4KB bondary */
+    /* Round size up to 4KB boundary */
     fdt_size = (fdt_size + 0xfff) & -4096;
     /* First try 4MB - FDT size as this keeps the FDT in the 4MB secure space
         setup by ATF */
