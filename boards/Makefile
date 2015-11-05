@@ -24,5 +24,6 @@ all:  $(DTB_FILES)
 clean:
 	rm -f $(BDK_ROOT)/target-bin/bdk.bin $(DTB_FILES)
 
+%.dts: *.dtsi
 %.dtb: %.dts
 	dtc -I dts -O dtb -o $@ $^
