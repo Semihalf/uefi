@@ -208,7 +208,7 @@ const dram_config_t *libdram_config_load(bdk_node_t node)
             cfg->ddr_clock_hertz = 1050000000;
             break;
         default:
-            bdk_warn("Unsupprorted DRAM speed of %d MT/s\n", speed);
+            bdk_warn("Unsupported DRAM speed of %d MT/s\n", speed);
             cfg->ddr_clock_hertz = speed * 1000000 / 2;
             break;
     }
