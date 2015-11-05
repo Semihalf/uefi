@@ -1008,7 +1008,7 @@ static void config_set_defaults(void)
  */
 static void config_setup_fdt(void)
 {
-    const int FDT_SIZE = 0x1000;
+    const int FDT_SIZE = 0x10000;
     config_fdt = calloc(1, FDT_SIZE);
     if (!config_fdt)
         bdk_fatal("Unable to allocate memory for config FDT\n");
