@@ -730,22 +730,135 @@ void bdk_config_set_str(const char *value, bdk_config_t cfg_item, ...)
 }
 
 /**
- * Display the active configuration
+ * Multiple functions need to display the config item help string in a format
+ * suitable for inclusion in a device tree. This function displays the help
+ * message properly indented and such.
+ *
+ * @param cfg    Config item to display help for
  */
-void bdk_config_show(void)
+static void display_help(bdk_config_t cfg)
 {
-    int offset = fdt_first_property_offset(config_fdt, config_node);
-    while (offset >= 0)
+    /* Print the help text as a comment before the entry */
+    /* Indent with tabs like Linux requires */
+    printf("\n");
+    printf("\t/* ");
+    const char *ptr = bdk_config_get_help(cfg);
+    while (*ptr)
     {
-        const char *name = NULL;
-        const char *data = fdt_getprop_by_offset(config_fdt, offset, &name, NULL);
-        printf("%s = %s\n", name,  data);
-        offset = fdt_next_property_offset(config_fdt, offset);
+        putchar(*ptr);
+        if (*ptr == '\n')
+            putchar('\t');
+        ptr++;
     }
+    printf(" */\n");
+    /* Print the parameter and its default value a comment. This will be
+       a reference that is easy for the user to change */
+    printf("\t//%s = ", config_info[cfg].format);
+    switch (config_info[cfg].ctype)
+    {
+        case BDK_CONFIG_TYPE_INT:
+            if (config_info[cfg].default_value < 10)
+                printf("\"%ld\"", config_info[cfg].default_value);
+            else
+                printf("\"0x%lx\"", config_info[cfg].default_value);
+            break;
+        case BDK_CONFIG_TYPE_STR:
+        case BDK_CONFIG_TYPE_STR_LIST:
+            if (config_info[cfg].default_value)
+                printf("\"%s\"", (const char *)config_info[cfg].default_value);
+            else
+                printf("\"\"");
+            break;
+    }
+    printf(";\n");
 }
 
 /**
- * Display a list of all posssible config items with help text
+ * Display the active configuration as a valid device tree
+ */
+void bdk_config_show(void)
+{
+    /* Output the standard DTS headers */
+    printf("/dts-v1/;\n");
+    printf("\n");
+    printf("/ {\n");
+    printf("cavium,bdk {\n");
+    for (bdk_config_t cfg = 0; cfg < __BDK_CONFIG_END; cfg++)
+    {
+        /* Show the help message */
+        display_help(cfg);
+
+        /* Figure out how much of the config item is fixed versus
+           the optional parameters */
+        const char *format = config_info[cfg].format;
+        const char *format_param = strchr(format, '.');
+        int format_length = 0;
+        if (format_param)
+            format_length = format_param - format;
+
+        /* Loop through all device tree entries displaying the ones that
+           match this format */
+        int offset = fdt_first_property_offset(config_fdt, config_node);
+        while (offset >= 0)
+        {
+            /* Get the device tree item */
+            const char *name = NULL;
+            int data_size = 0;
+            const char *data = fdt_getprop_by_offset(config_fdt, offset, &name, &data_size);
+            const char *data_end = data + data_size;
+            /* Find the first param */
+            const char *name_param = strchr(name, '.');
+            int name_length = 0;
+            if (name_param)
+            {
+                /* We want to compare up to the first param */
+                name_length = name_param - name;
+                /* If the lengths are different not including the parameters,
+                   then we force a full matchn which will always fail */
+                if (name_length != format_length)
+                    name_length = 0;
+            }
+            else /* No params, match base of format */
+                name_length = format_length;
+
+            /* Check if it matches the current config format */
+            int match;
+            if (name_length)
+            {
+                /* Check the prefix */
+                match = strncmp(name, format, name_length);
+                if (match == 0)
+                {
+                    /* Prefix matched. We only really match if the next
+                       character is the end of the string or a '.' */
+                    if ((name[name_length] != 0) && (name[name_length] != '.'))
+                        match = 1;
+                }
+            }
+            else
+                match = strcmp(name, format);
+            /* Print matching entries */
+            if (match == 0)
+            {
+                printf("\t%s = \"%s\"", name, data);
+                data += strlen(data) + 1;
+                while (data < data_end)
+                {
+                    printf(",\n\t\t\"%s\"", data);
+                    data += strlen(data) + 1;
+                }
+                printf(";\n");
+            }
+            offset = fdt_next_property_offset(config_fdt, offset);
+        }
+    }
+    /* Output the standard DTS footers */
+    printf("}; /* cavium,bdk */\n");
+    printf("}; /* / */\n");
+}
+
+/**
+ * Display a list of all possible config items with help text
  */
 void bdk_config_help(void)
 {
@@ -755,41 +868,7 @@ void bdk_config_help(void)
     printf("/ {\n");
     printf("cavium,bdk {\n");
     for (bdk_config_t cfg = 0; cfg < __BDK_CONFIG_END; cfg++)
-    {
-        /* Print the help text as a comment before the entry */
-        /* Indent with tabs like Linux requires */
-        printf("\n");
-        printf("\t/* ");
-        const char *ptr = config_info[cfg].help;
-        while (*ptr)
-        {
-            putchar(*ptr);
-            if (*ptr == '\n')
-                putchar('\t');
-            ptr++;
-        }
-        printf(" */\n");
-        /* Print the parameter and its default value a comment. This will be
-           a reference that is easy for the user to change */
-        printf("\t//%s = ", config_info[cfg].format);
-        switch (config_info[cfg].ctype)
-        {
-            case BDK_CONFIG_TYPE_INT:
-                if (config_info[cfg].default_value < 10)
-                    printf("\"%ld\"", config_info[cfg].default_value);
-                else
-                    printf("\"0x%lx\"", config_info[cfg].default_value);
-                break;
-            case BDK_CONFIG_TYPE_STR:
-            case BDK_CONFIG_TYPE_STR_LIST:
-                if (config_info[cfg].default_value)
-                    printf("\"%s\"", (const char *)config_info[cfg].default_value);
-                else
-                    printf("\"\"");
-                break;
-        }
-        printf(";\n");
-    }
+        display_help(cfg);
     printf("}; /* cavium,bdk */\n");
     printf("}; /* / */\n");
 }
