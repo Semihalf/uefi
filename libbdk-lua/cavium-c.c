@@ -54,8 +54,7 @@ static int cavium_c_call(lua_State* L)
         (func == (void*)bdk_dram_get_test_name) ||
         (func == (void*)bdk_dram_get_info_string) ||
         (func == (void*)bdk_usb_get_test_mode_string) ||
-        (func == (void*)bdk_config_get_str) ||
-        (func == (void*)bdk_dram_get_config_name))
+        (func == (void*)bdk_config_get_str))
         lua_pushstring(L, (const char*)result);
     else
         lua_pushnumber(L, result);

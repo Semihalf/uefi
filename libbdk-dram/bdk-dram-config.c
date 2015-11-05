@@ -50,22 +50,39 @@ static const dram_config_t *bdk_find_dram_config_by_name(int node, const char *c
  * Lookup a DRAM configuration by name and initialize DRAM using it
  *
  * @param node   Node to configure
- * @param config_name
- *               Name of the configuration to use
  * @param ddr_clock_override
  *               If non zero, override the DRAM frequency specified
  *               in the config with this value
  *
  * @return Amount of DRAM in MB, or negative on failure
  */
-int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
+int bdk_dram_config(int node, int ddr_clock_override)
 {
-    const dram_config_t *config = bdk_find_dram_config_by_name(node, config_name);
-
+    const dram_config_t *config = libdram_config_load(node);
     if (!config)
     {
-        bdk_error("DRAM config not found: %s\n", config_name);
-        return -1;
+        const char *config_name = bdk_config_get_str(BDK_CONFIG_DRAM_NODE, node);
+        config = bdk_find_dram_config_by_name(node, config_name);
+        if (config)
+        {
+            printf("\33[1m"); /* Bold */
+            bdk_warn("\n");
+            bdk_warn("********************************************************\n");
+            bdk_warn("DRAM configuration not found in device tree. Using the\n");
+            bdk_warn("legacy configuration \"%s\".\n", config_name);
+            bdk_warn("A template device tree has been created from the legacy\n");
+            bdk_warn("configuration. Enter diagnostics and display the device\n");
+            bdk_warn("tree by selecting \"Display current configuration\".\n");
+            bdk_warn("********************************************************\n");
+            bdk_warn("\n");
+            printf("\33[0m"); /* Normal */
+            __bdk_dram_convert_to_dts(node, config);
+        }
+        else
+        {
+            bdk_error("DRAM config not found: %s\n", config_name);
+            return -1;
+        }
     }
 
     BDK_TRACE(DRAM, "N%d: Starting DRAM init (config=%p, ddr_clock_override=%d)\n", node, config, ddr_clock_override);
@@ -116,24 +133,6 @@ int bdk_dram_config_get_hertz_by_name(int node, const char *config_name)
     }
 
     return config->ddr_clock_hertz;
-}
-
-/**
- * Return the name of the DRAM configuration at the specified index. If index
- * is larger than the number of DRAM configs, NULL is returned.
- *
- * @param index  Index to retrieve
- *
- * @return Name or NULL
- */
-const char* bdk_dram_get_config_name(int index)
-{
-    /* The -1 is to account for the NULL at the end */
-    const int table_size = sizeof(dram_table) / sizeof(dram_table[0]) - 1;
-    if ((index < 0) || (index >= table_size))
-        return NULL;
-    else
-        return dram_table[index]()->name;
 }
 
 /**

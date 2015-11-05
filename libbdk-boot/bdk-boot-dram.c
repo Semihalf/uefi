@@ -14,11 +14,6 @@ void bdk_boot_dram(bdk_node_t node, int prompt_for_speed)
     if (!bdk_numa_exists(node))
         return;
 
-    /* Lookup the DRAM config to use */
-    const char *dram_config = bdk_config_get_str(BDK_CONFIG_DRAM_NODE, node);
-    if (dram_config == NULL)
-        return;
-
     /* Prompt for the speed if necessary */
     int dram_speed = 0;
     if (prompt_for_speed)
@@ -29,8 +24,7 @@ void bdk_boot_dram(bdk_node_t node, int prompt_for_speed)
     }
 
     BDK_TRACE(INIT, "Initializing DRAM on node %d\n", node);
-    int mbytes = bdk_dram_config(node, dram_config, dram_speed);
-
+    int mbytes = bdk_dram_config(node, dram_speed);
     if (mbytes <= 0)
     {
         bdk_error("N%d: Failed DRAM init\n", node);
@@ -44,9 +38,7 @@ void bdk_boot_dram(bdk_node_t node, int prompt_for_speed)
     bdk_watchdog_poke();
 
     /* Report DRAM status */
-    uint32_t freq = libdram_get_freq(node);
-    freq = (freq + 500000) / 1000000;
-    printf("Node %d: DRAM: %d MB, %u MHz\n", node, mbytes, freq);
+    printf("Node %d: DRAM:%s\n", node, bdk_dram_get_info_string(node));
 
     /* See if we should test this node's DRAM during boot */
     int test_dram = bdk_config_get_int(BDK_CONFIG_DRAM_BOOT_TEST, node);
