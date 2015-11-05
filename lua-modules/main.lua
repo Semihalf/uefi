@@ -67,6 +67,7 @@ local function do_burn()
 end
 
 local m = menu.new("Main Menu")
+m:item("cfg",   "Display current configuration", cavium.c.bdk_config_show)
 m:item("qlm",   "SERDES configuration",     menu.dofile, "qlm_menu")
 m:item("file",  "File options",             menu.dofile, "file")
 m:item("ddr",   "DDR options",              menu.dofile, "ddr_menu")

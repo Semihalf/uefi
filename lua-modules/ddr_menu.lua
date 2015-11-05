@@ -44,11 +44,6 @@ if not dram_enabled then
     update_verbose_label()
 end
 
-m:item("showenv", "Show environment variables", function()
-    printf("Environment variable:\n")
-    cavium.c.bdk_config_show()
-end)
-
 -- Build a list of choice for each CONFIG
 for _,name in ipairs(CONFIG_CHOICES) do
     local text = "Initialize DRAM using config \"%s\"" % name
