@@ -150,13 +150,25 @@ int main(void)
         bdk_config_get_str(BDK_CONFIG_BOARD_SERIAL));
     bdk_boot_info_strapping(bdk_numa_master());
 
-
-    /* If no DRAM config got the boot menu */
-    const char *dram_config = bdk_config_get_str(BDK_CONFIG_DRAM_NODE, node);
-    if ((dram_config == NULL) && !bdk_is_platform(BDK_PLATFORM_ASIM))
+    /* If no DRAM config goto the boot menu. First check for SPD addresses */
+    int spd_addr = bdk_config_get_int(BDK_CONFIG_DDR_SPD_ADDR, 0 /* DIMM */, 0 /* LMC */, bdk_numa_master());
+    if ((spd_addr == 0) && !bdk_is_platform(BDK_PLATFORM_ASIM))
     {
-        is_misconfigured = 1;
-        goto menu;
+        /* Not found, try SPD data */
+        int spd_size = 0;
+        const void *spd_data = bdk_config_get_blob(&spd_size, BDK_CONFIG_DDR_SPD_DATA, 0 /* DIMM */, 0 /* LMC */, bdk_numa_master());
+        if ((spd_data == NULL) || (spd_size == 0))
+        {
+            /* Not found, try for a legacy config name */
+            const char *dram_config = bdk_config_get_str(BDK_CONFIG_DRAM_NODE, node);
+            if (dram_config == NULL)
+            {
+                /* No dram config found, jump to the boot menu */
+                is_misconfigured = 1;
+                goto menu;
+            }
+        }
+
     }
 
     if (MFG_SYSTEM_LEVEL_TEST)
