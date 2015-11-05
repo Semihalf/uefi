@@ -105,12 +105,12 @@ uint64_t divide_nint(uint64_t dividend, uint64_t divisor)
 /* Must be const (read only) so that the structure is in flash */
 const dimm_odt_config_t disable_odt_config[] = {
 	/* DDR4 needs an additional field in the struct (odt_mask2) */
-	/* DIMMS   ODT_ENA ODT_MASK   ODT_MASK1      ODT_MASK2     QS_DIC RODT_CTL DIC */
-	/* =====   ======= ========   =========      =========     ====== ======== === */
-	/*   1 */ {   0,    0x0000,   {.u = 0x0000}, {.u = 0x0000},    0,   0x0000,  0  },
-	/*   2 */ {   0,    0x0000,   {.u = 0x0000}, {.u = 0x0000},    0,   0x0000,  0  },
-	/*   3 */ {   0,    0x0000,   {.u = 0x0000}, {.u = 0x0000},    0,   0x0000,  0  },
-	/*   4 */ {   0,    0x0000,   {.u = 0x0000}, {.u = 0x0000},    0,   0x0000,  0  },
+	/* DIMMS   ODT_ENA ODT_MASK   ODT_MASK1      ODT_MASK2     QS_DIC RODT_CTL */
+	/* =====   ======= ========   =========      =========     ====== ======== */
+	/*   1 */ {   0,    0x0000,   {.u = 0x0000}, {.u = 0x0000},    0,   0x0000  },
+	/*   2 */ {   0,    0x0000,   {.u = 0x0000}, {.u = 0x0000},    0,   0x0000  },
+	/*   3 */ {   0,    0x0000,   {.u = 0x0000}, {.u = 0x0000},    0,   0x0000  },
+	/*   4 */ {   0,    0x0000,   {.u = 0x0000}, {.u = 0x0000},    0,   0x0000  },
 };
 /* Memory controller setup function */
 static int init_octeon_dram_interface(bdk_node_t node,

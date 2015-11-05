@@ -58,15 +58,7 @@ typedef struct {
     bdk_lmcx_modereg_params2_t odt_mask2; /* FIX: needed for DDR4 */
     uint8_t qs_dic;    /* FIX: rodt_ctl for Octeon 3 */
     uint64_t rodt_ctl; /* FIX: rodt_mask for Octeon 3 */
-    uint8_t dic;
 } dimm_odt_config_t;
-
-typedef struct {
-    uint32_t ddr_board_delay;
-    uint8_t lmc_delay_clk;
-    uint8_t lmc_delay_cmd;
-    uint8_t lmc_delay_dq;
-} ddr_delay_config_t;
 
 /*
   The parameters below make up the custom_lmc_config data structure.
@@ -230,8 +222,6 @@ typedef struct {
     dimm_odt_config_t odt_1rank_config[DDR_CFG_T_MAX_DIMMS]; /* Indexed by number of DIMMs minus 1 */
     dimm_odt_config_t odt_2rank_config[DDR_CFG_T_MAX_DIMMS]; /* Indexed by number of DIMMs minus 1 */
     dimm_odt_config_t odt_4rank_config[DDR_CFG_T_MAX_DIMMS]; /* Indexed by number of DIMMs minus 1 */
-    ddr_delay_config_t unbuffered;
-    ddr_delay_config_t registered;
     ddr3_custom_config_t custom_lmc_config;
 } ddr_configuration_t;
 

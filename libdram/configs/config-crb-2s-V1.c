@@ -251,7 +251,6 @@ static void setup_dram_odt_1rank_configuration(dimm_odt_config_t odt[4])
     setup_modereg_params2_1rank_1slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
     odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x00000000ULL; /* RODT_MASK */
-    odt[dimm].dic = 0; /* Reserved */
 
     dimm = 1;
     odt[dimm].odt_ena = ddr4_dqx_driver_34_ohm; /* DQX_CTL */
@@ -260,7 +259,6 @@ static void setup_dram_odt_1rank_configuration(dimm_odt_config_t odt[4])
     setup_modereg_params2_1rank_2slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
     odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x00040001ULL; /* RODT_MASK */
-    odt[dimm].dic = 0; /* Reserved */
 }
 
 static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
@@ -272,7 +270,6 @@ static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
     setup_modereg_params2_2rank_1slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
     odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x00000000ULL; /* RODT_MASK */
-    odt[dimm].dic = 0; /* Reserved */
 
     dimm = 1;
     odt[dimm].odt_ena = ddr4_dqx_driver_34_ohm; /* DQX_CTL */
@@ -281,7 +278,6 @@ static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
     setup_modereg_params2_2rank_2slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
     odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x04080102ULL; /* RODT_MASK */
-    odt[dimm].dic = 0; /* Reserved */
 }
 
 static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
@@ -293,7 +289,6 @@ static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
     setup_modereg_params2_4rank_1slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
     odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x01010202ULL; /* RODT_MASK */
-    odt[dimm].dic = 0; /* Reserved */
 }
 
 static const int8_t dll_read_offset  [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};

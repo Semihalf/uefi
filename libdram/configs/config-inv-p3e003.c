@@ -167,7 +167,6 @@ static void setup_dram_odt_1rank_configuration(dimm_odt_config_t odt[4])
     setup_modereg_params1_1rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     odt[dimm].qs_dic = 2; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x00000000ULL; /* RODT_MASK */
-    odt[dimm].dic = 0; /* Reserved */
 
     dimm = 1;
     odt[dimm].odt_ena = 4; /* DQX_CTL now supplied on a per DIMM basis */
@@ -175,7 +174,6 @@ static void setup_dram_odt_1rank_configuration(dimm_odt_config_t odt[4])
     setup_modereg_params1_1rank_2slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     odt[dimm].qs_dic = 3; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x00010004ULL; /* RODT_MASK */
-    odt[dimm].dic = 0; /* Reserved */
 }
 
 static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
@@ -186,7 +184,6 @@ static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
     setup_modereg_params1_2rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     odt[dimm].qs_dic = 3; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x00000000ULL; /* RODT_MASK */
-    odt[dimm].dic = 0; /* Reserved */
 
     dimm = 1;
     odt[dimm].odt_ena = 4; /* DQX_CTL now supplied on a per DIMM basis */
@@ -194,7 +191,6 @@ static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
     setup_modereg_params1_2rank_2slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     odt[dimm].qs_dic = 3; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x01010404ULL; /* RODT_MASK */
-    odt[dimm].dic = 0; /* Reserved */
 }
 
 static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
@@ -205,7 +201,6 @@ static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
     setup_modereg_params1_4rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     odt[dimm].qs_dic = 3; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x01010202ULL; /* RODT_MASK */
-    odt[dimm].dic = 0; /* Reserved */
 }
 
 static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
