@@ -82,44 +82,17 @@ endif
 
 #
 # Determine the BDK version based on the last change in the version
-# control system. This supports "git svn" and "svn". It will need
-# changes for any other version control.
+# control system. This supports "git". It will need  changes for
+# any other version control.
 #
 # BUILD_REV is a string representing the revision in version control
 # BUILD_DATE is the last change date, formatted as "YYYY MM DD"
 #
 ifeq ($(shell test -d .git;echo $$?),0)
-    # Using git, check for git svn or raw git
-    ifneq ($(shell  git svn find-rev HEAD;echo $$?),0)
-      # Using git svn
-      BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")
-      BUILD_REV := "r$(word 4, $(BUILD_REV))"
-      BUILD_DATE := $(shell git svn info | grep "Last Changed Date:")
-      BUILD_DATE := $(subst -, ,$(word 4, $(BUILD_DATE)))
-      BUILD_BRANCH := $(shell git svn info | grep "URL:")
-      BUILD_BRANCH := $(word 2, $(BUILD_BRANCH))
-      BUILD_BRANCH := $(subst /, ,$(BUILD_BRANCH))
-      BUILD_BRANCH := $(lastword $(BUILD_BRANCH))
-    else
-      # Using raw git
-      BUILD_REV := $(shell git rev-parse HEAD 2>/dev/null | cut -b -8)
-      BUILD_REV := "g$(BUILD_REV)"
-      BUILD_DATE=$(shell date "+%Y %m %d")
-      BUILD_BRANCH := $(shell git status | grep "On branch")
-      BUILD_BRANCH := $(word 3, $(BUILD_BRANCH))
-    endif
-else ifeq ($(shell test -d .svn;echo $$?),0)
-    # Using subversion
-    BUILD_REV := $(shell svn info | grep "Last Changed Rev:")
-    BUILD_REV := "r$(word 4, $(BUILD_REV))"
-    MOD := $(shell svnversion | perl -e 'while (<>){s/[0-9]*//;print}')
-    BUILD_REV := $(BUILD_REV)$(MOD)
-    BUILD_DATE := $(shell svn info | grep "Last Changed Date:")
-    BUILD_DATE := $(subst -, ,$(word 4, $(BUILD_DATE)))
-    BUILD_BRANCH := $(shell svn info | grep "^URL:")
-    BUILD_BRANCH := $(word 2, $(BUILD_BRANCH))
-    BUILD_BRANCH := $(subst /, ,$(BUILD_BRANCH))
-    BUILD_BRANCH := $(lastword $(BUILD_BRANCH))
+    BUILD_REV := $(shell git describe --long --always)
+    BUILD_DATE=$(shell date "+%Y %m %d")
+    BUILD_BRANCH := $(shell git status | grep "On branch")
+    BUILD_BRANCH := $(word 3, $(BUILD_BRANCH))
 else
     # Don't know, use the date as a backup
     BUILD_REV=unknown
