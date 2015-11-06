@@ -188,9 +188,11 @@ const dram_config_t *libdram_config_load(bdk_node_t node)
     {
         case 800:
         case 1600:
-        case 1800:
         case 2400:
             cfg->ddr_clock_hertz = (uint64_t)speed * 1000000 / 2;
+            break;
+        case 666:
+            cfg->ddr_clock_hertz = 333333333;
             break;
         case 1066:
             cfg->ddr_clock_hertz = 533333333;
