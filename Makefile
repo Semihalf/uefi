@@ -86,70 +86,26 @@ endif
 # any other version control.
 #
 # BUILD_REV is a string representing the revision in version control
-# BUILD_DATE is the last change date, formatted as "YYYY MM DD"
+# BUILD_BRANCH is a string representing the branch in version control
 #
 ifeq ($(shell test -d .git;echo $$?),0)
-    BUILD_REV := $(shell git describe --long --always)
-    BUILD_DATE=$(shell date "+%Y %m %d")
+    # Using git
+    BUILD_REV := $(shell git describe --long --always --dirty)
     BUILD_BRANCH := $(shell git status | grep "On branch")
     BUILD_BRANCH := $(word 3, $(BUILD_BRANCH))
 else
-    # Don't know, use the date as a backup
+    # Don't know the version control system
     BUILD_REV=unknown
-    BUILD_DATE=$(shell date "+%Y %m %d")
     BUILD_BRANCH=$(shell pwd)
 endif
-UTC_DATE=$(shell date -u)
+BUILD_DATE=$(shell date -u)
 # Build the full BDK version string
-VERSION = "$(word 1, $(BUILD_DATE)).$(word 2, $(BUILD_DATE))"
-FULL_VERSION = "$(VERSION)-$(BUILD_REV)"
-DISPLAY_VERSION = "$(FULL_VERSION), Branch: $(BUILD_BRANCH), Built: $(UTC_DATE)"
-RELEASE_NAME = "thunderx-bdk"
-RELEASE_DIR = "$(RELEASE_NAME)-$(VERSION)"
+DISPLAY_VERSION = "$(BUILD_REV), Branch: $(BUILD_BRANCH), Built: $(BUILD_DATE)"
 
 .PHONY: version
 version:
 	echo "return \"$(DISPLAY_VERSION)\"" > lua-modules/bdk-version.lua
 	echo "const char bdk_version_str[] = \"$(DISPLAY_VERSION)\";" > libbdk-arch/bdk-version.c
-
-.PHONY: release
-release: all docs
-	echo "Release $(VERSION) FULL_VERSION=$(FULL_VERSION) RELEASE_DIR=$(RELEASE_DIR)"
-	rm -rf $(RELEASE_DIR)
-	# Copy Docs
-	mkdir -p $(RELEASE_DIR)/docs
-	cp -a docs/lua $(RELEASE_DIR)/docs/
-	cp -a docs/luasocket $(RELEASE_DIR)/docs/
-	cp docs/*.pdf $(RELEASE_DIR)/docs/
-	cp -a docs/lua-modules $(RELEASE_DIR)/docs/
-	cp -a docs/api-docs $(RELEASE_DIR)/docs/
-	sed "s/VERSION/$(FULL_VERSION)/g" < docs/readme.txt > $(RELEASE_DIR)/readme.txt
-	echo "$(VERSION)" > $(RELEASE_DIR)/version.txt
-	# Copy host binaries
-	cp -a bin $(RELEASE_DIR)/
-	# Copy target binaries
-	cp -a target-bin $(RELEASE_DIR)/target-bin
-	# Copy source code
-	$(MAKE) -C libc clean
-	cp -a lib* $(RELEASE_DIR)/
-	cp -a utils $(RELEASE_DIR)/
-	grep -E -v "REMOVE-RELEASE|mfg-screen" Makefile > $(RELEASE_DIR)/Makefile
-	# Copy boot stubs
-	cp -a boards $(RELEASE_DIR)/
-	# Copy lua-modules dir
-	cp -a lua-modules $(RELEASE_DIR)/
-	rm $(RELEASE_DIR)/lua-modules/*.luadoc
-	# Delete svn dirs
-	find $(RELEASE_DIR) -name .svn -print0 | xargs -0 rm -rf
-	# Delete ".d", ".o", ".a", ".pch", "obj-*" files
-	find $(RELEASE_DIR) -name "*.d" -print0 | xargs -0 rm -rf
-	find $(RELEASE_DIR) -name "*.o" -print0 | xargs -0 rm -rf
-	find $(RELEASE_DIR) -name "*.a" -print0 | xargs -0 rm -rf
-	find $(RELEASE_DIR) -name "*.pch" -print0 | xargs -0 rm -rf
-	find $(RELEASE_DIR) -name "obj-*" -print0 | xargs -0 rm -rf
-	# Create release tar
-	tar -zcf "$(RELEASE_NAME)-$(FULL_VERSION).tgz" $(RELEASE_DIR)
-	rm -rf $(RELEASE_DIR)
 
 .PHONY: emu
 emu:
