@@ -205,10 +205,10 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "    N#: Parameter can be different for each node. This specifies\n"
             "        which node the value is for. Node must be 0-3. Optional.",
     [BDK_CONFIG_DDR_SPEED] =
-            "Speed to use for DRAM in MT/s. Hardware may adjust this value\n"
+            "Speed grade to use for DRAM in MT/s. Hardware may adjust this value\n"
             "slightly to improve DRAM stability, so scope measurements may not\n"
-            "exactly match the frequency with MT/s. The Cavium supported speeds\n"
-            "are:\n"
+            "exactly match the frequency with MT/s. The Cavium supported speed\n"
+            "grades are:\n"
             "    666 MT/s\n"
             "    800 MT/s\n"
             "    1066 MT/s\n"
