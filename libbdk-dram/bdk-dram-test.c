@@ -710,3 +710,61 @@ int __bdk_dram_retry_failure2(int burst, uint64_t address1, uint64_t data1, uint
     return 1;
 }
 
+/**
+ * Inject a DRAM error at a specific address in memory. The injection can either
+ * be a single bit inside the byte, or a double bit error in the ECC byte. Double
+ * bit errors may corrupt memory, causing software to crash. The corruption is
+ * written to memory and will continue to exist until the cache line is written
+ * again. After a call to this function, the BDK should report a ECC error. Double
+ * bit errors corrupt bits 0-1.
+ *
+ * @param address Physical address to corrupt. Any byte alignment is supported
+ * @param bit     Bit to corrupt in the byte (0-7), or -1 to create a double bit fault in the ECC
+ *                byte.
+ */
+void bdk_dram_test_inject_error(uint64_t address, int bit)
+{
+    uint64_t aligned_address = address & -16;
+    int corrupt_bit = -1;
+    if (bit >= 0)
+        corrupt_bit = (address & 0xf) * 8 + bit;
+
+    /* Extract the DRAM controller information */
+    int node, lmc, dimm, rank, bank, row, col;
+    bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
+
+    /* Read the current data */
+    uint64_t data = __bdk_dram_read64(aligned_address);
+
+    /* Program LMC to inject the error */
+    if ((corrupt_bit >= 0) && (corrupt_bit < 64))
+        BDK_CSR_WRITE(node, BDK_LMCX_CHAR_MASK0(lmc), 1ull << corrupt_bit);
+    else if (bit == -1)
+        BDK_CSR_WRITE(node, BDK_LMCX_CHAR_MASK0(lmc), 3);
+    else
+        BDK_CSR_WRITE(node, BDK_LMCX_CHAR_MASK0(lmc), 0);
+    if (corrupt_bit >= 64)
+        BDK_CSR_WRITE(node, BDK_LMCX_CHAR_MASK2(lmc), 1ull << (corrupt_bit - 64));
+    else
+        BDK_CSR_WRITE(node, BDK_LMCX_CHAR_MASK2(lmc), 0);
+    BDK_CSR_MODIFY(c, node, BDK_LMCX_ECC_PARITY_TEST(lmc),
+        c.s.ecc_corrupt_idx = (address & 0x7f) >> 4;
+        c.s.ecc_corrupt_ena = 1);
+    BDK_CSR_READ(node, BDK_LMCX_ECC_PARITY_TEST(lmc));
+
+    /* Perform a write and push it to DRAM. This creates the error */
+    __bdk_dram_write64(aligned_address, data);
+    __bdk_dram_flush_to_mem(aligned_address);
+
+    /* Disable error injection */
+    BDK_CSR_MODIFY(c, node, BDK_LMCX_ECC_PARITY_TEST(lmc),
+        c.s.ecc_corrupt_ena = 0);
+    BDK_CSR_READ(node, BDK_LMCX_ECC_PARITY_TEST(lmc));
+    BDK_CSR_WRITE(node, BDK_LMCX_CHAR_MASK0(lmc), 0);
+    BDK_CSR_WRITE(node, BDK_LMCX_CHAR_MASK2(lmc), 0);
+
+    /* Read back the data, which should now cause an error */
+    printf("Loading the injected error address 0x%lx, node=%d, lmc=%d, dimm=%d, rank=%d, bank=%d, row=%d, col=%d\n",
+        address, node, lmc, dimm, rank, bank, row, col);
+    __bdk_dram_read64(aligned_address);
+}

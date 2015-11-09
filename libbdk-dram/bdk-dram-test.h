@@ -68,6 +68,20 @@ extern int bdk_dram_test(int test, uint64_t start_address, uint64_t length, bdk_
 extern void bdk_dram_address_extract_info(uint64_t address, int *node, int *lmc,
     int *dimm, int *rank, int *bank, int *row, int *col);
 
+/**
+ * Inject a DRAM error at a specific address in memory. The injection can either
+ * be a single bit inside the byte, or a double bit error in the ECC byte. Double
+ * bit errors may corrupt memory, causing software to crash. The corruption is
+ * written to memory and will continue to exist until the cache line is written
+ * again. After a call to this function, the BDK should report a ECC error. Double
+ * bit errors corrupt bits 0-1.
+ *
+ * @param address Physical address to corrupt. Any byte alignment is supported
+ * @param bit     Bit to corrupt in the byte (0-7), or -1 to create a double bit fault in the ECC
+ *                byte.
+ */
+extern void bdk_dram_test_inject_error(uint64_t address, int bit);
+
 /* These variables count the number of ECC errors. They should only be accessed atomically */
 /* Keep the counts per memory channel (LMC) for more detail. */
 #define BDK_MAX_MEM_CHANS 4

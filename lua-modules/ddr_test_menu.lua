@@ -145,6 +145,15 @@ local function do_test(test_func, arg)
     end
 end
 
+local function inject_error(double_bit)
+    local address = menu.prompt_number("Physical byte address to inject error at", range_start)
+    local bit = -1
+    if not double_bit then
+        bit = menu.prompt_number("Bit position to enject error at", 0, 0, 7)
+    end
+    cavium.c.bdk_dram_test_inject_error(address, bit)
+end
+
 repeat
     local info = cavium.c.bdk_dram_get_info_string(menu.node);
     local m = menu.new("DRAM Test Menu - %s" % info)
@@ -194,7 +203,8 @@ repeat
             m:item("ccpi", "Use CCPI cross node (Currently OFF)", toggle_use_ccpi)
         end
     end
-
+    m:item("inject_s", "Inject a single bit memory error", inject_error, false)
+    m:item("inject_d", "Inject a double bit memory error", inject_error, true)
     m:item("quit", "Main menu")
 until m:show() == "quit"
 
