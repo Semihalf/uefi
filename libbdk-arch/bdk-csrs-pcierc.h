@@ -1087,17 +1087,11 @@ typedef union
         uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
         uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
         uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
-                                                                 function) uses. The interrupt pin register is writable through
-                                                                 PEM()_CFG_WR. In a single-function configuration, only INTA is used. Therefore, the
-                                                                 application must not change this field. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin (not supported). */
         uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
 #else /* Word 0 - Little Endian */
         uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
-                                                                 function) uses. The interrupt pin register is writable through
-                                                                 PEM()_CFG_WR. In a single-function configuration, only INTA is used. Therefore, the
-                                                                 application must not change this field. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin (not supported). */
         uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
         uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
         uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
@@ -1463,8 +1457,6 @@ static inline uint64_t BDK_PCIERCX_CFG020(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
         return 0x20000000050ll + 0x100000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x20000000050ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000050ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIERCX_CFG020", 1, a, 0, 0, 0);
@@ -1503,8 +1495,6 @@ static inline uint64_t BDK_PCIERCX_CFG021(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
         return 0x20000000054ll + 0x100000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x20000000054ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000054ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIERCX_CFG021", 1, a, 0, 0, 0);
@@ -1541,8 +1531,6 @@ static inline uint64_t BDK_PCIERCX_CFG022(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
         return 0x20000000058ll + 0x100000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x20000000058ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000058ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIERCX_CFG022", 1, a, 0, 0, 0);
@@ -1583,8 +1571,6 @@ static inline uint64_t BDK_PCIERCX_CFG023(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
         return 0x2000000005cll + 0x100000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x2000000005cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000005cll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIERCX_CFG023", 1, a, 0, 0, 0);

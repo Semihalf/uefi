@@ -1066,7 +1066,10 @@ typedef union
                                                                  For optimal performance set to
                                                                  10 * (DDR-clock period/core-clock period) - 1.
                                                                  To disable set to 0. All other values are reserved. */
-        uint64_t reserved_5            : 1;
+        uint64_t disdwb                : 1;  /**< [  5:  5](R/W) Suppresses DWB and INVL2 commands, effectively turning them into NOPs.
+                                                                 Internal:
+                                                                 The real behavior is DWB and INVL2 commands are forced to look like STGL2I commands with
+                                                                 DISSTGL2I set. */
         uint64_t disgsyncto            : 1;  /**< [  4:  4](R/W) Disable global sync timeout. */
         uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
         uint64_t dissblkdty            : 1;  /**< [  2:  2](R/W) Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
@@ -1082,7 +1085,10 @@ typedef union
                                                                  DISSBLKDTY or operation is undefined. */
         uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
         uint64_t disgsyncto            : 1;  /**< [  4:  4](R/W) Disable global sync timeout. */
-        uint64_t reserved_5            : 1;
+        uint64_t disdwb                : 1;  /**< [  5:  5](R/W) Suppresses DWB and INVL2 commands, effectively turning them into NOPs.
+                                                                 Internal:
+                                                                 The real behavior is DWB and INVL2 commands are forced to look like STGL2I commands with
+                                                                 DISSTGL2I set. */
         uint64_t rdf_cnt               : 8;  /**< [ 13:  6](R/W) Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
                                                                  For optimal performance set to
                                                                  10 * (DDR-clock period/core-clock period) - 1.

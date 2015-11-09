@@ -1439,7 +1439,30 @@ typedef union
                                                                  A clear-active bit for a secure SPI is RAZ/WI to non-secure accesses. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicd_icactiverx_s cn; */
+    struct bdk_gicd_icactiverx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
+                                                                 is not active. If read as 1, the SPI is in active state.
+
+                                                                 Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
+
+                                                                 A clear-active bit for a secure SPI is RAZ/WI to non-secure accesses. */
+#else /* Word 0 - Little Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
+                                                                 is not active. If read as 1, the SPI is in active state.
+
+                                                                 Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
+
+                                                                 A clear-active bit for a secure SPI is RAZ/WI to non-secure accesses. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gicd_icactiverx_s cn88xx; */
+    /* struct bdk_gicd_icactiverx_s cn83xx; */
 } bdk_gicd_icactiverx_t;
 
 static inline uint64_t BDK_GICD_ICACTIVERX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1590,7 +1613,30 @@ typedef union
                                                                  A clear-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicd_icpendrx_s cn; */
+    struct bdk_gicd_icpendrx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
+                                                                 is not pending. If read as 1, the SPI is in pending state.
+
+                                                                 Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
+                                                                 be set by secure accesses.
+
+                                                                 A clear-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
+#else /* Word 0 - Little Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
+                                                                 is not pending. If read as 1, the SPI is in pending state.
+
+                                                                 Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
+                                                                 be set by secure accesses.
+
+                                                                 A clear-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gicd_icpendrx_s cn88xx; */
+    /* struct bdk_gicd_icpendrx_s cn83xx; */
 } bdk_gicd_icpendrx_t;
 
 static inline uint64_t BDK_GICD_ICPENDRX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1870,7 +1916,30 @@ typedef union
                                                                  A set-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicd_isactiverx_s cn; */
+    struct bdk_gicd_isactiverx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
+                                                                 is not active. If read as 1, the SPI is in active state.
+
+                                                                 Set-active bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
+
+                                                                 A set-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
+#else /* Word 0 - Little Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
+                                                                 is not active. If read as 1, the SPI is in active state.
+
+                                                                 Set-active bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
+
+                                                                 A set-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gicd_isactiverx_s cn88xx; */
+    /* struct bdk_gicd_isactiverx_s cn83xx; */
 } bdk_gicd_isactiverx_t;
 
 static inline uint64_t BDK_GICD_ISACTIVERX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1963,7 +2032,30 @@ typedef union
                                                                  A set-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicd_ispendrx_s cn; */
+    struct bdk_gicd_ispendrx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
+                                                                 is not pending. If read as 1, the SPI is in pending state.
+
+                                                                 Set-pending bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
+
+                                                                 A set-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
+#else /* Word 0 - Little Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SPI for SPI IDs in the range 159..32. If read as 0, then the
+                                                                 SPI
+                                                                 is not pending. If read as 1, the SPI is in pending state.
+
+                                                                 Set-pending bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
+
+                                                                 A set-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gicd_ispendrx_s cn88xx; */
+    /* struct bdk_gicd_ispendrx_s cn83xx; */
 } bdk_gicd_ispendrx_t;
 
 static inline uint64_t BDK_GICD_ISPENDRX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2589,7 +2681,32 @@ typedef union
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicd_sstatusr_s cn; */
+    struct bdk_gicd_sstatusr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t wrod                  : 1;  /**< [  3:  3](R/W/H) This bit is set if a write to a read-only location is detected. Software must write a one
+                                                                 to this bit to clear it. */
+        uint32_t rwod                  : 1;  /**< [  2:  2](R/W/H) This bit is set if a read to a write-only location is detected. Software must write a one
+                                                                 to this bit to clear it. */
+        uint32_t wrd                   : 1;  /**< [  1:  1](R/W/H) This bit is set if a write to a reserved location is detected. Software must write a one
+                                                                 to this bit to clear it. */
+        uint32_t rrd                   : 1;  /**< [  0:  0](R/W/H) This bit is set if a read to a reserved location is detected. Software must write a one to
+                                                                 this bit to clear it. */
+#else /* Word 0 - Little Endian */
+        uint32_t rrd                   : 1;  /**< [  0:  0](R/W/H) This bit is set if a read to a reserved location is detected. Software must write a one to
+                                                                 this bit to clear it. */
+        uint32_t wrd                   : 1;  /**< [  1:  1](R/W/H) This bit is set if a write to a reserved location is detected. Software must write a one
+                                                                 to this bit to clear it. */
+        uint32_t rwod                  : 1;  /**< [  2:  2](R/W/H) This bit is set if a read to a write-only location is detected. Software must write a one
+                                                                 to this bit to clear it. */
+        uint32_t wrod                  : 1;  /**< [  3:  3](R/W/H) This bit is set if a write to a read-only location is detected. Software must write a one
+                                                                 to this bit to clear it. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gicd_sstatusr_s cn88xx; */
+    /* struct bdk_gicd_sstatusr_s cn83xx; */
 } bdk_gicd_sstatusr_t;
 
 #define BDK_GICD_SSTATUSR BDK_GICD_SSTATUSR_FUNC()
@@ -2898,7 +3015,28 @@ typedef union
                                                                  A clear-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicrx_icactiver0_s cn; */
+    struct bdk_gicrx_icactiver0_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+                                                                 0, then the interrupt is not active. If read as 1, the interrupt is in active state.
+
+                                                                 Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
+
+                                                                 A clear-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+#else /* Word 0 - Little Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+                                                                 0, then the interrupt is not active. If read as 1, the interrupt is in active state.
+
+                                                                 Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
+
+                                                                 A clear-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gicrx_icactiver0_s cn88xx; */
+    /* struct bdk_gicrx_icactiver0_s cn83xx; */
 } bdk_gicrx_icactiver0_t;
 
 static inline uint64_t BDK_GICRX_ICACTIVER0(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3122,7 +3260,28 @@ typedef union
                                                                  A clear-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicrx_icpendr0_s cn; */
+    struct bdk_gicrx_icpendr0_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+                                                                 0, then the interrupt is not pending. If read as 1, the interrupt is in pending state.
+
+                                                                 Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
+                                                                 be set by secure accesses.
+
+                                                                 A clear-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+#else /* Word 0 - Little Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1C/H) Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
+                                                                 0, then the interrupt is not pending. If read as 1, the interrupt is in pending state.
+
+                                                                 Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
+                                                                 be set by secure accesses.
+
+                                                                 A clear-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gicrx_icpendr0_s cn88xx; */
+    /* struct bdk_gicrx_icpendr0_s cn83xx; */
 } bdk_gicrx_icpendr0_t;
 
 static inline uint64_t BDK_GICRX_ICPENDR0(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3467,7 +3626,28 @@ typedef union
                                                                  A set-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicrx_isactiver0_s cn; */
+    struct bdk_gicrx_isactiver0_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+                                                                 then the interrupt is not active. If read as 1, the interrupt is in active state.
+
+                                                                 Set-active bits corresponding to secure interrupts (either group 0 or group 1) may only be
+                                                                 set by secure accesses.
+
+                                                                 A set-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+#else /* Word 0 - Little Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+                                                                 then the interrupt is not active. If read as 1, the interrupt is in active state.
+
+                                                                 Set-active bits corresponding to secure interrupts (either group 0 or group 1) may only be
+                                                                 set by secure accesses.
+
+                                                                 A set-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gicrx_isactiver0_s cn88xx; */
+    /* struct bdk_gicrx_isactiver0_s cn83xx; */
 } bdk_gicrx_isactiver0_t;
 
 static inline uint64_t BDK_GICRX_ISACTIVER0(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3566,7 +3746,28 @@ typedef union
                                                                  A set-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gicrx_ispendr0_s cn; */
+    struct bdk_gicrx_ispendr0_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+                                                                 then the interrupt is not pending. If read as 1, the interrupt is in pending state.
+
+                                                                 Set-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
+                                                                 be set by secure accesses.
+
+                                                                 A set-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+#else /* Word 0 - Little Endian */
+        uint32_t vec                   : 32; /**< [ 31:  0](R/W1S/H) Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
+                                                                 then the interrupt is not pending. If read as 1, the interrupt is in pending state.
+
+                                                                 Set-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
+                                                                 be set by secure accesses.
+
+                                                                 A set-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_gicrx_ispendr0_s cn88xx; */
+    /* struct bdk_gicrx_ispendr0_s cn83xx; */
 } bdk_gicrx_ispendr0_t;
 
 static inline uint64_t BDK_GICRX_ISPENDR0(unsigned long a) __attribute__ ((pure, always_inline));

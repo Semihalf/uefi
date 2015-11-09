@@ -151,7 +151,8 @@
  * Structure ddf_inst_find_s
  *
  * DDF Find Instruction Structure
- * This structure specifies the find instruction.
+ * This structure specifies the find instruction. Instructions are stored in memory as
+ * little-endian unless DDF()_PF_Q()_CTL[INST_BE] is set.
  */
 union bdk_ddf_inst_find_s
 {
@@ -176,10 +177,7 @@ union bdk_ddf_inst_find_s
                                                                  1 = Search/insert/delete only in the way provided in [WAY]. */
         uint64_t way                   : 3;  /**< [ 50: 48] Which way number. If [OP] = DDF_OP_E::FIND_INS or DDF_OP_E::FEMPTY_INS or
                                                                  DDF_OP_E::FABS_SET, or [WAY_ABS] is set, which way number, otherwise ignored. */
-        uint64_t reserved_40_47        : 8;
-        uint64_t pbkt                  : 8;  /**< [ 39: 32] Primary bucket number.
-                                                                 For [OP] = DDF_OP_E::FABS_SET, which bucket number, otherwise reserved. */
-        uint64_t reserved_22_31        : 10;
+        uint64_t reserved_22_47        : 26;
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_FIND_S. */
         uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
                                                                  clear, do not allocate if not already in L2 cache. */
@@ -195,8 +193,8 @@ union bdk_ddf_inst_find_s
                                                                  1 = When the instruction completes, DDF()_VQ()_DONE[DONE] will be incremented,
                                                                  and based on the rules described there an interrupt may occur. */
         uint64_t qwords                : 8;  /**< [ 15:  8] Number of 8-byte quadwords in request. Must be 1-16. If less than the size of
-                                                                 this structure then structure elements described here are not read from memory
-                                                                 and behave as if zero.
+                                                                 this structure then structure elements described here are not interpreted from
+                                                                 memory and behave as if zero.
 
                                                                  Internal:
                                                                  In hardware, push/pop zeros for (QWORDS..15) into the
@@ -205,8 +203,8 @@ union bdk_ddf_inst_find_s
 #else /* Word 0 - Little Endian */
         uint64_t op                    : 8;  /**< [  7:  0] Operation to perform. Enumerated by DDF_OP_E. */
         uint64_t qwords                : 8;  /**< [ 15:  8] Number of 8-byte quadwords in request. Must be 1-16. If less than the size of
-                                                                 this structure then structure elements described here are not read from memory
-                                                                 and behave as if zero.
+                                                                 this structure then structure elements described here are not interpreted from
+                                                                 memory and behave as if zero.
 
                                                                  Internal:
                                                                  In hardware, push/pop zeros for (QWORDS..15) into the
@@ -225,10 +223,7 @@ union bdk_ddf_inst_find_s
         uint64_t cacs                  : 1;  /**< [ 20: 20] L2 cache filter data. If set, when reading the header allocate into L2 cache. If
                                                                  clear, do not allocate if not already in L2 cache. */
         uint64_t rr                    : 1;  /**< [ 21: 21] Return result. If set, include key data in DDF_RES_FIND_S. */
-        uint64_t reserved_22_31        : 10;
-        uint64_t pbkt                  : 8;  /**< [ 39: 32] Primary bucket number.
-                                                                 For [OP] = DDF_OP_E::FABS_SET, which bucket number, otherwise reserved. */
-        uint64_t reserved_40_47        : 8;
+        uint64_t reserved_22_47        : 26;
         uint64_t way                   : 3;  /**< [ 50: 48] Which way number. If [OP] = DDF_OP_E::FIND_INS or DDF_OP_E::FEMPTY_INS or
                                                                  DDF_OP_E::FABS_SET, or [WAY_ABS] is set, which way number, otherwise ignored. */
         uint64_t way_abs               : 1;  /**< [ 51: 51] Way is absolute.
@@ -273,14 +268,18 @@ union bdk_ddf_inst_find_s
                                                                     0x1F: SSO tag = [TAG] ^ {DDF_RES_FIND_S[RANK]<30:0>}. */
         uint64_t reserved_172_186      : 15;
         uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when DDF submits work to
-                                                                 SSO. */
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
+                                                                 [GRP] and DDF()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when DDF submits work to SSO. */
         uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when DDF submits work to SSO. */
 #else /* Word 2 - Little Endian */
         uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when DDF submits work to SSO. */
         uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when DDF submits work to SSO. */
         uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when DDF submits work to
-                                                                 SSO. */
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
+                                                                 [GRP] and DDF()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_172_186      : 15;
         uint64_t tag_rank              : 5;  /**< [191:187] If set, extract [TAG_RANK] number of bits from the computed nest number and
                                                                  exclusive-or into the SSO TAG.
@@ -304,45 +303,52 @@ union bdk_ddf_inst_find_s
         uint64_t reserved_288_319      : 32;
         uint64_t set_bdis              : 32; /**< [287:256] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA3] byte. If
                                                                  that bit is clear the corresponding byte will be set in the record. Only bits
-                                                                 [SET_BDIS]<NESTSZM1:0> have an effect. */
+                                                                 [SET_BDIS]<NESTSZM1-NBUCKP2:0> have an effect on nests and on the upper 2^[NESTSZP2]
+                                                                 bytes of the header. */
 #else /* Word 4 - Little Endian */
         uint64_t set_bdis              : 32; /**< [287:256] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA3] byte. If
                                                                  that bit is clear the corresponding byte will be set in the record. Only bits
-                                                                 [SET_BDIS]<NESTSZM1:0> have an effect. */
+                                                                 [SET_BDIS]<NESTSZM1-NBUCKP2:0> have an effect on nests and on the upper 2^[NESTSZP2]
+                                                                 bytes of the header. */
         uint64_t reserved_288_319      : 32;
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t reserved_380_383      : 4;
         uint64_t nwayp2                : 2;  /**< [379:378] Number of ways as power-of-2.
-                                                                 0x0 = 1 way.
-                                                                 0x1 = 2 ways.
-                                                                 0x2 = 4 ways.
-                                                                 0x3 = 8 ways. */
-        uint64_t hdrszp2               : 3;  /**< [377:375] Size of a filter header as power-of-2.
-                                                                    0x0 = 1 byte.
+                                                                    0x0 = 1 way.
+                                                                    0x1 = 2 ways.
+                                                                    0x2 = 4 ways.
+                                                                    0x3 = 8 ways. */
+        uint64_t hdrszp2               : 3;  /**< [377:375] Size of a single-way's filter header as power-of-2.
+                                                                    0x0 = Reserved. (Hardware treats as 0x1).
                                                                     0x1 = 2 bytes.
                                                                     0x2 = 4 bytes.
                                                                     0x3 = 8 bytes.
                                                                     0x4 = 16 bytes.
                                                                     0x5 = 32 bytes. (See note - must have 1, 2 or 4 ways.)
                                                                     0x6 = 64 bytes. (See note - must have 1 or 2 ways.)
-                                                                    0x7 = 128 bytes. (See note - must have 1 way.)
+                                                                    0x7 = Reserved. (Hardware treats as 0x6.)
 
-                                                                 The size of a header for all ways, e.g. (2^NWAYP2)*(2^HDRSZP2) cannot be larger than
-                                                                 128 bytes.
+                                                                 The size of a header for all ways (2^[NWAYP2])*(2^[HDRSZP2]) cannot be larger than 128
+                                                                 bytes.
 
-                                                                 If [VICTEN] is set the header must be large enough to fit the victim. */
+                                                                 2^[HDRSZP2] must be >= (2^[NESTSZP2]) + ceiling([NBUCKP2]/8)
+
+                                                                 If [VICTEN] is clear, this is ignored. */
         uint64_t nestszp2              : 3;  /**< [374:372] Size of a nest entry as power-of-2.
-                                                                    0x0 = 1 byte.
+                                                                    0x0 = Reserved.
                                                                     0x1 = 2 bytes.
                                                                     0x2 = 4 bytes.
                                                                     0x3 = 8 bytes.
                                                                     0x4 = 16 bytes.
                                                                     0x5 = 32 bytes.
+                                                                    0x6 = Reserved.
+                                                                    0x7 = Reserved.
 
-                                                                 The total size of a filter, e.g. (2^NBUCKP2) * 4 * 2^NESTSZP2) cannot be larger than
-                                                                 512 bytes.
-                                                                 The size of a bucket, e.g. 4 * (2^NESTSZP2) cannot be larger than 128 bytes.
+                                                                 The total size of a filter, e.g. (2^[NBUCKP2]) * 4 * 2^[NESTSZP2]) cannot be
+                                                                 larger than 512 bytes. Reserved values default to 0x1.
+
+                                                                 The size of a bucket, e.g. 4 * (2^[NESTSZP2]) cannot be larger than 128 bytes.
 
                                                                  Internal:
                                                                  This means a 32-byte SHA256 cannot have any payload (SW must use separate
@@ -356,9 +362,9 @@ union bdk_ddf_inst_find_s
                                                                    0x4 = 2^4 = 16 buckets/filter.
                                                                    0x5 = 2^5 = 32 buckets/filter.
                                                                    0x6 = 2^6 = 64 buckets/filter.
-                                                                   0x7 = 2^7 = 128 buckets/filter.
+                                                                   0x7 = Reserved. (Hardware treats as 0x6).
 
-                                                                 The total size of a filter, e.g. (2^NBUCKP2)*4*2^NESTSZP2) cannot be larger than 512
+                                                                 The total size of a filter, e.g. (2^[NBUCKP2])*4*2^[NESTSZP2]) cannot be larger than 512
                                                                  bytes. */
         uint64_t tagbitsm1             : 8;  /**< [367:360] Number of tag bits minus one. Maximum of 0xFF corresponds to a complete 256 bit key. */
         uint64_t reserved_359          : 1;
@@ -381,45 +387,50 @@ union bdk_ddf_inst_find_s
                                                                    0x4 = 2^4 = 16 buckets/filter.
                                                                    0x5 = 2^5 = 32 buckets/filter.
                                                                    0x6 = 2^6 = 64 buckets/filter.
-                                                                   0x7 = 2^7 = 128 buckets/filter.
+                                                                   0x7 = Reserved. (Hardware treats as 0x6).
 
-                                                                 The total size of a filter, e.g. (2^NBUCKP2)*4*2^NESTSZP2) cannot be larger than 512
+                                                                 The total size of a filter, e.g. (2^[NBUCKP2])*4*2^[NESTSZP2]) cannot be larger than 512
                                                                  bytes. */
         uint64_t reserved_371          : 1;
         uint64_t nestszp2              : 3;  /**< [374:372] Size of a nest entry as power-of-2.
-                                                                    0x0 = 1 byte.
+                                                                    0x0 = Reserved.
                                                                     0x1 = 2 bytes.
                                                                     0x2 = 4 bytes.
                                                                     0x3 = 8 bytes.
                                                                     0x4 = 16 bytes.
                                                                     0x5 = 32 bytes.
+                                                                    0x6 = Reserved.
+                                                                    0x7 = Reserved.
 
-                                                                 The total size of a filter, e.g. (2^NBUCKP2) * 4 * 2^NESTSZP2) cannot be larger than
-                                                                 512 bytes.
-                                                                 The size of a bucket, e.g. 4 * (2^NESTSZP2) cannot be larger than 128 bytes.
+                                                                 The total size of a filter, e.g. (2^[NBUCKP2]) * 4 * 2^[NESTSZP2]) cannot be
+                                                                 larger than 512 bytes. Reserved values default to 0x1.
+
+                                                                 The size of a bucket, e.g. 4 * (2^[NESTSZP2]) cannot be larger than 128 bytes.
 
                                                                  Internal:
                                                                  This means a 32-byte SHA256 cannot have any payload (SW must use separate
                                                                  table). Limiting to 32 byte nests means all 4 nests fit in a cache line. */
-        uint64_t hdrszp2               : 3;  /**< [377:375] Size of a filter header as power-of-2.
-                                                                    0x0 = 1 byte.
+        uint64_t hdrszp2               : 3;  /**< [377:375] Size of a single-way's filter header as power-of-2.
+                                                                    0x0 = Reserved. (Hardware treats as 0x1).
                                                                     0x1 = 2 bytes.
                                                                     0x2 = 4 bytes.
                                                                     0x3 = 8 bytes.
                                                                     0x4 = 16 bytes.
                                                                     0x5 = 32 bytes. (See note - must have 1, 2 or 4 ways.)
                                                                     0x6 = 64 bytes. (See note - must have 1 or 2 ways.)
-                                                                    0x7 = 128 bytes. (See note - must have 1 way.)
+                                                                    0x7 = Reserved. (Hardware treats as 0x6.)
 
-                                                                 The size of a header for all ways, e.g. (2^NWAYP2)*(2^HDRSZP2) cannot be larger than
-                                                                 128 bytes.
+                                                                 The size of a header for all ways (2^[NWAYP2])*(2^[HDRSZP2]) cannot be larger than 128
+                                                                 bytes.
 
-                                                                 If [VICTEN] is set the header must be large enough to fit the victim. */
+                                                                 2^[HDRSZP2] must be >= (2^[NESTSZP2]) + ceiling([NBUCKP2]/8)
+
+                                                                 If [VICTEN] is clear, this is ignored. */
         uint64_t nwayp2                : 2;  /**< [379:378] Number of ways as power-of-2.
-                                                                 0x0 = 1 way.
-                                                                 0x1 = 2 ways.
-                                                                 0x2 = 4 ways.
-                                                                 0x3 = 8 ways. */
+                                                                    0x0 = 1 way.
+                                                                    0x1 = 2 ways.
+                                                                    0x2 = 4 ways.
+                                                                    0x3 = 8 ways. */
         uint64_t reserved_380_383      : 4;
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
@@ -506,7 +517,8 @@ union bdk_ddf_inst_find_s
  * Structure ddf_inst_match_s
  *
  * DDF Record Match Instruction Structure
- * This structure specifies the record match instruction.
+ * This structure specifies the record-match instruction. Instructions are stored in
+ * memory as little-endian unless DDF()_PF_Q()_CTL[INST_BE] is set.
  */
 union bdk_ddf_inst_match_s
 {
@@ -896,6 +908,9 @@ union bdk_ddf_inst_match_s
  * set DDF will update an entire cache line, but only write valid data to the fields
  * specified depending on the required amount of [RDATA0]..[3] data.
  *
+ * This structure is stored in memory as little-endian unless DDF()_PF_Q()_CTL[INST_BE]
+ * is set.
+ *
  * Internal:
  * When DDF_INST_FIND_S[RR] is set it can use a full-cacheline write with fewer than
  * a cache-lines worth of NCB data ticks.
@@ -906,23 +921,22 @@ union bdk_ddf_res_find_s
     struct bdk_ddf_res_find_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t hitway                : 8;  /**< [ 31: 24] Hit ways. Bitmask of which ways in which the item was found. For insert/deletes a single
-                                                                 bit will be set.
+        uint64_t reserved_48_63        : 16;
+        uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of which ways in which the item was found using the
+                                                                 secondary bucket number. For insert/deletes a single bit in [HITP], or [HITS],
+                                                                 or [HITVIC] will be set.
 
                                                                  Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hitvict               : 1;  /**< [ 23: 23] Hit victim. Set if item was found, inserted, or deleted as a victim, else clear.
+        uint64_t hitp                  : 8;  /**< [ 39: 32] Hit primary-ways. Bitmask of which ways in which the item was found using the
+                                                                 primary bucket number. For insert/deletes a single bit in [HITP], or [HITS], or
+                                                                 [HITVIC] will be set.
 
                                                                  Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hits                  : 1;  /**< [ 22: 22] Hit secondary. Set if item was found, inserted, or deleted at the secondary bucket
-                                                                 location, else clear.
+        uint64_t nest                  : 2;  /**< [ 31: 30] Hit nest number. Set to the nest number if [HITP] or [HITV] != 0x0, else clear. */
+        uint64_t hitvict               : 1;  /**< [ 29: 29] Hit victim. Set if item was found, inserted, or deleted as a victim, else clear.
 
                                                                  Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hitp                  : 1;  /**< [ 21: 21] Hit primary. Set if item was found, inserted, or deleted at the primary bucket location,
-                                                                 else clear.
-
-                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t reserved_17_20        : 4;
+        uint64_t reserved_17_28        : 12;
         uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corrresponding instruction's
                                                                  DDF_INST_FIND_S[DONEINT]. */
         uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
@@ -948,34 +962,35 @@ union bdk_ddf_res_find_s
         uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
         uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corrresponding instruction's
                                                                  DDF_INST_FIND_S[DONEINT]. */
-        uint64_t reserved_17_20        : 4;
-        uint64_t hitp                  : 1;  /**< [ 21: 21] Hit primary. Set if item was found, inserted, or deleted at the primary bucket location,
-                                                                 else clear.
+        uint64_t reserved_17_28        : 12;
+        uint64_t hitvict               : 1;  /**< [ 29: 29] Hit victim. Set if item was found, inserted, or deleted as a victim, else clear.
 
                                                                  Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hits                  : 1;  /**< [ 22: 22] Hit secondary. Set if item was found, inserted, or deleted at the secondary bucket
-                                                                 location, else clear.
+        uint64_t nest                  : 2;  /**< [ 31: 30] Hit nest number. Set to the nest number if [HITP] or [HITV] != 0x0, else clear. */
+        uint64_t hitp                  : 8;  /**< [ 39: 32] Hit primary-ways. Bitmask of which ways in which the item was found using the
+                                                                 primary bucket number. For insert/deletes a single bit in [HITP], or [HITS], or
+                                                                 [HITVIC] will be set.
 
                                                                  Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hitvict               : 1;  /**< [ 23: 23] Hit victim. Set if item was found, inserted, or deleted as a victim, else clear.
+        uint64_t hits                  : 8;  /**< [ 47: 40] Hit secondary-ways. Bitmask of which ways in which the item was found using the
+                                                                 secondary bucket number. For insert/deletes a single bit in [HITP], or [HITS],
+                                                                 or [HITVIC] will be set.
 
                                                                  Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hitway                : 8;  /**< [ 31: 24] Hit ways. Bitmask of which ways in which the item was found. For insert/deletes a single
-                                                                 bit will be set.
-
-                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_112_127      : 16;
-        uint64_t sbkt                  : 8;  /**< [111:104] Calculated secondary bucket number. */
-        uint64_t pbkt                  : 8;  /**< [103: 96] Calculated primary bucket number. */
+        uint64_t reserved_110_127      : 18;
+        uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
         uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
 #else /* Word 1 - Little Endian */
         uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
-        uint64_t pbkt                  : 8;  /**< [103: 96] Calculated primary bucket number. */
-        uint64_t sbkt                  : 8;  /**< [111:104] Calculated secondary bucket number. */
-        uint64_t reserved_112_127      : 16;
+        uint64_t pbkt                  : 6;  /**< [101: 96] Calculated primary bucket number. */
+        uint64_t reserved_102_103      : 2;
+        uint64_t sbkt                  : 6;  /**< [109:104] Calculated secondary bucket number. */
+        uint64_t reserved_110_127      : 18;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t rdata0                : 64; /**< [191:128] Key or opaque data bytes read from the nest.
@@ -1017,6 +1032,9 @@ union bdk_ddf_res_find_s
  * DDF always writes the first 16 bytes of this structure.  If DDF_INST_MATCH_S[RR] is
  * set DDF will update an entire cache line, but only write valid data to the fields
  * specified depending on the required amount of [RDATA0]..[7] data.
+ *
+ * This structure is stored in memory as little-endian unless DDF()_PF_Q()_CTL[INST_BE]
+ * is set.
  *
  * Internal:
  * When DDF_INST_MATCH_S[RR] is set it can use a full-cacheline write with fewer than
@@ -1192,14 +1210,14 @@ union bdk_ddf_res_match_s
 };
 
 /**
- * Register (NCB) ddf#_active_cycles_pc
+ * Register (NCB) ddf#_pf_active_cycles_pc
  *
- * DDF Active Cycles Register
+ * DDF PF Active Cycles Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddfx_active_cycles_pc_s
+    struct bdk_ddfx_pf_active_cycles_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the conditional clocks are active.
@@ -1211,23 +1229,23 @@ typedef union
                                                                  Includes CDE internal or any engine clock being enabled. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddfx_active_cycles_pc_s cn; */
-} bdk_ddfx_active_cycles_pc_t;
+    /* struct bdk_ddfx_pf_active_cycles_pc_s cn; */
+} bdk_ddfx_pf_active_cycles_pc_t;
 
-static inline uint64_t BDK_DDFX_ACTIVE_CYCLES_PC(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDFX_ACTIVE_CYCLES_PC(unsigned long a)
+static inline uint64_t BDK_DDFX_PF_ACTIVE_CYCLES_PC(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_ACTIVE_CYCLES_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000010080ll + 0ll * ((a) & 0x0);
-    __bdk_csr_fatal("DDFX_ACTIVE_CYCLES_PC", 1, a, 0, 0, 0);
+        return 0x809000010100ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_ACTIVE_CYCLES_PC", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDFX_ACTIVE_CYCLES_PC(a) bdk_ddfx_active_cycles_pc_t
-#define bustype_BDK_DDFX_ACTIVE_CYCLES_PC(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDFX_ACTIVE_CYCLES_PC(a) "DDFX_ACTIVE_CYCLES_PC"
-#define device_bar_BDK_DDFX_ACTIVE_CYCLES_PC(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DDFX_ACTIVE_CYCLES_PC(a) (a)
-#define arguments_BDK_DDFX_ACTIVE_CYCLES_PC(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_PF_ACTIVE_CYCLES_PC(a) bdk_ddfx_pf_active_cycles_pc_t
+#define bustype_BDK_DDFX_PF_ACTIVE_CYCLES_PC(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_ACTIVE_CYCLES_PC(a) "DDFX_PF_ACTIVE_CYCLES_PC"
+#define device_bar_BDK_DDFX_PF_ACTIVE_CYCLES_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_ACTIVE_CYCLES_PC(a) (a)
+#define arguments_BDK_DDFX_PF_ACTIVE_CYCLES_PC(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) ddf#_pf_bist_status
@@ -1432,9 +1450,19 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t cacdis                : 1;  /**< [  0:  0](R/W) Disable caching between transactions. For diagnostic use only. */
+        uint64_t cacflush              : 1;  /**< [  0:  0](R/W1S/H) When written with one, request that hardware flush the DDF cache (for all
+                                                                 streams and addresses). This bit will stay set until the flush is completed,
+                                                                 then be cleared.
+
+                                                                 New transactions may simultaniously fill the cache, and will not block thie bit
+                                                                 clearing, so to insure complete emptiness all DDF()_VQ()_CTL[ENA] must be clear. */
 #else /* Word 0 - Little Endian */
-        uint64_t cacdis                : 1;  /**< [  0:  0](R/W) Disable caching between transactions. For diagnostic use only. */
+        uint64_t cacflush              : 1;  /**< [  0:  0](R/W1S/H) When written with one, request that hardware flush the DDF cache (for all
+                                                                 streams and addresses). This bit will stay set until the flush is completed,
+                                                                 then be cleared.
+
+                                                                 New transactions may simultaniously fill the cache, and will not block thie bit
+                                                                 clearing, so to insure complete emptiness all DDF()_VQ()_CTL[ENA] must be clear. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2087,11 +2115,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and DDF()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_45_47        : 3;
         uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be even. */
+                                                                 Must be 16*n + 1, where n is the number of instructions per buffer segment. */
         uint64_t reserved_11_31        : 21;
         uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
 
@@ -2105,19 +2135,20 @@ typedef union
                                                                  1 = Ignore errors and continue processing instructions. For diagnostic use only. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when DDF reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
-        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Load don't write back.
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big endian format in memory. */
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
-                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
-                                                                 line to be written back before being replaced.
+                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
+                                                                 line hits and is is dirty will cause the line to be written back before being
+                                                                 replaced.
 
                                                                  1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
                                                                  when fetching the last word of instructions; as a result the line will not be
                                                                  written back when replaced.  This improves performance, but software must not
                                                                  read the instructions after they are posted to the hardware.
 
-                                                                 Partial cache line reads always use LDI. */
+                                                                 Reads that do not consume the last word of a cache line always use LDI. */
         uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
                                                                  will use STF. */
         uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
@@ -2143,19 +2174,20 @@ typedef union
                                                                  0x3 = LDY. */
         uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
                                                                  will use STF. */
-        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Load don't write back.
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
-                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
-                                                                 line to be written back before being replaced.
+                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
+                                                                 line hits and is is dirty will cause the line to be written back before being
+                                                                 replaced.
 
                                                                  1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
                                                                  when fetching the last word of instructions; as a result the line will not be
                                                                  written back when replaced.  This improves performance, but software must not
                                                                  read the instructions after they are posted to the hardware.
 
-                                                                 Partial cache line reads always use LDI. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
+                                                                 Reads that do not consume the last word of a cache line always use LDI. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big endian format in memory. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when DDF reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
         uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
@@ -2170,10 +2202,12 @@ typedef union
                                                                  1 = Ignore errors and continue processing instructions. For diagnostic use only. */
         uint64_t reserved_11_31        : 21;
         uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be even. */
+                                                                 Must be 16*n + 1, where n is the number of instructions per buffer segment. */
         uint64_t reserved_45_47        : 3;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and DDF()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
@@ -2194,6 +2228,72 @@ static inline uint64_t BDK_DDFX_PF_QX_CTL(unsigned long a, unsigned long b)
 #define device_bar_BDK_DDFX_PF_QX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DDFX_PF_QX_CTL(a,b) (a)
 #define arguments_BDK_DDFX_PF_QX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) ddf#_pf_q#_ctl2
+ *
+ * DDF Queue Control 2 Register
+ * This register configures queues. This register should be changed only when quiescent
+ * (see DDF()_VQ()_STATUS[BUSY]).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_pf_qx_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t cachedis              : 1;  /**< [  4:  4](R/W) No caching.
+                                                                 0 = DDF may cache read/writes between instructions if the IOVA and [STRM] match.
+                                                                 1 = DDF may cache read/writes within an instruction, but will flush and
+                                                                 invalidate the cache after completing an instruction to this queue.
+                                                                 Multiple engines will not access the cache simultaniously, reducing engine
+                                                                 parallelism. */
+        uint64_t d_st_cmd              : 2;  /**< [  3:  2](R/W) Which NCB store command to use for filter/record data writes.
+                                                                 0x0 = STP for partial cache lines, STF for full cache lines.
+                                                                 0x1 = STT. Store and don't allocate.
+                                                                 0x2 = STY. Store and allocate home only. */
+        uint64_t d_ld_cmd              : 2;  /**< [  1:  0](R/W) Which NCB load command to use for filter/record data reads.
+                                                                 0x0 = LDD. Read and cache local.
+                                                                 0x1 = LDI. Read and cache local read-only.
+                                                                 0x2 = LDE. Read and cache with write-intent.
+                                                                 0x3 = LDY. Read and cache home only. */
+#else /* Word 0 - Little Endian */
+        uint64_t d_ld_cmd              : 2;  /**< [  1:  0](R/W) Which NCB load command to use for filter/record data reads.
+                                                                 0x0 = LDD. Read and cache local.
+                                                                 0x1 = LDI. Read and cache local read-only.
+                                                                 0x2 = LDE. Read and cache with write-intent.
+                                                                 0x3 = LDY. Read and cache home only. */
+        uint64_t d_st_cmd              : 2;  /**< [  3:  2](R/W) Which NCB store command to use for filter/record data writes.
+                                                                 0x0 = STP for partial cache lines, STF for full cache lines.
+                                                                 0x1 = STT. Store and don't allocate.
+                                                                 0x2 = STY. Store and allocate home only. */
+        uint64_t cachedis              : 1;  /**< [  4:  4](R/W) No caching.
+                                                                 0 = DDF may cache read/writes between instructions if the IOVA and [STRM] match.
+                                                                 1 = DDF may cache read/writes within an instruction, but will flush and
+                                                                 invalidate the cache after completing an instruction to this queue.
+                                                                 Multiple engines will not access the cache simultaniously, reducing engine
+                                                                 parallelism. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_pf_qx_ctl2_s cn; */
+} bdk_ddfx_pf_qx_ctl2_t;
+
+static inline uint64_t BDK_DDFX_PF_QX_CTL2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_QX_CTL2(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809008000100ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
+    __bdk_csr_fatal("DDFX_PF_QX_CTL2", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DDFX_PF_QX_CTL2(a,b) bdk_ddfx_pf_qx_ctl2_t
+#define bustype_BDK_DDFX_PF_QX_CTL2(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_QX_CTL2(a,b) "DDFX_PF_QX_CTL2"
+#define device_bar_BDK_DDFX_PF_QX_CTL2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DDFX_PF_QX_CTL2(a,b) (a)
+#define arguments_BDK_DDFX_PF_QX_CTL2(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) ddf#_pf_q#_gmctl
@@ -2218,13 +2318,13 @@ typedef union
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests. */
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests. */
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.

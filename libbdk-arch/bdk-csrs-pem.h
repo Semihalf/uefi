@@ -187,11 +187,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t mask                  : 45; /**< [ 48:  4](R/W) The value to be ANDed with the address sent to the CNXXXX memory. */
+        uint64_t mask                  : 45; /**< [ 48:  4](R/W) The value to be ANDed with the address sent to memory. */
         uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_3          : 4;
-        uint64_t mask                  : 45; /**< [ 48:  4](R/W) The value to be ANDed with the address sent to the CNXXXX memory. */
+        uint64_t mask                  : 45; /**< [ 48:  4](R/W) The value to be ANDed with the address sent to memory. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn83xx;
@@ -239,13 +239,13 @@ typedef union
                                                                  0x6 = 2048 MB.
                                                                  0x7 = Reserved. */
         uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
-        uint64_t bar2_esx              : 2;  /**< [  2:  1](R/W) Reserved. */
+        uint64_t bar2_esx              : 2;  /**< [  2:  1](R/W) Value is XORed with PCIe address [48:47] to determine the endian swap mode. */
         uint64_t bar2_cax              : 1;  /**< [  0:  0](R/W) Value is XORed with PCIe address <49> to determine the L2 cache attribute. Not cached in
                                                                  L2 if XOR result is 1. */
 #else /* Word 0 - Little Endian */
         uint64_t bar2_cax              : 1;  /**< [  0:  0](R/W) Value is XORed with PCIe address <49> to determine the L2 cache attribute. Not cached in
                                                                  L2 if XOR result is 1. */
-        uint64_t bar2_esx              : 2;  /**< [  2:  1](R/W) Reserved. */
+        uint64_t bar2_esx              : 2;  /**< [  2:  1](R/W) Value is XORed with PCIe address [48:47] to determine the endian swap mode. */
         uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
         uint64_t bar1_siz              : 3;  /**< [  6:  4](R/W) PCIe Port 0 Bar1 Size.
                                                                  0x0 = Reserved.
@@ -294,7 +294,40 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_pemx_bar_ctl_cn81xx cn88xx; */
-    /* struct bdk_pemx_bar_ctl_s cn83xx; */
+    struct bdk_pemx_bar_ctl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t bar1_siz              : 3;  /**< [  6:  4](R/W) PCIe Port 0 Bar1 Size.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = 64 MB.
+                                                                 0x2 = 128 MB.
+                                                                 0x3 = 256 MB.
+                                                                 0x4 = 512 MB.
+                                                                 0x5 = 1024 MB.
+                                                                 0x6 = 2048 MB.
+                                                                 0x7 = Reserved. */
+        uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
+        uint64_t bar2_esx              : 2;  /**< [  2:  1](R/W) Value is XORed with PCIe address [48:47] to determine the endian swap mode. */
+        uint64_t bar2_cax              : 1;  /**< [  0:  0](R/W) Value is XORed with PCIe address [49] to determine the L2 cache attribute. Not cached in
+                                                                 L2 if XOR result is 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t bar2_cax              : 1;  /**< [  0:  0](R/W) Value is XORed with PCIe address [49] to determine the L2 cache attribute. Not cached in
+                                                                 L2 if XOR result is 1. */
+        uint64_t bar2_esx              : 2;  /**< [  2:  1](R/W) Value is XORed with PCIe address [48:47] to determine the endian swap mode. */
+        uint64_t bar2_enb              : 1;  /**< [  3:  3](R/W) When set to 1, BAR2 is enabled and will respond; when clear, BAR2 access will cause UR responses. */
+        uint64_t bar1_siz              : 3;  /**< [  6:  4](R/W) PCIe Port 0 Bar1 Size.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = 64 MB.
+                                                                 0x2 = 128 MB.
+                                                                 0x3 = 256 MB.
+                                                                 0x4 = 512 MB.
+                                                                 0x5 = 1024 MB.
+                                                                 0x6 = 2048 MB.
+                                                                 0x7 = Reserved. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pemx_bar_ctl_t;
 
 static inline uint64_t BDK_PEMX_BAR_CTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6533,7 +6566,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t pwrdwn                : 3;  /**< [  8:  6](RO/H) Current mac_phy_powerdown state. */
-        uint64_t pm_dst                : 3;  /**< [  5:  3](RO) Current power management DSTATE. */
+        uint64_t pm_dst                : 3;  /**< [  5:  3](RO/H) Current power management DSTATE. */
         uint64_t pm_stat               : 1;  /**< [  2:  2](RO) Power management status. */
         uint64_t pm_en                 : 1;  /**< [  1:  1](RO) Power management event enable. */
         uint64_t aux_en                : 1;  /**< [  0:  0](RO) Auxiliary power enable. */
@@ -6541,7 +6574,7 @@ typedef union
         uint64_t aux_en                : 1;  /**< [  0:  0](RO) Auxiliary power enable. */
         uint64_t pm_en                 : 1;  /**< [  1:  1](RO) Power management event enable. */
         uint64_t pm_stat               : 1;  /**< [  2:  2](RO) Power management status. */
-        uint64_t pm_dst                : 3;  /**< [  5:  3](RO) Current power management DSTATE. */
+        uint64_t pm_dst                : 3;  /**< [  5:  3](RO/H) Current power management DSTATE. */
         uint64_t pwrdwn                : 3;  /**< [  8:  6](RO/H) Current mac_phy_powerdown state. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
@@ -7778,11 +7811,11 @@ typedef union
     struct bdk_pemx_p2n_bar0_start_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 39; /**< [ 63: 25](R/W) The starting address of the 32MB BAR0 address space. */
-        uint64_t reserved_0_24         : 25;
+        uint64_t addr                  : 41; /**< [ 63: 23](R/W) The starting address of the 8MB BAR0 address space. */
+        uint64_t reserved_0_22         : 23;
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_24         : 25;
-        uint64_t addr                  : 39; /**< [ 63: 25](R/W) The starting address of the 32MB BAR0 address space. */
+        uint64_t reserved_0_22         : 23;
+        uint64_t addr                  : 41; /**< [ 63: 23](R/W) The starting address of the 8MB BAR0 address space. */
 #endif /* Word 0 - End */
     } cn83xx;
 } bdk_pemx_p2n_bar0_start_t;
@@ -8008,17 +8041,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t pem3qlm               : 1;  /**< [  0:  0](R/W/H) When set, PEM3 is configured to send/receive traffic to QLM4. When clear, PEM3 is
-                                                                 configured to send/receive traffic to QLM3. Note that this bit can only be set for PEM3,
-                                                                 for all other PEMs it has no function. Note that this bit must only be set when both the
-                                                                 associated PHYs and PEM3 are in reset. These conditions can be assured by setting the
-                                                                 PEM(3)_ON[PEMON] bit after setting this bit. */
+        uint64_t pem_tdlm              : 1;  /**< [  0:  0](R/W/H) When set, PEM2/PEM3 is configured to send/receive traffic to TDLM6/TDLM6.
+                                                                 When clear, PEM2/PEM3 is configured to send/receive traffic to QLM2(QLM3)/QLM3.
+                                                                 Note that this bit can only be set for PEM2 or PEM3, for all other PEMs it has no
+                                                                 function.
+                                                                 Note that this bit must only be set when both the associated PHYs and PEM2/PEM3 are in
+                                                                 reset.
+                                                                 These conditions can be assured by setting the PEM(2/3)_ON[PEMON] bit after setting this
+                                                                 bit. */
 #else /* Word 0 - Little Endian */
-        uint64_t pem3qlm               : 1;  /**< [  0:  0](R/W/H) When set, PEM3 is configured to send/receive traffic to QLM4. When clear, PEM3 is
-                                                                 configured to send/receive traffic to QLM3. Note that this bit can only be set for PEM3,
-                                                                 for all other PEMs it has no function. Note that this bit must only be set when both the
-                                                                 associated PHYs and PEM3 are in reset. These conditions can be assured by setting the
-                                                                 PEM(3)_ON[PEMON] bit after setting this bit. */
+        uint64_t pem_tdlm              : 1;  /**< [  0:  0](R/W/H) When set, PEM2/PEM3 is configured to send/receive traffic to TDLM6/TDLM6.
+                                                                 When clear, PEM2/PEM3 is configured to send/receive traffic to QLM2(QLM3)/QLM3.
+                                                                 Note that this bit can only be set for PEM2 or PEM3, for all other PEMs it has no
+                                                                 function.
+                                                                 Note that this bit must only be set when both the associated PHYs and PEM2/PEM3 are in
+                                                                 reset.
+                                                                 These conditions can be assured by setting the PEM(2/3)_ON[PEMON] bit after setting this
+                                                                 bit. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -8288,179 +8327,25 @@ typedef union
         uint64_t pem_cpl               : 8;  /**< [ 47: 40](R/W) TLP 16B credits for completion TLPs in the peer. Legal values are 0x12 to 0x40. */
         uint64_t pem_np                : 8;  /**< [ 39: 32](R/W) TLP 16B credits for nonposted TLPs in the peer. Legal values are 0x4 to 0x8. */
         uint64_t pem_p                 : 8;  /**< [ 31: 24](R/W) TLP 16B credits for posted TLPs in the peer. Legal values are 0x12 to 0x40. */
-        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 8B credits for completion TLPs in the SLI. Legal values are 0x24 to
-                                                                 0xFF. Pairs of PEMs share a single SLI interface. PEM(0) and PEM(1) share one
-                                                                 SLI interface, while PEM(2) and PEM(3) share the other. When both PEMs of a pair
-                                                                 are configured, the sum of both PEMs' SLI_CPL fields must not exceed 0x100. The
-                                                                 reset value for this register assumes the minimum (e.g. 4-lane)
-                                                                 configuration. This ensures that for configurations where the total number of
-                                                                 lanes for a pair of PEMs exceeds 8, the total allocated credits does not
-                                                                 oversubscribe the SLI.
-
-                                                                 For configurations other than two 4-lane PEMs connected to a single SLI port,
-                                                                 software may safely reprogram this register (i.e. increase the value) to achieve
-                                                                 optimal performance.  See the following table of example configurations of PEM
-                                                                 pairs for recommended credit values.
-
-                                                                 <pre>
-                                                                    Configuration  PEM  Lanes  Typical [SLI_CPL]
-                                                                    --------------------------------------------
-                                                                    1 8-ln PEM     n    8             0xFF
-
-                                                                    2 4-ln PEMs    n    4             0x80
-                                                                                  n+1   4             0x80
-
-                                                                    1 4-ln PEM     n    4             0xFF
-
-                                                                    1 8-ln PEM,    n    8             0xAA
-                                                                    1 4-ln PEM    n+1   4             0x55
-                                                                 </pre>
-
-                                                                 Changed in pass 2. */
-        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 8B credits for nonposted TLPs in the SLI. Legal values are 0x4 to
-                                                                 0x20. Pairs of PEMs share a single SLI interface. PEM(0) and PEM(1) share one
-                                                                 SLI interface, while PEM(2) and PEM(3) share the other. When both PEMs of a pair
-                                                                 are configured, the sum of both PEMs' SLI_NP fields must not exceed 0x20. The
-                                                                 reset value for this register assumes the minimum (e.g. 4-lane)
-                                                                 configuration. This ensures that for configurations where the total number of
-                                                                 lanes for a pair of PEMs exceeds 8, the total allocated credits does not
-                                                                 oversubscribe the SLI.
-
-                                                                 For configurations other than two 4-lane PEMs connected to a single SLI port,
-                                                                 software may safely reprogram this register (i.e. increase the value) to achieve
-                                                                 optimal performance.  See the following table of example configurations of PEM
-                                                                 pairs for recommended credit values.
-
-                                                                 <pre>
-                                                                    Configuration  PEM  Lanes  Typical [SLI_CPL]
-                                                                    --------------------------------------------
-                                                                    1 8-ln PEM     n    8             0x20
-
-                                                                    2 4-ln PEMs    n    4             0x10
-                                                                                  n+1   4             0x10
-
-                                                                    1 4-ln PEM     n    4             0x20
-
-                                                                    1 8-ln PEM,    n    8             0x15
-                                                                    1 4-ln PEM    n+1   4             0x0B
-                                                                 </pre>
-
-                                                                 Changed in pass 2. */
-        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 8B credits for Posted TLPs in the SLI. Legal values are 0x24 to 0xFF. Pairs
-                                                                 of PEMs share a single SLI interface. PEM(0) and PEM(1) share one SLI interface,
-                                                                 while PEM(2) and PEM(3) share the other. When both PEMs of a pair are
-                                                                 configured, the sum of both PEMs' SLI_P fields must not exceed 0x100. The reset
-                                                                 value for this register assumes the minimum (e.g. 4-lane) configuration. This
-                                                                 ensures that for configurations where the total number of lanes for a pair of
-                                                                 PEMs exceeds 8, the total allocated credits does not oversubscribe the SLI.
-
-                                                                 For configurations other than two 4-lane PEMs connected to a single SLI port,
-                                                                 software may safely reprogram this register (i.e. increase the value) to achieve
-                                                                 optimal performance.  See the following table of example configurations of PEM
-                                                                 pairs for recommended credit values.
-
-                                                                 <pre>
-                                                                    Configuration  PEM  Lanes  Typical [SLI_CPL]
-                                                                    --------------------------------------------
-                                                                    1 8-ln PEM     n    8             0xFF
-
-                                                                    2 4-ln PEMs    n    4             0x80
-                                                                                  n+1   4             0x80
-
-                                                                    1 4-ln PEM     n    4             0xFF
-
-                                                                    1 8-ln PEM,    n    8             0xAA
-                                                                    1 4-ln PEM    n+1   4             0x55
-                                                                 </pre>
-
-                                                                 Changed in pass 2. */
+        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Posted TLPs in the SLI. Legal values are 0x24 to 0x80 and this value
+                                                                 is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
+                                                                 register for performance reasons. */
+        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
 #else /* Word 0 - Little Endian */
-        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 8B credits for Posted TLPs in the SLI. Legal values are 0x24 to 0xFF. Pairs
-                                                                 of PEMs share a single SLI interface. PEM(0) and PEM(1) share one SLI interface,
-                                                                 while PEM(2) and PEM(3) share the other. When both PEMs of a pair are
-                                                                 configured, the sum of both PEMs' SLI_P fields must not exceed 0x100. The reset
-                                                                 value for this register assumes the minimum (e.g. 4-lane) configuration. This
-                                                                 ensures that for configurations where the total number of lanes for a pair of
-                                                                 PEMs exceeds 8, the total allocated credits does not oversubscribe the SLI.
-
-                                                                 For configurations other than two 4-lane PEMs connected to a single SLI port,
-                                                                 software may safely reprogram this register (i.e. increase the value) to achieve
-                                                                 optimal performance.  See the following table of example configurations of PEM
-                                                                 pairs for recommended credit values.
-
-                                                                 <pre>
-                                                                    Configuration  PEM  Lanes  Typical [SLI_CPL]
-                                                                    --------------------------------------------
-                                                                    1 8-ln PEM     n    8             0xFF
-
-                                                                    2 4-ln PEMs    n    4             0x80
-                                                                                  n+1   4             0x80
-
-                                                                    1 4-ln PEM     n    4             0xFF
-
-                                                                    1 8-ln PEM,    n    8             0xAA
-                                                                    1 4-ln PEM    n+1   4             0x55
-                                                                 </pre>
-
-                                                                 Changed in pass 2. */
-        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 8B credits for nonposted TLPs in the SLI. Legal values are 0x4 to
-                                                                 0x20. Pairs of PEMs share a single SLI interface. PEM(0) and PEM(1) share one
-                                                                 SLI interface, while PEM(2) and PEM(3) share the other. When both PEMs of a pair
-                                                                 are configured, the sum of both PEMs' SLI_NP fields must not exceed 0x20. The
-                                                                 reset value for this register assumes the minimum (e.g. 4-lane)
-                                                                 configuration. This ensures that for configurations where the total number of
-                                                                 lanes for a pair of PEMs exceeds 8, the total allocated credits does not
-                                                                 oversubscribe the SLI.
-
-                                                                 For configurations other than two 4-lane PEMs connected to a single SLI port,
-                                                                 software may safely reprogram this register (i.e. increase the value) to achieve
-                                                                 optimal performance.  See the following table of example configurations of PEM
-                                                                 pairs for recommended credit values.
-
-                                                                 <pre>
-                                                                    Configuration  PEM  Lanes  Typical [SLI_CPL]
-                                                                    --------------------------------------------
-                                                                    1 8-ln PEM     n    8             0x20
-
-                                                                    2 4-ln PEMs    n    4             0x10
-                                                                                  n+1   4             0x10
-
-                                                                    1 4-ln PEM     n    4             0x20
-
-                                                                    1 8-ln PEM,    n    8             0x15
-                                                                    1 4-ln PEM    n+1   4             0x0B
-                                                                 </pre>
-
-                                                                 Changed in pass 2. */
-        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 8B credits for completion TLPs in the SLI. Legal values are 0x24 to
-                                                                 0xFF. Pairs of PEMs share a single SLI interface. PEM(0) and PEM(1) share one
-                                                                 SLI interface, while PEM(2) and PEM(3) share the other. When both PEMs of a pair
-                                                                 are configured, the sum of both PEMs' SLI_CPL fields must not exceed 0x100. The
-                                                                 reset value for this register assumes the minimum (e.g. 4-lane)
-                                                                 configuration. This ensures that for configurations where the total number of
-                                                                 lanes for a pair of PEMs exceeds 8, the total allocated credits does not
-                                                                 oversubscribe the SLI.
-
-                                                                 For configurations other than two 4-lane PEMs connected to a single SLI port,
-                                                                 software may safely reprogram this register (i.e. increase the value) to achieve
-                                                                 optimal performance.  See the following table of example configurations of PEM
-                                                                 pairs for recommended credit values.
-
-                                                                 <pre>
-                                                                    Configuration  PEM  Lanes  Typical [SLI_CPL]
-                                                                    --------------------------------------------
-                                                                    1 8-ln PEM     n    8             0xFF
-
-                                                                    2 4-ln PEMs    n    4             0x80
-                                                                                  n+1   4             0x80
-
-                                                                    1 4-ln PEM     n    4             0xFF
-
-                                                                    1 8-ln PEM,    n    8             0xAA
-                                                                    1 4-ln PEM    n+1   4             0x55
-                                                                 </pre>
-
-                                                                 Changed in pass 2. */
+        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Posted TLPs in the SLI. Legal values are 0x24 to 0x80 and this value
+                                                                 is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
+                                                                 register for performance reasons. */
+        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
         uint64_t pem_p                 : 8;  /**< [ 31: 24](R/W) TLP 16B credits for posted TLPs in the peer. Legal values are 0x12 to 0x40. */
         uint64_t pem_np                : 8;  /**< [ 39: 32](R/W) TLP 16B credits for nonposted TLPs in the peer. Legal values are 0x4 to 0x8. */
         uint64_t pem_cpl               : 8;  /**< [ 47: 40](R/W) TLP 16B credits for completion TLPs in the peer. Legal values are 0x12 to 0x40. */

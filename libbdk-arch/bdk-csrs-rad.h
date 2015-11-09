@@ -564,7 +564,9 @@ union bdk_rad_resp_s
                                                                  for [PTR]. */
         uint64_t reserved_44_55        : 12;
         uint64_t ggrp                  : 10; /**< [ 43: 34] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO guest-group to use when RAD
-                                                                 submits work to SSO. */
+                                                                 submits work to SSO.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must
+                                                                 map [GGRP] and RAD_GMCTL[GMID] as valid. */
         uint64_t tt                    : 2;  /**< [ 33: 32] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO tag type to use when RAD
                                                                  submits work to SSO. */
         uint64_t tag                   : 32; /**< [ 31:  0] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO tag to use when RAD submits
@@ -575,7 +577,9 @@ union bdk_rad_resp_s
         uint64_t tt                    : 2;  /**< [ 33: 32] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO tag type to use when RAD
                                                                  submits work to SSO. */
         uint64_t ggrp                  : 10; /**< [ 43: 34] When RAD_CWORD_S[WQE] is set and [PTR] != 0, the SSO guest-group to use when RAD
-                                                                 submits work to SSO. */
+                                                                 submits work to SSO.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must
+                                                                 map [GGRP] and RAD_GMCTL[GMID] as valid. */
         uint64_t reserved_44_55        : 12;
         uint64_t istr                  : 8;  /**< [ 63: 56] When RAD_CWORD_S[WQE] is clear, and RAD_CWORD_S[STREN] is set, the SMMU stream
                                                                  for [PTR]. */
@@ -865,11 +869,11 @@ typedef union
         uint64_t reserved_16_63        : 48;
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests. */
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests. */
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -1441,7 +1445,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
         uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [DFB] is clear. */
+                                                                 Only used when [DFB] is clear.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and RAD_GMCTL[GMID] as valid. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) Load don't write back.
 
                                                                  0 = The hardware issues NCB regular load towards the cache, which will cause the
@@ -1478,7 +1484,9 @@ typedef union
 
                                                                  Partial cache line reads always use LDI. */
         uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [DFB] is clear. */
+                                                                 Only used when [DFB] is clear.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and RAD_GMCTL[GMID] as valid. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } cn83xx;

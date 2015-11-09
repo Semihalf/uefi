@@ -303,18 +303,10 @@
 #define BDK_PCC_DEV_IDL_E_SLI (0x15) /**< SLI. */
 #define BDK_PCC_DEV_IDL_E_SMI (0x2b) /**< SMI. */
 #define BDK_PCC_DEV_IDL_E_SMMU (8) /**< System Memory Management Unit. */
-#define BDK_PCC_DEV_IDL_E_SSO_CN81XX (0x4a) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_SSO_CN83XX (0x4a) /**< SSO. */
-#define BDK_PCC_DEV_IDL_E_SSOW_CN81XX (0x4c) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_SSOW_CN83XX (0x4c) /**< SSO work slots. */
-#define BDK_PCC_DEV_IDL_E_SSOW_VF_CN81XX (0x4d) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_SSOW_VF_CN83XX (0x4d) /**< SSO work slots virtual function. */
-#define BDK_PCC_DEV_IDL_E_SSO_VF_CN81XX (0x4b) /**< Internal:
-                                       Reserved. */
-#define BDK_PCC_DEV_IDL_E_SSO_VF_CN83XX (0x4b) /**< SSO group virtual function. */
+#define BDK_PCC_DEV_IDL_E_SSO (0x4a) /**< SSO. */
+#define BDK_PCC_DEV_IDL_E_SSOW (0x4c) /**< SSO work slots. */
+#define BDK_PCC_DEV_IDL_E_SSOW_VF (0x4d) /**< SSO work slots virtual function. */
+#define BDK_PCC_DEV_IDL_E_SSO_VF (0x4b) /**< SSO group virtual function. */
 #define BDK_PCC_DEV_IDL_E_TIM_CN81XX (0x50) /**< Internal:
                                        Reserved. */
 #define BDK_PCC_DEV_IDL_E_TIM_CN83XX (0x50) /**< Work timers. */

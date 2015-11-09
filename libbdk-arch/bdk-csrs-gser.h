@@ -103,9 +103,12 @@
 #define BDK_GSER_QLM_E_GSER3_CN81XX (3) /**< GSER3 corresponds to DLM3. */
 #define BDK_GSER_QLM_E_GSER3_CN88XX (3) /**< GSER3 corresponds to QLM3. */
 #define BDK_GSER_QLM_E_GSER3_CN83XX (3) /**< GSER3 corresponds to QLM3. */
-#define BDK_GSER_QLM_E_GSER4 (4) /**< GSER4 corresponds to QLM4. */
-#define BDK_GSER_QLM_E_GSER5 (5) /**< GSER5 corresponds to QLM5. */
-#define BDK_GSER_QLM_E_GSER6 (6) /**< GSER6 corresponds to QLM6. */
+#define BDK_GSER_QLM_E_GSER4_CN88XX (4) /**< GSER4 corresponds to QLM4. */
+#define BDK_GSER_QLM_E_GSER4_CN83XX (4) /**< GSER4 corresponds to DLM4. */
+#define BDK_GSER_QLM_E_GSER5_CN88XX (5) /**< GSER5 corresponds to QLM5. */
+#define BDK_GSER_QLM_E_GSER5_CN83XX (5) /**< GSER5 corresponds to DLM5. */
+#define BDK_GSER_QLM_E_GSER6_CN88XX (6) /**< GSER6 corresponds to QLM6. */
+#define BDK_GSER_QLM_E_GSER6_CN83XX (6) /**< GSER6 corresponds to DLM6. */
 #define BDK_GSER_QLM_E_GSER7 (7) /**< GSER7 corresponds to QLM7. */
 #define BDK_GSER_QLM_E_GSER8 (8) /**< GSER8 corresponds to CCPI0. */
 #define BDK_GSER_QLM_E_GSER9 (9) /**< GSER9 corresponds to CCPI1. */
@@ -165,7 +168,30 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_ana_atest_cn88xx cn83xx; */
+    struct bdk_gserx_ana_atest_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Controls the B-side DAC input to the analog test block. Note that only
+                                                                 the GSER(4)_ANA_TEST[ANA_DAC_B] is tied to the analog test block.
+                                                                 The other GSER(0..3,5..6)_ANA_ATEST[ANA_DAC_B] are unused.
+                                                                 For diagnostic use only. */
+        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Controls A-side DAC input to the analog test block. Note that only
+                                                                 the GSER(4)_ANA_TEST[ANA_DAC_A] is tied to the analog test bloc.
+                                                                 The other GSER(0..3,5..6)_ANA_ATEST[ANA_DAC_A] are unused.
+                                                                 For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Controls A-side DAC input to the analog test block. Note that only
+                                                                 the GSER(4)_ANA_TEST[ANA_DAC_A] is tied to the analog test bloc.
+                                                                 The other GSER(0..3,5..6)_ANA_ATEST[ANA_DAC_A] are unused.
+                                                                 For diagnostic use only. */
+        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Controls the B-side DAC input to the analog test block. Note that only
+                                                                 the GSER(4)_ANA_TEST[ANA_DAC_B] is tied to the analog test block.
+                                                                 The other GSER(0..3,5..6)_ANA_ATEST[ANA_DAC_B] are unused.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_ana_atest_t;
 
 static inline uint64_t BDK_GSERX_ANA_ATEST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -173,8 +199,8 @@ static inline uint64_t BDK_GSERX_ANA_ATEST(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000800ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000800ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000800ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000800ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_ANA_ATEST", 1, a, 0, 0, 0);
@@ -250,45 +276,33 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the
-                                                                 GSER(0)_ANA_SEL.ANA_SEL register is tied to the analog test block, for non-CCPI links.
-                                                                 Note that the GSER(8)_ANA_SEL.ANA_SEL register is tied to the analog test block, for
-                                                                 CCPI links. The other GSER()_ANA_SEL registers are unused.
-                                                                 For diagnostic use only.
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Controls the adr_global input to the analog test block. Note that only
+                                                                 the GSER(4)_ANA_SEL.ANA_SEL register is tied to the analog test block.
+                                                                 The GSER(0..3,5..6)_ANA_SEL.ANA_SEL registers are unused.
 
-                                                                 For non-CCPI links used to power down the common clock input receiver to reduce power
-                                                                 consumption if the common clock input is not used.
-                                                                 If the common clock QLMC_REFCLK1_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fd.
-                                                                 If the common clock QLMC_REFCLK0_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fe.
+                                                                 Used to power down the common clock input receiver to reduce power consumption
+                                                                 if the common clock input is not used.
+                                                                 If the common clock QLMC_REFCLK1_P/N input is unused program the
+                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1fd.
+                                                                 If the common clock QLMC_REFCLK0_P/N input is unused program the
+                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1fe.
                                                                  If both common clock QLMC_REFCLK0_P/N and QLMC_REFCLK1_P/N inputs are unused program the
-                                                                 GSER(0)_ANA_SEL.ANA_SEL field to 0x1fc.
-
-                                                                 For CCPI links used to power down the common clock input receiver to reduce power
-                                                                 consumption if the common clock input is not used.
-                                                                 If the common clock OCIC_REF_CLK_P/N input is unused program the GSER(8)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fc. */
+                                                                 GSER(4)_ANA_SEL[ANA_SEL] field to 0x1fc.
+                                                                 For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the
-                                                                 GSER(0)_ANA_SEL.ANA_SEL register is tied to the analog test block, for non-CCPI links.
-                                                                 Note that the GSER(8)_ANA_SEL.ANA_SEL register is tied to the analog test block, for
-                                                                 CCPI links. The other GSER()_ANA_SEL registers are unused.
-                                                                 For diagnostic use only.
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Controls the adr_global input to the analog test block. Note that only
+                                                                 the GSER(4)_ANA_SEL.ANA_SEL register is tied to the analog test block.
+                                                                 The GSER(0..3,5..6)_ANA_SEL.ANA_SEL registers are unused.
 
-                                                                 For non-CCPI links used to power down the common clock input receiver to reduce power
-                                                                 consumption if the common clock input is not used.
-                                                                 If the common clock QLMC_REFCLK1_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fd.
-                                                                 If the common clock QLMC_REFCLK0_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fe.
+                                                                 Used to power down the common clock input receiver to reduce power consumption
+                                                                 if the common clock input is not used.
+                                                                 If the common clock QLMC_REFCLK1_P/N input is unused program the
+                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1fd.
+                                                                 If the common clock QLMC_REFCLK0_P/N input is unused program the
+                                                                 GSER(4)_ANA_SEL.ANA_SEL field to 0x1fe.
                                                                  If both common clock QLMC_REFCLK0_P/N and QLMC_REFCLK1_P/N inputs are unused program the
-                                                                 GSER(0)_ANA_SEL.ANA_SEL field to 0x1fc.
-
-                                                                 For CCPI links used to power down the common clock input receiver to reduce power
-                                                                 consumption if the common clock input is not used.
-                                                                 If the common clock OCIC_REF_CLK_P/N input is unused program the GSER(8)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fc. */
+                                                                 GSER(4)_ANA_SEL[ANA_SEL] field to 0x1fc.
+                                                                 For diagnostic use only. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cn83xx;
@@ -345,8 +359,8 @@ static inline uint64_t BDK_GSERX_ANA_SEL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000808ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000808ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000808ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000808ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_ANA_SEL", 1, a, 0, 0, 0);
@@ -548,8 +562,8 @@ static inline uint64_t BDK_GSERX_BR_RXX_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=3)))
         return 0x87e090000400ll + 0x1000000ll * ((a) & 0x3) + 0x80ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090000400ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090000400ll + 0x1000000ll * ((a) & 0x7) + 0x80ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090000400ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_BR_RXX_CTL", 2, a, b, 0, 0);
@@ -664,8 +678,8 @@ static inline uint64_t BDK_GSERX_BR_RXX_EER(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=3)))
         return 0x87e090000418ll + 0x1000000ll * ((a) & 0x3) + 0x80ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090000418ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090000418ll + 0x1000000ll * ((a) & 0x7) + 0x80ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090000418ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_BR_RXX_EER", 2, a, b, 0, 0);
@@ -706,8 +720,8 @@ static inline uint64_t BDK_GSERX_BR_TXX_CTL(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=3)))
         return 0x87e090000420ll + 0x1000000ll * ((a) & 0x3) + 0x80ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090000420ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090000420ll + 0x1000000ll * ((a) & 0x7) + 0x80ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090000420ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_BR_TXX_CTL", 2, a, b, 0, 0);
@@ -758,8 +772,8 @@ static inline uint64_t BDK_GSERX_BR_TXX_CUR(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=3)))
         return 0x87e090000438ll + 0x1000000ll * ((a) & 0x3) + 0x80ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090000438ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090000438ll + 0x1000000ll * ((a) & 0x7) + 0x80ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090000438ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_BR_TXX_CUR", 2, a, b, 0, 0);
@@ -792,6 +806,38 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
+        uint64_t txt_post_init         : 5;  /**< [ 13:  9](R/W/H) During TX Base-R link training, the TX post-tap value that is used
+                                                                 when the initialize coefficients update is received. It is also the TX post-tap
+                                                                 value used when the Base-R link training begins.
+                                                                 For diagnostic use only. */
+        uint64_t txt_swing_init        : 5;  /**< [  8:  4](R/W/H) During TX Base-R link training, the TX swing-tap value that is used
+                                                                 when the initialize coefficients update is received. It is also the TX swing-tap
+                                                                 value used when the Base-R link training begins.
+                                                                 For diagnostic use only. */
+        uint64_t txt_pre_init          : 4;  /**< [  3:  0](R/W/H) During TX Base-R link training, the TX pre-tap value that is used
+                                                                 when the initialize coefficients update is received. It is also the TX pre-tap
+                                                                 value used when the Base-R link training begins.
+                                                                 For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t txt_pre_init          : 4;  /**< [  3:  0](R/W/H) During TX Base-R link training, the TX pre-tap value that is used
+                                                                 when the initialize coefficients update is received. It is also the TX pre-tap
+                                                                 value used when the Base-R link training begins.
+                                                                 For diagnostic use only. */
+        uint64_t txt_swing_init        : 5;  /**< [  8:  4](R/W/H) During TX Base-R link training, the TX swing-tap value that is used
+                                                                 when the initialize coefficients update is received. It is also the TX swing-tap
+                                                                 value used when the Base-R link training begins.
+                                                                 For diagnostic use only. */
+        uint64_t txt_post_init         : 5;  /**< [ 13:  9](R/W/H) During TX Base-R link training, the TX post-tap value that is used
+                                                                 when the initialize coefficients update is received. It is also the TX post-tap
+                                                                 value used when the Base-R link training begins.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_gserx_br_txx_ini_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
         uint64_t txt_post_init         : 5;  /**< [ 13:  9](R/W/H) During TX Base-R Link Training, this is the Tx POST Tap value that is used
                                                                  when the INITIALIZE coefficients update is received. It is also the Tx POST Tap
                                                                  value used when the Base-R Link Training begins.
@@ -819,8 +865,8 @@ typedef union
                                                                  For diagnostic use only. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gserx_br_txx_ini_s cn; */
+    } cn81xx;
+    /* struct bdk_gserx_br_txx_ini_s cn83xx; */
 } bdk_gserx_br_txx_ini_t;
 
 static inline uint64_t BDK_GSERX_BR_TXX_INI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -828,6 +874,8 @@ static inline uint64_t BDK_GSERX_BR_TXX_INI(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=3)))
         return 0x87e090000448ll + 0x1000000ll * ((a) & 0x3) + 0x80ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090000448ll + 0x1000000ll * ((a) & 0x7) + 0x80ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_BR_TXX_INI", 2, a, b, 0, 0);
 }
 
@@ -886,8 +934,8 @@ static inline uint64_t BDK_GSERX_BR_TXX_TAP(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=3)))
         return 0x87e090000440ll + 0x1000000ll * ((a) & 0x3) + 0x80ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090000440ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090000440ll + 0x1000000ll * ((a) & 0x7) + 0x80ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090000440ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_BR_TXX_TAP", 2, a, b, 0, 0);
@@ -1057,7 +1105,76 @@ typedef union
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_cfg_cn88xx cn83xx; */
+    struct bdk_gserx_cfg_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t sata                  : 1;  /**< [  5:  5](R/W) When set, indicates the GSER is configured for SATA mode. [SATA] must not be set
+                                                                 when either of [BGX,PCIE] are set. */
+        uint64_t bgx_quad              : 1;  /**< [  4:  4](R/W) When set, indicates the QLM is in BGX quad aggregation mode. [BGX_QUAD] must only be
+                                                                 set when [BGX] is set and [BGX_DUAL] is clear.
+
+                                                                 When [BGX_QUAD] is set, GSER bundles all four lanes for one BGX controller.
+                                                                 [BGX_QUAD] must only be set for the XAUI/DXAUI and XLAUI protocols.
+
+                                                                 Internal:
+                                                                 There is hardware to pair DLM 5 and 6 together when [BGX_QUAD] is set in DLM5.
+                                                                 But we currently do not support XAUI/DXAUI/XLAUI on DLM's. */
+        uint64_t bgx_dual              : 1;  /**< [  3:  3](R/W) When set, indicates the QLM is in BGX dual aggregation mode. [BGX_DUAL] must only be
+                                                                 set when [BGX] is also set and [BGX_QUAD] is clear.
+
+                                                                 When [BGX_DUAL] is set, GSER bundles lanes 0 and 1 for one BGX controller and bundles
+                                                                 lanes 2 and 3 for another BGX controller. [BGX_DUAL] must only be set for the RXAUI
+                                                                 protocol.
+
+                                                                 [BGX_DUAL] must not be set in a DLM.
+
+                                                                 Internal:
+                                                                 [BGX_DUAL] should work in a DLM (lanes 0 and 1 bundled for one BGX controller), but
+                                                                 we currently do not support RXAUI in a DLM. */
+        uint64_t bgx                   : 1;  /**< [  2:  2](R/W) When set, indicates the GSER is configured for BGX mode. [BGX] must not be set
+                                                                 when either of [PCIE,SATA] are set.
+
+                                                                 When [BGX] is set and both [BGX_DUAL,BGX_QUAD] are clear, GSER exposes each lane to an
+                                                                 independent BGX controller. */
+        uint64_t ila                   : 1;  /**< [  1:  1](R/W) Reserved. */
+        uint64_t pcie                  : 1;  /**< [  0:  0](R/W/H) When set, indicates the GSER is configured for PCIE mode. [PCIE] must not be
+                                                                 set when either of [BGX,SATA] is set. */
+#else /* Word 0 - Little Endian */
+        uint64_t pcie                  : 1;  /**< [  0:  0](R/W/H) When set, indicates the GSER is configured for PCIE mode. [PCIE] must not be
+                                                                 set when either of [BGX,SATA] is set. */
+        uint64_t ila                   : 1;  /**< [  1:  1](R/W) Reserved. */
+        uint64_t bgx                   : 1;  /**< [  2:  2](R/W) When set, indicates the GSER is configured for BGX mode. [BGX] must not be set
+                                                                 when either of [PCIE,SATA] are set.
+
+                                                                 When [BGX] is set and both [BGX_DUAL,BGX_QUAD] are clear, GSER exposes each lane to an
+                                                                 independent BGX controller. */
+        uint64_t bgx_dual              : 1;  /**< [  3:  3](R/W) When set, indicates the QLM is in BGX dual aggregation mode. [BGX_DUAL] must only be
+                                                                 set when [BGX] is also set and [BGX_QUAD] is clear.
+
+                                                                 When [BGX_DUAL] is set, GSER bundles lanes 0 and 1 for one BGX controller and bundles
+                                                                 lanes 2 and 3 for another BGX controller. [BGX_DUAL] must only be set for the RXAUI
+                                                                 protocol.
+
+                                                                 [BGX_DUAL] must not be set in a DLM.
+
+                                                                 Internal:
+                                                                 [BGX_DUAL] should work in a DLM (lanes 0 and 1 bundled for one BGX controller), but
+                                                                 we currently do not support RXAUI in a DLM. */
+        uint64_t bgx_quad              : 1;  /**< [  4:  4](R/W) When set, indicates the QLM is in BGX quad aggregation mode. [BGX_QUAD] must only be
+                                                                 set when [BGX] is set and [BGX_DUAL] is clear.
+
+                                                                 When [BGX_QUAD] is set, GSER bundles all four lanes for one BGX controller.
+                                                                 [BGX_QUAD] must only be set for the XAUI/DXAUI and XLAUI protocols.
+
+                                                                 Internal:
+                                                                 There is hardware to pair DLM 5 and 6 together when [BGX_QUAD] is set in DLM5.
+                                                                 But we currently do not support XAUI/DXAUI/XLAUI on DLM's. */
+        uint64_t sata                  : 1;  /**< [  5:  5](R/W) When set, indicates the GSER is configured for SATA mode. [SATA] must not be set
+                                                                 when either of [BGX,PCIE] are set. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_cfg_t;
 
 static inline uint64_t BDK_GSERX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1065,8 +1182,8 @@ static inline uint64_t BDK_GSERX_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000080ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000080ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000080ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000080ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_CFG", 1, a, 0, 0, 0);
@@ -1107,8 +1224,8 @@ static inline uint64_t BDK_GSERX_DBG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000098ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000098ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000098ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000098ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_DBG", 1, a, 0, 0, 0);
@@ -1156,8 +1273,8 @@ static inline uint64_t BDK_GSERX_EQ_WAIT_TIME(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904e0000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904e0000ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904e0000ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904e0000ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_EQ_WAIT_TIME", 1, a, 0, 0, 0);
@@ -1253,8 +1370,8 @@ static inline uint64_t BDK_GSERX_GLBL_MISC_CONFIG_1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090460030ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090460030ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090460030ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460030ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_GLBL_MISC_CONFIG_1", 1, a, 0, 0, 0);
@@ -1314,8 +1431,8 @@ static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090460000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090460000ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090460000ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460000ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_GLBL_PLL_CFG_0", 1, a, 0, 0, 0);
@@ -1383,8 +1500,8 @@ static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090460008ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090460008ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090460008ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460008ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_GLBL_PLL_CFG_1", 1, a, 0, 0, 0);
@@ -1488,8 +1605,8 @@ static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090460010ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090460010ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090460010ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460010ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_GLBL_PLL_CFG_2", 1, a, 0, 0, 0);
@@ -1609,8 +1726,8 @@ static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_3(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090460018ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090460018ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090460018ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460018ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_GLBL_PLL_CFG_3", 1, a, 0, 0, 0);
@@ -1691,8 +1808,8 @@ static inline uint64_t BDK_GSERX_GLBL_PLL_MONITOR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090460100ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090460100ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090460100ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460100ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_GLBL_PLL_MONITOR", 1, a, 0, 0, 0);
@@ -1830,8 +1947,8 @@ static inline uint64_t BDK_GSERX_GLBL_TAD(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090460400ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090460400ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090460400ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460400ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_GLBL_TAD", 1, a, 0, 0, 0);
@@ -1889,8 +2006,8 @@ static inline uint64_t BDK_GSERX_GLBL_TM_ADMON(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090460408ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090460408ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090460408ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460408ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_GLBL_TM_ADMON", 1, a, 0, 0, 0);
@@ -1931,8 +2048,8 @@ static inline uint64_t BDK_GSERX_IDDQ_MODE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000018ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000018ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000018ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000018ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_IDDQ_MODE", 1, a, 0, 0, 0);
@@ -2065,8 +2182,8 @@ static inline uint64_t BDK_GSERX_LANEX_LBERT_CFG(unsigned long a, unsigned long 
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904c0020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904c0020ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904c0020ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904c0020ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_LBERT_CFG", 2, a, b, 0, 0);
@@ -2120,8 +2237,8 @@ static inline uint64_t BDK_GSERX_LANEX_LBERT_ECNT(unsigned long a, unsigned long
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904c0028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904c0028ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904c0028ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904c0028ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_LBERT_ECNT", 2, a, b, 0, 0);
@@ -2166,8 +2283,8 @@ static inline uint64_t BDK_GSERX_LANEX_LBERT_PAT_CFG(unsigned long a, unsigned l
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904c0018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904c0018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904c0018ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904c0018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_LBERT_PAT_CFG", 2, a, b, 0, 0);
@@ -2247,8 +2364,8 @@ static inline uint64_t BDK_GSERX_LANEX_MISC_CFG_0(unsigned long a, unsigned long
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904c0000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904c0000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904c0000ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904c0000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_MISC_CFG_0", 2, a, b, 0, 0);
@@ -2312,8 +2429,8 @@ static inline uint64_t BDK_GSERX_LANEX_MISC_CFG_1(unsigned long a, unsigned long
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904c0008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904c0008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904c0008ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904c0008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_MISC_CFG_1", 2, a, b, 0, 0);
@@ -2399,8 +2516,8 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_0(unsigned long a, unsigned lo
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904c0060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904c0060ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904c0060ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904c0060ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_PCS_CTLIFC_0", 2, a, b, 0, 0);
@@ -2458,8 +2575,8 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_1(unsigned long a, unsigned lo
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904c0068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904c0068ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904c0068ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904c0068ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_PCS_CTLIFC_1", 2, a, b, 0, 0);
@@ -2575,8 +2692,8 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_2(unsigned long a, unsigned lo
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904c0070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904c0070ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904c0070ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904c0070ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_PCS_CTLIFC_2", 2, a, b, 0, 0);
@@ -2653,8 +2770,8 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_MACIFC_MON_2(unsigned long a, unsigne
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904c0118ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904c0118ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904c0118ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904c0118ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_PCS_MACIFC_MON_2", 2, a, b, 0, 0);
@@ -2698,8 +2815,8 @@ static inline uint64_t BDK_GSERX_LANEX_PMA_LOOPBACK_CTRL(unsigned long a, unsign
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904400d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904400d0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904400d0ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904400d0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_PMA_LOOPBACK_CTRL", 2, a, b, 0, 0);
@@ -2825,8 +2942,8 @@ static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904400d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904400d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904400d8ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904400d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_PWR_CTRL", 2, a, b, 0, 0);
@@ -2870,8 +2987,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_0(unsigned long a, unsigned lo
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440280ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440280ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440280ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440280ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_AEQ_OUT_0", 2, a, b, 0, 0);
@@ -2917,8 +3034,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_1(unsigned long a, unsigned lo
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440288ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440288ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440288ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440288ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_AEQ_OUT_1", 2, a, b, 0, 0);
@@ -2964,8 +3081,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_2(unsigned long a, unsigned lo
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440290ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440290ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440290ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440290ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_AEQ_OUT_2", 2, a, b, 0, 0);
@@ -3019,8 +3136,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_1(unsigned long a, unsigned l
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440038ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440038ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440038ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CDR_CTRL_1", 2, a, b, 0, 0);
@@ -3072,8 +3189,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_2(unsigned long a, unsigned l
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440040ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440040ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440040ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CDR_CTRL_2", 2, a, b, 0, 0);
@@ -3146,8 +3263,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(unsigned long a, unsig
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440208ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440208ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440208ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440208ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CDR_MISC_CTRL_0", 2, a, b, 0, 0);
@@ -3212,8 +3329,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_1(unsigned long a, unsigned
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904402d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904402d0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904402d0ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904402d0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CDR_STATUS_1", 2, a, b, 0, 0);
@@ -3259,8 +3376,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_2(unsigned long a, unsigned
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904402d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904402d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904402d8ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904402d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CDR_STATUS_2", 2, a, b, 0, 0);
@@ -3340,8 +3457,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_0(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440000ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CFG_0", 2, a, b, 0, 0);
@@ -3415,8 +3532,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_1(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440008ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CFG_1", 2, a, b, 0, 0);
@@ -3530,8 +3647,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_2(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440010ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440010ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440010ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CFG_2", 2, a, b, 0, 0);
@@ -3611,8 +3728,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_3(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440018ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CFG_3", 2, a, b, 0, 0);
@@ -3748,8 +3865,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_4(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440020ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440020ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440020ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CFG_4", 2, a, b, 0, 0);
@@ -3841,8 +3958,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CFG_5(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440028ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440028ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440028ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CFG_5", 2, a, b, 0, 0);
@@ -4026,8 +4143,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CTLE_CTRL(unsigned long a, unsigned lo
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440058ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440058ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440058ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_CTLE_CTRL", 2, a, b, 0, 0);
@@ -4188,8 +4305,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_LOOP_CTRL(unsigned long a, unsigned lo
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440048ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440048ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440048ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_LOOP_CTRL", 2, a, b, 0, 0);
@@ -4376,8 +4493,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_MISC_OVRRD(unsigned long a, unsigned l
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440258ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440258ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440258ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440258ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_MISC_OVRRD", 2, a, b, 0, 0);
@@ -4434,8 +4551,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_CTRL(unsigned long a, unsigned
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440060ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440060ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440060ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_PRECORR_CTRL", 2, a, b, 0, 0);
@@ -4480,8 +4597,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_VAL(unsigned long a, unsigned 
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440078ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440078ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440078ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_PRECORR_VAL", 2, a, b, 0, 0);
@@ -4636,8 +4753,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(unsigned long a, unsigne
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440240ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440240ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440240ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440240ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_VALBBD_CTRL_0", 2, a, b, 0, 0);
@@ -4844,8 +4961,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(unsigned long a, unsigne
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440248ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440248ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440248ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440248ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_VALBBD_CTRL_1", 2, a, b, 0, 0);
@@ -5058,8 +5175,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(unsigned long a, unsigne
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440250ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440250ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440250ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440250ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_VALBBD_CTRL_2", 2, a, b, 0, 0);
@@ -5128,8 +5245,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VMA_CTRL(unsigned long a, unsigned lon
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440200ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440200ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440200ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440200ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_VMA_CTRL", 2, a, b, 0, 0);
@@ -5177,8 +5294,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VMA_STATUS_0(unsigned long a, unsigned
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904402b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904402b8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904402b8ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904402b8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_VMA_STATUS_0", 2, a, b, 0, 0);
@@ -5244,8 +5361,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_VMA_STATUS_1(unsigned long a, unsigned
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904402c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904402c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904402c0ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904402c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_VMA_STATUS_1", 2, a, b, 0, 0);
@@ -5321,8 +5438,8 @@ static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_0(unsigned long a, unsigned l
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440130ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440130ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440130ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440130ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_SDS_PIN_MON_0", 2, a, b, 0, 0);
@@ -5394,8 +5511,8 @@ static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_1(unsigned long a, unsigned l
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440138ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440138ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440138ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440138ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_SDS_PIN_MON_1", 2, a, b, 0, 0);
@@ -5447,8 +5564,8 @@ static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_2(unsigned long a, unsigned l
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090440140ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e090440140ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440140ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440140ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_SDS_PIN_MON_2", 2, a, b, 0, 0);
@@ -5558,8 +5675,8 @@ static inline uint64_t BDK_GSERX_LANEX_TX_CFG_0(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904400a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904400a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904400a8ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904400a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_TX_CFG_0", 2, a, b, 0, 0);
@@ -5697,8 +5814,8 @@ static inline uint64_t BDK_GSERX_LANEX_TX_CFG_1(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904400b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904400b0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904400b0ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904400b0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_TX_CFG_1", 2, a, b, 0, 0);
@@ -5750,8 +5867,8 @@ static inline uint64_t BDK_GSERX_LANEX_TX_CFG_2(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904400b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904400b8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904400b8ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904400b8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_TX_CFG_2", 2, a, b, 0, 0);
@@ -5803,8 +5920,8 @@ static inline uint64_t BDK_GSERX_LANEX_TX_CFG_3(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904400c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904400c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904400c0ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904400c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_TX_CFG_3", 2, a, b, 0, 0);
@@ -5898,8 +6015,8 @@ static inline uint64_t BDK_GSERX_LANEX_TX_PRE_EMPHASIS(unsigned long a, unsigned
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904400c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3)))
-        return 0x87e0904400c8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904400c8ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904400c8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_TX_PRE_EMPHASIS", 2, a, b, 0, 0);
@@ -5928,15 +6045,15 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t lpbken                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode. When asserted in P0 state,
                                                                  allows per lane TX-to-RX serial loopback activation.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
 #else /* Word 0 - Little Endian */
         uint64_t lpbken                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode. When asserted in P0 state,
                                                                  allows per lane TX-to-RX serial loopback activation.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
         uint64_t reserved_4_63         : 60;
@@ -5967,7 +6084,26 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_lane_lpbken_cn88xx cn83xx; */
+    struct bdk_gserx_lane_lpbken_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t lpbken                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode. When asserted in
+                                                                 P0 state, allows per lane TX-to-RX serial loopback activation.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t lpbken                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode. When asserted in
+                                                                 P0 state, allows per lane TX-to-RX serial loopback activation.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_lane_lpbken_t;
 
 static inline uint64_t BDK_GSERX_LANE_LPBKEN(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5975,8 +6111,8 @@ static inline uint64_t BDK_GSERX_LANE_LPBKEN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000110ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000110ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000110ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000110ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_LPBKEN", 1, a, 0, 0, 0);
@@ -6164,7 +6300,84 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_lane_mode_cn88xx cn83xx; */
+    struct bdk_gserx_lane_mode_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t lmode                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode, used to index into the PHY
+                                                                 table to select electrical specs and link rate. Note that the PHY table can be modified
+                                                                 such that any supported link rate can be derived regardless of the configured LMODE.
+
+                                                                 0x0: R_25G_REFCLK100.
+                                                                 0x1: R_5G_REFCLK100.
+                                                                 0x2: R_8G_REFCLK100.
+                                                                 0x3: R_125G_REFCLK15625_KX (not supported).
+                                                                 0x4: R_3125G_REFCLK15625_XAUI.
+                                                                 0x5: R_103125G_REFCLK15625_KR.
+                                                                 0x6: R_125G_REFCLK15625_SGMII.
+                                                                 0x7: R_5G_REFCLK15625_QSGMII (not supported).
+                                                                 0x8: R_625G_REFCLK15625_RXAUI.
+                                                                 0x9: R_25G_REFCLK125.
+                                                                 0xA: R_5G_REFCLK125.
+                                                                 0xB: R_8G_REFCLK125.
+                                                                 0xC - 0xF: Reserved.
+
+                                                                 This register is not used for PCIE configurations. This register
+                                                                 defaults to R_625G_REFCLK15625_RXAUI.
+
+                                                                 It is recommended that the PHY be in reset when reconfiguring the LMODE
+                                                                 (GSER()_PHY_CTL[PHY_RESET] is set).
+
+                                                                 Once the LMODE has been configured, and the PHY is out of reset, the table entries for the
+                                                                 selected LMODE must be updated to reflect the reference clock speed. Refer to the register
+                                                                 description and index into the table using the rate and reference speed to obtain the
+                                                                 recommended values.
+
+                                                                 _ Write GSER()_PLL_P()_MODE_0.
+                                                                 _ Write GSER()_PLL_P()_MODE_1.
+                                                                 _ Write GSER()_LANE_P()_MODE_0.
+                                                                 _ Write GSER()_LANE_P()_MODE_1.
+
+                                                                 where in "P(z)", z equals LMODE. */
+#else /* Word 0 - Little Endian */
+        uint64_t lmode                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode, used to index into the PHY
+                                                                 table to select electrical specs and link rate. Note that the PHY table can be modified
+                                                                 such that any supported link rate can be derived regardless of the configured LMODE.
+
+                                                                 0x0: R_25G_REFCLK100.
+                                                                 0x1: R_5G_REFCLK100.
+                                                                 0x2: R_8G_REFCLK100.
+                                                                 0x3: R_125G_REFCLK15625_KX (not supported).
+                                                                 0x4: R_3125G_REFCLK15625_XAUI.
+                                                                 0x5: R_103125G_REFCLK15625_KR.
+                                                                 0x6: R_125G_REFCLK15625_SGMII.
+                                                                 0x7: R_5G_REFCLK15625_QSGMII (not supported).
+                                                                 0x8: R_625G_REFCLK15625_RXAUI.
+                                                                 0x9: R_25G_REFCLK125.
+                                                                 0xA: R_5G_REFCLK125.
+                                                                 0xB: R_8G_REFCLK125.
+                                                                 0xC - 0xF: Reserved.
+
+                                                                 This register is not used for PCIE configurations. This register
+                                                                 defaults to R_625G_REFCLK15625_RXAUI.
+
+                                                                 It is recommended that the PHY be in reset when reconfiguring the LMODE
+                                                                 (GSER()_PHY_CTL[PHY_RESET] is set).
+
+                                                                 Once the LMODE has been configured, and the PHY is out of reset, the table entries for the
+                                                                 selected LMODE must be updated to reflect the reference clock speed. Refer to the register
+                                                                 description and index into the table using the rate and reference speed to obtain the
+                                                                 recommended values.
+
+                                                                 _ Write GSER()_PLL_P()_MODE_0.
+                                                                 _ Write GSER()_PLL_P()_MODE_1.
+                                                                 _ Write GSER()_LANE_P()_MODE_0.
+                                                                 _ Write GSER()_LANE_P()_MODE_1.
+
+                                                                 where in "P(z)", z equals LMODE. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_lane_mode_t;
 
 static inline uint64_t BDK_GSERX_LANE_MODE(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6172,8 +6385,8 @@ static inline uint64_t BDK_GSERX_LANE_MODE(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000118ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000118ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000118ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000118ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_MODE", 1, a, 0, 0, 0);
@@ -6451,8 +6664,8 @@ static inline uint64_t BDK_GSERX_LANE_PX_MODE_0(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=11)))
         return 0x87e0904e0040ll + 0x1000000ll * ((a) & 0x3) + 0x20ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=11)))
-        return 0x87e0904e0040ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=11)))
+        return 0x87e0904e0040ll + 0x1000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=11)))
         return 0x87e0904e0040ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_PX_MODE_0", 2, a, b, 0, 0);
@@ -6603,8 +6816,8 @@ static inline uint64_t BDK_GSERX_LANE_PX_MODE_1(unsigned long a, unsigned long b
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=11)))
         return 0x87e0904e0048ll + 0x1000000ll * ((a) & 0x3) + 0x20ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=11)))
-        return 0x87e0904e0048ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=11)))
+        return 0x87e0904e0048ll + 0x1000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=11)))
         return 0x87e0904e0048ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_PX_MODE_1", 2, a, b, 0, 0);
@@ -6632,14 +6845,14 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t lpoff                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, allows for per lane power down.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
 #else /* Word 0 - Little Endian */
         uint64_t lpoff                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, allows for per lane power down.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
         uint64_t reserved_4_63         : 60;
@@ -6666,7 +6879,26 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_lane_poff_cn88xx cn83xx; */
+    struct bdk_gserx_lane_poff_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t lpoff                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, allows for per lane power
+                                                                 down.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t lpoff                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, allows for per lane power
+                                                                 down.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_lane_poff_t;
 
 static inline uint64_t BDK_GSERX_LANE_POFF(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6674,8 +6906,8 @@ static inline uint64_t BDK_GSERX_LANE_POFF(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000108ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000108ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000108ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000108ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_POFF", 1, a, 0, 0, 0);
@@ -6735,7 +6967,24 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_lane_srst_cn88xx cn83xx; */
+    struct bdk_gserx_lane_srst_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode, resets all 4 lanes
+                                                                 (equivalent to the P2 power state) after any pending requests (power state change, rate
+                                                                 change) are complete. The lanes remain in reset state while this signal is asserted. When
+                                                                 the signal deasserts, the lanes exit the reset state and the PHY returns to the power
+                                                                 state the PHY was in prior. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t lsrst                 : 1;  /**< [  0:  0](R/W) For links that are not in PCIE or SATA mode, resets all 4 lanes
+                                                                 (equivalent to the P2 power state) after any pending requests (power state change, rate
+                                                                 change) are complete. The lanes remain in reset state while this signal is asserted. When
+                                                                 the signal deasserts, the lanes exit the reset state and the PHY returns to the power
+                                                                 state the PHY was in prior. For diagnostic use only. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_lane_srst_t;
 
 static inline uint64_t BDK_GSERX_LANE_SRST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6743,8 +6992,8 @@ static inline uint64_t BDK_GSERX_LANE_SRST(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000100ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000100ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000100ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000100ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_SRST", 1, a, 0, 0, 0);
@@ -6796,8 +7045,8 @@ static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904e01b0ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904e01b0ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904e01b0ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904e01b0ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_VMA_COARSE_CTRL_0", 1, a, 0, 0, 0);
@@ -6843,8 +7092,8 @@ static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904e01b8ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904e01b8ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904e01b8ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904e01b8ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_VMA_COARSE_CTRL_1", 1, a, 0, 0, 0);
@@ -6890,8 +7139,8 @@ static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904e01c0ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904e01c0ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904e01c0ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904e01c0ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_VMA_COARSE_CTRL_2", 1, a, 0, 0, 0);
@@ -6961,8 +7210,8 @@ static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904e01c8ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904e01c8ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904e01c8ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904e01c8ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_VMA_FINE_CTRL_0", 1, a, 0, 0, 0);
@@ -7014,8 +7263,8 @@ static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904e01d0ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904e01d0ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904e01d0ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904e01d0ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_VMA_FINE_CTRL_1", 1, a, 0, 0, 0);
@@ -7067,8 +7316,8 @@ static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904e01d8ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904e01d8ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904e01d8ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904e01d8ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_LANE_VMA_FINE_CTRL_2", 1, a, 0, 0, 0);
@@ -7129,7 +7378,22 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_phy_ctl_cn88xx cn83xx; */
+    struct bdk_gserx_phy_ctl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t phy_reset             : 1;  /**< [  1:  1](R/W/H) When asserted, the PHY is held in reset. This bit is initialized as follows:
+                                                                 0 = (not reset) = Bootable PCIe.
+                                                                 1 = (reset) = Non-bootable PCIe, BGX, or SATA. */
+        uint64_t phy_pd                : 1;  /**< [  0:  0](R/W) When asserted, the PHY is powered down. */
+#else /* Word 0 - Little Endian */
+        uint64_t phy_pd                : 1;  /**< [  0:  0](R/W) When asserted, the PHY is powered down. */
+        uint64_t phy_reset             : 1;  /**< [  1:  1](R/W/H) When asserted, the PHY is held in reset. This bit is initialized as follows:
+                                                                 0 = (not reset) = Bootable PCIe.
+                                                                 1 = (reset) = Non-bootable PCIe, BGX, or SATA. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_phy_ctl_t;
 
 static inline uint64_t BDK_GSERX_PHY_CTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7137,8 +7401,8 @@ static inline uint64_t BDK_GSERX_PHY_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000000ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000000ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000000ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_PHY_CTL", 1, a, 0, 0, 0);
@@ -7192,7 +7456,22 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_pipe_lpbk_cn88xx cn83xx; */
+    struct bdk_gserx_pipe_lpbk_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t pcie_lpbk             : 1;  /**< [  0:  0](R/W) For links that are in PCIE mode, places the PHY in serial loopback mode, where the
+                                                                 QLMn_TXN/QLMn_TXP data are looped back to the QLMn_RXN/QLMn_RXP.
+
+                                                                 This register has no meaning for links that don't support PCIe i.e. */
+#else /* Word 0 - Little Endian */
+        uint64_t pcie_lpbk             : 1;  /**< [  0:  0](R/W) For links that are in PCIE mode, places the PHY in serial loopback mode, where the
+                                                                 QLMn_TXN/QLMn_TXP data are looped back to the QLMn_RXN/QLMn_RXP.
+
+                                                                 This register has no meaning for links that don't support PCIe i.e. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_pipe_lpbk_t;
 
 static inline uint64_t BDK_GSERX_PIPE_LPBK(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7200,8 +7479,8 @@ static inline uint64_t BDK_GSERX_PIPE_LPBK(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000200ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000200ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000200ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000200ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_PIPE_LPBK", 1, a, 0, 0, 0);
@@ -7348,8 +7627,8 @@ static inline uint64_t BDK_GSERX_PLL_PX_MODE_0(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=11)))
         return 0x87e0904e0030ll + 0x1000000ll * ((a) & 0x3) + 0x20ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=11)))
-        return 0x87e0904e0030ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=11)))
+        return 0x87e0904e0030ll + 0x1000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=11)))
         return 0x87e0904e0030ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
     __bdk_csr_fatal("GSERX_PLL_PX_MODE_0", 2, a, b, 0, 0);
@@ -7524,8 +7803,8 @@ static inline uint64_t BDK_GSERX_PLL_PX_MODE_1(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=11)))
         return 0x87e0904e0038ll + 0x1000000ll * ((a) & 0x3) + 0x20ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=11)))
-        return 0x87e0904e0038ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=11)))
+        return 0x87e0904e0038ll + 0x1000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=11)))
         return 0x87e0904e0038ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
     __bdk_csr_fatal("GSERX_PLL_PX_MODE_1", 2, a, b, 0, 0);
@@ -7564,8 +7843,8 @@ static inline uint64_t BDK_GSERX_PLL_STAT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000010ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000010ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000010ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000010ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_PLL_STAT", 1, a, 0, 0, 0);
@@ -7608,8 +7887,8 @@ static inline uint64_t BDK_GSERX_QLM_STAT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0900000a0ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0900000a0ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0900000a0ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0900000a0ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_QLM_STAT", 1, a, 0, 0, 0);
@@ -7659,8 +7938,8 @@ static inline uint64_t BDK_GSERX_RDET_TIME(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904e0008ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904e0008ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904e0008ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904e0008ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RDET_TIME", 1, a, 0, 0, 0);
@@ -7717,8 +7996,8 @@ static inline uint64_t BDK_GSERX_REFCLK_EVT_CNTR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000178ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000178ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000178ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000178ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_REFCLK_EVT_CNTR", 1, a, 0, 0, 0);
@@ -7761,8 +8040,8 @@ static inline uint64_t BDK_GSERX_REFCLK_EVT_CTRL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000170ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000170ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000170ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000170ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_REFCLK_EVT_CTRL", 1, a, 0, 0, 0);
@@ -7839,7 +8118,7 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_refclk_sel_cn88xx cn83xx; */
+    /* struct bdk_gserx_refclk_sel_s cn83xx; */
 } bdk_gserx_refclk_sel_t;
 
 static inline uint64_t BDK_GSERX_REFCLK_SEL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7847,8 +8126,8 @@ static inline uint64_t BDK_GSERX_REFCLK_SEL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000008ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000008ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000008ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000008ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_REFCLK_SEL", 1, a, 0, 0, 0);
@@ -7881,8 +8160,8 @@ typedef union
                                                                  exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
                                                                  allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
                                                                  allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
 #else /* Word 0 - Little Endian */
@@ -7892,8 +8171,8 @@ typedef union
                                                                  exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
                                                                  allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
                                                                  allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
         uint64_t reserved_4_63         : 60;
@@ -7930,7 +8209,34 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_rx_coast_cn88xx cn83xx; */
+    struct bdk_gserx_rx_coast_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t coast                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode, control signals to freeze
+                                                                 the frequency of the per lane CDR in the PHY. The COAST signals are only valid in P0
+                                                                 state, come up asserted and are deasserted in hardware after detecting the electrical idle
+                                                                 exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
+                                                                 allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
+                                                                 allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t coast                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode, control signals to freeze
+                                                                 the frequency of the per lane CDR in the PHY. The COAST signals are only valid in P0
+                                                                 state, come up asserted and are deasserted in hardware after detecting the electrical idle
+                                                                 exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
+                                                                 allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
+                                                                 allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_rx_coast_t;
 
 static inline uint64_t BDK_GSERX_RX_COAST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -7938,8 +8244,8 @@ static inline uint64_t BDK_GSERX_RX_COAST(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000138ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000138ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000138ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000138ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_COAST", 1, a, 0, 0, 0);
@@ -7971,8 +8277,8 @@ typedef union
                                                                  GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
                                                                  EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
                                                                  EIE detection.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
 #else /* Word 0 - Little Endian */
@@ -7981,8 +8287,8 @@ typedef union
                                                                  GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
                                                                  EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
                                                                  EIE detection.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
         uint64_t reserved_4_63         : 60;
@@ -8017,7 +8323,32 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_rx_eie_deten_cn88xx cn83xx; */
+    struct bdk_gserx_rx_eie_deten_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode, these bits enable per lane
+                                                                 electrical idle exit (EIE) detection. When EIE is detected,
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
+                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 EIE detection.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode, these bits enable per lane
+                                                                 electrical idle exit (EIE) detection. When EIE is detected,
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
+                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 EIE detection.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_rx_eie_deten_t;
 
 static inline uint64_t BDK_GSERX_RX_EIE_DETEN(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8025,8 +8356,8 @@ static inline uint64_t BDK_GSERX_RX_EIE_DETEN(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000148ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000148ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000148ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000148ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_EIE_DETEN", 1, a, 0, 0, 0);
@@ -8055,8 +8386,8 @@ typedef union
                                                                  lock. During this time, there may be RX bit errors. These bits will set when the CDR is
                                                                  guaranteed to be locked. Note that link training can't start until the lane CDRLOCK is
                                                                  set. Software can use CDRLOCK to determine when to expect error free RX data.
-                                                                 <11>: Lane 3.  Unused.
-                                                                 <10>: Lane 2.  Unused.
+                                                                 <11>: Lane 3.  Reserved.
+                                                                 <10>: Lane 2.  Reserved.
                                                                  <9>: Lane 1.
                                                                  <8>: Lane 0. */
         uint64_t eiests                : 4;  /**< [  7:  4](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
@@ -8065,8 +8396,8 @@ typedef union
                                                                  idle symbols) for data transitions to be detected and for EIESTS to stay set accordingly.
                                                                  Under most conditions, EIESTS
                                                                  will stay asserted until GSER()_RX_EIE_DETEN[EIEDE] is deasserted.
-                                                                 <7>: Lane 3.  Unused.
-                                                                 <6>: Lane 2.  Unused.
+                                                                 <7>: Lane 3.  Reserved.
+                                                                 <6>: Lane 2.  Reserved.
                                                                  <5>: Lane 1.
                                                                  <4>: Lane 0. */
         uint64_t eieltch               : 4;  /**< [  3:  0](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
@@ -8075,8 +8406,8 @@ typedef union
                                                                  GSER()_RX_EIE_DETEN[EIEDE] is deasserted. Note that there may be RX bit errors until
                                                                  CDRLOCK
                                                                  is set.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
 #else /* Word 0 - Little Endian */
@@ -8086,8 +8417,8 @@ typedef union
                                                                  GSER()_RX_EIE_DETEN[EIEDE] is deasserted. Note that there may be RX bit errors until
                                                                  CDRLOCK
                                                                  is set.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
         uint64_t eiests                : 4;  /**< [  7:  4](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
@@ -8096,16 +8427,16 @@ typedef union
                                                                  idle symbols) for data transitions to be detected and for EIESTS to stay set accordingly.
                                                                  Under most conditions, EIESTS
                                                                  will stay asserted until GSER()_RX_EIE_DETEN[EIEDE] is deasserted.
-                                                                 <7>: Lane 3.  Unused.
-                                                                 <6>: Lane 2.  Unused.
+                                                                 <7>: Lane 3.  Reserved.
+                                                                 <6>: Lane 2.  Reserved.
                                                                  <5>: Lane 1.
                                                                  <4>: Lane 0. */
         uint64_t cdrlock               : 4;  /**< [ 11:  8](RO/H) After an electrical idle exit condition (EIE) has been detected, the CDR needs 10000 UI to
                                                                  lock. During this time, there may be RX bit errors. These bits will set when the CDR is
                                                                  guaranteed to be locked. Note that link training can't start until the lane CDRLOCK is
                                                                  set. Software can use CDRLOCK to determine when to expect error free RX data.
-                                                                 <11>: Lane 3.  Unused.
-                                                                 <10>: Lane 2.  Unused.
+                                                                 <11>: Lane 3.  Reserved.
+                                                                 <10>: Lane 2.  Reserved.
                                                                  <9>: Lane 1.
                                                                  <8>: Lane 0. */
         uint64_t reserved_12_63        : 52;
@@ -8176,7 +8507,70 @@ typedef union
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_rx_eie_detsts_cn88xx cn83xx; */
+    struct bdk_gserx_rx_eie_detsts_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t cdrlock               : 4;  /**< [ 11:  8](RO/H) After an electrical idle exit condition (EIE) has been detected, the CDR needs 10000 UI to
+                                                                 lock. During this time, there may be RX bit errors. These bits will set when the CDR is
+                                                                 guaranteed to be locked. Note that link training can't start until the lane CDRLOCK is
+                                                                 set. Software can use CDRLOCK to determine when to expect error free RX data.
+                                                                 <11>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <10>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <9>: Lane 1.
+                                                                 <8>: Lane 0. */
+        uint64_t eiests                : 4;  /**< [  7:  4](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
+                                                                 asserted), indicates that an electrical idle exit condition (EIE) was detected. For higher
+                                                                 data rates, the received data needs to have sufficient low frequency content (for example,
+                                                                 idle symbols) for data transitions to be detected and for EIESTS to stay set accordingly.
+                                                                 Under most conditions, EIESTS
+                                                                 will stay asserted until GSER()_RX_EIE_DETEN[EIEDE] is deasserted.
+                                                                 <7>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <6>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <5>: Lane 1.
+                                                                 <4>: Lane 0. */
+        uint64_t eieltch               : 4;  /**< [  3:  0](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
+                                                                 asserted), indicates that an electrical idle exit condition (EIE) was detected. Once an
+                                                                 EIE condition has been detected, the per-lane EIELTCH will stay set until
+                                                                 GSER()_RX_EIE_DETEN[EIEDE] is deasserted. Note that there may be RX bit errors until
+                                                                 CDRLOCK
+                                                                 is set.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t eieltch               : 4;  /**< [  3:  0](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
+                                                                 asserted), indicates that an electrical idle exit condition (EIE) was detected. Once an
+                                                                 EIE condition has been detected, the per-lane EIELTCH will stay set until
+                                                                 GSER()_RX_EIE_DETEN[EIEDE] is deasserted. Note that there may be RX bit errors until
+                                                                 CDRLOCK
+                                                                 is set.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+        uint64_t eiests                : 4;  /**< [  7:  4](RO/H) When electrical idle exit detection is enabled (GSER()_RX_EIE_DETEN[EIEDE] is
+                                                                 asserted), indicates that an electrical idle exit condition (EIE) was detected. For higher
+                                                                 data rates, the received data needs to have sufficient low frequency content (for example,
+                                                                 idle symbols) for data transitions to be detected and for EIESTS to stay set accordingly.
+                                                                 Under most conditions, EIESTS
+                                                                 will stay asserted until GSER()_RX_EIE_DETEN[EIEDE] is deasserted.
+                                                                 <7>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <6>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <5>: Lane 1.
+                                                                 <4>: Lane 0. */
+        uint64_t cdrlock               : 4;  /**< [ 11:  8](RO/H) After an electrical idle exit condition (EIE) has been detected, the CDR needs 10000 UI to
+                                                                 lock. During this time, there may be RX bit errors. These bits will set when the CDR is
+                                                                 guaranteed to be locked. Note that link training can't start until the lane CDRLOCK is
+                                                                 set. Software can use CDRLOCK to determine when to expect error free RX data.
+                                                                 <11>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <10>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <9>: Lane 1.
+                                                                 <8>: Lane 0. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_rx_eie_detsts_t;
 
 static inline uint64_t BDK_GSERX_RX_EIE_DETSTS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8184,8 +8578,8 @@ static inline uint64_t BDK_GSERX_RX_EIE_DETSTS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000150ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000150ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000150ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000150ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_EIE_DETSTS", 1, a, 0, 0, 0);
@@ -8260,8 +8654,8 @@ static inline uint64_t BDK_GSERX_RX_EIE_FILTER(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000158ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000158ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000158ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000158ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_EIE_FILTER", 1, a, 0, 0, 0);
@@ -8291,16 +8685,16 @@ typedef union
         uint64_t rx_inv                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, control signal to invert
                                                                  the polarity of received data. When asserted, the polarity of the received data is
                                                                  inverted.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_inv                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, control signal to invert
                                                                  the polarity of received data. When asserted, the polarity of the received data is
                                                                  inverted.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
         uint64_t reserved_4_63         : 60;
@@ -8329,7 +8723,28 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_rx_polarity_cn88xx cn83xx; */
+    struct bdk_gserx_rx_polarity_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t rx_inv                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, control signal to invert
+                                                                 the polarity of received data. When asserted, the polarity of the received data is
+                                                                 inverted.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_inv                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, control signal to invert
+                                                                 the polarity of received data. When asserted, the polarity of the received data is
+                                                                 inverted.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_rx_polarity_t;
 
 static inline uint64_t BDK_GSERX_RX_POLARITY(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8337,8 +8752,8 @@ static inline uint64_t BDK_GSERX_RX_POLARITY(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000160ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000160ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000160ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000160ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_POLARITY", 1, a, 0, 0, 0);
@@ -8412,8 +8827,8 @@ static inline uint64_t BDK_GSERX_RX_PWR_CTRL_P1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904600b0ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904600b0ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904600b0ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904600b0ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_PWR_CTRL_P1", 1, a, 0, 0, 0);
@@ -8493,8 +8908,8 @@ static inline uint64_t BDK_GSERX_RX_PWR_CTRL_P2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904600b8ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904600b8ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904600b8ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904600b8ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_PWR_CTRL_P2", 1, a, 0, 0, 0);
@@ -8574,8 +8989,8 @@ static inline uint64_t BDK_GSERX_RX_TXDIR_CTRL_0(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904600e8ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904600e8ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904600e8ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904600e8ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_TXDIR_CTRL_0", 1, a, 0, 0, 0);
@@ -8688,8 +9103,8 @@ static inline uint64_t BDK_GSERX_RX_TXDIR_CTRL_1(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904600f0ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904600f0ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904600f0ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904600f0ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_TXDIR_CTRL_1", 1, a, 0, 0, 0);
@@ -8753,8 +9168,8 @@ static inline uint64_t BDK_GSERX_RX_TXDIR_CTRL_2(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e0904600f8ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e0904600f8ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e0904600f8ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e0904600f8ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_RX_TXDIR_CTRL_2", 1, a, 0, 0, 0);
@@ -8793,7 +9208,28 @@ typedef union
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_sata_lanex_tx_ampx_s cn; */
+    /* struct bdk_gserx_sata_lanex_tx_ampx_s cn81xx; */
+    /* struct bdk_gserx_sata_lanex_tx_ampx_s cn88xx; */
+    struct bdk_gserx_sata_lanex_tx_ampx_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the Tx driver launch amplitude in the
+                                                                 case where the PHY is running at the Gen1, Gen2, and Gen3
+                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 This register is used for SATA lanes only GSER(4..6).
+
+                                                                 Only SATA lanes 0 and 1 are used. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_amp                : 7;  /**< [  6:  0](R/W) This status value sets the Tx driver launch amplitude in the
+                                                                 case where the PHY is running at the Gen1, Gen2, and Gen3
+                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+                                                                 This register is used for SATA lanes only GSER(4..6).
+
+                                                                 Only SATA lanes 0 and 1 are used. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_sata_lanex_tx_ampx_t;
 
 static inline uint64_t BDK_GSERX_SATA_LANEX_TX_AMPX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
@@ -8801,8 +9237,8 @@ static inline uint64_t BDK_GSERX_SATA_LANEX_TX_AMPX(unsigned long a, unsigned lo
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1) && (c<=2)))
         return 0x87e090000b00ll + 0x1000000ll * ((a) & 0x3) + 0x20ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3) && (c<=2)))
-        return 0x87e090000b00ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3) && (c<=2)))
+        return 0x87e090000b00ll + 0x1000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3) && (c<=2)))
         return 0x87e090000b00ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
     __bdk_csr_fatal("GSERX_SATA_LANEX_TX_AMPX", 3, a, b, c, 0);
@@ -8842,7 +9278,28 @@ typedef union
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_sata_lanex_tx_preemphx_s cn; */
+    /* struct bdk_gserx_sata_lanex_tx_preemphx_s cn81xx; */
+    /* struct bdk_gserx_sata_lanex_tx_preemphx_s cn88xx; */
+    struct bdk_gserx_sata_lanex_tx_preemphx_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the Tx driver de-emphasis value in the
+                                                                 case where the PHY is running at the Gen1, Gen2, and Gen3
+                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+
+                                                                 This register is used for SATA lanes only GSER(4..6).
+                                                                 Only SATA lanes 0 and 1 are used. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_preemph            : 7;  /**< [  6:  0](R/W/H) This static value sets the Tx driver de-emphasis value in the
+                                                                 case where the PHY is running at the Gen1, Gen2, and Gen3
+                                                                 rates. Used for tuning at the board level for Rx eye compliance.
+
+                                                                 This register is used for SATA lanes only GSER(4..6).
+                                                                 Only SATA lanes 0 and 1 are used. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_sata_lanex_tx_preemphx_t;
 
 static inline uint64_t BDK_GSERX_SATA_LANEX_TX_PREEMPHX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
@@ -8850,8 +9307,8 @@ static inline uint64_t BDK_GSERX_SATA_LANEX_TX_PREEMPHX(unsigned long a, unsigne
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1) && (c<=2)))
         return 0x87e090000a00ll + 0x1000000ll * ((a) & 0x3) + 0x20ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=3) && (c<=2)))
-        return 0x87e090000a00ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3) && (c<=2)))
+        return 0x87e090000a00ll + 0x1000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3) && (c<=2)))
         return 0x87e090000a00ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
     __bdk_csr_fatal("GSERX_SATA_LANEX_TX_PREEMPHX", 3, a, b, c, 0);
@@ -8893,20 +9350,39 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Unused. */
-        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Unused.. */
-        uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for Lane 1. */
-        uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for Lane 0. */
+        uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Reserved. */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Reserved.. */
+        uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1. */
+        uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for lane 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for Lane 0. */
-        uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for Lane 1. */
-        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Unused.. */
-        uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Unused. */
+        uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for lane 0. */
+        uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1. */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Reserved.. */
+        uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gserx_sata_lane_rst_s cn88xx; */
-    /* struct bdk_gserx_sata_lane_rst_s cn83xx; */
+    struct bdk_gserx_sata_lane_rst_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t l3_rst                : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](R/W) Reserved. */
+        uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1.
+                                                                 This register is used for SATA lanes only for GSER(4..6). */
+        uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for lane 0.
+                                                                 This register is used for SATA lanes only for GSER(4..6). */
+#else /* Word 0 - Little Endian */
+        uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for lane 0.
+                                                                 This register is used for SATA lanes only for GSER(4..6). */
+        uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1.
+                                                                 This register is used for SATA lanes only for GSER(4..6). */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](R/W) Reserved. */
+        uint64_t l3_rst                : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_sata_lane_rst_t;
 
 static inline uint64_t BDK_GSERX_SATA_LANE_RST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8914,8 +9390,8 @@ static inline uint64_t BDK_GSERX_SATA_LANE_RST(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000908ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000908ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000908ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000908ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_SATA_LANE_RST", 1, a, 0, 0, 0);
@@ -8957,20 +9433,39 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t p3_rdy                : 1;  /**< [  3:  3](RO/H) Unused. */
-        uint64_t p2_rdy                : 1;  /**< [  2:  2](RO/H) Unused. */
-        uint64_t p1_rdy                : 1;  /**< [  1:  1](RO/H) PHY Lane 1 is ready to send and receive data. */
-        uint64_t p0_rdy                : 1;  /**< [  0:  0](RO/H) PHY Lane 0 is ready to send and receive data. */
+        uint64_t p3_rdy                : 1;  /**< [  3:  3](RO/H) Reserved. */
+        uint64_t p2_rdy                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint64_t p1_rdy                : 1;  /**< [  1:  1](RO/H) PHY lane 1 is ready to send and receive data. */
+        uint64_t p0_rdy                : 1;  /**< [  0:  0](RO/H) PHY lane 0 is ready to send and receive data. */
 #else /* Word 0 - Little Endian */
-        uint64_t p0_rdy                : 1;  /**< [  0:  0](RO/H) PHY Lane 0 is ready to send and receive data. */
-        uint64_t p1_rdy                : 1;  /**< [  1:  1](RO/H) PHY Lane 1 is ready to send and receive data. */
-        uint64_t p2_rdy                : 1;  /**< [  2:  2](RO/H) Unused. */
-        uint64_t p3_rdy                : 1;  /**< [  3:  3](RO/H) Unused. */
+        uint64_t p0_rdy                : 1;  /**< [  0:  0](RO/H) PHY lane 0 is ready to send and receive data. */
+        uint64_t p1_rdy                : 1;  /**< [  1:  1](RO/H) PHY lane 1 is ready to send and receive data. */
+        uint64_t p2_rdy                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint64_t p3_rdy                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gserx_sata_status_s cn88xx; */
-    /* struct bdk_gserx_sata_status_s cn83xx; */
+    struct bdk_gserx_sata_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t p3_rdy                : 1;  /**< [  3:  3](RO/H) Reserved. */
+        uint64_t p2_rdy                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint64_t p1_rdy                : 1;  /**< [  1:  1](RO/H) PHY lane 1 is ready to send and receive data.
+                                                                 This register is used for SATA lanes only GSER(4..6). */
+        uint64_t p0_rdy                : 1;  /**< [  0:  0](RO/H) PHY lane 0 is ready to send and receive data.
+                                                                 This register is used for SATA lanes only GSER(4..6). */
+#else /* Word 0 - Little Endian */
+        uint64_t p0_rdy                : 1;  /**< [  0:  0](RO/H) PHY lane 0 is ready to send and receive data.
+                                                                 This register is used for SATA lanes only GSER(4..6). */
+        uint64_t p1_rdy                : 1;  /**< [  1:  1](RO/H) PHY lane 1 is ready to send and receive data.
+                                                                 This register is used for SATA lanes only GSER(4..6). */
+        uint64_t p2_rdy                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint64_t p3_rdy                : 1;  /**< [  3:  3](RO/H) Reserved. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_sata_status_t;
 
 static inline uint64_t BDK_GSERX_SATA_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -8978,8 +9473,8 @@ static inline uint64_t BDK_GSERX_SATA_STATUS(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090100900ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090100900ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090100900ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090100900ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_SATA_STATUS", 1, a, 0, 0, 0);
@@ -9029,8 +9524,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Unused. */
-        uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Unused. */
+        uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Reserved. */
+        uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Reserved. */
         uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
                                                                  lane 1 transmitted data. */
         uint64_t l0_inv                : 1;  /**< [  0:  0](R/W) Instructs the SATA PCS to perform a polarity inversion on the
@@ -9040,13 +9535,36 @@ typedef union
                                                                  lane 0 transmitted data. */
         uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
                                                                  lane 1 transmitted data. */
-        uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Unused. */
-        uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Unused. */
+        uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_gserx_sata_tx_invert_s cn88xx; */
-    /* struct bdk_gserx_sata_tx_invert_s cn83xx; */
+    struct bdk_gserx_sata_tx_invert_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t l3_inv                : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint64_t l2_inv                : 1;  /**< [  2:  2](R/W) Reserved. */
+        uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
+                                                                 lane 1 transmitted data.
+                                                                 This register is used for SATA lanes only for GSER(4..6). */
+        uint64_t l0_inv                : 1;  /**< [  0:  0](R/W) Instructs the SATA PCS to perform a polarity inversion on the
+                                                                 lane 0 transmitted data.
+                                                                 This register is used for SATA lanes only for GSER(4..6). */
+#else /* Word 0 - Little Endian */
+        uint64_t l0_inv                : 1;  /**< [  0:  0](R/W) Instructs the SATA PCS to perform a polarity inversion on the
+                                                                 lane 0 transmitted data.
+                                                                 This register is used for SATA lanes only for GSER(4..6). */
+        uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
+                                                                 lane 1 transmitted data.
+                                                                 This register is used for SATA lanes only for GSER(4..6). */
+        uint64_t l2_inv                : 1;  /**< [  2:  2](R/W) Reserved. */
+        uint64_t l3_inv                : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_sata_tx_invert_t;
 
 static inline uint64_t BDK_GSERX_SATA_TX_INVERT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9054,8 +9572,8 @@ static inline uint64_t BDK_GSERX_SATA_TX_INVERT(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000910ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000910ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000910ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000910ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_SATA_TX_INVERT", 1, a, 0, 0, 0);
@@ -9096,8 +9614,8 @@ static inline uint64_t BDK_GSERX_SCRATCH(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000020ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000020ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000020ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000020ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_SCRATCH", 1, a, 0, 0, 0);
@@ -9177,8 +9695,8 @@ static inline uint64_t BDK_GSERX_SLICEX_RX_SDLL_CTRL(unsigned long a, unsigned l
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e090460220ll + 0x1000000ll * ((a) & 0x3) + 0x200000ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=13) && (b<=1)))
-        return 0x87e090460220ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=1)))
+        return 0x87e090460220ll + 0x1000000ll * ((a) & 0x7) + 0x200000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=1)))
         return 0x87e090460220ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
     __bdk_csr_fatal("GSERX_SLICEX_RX_SDLL_CTRL", 2, a, b, 0, 0);
@@ -9232,8 +9750,8 @@ static inline uint64_t BDK_GSERX_SLICE_CFG(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090460060ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090460060ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090460060ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460060ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_SLICE_CFG", 1, a, 0, 0, 0);
@@ -9364,91 +9882,9 @@ typedef union
     struct bdk_gserx_spd_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) For CCPI links (i.e. GSER8..13), the hardware loads this CSR field from the OCI_SPD<3:0>
-                                                                 pins during chip cold reset. For non-CCPI links, this field is not used.
-                                                                 For SPD settings that configure a non-default reference clock, hardware updates the PLL
-                                                                 settings of the specific lane mode (LMODE) table entry to derive the correct link rate.
-
-                                                                 <pre>
-                                                                 SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
-                                                                 0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
-                                                                 0x2:  100 MHz     5 Gb        R_5G_REFCLK100
-                                                                 0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0x7:  125 MHz     5 Gb        R_5G_REFCLK125
-                                                                 0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
-                                                                 0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
-                                                                 0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0xE:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
-                                                                 0xF:                          SW_MODE
-                                                                 </pre>
-
-                                                                 Note that a value of 0xF is called SW_MODE. The CCPI link does not come up configured in
-                                                                 SW_MODE.
-                                                                 (Software must do all the CCPI GSER configuration to use CCPI in the case of SW_MODE.)
-                                                                 When SPD!=SW_MODE after a chip cold reset, the hardware has initialized the following
-                                                                 registers (based on the OCI_SPD selection):
-
-                                                                  * GSER()_LANE_MODE[LMODE]=Z.
-                                                                  * GSER()_PLL_P()_MODE_0.
-                                                                  * GSER()_PLL_P()_MODE_1.
-                                                                  * GSER()_LANE_P()_MODE_0.
-                                                                  * GSER()_LANE_P()_MODE_1.
-                                                                  * GSER()_LANE()_RX_VALBBD_CTRL_0.
-                                                                  * GSER()_LANE()_RX_VALBBD_CTRL_1.
-                                                                  * GSER()_LANE()_RX_VALBBD_CTRL_2.
-
-                                                                  where in "GSER(x)", x is 8..13, and in "P(z)", z equals LMODE. */
+        uint64_t reserved_0_63         : 64;
 #else /* Word 0 - Little Endian */
-        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) For CCPI links (i.e. GSER8..13), the hardware loads this CSR field from the OCI_SPD<3:0>
-                                                                 pins during chip cold reset. For non-CCPI links, this field is not used.
-                                                                 For SPD settings that configure a non-default reference clock, hardware updates the PLL
-                                                                 settings of the specific lane mode (LMODE) table entry to derive the correct link rate.
-
-                                                                 <pre>
-                                                                 SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
-                                                                 0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
-                                                                 0x2:  100 MHz     5 Gb        R_5G_REFCLK100
-                                                                 0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0x7:  125 MHz     5 Gb        R_5G_REFCLK125
-                                                                 0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
-                                                                 0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
-                                                                 0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
-                                                                 0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
-                                                                 0xE:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
-                                                                 0xF:                          SW_MODE
-                                                                 </pre>
-
-                                                                 Note that a value of 0xF is called SW_MODE. The CCPI link does not come up configured in
-                                                                 SW_MODE.
-                                                                 (Software must do all the CCPI GSER configuration to use CCPI in the case of SW_MODE.)
-                                                                 When SPD!=SW_MODE after a chip cold reset, the hardware has initialized the following
-                                                                 registers (based on the OCI_SPD selection):
-
-                                                                  * GSER()_LANE_MODE[LMODE]=Z.
-                                                                  * GSER()_PLL_P()_MODE_0.
-                                                                  * GSER()_PLL_P()_MODE_1.
-                                                                  * GSER()_LANE_P()_MODE_0.
-                                                                  * GSER()_LANE_P()_MODE_1.
-                                                                  * GSER()_LANE()_RX_VALBBD_CTRL_0.
-                                                                  * GSER()_LANE()_RX_VALBBD_CTRL_1.
-                                                                  * GSER()_LANE()_RX_VALBBD_CTRL_2.
-
-                                                                  where in "GSER(x)", x is 8..13, and in "P(z)", z equals LMODE. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_0_63         : 64;
 #endif /* Word 0 - End */
     } cn83xx;
     struct bdk_gserx_spd_cn88xxp2
@@ -9560,8 +9996,8 @@ static inline uint64_t BDK_GSERX_SPD(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000088ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000088ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000088ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000088ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_SPD", 1, a, 0, 0, 0);
@@ -9604,8 +10040,8 @@ static inline uint64_t BDK_GSERX_SRST(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000090ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000090ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000090ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000090ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_SRST", 1, a, 0, 0, 0);
@@ -9634,15 +10070,15 @@ typedef union
         uint64_t reserved_4_63         : 60;
         uint64_t vboost                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, boosts the TX Vswing from
                                                                  VDD to 1.0 VPPD.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
 #else /* Word 0 - Little Endian */
         uint64_t vboost                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, boosts the TX Vswing from
                                                                  VDD to 1.0 VPPD.
-                                                                 <3>: Lane 3.  Unused.
-                                                                 <2>: Lane 2.  Unused.
+                                                                 <3>: Lane 3.  Reserved.
+                                                                 <2>: Lane 2.  Reserved.
                                                                  <1>: Lane 1.
                                                                  <0>: Lane 0. */
         uint64_t reserved_4_63         : 60;
@@ -9669,7 +10105,26 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gserx_tx_vboost_cn88xx cn83xx; */
+    struct bdk_gserx_tx_vboost_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t vboost                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, boosts the TX Vswing from
+                                                                 VDD to 1.0 VPPD.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t vboost                : 4;  /**< [  3:  0](R/W) For links that are not in PCIE mode, boosts the TX Vswing from
+                                                                 VDD to 1.0 VPPD.
+                                                                 <3>: Lane 3.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <2>: Lane 2.  Not supported in GSER4, GSER5, or GSER6.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gserx_tx_vboost_t;
 
 static inline uint64_t BDK_GSERX_TX_VBOOST(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9677,8 +10132,8 @@ static inline uint64_t BDK_GSERX_TX_VBOOST(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000130ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000130ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000130ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000130ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_TX_VBOOST", 1, a, 0, 0, 0);
@@ -9735,8 +10190,8 @@ static inline uint64_t BDK_GSERX_TXCLK_EVT_CNTR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000188ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000188ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000188ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000188ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_TXCLK_EVT_CNTR", 1, a, 0, 0, 0);
@@ -9779,8 +10234,8 @@ static inline uint64_t BDK_GSERX_TXCLK_EVT_CTRL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
         return 0x87e090000180ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x87e090000180ll + 0x1000000ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=6))
+        return 0x87e090000180ll + 0x1000000ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090000180ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_TXCLK_EVT_CTRL", 1, a, 0, 0, 0);

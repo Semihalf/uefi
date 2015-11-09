@@ -100,41 +100,33 @@
  * When GPIO pin is used as input pin, GPIO input is reported to selected function as well as
  * GPIO_RX_DAT.
  */
-#define BDK_GPIO_PIN_SEL_E_BOOT_ADH (0xba) /**< Boot-bus high address and data inputs and outputs.
-                                       
-                                       This encoding must be used on 16 contiguous GPIO pins, either GPIO<32..47>, or
-                                       GPIO<48..63>.
-                                       
-                                       <pre>
-                                       BOOT_AD<16>  = GPIO<32> or <48>
-                                       BOOT_AD<17>  = GPIO<33> or <49>
-                                       BOOT_AD ...
-                                       BOOT_AD<31>  = GPIO<47> or <63>
-                                       </pre> */
-#define BDK_GPIO_PIN_SEL_E_BOOT_ADL (0xb9) /**< Boot-bus low address and data inputs and outputs.
-                                       
-                                       This encoding must be used on 16 contiguous GPIO pins, either GPIO<16..31>, or
-                                       GPIO<32..47>.
-                                       
-                                       <pre>
-                                       BOOT_AD<0>   = GPIO<16> or <32>
-                                       BOOT_AD<1>   = GPIO<17> or <33>
-                                       BOOT_AD ...
-                                       BOOT_AD<15>  = GPIO<31> or <47>
-                                       </pre> */
 #define BDK_GPIO_PIN_SEL_E_GPIO_CLKX(a) (5 + (a)) /**< GPIO clock generator output; see GPIO_CLK_GEN(). */
 #define BDK_GPIO_PIN_SEL_E_GPIO_CLK_SYNCEX(a) (3 + (a)) /**< CLK_SYNCE({a}) output; see GPIO_CLK_SYNCE(). */
 #define BDK_GPIO_PIN_SEL_E_GPIO_PTP_CKOUT (1) /**< PTP CKOUT output; see MIO_PTP_CLOCK_CFG. */
 #define BDK_GPIO_PIN_SEL_E_GPIO_PTP_PPS (2) /**< PTP PPS output; see MIO_PTP_CLOCK_CFG. */
 #define BDK_GPIO_PIN_SEL_E_GPIO_SW (0) /**< Normal software controlled GPIO output, controlled by GPIO_TX_SET, GPIO_TX_CLR. */
-#define BDK_GPIO_PIN_SEL_E_LMCX_ECC(a) (0x70 + (a)) /**< LMC ECC error detected output; see LMC chapter. */
-#define BDK_GPIO_PIN_SEL_E_MCDX_IN(a) (0xb0 + (a)) /**< Multichip debug input; see OCLA chapter.
+#define BDK_GPIO_PIN_SEL_E_LMCX_ECC_CN81XX(a) (0x237 + (a)) /**< LMC ECC error detected output; see LMC chapter. */
+#define BDK_GPIO_PIN_SEL_E_LMCX_ECC_CN88XX(a) (0x70 + (a)) /**< LMC ECC error detected output; see LMC chapter. */
+#define BDK_GPIO_PIN_SEL_E_LMCX_ECC_CN83XX(a) (0x237 + (a)) /**< LMC ECC error detected output; see LMC chapter. */
+#define BDK_GPIO_PIN_SEL_E_MCDX_IN_CN81XX(a) (0x23f + (a)) /**< Multichip debug input; see OCLA chapter.
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_MCDX_OUT(a) (0x14 + (a)) /**< Multichip debug output; see OCLA chapter. */
-#define BDK_GPIO_PIN_SEL_E_NCSI (0xb8) /**< NCSI inputs and outputs.
+#define BDK_GPIO_PIN_SEL_E_MCDX_IN_CN88XX(a) (0xb0 + (a)) /**< Multichip debug input; see OCLA chapter.
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_MCDX_IN_CN83XX(a) (0x23f + (a)) /**< Multichip debug input; see OCLA chapter.
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN81XX(a) (0x242 + (a)) /**< Multichip debug output; see OCLA chapter. */
+#define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN88XX(a) (0x14 + (a)) /**< Multichip debug output; see OCLA chapter. */
+#define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN83XX(a) (0x242 + (a)) /**< Multichip debug output; see OCLA chapter. */
+#define BDK_GPIO_PIN_SEL_E_NCSI (0x230) /**< NCSI inputs and outputs.
                                        
                                        This encoding must be used on 8 contiguous GPIO pins, either GPIO<16..31>,
                                        GPIO<24..31>, GPIO<32..39>, GPIO<40..47>, GPIO<48..55> or GPIO<56..63>.
@@ -149,49 +141,146 @@
                                        NCSI_RXD<1> input  = GPIO<22> or <30> or <38> or <46> or <54> or <62>
                                        NCSI_RX_ER input   = GPIO<23> or <31> or <39> or <47> or <55> or <63>
                                        </pre> */
-#define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER (0x8a) /**< OCLA external trigger input; see OCLA()_GEN_CTL[EXTEN].
+#define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER_CN81XX (0x231) /**< OCLA external trigger input; see OCLA()_GEN_CTL[EXTEN].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED(a) (0x60 + (a)) /**< SATA activity LED output; see SATA chapter. */
-#define BDK_GPIO_PIN_SEL_E_SATAX_CP_DET(a) (0x90 + (a)) /**< SATA cold presence detect input; detects addition (1) or removal (0) of the
+#define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER_CN88XX (0x8a) /**< OCLA external trigger input; see OCLA()_GEN_CTL[EXTEN].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_OCLA_EXT_TRIGGER_CN83XX (0x231) /**< OCLA external trigger input; see OCLA()_GEN_CTL[EXTEN].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_PBUSX_AD(a) (0xfa + (a)) /**< This is a bi-directional bus. see See Chapter BOOT BUS. FIXME this needs more text. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_ALEX(a) (0xe8 + (a)) /**< PBUS_ALE output; see See Chapter BOOT BUS. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_CE_NX(a) (0xec + (a)) /**< PBUS_CE_N output; see See Chapter BOOT BUS. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_CLE (0xe0) /**< PBUS_CLE output; see See Chapter BOOT BUS. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_DIR (0xe4) /**< PBUS_DIR output; see See Chapter BOOT BUS. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_DMACKX(a) (0xe6 + (a)) /**< PBUS_DMACK(0..1) output; see See Chapter BOOT BUS. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_DMARQX(a) (0x11a + (a)) /**< PBUS_DMARQ input; see See Chapter BOOT BUS. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_OE_N (0xe3) /**< PBUS_OE_N output; see See Chapter BOOT BUS. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_WAIT_N (0xe1) /**< PBUS_WAIT_N input; see See Chapter BOOT BUS. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_WE_N (0xe2) /**< PBUS_WE_N output; see See Chapter BOOT BUS. */
+#define BDK_GPIO_PIN_SEL_E_PCM_BCLKX(a) (0x246 + (a)) /**< PCM BCLK output; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PCM_DATAX(a) (0x24c + (a)) /**< PCM DATA output; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_PCM_FSYNCX(a) (0x24a + (a)) /**< PCM FSYNC output; see TDM/PCM chapter. */
+#define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN81XX(a) (0x16a + (a)) /**< SATA activity LED output; see SATA chapter. */
+#define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN88XX(a) (0x60 + (a)) /**< SATA activity LED output; see SATA chapter. */
+#define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED_CN83XX(a) (0x16a + (a)) /**< SATA activity LED output; see SATA chapter. */
+#define BDK_GPIO_PIN_SEL_E_SATAX_CP_DET_CN81XX(a) (0x18b + (a)) /**< SATA cold presence detect input; detects addition (1) or removal (0) of the
                                        powered-down device; see SATA()_UAHC_P0_CMD[CPS].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_SATAX_CP_POD(a) (0x50 + (a)) /**< SATA cold-presence power-on device output; see SATA()_UAHC_P0_CMD[POD]. */
-#define BDK_GPIO_PIN_SEL_E_SATAX_MP_SWITCH(a) (0xa0 + (a)) /**< SATA mechanical presence switch input; indicated the state of external device
+#define BDK_GPIO_PIN_SEL_E_SATAX_CP_DET_CN88XX(a) (0x90 + (a)) /**< SATA cold presence detect input; detects addition (1) or removal (0) of the
+                                       powered-down device; see SATA()_UAHC_P0_CMD[CPS].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_SATAX_CP_DET_CN83XX(a) (0x18b + (a)) /**< SATA cold presence detect input; detects addition (1) or removal (0) of the
+                                       powered-down device; see SATA()_UAHC_P0_CMD[CPS].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_SATAX_CP_POD_CN81XX(a) (0x145 + (a)) /**< SATA cold-presence power-on device output; see SATA()_UAHC_P0_CMD[POD]. */
+#define BDK_GPIO_PIN_SEL_E_SATAX_CP_POD_CN88XX(a) (0x50 + (a)) /**< SATA cold-presence power-on device output; see SATA()_UAHC_P0_CMD[POD]. */
+#define BDK_GPIO_PIN_SEL_E_SATAX_CP_POD_CN83XX(a) (0x145 + (a)) /**< SATA cold-presence power-on device output; see SATA()_UAHC_P0_CMD[POD]. */
+#define BDK_GPIO_PIN_SEL_E_SATAX_MP_SWITCH_CN81XX(a) (0x200 + (a)) /**< SATA mechanical presence switch input; indicated the state of external device
                                        presence switch (0) switch open, (1) switch closed. See SATA()_UAHC_P0_CMD[MPSS].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB (0x8e) /**< SATA BIST lab-loopback pin. See SATA chapter.
+#define BDK_GPIO_PIN_SEL_E_SATAX_MP_SWITCH_CN88XX(a) (0xa0 + (a)) /**< SATA mechanical presence switch input; indicated the state of external device
+                                       presence switch (0) switch open, (1) switch closed. See SATA()_UAHC_P0_CMD[MPSS].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_SGPIO_ACT_LEDX(a) (0x20 + (a)) /**< SGPIO automatic mode active LED output; see SGP_TX().
-                                       Note this output is only valid when SGP is in automatic shift mode
-                                       (SGP_IMP_CTL[HOLD]=0). */
-#define BDK_GPIO_PIN_SEL_E_SGPIO_ERR_LEDX(a) (0x30 + (a)) /**< SGPIO automatic mode error LED output; see SGP_TX().
-                                       Note this output is only valid when SGP is in automatic shift mode
-                                       (SGP_IMP_CTL[HOLD]=0). */
-#define BDK_GPIO_PIN_SEL_E_SGPIO_LOC_LEDX(a) (0x40 + (a)) /**< SGPIO automatic mode locate LED output; see SGP_TX().
-                                       Note this output is only valid when SGP is in automatic shift mode
-                                       (SGP_IMP_CTL[HOLD]=0). */
-#define BDK_GPIO_PIN_SEL_E_SGPIO_SCLOCK (0xb) /**< SGPIO SCLOCK output; see SGPIO_IMP_CLK. */
-#define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAINX(a) (0x80 + (a)) /**< SGPIO SDATAIN input; see SGPIO_RX_GP.
+#define BDK_GPIO_PIN_SEL_E_SATAX_MP_SWITCH_CN83XX(a) (0x200 + (a)) /**< SATA mechanical presence switch input; indicated the state of external device
+                                       presence switch (0) switch open, (1) switch closed. See SATA()_UAHC_P0_CMD[MPSS].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX(a) (0x10 + (a)) /**< SGPIO SDATAOUT output; see SGPIO_TX_GP. */
-#define BDK_GPIO_PIN_SEL_E_SGPIO_SLOAD (0xc) /**< SGPIO SLOAD output; see SGPIO_TX_GP_CFG. */
-#define BDK_GPIO_PIN_SEL_E_SPI_CSX(a) (0x18 + (a)) /**< SPI/MPI_CS(2..3) output; see MPI_TX[CS_ID]. */
-#define BDK_GPIO_PIN_SEL_E_TIMER (0x8b) /**< Reserved.
+#define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN81XX (0x18a) /**< SATA BIST lab-loopback pin. See SATA chapter.
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN88XX (0x8e) /**< SATA BIST lab-loopback pin. See SATA chapter.
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_SATA_LAB_LB_CN83XX (0x18a) /**< SATA BIST lab-loopback pin. See SATA chapter.
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_ACT_LEDX_CN81XX(a) (0xf + (a)) /**< SGPIO automatic mode active LED output; see SGP_TX().
+                                       Note this output is only valid when SGP is in automatic shift mode
+                                       (SGP_IMP_CTL[HOLD]=0). */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_ACT_LEDX_CN88XX(a) (0x20 + (a)) /**< SGPIO automatic mode active LED output; see SGP_TX().
+                                       Note this output is only valid when SGP is in automatic shift mode
+                                       (SGP_IMP_CTL[HOLD]=0). */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_ACT_LEDX_CN83XX(a) (0xf + (a)) /**< SGPIO automatic mode active LED output; see SGP_TX().
+                                       Note this output is only valid when SGP is in automatic shift mode
+                                       (SGP_IMP_CTL[HOLD]=0). */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_ERR_LEDX_CN81XX(a) (0x90 + (a)) /**< SGPIO automatic mode error LED output; see SGP_TX().
+                                       Note this output is only valid when SGP is in automatic shift mode
+                                       (SGP_IMP_CTL[HOLD]=0). */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_ERR_LEDX_CN88XX(a) (0x30 + (a)) /**< SGPIO automatic mode error LED output; see SGP_TX().
+                                       Note this output is only valid when SGP is in automatic shift mode
+                                       (SGP_IMP_CTL[HOLD]=0). */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_ERR_LEDX_CN83XX(a) (0x90 + (a)) /**< SGPIO automatic mode error LED output; see SGP_TX().
+                                       Note this output is only valid when SGP is in automatic shift mode
+                                       (SGP_IMP_CTL[HOLD]=0). */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_LOC_LEDX_CN81XX(a) (0x50 + (a)) /**< SGPIO automatic mode locate LED output; see SGP_TX().
+                                       Note this output is only valid when SGP is in automatic shift mode
+                                       (SGP_IMP_CTL[HOLD]=0). */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_LOC_LEDX_CN88XX(a) (0x40 + (a)) /**< SGPIO automatic mode locate LED output; see SGP_TX().
+                                       Note this output is only valid when SGP is in automatic shift mode
+                                       (SGP_IMP_CTL[HOLD]=0). */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_LOC_LEDX_CN83XX(a) (0x50 + (a)) /**< SGPIO automatic mode locate LED output; see SGP_TX().
+                                       Note this output is only valid when SGP is in automatic shift mode
+                                       (SGP_IMP_CTL[HOLD]=0). */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SCLOCK_CN81XX (9) /**< SGPIO SCLOCK output; see SGPIO_IMP_CLK. */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SCLOCK_CN88XX (0xb) /**< SGPIO SCLOCK output; see SGPIO_IMP_CLK. */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SCLOCK_CN83XX (9) /**< SGPIO SCLOCK output; see SGPIO_IMP_CLK. */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAINX_CN81XX(a) (0xd0 + (a)) /**< SGPIO SDATAIN input; see SGPIO_RX_GP.
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAINX_CN88XX(a) (0x80 + (a)) /**< SGPIO SDATAIN input; see SGPIO_RX_GP.
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAINX_CN83XX(a) (0xd0 + (a)) /**< SGPIO SDATAIN input; see SGPIO_RX_GP.
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX_CN81XX(a) (0xb + (a)) /**< SGPIO SDATAOUT output; see SGPIO_TX_GP. */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX_CN88XX(a) (0x10 + (a)) /**< SGPIO SDATAOUT output; see SGPIO_TX_GP. */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SDATAOUTX_CN83XX(a) (0xb + (a)) /**< SGPIO SDATAOUT output; see SGPIO_TX_GP. */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SLOAD_CN81XX (0xa) /**< SGPIO SLOAD output; see SGPIO_TX_GP_CFG. */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SLOAD_CN88XX (0xc) /**< SGPIO SLOAD output; see SGPIO_TX_GP_CFG. */
+#define BDK_GPIO_PIN_SEL_E_SGPIO_SLOAD_CN83XX (0xa) /**< SGPIO SLOAD output; see SGPIO_TX_GP_CFG. */
+#define BDK_GPIO_PIN_SEL_E_SPI_CSX_CN81XX(a) (0x233 + (a)) /**< SPI/MPI_CS(2..3) output; see MPI_TX[CS_ID]. */
+#define BDK_GPIO_PIN_SEL_E_SPI_CSX_CN88XX(a) (0x18 + (a)) /**< SPI/MPI_CS(2..3) output; see MPI_TX[CS_ID]. */
+#define BDK_GPIO_PIN_SEL_E_SPI_CSX_CN83XX(a) (0x233 + (a)) /**< SPI/MPI_CS(2..3) output; see MPI_TX[CS_ID]. */
+#define BDK_GPIO_PIN_SEL_E_TIMER_CN81XX (0x11c) /**< Reserved.
                                        Internal:
                                        For CN83XX,
                                        Timer coprocessor control input; see TIM chapter.
@@ -199,7 +288,24 @@
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N_CN81XX(a) (0x84 + (a)) /**< UART_DCD_N input; see UAA()_FR[DCD].
+#define BDK_GPIO_PIN_SEL_E_TIMER_CN88XX (0x8b) /**< Reserved.
+                                       Internal:
+                                       For CN83XX,
+                                       Timer coprocessor control input; see TIM chapter.
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_TIMER_CN83XX (0x11c) /**< Reserved.
+                                       Internal:
+                                       For CN83XX,
+                                       Timer coprocessor control input; see TIM chapter.
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_UARTX_CTS_N(a) (0x13f + (a)) /**< UART_CTS_N input; see See Chapter UART( Interface) UAA. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N_CN81XX(a) (0x131 + (a)) /**< UART_DCD_N input; see UAA(0..3)_FR[DCD].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
@@ -209,13 +315,15 @@
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N_CN83XX(a) (0x84 + (a)) /**< UART_DCD_N input; see UAA()_FR[DCD].
+#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N_CN83XX(a) (0x131 + (a)) /**< UART_DCD_N input; see UAA(0..3)_FR[DCD].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN81XX(a) (0x88 + (a)) /**< UART_DSR input; see UAA()_FR[DSR].
-                                       
+#define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN81XX(a) (0x139 + (a)) /**< Reserved.
+                                       Internal:
+                                       For CN83XX,
+                                       Timer coprocessor control input; see TIM chapter.
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
@@ -224,13 +332,17 @@
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN83XX(a) (0x88 + (a)) /**< UART_DSR input; see UAA()_FR[DSR].
-                                       
+#define BDK_GPIO_PIN_SEL_E_UARTX_DSR_CN83XX(a) (0x139 + (a)) /**< Reserved.
+                                       Internal:
+                                       For CN83XX,
+                                       Timer coprocessor control input; see TIM chapter.
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N(a) (9 + (a)) /**< UART_DTR_N output; see UAA()_CR[DTR]. */
-#define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN81XX(a) (0x86 + (a)) /**< UART_RI input; see UAA()_FR[RI].
+#define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N_CN81XX(a) (0x11d + (a)) /**< UART_DTR_N output; see UAA()_CR[DTR]. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N_CN88XX(a) (9 + (a)) /**< UART_DTR_N output; see UAA()_CR[DTR]. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N_CN83XX(a) (0x11d + (a)) /**< UART_DTR_N output; see UAA()_CR[DTR]. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN81XX(a) (0x129 + (a)) /**< UART_RI input; see UAA()_FR[RI].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
@@ -240,17 +352,32 @@
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN83XX(a) (0x86 + (a)) /**< UART_RI input; see UAA()_FR[RI].
+#define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN83XX(a) (0x129 + (a)) /**< UART_RI input; see UAA()_FR[RI].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT(a) (0x8c + (a)) /**< USB over-current input; see USBH(0..1)_UCTL_HOST_CFG[OCI_EN].
+#define BDK_GPIO_PIN_SEL_E_UARTX_RTS_N(a) (0x123 + (a)) /**< UART_RTS_N output; see See Chapter UART( Interface) UAA. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_SIN(a) (0x141 + (a)) /**< UART_SIN input; see See Chapter UART( Interface) UAA. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_SOUT(a) (0x125 + (a)) /**< UART_SOUT output; see See Chapter UART( Interface) UAA. */
+#define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT_CN81XX(a) (0x228 + (a)) /**< USB over-current input; see USBH(0..1)_UCTL_HOST_CFG[OCI_EN].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL(a) (0x74 + (a)) /**< USBH Vbus control output; see USB chapter. */
+#define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT_CN88XX(a) (0x8c + (a)) /**< USB over-current input; see USBH(0..1)_UCTL_HOST_CFG[OCI_EN].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT_CN83XX(a) (0x228 + (a)) /**< USB over-current input; see USBH(0..1)_UCTL_HOST_CFG[OCI_EN].
+                                       
+                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
+                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
+#define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN81XX(a) (0x220 + (a)) /**< USBH Vbus control output; see USB chapter. */
+#define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN88XX(a) (0x74 + (a)) /**< USBH Vbus control output; see USB chapter. */
+#define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL_CN83XX(a) (0x220 + (a)) /**< USBH Vbus control output; see USB chapter. */
 
 /**
  * Register (NCB) gpio_bit_cfg#
@@ -264,8 +391,8 @@ typedef union
     struct bdk_gpio_bit_cfgx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_28_63        : 36;
-        uint64_t pin_sel               : 12; /**< [ 27: 16](R/W) Selects which signal is reported to GPIO output, or which signal GPIO input need to
+        uint64_t reserved_26_63        : 38;
+        uint64_t pin_sel               : 10; /**< [ 25: 16](R/W) Selects which signal is reported to GPIO output, or which signal GPIO input need to
                                                                  connect. Each GPIO pin can be configured either input-only or output-only depending
                                                                  function selected, as enumerated by GPIO_PIN_SEL_E. For GPIO input selects,
                                                                  the GPIO signal used is after glitch filter and XOR inverter (GPIO_BIT_CFG()[PIN_XOR]). */
@@ -332,11 +459,11 @@ typedef union
                                                                  will connect to original pin output.  With both TX_OD and PIN_XOR set, a transmit
                                                                  of 1 will tristate the pin output driver to archive open-drain function. */
         uint64_t reserved_13_15        : 3;
-        uint64_t pin_sel               : 12; /**< [ 27: 16](R/W) Selects which signal is reported to GPIO output, or which signal GPIO input need to
+        uint64_t pin_sel               : 10; /**< [ 25: 16](R/W) Selects which signal is reported to GPIO output, or which signal GPIO input need to
                                                                  connect. Each GPIO pin can be configured either input-only or output-only depending
                                                                  function selected, as enumerated by GPIO_PIN_SEL_E. For GPIO input selects,
                                                                  the GPIO signal used is after glitch filter and XOR inverter (GPIO_BIT_CFG()[PIN_XOR]). */
-        uint64_t reserved_28_63        : 36;
+        uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gpio_bit_cfgx_s cn81xx; */
@@ -500,6 +627,35 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..3) to select from. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
+                                                                 supported GPIO output frequency is 125 MHz.
+                                                                 0x0 = Divide by 20.
+                                                                 0x1 = Divide by 40.
+                                                                 0x2 = Divide by 80.
+                                                                 0x3 = Divide by 160. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
+                                                                 internal QLMx clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
+                                                                 internal QLMx clock. */
+        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
+                                                                 supported GPIO output frequency is 125 MHz.
+                                                                 0x0 = Divide by 20.
+                                                                 0x1 = Divide by 40.
+                                                                 0x2 = Divide by 80.
+                                                                 0x3 = Divide by 160. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..3) to select from. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_clk_syncex_s cn81xx; */
+    struct bdk_gpio_clk_syncex_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
         uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..7) to select from. */
         uint64_t reserved_4_7          : 4;
         uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
@@ -523,8 +679,8 @@ typedef union
         uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..7) to select from. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_clk_syncex_s cn; */
+    } cn88xx;
+    /* struct bdk_gpio_clk_syncex_s cn83xx; */
 } bdk_gpio_clk_syncex_t;
 
 static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -592,6 +748,56 @@ static inline uint64_t BDK_GPIO_COMP_FUNC(void)
 #define device_bar_BDK_GPIO_COMP 0x0 /* PF_BAR0 */
 #define busnum_BDK_GPIO_COMP 0
 #define arguments_BDK_GPIO_COMP -1,-1,-1,-1
+
+/**
+ * Register (NCB) gpio_const
+ *
+ * GPIO Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t pp                    : 8;  /**< [ 15:  8](RO) Number of PP vectors in GPIO_INT_VEC_E::MC_INTR_PP().
+
+                                                                 Internal:
+                                                                 Need CSR3 fix to add this:
+                                                                 reset_matches_size: "GPIO_INT_VEC_E::MC_INTR_PP(),a" */
+        uint64_t gpios                 : 8;  /**< [  7:  0](RO) Number of GPIOs implemented. */
+#else /* Word 0 - Little Endian */
+        uint64_t gpios                 : 8;  /**< [  7:  0](RO) Number of GPIOs implemented. */
+        uint64_t pp                    : 8;  /**< [ 15:  8](RO) Number of PP vectors in GPIO_INT_VEC_E::MC_INTR_PP().
+
+                                                                 Internal:
+                                                                 Need CSR3 fix to add this:
+                                                                 reset_matches_size: "GPIO_INT_VEC_E::MC_INTR_PP(),a" */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_const_s cn; */
+} bdk_gpio_const_t;
+
+#define BDK_GPIO_CONST BDK_GPIO_CONST_FUNC()
+static inline uint64_t BDK_GPIO_CONST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_CONST_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x803000000090ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x803000000090ll;
+    __bdk_csr_fatal("GPIO_CONST", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_CONST bdk_gpio_const_t
+#define bustype_BDK_GPIO_CONST BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_CONST "GPIO_CONST"
+#define device_bar_BDK_GPIO_CONST 0x0 /* PF_BAR0 */
+#define busnum_BDK_GPIO_CONST 0
+#define arguments_BDK_GPIO_CONST -1,-1,-1,-1
 
 /**
  * Register (NCB) gpio_intr#
@@ -1061,7 +1267,17 @@ typedef union
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gpio_rx1_dat_s cn; */
+    /* struct bdk_gpio_rx1_dat_s cn81xx; */
+    struct bdk_gpio_rx1_dat_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t dat                   : 16; /**< [ 15:  0](RO/H) GPIO read data. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 16; /**< [ 15:  0](RO/H) GPIO read data. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gpio_rx1_dat_t;
 
 #define BDK_GPIO_RX1_DAT BDK_GPIO_RX1_DAT_FUNC()
@@ -1175,7 +1391,14 @@ typedef union
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_gpio_strap_s cn83xx; */
+    struct bdk_gpio_strap_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t strap                 : 64; /**< [ 63:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t strap                 : 64; /**< [ 63:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gpio_strap_t;
 
 #define BDK_GPIO_STRAP BDK_GPIO_STRAP_FUNC()
@@ -1205,23 +1428,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_29_63        : 35;
-        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data. */
+        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data. */
+        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gpio_strap1_cn81xx
+    /* struct bdk_gpio_strap1_s cn81xx; */
+    struct bdk_gpio_strap1_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_29_63        : 35;
-        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+        uint64_t reserved_16_63        : 48;
+        uint64_t strap                 : 16; /**< [ 15:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t strap                 : 29; /**< [ 28:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
-        uint64_t reserved_29_63        : 35;
+        uint64_t strap                 : 16; /**< [ 15:  0](RO/H) GPIO strap data of GPIO pins less than 64. Unimplemented pins bits read as 0. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_gpio_strap1_s cn83xx; */
+    } cn83xx;
 } bdk_gpio_strap1_t;
 
 #define BDK_GPIO_STRAP1 BDK_GPIO_STRAP1_FUNC()
@@ -1262,7 +1485,19 @@ typedef union
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gpio_tx1_clr_s cn; */
+    /* struct bdk_gpio_tx1_clr_s cn81xx; */
+    struct bdk_gpio_tx1_clr_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t clr                   : 16; /**< [ 15:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX1_DAT bits to set to 0. When read, CLR
+                                                                 returns the GPIO_TX1_DAT storage. */
+#else /* Word 0 - Little Endian */
+        uint64_t clr                   : 16; /**< [ 15:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX1_DAT bits to set to 0. When read, CLR
+                                                                 returns the GPIO_TX1_DAT storage. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gpio_tx1_clr_t;
 
 #define BDK_GPIO_TX1_CLR BDK_GPIO_TX1_CLR_FUNC()
@@ -1303,7 +1538,19 @@ typedef union
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gpio_tx1_set_s cn; */
+    /* struct bdk_gpio_tx1_set_s cn81xx; */
+    struct bdk_gpio_tx1_set_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t set                   : 16; /**< [ 15:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX1_DAT bits to set to 1. When read, SET
+                                                                 returns the GPIO_TX1_DAT storage. */
+#else /* Word 0 - Little Endian */
+        uint64_t set                   : 16; /**< [ 15:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX1_DAT bits to set to 1. When read, SET
+                                                                 returns the GPIO_TX1_DAT storage. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_gpio_tx1_set_t;
 
 #define BDK_GPIO_TX1_SET BDK_GPIO_TX1_SET_FUNC()

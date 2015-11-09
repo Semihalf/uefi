@@ -449,7 +449,7 @@ typedef union
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t reserved_24           : 1;
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
-        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
+        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
         uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
                                                                    <13> = BGX0 disable.
                                                                    <14> = BGX1 disable. */
@@ -479,7 +479,7 @@ typedef union
         uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
                                                                    <13> = BGX0 disable.
                                                                    <14> = BGX1 disable. */
-        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
+        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
         uint64_t reserved_24           : 1;
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
@@ -565,7 +565,7 @@ typedef union
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
         uint64_t reserved_24           : 1;
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
-        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
+        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
         uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
                                                                    <13> = BGX0 disable.
                                                                    <14> = BGX1 disable. */
@@ -595,7 +595,7 @@ typedef union
         uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX disable:
                                                                    <13> = BGX0 disable.
                                                                    <14> = BGX1 disable. */
-        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
+        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Reserved. */
         uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
         uint64_t reserved_24           : 1;
         uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */

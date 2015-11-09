@@ -105,7 +105,8 @@
  * Structure cde_inst_s
  *
  * CDE Instruction Structure
- * Specifies the layout of the instruction.
+ * This structure specifies the instruction layout. Instructions are stored in memory
+ * as little-endian unless CDE()_PF_Q()_CTL[INST_BE] is set.
  */
 union bdk_cde_inst_s
 {
@@ -143,14 +144,18 @@ union bdk_cde_inst_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t reserved_172_191      : 20;
         uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when CDE submits work to
-                                                                 SSO. */
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
+                                                                 [GRP] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when CDE submits work to SSO. */
         uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when CDE submits work to SSO. */
 #else /* Word 2 - Little Endian */
         uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when CDE submits work to SSO. */
         uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when CDE submits work to SSO. */
         uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when CDE submits work to
-                                                                 SSO. */
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
+                                                                 [GRP] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_172_191      : 20;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
@@ -220,14 +225,18 @@ union bdk_cde_inst_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t reserved_172_191      : 20;
         uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when CDE submits work to
-                                                                 SSO. */
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
+                                                                 [GRP] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when CDE submits work to SSO. */
         uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when CDE submits work to SSO. */
 #else /* Word 2 - Little Endian */
         uint64_t tag                   : 32; /**< [159:128] If [WQ_PTR] is non-zero, the SSO tag to use when CDE submits work to SSO. */
         uint64_t tt                    : 2;  /**< [161:160] If [WQ_PTR] is non-zero, the SSO tag type to use when CDE submits work to SSO. */
         uint64_t grp                   : 10; /**< [171:162] If [WQ_PTR] is non-zero, the SSO guest-group to use when CDE submits work to
-                                                                 SSO. */
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, FPA_PF_MAP() must map
+                                                                 [GRP] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_172_191      : 20;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
@@ -272,6 +281,9 @@ union bdk_cde_inst_s
  * instruction.
  * The result structure is exactly 16 (TBD) bytes, and each instruction completion
  * produces exactly one result structure.
+ *
+ * This structure is stored in memory as little-endian unless CDE()_PF_Q()_CTL[INST_BE]
+ * is set.
  */
 union bdk_cde_res_s
 {
@@ -315,14 +327,14 @@ union bdk_cde_res_s
 };
 
 /**
- * Register (NCB) cde#_pf_active_pc
+ * Register (NCB) cde#_pf_active_cycles_pc
  *
  * CDE PF Active Cycles Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_cdex_pf_active_pc_s
+    struct bdk_cdex_pf_active_cycles_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts every coprocessor-clock cycle that the conditional clocks are active.
@@ -334,25 +346,25 @@ typedef union
                                                                  Includes CDE internal or any engine clock being enabled. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cdex_pf_active_pc_s cn; */
-} bdk_cdex_pf_active_pc_t;
+    /* struct bdk_cdex_pf_active_cycles_pc_s cn; */
+} bdk_cdex_pf_active_cycles_pc_t;
 
-static inline uint64_t BDK_CDEX_PF_ACTIVE_PC(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CDEX_PF_ACTIVE_PC(unsigned long a)
+static inline uint64_t BDK_CDEX_PF_ACTIVE_CYCLES_PC(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CDEX_PF_ACTIVE_CYCLES_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
-        return 0x80c000010080ll + 0x1000000000ll * ((a) & 0x0);
+        return 0x80c000010100ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x80c000010080ll + 0x1000000000ll * ((a) & 0x0);
-    __bdk_csr_fatal("CDEX_PF_ACTIVE_PC", 1, a, 0, 0, 0);
+        return 0x80c000010100ll + 0x1000000000ll * ((a) & 0x0);
+    __bdk_csr_fatal("CDEX_PF_ACTIVE_CYCLES_PC", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_CDEX_PF_ACTIVE_PC(a) bdk_cdex_pf_active_pc_t
-#define bustype_BDK_CDEX_PF_ACTIVE_PC(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_CDEX_PF_ACTIVE_PC(a) "CDEX_PF_ACTIVE_PC"
-#define device_bar_BDK_CDEX_PF_ACTIVE_PC(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_CDEX_PF_ACTIVE_PC(a) (a)
-#define arguments_BDK_CDEX_PF_ACTIVE_PC(a) (a),-1,-1,-1
+#define typedef_BDK_CDEX_PF_ACTIVE_CYCLES_PC(a) bdk_cdex_pf_active_cycles_pc_t
+#define bustype_BDK_CDEX_PF_ACTIVE_CYCLES_PC(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CDEX_PF_ACTIVE_CYCLES_PC(a) "CDEX_PF_ACTIVE_CYCLES_PC"
+#define device_bar_BDK_CDEX_PF_ACTIVE_CYCLES_PC(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_CDEX_PF_ACTIVE_CYCLES_PC(a) (a)
+#define arguments_BDK_CDEX_PF_ACTIVE_CYCLES_PC(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) cde#_pf_bist_status
@@ -1174,8 +1186,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_45_47        : 3;
         uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
                                                                  Must be even. */
@@ -1192,19 +1206,20 @@ typedef union
                                                                  1 = Ignore errors and continue processing instructions. For diagnostic use only. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
-        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Load don't write back.
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big endian format in memory. */
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
-                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
-                                                                 line to be written back before being replaced.
+                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
+                                                                 line hits and is is dirty will cause the line to be written back before being
+                                                                 replaced.
 
                                                                  1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
                                                                  when fetching the last word of instructions; as a result the line will not be
                                                                  written back when replaced.  This improves performance, but software must not
                                                                  read the instructions after they are posted to the hardware.
 
-                                                                 Partial cache line reads always use LDI. */
+                                                                 Reads that do not consume the last word of a cache line always use LDI. */
         uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
                                                                  will use STF. */
         uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
@@ -1230,17 +1245,118 @@ typedef union
                                                                  0x3 = LDY. */
         uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
                                                                  will use STF. */
-        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Load don't write back.
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
-                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
-                                                                 line to be written back before being replaced.
+                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
+                                                                 line hits and is is dirty will cause the line to be written back before being
+                                                                 replaced.
 
                                                                  1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
                                                                  when fetching the last word of instructions; as a result the line will not be
                                                                  written back when replaced.  This improves performance, but software must not
                                                                  read the instructions after they are posted to the hardware.
 
-                                                                 Partial cache line reads always use LDI. */
+                                                                 Reads that do not consume the last word of a cache line always use LDI. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big endian format in memory. */
+        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
+        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+
+                                                                 0 = When CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
+                                                                 CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 CDE(0)_VQ()_MISC_INT_W1S, then CDE()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 pipelining, additional instructions may have been processed between the
+                                                                 instruction causing the error and the next instruction in the disabled queue
+                                                                 (the instruction at CDE()_VQ()_SADDR).
+
+                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be even. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_cdex_pf_qx_ctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be even. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+
+                                                                 0 = When CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
+                                                                 CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
+                                                                 CDE(0)_VQ()_MISC_INT_W1S, then CDE()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 pipelining, additional instructions may have been processed between the
+                                                                 instruction causing the error and the next instruction in the disabled queue
+                                                                 (the instruction at CDE()_VQ()_SADDR).
+
+                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
+        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
+                                                                 chunk, that chunk will be freed to the FPA. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
+                                                                 endian format in memory. */
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
+
+                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
+                                                                 line hits and is is dirty will cause the line to be written back before being
+                                                                 replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Reads that do not consume the last word of a cache line always use LDI. */
+        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
+                                                                 will use STF. */
+        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
+                                                                 data.
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
+        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
+        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
+                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
+                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
+#else /* Word 0 - Little Endian */
+        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
+                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
+                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
+        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
+        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
+                                                                 data.
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
+        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
+                                                                 will use STF. */
+        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
+
+                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
+                                                                 line hits and is is dirty will cause the line to be written back before being
+                                                                 replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Reads that do not consume the last word of a cache line always use LDI. */
         uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
                                                                  endian format in memory. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
@@ -1259,12 +1375,14 @@ typedef union
         uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
                                                                  Must be even. */
         uint64_t reserved_45_47        : 3;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
+                                                                 Only used when [INST_FREE] is set.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cdex_pf_qx_ctl_s cn; */
+    } cn81xx;
+    /* struct bdk_cdex_pf_qx_ctl_s cn83xx; */
 } bdk_cdex_pf_qx_ctl_t;
 
 static inline uint64_t BDK_CDEX_PF_QX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1307,13 +1425,13 @@ typedef union
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests. */
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests. */
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
@@ -2137,6 +2255,47 @@ static inline uint64_t BDK_CDEX_VQX_DOORBELL(unsigned long a, unsigned long b)
 #define device_bar_BDK_CDEX_VQX_DOORBELL(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_CDEX_VQX_DOORBELL(a,b) (a)
 #define arguments_BDK_CDEX_VQX_DOORBELL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) cde#_vq#_inprog
+ *
+ * CDE Queue In Progress Count Registers
+ * These registers contain the per-queue instruction in flight registers.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cdex_vqx_inprog_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count.  Counts the number of instructions for the VF which have been
+                                                                 dequeued, but not yet completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count.  Counts the number of instructions for the VF which have been
+                                                                 dequeued, but not yet completed. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cdex_vqx_inprog_s cn; */
+} bdk_cdex_vqx_inprog_t;
+
+static inline uint64_t BDK_CDEX_VQX_INPROG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CDEX_VQX_INPROG(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=63)))
+        return 0x80c020000410ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x80c020000410ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
+    __bdk_csr_fatal("CDEX_VQX_INPROG", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_CDEX_VQX_INPROG(a,b) bdk_cdex_vqx_inprog_t
+#define bustype_BDK_CDEX_VQX_INPROG(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_CDEX_VQX_INPROG(a,b) "CDEX_VQX_INPROG"
+#define device_bar_BDK_CDEX_VQX_INPROG(a,b) 0x10 /* VF_BAR0 */
+#define busnum_BDK_CDEX_VQX_INPROG(a,b) (a)
+#define arguments_BDK_CDEX_VQX_INPROG(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) cde#_vq#_misc_ena_w1c

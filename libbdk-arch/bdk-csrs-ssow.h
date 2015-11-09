@@ -157,7 +157,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
-        uint64_t set                   : 1;  /**< [ 24: 24](RO/H) Set/clear membership.
+        uint64_t set                   : 1;  /**< [ 24: 24](WO) Set/clear membership.
 
                                                                  0 = Disable this HWS's membership in the group [GRP].  This clears the
                                                                  corresponding bit in SSO_HWS(<hws>)_S(<s>)_GRPMSK()<g>, where <hws> is
@@ -175,7 +175,7 @@ typedef union
         uint64_t reserved_6_15         : 10;
         uint64_t mskset                : 1;  /**< [ 16: 16](WO) Set number to enable/diable membership in. */
         uint64_t reserved_17_23        : 7;
-        uint64_t set                   : 1;  /**< [ 24: 24](RO/H) Set/clear membership.
+        uint64_t set                   : 1;  /**< [ 24: 24](WO) Set/clear membership.
 
                                                                  0 = Disable this HWS's membership in the group [GRP].  This clears the
                                                                  corresponding bit in SSO_HWS(<hws>)_S(<s>)_GRPMSK()<g>, where <hws> is
@@ -762,7 +762,9 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_UNTAG(unsigned long a)
  * Register (NCB) ssow_vhws#_op_swtp_clr
  *
  * SSO Work Slot VF Clear Switch Tag Operation Register
- * A write to this register clears the switch-tag pending bit. The data is ignored.
+ * A write to this register clears the switch-tag pending bit cacheed in the cores. The
+ * work-slot's SSOW_VHWS()_PENDTAG[PEND_SWITCH] bit is unaffected. The write data is
+ * ignored.
  */
 typedef union
 {
@@ -797,7 +799,9 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_CLR(unsigned long a)
  * Register (NCB) ssow_vhws#_op_swtp_set
  *
  * SSO Work Slot VF Set Switch Tag Operation Register
- * A write to this register clears the switch-tag pending bit. The data is ignored.
+ * A write to this register sets the switch-tag pending bit cacheed in the cores. The
+ * work-slot's SSOW_VHWS()_PENDTAG[PEND_SWITCH] bit is unaffected. The write data is
+ * ignored.
  */
 typedef union
 {

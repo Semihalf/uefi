@@ -223,7 +223,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_BIST_RESULT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_BIST_RESULT(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000040ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000040ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000040ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_BIST_RESULT", 1, a, 0, 0, 0);
 }
@@ -244,6 +248,59 @@ typedef union
 {
     uint64_t u;
     struct bdk_oclax_cdhx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t dup                   : 1;  /**< [  5:  5](R/W) Retain duplicates in the data stream. */
+        uint64_t dis_stamp             : 1;  /**< [  4:  4](R/W) Remove time stamps from data stream. */
+        uint64_t cap_ctl               : 4;  /**< [  3:  0](R/W) Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
+                                                                 mux selected by PLA1 and 0. The output is thus calculated from the equation:
+                                                                   fsmcap0 = OCLA(0..1)_FSM(0)_STATE[state0][CAP].
+                                                                   fsmcap1 = OCLA(0..1)_FSM(1)_STATE[state1][CAP].
+                                                                   out = (   (<3> & fsmcap1 & fsmcap0)
+
+                                                                 _        || (<2> & fsmcap1 & !fsmcap0)
+
+                                                                 _        || (<1> & !fsmcap1 & fsmcap0)
+
+                                                                 _        || (<0> & !fsmcap1 & !fsmcap0)).
+
+                                                                 Common examples:
+                                                                 0x0 = No capture.
+                                                                 0xA = Capture when fsmcap0 requests capture.
+                                                                 0xC = Capture when fsmcap1 requests capture.
+                                                                 0x6 = Capture on fsmcap0 EXOR fsmcap1.
+                                                                 0x8 = Capture on fsmcap0 & fsmcap1.
+                                                                 0xE = Capture on fsmcap0 | fsmcap1.
+                                                                 0xF = Always capture. */
+#else /* Word 0 - Little Endian */
+        uint64_t cap_ctl               : 4;  /**< [  3:  0](R/W) Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
+                                                                 mux selected by PLA1 and 0. The output is thus calculated from the equation:
+                                                                   fsmcap0 = OCLA(0..1)_FSM(0)_STATE[state0][CAP].
+                                                                   fsmcap1 = OCLA(0..1)_FSM(1)_STATE[state1][CAP].
+                                                                   out = (   (<3> & fsmcap1 & fsmcap0)
+
+                                                                 _        || (<2> & fsmcap1 & !fsmcap0)
+
+                                                                 _        || (<1> & !fsmcap1 & fsmcap0)
+
+                                                                 _        || (<0> & !fsmcap1 & !fsmcap0)).
+
+                                                                 Common examples:
+                                                                 0x0 = No capture.
+                                                                 0xA = Capture when fsmcap0 requests capture.
+                                                                 0xC = Capture when fsmcap1 requests capture.
+                                                                 0x6 = Capture on fsmcap0 EXOR fsmcap1.
+                                                                 0x8 = Capture on fsmcap0 & fsmcap1.
+                                                                 0xE = Capture on fsmcap0 | fsmcap1.
+                                                                 0xF = Always capture. */
+        uint64_t dis_stamp             : 1;  /**< [  4:  4](R/W) Remove time stamps from data stream. */
+        uint64_t dup                   : 1;  /**< [  5:  5](R/W) Retain duplicates in the data stream. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_oclax_cdhx_ctl_s cn81xx; */
+    struct bdk_oclax_cdhx_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
@@ -294,14 +351,69 @@ typedef union
         uint64_t dup                   : 1;  /**< [  5:  5](R/W) Retain duplicates in the data stream. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_oclax_cdhx_ctl_s cn; */
+    } cn88xx;
+    struct bdk_oclax_cdhx_ctl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t dup                   : 1;  /**< [  5:  5](R/W) Retain duplicates in the data stream. */
+        uint64_t dis_stamp             : 1;  /**< [  4:  4](R/W) Remove time stamps from data stream. */
+        uint64_t cap_ctl               : 4;  /**< [  3:  0](R/W) Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
+                                                                 mux selected by PLA1 and 0. The output is thus calculated from the equation:
+                                                                   fsmcap0 = OCLA(0..2)_FSM(0)_STATE[state0][CAP].
+                                                                   fsmcap1 = OCLA(0..2)_FSM(1)_STATE[state1][CAP].
+                                                                   out = (   (<3> & fsmcap1 & fsmcap0)
+
+                                                                 _        || (<2> & fsmcap1 & !fsmcap0)
+
+                                                                 _        || (<1> & !fsmcap1 & fsmcap0)
+
+                                                                 _        || (<0> & !fsmcap1 & !fsmcap0)).
+
+                                                                 Common examples:
+                                                                 0x0 = No capture.
+                                                                 0xA = Capture when fsmcap0 requests capture.
+                                                                 0xC = Capture when fsmcap1 requests capture.
+                                                                 0x6 = Capture on fsmcap0 EXOR fsmcap1.
+                                                                 0x8 = Capture on fsmcap0 & fsmcap1.
+                                                                 0xE = Capture on fsmcap0 | fsmcap1.
+                                                                 0xF = Always capture. */
+#else /* Word 0 - Little Endian */
+        uint64_t cap_ctl               : 4;  /**< [  3:  0](R/W) Minterms that will cause data to be captured. These minterms are the four inputs to a 4-1
+                                                                 mux selected by PLA1 and 0. The output is thus calculated from the equation:
+                                                                   fsmcap0 = OCLA(0..2)_FSM(0)_STATE[state0][CAP].
+                                                                   fsmcap1 = OCLA(0..2)_FSM(1)_STATE[state1][CAP].
+                                                                   out = (   (<3> & fsmcap1 & fsmcap0)
+
+                                                                 _        || (<2> & fsmcap1 & !fsmcap0)
+
+                                                                 _        || (<1> & !fsmcap1 & fsmcap0)
+
+                                                                 _        || (<0> & !fsmcap1 & !fsmcap0)).
+
+                                                                 Common examples:
+                                                                 0x0 = No capture.
+                                                                 0xA = Capture when fsmcap0 requests capture.
+                                                                 0xC = Capture when fsmcap1 requests capture.
+                                                                 0x6 = Capture on fsmcap0 EXOR fsmcap1.
+                                                                 0x8 = Capture on fsmcap0 & fsmcap1.
+                                                                 0xE = Capture on fsmcap0 | fsmcap1.
+                                                                 0xF = Always capture. */
+        uint64_t dis_stamp             : 1;  /**< [  4:  4](R/W) Remove time stamps from data stream. */
+        uint64_t dup                   : 1;  /**< [  5:  5](R/W) Retain duplicates in the data stream. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_oclax_cdhx_ctl_t;
 
 static inline uint64_t BDK_OCLAX_CDHX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_CDHX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=4) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e0a8000600ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=1)))
+        return 0x87e0a8000600ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=1)))
         return 0x87e0a8000600ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("OCLAX_CDHX_CTL", 2, a, b, 0, 0);
 }
@@ -356,7 +468,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_CONST(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000000ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_CONST", 1, a, 0, 0, 0);
 }
@@ -392,7 +508,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_DATX(unsigned long a, unsigned long b)
 {
-    if ((a<=4) && (b<=8191))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=8191)))
+        return 0x87e0a8400000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1fff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=8191)))
+        return 0x87e0a8400000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1fff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=8191)))
         return 0x87e0a8400000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1fff);
     __bdk_csr_fatal("OCLAX_DATX", 2, a, b, 0, 0);
 }
@@ -444,7 +564,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000800ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000800ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000800ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_DAT_POP", 1, a, 0, 0, 0);
 }
@@ -484,10 +608,10 @@ typedef union
 static inline uint64_t BDK_OCLAX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_ECO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=4))
-        return 0x87e0a83200d0ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=4))
-        return 0x87e0a83200d0ll + 0x1000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a83200d0ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a83200d0ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=4))
         return 0x87e0a83200d0ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_ECO", 1, a, 0, 0, 0);
@@ -524,7 +648,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_FIFO_DEPTH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_DEPTH(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000200ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000200ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000200ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_FIFO_DEPTH", 1, a, 0, 0, 0);
 }
@@ -578,7 +706,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_FIFO_LIMIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_LIMIT(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000240ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000240ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000240ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_FIFO_LIMIT", 1, a, 0, 0, 0);
 }
@@ -614,7 +746,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_FIFO_TAIL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_TAIL(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000260ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000260ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000260ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_FIFO_TAIL", 1, a, 0, 0, 0);
 }
@@ -656,7 +792,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_FIFO_TRIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_TRIG(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a80002a0ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a80002a0ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a80002a0ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_FIFO_TRIG", 1, a, 0, 0, 0);
 }
@@ -696,7 +836,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_FIFO_WRAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_WRAP(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000280ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000280ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000280ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_FIFO_WRAP", 1, a, 0, 0, 0);
 }
@@ -780,7 +924,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_FSMX_ANDX_IX(unsigned long a, unsigned long b, unsigned long c, unsigned long d) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FSMX_ANDX_IX(unsigned long a, unsigned long b, unsigned long c, unsigned long d)
 {
-    if ((a<=4) && (b<=1) && (c<=15) && (d<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=15) && (d<=1)))
+        return 0x87e0a8300000ll + 0x1000000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 0x10ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=1) && (c<=15) && (d<=1)))
+        return 0x87e0a8300000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x1) + 0x10ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=1) && (c<=15) && (d<=1)))
         return 0x87e0a8300000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 0x10ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
     __bdk_csr_fatal("OCLAX_FSMX_ANDX_IX", 4, a, b, c, d);
 }
@@ -816,7 +964,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_FSMX_ORX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FSMX_ORX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if ((a<=4) && (b<=1) && (c<=15))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=15)))
+        return 0x87e0a8310000ll + 0x1000000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=1) && (c<=15)))
+        return 0x87e0a8310000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=1) && (c<=15)))
         return 0x87e0a8310000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __bdk_csr_fatal("OCLAX_FSMX_ORX", 3, a, b, c, 0);
 }
@@ -877,7 +1029,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_FSMX_STATEX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FSMX_STATEX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if ((a<=4) && (b<=1) && (c<=15))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=15)))
+        return 0x87e0a8320000ll + 0x1000000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=1) && (c<=15)))
+        return 0x87e0a8320000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=1) && (c<=15)))
         return 0x87e0a8320000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __bdk_csr_fatal("OCLAX_FSMX_STATEX", 3, a, b, c, 0);
 }
@@ -1016,7 +1172,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_GEN_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_GEN_CTL(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000060ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000060ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000060ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_GEN_CTL", 1, a, 0, 0, 0);
 }
@@ -1054,7 +1214,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_MATX_COUNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_COUNT(unsigned long a, unsigned long b)
 {
-    if ((a<=4) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0a8230000ll + 0x1000000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=3)))
+        return 0x87e0a8230000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=3)))
         return 0x87e0a8230000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
     __bdk_csr_fatal("OCLAX_MATX_COUNT", 2, a, b, 0, 0);
 }
@@ -1100,7 +1264,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_MATX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=4) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0a8200000ll + 0x1000000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=3)))
+        return 0x87e0a8200000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=3)))
         return 0x87e0a8200000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
     __bdk_csr_fatal("OCLAX_MATX_CTL", 2, a, b, 0, 0);
 }
@@ -1179,7 +1347,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_MATX_MASKX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_MASKX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if ((a<=4) && (b<=3) && (c<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3) && (c<=1)))
+        return 0x87e0a8220000ll + 0x1000000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=3) && (c<=1)))
+        return 0x87e0a8220000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=3) && (c<=1)))
         return 0x87e0a8220000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("OCLAX_MATX_MASKX", 3, a, b, c, 0);
 }
@@ -1217,7 +1389,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_MATX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_THRESH(unsigned long a, unsigned long b)
 {
-    if ((a<=4) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0a8240000ll + 0x1000000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=3)))
+        return 0x87e0a8240000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=3)))
         return 0x87e0a8240000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
     __bdk_csr_fatal("OCLAX_MATX_THRESH", 2, a, b, 0, 0);
 }
@@ -1255,7 +1431,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_MATX_VALUEX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_VALUEX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if ((a<=4) && (b<=3) && (c<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3) && (c<=1)))
+        return 0x87e0a8210000ll + 0x1000000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=3) && (c<=1)))
+        return 0x87e0a8210000ll + 0x1000000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=3) && (c<=1)))
         return 0x87e0a8210000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("OCLAX_MATX_VALUEX", 3, a, b, c, 0);
 }
@@ -1292,7 +1472,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if ((a<=4) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
+        return 0x87e0a8ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b==0)))
+        return 0x87e0a8ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b==0)))
         return 0x87e0a8ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("OCLAX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -1349,7 +1533,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if ((a<=4) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
+        return 0x87e0a8f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b==0)))
+        return 0x87e0a8f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b==0)))
         return 0x87e0a8f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("OCLAX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -1390,7 +1578,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=4) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
+        return 0x87e0a8f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b==0)))
+        return 0x87e0a8f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b==0)))
         return 0x87e0a8f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("OCLAX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -1426,7 +1618,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_RAWX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_RAWX(unsigned long a, unsigned long b)
 {
-    if ((a<=4) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e0a8000100ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=1)))
+        return 0x87e0a8000100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=1)))
         return 0x87e0a8000100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("OCLAX_RAWX", 2, a, b, 0, 0);
 }
@@ -1462,7 +1658,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_SFT_RST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_SFT_RST(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000020ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000020ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000020ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_SFT_RST", 1, a, 0, 0, 0);
 }
@@ -1549,7 +1749,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_STACK_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_BASE(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000400ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000400ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000400ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_STACK_BASE", 1, a, 0, 0, 0);
 }
@@ -1593,7 +1797,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_STACK_CUR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_CUR(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000480ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000480ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000480ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_STACK_CUR", 1, a, 0, 0, 0);
 }
@@ -1629,7 +1837,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_STACK_STORE_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_STORE_CNT(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000460ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000460ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000460ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_STACK_STORE_CNT", 1, a, 0, 0, 0);
 }
@@ -1671,7 +1883,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_STACK_TOP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_TOP(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000420ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000420ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000420ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_STACK_TOP", 1, a, 0, 0, 0);
 }
@@ -1709,7 +1925,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_STACK_WRAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_WRAP(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000440ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000440ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000440ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_STACK_WRAP", 1, a, 0, 0, 0);
 }
@@ -1745,7 +1965,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_STAGEX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STAGEX(unsigned long a, unsigned long b)
 {
-    if ((a<=4) && (b<=71))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=71)))
+        return 0x87e0a8100000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=71)))
+        return 0x87e0a8100000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=4) && (b<=71)))
         return 0x87e0a8100000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7f);
     __bdk_csr_fatal("OCLAX_STAGEX", 2, a, b, 0, 0);
 }
@@ -1802,7 +2026,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1C(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a80000b8ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a80000b8ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a80000b8ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_STATE_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -1859,7 +2087,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1S(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a80000b0ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a80000b0ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a80000b0ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_STATE_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -1947,7 +2179,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_STATE_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_INT(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a8000080ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a8000080ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a8000080ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_STATE_INT", 1, a, 0, 0, 0);
 }
@@ -2018,7 +2254,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_STATE_SET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_SET(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a80000a0ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a80000a0ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a80000a0ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_STATE_SET", 1, a, 0, 0, 0);
 }
@@ -2079,7 +2319,11 @@ typedef union
 static inline uint64_t BDK_OCLAX_TIME(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_TIME(unsigned long a)
 {
-    if (a<=4)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0a80000c0ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0a80000c0ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=4))
         return 0x87e0a80000c0ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_TIME", 1, a, 0, 0, 0);
 }

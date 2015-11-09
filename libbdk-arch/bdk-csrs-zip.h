@@ -612,14 +612,18 @@ union bdk_zip_inst_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
         uint64_t reserved_812_831      : 20;
         uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is non-zero, the SSO guest-group to use when ZIP submits work to
-                                                                 SSO. */
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
         uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP submits work to SSO. */
         uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is non-zero, the SSO tag to use when ZIP submits work to SSO. */
 #else /* Word 12 - Little Endian */
         uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is non-zero, the SSO tag to use when ZIP submits work to SSO. */
         uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP submits work to SSO. */
         uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is non-zero, the SSO guest-group to use when ZIP submits work to
-                                                                 SSO. */
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
         uint64_t reserved_812_831      : 20;
 #endif /* Word 12 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
@@ -1432,14 +1436,18 @@ union bdk_zip_inst_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
         uint64_t reserved_812_831      : 20;
         uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is non-zero, the SSO guest-group to use when ZIP submits work to
-                                                                 SSO. */
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
         uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP submits work to SSO. */
         uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is non-zero, the SSO tag to use when ZIP submits work to SSO. */
 #else /* Word 12 - Little Endian */
         uint64_t tag                   : 32; /**< [799:768] If [WQ_PTR] is non-zero, the SSO tag to use when ZIP submits work to SSO. */
         uint64_t tt                    : 2;  /**< [801:800] If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP submits work to SSO. */
         uint64_t ggrp                  : 10; /**< [811:802] If [WQ_PTR] is non-zero, the SSO guest-group to use when ZIP submits work to
-                                                                 SSO. */
+                                                                 SSO.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GGRP] and the corresponding queue's ZIP_PF_QUE()_GMCTL[GMID] as valid. */
         uint64_t reserved_812_831      : 20;
 #endif /* Word 12 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
@@ -3558,13 +3566,13 @@ typedef union
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or requests will be dropped. */
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](RO) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or requests will be dropped. */
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -4592,11 +4600,13 @@ typedef union
         uint64_t reserved_24_29        : 6;
         uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) Lower 8-bits of stream ID for this queue. */
         uint64_t reserved_12_15        : 4;
-        uint64_t aura                  : 12; /**< [ 11:  0](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
+        uint64_t aura                  : 12; /**< [ 11:  0](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA. Only
+                                                                 used when [INST_FREE] is set. For the FPA to not discard the request,
+                                                                 FPA_PF_MAP() must map [AURA] and ZIP_PF_QUE()_GMCTL[GMID] as valid. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 12; /**< [ 11:  0](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set. */
+        uint64_t aura                  : 12; /**< [ 11:  0](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA. Only
+                                                                 used when [INST_FREE] is set. For the FPA to not discard the request,
+                                                                 FPA_PF_MAP() must map [AURA] and ZIP_PF_QUE()_GMCTL[GMID] as valid. */
         uint64_t reserved_12_15        : 4;
         uint64_t stream_id             : 8;  /**< [ 23: 16](R/W) Lower 8-bits of stream ID for this queue. */
         uint64_t reserved_24_29        : 6;

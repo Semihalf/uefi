@@ -307,7 +307,9 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  Note that the sum of the number of 64-bit words in the last pointers block
                                                                  and first pointers block must never exceed 30. */
         uint64_t reserved_44_47        : 4;
-        uint64_t grp                   : 10; /**< [ 43: 34] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GRP] and DPI()_DMA()_IDS[GMID] as valid.
 
                                                                  [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
         uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
@@ -319,7 +321,9 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t grp                   : 10; /**< [ 43: 34] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GRP] and DPI()_DMA()_IDS[GMID] as valid.
 
                                                                  [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
         uint64_t reserved_44_47        : 4;
@@ -499,18 +503,24 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  [DEALLOCV] selects the function within the MAC selected by [LPORT]
                                                                  when [PVFE] is set. */
         uint64_t reserved_76_79        : 4;
-        uint64_t aura                  : 12; /**< [ 75: 64] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
+        uint64_t aura                  : 12; /**< [ 75: 64] FPA guest-aura.  The FPA guest-aura DPI uses for all FPA transactions for the
                                                                  DPI DMA instruction. [AURA] can only be used when
                                                                  [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
+
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and DPI()_DMA()_IDS[GMID] as valid.
 
                                                                  During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
                                                                  and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
                                                                  DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
                                                                  whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
 #else /* Word 1 - Little Endian */
-        uint64_t aura                  : 12; /**< [ 75: 64] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
+        uint64_t aura                  : 12; /**< [ 75: 64] FPA guest-aura.  The FPA guest-aura DPI uses for all FPA transactions for the
                                                                  DPI DMA instruction. [AURA] can only be used when
                                                                  [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
+
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and DPI()_DMA()_IDS[GMID] as valid.
 
                                                                  During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
                                                                  and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
@@ -714,7 +724,9 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  and first pointers block must never exceed 30. */
         uint64_t reserved_46_47        : 2;
         uint64_t reserved_44_45        : 2;
-        uint64_t grp                   : 10; /**< [ 43: 34] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GRP] and DPI()_DMA()_IDS[GMID] as valid.
 
                                                                  [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
         uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
@@ -726,7 +738,9 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t tt                    : 2;  /**< [ 33: 32] SSO Tag Type. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
 
                                                                  [TT] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
-        uint64_t grp                   : 10; /**< [ 43: 34] SSO Group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. Sent to SSO upon instruction completion when [PT] = DPI_HDR_PT_E::WQP.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GRP] and DPI()_DMA()_IDS[GMID] as valid.
 
                                                                  [GRP] must be zero when [PT] != DPI_HDR_PT_E::WQP. */
         uint64_t reserved_44_45        : 2;
@@ -909,18 +923,24 @@ union bdk_dpi_dma_instr_hdr_s
                                                                  [DEALLOCV] selects the function within the MAC selected by [LPORT]
                                                                  when [PVFE] is set. */
         uint64_t reserved_76_79        : 4;
-        uint64_t aura                  : 12; /**< [ 75: 64] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
+        uint64_t aura                  : 12; /**< [ 75: 64] FPA guest-aura.  The FPA guest-aura DPI uses for all FPA transactions for the
                                                                  DPI DMA instruction. [AURA] can only be used when
                                                                  [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
+
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and DPI()_DMA()_IDS[GMID] as valid.
 
                                                                  During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
                                                                  and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
                                                                  DPI_DMA_LOCAL_PTR_S[PTR] to [AURA] in FPA, and [DEALLOCE] determines
                                                                  whether DPI subtracts [DEALLOCV] from [AURA]'s FPA aura counter. */
 #else /* Word 1 - Little Endian */
-        uint64_t aura                  : 12; /**< [ 75: 64] FPA Aura.  The FPA AURA DPI uses for all FPA transactions for the
+        uint64_t aura                  : 12; /**< [ 75: 64] FPA guest-aura.  The FPA guest-aura DPI uses for all FPA transactions for the
                                                                  DPI DMA instruction. [AURA] can only be used when
                                                                  [XTYPE]=DPI_HDR_XTYPE_E::OUTBOUND, and must be zero otherwise.
+
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and DPI()_DMA()_IDS[GMID] as valid.
 
                                                                  During an DPI_HDR_XTYPE_E::OUTBOUND DPI DMA instruction, [FL], [II],
                                                                  and DPI_DMA_LOCAL_PTR_S[I] determine whether DPI frees a
@@ -1565,6 +1585,61 @@ static inline uint64_t BDK_DPIX_DMAX_IBUFF_SADDR(unsigned long a, unsigned long 
 #define arguments_BDK_DPIX_DMAX_IBUFF_SADDR(a,b) (a),(b),-1,-1
 
 /**
+ * Register (NCB) dpi#_dma#_ids
+ *
+ * DPI DMA Request ID Registers
+ * These registers configure the stream and GMID values for each request queue.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dpix_dmax_ids_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t inst_strm             : 8;  /**< [ 47: 40](R/W) Stream identifier bits <7:0> for instruction reads. Stream ID <15:8> is from the DPI's
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI(0)<15:8>.
+                                                                 internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
+        uint64_t dma_strm              : 8;  /**< [ 39: 32](R/W) Stream identifier bits <7:0> for DMA reads and writes. Stream ID <15:8> is from the DPI's
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI(0)<15:8>.
+                                                                 internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
+        uint64_t reserved_16_31        : 16;
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID this engine uses for FPA buffer
+                                                                 free/allocates, and for SSO add-works.
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+#else /* Word 0 - Little Endian */
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID this engine uses for FPA buffer
+                                                                 free/allocates, and for SSO add-works.
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+        uint64_t reserved_16_31        : 16;
+        uint64_t dma_strm              : 8;  /**< [ 39: 32](R/W) Stream identifier bits <7:0> for DMA reads and writes. Stream ID <15:8> is from the DPI's
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI(0)<15:8>.
+                                                                 internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
+        uint64_t inst_strm             : 8;  /**< [ 47: 40](R/W) Stream identifier bits <7:0> for instruction reads. Stream ID <15:8> is from the DPI's
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI(0)<15:8>.
+                                                                 internal: Stream ID <15:8> comes from pcc__blk_stream_id. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dpix_dmax_ids_s cn; */
+} bdk_dpix_dmax_ids_t;
+
+static inline uint64_t BDK_DPIX_DMAX_IDS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DPIX_DMAX_IDS(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=7)))
+        return 0x86e000000580ll + 0x10000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("DPIX_DMAX_IDS", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DPIX_DMAX_IDS(a,b) bdk_dpix_dmax_ids_t
+#define bustype_BDK_DPIX_DMAX_IDS(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DPIX_DMAX_IDS(a,b) "DPIX_DMAX_IDS"
+#define device_bar_BDK_DPIX_DMAX_IDS(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_DPIX_DMAX_IDS(a,b) (a)
+#define arguments_BDK_DPIX_DMAX_IDS(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB) dpi#_dma#_iflight
  *
  * DPI DMA In-Flight Register
@@ -1841,8 +1916,8 @@ typedef union
                                                                  that are being freed. As a result, the line will not be written back when replaced.
                                                                  When clear, the hardware issues regular load commands to the cache which cause the
                                                                  line to be written back before being replaced. */
-        uint64_t aura_ichk             : 12; /**< [ 31: 20](R/W) AURA instruction chunk. The AURA that the instruction chunk for DMA operations page will
-                                                                 be returned to when freed. */
+        uint64_t aura_ichk             : 12; /**< [ 31: 20](R/W) FPA guest-aura instruction chunk. The guest-aura that the instruction chunk for
+                                                                 DMA operations page will be returned to when freed. */
         uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
                                                                  0 = The number of bytes in the DMA transfer is added to SLI_DMA()_CNT.
                                                                  1 = Add 1 to the SLI_DMA()_CNT DMA counters. */
@@ -1872,8 +1947,8 @@ typedef union
         uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
                                                                  0 = The number of bytes in the DMA transfer is added to SLI_DMA()_CNT.
                                                                  1 = Add 1 to the SLI_DMA()_CNT DMA counters. */
-        uint64_t aura_ichk             : 12; /**< [ 31: 20](R/W) AURA instruction chunk. The AURA that the instruction chunk for DMA operations page will
-                                                                 be returned to when freed. */
+        uint64_t aura_ichk             : 12; /**< [ 31: 20](R/W) FPA guest-aura instruction chunk. The guest-aura that the instruction chunk for
+                                                                 DMA operations page will be returned to when freed. */
         uint64_t ldwb                  : 1;  /**< [ 32: 32](R/W) Load don't write back. When set, the hardware is able to issue LDWB commands for pointers
                                                                  that are being freed. As a result, the line will not be written back when replaced.
                                                                  When clear, the hardware issues regular load commands to the cache which cause the

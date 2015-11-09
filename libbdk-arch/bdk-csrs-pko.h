@@ -470,9 +470,12 @@ union bdk_pko_send_aura_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t aura                  : 12; /**< [ 59: 48] Aura number. The aura to use for subsequent FPA frees in this
+        uint64_t aura                  : 12; /**< [ 59: 48] Guest-aura number. The guest-aura to use for subsequent FPA frees in this
                                                                  PKO SEND descriptor and the aura whose aura count may be decremented by
                                                                  this PKO_SEND_AURA_S. Note that the upper two bits must be zero.
+
+                                                                 For the FPA to not discard the free request, FPA_PF_MAP() must map
+                                                                 [AURA] and PKO_PF_VF()_GMCTL[GMID] as valid.
 
                                                                  Until the next PKO_SEND_AURA_S, PKO uses [AURA] for all FPA frees (if any)
                                                                  caused by PKO_SEND_GATHER_S, PKO_SEND_LINK_S, and PKO_SEND_FREE_S subdescriptors
@@ -560,9 +563,12 @@ union bdk_pko_send_aura_s
                                                                  any order relative to any L2/DRAM updates or any work queue add
                                                                  needed to process this or any other PKO SEND. */
         uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Aura. Enumerated by PKO_SENDSUBDC_E::AURA. */
-        uint64_t aura                  : 12; /**< [ 59: 48] Aura number. The aura to use for subsequent FPA frees in this
+        uint64_t aura                  : 12; /**< [ 59: 48] Guest-aura number. The guest-aura to use for subsequent FPA frees in this
                                                                  PKO SEND descriptor and the aura whose aura count may be decremented by
                                                                  this PKO_SEND_AURA_S. Note that the upper two bits must be zero.
+
+                                                                 For the FPA to not discard the free request, FPA_PF_MAP() must map
+                                                                 [AURA] and PKO_PF_VF()_GMCTL[GMID] as valid.
 
                                                                  Until the next PKO_SEND_AURA_S, PKO uses [AURA] for all FPA frees (if any)
                                                                  caused by PKO_SEND_GATHER_S, PKO_SEND_LINK_S, and PKO_SEND_FREE_S subdescriptors
@@ -1088,7 +1094,7 @@ union bdk_pko_send_hdr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t aura                  : 12; /**< [ 59: 48] Aura. Specifies the aura that buffers will be returned to and whose
+        uint64_t aura                  : 12; /**< [ 59: 48] Guest-aura. Specifies the guest-aura that buffers will be returned to and whose
                                                                  count may be decremented by subsequent subdescriptors. The upper two bits must
                                                                  be zero. Until a PKO_SEND_AURA_S is present, [AURA] is used for all FPA frees
                                                                  needed while processing the PKO_SEND.
@@ -1514,7 +1520,7 @@ union bdk_pko_send_hdr_s
                                                                  * Cannot be used in conjuction with SEND_CRC[ALG]=ONES16
 
                                                                  * When a PKO_SEND_TSO_S is present, [CKL4] must be TCP */
-        uint64_t aura                  : 12; /**< [ 59: 48] Aura. Specifies the aura that buffers will be returned to and whose
+        uint64_t aura                  : 12; /**< [ 59: 48] Guest-aura. Specifies the guest-aura that buffers will be returned to and whose
                                                                  count may be decremented by subsequent subdescriptors. The upper two bits must
                                                                  be zero. Until a PKO_SEND_AURA_S is present, [AURA] is used for all FPA frees
                                                                  needed while processing the PKO_SEND.
@@ -2134,8 +2140,10 @@ union bdk_pko_send_work_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
-        uint64_t grp                   : 10; /**< [ 61: 52] SSO group. The SSO group number to add work to. Note the upper two bits correspond to a
-                                                                 node number. */
+        uint64_t grp                   : 10; /**< [ 61: 52] SSO guest-group. The SSO guest-group number to add work to. Note the upper two
+                                                                 bits correspond to a node number.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GRP] and PKO_PF_VF()_GMCTL[GMID] as valid. */
         uint64_t tt                    : 2;  /**< [ 51: 50] SSO tag type. The SSO tag type number to add work with. */
         uint64_t reserved_48_49        : 2;
         uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send work. Enumerated by PKO_SENDSUBDC_E::WORK. */
@@ -2147,8 +2155,10 @@ union bdk_pko_send_work_s
         uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates send work. Enumerated by PKO_SENDSUBDC_E::WORK. */
         uint64_t reserved_48_49        : 2;
         uint64_t tt                    : 2;  /**< [ 51: 50] SSO tag type. The SSO tag type number to add work with. */
-        uint64_t grp                   : 10; /**< [ 61: 52] SSO group. The SSO group number to add work to. Note the upper two bits correspond to a
-                                                                 node number. */
+        uint64_t grp                   : 10; /**< [ 61: 52] SSO guest-group. The SSO guest-group number to add work to. Note the upper two
+                                                                 bits correspond to a node number.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GRP] and PKO_PF_VF()_GMCTL[GMID] as valid. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -2169,11 +2179,17 @@ typedef union
         uint64_t reserved_1_63         : 63;
         uint64_t cc_level              : 1;  /**< [  0:  0](R/W) Channel credit level. Channels can be configured at levels 2 or 3 of the PSE hierarchy.
                                                                  0 = Selects the level-2 as the channel level.
-                                                                 1 = Selects the level-3 as the channel level. */
+                                                                 1 = Selects the level-3 as the channel level.
+
+                                                                 [CC_LEVEL] determines whether PKO_L3_L2_SQ()_CHANNEL is associated with the L2 SQ's or
+                                                                 the L3 SQ's. */
 #else /* Word 0 - Little Endian */
         uint64_t cc_level              : 1;  /**< [  0:  0](R/W) Channel credit level. Channels can be configured at levels 2 or 3 of the PSE hierarchy.
                                                                  0 = Selects the level-2 as the channel level.
-                                                                 1 = Selects the level-3 as the channel level. */
+                                                                 1 = Selects the level-3 as the channel level.
+
+                                                                 [CC_LEVEL] determines whether PKO_L3_L2_SQ()_CHANNEL is associated with the L2 SQ's or
+                                                                 the L3 SQ's. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2443,12 +2459,12 @@ typedef union
         uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved.
                                                                  Internal:
                                                                  Node number of current chip, to ensure that the aura is on the local node. */
-        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA local-node aura to use for PKO command buffering allocations and frees. The
-                                                                 FPA aura selected by LAURA must correspond to a pool where the buffers (after
+        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA guest-aura to use for PKO command buffering allocations and frees. The
+                                                                 FPA guest-aura selected by LAURA must correspond to a pool where the buffers (after
                                                                  any FPA_POOL()_CFG[BUF_OFFSET]) are at least of size PKO_CONST[PDM_BUF_SIZE] (4KB). */
 #else /* Word 0 - Little Endian */
-        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA local-node aura to use for PKO command buffering allocations and frees. The
-                                                                 FPA aura selected by LAURA must correspond to a pool where the buffers (after
+        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA guest-aura to use for PKO command buffering allocations and frees. The
+                                                                 FPA guest-aura selected by LAURA must correspond to a pool where the buffers (after
                                                                  any FPA_POOL()_CFG[BUF_OFFSET]) are at least of size PKO_CONST[PDM_BUF_SIZE] (4KB). */
         uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved.
                                                                  Internal:
@@ -2493,11 +2509,13 @@ typedef union
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1. */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for descriptor buffer
                                                                  allocations and frees.
+                                                                 Must be non-zero or FPA will drop requests; see FPA_PF_MAP().
 
                                                                  See also PKO_PF_VF()_GMCTL[GMID]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for descriptor buffer
                                                                  allocations and frees.
+                                                                 Must be non-zero or FPA will drop requests; see FPA_PF_MAP().
 
                                                                  See also PKO_PF_VF()_GMCTL[GMID]. */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing descriptor accesses
@@ -3681,41 +3699,6 @@ static inline uint64_t BDK_PKO_DQX_WM_CTL_W1C(unsigned long a)
 #define device_bar_BDK_PKO_DQX_WM_CTL_W1C(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_DQX_WM_CTL_W1C(a) (a)
 #define arguments_BDK_PKO_DQX_WM_CTL_W1C(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pko_dq_csr_bus_debug
- *
- * INTERNAL: PKO PSE DQ CSR Bus Debug Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_dq_csr_bus_debug_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
-#else /* Word 0 - Little Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_dq_csr_bus_debug_s cn; */
-} bdk_pko_dq_csr_bus_debug_t;
-
-#define BDK_PKO_DQ_CSR_BUS_DEBUG BDK_PKO_DQ_CSR_BUS_DEBUG_FUNC()
-static inline uint64_t BDK_PKO_DQ_CSR_BUS_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_DQ_CSR_BUS_DEBUG_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540003001f8ll;
-    __bdk_csr_fatal("PKO_DQ_CSR_BUS_DEBUG", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_DQ_CSR_BUS_DEBUG bdk_pko_dq_csr_bus_debug_t
-#define bustype_BDK_PKO_DQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_DQ_CSR_BUS_DEBUG "PKO_DQ_CSR_BUS_DEBUG"
-#define device_bar_BDK_PKO_DQ_CSR_BUS_DEBUG 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_DQ_CSR_BUS_DEBUG 0
-#define arguments_BDK_PKO_DQ_CSR_BUS_DEBUG -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_dq_debug
@@ -4994,41 +4977,6 @@ static inline uint64_t BDK_PKO_L1_SQX_YELLOW_PACKETS(unsigned long a)
 #define arguments_BDK_PKO_L1_SQX_YELLOW_PACKETS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pko_l1_sq_csr_bus_debug
- *
- * INTERNAL: PKO PSE Level 1 SQ CSR Bus Debug Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_l1_sq_csr_bus_debug_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
-#else /* Word 0 - Little Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_l1_sq_csr_bus_debug_s cn; */
-} bdk_pko_l1_sq_csr_bus_debug_t;
-
-#define BDK_PKO_L1_SQ_CSR_BUS_DEBUG BDK_PKO_L1_SQ_CSR_BUS_DEBUG_FUNC()
-static inline uint64_t BDK_PKO_L1_SQ_CSR_BUS_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_L1_SQ_CSR_BUS_DEBUG_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540000801f8ll;
-    __bdk_csr_fatal("PKO_L1_SQ_CSR_BUS_DEBUG", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_L1_SQ_CSR_BUS_DEBUG bdk_pko_l1_sq_csr_bus_debug_t
-#define bustype_BDK_PKO_L1_SQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_L1_SQ_CSR_BUS_DEBUG "PKO_L1_SQ_CSR_BUS_DEBUG"
-#define device_bar_BDK_PKO_L1_SQ_CSR_BUS_DEBUG 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_L1_SQ_CSR_BUS_DEBUG 0
-#define arguments_BDK_PKO_L1_SQ_CSR_BUS_DEBUG -1,-1,-1,-1
-
-/**
  * Register (NCB) pko_l1_sqa_debug
  *
  * INTERNAL: PKO PSE Level 1 SQ-A Internal Debug Register
@@ -6019,41 +5967,6 @@ static inline uint64_t BDK_PKO_L2_SQX_YELLOW(unsigned long a)
 #define arguments_BDK_PKO_L2_SQX_YELLOW(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pko_l2_sq_csr_bus_debug
- *
- * INTERNAL: PKO PSE Level 2 SQ CSR Bus Debug Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_l2_sq_csr_bus_debug_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
-#else /* Word 0 - Little Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_l2_sq_csr_bus_debug_s cn; */
-} bdk_pko_l2_sq_csr_bus_debug_t;
-
-#define BDK_PKO_L2_SQ_CSR_BUS_DEBUG BDK_PKO_L2_SQ_CSR_BUS_DEBUG_FUNC()
-static inline uint64_t BDK_PKO_L2_SQ_CSR_BUS_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_L2_SQ_CSR_BUS_DEBUG_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540001001f8ll;
-    __bdk_csr_fatal("PKO_L2_SQ_CSR_BUS_DEBUG", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_L2_SQ_CSR_BUS_DEBUG bdk_pko_l2_sq_csr_bus_debug_t
-#define bustype_BDK_PKO_L2_SQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_L2_SQ_CSR_BUS_DEBUG "PKO_L2_SQ_CSR_BUS_DEBUG"
-#define device_bar_BDK_PKO_L2_SQ_CSR_BUS_DEBUG 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_L2_SQ_CSR_BUS_DEBUG 0
-#define arguments_BDK_PKO_L2_SQ_CSR_BUS_DEBUG -1,-1,-1,-1
-
-/**
  * Register (NCB) pko_l2_sqa_debug
  *
  * INTERNAL: PKO PSE Level 2 SQ-A Internal Debug Register
@@ -6139,7 +6052,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
-        uint64_t cc_channel            : 12; /**< [ 43: 32](R/W) Channel ID. */
+        uint64_t cc_channel            : 12; /**< [ 43: 32](R/W) Channel ID. See PKI_CHAN_E. */
         uint64_t cc_word_cnt           : 20; /**< [ 31: 12](R/W/H) Channel credit word count. This value, plus 1 MTU, represents the maximum outstanding word
                                                                  count for this channel. (Words are 16 bytes.) Note that this 20-bit field represents a
                                                                  signed value that decrements towards zero as credits are used. Packets are not allowed to
@@ -6173,7 +6086,7 @@ typedef union
                                                                  flow when the count is less than zero. As such, the most significant bit should normally
                                                                  be programmed as zero (positive count). This gives a maximum value for this field of 2^18
                                                                  - 1. */
-        uint64_t cc_channel            : 12; /**< [ 43: 32](R/W) Channel ID. */
+        uint64_t cc_channel            : 12; /**< [ 43: 32](R/W) Channel ID. See PKI_CHAN_E. */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -7041,41 +6954,6 @@ static inline uint64_t BDK_PKO_L3_SQX_YELLOW(unsigned long a)
 #define arguments_BDK_PKO_L3_SQX_YELLOW(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pko_l3_sq_csr_bus_debug
- *
- * INTERNAL: PKO PSE Level 3 SQ CSR Bus Debug Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_l3_sq_csr_bus_debug_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
-#else /* Word 0 - Little Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_l3_sq_csr_bus_debug_s cn; */
-} bdk_pko_l3_sq_csr_bus_debug_t;
-
-#define BDK_PKO_L3_SQ_CSR_BUS_DEBUG BDK_PKO_L3_SQ_CSR_BUS_DEBUG_FUNC()
-static inline uint64_t BDK_PKO_L3_SQ_CSR_BUS_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_L3_SQ_CSR_BUS_DEBUG_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540001801f8ll;
-    __bdk_csr_fatal("PKO_L3_SQ_CSR_BUS_DEBUG", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_L3_SQ_CSR_BUS_DEBUG bdk_pko_l3_sq_csr_bus_debug_t
-#define bustype_BDK_PKO_L3_SQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_L3_SQ_CSR_BUS_DEBUG "PKO_L3_SQ_CSR_BUS_DEBUG"
-#define device_bar_BDK_PKO_L3_SQ_CSR_BUS_DEBUG 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_L3_SQ_CSR_BUS_DEBUG 0
-#define arguments_BDK_PKO_L3_SQ_CSR_BUS_DEBUG -1,-1,-1,-1
-
-/**
  * Register (NCB) pko_l3_sqa_debug
  *
  * INTERNAL: PKO PSE Level 3 SQ-A Internal Debug Register
@@ -7186,13 +7064,21 @@ typedef union
         uint64_t reserved_16_63        : 48;
         uint64_t valid                 : 1;  /**< [ 15: 15](R/W) Declares if the index in the LUT is valid. */
         uint64_t reserved_13_14        : 2;
-        uint64_t pq_idx                : 4;  /**< [ 12:  9](R/W) PQ index for channel return processing in the PSE. */
+        uint64_t pq_idx                : 4;  /**< [ 12:  9](R/W) When [VALID] is set, [PQ_IDX] must select the L1 SQ that services the L2/L3 SQ that
+                                                                 is selected by [QUEUE_NUMBER]. */
         uint64_t reserved_8            : 1;
-        uint64_t queue_number          : 8;  /**< [  7:  0](R/W) Mapping from this channel to the programmed queue number. */
+        uint64_t queue_number          : 8;  /**< [  7:  0](R/W) When [VALID] is set, [QUEUE_NUMBER] selects the PKO_L3_L2_SQ()_CHANNEL CSR array entry
+                                                                 for the PKO_LUT entry. This also selects an associated L2/L3 SQ.
+                                                                 PKO_CHANNEL_LEVEL[CC_LEVEL]
+                                                                 determines whether [QUEUE_NUMBER] selects an L2 SQ or a L3 SQ. */
 #else /* Word 0 - Little Endian */
-        uint64_t queue_number          : 8;  /**< [  7:  0](R/W) Mapping from this channel to the programmed queue number. */
+        uint64_t queue_number          : 8;  /**< [  7:  0](R/W) When [VALID] is set, [QUEUE_NUMBER] selects the PKO_L3_L2_SQ()_CHANNEL CSR array entry
+                                                                 for the PKO_LUT entry. This also selects an associated L2/L3 SQ.
+                                                                 PKO_CHANNEL_LEVEL[CC_LEVEL]
+                                                                 determines whether [QUEUE_NUMBER] selects an L2 SQ or a L3 SQ. */
         uint64_t reserved_8            : 1;
-        uint64_t pq_idx                : 4;  /**< [ 12:  9](R/W) PQ index for channel return processing in the PSE. */
+        uint64_t pq_idx                : 4;  /**< [ 12:  9](R/W) When [VALID] is set, [PQ_IDX] must select the L1 SQ that services the L2/L3 SQ that
+                                                                 is selected by [QUEUE_NUMBER]. */
         uint64_t reserved_13_14        : 2;
         uint64_t valid                 : 1;  /**< [ 15: 15](R/W) Declares if the index in the LUT is valid. */
         uint64_t reserved_16_63        : 48;
@@ -10567,7 +10453,7 @@ static inline uint64_t BDK_PKO_PDM_STS_FUNC(void)
 /**
  * Register (NCB) pko_peb_bist_status
  *
- * PEB BIST Status Information Register
+ * PKO PEB BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -11507,7 +11393,7 @@ static inline uint64_t BDK_PKO_PEB_ERR_INT_FUNC(void)
 /**
  * Register (NCB) pko_peb_ext_hdr_def_err_info
  *
- * PEB_EXT_HDR_DEF_ERR Error Information Register
+ * PKO External Error Information Register
  */
 typedef union
 {
@@ -11548,7 +11434,7 @@ static inline uint64_t BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_fcs_sop_err_info
  *
- * PEB_FCS_SOP_ERR Error Information Register
+ * PKO FCS Error Information Register
  */
 typedef union
 {
@@ -11589,7 +11475,7 @@ static inline uint64_t BDK_PKO_PEB_FCS_SOP_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_jump_def_err_info
  *
- * PEB_JUMP_DEF_ERR Error Information Register
+ * PKO Jump Error Information Register
  */
 typedef union
 {
@@ -11630,7 +11516,7 @@ static inline uint64_t BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_macx_cfg_wr_err_info
  *
- * PEB_MACX_CFG_WR_ERR Error Information Register
+ * PKO MAC Configuration Error Information Register
  */
 typedef union
 {
@@ -11669,7 +11555,7 @@ static inline uint64_t BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_max_link_err_info
  *
- * PEB_MAX_LINK_ERR Error Information Register
+ * PKO Max link Error Information Register
  */
 typedef union
 {
@@ -11747,7 +11633,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_CFG_FUNC(void)
 /**
  * Register (NCB) pko_peb_pad_err_info
  *
- * PEB_PAD_ERR Error Information Register
+ * PKO PAD Error Information Register
  */
 typedef union
 {
@@ -11788,7 +11674,7 @@ static inline uint64_t BDK_PKO_PEB_PAD_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_pse_fifo_err_info
  *
- * PEB_PSE_FIFO_ERR Error Information Register
+ * PKO PSE Error Information Register
  */
 typedef union
 {
@@ -11829,7 +11715,7 @@ static inline uint64_t BDK_PKO_PEB_PSE_FIFO_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_subd_addr_err_info
  *
- * PEB_SUBD_ADDR_ERR Error Information Register
+ * PKO Subdecriptor Error Information Register
  */
 typedef union
 {
@@ -11870,7 +11756,7 @@ static inline uint64_t BDK_PKO_PEB_SUBD_ADDR_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_subd_size_err_info
  *
- * PEB_SUBD_SIZE_ERR Error Information Register
+ * PKO Size_ERR Error Information Register
  */
 typedef union
 {
@@ -11911,7 +11797,7 @@ static inline uint64_t BDK_PKO_PEB_SUBD_SIZE_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_trunc_err_info
  *
- * PEB_TRUNC_ERR Error Information Register
+ * PKO Truncation Error Information Register
  */
 typedef union
 {
@@ -12018,6 +11904,9 @@ static inline uint64_t BDK_PKO_PEB_TSO_CFG_FUNC(void)
  * PKO MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the PKO_PF_INT_VEC_E
  * enumeration.
+ *
+ * Internal:
+ * FIXME, attributes need to be updated when this CSR is implemented.
  */
 typedef union
 {
@@ -12055,6 +11944,8 @@ static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a)
  *
  * PKO MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the PKO_PF_INT_VEC_E enumeration.
+ * Internal:
+ * FIXME, attributes need to be updated when this CSR is implemented.
  */
 typedef union
 {
@@ -12112,6 +12003,8 @@ static inline uint64_t BDK_PKO_PF_MSIX_VECX_ADDR(unsigned long a)
  *
  * PKO MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the PKO_PF_INT_VEC_E enumeration.
+ * Internal:
+ * FIXME, attributes need to be updated when this CSR is implemented.
  */
 typedef union
 {
@@ -12169,13 +12062,13 @@ typedef union
                                                                  Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  send buffer frees, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests.
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP().
 
                                                                  See also PKI_DPFI_GMCTL[GMID]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
                                                                  send buffer frees, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests.
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP().
 
                                                                  See also PKI_DPFI_GMCTL[GMID]. */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing DQ or data returns
@@ -12204,41 +12097,6 @@ static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a)
 #define device_bar_BDK_PKO_PF_VFX_GMCTL(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_PF_VFX_GMCTL(a) (a)
 #define arguments_BDK_PKO_PF_VFX_GMCTL(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pko_pq_csr_bus_debug
- *
- * INTERNAL: PKO PSE PQ CSR Bus Debug Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_pq_csr_bus_debug_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO)  */
-#else /* Word 0 - Little Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO)  */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_pq_csr_bus_debug_s cn; */
-} bdk_pko_pq_csr_bus_debug_t;
-
-#define BDK_PKO_PQ_CSR_BUS_DEBUG BDK_PKO_PQ_CSR_BUS_DEBUG_FUNC()
-static inline uint64_t BDK_PKO_PQ_CSR_BUS_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_PQ_CSR_BUS_DEBUG_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540000001f8ll;
-    __bdk_csr_fatal("PKO_PQ_CSR_BUS_DEBUG", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_PQ_CSR_BUS_DEBUG bdk_pko_pq_csr_bus_debug_t
-#define bustype_BDK_PKO_PQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_PQ_CSR_BUS_DEBUG "PKO_PQ_CSR_BUS_DEBUG"
-#define device_bar_BDK_PKO_PQ_CSR_BUS_DEBUG 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_PQ_CSR_BUS_DEBUG 0
-#define arguments_BDK_PKO_PQ_CSR_BUS_DEBUG -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_pq_debug_green
@@ -12428,7 +12286,7 @@ static inline uint64_t BDK_PKO_PQB_DEBUG_FUNC(void)
 /**
  * Register (NCB) pko_pse_dq_bist_status
  *
- * PSE DQ BIST Status Information Register
+ * PKO PSE DQ BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -12739,7 +12597,7 @@ static inline uint64_t BDK_PKO_PSE_DQ_ECC_SBE_STS_CMB0_FUNC(void)
 /**
  * Register (NCB) pko_pse_pq_bist_status
  *
- * PSE PQ BIST Status Information Register
+ * PKO PSE PQ BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -13150,7 +13008,7 @@ static inline uint64_t BDK_PKO_PSE_PQ_ECC_SBE_STS_CMB0_FUNC(void)
 /**
  * Register (NCB) pko_pse_sq1_bist_status
  *
- * PSE SQ1 BIST Status Information Register
+ * PKO PSE SQ1 BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -13800,7 +13658,7 @@ static inline uint64_t BDK_PKO_PSE_SQ1_ECC_SBE_STS_CMB0_FUNC(void)
 /**
  * Register (NCB) pko_pse_sq2_bist_status
  *
- * PSE SQ2 BIST Status Information Register
+ * PKO PSE SQ2 BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -15721,6 +15579,9 @@ static inline uint64_t BDK_PKO_VDQX_WM_CTL(unsigned long a)
  * PKO MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the PKO_VF()_INT_VEC_E
  * enumeration.
+ *
+ * Internal:
+ * FIXME, attributes need to be updated when this CSR is implemented.
  * FIXME: arch_max: "1024,4"
  */
 typedef union
@@ -15759,6 +15620,8 @@ static inline uint64_t BDK_PKO_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
  *
  * PKO VF MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the PKO_VF()_INT_VEC_E enumeration.
+ * Internal:
+ * FIXME, attributes need to be updated when this CSR is implemented.
  */
 typedef union
 {
@@ -15804,6 +15667,8 @@ static inline uint64_t BDK_PKO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
  *
  * PKO MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the PKO_VF()_INT_VEC_E enumeration.
+ * Internal:
+ * FIXME, attributes need to be updated when this CSR is implemented.
  */
 typedef union
 {

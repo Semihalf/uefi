@@ -815,13 +815,13 @@ typedef union
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free operations initiated by this queue.
-                                                                 Must be non-zero or FPA will drop requests. */
+                                                                 Must be non-zero or FPA will drop requests; see FPA_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Reserved.
                                                                  Internal:
                                                                  Guest machine identifier. The GMID to send to FPA for all
                                                                  buffer free operations initiated by this queue.
-                                                                 Must be non-zero or FPA will drop requests. */
+                                                                 Must be non-zero or FPA will drop requests; see FPA_PF_MAP(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -858,25 +858,59 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Aura to use when freeing command-buffer segments. For frees to work [DFB] must
-                                                                 be clear, and for the FPA to not discard the request BCH_PF_Q()_GMCTL[GMID]
-                                                                 must be non-zero. */
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura to use when freeing command-buffer segments. Only used when [DFB] is
+                                                                 clear. For the FPA to not discard the request, FPA_PF_MAP() must consider the
+                                                                 [AURA] and BCH_PF_Q()_GMCTL[GMID] to be valid. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Don't free buffers to the FPA. */
+        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Reserved, must be 1.
+                                                                 Internal:
+                                                                 Don't free buffers to the FPA. */
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64s per command buffer segment. */
         uint64_t reserved_0_32         : 33;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_32         : 33;
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64s per command buffer segment. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Don't free buffers to the FPA. */
+        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Reserved, must be 1.
+                                                                 Internal:
+                                                                 Don't free buffers to the FPA. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Aura to use when freeing command-buffer segments. For frees to work [DFB] must
-                                                                 be clear, and for the FPA to not discard the request BCH_PF_Q()_GMCTL[GMID]
-                                                                 must be non-zero. */
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura to use when freeing command-buffer segments. Only used when [DFB] is
+                                                                 clear. For the FPA to not discard the request, FPA_PF_MAP() must consider the
+                                                                 [AURA] and BCH_PF_Q()_GMCTL[GMID] to be valid. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bch_vqx_cmd_buf_s cn; */
+    struct bdk_bch_vqx_cmd_buf_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Reserved.
+                                                                 Internal:
+                                                                 Guest-aura to use when freeing command-buffer segments. Only used when [DFB] is
+                                                                 clear. For the FPA to not discard the request, FPA_PF_MAP() must consider the
+                                                                 [AURA] and BCH_PF_Q()_GMCTL[GMID] to be valid. */
+        uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */
+        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Reserved, must be 1.
+                                                                 Internal:
+                                                                 Don't free buffers to the FPA. */
+        uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64s per command buffer segment. */
+        uint64_t reserved_0_32         : 33;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_32         : 33;
+        uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64s per command buffer segment. */
+        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Reserved, must be 1.
+                                                                 Internal:
+                                                                 Don't free buffers to the FPA. */
+        uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */
+        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Reserved.
+                                                                 Internal:
+                                                                 Guest-aura to use when freeing command-buffer segments. Only used when [DFB] is
+                                                                 clear. For the FPA to not discard the request, FPA_PF_MAP() must consider the
+                                                                 [AURA] and BCH_PF_Q()_GMCTL[GMID] to be valid. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_bch_vqx_cmd_buf_s cn83xx; */
 } bdk_bch_vqx_cmd_buf_t;
 
 static inline uint64_t BDK_BCH_VQX_CMD_BUF(unsigned long a) __attribute__ ((pure, always_inline));

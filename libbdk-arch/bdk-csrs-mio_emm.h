@@ -373,6 +373,61 @@ static inline uint64_t BDK_MIO_EMM_CMD_FUNC(void)
 #define arguments_BDK_MIO_EMM_CMD -1,-1,-1,-1
 
 /**
+ * Register (RSL) mio_emm_comp
+ *
+ * eMMC Compensation Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_comp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t pctl                  : 3;  /**< [ 10:  8](R/W) eMMC bus driver PCTL. Typical values:
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
+        uint64_t reserved_3_7          : 5;
+        uint64_t nctl                  : 3;  /**< [  2:  0](R/W) eMMC bus driver NCTL. Typical values:
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
+#else /* Word 0 - Little Endian */
+        uint64_t nctl                  : 3;  /**< [  2:  0](R/W) eMMC bus driver NCTL. Typical values:
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
+        uint64_t reserved_3_7          : 5;
+        uint64_t pctl                  : 3;  /**< [ 10:  8](R/W) eMMC bus driver PCTL. Typical values:
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_comp_s cn; */
+} bdk_mio_emm_comp_t;
+
+#define BDK_MIO_EMM_COMP BDK_MIO_EMM_COMP_FUNC()
+static inline uint64_t BDK_MIO_EMM_COMP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_COMP_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e009002040ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e009002040ll;
+    __bdk_csr_fatal("MIO_EMM_COMP", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_MIO_EMM_COMP bdk_mio_emm_comp_t
+#define bustype_BDK_MIO_EMM_COMP BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_COMP "MIO_EMM_COMP"
+#define device_bar_BDK_MIO_EMM_COMP 0x0 /* PF_BAR0 */
+#define busnum_BDK_MIO_EMM_COMP 0
+#define arguments_BDK_MIO_EMM_COMP -1,-1,-1,-1
+
+/**
  * Register (RSL) mio_emm_dma
  *
  * eMMC External DMA Configuration Register

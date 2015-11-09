@@ -151,13 +151,17 @@ union bdk_tim_mem_entry_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
-        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. */
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GRP] and TIM_VRING()_GMCTL[GMID] as valid. */
         uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type.  Enumerated by SSO_TT_E. */
         uint64_t tag                   : 32; /**< [ 31:  0] SSO tag. */
 #else /* Word 0 - Little Endian */
         uint64_t tag                   : 32; /**< [ 31:  0] SSO tag. */
         uint64_t tt                    : 2;  /**< [ 33: 32] SSO tag type.  Enumerated by SSO_TT_E. */
-        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group. */
+        uint64_t grp                   : 10; /**< [ 43: 34] SSO guest-group.
+                                                                 For the SSO to not discard the add-work request, SSO_PF_MAP() must map
+                                                                 [GRP] and TIM_VRING()_GMCTL[GMID] as valid. */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -1452,12 +1456,12 @@ typedef union
 
                                                                  Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer free, or to SSO
-                                                                 for all submit work operations initiated by this ring. Must be non-zero or
-                                                                 FPA/SSO will drop requests. */
+                                                                 for all submit work operations initiated by this ring.
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer free, or to SSO
-                                                                 for all submit work operations initiated by this ring. Must be non-zero or
-                                                                 FPA/SSO will drop requests. */
+                                                                 for all submit work operations initiated by this ring.
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
 
                                                                  Stream 0x0 corresponds to the PF, and VFs start at 0x1.
@@ -1496,9 +1500,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Guest-aura number used to free and return chucks to. Bits <15:12> must be zero. */
+        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Guest-aura number used to free and return chucks to. Bits <15:12> must be zero.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and TIM_VRING()_GMCTL[GMID] as valid. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Guest-aura number used to free and return chucks to. Bits <15:12> must be zero. */
+        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Guest-aura number used to free and return chucks to. Bits <15:12> must be zero.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and TIM_VRING()_GMCTL[GMID] as valid. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;

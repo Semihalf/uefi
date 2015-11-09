@@ -717,9 +717,11 @@ typedef union
     struct bdk_fpa_const1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_12_63        : 52;
+        uint64_t maps                  : 12; /**< [ 11:  0](RO) Number of entries in FPA_PF_MAP(). */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t maps                  : 12; /**< [ 11:  0](RO) Number of entries in FPA_PF_MAP(). */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_const1_s cn; */
@@ -1321,7 +1323,7 @@ static inline uint64_t BDK_FPA_INP_CTL_FUNC(void)
  *
  * FPA PF VF-Mapping Registers
  * These registers map GMIDs and guest aura-sets to hardware aura-sets. Regardless of
- * this mapping, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one
+ * these registers, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one
  * mapping of GAURASET into VHAURASET.
  */
 typedef union
@@ -1357,8 +1359,8 @@ typedef union
 static inline uint64_t BDK_FPA_PF_MAPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FPA_PF_MAPX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=95))
-        return 0x828000001000ll + 8ll * ((a) & 0x7f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=39))
+        return 0x828000001000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("FPA_PF_MAPX", 1, a, 0, 0, 0);
 }
 

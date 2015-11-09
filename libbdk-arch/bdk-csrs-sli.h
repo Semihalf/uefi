@@ -67,10 +67,18 @@
  * SLI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_SLI_INT_VEC_E_MACX(a) (1 + (a)) /**< See interrupt clears SLI(0..1)_MAC(0..2)_INT_SUM,
+#define BDK_SLI_INT_VEC_E_MACX_CN81XX(a) (1 + (a)) /**< See interrupt clears SLI(0..1)_MAC(0..2)_INT_SUM,
                                        interrupt sets SLI(0..1)_MAC(0..2)_INT_SUM_W1S,
                                        enable clears SLI(0..1)_MAC(0..2)_INT_ENA_W1C,
                                        and enable sets SLI(0..1)_MAC(0..2)_INT_ENA_W1S. */
+#define BDK_SLI_INT_VEC_E_MACX_CN88XX(a) (1 + (a)) /**< See interrupt clears SLI(0..1)_MAC(0..2)_INT_SUM,
+                                       interrupt sets SLI(0..1)_MAC(0..2)_INT_SUM_W1S,
+                                       enable clears SLI(0..1)_MAC(0..2)_INT_ENA_W1C,
+                                       and enable sets SLI(0..1)_MAC(0..2)_INT_ENA_W1S. */
+#define BDK_SLI_INT_VEC_E_MACX_CN83XX(a) (1 + (a)) /**< See interrupt clears SLI(0..1)_MAC(0..3)_INT_SUM,
+                                       interrupt sets SLI(0..1)_MAC(0..3)_INT_SUM_W1S,
+                                       enable clears SLI(0..1)_MAC(0..3)_INT_ENA_W1C,
+                                       and enable sets SLI(0..1)_MAC(0..3)_INT_ENA_W1S. */
 #define BDK_SLI_INT_VEC_E_MBE (0) /**< See interrupt clears SLI(0..1)_MBE_INT_SUM,
                                        interrupt sets SLI(0..1)_MBE_INT_SUM_W1S,
                                        enable clears SLI(0..1)_MBE_INT_ENA_W1C,
@@ -131,6 +139,64 @@ typedef union
     struct bdk_slix_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t status                : 30; /**< [ 29:  0](RO) BIST status.
+                                                                 Internal:
+                                                                 22 = sli_nod_nfif_bstatus.
+                                                                 21 = csr_region_mem_bstatus.
+                                                                 20 = sncf0_ffifo_bstatus.
+                                                                 19 = sndfh0_ffifo_bstatus.
+                                                                 18 = sndfl0_ffifo_bstatus.
+                                                                 17 = sncf1_ffifo_bstatus.
+                                                                 16 = sndfh1_ffifo_bstatus.
+                                                                 15 = sndfl1_ffifo_bstatus.
+                                                                 14 = sncf2_ffifo_bstatus.
+                                                                 13 = sndfh2_ffifo_bstatus.
+                                                                 12 = sndfl2_ffifo_bstatus.
+                                                                 11 = p2n_port0_tlp_cpl_fifo_bstatus.
+                                                                 10 = p2n_port0_tlp_n_fifo_bstatus.
+                                                                 9 = p2n_port0_tlp_p_fifo_bstatus.
+                                                                 8 = p2n_port1_tlp_cpl_fifo_bstatus.
+                                                                 7 = p2n_port1_tlp_n_fifo_bstatus.
+                                                                 6 = p2n_port1_tlp_p_fifo_bstatus.
+                                                                 5 = p2n_port2_tlp_cpl_fifo_bstatus.
+                                                                 4 = p2n_port2_tlp_n_fifo_bstatus.
+                                                                 3 = p2n_port2_tlp_p_fifo_bstatus.
+                                                                 2 = cpl0_fifo_bstatus.
+                                                                 1 = cpl1_fifo_bstatus.
+                                                                 0 = cpl2_fifo_bstatus. */
+#else /* Word 0 - Little Endian */
+        uint64_t status                : 30; /**< [ 29:  0](RO) BIST status.
+                                                                 Internal:
+                                                                 22 = sli_nod_nfif_bstatus.
+                                                                 21 = csr_region_mem_bstatus.
+                                                                 20 = sncf0_ffifo_bstatus.
+                                                                 19 = sndfh0_ffifo_bstatus.
+                                                                 18 = sndfl0_ffifo_bstatus.
+                                                                 17 = sncf1_ffifo_bstatus.
+                                                                 16 = sndfh1_ffifo_bstatus.
+                                                                 15 = sndfl1_ffifo_bstatus.
+                                                                 14 = sncf2_ffifo_bstatus.
+                                                                 13 = sndfh2_ffifo_bstatus.
+                                                                 12 = sndfl2_ffifo_bstatus.
+                                                                 11 = p2n_port0_tlp_cpl_fifo_bstatus.
+                                                                 10 = p2n_port0_tlp_n_fifo_bstatus.
+                                                                 9 = p2n_port0_tlp_p_fifo_bstatus.
+                                                                 8 = p2n_port1_tlp_cpl_fifo_bstatus.
+                                                                 7 = p2n_port1_tlp_n_fifo_bstatus.
+                                                                 6 = p2n_port1_tlp_p_fifo_bstatus.
+                                                                 5 = p2n_port2_tlp_cpl_fifo_bstatus.
+                                                                 4 = p2n_port2_tlp_n_fifo_bstatus.
+                                                                 3 = p2n_port2_tlp_p_fifo_bstatus.
+                                                                 2 = cpl0_fifo_bstatus.
+                                                                 1 = cpl1_fifo_bstatus.
+                                                                 0 = cpl2_fifo_bstatus. */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_slix_bist_status_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_23_63        : 41;
         uint64_t status                : 23; /**< [ 22:  0](RO) BIST status.
                                                                  Internal:
@@ -185,8 +251,80 @@ typedef union
                                                                  0 = cpl2_fifo_bstatus. */
         uint64_t reserved_23_63        : 41;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_bist_status_s cn; */
+    } cn81xx;
+    /* struct bdk_slix_bist_status_cn81xx cn88xx; */
+    struct bdk_slix_bist_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t status                : 30; /**< [ 29:  0](RO) BIST status.
+                                                                 Internal:
+                                                                 29 = sli_nod_nfif_bstatus.
+                                                                 28 = csr_region_mem_bstatus.
+                                                                 27 = sncf0_ffifo_bstatus.
+                                                                 26 = sndfh0_ffifo_bstatus.
+                                                                 25 = sndfl0_ffifo_bstatus.
+                                                                 24 = sncf1_ffifo_bstatus.
+                                                                 23 = sndfh1_ffifo_bstatus.
+                                                                 22 = sndfl1_ffifo_bstatus.
+                                                                 21 = sncf2_ffifo_bstatus.
+                                                                 20 = sndfh2_ffifo_bstatus.
+                                                                 19 = sndfl2_ffifo_bstatus.
+                                                                 18 = sncf2_ffifo_bstatus.
+                                                                 17 = sndfh2_ffifo_bstatus.
+                                                                 16 = sndfl2_ffifo_bstatus.
+                                                                 15 = p2n_port0_tlp_cpl_fifo_bstatus.
+                                                                 14 = p2n_port0_tlp_n_fifo_bstatus.
+                                                                 13 = p2n_port0_tlp_p_fifo_bstatus.
+                                                                 12 = p2n_port1_tlp_cpl_fifo_bstatus.
+                                                                 11 = p2n_port1_tlp_n_fifo_bstatus.
+                                                                 10 = p2n_port1_tlp_p_fifo_bstatus.
+                                                                 9 = p2n_port2_tlp_cpl_fifo_bstatus.
+                                                                 8 = p2n_port2_tlp_n_fifo_bstatus.
+                                                                 7 = p2n_port2_tlp_p_fifo_bstatus.
+                                                                 6 = p2n_port3_tlp_cpl_fifo_bstatus.
+                                                                 5 = p2n_port3_tlp_n_fifo_bstatus.
+                                                                 4 = p2n_port3_tlp_p_fifo_bstatus.
+                                                                 3 = cpl0_fifo_bstatus.
+                                                                 2 = cpl1_fifo_bstatus.
+                                                                 1 = cpl2_fifo_bstatus.
+                                                                 0 = cpl3_fifo_bstatus. */
+#else /* Word 0 - Little Endian */
+        uint64_t status                : 30; /**< [ 29:  0](RO) BIST status.
+                                                                 Internal:
+                                                                 29 = sli_nod_nfif_bstatus.
+                                                                 28 = csr_region_mem_bstatus.
+                                                                 27 = sncf0_ffifo_bstatus.
+                                                                 26 = sndfh0_ffifo_bstatus.
+                                                                 25 = sndfl0_ffifo_bstatus.
+                                                                 24 = sncf1_ffifo_bstatus.
+                                                                 23 = sndfh1_ffifo_bstatus.
+                                                                 22 = sndfl1_ffifo_bstatus.
+                                                                 21 = sncf2_ffifo_bstatus.
+                                                                 20 = sndfh2_ffifo_bstatus.
+                                                                 19 = sndfl2_ffifo_bstatus.
+                                                                 18 = sncf2_ffifo_bstatus.
+                                                                 17 = sndfh2_ffifo_bstatus.
+                                                                 16 = sndfl2_ffifo_bstatus.
+                                                                 15 = p2n_port0_tlp_cpl_fifo_bstatus.
+                                                                 14 = p2n_port0_tlp_n_fifo_bstatus.
+                                                                 13 = p2n_port0_tlp_p_fifo_bstatus.
+                                                                 12 = p2n_port1_tlp_cpl_fifo_bstatus.
+                                                                 11 = p2n_port1_tlp_n_fifo_bstatus.
+                                                                 10 = p2n_port1_tlp_p_fifo_bstatus.
+                                                                 9 = p2n_port2_tlp_cpl_fifo_bstatus.
+                                                                 8 = p2n_port2_tlp_n_fifo_bstatus.
+                                                                 7 = p2n_port2_tlp_p_fifo_bstatus.
+                                                                 6 = p2n_port3_tlp_cpl_fifo_bstatus.
+                                                                 5 = p2n_port3_tlp_n_fifo_bstatus.
+                                                                 4 = p2n_port3_tlp_p_fifo_bstatus.
+                                                                 3 = cpl0_fifo_bstatus.
+                                                                 2 = cpl1_fifo_bstatus.
+                                                                 1 = cpl2_fifo_bstatus.
+                                                                 0 = cpl3_fifo_bstatus. */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_slix_bist_status_t;
 
 static inline uint64_t BDK_SLIX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -634,7 +772,11 @@ typedef union
 static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
+        return 0x874001002100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x874001002100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
         return 0x874001002100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_M2S_MACX_CTL", 2, a, b, 0, 0);
 }
@@ -647,7 +789,7 @@ static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b)
 #define arguments_BDK_SLIX_M2S_MACX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_mac#_int_ena_w1c
+ * Register (NCB) sli#_mac#_int_ena_w1c
  *
  * SLI MAC Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -671,26 +813,47 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_macx_int_ena_w1c_s cn; */
+    /* struct bdk_slix_macx_int_ena_w1c_s cn81xx; */
+    /* struct bdk_slix_macx_int_ena_w1c_s cn88xx; */
+    struct bdk_slix_macx_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SLI(0..1)_MAC(0..3)_INT_SUM[UN_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SLI(0..1)_MAC(0..3)_INT_SUM[UN_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SLI(0..1)_MAC(0..3)_INT_SUM[UP_WI]. */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SLI(0..1)_MAC(0..3)_INT_SUM[UP_B0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SLI(0..1)_MAC(0..3)_INT_SUM[UP_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SLI(0..1)_MAC(0..3)_INT_SUM[UP_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SLI(0..1)_MAC(0..3)_INT_SUM[UN_B0]. */
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SLI(0..1)_MAC(0..3)_INT_SUM[UN_WI]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_slix_macx_int_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
+        return 0x874000001200ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x874000001200ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
         return 0x874000001200ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_MACX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MACX_INT_ENA_W1C(a,b) bdk_slix_macx_int_ena_w1c_t
-#define bustype_BDK_SLIX_MACX_INT_ENA_W1C(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_MACX_INT_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MACX_INT_ENA_W1C(a,b) "SLIX_MACX_INT_ENA_W1C"
 #define device_bar_BDK_SLIX_MACX_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MACX_INT_ENA_W1C(a,b) (a)
 #define arguments_BDK_SLIX_MACX_INT_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_mac#_int_ena_w1s
+ * Register (NCB) sli#_mac#_int_ena_w1s
  *
  * SLI MAC Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -714,26 +877,47 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_macx_int_ena_w1s_s cn; */
+    /* struct bdk_slix_macx_int_ena_w1s_s cn81xx; */
+    /* struct bdk_slix_macx_int_ena_w1s_s cn88xx; */
+    struct bdk_slix_macx_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SLI(0..1)_MAC(0..3)_INT_SUM[UN_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SLI(0..1)_MAC(0..3)_INT_SUM[UN_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SLI(0..1)_MAC(0..3)_INT_SUM[UP_WI]. */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SLI(0..1)_MAC(0..3)_INT_SUM[UP_B0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SLI(0..1)_MAC(0..3)_INT_SUM[UP_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SLI(0..1)_MAC(0..3)_INT_SUM[UP_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SLI(0..1)_MAC(0..3)_INT_SUM[UN_B0]. */
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SLI(0..1)_MAC(0..3)_INT_SUM[UN_WI]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_slix_macx_int_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
+        return 0x874000001280ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x874000001280ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
         return 0x874000001280ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_MACX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MACX_INT_ENA_W1S(a,b) bdk_slix_macx_int_ena_w1s_t
-#define bustype_BDK_SLIX_MACX_INT_ENA_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_MACX_INT_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MACX_INT_ENA_W1S(a,b) "SLIX_MACX_INT_ENA_W1S"
 #define device_bar_BDK_SLIX_MACX_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MACX_INT_ENA_W1S(a,b) (a)
 #define arguments_BDK_SLIX_MACX_INT_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_mac#_int_sum
+ * Register (NCB) sli#_mac#_int_sum
  *
  * SLI MAC Interrupt Summary Register
  * This register contains the different interrupt-summary bits for one MAC in the SLI.
@@ -765,26 +949,55 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_macx_int_sum_s cn; */
+    /* struct bdk_slix_macx_int_sum_s cn81xx; */
+    /* struct bdk_slix_macx_int_sum_s cn88xx; */
+    struct bdk_slix_macx_int_sum_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1C/H) Received unsupported N-TLP for window register from MAC(0..3). This occurs when the window
+                                                                 registers are disabled and a window register access occurs. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1C/H) Received unsupported N-TLP for Bar 0 from MAC(0..3). This occurs when the BAR 0 address
+                                                                 space is disabled. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1C/H) Received unsupported P-TLP for window register from MAC(0..3). This occurs when the window
+                                                                 registers are disabled and a window register access occurs. */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1C/H) Received unsupported P-TLP for Bar 0 from MAC(0..3). This occurs when the BAR 0 address
+                                                                 space is disabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1C/H) Received unsupported P-TLP for Bar 0 from MAC(0..3). This occurs when the BAR 0 address
+                                                                 space is disabled. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1C/H) Received unsupported P-TLP for window register from MAC(0..3). This occurs when the window
+                                                                 registers are disabled and a window register access occurs. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1C/H) Received unsupported N-TLP for Bar 0 from MAC(0..3). This occurs when the BAR 0 address
+                                                                 space is disabled. */
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1C/H) Received unsupported N-TLP for window register from MAC(0..3). This occurs when the window
+                                                                 registers are disabled and a window register access occurs. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_slix_macx_int_sum_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_SUM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_SUM(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
+        return 0x874000001100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x874000001100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
         return 0x874000001100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_MACX_INT_SUM", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MACX_INT_SUM(a,b) bdk_slix_macx_int_sum_t
-#define bustype_BDK_SLIX_MACX_INT_SUM(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_MACX_INT_SUM(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MACX_INT_SUM(a,b) "SLIX_MACX_INT_SUM"
 #define device_bar_BDK_SLIX_MACX_INT_SUM(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MACX_INT_SUM(a,b) (a)
 #define arguments_BDK_SLIX_MACX_INT_SUM(a,b) (a),(b),-1,-1
 
 /**
- * Register (PEXP_NCB) sli#_mac#_int_sum_w1s
+ * Register (NCB) sli#_mac#_int_sum_w1s
  *
  * SLI MAC Interrupt Set Register
  * This register sets interrupt bits.
@@ -808,19 +1021,40 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_macx_int_sum_w1s_s cn; */
+    /* struct bdk_slix_macx_int_sum_w1s_s cn81xx; */
+    /* struct bdk_slix_macx_int_sum_w1s_s cn88xx; */
+    struct bdk_slix_macx_int_sum_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SLI(0..1)_MAC(0..3)_INT_SUM[UN_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SLI(0..1)_MAC(0..3)_INT_SUM[UN_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SLI(0..1)_MAC(0..3)_INT_SUM[UP_WI]. */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SLI(0..1)_MAC(0..3)_INT_SUM[UP_B0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SLI(0..1)_MAC(0..3)_INT_SUM[UP_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SLI(0..1)_MAC(0..3)_INT_SUM[UP_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SLI(0..1)_MAC(0..3)_INT_SUM[UN_B0]. */
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SLI(0..1)_MAC(0..3)_INT_SUM[UN_WI]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_slix_macx_int_sum_w1s_t;
 
 static inline uint64_t BDK_SLIX_MACX_INT_SUM_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_SUM_W1S(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
+        return 0x874000001180ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x874000001180ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
         return 0x874000001180ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_MACX_INT_SUM_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MACX_INT_SUM_W1S(a,b) bdk_slix_macx_int_sum_w1s_t
-#define bustype_BDK_SLIX_MACX_INT_SUM_W1S(a,b) BDK_CSR_TYPE_PEXP_NCB
+#define bustype_BDK_SLIX_MACX_INT_SUM_W1S(a,b) BDK_CSR_TYPE_NCB
 #define basename_BDK_SLIX_MACX_INT_SUM_W1S(a,b) "SLIX_MACX_INT_SUM_W1S"
 #define device_bar_BDK_SLIX_MACX_INT_SUM_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_SLIX_MACX_INT_SUM_W1S(a,b) (a)
@@ -884,6 +1118,20 @@ typedef union
     struct bdk_slix_mbe_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t sed0_dbe              : 29; /**< [ 60: 32](R/W1C/H) Reads or clears enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t sed0_sbe              : 29; /**< [ 28:  0](R/W1C/H) Reads or clears enable for SLI(0..1)_MBE_INT_SUM[SED0_SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sed0_sbe              : 29; /**< [ 28:  0](R/W1C/H) Reads or clears enable for SLI(0..1)_MBE_INT_SUM[SED0_SBE]. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t sed0_dbe              : 29; /**< [ 60: 32](R/W1C/H) Reads or clears enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_slix_mbe_int_ena_w1c_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1C/H) Reads or clears enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_22_31        : 10;
@@ -894,8 +1142,9 @@ typedef union
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1C/H) Reads or clears enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_mbe_int_ena_w1c_s cn; */
+    } cn81xx;
+    /* struct bdk_slix_mbe_int_ena_w1c_cn81xx cn88xx; */
+    /* struct bdk_slix_mbe_int_ena_w1c_s cn83xx; */
 } bdk_slix_mbe_int_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
@@ -925,6 +1174,20 @@ typedef union
     struct bdk_slix_mbe_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t sed0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t sed0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets enable for SLI(0..1)_MBE_INT_SUM[SED0_SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sed0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets enable for SLI(0..1)_MBE_INT_SUM[SED0_SBE]. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t sed0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_slix_mbe_int_ena_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_22_31        : 10;
@@ -935,8 +1198,9 @@ typedef union
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_mbe_int_ena_w1s_s cn; */
+    } cn81xx;
+    /* struct bdk_slix_mbe_int_ena_w1s_cn81xx cn88xx; */
+    /* struct bdk_slix_mbe_int_ena_w1s_s cn83xx; */
 } bdk_slix_mbe_int_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -966,6 +1230,20 @@ typedef union
     struct bdk_slix_mbe_int_sum_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t sed0_dbe              : 29; /**< [ 60: 32](R/W1C/H) SED0 double-bit error. When set, a SED0 double-bit error has occurred. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t sed0_sbe              : 29; /**< [ 28:  0](R/W1C/H) SED0 single-bit error. When set, a SED0 single-bit error has occurred. */
+#else /* Word 0 - Little Endian */
+        uint64_t sed0_sbe              : 29; /**< [ 28:  0](R/W1C/H) SED0 single-bit error. When set, a SED0 single-bit error has occurred. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t sed0_dbe              : 29; /**< [ 60: 32](R/W1C/H) SED0 double-bit error. When set, a SED0 double-bit error has occurred. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_slix_mbe_int_sum_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1C/H) SED0 double-bit error. When set, a SED0 double-bit error has occurred. */
         uint64_t reserved_22_31        : 10;
@@ -976,8 +1254,9 @@ typedef union
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1C/H) SED0 double-bit error. When set, a SED0 double-bit error has occurred. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_mbe_int_sum_s cn; */
+    } cn81xx;
+    /* struct bdk_slix_mbe_int_sum_cn81xx cn88xx; */
+    /* struct bdk_slix_mbe_int_sum_s cn83xx; */
 } bdk_slix_mbe_int_sum_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1007,6 +1286,20 @@ typedef union
     struct bdk_slix_mbe_int_sum_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t sed0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t sed0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets SLI(0..1)_MBE_INT_SUM[SED0_SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sed0_sbe              : 29; /**< [ 28:  0](R/W1S/H) Reads or sets SLI(0..1)_MBE_INT_SUM[SED0_SBE]. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t sed0_dbe              : 29; /**< [ 60: 32](R/W1S/H) Reads or sets SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_slix_mbe_int_sum_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_22_31        : 10;
@@ -1017,8 +1310,9 @@ typedef union
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_mbe_int_sum_w1s_s cn; */
+    } cn81xx;
+    /* struct bdk_slix_mbe_int_sum_w1s_cn81xx cn88xx; */
+    /* struct bdk_slix_mbe_int_sum_w1s_s cn83xx; */
 } bdk_slix_mbe_int_sum_w1s_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1046,6 +1340,118 @@ typedef union
 {
     uint64_t u;
     struct bdk_slix_mem_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_39_63        : 25;
+        uint64_t ctl                   : 39; /**< [ 38:  0](R/W) Control memory ECC functionality.
+                                                                 <29>    = Correction Disable for csr_region_mem_csr_cor_dis.
+                                                                 <28:29> = Flip Syndrome for csr_region_mem_csr_flip_synd.
+
+                                                                 <26>    = Correction Disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <25:24> = Flip Syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <23>    = Correction Disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <22:21> = Flip Syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <20>    = Correction Disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <19:18> = Flip Syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+
+                                                                 <17>    = Correction Disable for cpl0_fifo_csr_cor_dis.
+                                                                 <16:15> = Flip Syndrome for cpl0_fifo_csr_flip_synd.
+                                                                 <14>    = Correction Disable for cpl1_fifo_csr_cor_dis.
+                                                                 <13:12> = Flip Syndrome for cpl1_fifo_csr_flip_synd.
+                                                                 <11>    = Correction Disable for cpl2_fifo_csr_cor_dis.
+                                                                 <10:9>  = Flip Syndrome for cpl2_fifo_csr_flip_synd.
+
+                                                                 <8>   = Correction Disable for p2n0_tlp_<p, n, cpl>_fifo.
+                                                                 <7:6> = Flip Syndrome for p2n0_tlp_<p,n,cpl>_fifo.
+                                                                 <5>   = Correction Disable for p2n1_tlp_<p, n, cpl>_fifo.
+                                                                 <4:3> = Flip Syndrome for p2n1_tlp_<p,n,cpl>_fifo.
+                                                                 <2>   = Correction Disable for p2n2_tlp_<p, n, cpl>_fifo.
+                                                                 <1:0> = Flip Syndrome for p2n2_tlp_<p,n,cpl>_fifo. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctl                   : 39; /**< [ 38:  0](R/W) Control memory ECC functionality.
+                                                                 <29>    = Correction Disable for csr_region_mem_csr_cor_dis.
+                                                                 <28:29> = Flip Syndrome for csr_region_mem_csr_flip_synd.
+
+                                                                 <26>    = Correction Disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <25:24> = Flip Syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <23>    = Correction Disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <22:21> = Flip Syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <20>    = Correction Disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <19:18> = Flip Syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+
+                                                                 <17>    = Correction Disable for cpl0_fifo_csr_cor_dis.
+                                                                 <16:15> = Flip Syndrome for cpl0_fifo_csr_flip_synd.
+                                                                 <14>    = Correction Disable for cpl1_fifo_csr_cor_dis.
+                                                                 <13:12> = Flip Syndrome for cpl1_fifo_csr_flip_synd.
+                                                                 <11>    = Correction Disable for cpl2_fifo_csr_cor_dis.
+                                                                 <10:9>  = Flip Syndrome for cpl2_fifo_csr_flip_synd.
+
+                                                                 <8>   = Correction Disable for p2n0_tlp_<p, n, cpl>_fifo.
+                                                                 <7:6> = Flip Syndrome for p2n0_tlp_<p,n,cpl>_fifo.
+                                                                 <5>   = Correction Disable for p2n1_tlp_<p, n, cpl>_fifo.
+                                                                 <4:3> = Flip Syndrome for p2n1_tlp_<p,n,cpl>_fifo.
+                                                                 <2>   = Correction Disable for p2n2_tlp_<p, n, cpl>_fifo.
+                                                                 <1:0> = Flip Syndrome for p2n2_tlp_<p,n,cpl>_fifo. */
+        uint64_t reserved_39_63        : 25;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_slix_mem_ctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t ctl                   : 30; /**< [ 29:  0](R/W) Control memory ECC functionality.
+                                                                 <29>    = Correction disable for csr_region_mem_csr_cor_dis.
+                                                                 <28:29> = Flip syndrome for csr_region_mem_csr_flip_synd.
+
+                                                                 <26>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <25:24> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <23>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <22:21> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <20>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <19:18> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+
+                                                                 <17>    = Correction disable for cpl0_fifo_csr_cor_dis.
+                                                                 <16:15> = Flip syndrome for cpl0_fifo_csr_flip_synd.
+                                                                 <14>    = Correction disable for cpl1_fifo_csr_cor_dis.
+                                                                 <13:12> = Flip syndrome for cpl1_fifo_csr_flip_synd.
+                                                                 <11>    = Correction disable for cpl2_fifo_csr_cor_dis.
+                                                                 <10:9>  = Flip syndrome for cpl2_fifo_csr_flip_synd.
+
+                                                                 <8>   = Correction disable for p2n0_tlp_<p, n, cpl>_fifo.
+                                                                 <7:6> = Flip syndrome for p2n0_tlp_<p,n,cpl>_fifo.
+                                                                 <5>   = Correction disable for p2n1_tlp_<p, n, cpl>_fifo.
+                                                                 <4:3> = Flip syndrome for p2n1_tlp_<p,n,cpl>_fifo.
+                                                                 <2>   = Correction disable for p2n2_tlp_<p, n, cpl>_fifo.
+                                                                 <1:0> = Flip syndrome for p2n2_tlp_<p,n,cpl>_fifo. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctl                   : 30; /**< [ 29:  0](R/W) Control memory ECC functionality.
+                                                                 <29>    = Correction disable for csr_region_mem_csr_cor_dis.
+                                                                 <28:29> = Flip syndrome for csr_region_mem_csr_flip_synd.
+
+                                                                 <26>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <25:24> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <23>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <22:21> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <20>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <19:18> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+
+                                                                 <17>    = Correction disable for cpl0_fifo_csr_cor_dis.
+                                                                 <16:15> = Flip syndrome for cpl0_fifo_csr_flip_synd.
+                                                                 <14>    = Correction disable for cpl1_fifo_csr_cor_dis.
+                                                                 <13:12> = Flip syndrome for cpl1_fifo_csr_flip_synd.
+                                                                 <11>    = Correction disable for cpl2_fifo_csr_cor_dis.
+                                                                 <10:9>  = Flip syndrome for cpl2_fifo_csr_flip_synd.
+
+                                                                 <8>   = Correction disable for p2n0_tlp_<p, n, cpl>_fifo.
+                                                                 <7:6> = Flip syndrome for p2n0_tlp_<p,n,cpl>_fifo.
+                                                                 <5>   = Correction disable for p2n1_tlp_<p, n, cpl>_fifo.
+                                                                 <4:3> = Flip syndrome for p2n1_tlp_<p,n,cpl>_fifo.
+                                                                 <2>   = Correction disable for p2n2_tlp_<p, n, cpl>_fifo.
+                                                                 <1:0> = Flip syndrome for p2n2_tlp_<p,n,cpl>_fifo. */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_slix_mem_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_30_63        : 34;
@@ -1100,8 +1506,75 @@ typedef union
                                                                  <1:0> = Flip Syndrome for p2n2_tlp_<p,n,cpl>_fifo. */
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_slix_mem_ctl_s cn; */
+    } cn88xx;
+    struct bdk_slix_mem_ctl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_39_63        : 25;
+        uint64_t ctl                   : 39; /**< [ 38:  0](R/W) Control memory ECC functionality.
+                                                                 <38>    = Correction disable for csr_region_mem_csr_cor_dis.
+                                                                 <37:36> = Flip syndrome for csr_region_mem_csr_flip_synd.
+
+                                                                 <35>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <34:33> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <32>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <31:30> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <29>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <28:27> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <26>    = Correction disable for sndf<h,l>3_ffifo, sncf3_ffifo_csr_cor_dis.
+                                                                 <25:24> = Flip syndrome for sndf<h,l>3_ffifo, sncf3_ffifo_csr_flip_synd.
+
+                                                                 <23>    = Correction disable for cpl0_fifo_csr_cor_dis.
+                                                                 <22:21> = Flip syndrome for cpl0_fifo_csr_flip_synd.
+                                                                 <20>    = Correction disable for cpl1_fifo_csr_cor_dis.
+                                                                 <19:18> = Flip syndrome for cpl1_fifo_csr_flip_synd.
+                                                                 <17>    = Correction disable for cpl2_fifo_csr_cor_dis.
+                                                                 <16:15>  = Flip syndrome for cpl2_fifo_csr_flip_synd.
+                                                                 <14>    = Correction disable for cpl3_fifo_csr_cor_dis.
+                                                                 <13:12>  = Flip syndrome for cpl3_fifo_csr_flip_synd.
+
+                                                                 <11>   = Correction disable for p2n0_tlp_<p, n, cpl>_fifo.
+                                                                 <10:9> = Flip syndrome for p2n0_tlp_<p,n,cpl>_fifo.
+                                                                 <8>   = Correction disable for p2n1_tlp_<p, n, cpl>_fifo.
+                                                                 <7:6> = Flip syndrome for p2n1_tlp_<p,n,cpl>_fifo.
+                                                                 <5>   = Correction disable for p2n2_tlp_<p, n, cpl>_fifo.
+                                                                 <4:3> = Flip syndrome for p2n2_tlp_<p,n,cpl>_fifo.
+                                                                 <2>   = Correction disable for p2n3_tlp_<p, n, cpl>_fifo.
+                                                                 <1:0> = Flip syndrome for p2n3_tlp_<p,n,cpl>_fifo. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctl                   : 39; /**< [ 38:  0](R/W) Control memory ECC functionality.
+                                                                 <38>    = Correction disable for csr_region_mem_csr_cor_dis.
+                                                                 <37:36> = Flip syndrome for csr_region_mem_csr_flip_synd.
+
+                                                                 <35>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <34:33> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <32>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <31:30> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <29>    = Correction disable for sndf<h,l>2_ffifo, sncf2_ffifo_csr_cor_dis.
+                                                                 <28:27> = Flip syndrome for sndf<h,l>2_ffifo, sncf2_ffifo_csr_flip_synd.
+                                                                 <26>    = Correction disable for sndf<h,l>3_ffifo, sncf3_ffifo_csr_cor_dis.
+                                                                 <25:24> = Flip syndrome for sndf<h,l>3_ffifo, sncf3_ffifo_csr_flip_synd.
+
+                                                                 <23>    = Correction disable for cpl0_fifo_csr_cor_dis.
+                                                                 <22:21> = Flip syndrome for cpl0_fifo_csr_flip_synd.
+                                                                 <20>    = Correction disable for cpl1_fifo_csr_cor_dis.
+                                                                 <19:18> = Flip syndrome for cpl1_fifo_csr_flip_synd.
+                                                                 <17>    = Correction disable for cpl2_fifo_csr_cor_dis.
+                                                                 <16:15>  = Flip syndrome for cpl2_fifo_csr_flip_synd.
+                                                                 <14>    = Correction disable for cpl3_fifo_csr_cor_dis.
+                                                                 <13:12>  = Flip syndrome for cpl3_fifo_csr_flip_synd.
+
+                                                                 <11>   = Correction disable for p2n0_tlp_<p, n, cpl>_fifo.
+                                                                 <10:9> = Flip syndrome for p2n0_tlp_<p,n,cpl>_fifo.
+                                                                 <8>   = Correction disable for p2n1_tlp_<p, n, cpl>_fifo.
+                                                                 <7:6> = Flip syndrome for p2n1_tlp_<p,n,cpl>_fifo.
+                                                                 <5>   = Correction disable for p2n2_tlp_<p, n, cpl>_fifo.
+                                                                 <4:3> = Flip syndrome for p2n2_tlp_<p,n,cpl>_fifo.
+                                                                 <2>   = Correction disable for p2n3_tlp_<p, n, cpl>_fifo.
+                                                                 <1:0> = Flip syndrome for p2n3_tlp_<p,n,cpl>_fifo. */
+        uint64_t reserved_39_63        : 25;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_slix_mem_ctl_t;
 
 static inline uint64_t BDK_SLIX_MEM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1199,7 +1672,11 @@ typedef union
 static inline uint64_t BDK_SLIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x874010000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=4)))
+        return 0x874010000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x874010000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -1240,7 +1717,11 @@ typedef union
 static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x874010000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=4)))
+        return 0x874010000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x874010000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -1430,7 +1911,11 @@ typedef union
 static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
+        return 0x874001002080ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x874001002080ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
         return 0x874001002080ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_S2M_MACX_CTL", 2, a, b, 0, 0);
 }

@@ -956,15 +956,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t hws                   : 8;  /**< [ 63: 56](RO) Number of hardware work slots. */
-        uint64_t taq_b                 : 8;  /**< [ 55: 48](RAZ) Number of TAQ entry lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
-        uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ entries per line.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
+        uint64_t taq_b                 : 8;  /**< [ 55: 48](RAZ) Number of TAQ entries per line.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
+        uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
         uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries. */
         uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of groups. */
 #else /* Word 0 - Little Endian */
         uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of groups. */
         uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries. */
-        uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ entries per line.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
-        uint64_t taq_b                 : 8;  /**< [ 55: 48](RAZ) Number of TAQ entry lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
+        uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
+        uint64_t taq_b                 : 8;  /**< [ 55: 48](RAZ) Number of TAQ entries per line.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
         uint64_t hws                   : 8;  /**< [ 63: 56](RO) Number of hardware work slots. */
 #endif /* Word 0 - End */
     } s;
@@ -999,13 +999,15 @@ typedef union
     struct bdk_sso_const1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_44_63        : 20;
+        uint64_t maps                  : 12; /**< [ 43: 32](RO) Number of entries in SSO_PF_MAP(). */
         uint64_t xae_waes              : 16; /**< [ 31: 16](RO) Number of WAEs (work entries) in a XAQ buffer. */
         uint64_t xaq_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a XAQ buffer. */
 #else /* Word 0 - Little Endian */
         uint64_t xaq_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a XAQ buffer. */
         uint64_t xae_waes              : 16; /**< [ 31: 16](RO) Number of WAEs (work entries) in a XAQ buffer. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t maps                  : 12; /**< [ 43: 32](RO) Number of entries in SSO_PF_MAP(). */
+        uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_const1_s cn; */
@@ -3417,8 +3419,8 @@ static inline uint64_t BDK_SSO_PAGE_CNT_FUNC(void)
  * Register (NCB) sso_pf_map#
  *
  * SSO PF VF Mapping Registers
- * These registers map GMIDs and guest groups to hardware groups. Regardless of this
- * mapping, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one mapping of
+ * These registers map GMIDs and guest groups to hardware groups. Regardless of these
+ * registers, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one mapping of
  * GGRP into VHGRP.
  */
 typedef union
@@ -3454,7 +3456,7 @@ typedef union
 static inline uint64_t BDK_SSO_PF_MAPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MAPX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=95))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=71))
         return 0x860000004000ll + 8ll * ((a) & 0x7f);
     __bdk_csr_fatal("SSO_PF_MAPX", 1, a, 0, 0, 0);
 }
@@ -4989,7 +4991,9 @@ typedef union
                                                                  <50> = Work-slot CAM access. (arbc).
                                                                  <49> = Work-slot RAM access. (arbr).
                                                                  <48> = Work-slot pushes to AQ, CQ, DQ. (arbq). */
-        uint64_t reserved_7_47         : 41;
+        uint64_t reserved_8_47         : 40;
+        uint64_t sai_flush             : 1;  /**< [  7:  7](R/W1) When written with one, send a pulse to invalidate the VHWS switch tag cache
+                                                                 inside the cores.  Reads as zero. For diagnostic use only. */
         uint64_t aw_clk_dis            : 1;  /**< [  6:  6](R/W) Reserved. */
         uint64_t gw_clk_dis            : 1;  /**< [  5:  5](R/W) Reserved. */
         uint64_t disable_pw            : 1;  /**< [  4:  4](R/W) Reserved. */
@@ -5005,7 +5009,9 @@ typedef union
         uint64_t disable_pw            : 1;  /**< [  4:  4](R/W) Reserved. */
         uint64_t gw_clk_dis            : 1;  /**< [  5:  5](R/W) Reserved. */
         uint64_t aw_clk_dis            : 1;  /**< [  6:  6](R/W) Reserved. */
-        uint64_t reserved_7_47         : 41;
+        uint64_t sai_flush             : 1;  /**< [  7:  7](R/W1) When written with one, send a pulse to invalidate the VHWS switch tag cache
+                                                                 inside the cores.  Reads as zero. For diagnostic use only. */
+        uint64_t reserved_8_47         : 40;
         uint64_t ocla_bp               : 8;  /**< [ 55: 48](R/W) Enable OCLA backpressure stalls. For diagnostic use only.
                                                                  Internal:
                                                                  <55> = NCBB input fifo stall (ncbo).
@@ -5315,13 +5321,17 @@ typedef union
         uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved.
                                                                  Internal:
                                                                  Node number of current chip, to ensure that the aura is on the local node. */
-        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA local-node aura to use for SSO XAQ allocations and frees. The FPA aura
+        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA guest-aura to use for SSO XAQ allocations and frees. The FPA guest-aura
                                                                  selected by LAURA must correspond to a pool where the buffers (after any
-                                                                 FPA_POOL()_CFG[BUF_OFFSET]) are at least 4 KB. */
+                                                                 FPA_POOL()_CFG[BUF_OFFSET]) are at least 4 KB.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and SSO_XAQ_GMCTL[GMID] as valid. */
 #else /* Word 0 - Little Endian */
-        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA local-node aura to use for SSO XAQ allocations and frees. The FPA aura
+        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA guest-aura to use for SSO XAQ allocations and frees. The FPA guest-aura
                                                                  selected by LAURA must correspond to a pool where the buffers (after any
-                                                                 FPA_POOL()_CFG[BUF_OFFSET]) are at least 4 KB. */
+                                                                 FPA_POOL()_CFG[BUF_OFFSET]) are at least 4 KB.
+                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
+                                                                 [AURA] and SSO_XAQ_GMCTL[GMID] as valid. */
         uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved.
                                                                  Internal:
                                                                  Node number of current chip, to ensure that the aura is on the local node. */
@@ -5360,10 +5370,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer
-                                                                 free/allocates. Must be non-zero or FPA will drop requests. */
+                                                                 free/allocates.
+                                                                 Must be non-zero or FPA will drop requests; see FPA_PF_MAP(). */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer
-                                                                 free/allocates. Must be non-zero or FPA will drop requests. */
+                                                                 free/allocates.
+                                                                 Must be non-zero or FPA will drop requests; see FPA_PF_MAP(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;

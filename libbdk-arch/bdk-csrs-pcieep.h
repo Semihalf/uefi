@@ -1041,17 +1041,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t ml                    : 8;  /**< [ 31: 24](RO) Maximum latency (hardwired to 0x0). */
         uint32_t mg                    : 8;  /**< [ 23: 16](RO) Minimum grant (hardwired to 0x0). */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
-                                                                 function) uses. The interrupt pin register is writable through PEM()_CFG_WR. In a
-                                                                 single-function configuration, only INTA is used. Therefore, the application must not
-                                                                 change this field. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin (not supported). */
         uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
 #else /* Word 0 - Little Endian */
         uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin. Identifies the legacy interrupt message that the device (or device
-                                                                 function) uses. The interrupt pin register is writable through PEM()_CFG_WR. In a
-                                                                 single-function configuration, only INTA is used. Therefore, the application must not
-                                                                 change this field. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin (not supported). */
         uint32_t mg                    : 8;  /**< [ 23: 16](RO) Minimum grant (hardwired to 0x0). */
         uint32_t ml                    : 8;  /**< [ 31: 24](RO) Maximum latency (hardwired to 0x0). */
 #endif /* Word 0 - End */
@@ -1109,12 +1103,12 @@ typedef union
         uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to 0. */
         uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the MSI capabilities by default, writable through
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to PCI Express capabilities by default, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
 #else /* Word 0 - Little Endian */
         uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the MSI capabilities by default, writable through
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to PCI Express capabilities by default, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
@@ -1228,242 +1222,6 @@ static inline uint64_t BDK_PCIEEPX_CFG017(unsigned long a)
 #define basename_BDK_PCIEEPX_CFG017(a) "PCIEEPX_CFG017"
 #define busnum_BDK_PCIEEPX_CFG017(a) (a)
 #define arguments_BDK_PCIEEPX_CFG017(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieep#_cfg020
- *
- * PCIe EP PF MSI Capability ID/MSI Next Item Pointer/MSI Control Register
- * This register contains the twenty-first 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepx_cfg020_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_25_31        : 7;
-        uint32_t pvm                   : 1;  /**< [ 24: 24](RO) Per-vector masking capable. */
-        uint32_t m64                   : 1;  /**< [ 23: 23](RO/WRSL) 64-bit address capable, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-        uint32_t mme                   : 3;  /**< [ 22: 20](R/W) Multiple message enabled. Indicates that multiple message mode is enabled by system
-                                                                 software. The number of messages enabled must be less than or equal to the multiple
-                                                                 message capable (MMC) value. */
-        uint32_t mmc                   : 3;  /**< [ 19: 17](RO/WRSL) Multiple message capable, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-        uint32_t msien                 : 1;  /**< [ 16: 16](R/W) MSI enabled. When set, INTx must be disabled. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to PCI Express capabilities by default, writable through
-                                                                 PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t msicid                : 8;  /**< [  7:  0](RO) MSI capability ID. */
-#else /* Word 0 - Little Endian */
-        uint32_t msicid                : 8;  /**< [  7:  0](RO) MSI capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to PCI Express capabilities by default, writable through
-                                                                 PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t msien                 : 1;  /**< [ 16: 16](R/W) MSI enabled. When set, INTx must be disabled. */
-        uint32_t mmc                   : 3;  /**< [ 19: 17](RO/WRSL) Multiple message capable, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-        uint32_t mme                   : 3;  /**< [ 22: 20](R/W) Multiple message enabled. Indicates that multiple message mode is enabled by system
-                                                                 software. The number of messages enabled must be less than or equal to the multiple
-                                                                 message capable (MMC) value. */
-        uint32_t m64                   : 1;  /**< [ 23: 23](RO/WRSL) 64-bit address capable, writable through PEM()_CFG_WR. However, the application must
-                                                                 not change this field. */
-        uint32_t pvm                   : 1;  /**< [ 24: 24](RO) Per-vector masking capable. */
-        uint32_t reserved_25_31        : 7;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg020_s cn; */
-} bdk_pcieepx_cfg020_t;
-
-static inline uint64_t BDK_PCIEEPX_CFG020(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPX_CFG020(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x30000000050ll + 0x100000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("PCIEEPX_CFG020", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPX_CFG020(a) bdk_pcieepx_cfg020_t
-#define bustype_BDK_PCIEEPX_CFG020(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPX_CFG020(a) "PCIEEPX_CFG020"
-#define busnum_BDK_PCIEEPX_CFG020(a) (a)
-#define arguments_BDK_PCIEEPX_CFG020(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieep#_cfg021
- *
- * PCIe EP PF MSI Lower 32 Bits Address Register
- * This register contains the twenty-second 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepx_cfg021_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lmsi                  : 30; /**< [ 31:  2](R/W) Lower 32-bit address. */
-        uint32_t reserved_0_1          : 2;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_1          : 2;
-        uint32_t lmsi                  : 30; /**< [ 31:  2](R/W) Lower 32-bit address. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg021_s cn; */
-} bdk_pcieepx_cfg021_t;
-
-static inline uint64_t BDK_PCIEEPX_CFG021(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPX_CFG021(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x30000000054ll + 0x100000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("PCIEEPX_CFG021", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPX_CFG021(a) bdk_pcieepx_cfg021_t
-#define bustype_BDK_PCIEEPX_CFG021(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPX_CFG021(a) "PCIEEPX_CFG021"
-#define busnum_BDK_PCIEEPX_CFG021(a) (a)
-#define arguments_BDK_PCIEEPX_CFG021(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieep#_cfg022
- *
- * PCIe EP PF MSI Upper 32 Bits Address Register
- * This register contains the twenty-third 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepx_cfg022_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t umsi                  : 32; /**< [ 31:  0](R/W) Upper 32-bit address. */
-#else /* Word 0 - Little Endian */
-        uint32_t umsi                  : 32; /**< [ 31:  0](R/W) Upper 32-bit address. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg022_s cn; */
-} bdk_pcieepx_cfg022_t;
-
-static inline uint64_t BDK_PCIEEPX_CFG022(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPX_CFG022(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x30000000058ll + 0x100000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("PCIEEPX_CFG022", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPX_CFG022(a) bdk_pcieepx_cfg022_t
-#define bustype_BDK_PCIEEPX_CFG022(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPX_CFG022(a) "PCIEEPX_CFG022"
-#define busnum_BDK_PCIEEPX_CFG022(a) (a)
-#define arguments_BDK_PCIEEPX_CFG022(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieep#_cfg023
- *
- * PCIe EP PF MSI Data Register
- * This register contains the twenty-fourth 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepx_cfg023_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t msimd                 : 16; /**< [ 15:  0](R/W) MSI data. Pattern assigned by system software. Bits [4:0] are ORed with MSI_VECTOR to
-                                                                 generate 32 MSI messages per function. */
-#else /* Word 0 - Little Endian */
-        uint32_t msimd                 : 16; /**< [ 15:  0](R/W) MSI data. Pattern assigned by system software. Bits [4:0] are ORed with MSI_VECTOR to
-                                                                 generate 32 MSI messages per function. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg023_s cn; */
-} bdk_pcieepx_cfg023_t;
-
-static inline uint64_t BDK_PCIEEPX_CFG023(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPX_CFG023(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x3000000005cll + 0x100000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("PCIEEPX_CFG023", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPX_CFG023(a) bdk_pcieepx_cfg023_t
-#define bustype_BDK_PCIEEPX_CFG023(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPX_CFG023(a) "PCIEEPX_CFG023"
-#define busnum_BDK_PCIEEPX_CFG023(a) (a)
-#define arguments_BDK_PCIEEPX_CFG023(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieep#_cfg024
- *
- * PCIe EP PF MSI Mask Bits Register
- * This register contains the twenty-fifth 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepx_cfg024_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t msimm                 : 32; /**< [ 31:  0](R/W) MSI mask bits. For each mask bit that is set, the function is prohibited from sending the
-                                                                 associated message. */
-#else /* Word 0 - Little Endian */
-        uint32_t msimm                 : 32; /**< [ 31:  0](R/W) MSI mask bits. For each mask bit that is set, the function is prohibited from sending the
-                                                                 associated message. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg024_s cn; */
-} bdk_pcieepx_cfg024_t;
-
-static inline uint64_t BDK_PCIEEPX_CFG024(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPX_CFG024(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x30000000060ll + 0x100000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("PCIEEPX_CFG024", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPX_CFG024(a) bdk_pcieepx_cfg024_t
-#define bustype_BDK_PCIEEPX_CFG024(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPX_CFG024(a) "PCIEEPX_CFG024"
-#define busnum_BDK_PCIEEPX_CFG024(a) (a)
-#define arguments_BDK_PCIEEPX_CFG024(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieep#_cfg025
- *
- * PCIe EP PF MSI Pending Bits Register
- * This register contains the twenty-sixth 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepx_cfg025_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t msimp                 : 32; /**< [ 31:  0](RO) MSI pending bits. For each pending bit that is set, the function has a pending associated message. */
-#else /* Word 0 - Little Endian */
-        uint32_t msimp                 : 32; /**< [ 31:  0](RO) MSI pending bits. For each pending bit that is set, the function has a pending associated message. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg025_s cn; */
-} bdk_pcieepx_cfg025_t;
-
-static inline uint64_t BDK_PCIEEPX_CFG025(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPX_CFG025(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x30000000064ll + 0x100000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("PCIEEPX_CFG025", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPX_CFG025(a) bdk_pcieepx_cfg025_t
-#define bustype_BDK_PCIEEPX_CFG025(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPX_CFG025(a) "PCIEEPX_CFG025"
-#define busnum_BDK_PCIEEPX_CFG025(a) (a)
-#define arguments_BDK_PCIEEPX_CFG025(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieep#_cfg028
