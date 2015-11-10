@@ -846,9 +846,11 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "Specify the debug logging level during DRAM initialization. Zero\n"
             "disables debug logging. The possible debug levels are:\n"
             "    0: Off, no logging\n"
-            "    1: Logging of initialization at a normal detail level\n"
-            "    2: Trace each initialization sequence\n"
-            "    3: Trace every DRAM controller register write",
+            "    1: Logging of DRAM initialization at a normal detail level\n"
+            "    2: Tracing of specialized DRAM controller sequences, in\n"
+            "       addition to logging level 1.\n"
+            "    3: Trace every DRAM controller register write, in addition to\n"
+            "       logging level 1 and 2.",
     [BDK_CONFIG_DRAM_BOOT_TEST] =
             "Run a short DRAM test after DRAM is initialized as quick check\n"
             "for functionality. This is normally not needed required. Boards\n"
