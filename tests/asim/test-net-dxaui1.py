@@ -112,12 +112,6 @@ wait_for("Main Menu")
 wait_for("=================================")
 wait_for("(INS)Menu choice []:")
 
-send("config multinode 1 quit")
-wait_for("=================================")
-wait_for("Main Menu")
-wait_for("=================================")
-wait_for("(INS)Menu choice []:")
-
 send("tg")
 wait_for("BDK Traffic Generator")
 wait_for("Type \"help\" for a list of commands")
@@ -126,8 +120,6 @@ send("loopback all internal")
 wait_for("(INS)Command>")
 time.sleep(2)
 port = "DXAUI1"
-if "CN88XX" in os.environ["ASIM_CHIP"]:
-    port = "N0.DXAUI1"
 send("default %s" % port)
 wait_for("(INS)Command>")
 send("count 100")
