@@ -30,7 +30,7 @@ STRIP=$(CROSS)strip
 CPPFLAGS = $(BDK_EXTRA_CPPFLAGS)
 CPPFLAGS += -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/${LIBC_DIR}/include -I $(BDK_ROOT)/libfdt
 CFLAGS = -Wall -Wextra -Wno-unused-parameter -Winline -mcpu=thunderx -Os -g -std=gnu99 -fno-asynchronous-unwind-tables
-CFLAGS += -ffunction-sections
+CFLAGS += -ffunction-sections -Winvalid-pch
 
 ASFLAGS = $(CFLAGS)
 

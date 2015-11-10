@@ -36,7 +36,7 @@ deps = $(addsuffix .d, $(basename $(src)))
 # The library depends on the precompiled header and all the object files
 #
 .DEFAULT: $(BDK_ROOT)/libbdk/libbdk.a
-$(BDK_ROOT)/libbdk/libbdk.a: $(BDK_ROOT)/libbdk/bdk.pch $(objs) bdk-functions.o $(BDK_ROOT)/libc/${LIBC_DIR}/lib/libc.a
+$(BDK_ROOT)/libbdk/libbdk.a: $(objs) bdk-functions.o $(BDK_ROOT)/libc/${LIBC_DIR}/lib/libc.a
 	rm -f $@
 	$(AR) qc $@ $(objs) bdk-functions.o
 	rm -rf tmp
@@ -69,22 +69,22 @@ $(BDK_ROOT)/libbdk-hal/if/bdk-microcode-cn8xxx.c: $(BDK_ROOT)/target-bin/ipemain
 	$(BDK_ROOT)/bin/bdk-convert-pki-elf $^ $@
 
 #
-# These are needed to make bdk.pch
+# These are needed to make bdk.h.gch
 # The -M creates the dependencies to stdout
 # The -MP creates fake target for .h files so make won't complain on include changes
 # The -MT changes the target to match our object file name
 #
 deps += $(BDK_ROOT)/libbdk/bdk.d
-$(BDK_ROOT)/libbdk/bdk.pch: $(BDK_ROOT)/libbdk/bdk.h
-	$(CC) -o $@ $(BDK_ROOT)/libbdk/bdk.h
+$(BDK_ROOT)/libbdk/bdk.h.gch: $(BDK_ROOT)/libbdk/bdk.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $(BDK_ROOT)/libbdk/bdk.h
 $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
-	$(CC) -M -MP -MT $(basename $@).pch $(CPPFLAGS) $< > $@
+	$(CC) $(CFLAGS) -M -MP -MT $(basename $@).h.gch $< > $@
+$(objs): $(BDK_ROOT)/libbdk/bdk.h.gch
 
 #
 # These are needed to generate the depends files
 #
-%.pch: %.d
-%.o: %.d $(BDK_ROOT)/libbdk/bdk.pch
+%.o: %.d
 
 #
 # Include all the depends files
@@ -95,10 +95,9 @@ $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
 # Clean targets
 #
 clean:
-	rm -rf $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o
+	rm -rf $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o bdk.h.gch
 distclean: clean
-	rm -f $(deps) bdk.pch
+	rm -f $(deps)
 
-$(BDK_ROOT)/libbdk-os/bdk-init.o: CFLAGS+="-fpic"
-$(BDK_ROOT)/libbdk-hal/if/bdk-if.o: CFLAGS+="-O3"
-$(BDK_ROOT)/libbdk-lua/trafficgen.o: CFLAGS+="-O3"
+$(BDK_ROOT)/libbdk-hal/if/bdk-if.o: CFLAGS+=-O3 -Wno-invalid-pch
+$(BDK_ROOT)/libbdk-lua/trafficgen.o: CFLAGS+=-O3 -Wno-invalid-pch

@@ -2,7 +2,7 @@
 *.a
 *.d
 *.dtb
-*.pch
+*.h.gch
 *.pyc
 *.elf
 *.bin
