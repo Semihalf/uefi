@@ -733,9 +733,28 @@ int bdk_sata_bist_fis(bdk_node_t node, int controller, int port, bdk_sata_bist_f
     /* Select the port we're doing BIST loopback on */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_TESTR(controller),
         c.s.psel = port);
-    /* Select the pattern - High transition density pattern (HTDP) */
+
+    /* Select the pattern */
+    int pattern;
+    switch (mode)
+    {
+        case BDK_SATA_BIST_SW_TX_ONLY_SSOP:
+        case BDK_SATA_BIST_SW_TX_ONLY_HTDP:
+        case BDK_SATA_BIST_SW_TX_ONLY_LTDP:
+        case BDK_SATA_BIST_SW_TX_ONLY_LFSCP:
+        case BDK_SATA_BIST_SW_TX_ONLY_COMP:
+        case BDK_SATA_BIST_SW_TX_ONLY_LBP:
+        case BDK_SATA_BIST_SW_TX_ONLY_MFTP:
+        case BDK_SATA_BIST_SW_TX_ONLY_HFTP:
+        case BDK_SATA_BIST_SW_TX_ONLY_LFTP:
+            pattern = mode - BDK_SATA_BIST_SW_TX_ONLY_SSOP;
+            break;
+        default:
+            pattern = 1; /* HTDP */
+            break;
+    }
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_BISTCR(controller),
-        c.s.pattern = 1);
+        c.s.pattern = pattern);
 
     /*
         Note from the Synopsys SATA bist training video on pattern generation
@@ -784,7 +803,7 @@ int bdk_sata_bist_fis(bdk_node_t node, int controller, int port, bdk_sata_bist_f
         BDK_TRACE(SATA, "N%d.SATA%d: Started Retimed loopback\n", node, controller);
         return 0;
     }
-    else if (mode == BDK_SATA_BIST_SW_TX_ONLY)
+    else if ((mode >= BDK_SATA_BIST_SW_TX_ONLY_SSOP) && (mode <= BDK_SATA_BIST_SW_TX_ONLY_LFTP))
     {
         /* No FIS, just enter local transit only */
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_BISTCR(controller),

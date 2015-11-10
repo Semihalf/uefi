@@ -91,7 +91,15 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_SATA_BIST_FIS_ANALOG);
     push_bdk_enum(BDK_SATA_BIST_FIS_TX_ONLY);
     push_bdk_enum(BDK_SATA_BIST_SW_RETIMED);
-    push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY);
+    push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY_SSOP);
+    push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY_HTDP);
+    push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY_LTDP);
+    push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY_LFSCP);
+    push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY_COMP);
+    push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY_LBP);
+    push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY_MFTP);
+    push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY_HFTP);
+    push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY_LFTP);
 
     /* DRAM testing flags */
     push_bdk_enum(BDK_DRAM_TEST_NO_STOP_ERROR);

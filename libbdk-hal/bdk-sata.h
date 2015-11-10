@@ -20,7 +20,15 @@ typedef enum
     BDK_SATA_BIST_FIS_ANALOG,  /* Send FIS to tell device to enter Analog loopback */
     BDK_SATA_BIST_FIS_TX_ONLY, /* Send FIS to tell device to transit only */
     BDK_SATA_BIST_SW_RETIMED,  /* No FIS, just enter local retimed loopback */
-    BDK_SATA_BIST_SW_TX_ONLY,  /* No FIS, just enter local transit only */
+    BDK_SATA_BIST_SW_TX_ONLY_SSOP,  /* No FIS, just enter local transit only, SSOP pattern */
+    BDK_SATA_BIST_SW_TX_ONLY_HTDP,  /* No FIS, just enter local transit only, HTDP pattern */
+    BDK_SATA_BIST_SW_TX_ONLY_LTDP,  /* No FIS, just enter local transit only, LTDP pattern */
+    BDK_SATA_BIST_SW_TX_ONLY_LFSCP, /* No FIS, just enter local transit only, LFSCP pattern */
+    BDK_SATA_BIST_SW_TX_ONLY_COMP,  /* No FIS, just enter local transit only, COMP pattern */
+    BDK_SATA_BIST_SW_TX_ONLY_LBP,   /* No FIS, just enter local transit only, LBP pattern */
+    BDK_SATA_BIST_SW_TX_ONLY_MFTP,  /* No FIS, just enter local transit only, MFTP pattern */
+    BDK_SATA_BIST_SW_TX_ONLY_HFTP,  /* No FIS, just enter local transit only, HFTP pattern */
+    BDK_SATA_BIST_SW_TX_ONLY_LFTP,  /* No FIS, just enter local transit only, LFTP pattern */
 } bdk_sata_bist_fis_t;
 
 /**

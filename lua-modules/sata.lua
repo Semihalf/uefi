@@ -103,27 +103,6 @@ local function run_auto()
     handle:close()
 end
 
-local function display_bist_errors()
-    local start_time = os.time()
-    local next_print = start_time + 2
-    printf("Displaying BIST FIS error counters. Hit 'x' to exit\n")
-    repeat
-        local key = readline.getkey()
-        local t = os.time()
-        -- Periodically show the counters.
-        if t >= next_print then
-            next_print = next_print + 2
-            -- Our SATA controller is configured for BIST_MODE=FIS which
-            -- only supports the following counters
-            printf("N%d.SATA%d: FIS count: %d, Frame errors: %d\n",
-                   menu.node, sata,
-                   cavium.csr.SATAX_UAHC_GBL_BISTFCTR(sata).count,
-                   cavium.csr.SATAX_UAHC_GBL_BISTSR(sata).framerr)
-        end
-    until (key == 'x') or (key == 'X')
-    printf("\n\nPort still in BIST FIS mode. Reset the SATA port and power cycle the disk to exit\n")
-end
-
 --
 -- Put the menu on the screen
 --
@@ -140,30 +119,29 @@ while (option ~= "quit") do
         local size = cavium.c.bdk_sata_identify(menu.node, sata, 0)
     end)
 
-    m:item("fis-retimed", "Issue BIST FIS - Far-end Retimed Loopback", function()
-        local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_FIS_RETIMED)
-        display_bist_errors()
-    end)
-
-    m:item("fis-analog", "Issue BIST FIS - Far-end Analog Loopback", function()
-        local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.BIST_FIS_ANALOG)
-        display_bist_errors()
-    end)
-
-    m:item("fis-tx", "Issue BIST FIS - Far-end Transmit Only", function()
-        local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_FIS_TX_ONLY)
-        display_bist_errors()
-    end)
-
     m:item("sw-retimed", "Enter Local-end Retimed Loopback", function()
-        local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_SW_RETIMED)
+        printf("Entering Local-end Retimed Loopback\n")
+        cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_SW_RETIMED)
     end)
 
-    m:item("sw-tx", "Enter Local-end Transmit Only", function()
-        local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_SW_TX_ONLY)
-    end)
+    local function add_tx_only(test, descr)
+        m:item("sw-tx%d" % test, "Enter Local-end Transmit Only, %s" % descr, function()
+            printf("Entering %s\n" % descr)
+            cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, test)
+        end)
+    end
+    add_tx_only(cavium.SATA_BIST_SW_TX_ONLY_SSOP, "Simultaneous switching outputs pattern (SSOP)")
+    add_tx_only(cavium.SATA_BIST_SW_TX_ONLY_HTDP, "High transition density pattern (HTDP)");
+    add_tx_only(cavium.SATA_BIST_SW_TX_ONLY_LTDP, "Low transition density pattern (LTDP)");
+    add_tx_only(cavium.SATA_BIST_SW_TX_ONLY_LFSCP,"Low frequency spectral component pattern (LFSCP)");
+    add_tx_only(cavium.SATA_BIST_SW_TX_ONLY_COMP, "Composite pattern (COMP)");
+    add_tx_only(cavium.SATA_BIST_SW_TX_ONLY_LBP,  "Lone bit pattern (LBP)");
+    add_tx_only(cavium.SATA_BIST_SW_TX_ONLY_MFTP, "Mid frequency test pattern (MFTP)");
+    add_tx_only(cavium.SATA_BIST_SW_TX_ONLY_HFTP, "High frequency test pattern (HFTP)");
+    add_tx_only(cavium.SATA_BIST_SW_TX_ONLY_LFTP, "Low frequency test pattern (LFTP)");
 
     m:item("reset", "Reset the controller", function()
+        printf("Resetting the controller\n")
         local status = cavium.c.bdk_sata_shutdown(menu.node, sata)
     end)
 
