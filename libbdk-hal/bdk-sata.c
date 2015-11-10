@@ -366,19 +366,25 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     /* Clear all error bits */
     BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_SERR(controller), -1);
 
-    /* Allow device detection */
-    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
-        c.s.det = 1);
-
-    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SACT(controller),
-        c.s.ds = 1);
-
-    /* Start the port controller */
+    /* Setup the port controller */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
         c.s.fre = 1; /* FIS receive enable */
         c.s.pod = 1; /* Power on the device */
-        c.s.sud = 1; /* Spin up device */
+        c.s.sud = 1); /* Start the controller */
+
+    bdk_wait_usec(1); /* To match RTL sim environment */
+
+    /* Allow device detection */
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
+        c.s.det = 1);
+    bdk_wait_usec(1000); /* 1ms - To match RTL sim environment */
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_SCTL(controller),
+        c.s.det = 0);
+
+    /* Start the port controller */
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
         c.s.st = 1); /* Start the controller */
+
     /* Wait 100ms after starting the controller before proceeding. This seems
        to be needed for an Intel 80G SSD */
     bdk_wait_usec(100000);
