@@ -1,8 +1,8 @@
 
 # Load the CN88XX IOs, one node
-#@${ASIM}/tests/io/cn88xx-1s48p.asim
+#@${ASIM}/configs/cn88xx-1s48p.asim
 # Load the CN88XX IOs, two nodes
-@${ASIM}/tests/io/cn88xx-2s48p.asim
+@${ASIM}/configs/cn88xx-2s48p.asim
 
 # Add io memory regions to conver IO block that aren't simulated
 device io_memory n0.sli0 config 0x100000000 0x874000000000
