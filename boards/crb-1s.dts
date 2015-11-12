@@ -131,11 +131,20 @@ cavium,bdk {
 	    Bits[11:8]: TWSI bus number
 	    Bits[7:0]: TWSI address */
 	//PHY-ADDRESS.N%d.BGX%d.P%d = "-1";
-	// BGX0 (QLM0) is QSFP on MDIO bus 1, address 1
-	PHY-ADDRESS.N0.BGX0.P0 = "0x101";
-	// BGX1 (QLM1) is SFP on MDIO bus 1, address 0
-	PHY-ADDRESS.N0.BGX1.P0 = "0x100";
-	PHY-ADDRESS.N0.BGX1.P1 = "0x100";
+	/* BGX0 (QLM0, Lane 0-3) QSFP+ module uses TBD. This is
+            currently not used by the BDK */
+	/* BGX1 (QLM1, Lane 0) right SFP+ module (near BMC etherent) uses
+            local node, TWSI bus 2, addresses 0x50 and 0x56, with one
+            internal address byte. The addresses are only readable when a
+            1Gbps SFP+ is installed. 0x50 is a read only rom, 0x56 are the
+            modules registers. */
+	PHY-ADDRESS.N0.BGX1.P0 = "0xff012256";
+	/* BGX1 (QLM1, Lane 1) left SFP+ module (near QSFP+) uses local node,
+            TWSI bus 3, addresses 0x50 and 0x56, with one internal address
+            byte. The addresses are only readable when a 1Gbps SFP+ is
+            installed. 0x50 is a read only rom, 0x56 are the modules
+            registers. */
+	PHY-ADDRESS.N0.BGX1.P1 = "0xff012356";
 
 	/* Independent enables for each BGX port of THUNDERX. Use this to
 	disable ports that are not wired on a board. Default is that all
