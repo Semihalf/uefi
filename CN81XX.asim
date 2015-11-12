@@ -25,7 +25,7 @@ control n0.uaa0 connect ${UART0PORT}
 control n0.uaa1 connect ${UART1PORT}
 
 # Load BOOT ROM
-load ${BDK_ROOT}/target-bin/mio_boot_rom $(NODEIOBASE + 0x87d000000000)
+load ${BDK_ROOT}/target-bin/mio_boot_rom-cn81xx $(NODEIOBASE + 0x87d000000000)
 
 # Set GPIO strap pins (boot method)
 # 24bit SPI
