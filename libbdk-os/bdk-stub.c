@@ -67,6 +67,12 @@ caddr_t _sbrk(int incr)
         uint64_t dram_top = dram_mbytes << 20;
         end = bdk_phys_to_ptr(bdk_numa_get_address(bdk_numa_master(), dram_top));
     }
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && bdk_is_platform(BDK_PLATFORM_ASIM))
+    {
+        /* FIXME: The diagnostics binary won't fit in L2 of CN81XX. In asim,
+           lie about the amount of memory for testing. */
+        end = bdk_phys_to_ptr(bdk_numa_get_address(bdk_numa_master(), 4 << 20));
+    }
 
     caddr_t result = next;
 
