@@ -111,7 +111,25 @@ class Board_EVB(Board):
             m.waitforRE("EBB88.. MCU Command>", timeout=15)
 
 #
-# Class for controlling the CRB-2S. Requires an serial relay box for control
+# Class for controlling the CRB-1S
+#
+class Board_CRB_1S(Board):
+    def __init__(self, console, bmc, logObject):
+        Board.__init__(self, console, logObject)
+        self.bmc = bmc
+        self.multinode = False
+
+    def close(self):
+        Board.close(self)
+
+    def powerCycle(self):
+        self.log("Power cycle board")
+        os.system("ipmitool -H %s -U admin -P admin power off" % self.bmc)
+        time.sleep(7)
+        os.system("ipmitool -H %s -U admin -P admin power on" % self.bmc)
+
+#
+# Class for controlling the CRB-2S
 #
 class Board_CRB_2S(Board):
     def __init__(self, console, bmc, logObject):

@@ -7,9 +7,7 @@ def wait_for_main_menu(cnx):
     cnx.match("=================================")
     if cnx.multinode:
         cnx.match("node) Select active node (Currently 0)")
-    cnx.match("setenv) Set environment variable")
-    cnx.match("getenv) Get environment variable")
-    cnx.match("showenv) Show environment variables")
+    cnx.match("tune) DRAM Tuning")
     cnx.match("test) Memory Testing Menu")
     cnx.match("quit) Main menu")
     cnx.match("(INS)Menu choice []:")
@@ -44,7 +42,10 @@ def wait_for_test_menu(cnx):
     cnx.match("spec) Run special DRAM tests")
     cnx.match("abort) Abort on Errors (Currently ON)")
     cnx.match("batch) Batch mode (Currently OFF)")
-    cnx.match("ccpi) Use CCPI cross node (Currently OFF)")
+    if cnx.multinode:
+        cnx.match("ccpi) Use CCPI cross node (Currently OFF)")
+    cnx.match("inject_s) Inject a single bit memory error")
+    cnx.match("inject_d) Inject a double bit memory error")
     cnx.match("quit) Main menu")
     cnx.match("(INS)Menu choice []:")
 

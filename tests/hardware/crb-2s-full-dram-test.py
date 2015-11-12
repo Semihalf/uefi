@@ -8,16 +8,14 @@ USE_WATCHDOG = False
 def run_test(cnx):
     if USE_WATCHDOG:
         cnx.powerCycle()
-        cnx.waitfor("Trying diagnostics", timeout=300)
-        cnx.match("Loading image file '/fatfs/diagnostics.bin'")
-        cnx.match("Verifying image")
+        cnx.waitfor("Verifying image", timeout=300)
         cnx.match("Jumping to image at")
         cnx.waitfor("---")
         test_boot.wait_for_bdk_boot(cnx)
         test_boot.wait_for_main_menu(cnx)
     else:
         test_boot.boot_normal(cnx)
-    test_dram.dram_short(cnx)
+    test_dram.dram_all(cnx)
 
 def main(logName):
     console, mcu1, mcu2 = boards.parseArgs()
@@ -26,4 +24,4 @@ def main(logName):
     cnx.runTestLoop(run_test)
     cnx.close()
 
-main("crb-2s-two-node-short-dram.log")
+main("crb-2s-full-dram.log")

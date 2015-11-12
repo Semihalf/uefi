@@ -10,8 +10,8 @@ def run_test(cnx):
 def main(logName):
     console, mcu1, mcu2 = boards.parseArgs()
     log = connection.Log(logName)
-    cnx = boards.Board_CRB_2S(console=console, bmc=mcu1, logObject=log)
+    cnx = boards.Board_CRB_1S(console=console, bmc=mcu1, logObject=log)
     cnx.runTestLoop(run_test)
     cnx.close()
 
-main("inv-p3e003-two-node-short-dram.log")
+main("crb-1s-short-dram.log")
