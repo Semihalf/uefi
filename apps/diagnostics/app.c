@@ -51,8 +51,9 @@ void __bdk_require_depends(void)
  */
 int main(void)
 {
+    bdk_boot_status(BDK_BOOT_STATUS_DIAG_STARTING);
     bdk_watchdog_disable();
-    bdk_boot_status_ok();
+    bdk_boot_status(BDK_BOOT_STATUS_DIAG_COMPLETE);
     /* Start Lua. It will execute init.lua */
     return bdk_lua_start();
 }

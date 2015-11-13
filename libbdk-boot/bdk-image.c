@@ -133,9 +133,6 @@ int bdk_image_boot(const char *filename, uint64_t loc)
     fflush(NULL);
     BDK_MB;
 
-    /* Send status to the BMC: Boot stub complete */
-    bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_COMPLETE);
-
     if (bdk_watchdog_is_running())
     {
         /* Software wants the watchdog running with a 15 second timout */

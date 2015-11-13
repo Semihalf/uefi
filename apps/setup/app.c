@@ -57,7 +57,6 @@ void item_reboot(bdk_menu_t *menu, char key, void *arg)
 int main(void)
 {
     bdk_watchdog_disable();
-    bdk_boot_status_ok();
 
     bdk_menu_t menu;
     while (1)

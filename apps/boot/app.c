@@ -28,7 +28,6 @@ void __bdk_require_depends(void)
 
 void boot_menu(void)
 {
-    bdk_boot_status_ok();
     bdk_menu_t menu;
     while (1)
     {
@@ -126,6 +125,7 @@ int main(void)
 
     /* Drive GPIO 10 high, signalling success transferring from the boot ROM */
     bdk_gpio_initialize(node, 10, 1, 1);
+    bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_STARTING);
 
     /* Get the address of the version field in our header */
     uint64_t version_offset = offsetof(bdk_image_header_t, version);
@@ -177,6 +177,8 @@ int main(void)
         bdk_image_boot("/fatfs/init.bin", 0);
     }
 
+    bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_WAITING_FOR_KEY);
+
     int boot_timeout = bdk_config_get_int(BDK_CONFIG_BOOT_MENU_TIMEOUT);
     printf("\nPress 'B' within %d seconds for boot menu\n", boot_timeout);
     int key;
@@ -186,7 +188,13 @@ int main(void)
     } while ((key != -1) && (key != 'B') && (key != 'b'));
 
     if (key == -1)
+    {
+        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NO_BOOT_MENU_KEY);
         bdk_image_boot("/fatfs/init.bin", 0);
+        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_LOAD_FAILED);
+    }
+    else
+        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_BOOT_MENU_KEY);
 
 menu:
     boot_menu();

@@ -266,8 +266,7 @@ int main(int argc, const char **argv)
     bdk_watchdog_set(0);
 
     /* Send status to the BMC: Started boot stub */
-    bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_STARTING);
-
+    bdk_boot_status(BDK_BOOT_STATUS_INIT_STARTING);
 
     printf(
         "=========================\n"
@@ -277,27 +276,33 @@ int main(int argc, const char **argv)
         "\n",
         bdk_version_string());
 
-
     bdk_watchdog_poke();
-
 
     if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
+        bdk_boot_status(BDK_BOOT_STATUS_INIT_NODE0_DRAM);
         bdk_boot_dram(bdk_numa_master(), MFG_SYSTEM_LEVEL_TEST); /* Initialize DRAM on node 0 */
-        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
+        // FIXME: Failure?
+        bdk_boot_status(BDK_BOOT_STATUS_INIT_NODE0_DRAM_COMPLETE);
 
+        bdk_boot_status(BDK_BOOT_STATUS_INIT_CCPI);
         bdk_boot_ccpi();     /* Set up CCPI */
-        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_CCPI_COMPLETE);
+        // FIXME: Failure?
+        bdk_boot_status(BDK_BOOT_STATUS_INIT_CCPI_COMPLETE);
 
         if (bdk_numa_exists(BDK_NODE_1))
         {
             bdk_boot_info_strapping(BDK_NODE_1);
+            bdk_boot_status(BDK_BOOT_STATUS_INIT_NODE1_DRAM);
             bdk_boot_dram(BDK_NODE_1, MFG_SYSTEM_LEVEL_TEST); /* Initialize DRAM on node 1 */
-            bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
+            // FIXME: Failure?
+            bdk_boot_status(BDK_BOOT_STATUS_INIT_NODE1_DRAM_COMPLETE);
         }
 
+        bdk_boot_status(BDK_BOOT_STATUS_INIT_QLM);
         bdk_boot_qlm();
-        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_QLM_COMPLETE);
+        // FIXME: Failure?
+        bdk_boot_status(BDK_BOOT_STATUS_INIT_QLM_COMPLETE);
 
         bdk_boot_bgx();
         bdk_boot_usb();
@@ -323,9 +328,9 @@ int main(int argc, const char **argv)
     int boot_path = bdk_config_get_int(BDK_CONFIG_BOOT_PATH_OPTION);
     int use_atf = (boot_path == 0); /* 0 = normal, 1 - diagnostics */
     if (use_atf)
-        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_LOADING_ATF);
+        bdk_boot_status(BDK_BOOT_STATUS_INIT_LOAD_ATF);
     else
-        bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_LOADING_DIAGNOSTICS);
+        bdk_boot_status(BDK_BOOT_STATUS_INIT_LOAD_DIAGNOSTICS);
 
     /* Transfer control to next image */
     if (use_atf)
@@ -333,6 +338,7 @@ int main(int argc, const char **argv)
         /* Try to load ATF image from raw flash */
         BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
         bdk_image_boot("/boot", ATF_ADDRESS);
+        bdk_boot_status(BDK_BOOT_STATUS_INIT_LOAD_FAILED);
         bdk_error("Unable to load image\n");
         printf("Trying diagnostics\n");
     }
@@ -340,5 +346,6 @@ int main(int argc, const char **argv)
     /* Load Diagnostics from FAT fs */
     BDK_TRACE(BOOT_STUB, "Looking for Diagnostics image\n");
     bdk_image_boot("/fatfs/diagnostics.bin", 0);
+    bdk_boot_status(BDK_BOOT_STATUS_INIT_LOAD_FAILED);
 }
 
