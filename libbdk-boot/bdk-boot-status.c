@@ -18,10 +18,10 @@ void bdk_boot_status(bdk_boot_status_t status)
     {
         BDK_CSR_DEFINE(sw_twsi, BDK_MIO_TWSX_SW_TWSI(twsi));
         sw_twsi.u = 0;
+        sw_twsi.s.v = 1; /* Valid data */
         sw_twsi.s.slonly = 1; /* Slave only */
         sw_twsi.s.data = status;
         BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(twsi), sw_twsi.u);
-        BDK_CSR_READ(node, BDK_MIO_TWSX_SW_TWSI(twsi));
     }
 
     /* As a special case, power cycle will display a message and try a
