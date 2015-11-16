@@ -15,7 +15,7 @@ typedef enum
     /* Codes for boot stub */
     BDK_BOOT_STATUS_BOOT_STUB_STARTING              = 0x000,
     BDK_BOOT_STATUS_BOOT_STUB_WAITING_FOR_KEY       = 0x001,
-    BDK_BOOT_STATUS_BOOT_STUB_BOOT_MENU_KEY         = 0x082, /* Signal boot complete as stopped by user */
+    BDK_BOOT_STATUS_BOOT_STUB_BOOT_MENU_KEY         = 0x102, /* Signal boot complete as stopped by user */
     BDK_BOOT_STATUS_BOOT_STUB_NO_BOOT_MENU_KEY      = 0x003,
     BDK_BOOT_STATUS_BOOT_STUB_LOAD_FAILED           = 0x004,
     /* Codes for init.bin */
@@ -37,7 +37,7 @@ typedef enum
     BDK_BOOT_STATUS_INIT_LOAD_FAILED                = 0x014,
     /* Codes for diagnostics.bin */
     BDK_BOOT_STATUS_DIAG_STARTING                   = 0x015,
-    BDK_BOOT_STATUS_DIAG_COMPLETE                   = 0x096, /* Signal boot complete */
+    BDK_BOOT_STATUS_DIAG_COMPLETE                   = 0x116, /* Signal boot complete */
     /* Special codes */
     BDK_BOOT_STATUS_REQUEST_POWER_CYCLE             = 0x0f2, /* Don't continue, power cycle */
 } bdk_boot_status_t;
