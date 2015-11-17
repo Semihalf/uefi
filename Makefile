@@ -146,7 +146,7 @@ endif
 
 # Default build string (git branch and commit)
 ifeq (${BUILD_STRING},)
-        BUILD_STRING	:=	$(shell git log -n 1 --pretty=format:"%h")
+	BUILD_STRING    :=      $(shell git describe --long --tags --dirty --always)
 endif
 VERSION_STRING		:=	v${VERSION_MAJOR}.${VERSION_MINOR}(${BUILD_TYPE}):${BUILD_STRING}
 
