@@ -1,1 +1,24 @@
-crb-2s-evt3.dts
+/dts-v1/;
+
+/include/ "crb-2s-common.dtsi"
+
+/ {
+cavium,bdk {
+	/* This specifies a watchdog timer should run during boot and reset
+	the chip if boot hangs for some reason. The timeout is specified
+	in milliseconds. Zero disables the watchdog. */
+	WATCHDOG-TIMEOUT = "10000";
+
+	/* The 100Mhz reference clock was only supported on the EVT4 and later
+	designs. Override the setting of DDR-ALT-REFCLK for the EVT2 and EVT3 */
+	DDR-ALT-REFCLK = "0";
+
+	/* Run a short DRAM test after DRAM is initialized as quick check
+	for functionality. This is normally not needed required. Boards
+	with poor DRAM power supplies may use this to detect failures
+	during boot. This should be used in combination with the watchdog
+	timer. */
+	DDR-TEST-BOOT = "1";
+};
+};
+

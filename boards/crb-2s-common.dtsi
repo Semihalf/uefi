@@ -11,7 +11,6 @@ cavium,bdk {
 	the chip if boot hangs for some reason. The timeout is specified
 	in milliseconds. Zero disables the watchdog. */
 	//WATCHDOG-TIMEOUT = "0";
-	WATCHDOG-TIMEOUT = "10000";
 
 	/* Allow a sequence of TWSI writes to be performed during boot. Each
 	string in the list line is executed in sequence. The TWSI write
