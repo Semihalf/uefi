@@ -815,6 +815,7 @@ static void pack_rlevel_settings(int ddr_interface_bytemask, int ecc_ena,
     lmc_rlevel_rank.s.byte3 = rlevel_byte[3].delay;
     lmc_rlevel_rank.s.byte2 = rlevel_byte[2].delay;
     lmc_rlevel_rank.s.byte1 = rlevel_byte[1].delay;
+    lmc_rlevel_rank.s.byte0 = rlevel_byte[0].delay;
 
     *final_rlevel_rank = lmc_rlevel_rank;
 }
