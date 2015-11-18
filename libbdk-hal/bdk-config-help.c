@@ -130,6 +130,15 @@ const char* bdk_config_get_help(bdk_config_t cfg_item)
             "    1 = Enhanced Allocation is supported\n"
             "Note EA is not supported on CN88XX pass 1.x, and is always\n"
             "disabled.",
+    [BDK_CONFIG_CCPI_LANE_REVERSE] =
+            "Force CCPI lane reversal. This should be set for boards which\n"
+            "reverse the CCPI lanes between nodes. If lane 0 connects to lane\n"
+            "23, this option is needed. CN88XX pass 2.0 and higher automatically\n"
+            "detect lane reversal, so setting this is optional.\n"
+            "    0 = Automatically detect lane reversal, no lane reversal on\n"
+            "        CN88XX pass 1.x.\n"
+            "    1 = Force lane reversal, required on CN88XX pass 1.0 with CCPI\n"
+            "        lanes reversed.",
     /* QLM related config */
     [BDK_CONFIG_QLM_AUTO_CONFIG] =
             "For Cavium evaluation boards, query the MCU for QLM setup\n"
