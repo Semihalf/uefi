@@ -163,6 +163,13 @@ static bdk_config_info_t config_info[__BDK_CONFIG_END] = {
         .min_value = 0,
         .max_value = 1,
     },
+    [BDK_CONFIG_CCPI_LANE_REVERSE] = {
+        .format = "CCPI-LANE-REVERSE", /* No parameters */
+        .ctype = BDK_CONFIG_TYPE_INT,
+        .default_value = 0, /* 0 = No forced lane reversal, 1 = forced lane reversal */
+        .min_value = 0,
+        .max_value = 1,
+    },
 
     /* QLM related config */
     [BDK_CONFIG_QLM_AUTO_CONFIG] = {
