@@ -91,8 +91,7 @@ endif
 ifeq ($(shell test -d .git;echo $$?),0)
     # Using git
     BUILD_REV := $(shell git describe --always --dirty)
-    BUILD_BRANCH := $(shell git status | grep "On branch")
-    BUILD_BRANCH := $(word 3, $(BUILD_BRANCH))
+    BUILD_BRANCH := $(shell git describe --all)
 else
     # Don't know the version control system
     BUILD_REV=unknown
