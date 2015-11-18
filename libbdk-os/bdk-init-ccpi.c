@@ -11,9 +11,6 @@ BDK_REQUIRE_DEFINE(CCPI);
    multi-node. Only after these functions have brought CCPI into a work state
    can the node functions in bdk-init.c start using the other nodes */
 
-#define CCPI_LANE_TIMEOUT 3 /* Seconds to wait for CCPI lanes */
-#define CCPI_LINK_TIMEOUT 10 /* Seconds to wait for CCPI links */
-#define CCPI_MIN_LANES 24
 #define MAX_LINKS 3
 typedef struct
 {
@@ -145,39 +142,6 @@ static inline int is_ccpi_link_good(bdk_ocx_com_linkx_ctl_t linkx_ctl)
 }
 
 /**
- * Read OCX setup used to determine which QLMs connect to which links
- *
- * @param node   Node to query
- * @param link   Link to query
- *
- * @return QLM mask of CCPI QLMs being used
- */
-static int ccpi_get_qlm_select(bdk_node_t node, int link)
-{
-    BDK_CSR_INIT(qlmx_cfg2, node, BDK_OCX_QLMX_CFG(2));
-    BDK_CSR_INIT(qlmx_cfg3, node, BDK_OCX_QLMX_CFG(3));
-
-    /* Determine which QLMs a link uses */
-    int qlm_select = 0;
-    /* qlmx_cfg2[ser_local]=1 means QLM2 is to link 1 */
-    /* qlmx_cfg3[ser_local]=1 means QLM3 is to link 1 */
-    switch (link)
-    {
-        case 0:
-            qlm_select = (qlmx_cfg2.s.ser_local) ? 0x3 : 0x7;
-            break;
-        case 1:
-            qlm_select = (qlmx_cfg2.s.ser_local) ? 0x4 : 0x0;
-            qlm_select |= (qlmx_cfg3.s.ser_local) ? 0x8 : 0x0;
-            break;
-        case 2:
-            qlm_select = (qlmx_cfg3.s.ser_local) ? 0x30 : 0x38;
-            break;
-    }
-    return qlm_select;
-}
-
-/**
  * Workaround various errata with CCPI. Call before attempting to bringup an active
  * multi-node system. The CCPI links may be active before this call, but they
  * should be idle.
@@ -250,372 +214,6 @@ static int ccpi_report_lane(bdk_node_t node, int show_message)
     if (show_message)
         printf("\n");
     return num_good;
-}
-
-/**
- * Report the status of all configured CCPI links. One means all links are good.
- * Zero means one or more links are bad.
- *
- * @param node   Node to report
- * @param show_message
- *               Show the status of the links to the user
- *
- * @return Good = 1, bad = 0
- */
-static int ccpi_are_links_good(bdk_node_t node, int show_message)
-{
-    int all_good = 1;
-    if (show_message)
-        printf("N%d.CCPI Links:", node);
-    for (int link = 0; link < MAX_LINKS; link++)
-    {
-        /* Check if this link is used. Unused links are ignored */
-        int qlm_mask = ccpi_get_qlm_select(node, link);
-        if (qlm_mask == 0)
-        {
-            if (show_message)
-                printf(" %d(unused)", link);
-            continue;
-        }
-
-        /* Check the high level status bits */
-        BDK_CSR_INIT(link_ctl, node, BDK_OCX_COM_LINKX_CTL(link));
-        if (!is_ccpi_link_good(link_ctl))
-        {
-            if (show_message)
-                printf(" %d(down)", link);
-            all_good = 0; /* Bad link */
-            continue;
-        }
-
-        /* Check if link has credits */
-        BDK_CSR_INIT(ocx_tlkx_lnk_vcx_cnt, node, BDK_OCX_TLKX_LNK_VCX_CNT(link, 0));
-        if (ocx_tlkx_lnk_vcx_cnt.s.count == 0)
-        {
-            if (show_message)
-                printf(" %d(no credits)", link);
-            all_good = 0; /* Bad link, no credits */
-            continue;
-        }
-
-        /* All tests passed, this link is good */
-        if (show_message)
-            printf(" %d(good)", link);
-    }
-
-    if (show_message)
-        printf("\n");
-    return all_good;
-}
-
-/**
- * Enable or disable the CCPI links. While QLM changes are happening, it is
- * necessary to disable the CCPI links to prevent garbage from mistakenly
- * being allow into the chip. This function enable or disables the links.
- *
- * @param node   Node to run on, expected to be the local node
- * @param enable_links
- *               True if CCPI links should be allowed
- * @param enable_align
- *               True if CCPI lane alignment should be allowed
- */
-static void ccpi_set_link_enables(bdk_node_t node, int enable_qlms, int enable_links)
-{
-    /* Make node doesn't reset when we take the link down */
-    if (!enable_links)
-        BDK_CSR_MODIFY(c, node, BDK_RST_OCX, c.s.rst_link = 0);
-
-    /* Change the enables */
-    for (int link = 0; link < MAX_LINKS; link++)
-    {
-        int qlm_select = 0;
-        if (enable_qlms)
-            qlm_select = ccpi_get_qlm_select(node, link);
-        /* Disabling lane alignment immediately stops the link layer */
-        BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
-            c.s.lane_align_dis = !enable_links;
-            c.s.qlm_select = qlm_select);
-        BDK_CSR_MODIFY(c, node, BDK_OCX_COM_LINKX_CTL(link),
-            c.s.reinit = !enable_links;
-            c.s.auto_clr = 0;
-            c.s.drop = !enable_links);
-    }
-}
-
-/**
- * Called when CCPI is in software init mode. This function configured the QLMs for
- * the correct speed. It will not be called if the QLMs are strapped to
- * automatically start, or the QLMs are running after a chip reset.
- *
- * @param node   Node to configure, expected to be the local node
- * @param gbaud  Baud rate to configure the QLMs for
- *
- * @return Zero on success, negative on failure
- */
-static int ccpi_setup_qlms(bdk_node_t node, uint64_t gbaud)
-{
-    /* Change the QLM speed */
-    for (int qlm = 8; qlm < 14; qlm++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_OCX_QLMX_CFG(qlm - 8),
-            c.s.timer_dis = 1);
-        /* Enable training for 10G */
-        if (gbaud >= 10312)
-            BDK_CSR_MODIFY(c, node, BDK_OCX_QLMX_CFG(qlm - 8), c.s.trn_ena = 1);
-        if (bdk_qlm_set_mode(node, qlm, BDK_QLM_MODE_OCI, gbaud, 0))
-            return -1;
-    }
-    return 0;
-}
-
-/**
- * After the QLMs are up and running, this function waits for all CCPI lanes to be
- * ready for use in a CCPI link. This function will wait for up to
- * CCPI_LANE_TIMEOUT seconds to pass or fail.
- *
- * @param node   Node to check lanes on, expected to be the local node
- *
- * @return Zero on success, negative on failure. All lanes must be up for success
- */
-static int ccpi_wait_for_lanes(bdk_node_t node)
-{
-    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(node, BDK_CLOCK_TIME) * CCPI_LANE_TIMEOUT;
-
-    BDK_TRACE(CCPI, "N%d: Waiting for all lanes\n", node);
-    while (1)
-    {
-        /* Check that we haven't waited past our timeout */
-        if (bdk_clock_get_count(BDK_CLOCK_TIME) >= timeout)
-        {
-            BDK_TRACE(CCPI, "N%d:    Timeout waiting for lanes\n", node);
-            break;
-        }
-
-        int good_lanes = 0;
-        /* Check status of the 6 CCPI QLMs */
-        for (int ccpi_qlm = 0; ccpi_qlm < 6; ccpi_qlm++)
-        {
-            BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(ccpi_qlm));
-
-            int stuck_training = 0;
-            /* If training is enabled, check that each lane has completed
-               training. */
-            if (ocx_qlmx_cfg.s.trn_ena)
-            {
-                /* Make sure no lanes are stuck in training */
-                for (int lane = ccpi_qlm * 4; lane < (ccpi_qlm + 1) * 4; lane++)
-                {
-                    int bad = (ocx_qlmx_cfg.s.ser_lane_bad >> (lane & 3)) & 1;
-                    BDK_CSR_INIT(ocx_lnex_trn_ctl, node, BDK_OCX_LNEX_TRN_CTL(lane));
-                    /* CN88XX pass 1.x can get stuck in training. This code
-                       implements a workaround when this is detected. This
-                       is Errata (OCX-23422) */
-                    if (bad && !ocx_lnex_trn_ctl.s.done)
-                    {
-                        stuck_training = 1;
-                        /* We can't start the workaround until both the valid
-                           bits are set */
-                        BDK_CSR_INIT(ocx_lnex_trn_ld, node, BDK_OCX_LNEX_TRN_LD(lane));
-                        if (!ocx_lnex_trn_ld.s.ld_cu_val || !ocx_lnex_trn_ld.s.ld_sr_val)
-                            continue;
-                        /* OCX_LNEX_TRN_LP must be read multiple times as the
-                           valid bit changes dynamically */
-                        BDK_CSR_INIT(ocx_lnex_trn_lp, node, BDK_OCX_LNEX_TRN_LP(lane));
-                        while (!ocx_lnex_trn_lp.s.lp_cu_val)
-                            ocx_lnex_trn_lp.u = BDK_CSR_READ(node, BDK_OCX_LNEX_TRN_LP(lane));
-                        const char *final_status = "";
-                        /* Check if a CU message was lost */
-                        if ((ocx_lnex_trn_ld.s.ld_cu_dat != 0) && (ocx_lnex_trn_ld.s.ld_sr_dat == 0))
-                        {
-                            /* We lost a CU message */
-                            BDK_CSR_DEFINE(trn_ld, BDK_OCX_LNEX_TRN_LD(lane));
-                            trn_ld.u = 0;
-                            BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(lane), trn_ld.u);
-                            BDK_CSR_READ(node, BDK_OCX_LNEX_TRN_LD(lane));
-                            bdk_wait_usec(1);
-                            trn_ld.s.ld_cu_dat = ocx_lnex_trn_ld.s.ld_cu_dat;
-                            BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(lane), trn_ld.u);
-                            bdk_wait_usec(300000);
-                            ocx_lnex_trn_ctl.u = BDK_CSR_READ(node, BDK_OCX_LNEX_TRN_CTL(lane));
-                            if (ocx_lnex_trn_ctl.s.done)
-                                final_status = " (CU lost, fixed)";
-                            else
-                                final_status = " (CU lost)";
-                        }
-                        /* Check if a SR message was lost */
-                        if ((ocx_lnex_trn_ld.s.ld_cu_dat == 0) && (ocx_lnex_trn_ld.s.ld_sr_dat == 0x8000))
-                        {
-                            /* We lost a SR message */
-                            BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(lane), 1);
-                            BDK_CSR_READ(node, BDK_OCX_LNEX_TRN_LD(lane));
-                            bdk_wait_usec(1);
-                            BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(lane), 0x8000);
-                            bdk_wait_usec(300000);
-                            ocx_lnex_trn_ctl.u = BDK_CSR_READ(node, BDK_OCX_LNEX_TRN_CTL(lane));
-                            if (ocx_lnex_trn_ctl.s.done)
-                                final_status = " (SR lost, fixed)";
-                            else
-                                final_status = " (SR lost)";
-                        }
-                        BDK_TRACE(CCPI, "N%d:    Lane %d TRN_LD=0x%lx TRN_LP=0x%lx%s\n",
-                            node, lane, ocx_lnex_trn_ld.u, ocx_lnex_trn_lp.u, final_status);
-                        break; /* Skip other lanes until this one works */
-                    }
-                }
-            }
-            /* Don't bother checking for up lanes if one is stuck in training */
-            if (stuck_training)
-                break;
-
-#if 0       // FIXME: RX equalization
-            /* Do three time to make usre there are no glitches */
-            for (int repeat = 0; repeat < 3; repeat++)
-                while (bdk_qlm_rx_equalization(node, qlm, -1))
-                    bdk_wait_usec(100);
-#endif
-            /* Make sure no lanes are bad, and all lanes are good */
-            if (ocx_qlmx_cfg.s.ser_lane_bad)
-            {
-                BDK_TRACE(CCPI, "N%d:    QLM%d: ready 0x%x, bad 0x%x\n", node,
-                    8 + ccpi_qlm, ocx_qlmx_cfg.s.ser_lane_ready,
-                    ocx_qlmx_cfg.s.ser_lane_bad);
-                ocx_qlmx_cfg.s.ser_lane_bad = 0;
-                ocx_qlmx_cfg.s.ser_lane_ready = 0xf;
-                BDK_CSR_WRITE(node, BDK_OCX_QLMX_CFG(ccpi_qlm), ocx_qlmx_cfg.u);
-                continue;
-            }
-            /* Add the good lanes to the lane count */
-            good_lanes += bdk_dpop(ocx_qlmx_cfg.s.ser_lane_ready);
-        }
-
-        /* Checkif all lanes are good */
-        if (good_lanes == CCPI_MIN_LANES)
-        {
-            BDK_TRACE(CCPI, "N%d:    All CCPI lanes good\n", node);
-            break;
-        }
-    }
-
-    /* Show final lane status to the user */
-    return (ccpi_report_lane(node, bdk_trace_enables & (1ull << BDK_TRACE_ENABLE_CCPI)) == CCPI_MIN_LANES) ? 0 : -1;
-}
-
-/**
- * After all CCPI lanes are known to be running, this function brings up the CCPI
- * links over the lanes. It will wait up to CCPI_LINK_TIMEOUT seconds to pass or
- * fail.
- *
- * @param node   Node to check links on, expected to be the local node
- *
- * @return Zero on success, negative on failure
- */
-static int ccpi_wait_for_links(bdk_node_t node)
-{
-    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(node, BDK_CLOCK_TIME) * CCPI_LANE_TIMEOUT;
-
-    /* Errata (OCX-21847) OCX does not deal with reversed lanes automatically */
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (node == 0))
-    {
-        /* Check that all lanes have scrambler sync */
-        int all_sync = 1;
-        for (int lane = 0; lane < 24; lane++)
-        {
-            BDK_CSR_INIT(status, node, BDK_OCX_LNEX_STATUS(lane));
-            if (!status.s.rx_scrm_sync)
-            {
-                all_sync = 0;
-                break;
-            }
-        }
-
-        /* Check if we need to manually apply lane reversal */
-        BDK_CSR_INIT(ocx_qlmx_cfg0, node, BDK_OCX_QLMX_CFG(0));
-        BDK_CSR_INIT(ocx_qlmx_cfg2, node, BDK_OCX_QLMX_CFG(2));
-        BDK_CSR_INIT(ocx_lne_dbg, node, BDK_OCX_LNE_DBG);
-        if (all_sync && ocx_qlmx_cfg0.s.ser_lane_rev && ocx_qlmx_cfg2.s.ser_lane_rev && !ocx_lne_dbg.s.tx_lane_rev)
-        {
-            printf("N%d.CCPI: Applying lane reversal\n", node);
-            for (int link = 0; link < MAX_LINKS; link++)
-            {
-                /* QLM_SELECT must be zero before changing lane reversal */
-                BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
-                    c.s.qlm_select = 0);
-                /* Set RX lane reversal */
-                BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
-                    c.s.lane_rev = 1);
-            }
-            /* Set TX lane reversal */
-            BDK_CSR_MODIFY(c, node, BDK_OCX_LNE_DBG,
-                c.s.tx_lane_rev = 1);
-            /* Restore the QLM lane select */
-            for (int link = 0; link < MAX_LINKS; link++)
-            {
-                BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
-                    c.s.qlm_select = ccpi_get_qlm_select(node, link));
-            }
-            /* Give the link 100ms to come up */
-            bdk_wait_usec(100000);
-        }
-    }
-
-    /* Finish link reinit */
-    BDK_TRACE(CCPI, "N%d: Waiting for all CCPI links\n", node);
-    uint64_t all_good_timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(node, BDK_CLOCK_TIME)*2;
-    while (1)
-    {
-        /* Check that we haven't waited past our timeout */
-        if (bdk_clock_get_count(BDK_CLOCK_TIME) >= timeout)
-        {
-            BDK_TRACE(CCPI, "N%d:    Timeout waiting for links\n", node);
-            break;
-        }
-
-        /* Loop through all links checking that they are good */
-        int all_good = 1;
-        for (int link = 0; link < MAX_LINKS; link++)
-        {
-            /* Check if this link is used. Unused links are ignored */
-            int qlm_mask = ccpi_get_qlm_select(node, link);
-            if (qlm_mask == 0)
-                continue;
-
-            BDK_CSR_INIT(link_ctl, node, BDK_OCX_COM_LINKX_CTL(link));
-            BDK_CSR_INIT(ocx_tlkx_lnk_vcx_cnt, node, BDK_OCX_TLKX_LNK_VCX_CNT(link, 0));
-            /* Check the high level status bits and if there are credits */
-            if (!is_ccpi_link_good(link_ctl) || (ocx_tlkx_lnk_vcx_cnt.s.count == 0))
-            {
-                all_good = 0; /* Bad link */
-                BDK_TRACE(CCPI, "N%d:    Link %d,up=%d, drop=%d, credit=0x%x, fixing\n",
-                    node, link, link_ctl.s.up, link_ctl.s.drop, ocx_tlkx_lnk_vcx_cnt.s.count);
-                /* Try and fix the link */
-                if (!link_ctl.s.up || !link_ctl.s.drop)
-                {
-                    BDK_CSR_MODIFY(c, node, BDK_OCX_COM_LINKX_CTL(link),
-                        c.s.reinit = 1);
-                    bdk_wait_usec(10000);
-                    BDK_CSR_MODIFY(c, node, BDK_OCX_COM_LINKX_CTL(link),
-                        c.s.reinit = 0);
-                    bdk_wait_usec(10000);
-                }
-                /* Drop gets set during link changes, clear it */
-                BDK_CSR_MODIFY(c, node, BDK_OCX_COM_LINKX_CTL(link),
-                    c.s.drop = 0);
-                bdk_wait_usec(100000);
-                /* This timer represents how long all link need to be up
-                   before we consider everything good */
-                all_good_timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(node, BDK_CLOCK_TIME)*2;
-            }
-        }
-        /* Only declare all links good if they have been up continuously for
-           a minimum amount of time */
-        if (all_good && (bdk_clock_get_count(BDK_CLOCK_TIME) >= all_good_timeout))
-        {
-            BDK_TRACE(CCPI, "N%d:    All links good and stable\n", node);
-            break;
-        }
-    }
-
-    return ccpi_are_links_good(node, bdk_trace_enables & (1ull << BDK_TRACE_ENABLE_CCPI)) ? 0 : -1;
 }
 
 /**
@@ -858,11 +456,6 @@ static int ccpi_setup_nodes(bdk_node_t node)
             else
                 BDK_TRACE(CCPI, "        Remote link %d: Connects to node ID %d\n", rlink, lk_info[link].ctl[rlink].s.id);
             ocx_pp_write(rid, BDK_OCX_COM_LINKX_CTL(rlink), lk_info[link].ctl[rlink].u);
-            /* Reset if link goes down */
-            bdk_rst_ocx_t rst_ocx;
-            rst_ocx.u = ocx_pp_read(rid, BDK_RST_OCX);
-            rst_ocx.s.rst_link |= 1 << rlink;
-            ocx_pp_write(rid, BDK_RST_OCX, rst_ocx.u);
         }
     }
 
@@ -951,53 +544,24 @@ int __bdk_init_ccpi_links(uint64_t gbaud)
     /* Use the link reset control to determine if we've already done CCPI
        setup */
     BDK_CSR_INIT(rst_ocx, node, BDK_RST_OCX);
-    if (rst_ocx.s.rst_link)
-        goto skip_to_node_setup;
-
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    if (rst_ocx.s.rst_link == 0)
     {
-        /* Something is wrong, shutdown links before we make changes */
-        BDK_TRACE(CCPI, "N%d: Disabling CCPI links\n", node);
-        ccpi_set_link_enables(node, 0, 0);
-    }
-
-    /* Check if the QLMs are already up and running */
-    int current_gbaud = bdk_qlm_get_gbaud_mhz(node, 8);
-    if (current_gbaud)
-    {
-        /* Use the already configured hardware speed */
-        gbaud = current_gbaud;
-        BDK_TRACE(CCPI, "N%d: CCPI QLMs are already running at %lu GBaud\n", node, gbaud);
-    }
-    else
-    {
-        BDK_TRACE(CCPI, "N%d: Configuring CCPI QLMs for %lu GBaud\n", node, gbaud);
-        /* QLMs are not configured, set them up */
-        if (ccpi_setup_qlms(node, gbaud))
+        BDK_TRACE(CCPI, "N%d: Applying CCPI errata fixes\n", node);
+        ccpi_errata(node, gbaud);
+        /* We forced the link down before, let it come up now */
+        for (int link = 0; link < 3; link++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
+                c.s.lane_align_dis = 0);
+        }
+        printf("Starting CCPI links\n");
+        /* Bringup the  lanes and links */
+        if (__bdk_init_ccpi_connection(1, gbaud, (1ull << BDK_TRACE_ENABLE_CCPI) & bdk_trace_enables))
             return -1;
+        /* Give the other node time to put the core back in reset */
+        bdk_wait_usec(1000000);
     }
 
-    BDK_TRACE(CCPI, "N%d: Applying CCPI errata fixes\n", node);
-    ccpi_errata(node, gbaud);
-
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-        ccpi_set_link_enables(node, 1, 0);
-    if (ccpi_wait_for_lanes(node))
-        return -1;
-
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-    {
-        BDK_TRACE(CCPI, "N%d: Enabling CCPI links\n", node);
-        ccpi_set_link_enables(node, 1, 1);
-    }
-
-    if (ccpi_wait_for_links(node))
-        return -1;
-
-    BDK_TRACE(CCPI, "N%d: Reseting if a link goes down\n", node);
-    BDK_CSR_MODIFY(c, node, BDK_RST_OCX, c.s.rst_link = 7);
-
-skip_to_node_setup:
     if (node == 0)
     {
         BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);

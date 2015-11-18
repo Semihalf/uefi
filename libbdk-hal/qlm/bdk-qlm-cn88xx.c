@@ -1304,17 +1304,6 @@ static void qlm_init(bdk_node_t node)
         BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
         if (gserx_phy_ctl.s.phy_reset == 0)
         {
-            /* Errata (GSER-26636) KR training coefficient update inverted. As of pass 2
-               this is the hardware default. It doesn't hurt to write it anyway */
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
-                c.s.rx_precorr_chg_dir = 1;
-                c.s.rx_tap1_chg_dir = 1);
-#if 0 /* Disabled 12/17/2015 as GSER-27140 was found to break CCPI at 10G */
-            /* (GSER-27140) SERDES temperature drift sensitivity in receiver */
-            /* Don't apply to pass 1.x as it causes unrecoverable CCPI errors */
-            if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-                qlm_errata_gser_27140(node, qlm);
-#endif
             bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, qlm);
             int baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
             __bdk_qlm_tune(node, qlm, mode, baud_mhz);
