@@ -471,7 +471,6 @@ cavium,bdk {
 	during boot. This should be used in combination with the watchdog
 	timer. */
 	//DDR-TEST-BOOT = "0";
-	DDR-TEST-BOOT = "1";
 
 	/* Specify a THUNDERX GPIO used to control power for a USB port. When
 	set, the USB host controller will toggle the GPIO automatically
