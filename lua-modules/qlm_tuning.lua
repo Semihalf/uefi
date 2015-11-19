@@ -125,9 +125,7 @@ local function do_prbs(mode)
                 if v == -1 then
                     return "No Lock"
                 else
-                    if v == 0 then
-                        return "-"
-                    elseif v < 1000000 then
+                    if v < 1000000 then
                         return v
                     elseif v < 1000000000 then
                         return tostring(v / 1000000) .. "M"
