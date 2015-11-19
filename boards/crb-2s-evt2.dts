@@ -9,16 +9,6 @@ cavium,bdk {
 	in milliseconds. Zero disables the watchdog. */
 	WATCHDOG-TIMEOUT = "10000";
 
-	/* Force CCPI lane reversal. This should be set for boards which
-	reverse the CCPI lanes between nodes. If lane 0 connects to lane
-	23, this option is needed. CN88XX pass 2.0 and higher automatically
-	detect lane reversal, so setting this is optional.
-	    0 = Automatically detect lane reversal, no lane reversal on
-	        CN88XX pass 1.x.
-	    1 = Force lane reversal, required on CN88XX pass 1.0 with CCPI
-	        lanes reversed. */
-	CCPI-LANE-REVERSE = "1";
-
 	/* The 100Mhz reference clock was only supported on the EVT4 and later
 	designs. Override the setting of DDR-ALT-REFCLK for the EVT2 and EVT3 */
 	DDR-ALT-REFCLK = "0";

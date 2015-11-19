@@ -171,11 +171,20 @@ void __bdk_init(uint32_t image_crc, uint64_t reg_x0, uint64_t reg_x1)
             {
                 /* CCPI isn't being used, so don't reset if the links change */
                 BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
-                BDK_CSR_READ(node, BDK_RST_OCX);
-                /* Force CCPI links down so they aren't trying to run while
-                   we're configuring the QLMs */
-                if (!MFG_SYSTEM_LEVEL_TEST)
-                    __bdk_init_ccpi_early(1);
+                /* CN88XX pass 1.x gets unrecoverable CCPI errors if tuning
+                   parameters are applied with the link up. Force the link down
+                   to stop these errors. Note that SLT (MFG_SYSTEM_LEVEL_TEST==1)
+                   uses loopback cables on the CCPI QLMs. We don't want to force
+                   these down */
+                if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && !MFG_SYSTEM_LEVEL_TEST)
+                {
+                    for (int link = 0; link < 3; link++)
+                    {
+                        BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
+                            c.s.lane_align_dis = 1;
+                            c.s.qlm_select = 0);
+                    }
+                }
             }
         }
 

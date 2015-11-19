@@ -45,35 +45,6 @@ extern int bdk_reset_cores(bdk_node_t node, uint64_t coremask);
 extern int bdk_init_nodes(int skip_cores, int ccpi_sw_gbaud);
 
 /**
- * Called very early in during init of both the master and slave. It perfroms one
- * time init of CCPI QLM and link parameters. It must only be called once per
- * boot.
- *
- * @param is_master Non-zero if the caller is the master node
- */
-extern void __bdk_init_ccpi_early(int is_master);
-
-/**
- * Brings the CCPI lanes and links into an operational state without perofrming
- * node discovery and enumeration. After this function succeeds, CCPI lanes and
- * links are ready for traffic, but node routing has not been setup.
- *
- * Note this function runs on the slave node with the BDK code not at its link
- * address. Many normal BDK functions do not work properly. Be careful.
- *
- * @param is_master  Non-zero when run on the master node. Zero when run on the slave
- * @param gbaud      Baud rate to run links at. This is only used if the QLMs are in software init
- *                   mode. If they are strapped for hardware init, the strapping speed is used.
- * @param ccpi_trace Non-zero to enable CCPI tracing. Note that tracing doesn't use the standard
- *                   bdk-trace functions. This code runs on the secondary node before we are
- *                   multi-node, and the C library doesn't work right.
- *
- * @return Zero on success, negative on failure. Zero means CCPI lanes and links are
- *         functional.
- */
-extern int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace);
-
-/**
  * Brings the CCPI lanes and links into an operational state without enabling
  * multi-node operation. Calling this function when the CCPI links are already
  * up does nothing. This function must return zero before you can go multi-node

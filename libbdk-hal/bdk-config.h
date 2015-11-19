@@ -42,7 +42,6 @@ typedef enum
     /* Chip feature items */
     BDK_CONFIG_MULTI_NODE,          /* No parameters */
     BDK_CONFIG_PCIE_EA,             /* No parameters */
-    BDK_CONFIG_CCPI_LANE_REVERSE,   /* No parameters */
 
     /* QLM related config */
     BDK_CONFIG_QLM_AUTO_CONFIG,     /* Parameters: Node */
