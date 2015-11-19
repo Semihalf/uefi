@@ -3153,7 +3153,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         lmc_timing_params1.s.twtr     = divide_roundup(twtr, tclk_psecs) - 1;
         lmc_timing_params1.s.trfc     = divide_roundup(trfc, 8*tclk_psecs);
-        if ((ddr_type == DDR4_DRAM) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
+        if ((ddr_type == DDR4_DRAM) /*&& CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)*/) {
             /* Workaround bug 24006. Use Trrd_l. */
             lmc_timing_params1.s.trrd     = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 2;
         } else
