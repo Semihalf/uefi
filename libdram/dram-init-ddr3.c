@@ -1,8 +1,8 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
-#define RLEXTRAS_PATCH     1 // write to unused RL rank entries
-#define WLEXTRAS_PATCH     1 // write to unused WL rank entries
+#define RLEXTRAS_PATCH     0 // write to unused RL rank entries
+#define WLEXTRAS_PATCH     0 // write to unused WL rank entries
 #define ADD_48_OHM_SKIP    1
 #define NOSKIP_40_48_OHM   1
 #define NOSKIP_48_STACKED  1
