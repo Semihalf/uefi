@@ -1109,6 +1109,7 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn83xx = {
     .get_qlm_num = qlm_get_qlm_num,
     .reset = __bdk_qlm_reset,
     .enable_prbs = __bdk_qlm_enable_prbs,
+    .disable_prbs = __bdk_qlm_disable_prbs,
     .get_prbs_errors = __bdk_qlm_get_prbs_errors,
     .inject_prbs_error = __bdk_qlm_inject_prbs_error,
     .enable_loop = __bdk_qlm_enable_loop,

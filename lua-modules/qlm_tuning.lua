@@ -7,7 +7,9 @@ local bit64 = require("bit64")
 local readline = require("readline")
 
 local qlm_tuning = {}
-qlm_tuning.qlm = 0
+qlm_tuning.qlm = 0                  -- Active QLM for tuning and menu items
+qlm_tuning.stop_on_error = false    -- True if display should stop on first error
+qlm_tuning.runtime = -1             -- Time to run pattern, -1 for infinite
 
 -- Prompt for which QLM/DLM to edit
 local function select_qlm()
@@ -86,7 +88,13 @@ end
 
 -- Run PRBS on all QLMs
 local function do_prbs(mode)
+    -- Ask the user which QLMs to run
     local qlm_list = select_qlm_list()
+    -- Ask how long to run for
+    qlm_tuning.runtime = menu.prompt_number("Runtime in seconds (-1 for infinite)", qlm_tuning.runtime)
+    -- Should we stop on errors?
+    qlm_tuning.stop_on_error = menu.prompt_yes_no("Stop on error", qlm_tuning.stop_on_error)
+
     local function output_line(qlm_base, label, get_value)
         printf("%21s", label)
         local qlm_max = qlm_base + 2
@@ -107,10 +115,13 @@ local function do_prbs(mode)
         end
         printf("|\n")
     end
-    -- Display PRBS status on the console
+    -- Display PRBS status on the console. Returns true if any errors were seen,
+    -- false if there were no errors
     local function display_status(run_time)
+        local has_error = false
         printf("\n\n");
-        printf("Time: %d seconds (Press return to exit, 'E' to inject an error, 'C' to clear errors,\n", run_time)
+        printf("Time: %d seconds (Press 'Q' to quit patterns, 'E' to inject an error, 'C' to clear errors,\n", run_time)
+        printf("                  'X' to exit output and leave the pattern generators running,\n")
         printf("                  'P' to change TX pre/post-emphasis, 'S' to change TX swing,\n")
         printf("                  '0' - '3' to display the eye diagram for the lane on QLM %d)\n", qlm_tuning.qlm)
         for qlm_base=1,#qlm_list,3 do
@@ -125,6 +136,9 @@ local function do_prbs(mode)
                 if v == -1 then
                     return "No Lock"
                 else
+                    if v ~= 0 then
+                        has_error = true
+                    end
                     if v < 1000000 then
                         return v
                     elseif v < 1000000000 then
@@ -178,6 +192,7 @@ local function do_prbs(mode)
             end)
             printf("\n")
         end
+        return has_error
     end
 
     printf("Running. Statistics shown every 5 seconds\n", mode)
@@ -185,14 +200,27 @@ local function do_prbs(mode)
 
     local start_time = os.time()
     local next_print = start_time + 5
+    local end_time = 0x7fffffffffffffff
+    if qlm_tuning.runtime ~= -1 then
+        end_time = start_time + qlm_tuning.runtime
+    end
+    local key
     repeat
         local t = os.time()
         -- Periodically show the PRBS error counter and other status fields.
-        if t >= next_print then
-            display_status(t - start_time)
+        if (t >= next_print) or (t >= end_time) then
+            local has_error = display_status(t - start_time)
+            if has_error and qlm_tuning.stop_on_error then
+                print("Stopping on error")
+                break
+            end
+            if t >= end_time then
+                -- End time reached
+                break
+            end
             next_print = next_print + 5
         end
-        local key = readline.getkey()
+        key = readline.getkey()
         if (key == 'e') or (key == 'E') then
             print("Injecting error into bit stream")
             for _,qlm_num in ipairs(qlm_list) do
@@ -243,7 +271,21 @@ local function do_prbs(mode)
              local lane = tonumber(key)
              cavium.c.bdk_qlm_eye_display(menu.node, qlm_tuning.qlm, lane, 1, nil)
          end
-    until key == '\r'
+    until (key == 'x') or (key == 'X') or (key == 'q') or (key == 'Q')
+
+    -- Stop the pattern generator unless the user specifically wants it to
+    -- continue (X or x)
+    if (key ~= 'x') and (key ~= 'X') then
+        print("Stopping pattern generator")
+        for _,qlm_num in ipairs(qlm_list) do
+            local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_num)
+            for lane=0, num_lanes-1 do
+                cavium.c.bdk_qlm_disable_prbs(menu.node, qlm_num)
+            end
+        end
+    else
+        print("Leaving pattern generator running")
+    end
 end
 
 local function set_pre_post_tap(qlm)

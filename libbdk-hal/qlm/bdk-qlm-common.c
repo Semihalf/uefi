@@ -306,6 +306,31 @@ int __bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_
 }
 
 /**
+ * Disable PRBS on a QLM
+ *
+ * @param node   Node to use in a numa setup
+ * @param qlm    QLM to use
+ *
+ * @return Zero on success, negative on failure
+ */
+int __bdk_qlm_disable_prbs(bdk_node_t node, int qlm)
+{
+    const int NUM_LANES = bdk_qlm_get_lanes(node, qlm);
+    BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
+    if (phy_ctl.s.phy_reset)
+        return -1;
+
+    for (int lane = 0; lane < NUM_LANES; lane++)
+    {
+        prbs_errors[qlm][lane] = 0;
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_LBERT_CFG(qlm, lane),
+            c.s.lbert_pg_en = 0;
+            c.s.lbert_pm_en = 0);
+    }
+    return 0;
+}
+
+/**
  * Return the number of PRBS errors since PRBS started running
  *
  * @param node   Node to use in numa setup

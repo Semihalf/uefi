@@ -334,6 +334,19 @@ int bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t 
 }
 
 /**
+ * Disable PRBS on a QLM
+ *
+ * @param node   Node to use in a numa setup
+ * @param qlm    QLM to use
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_qlm_disable_prbs(bdk_node_t node, int qlm)
+{
+    return qlm_ops->disable_prbs(node, qlm);
+}
+
+/**
  * Return the number of PRBS errors since PRBS started running
  *
  * @param node   Node to use in numa setup
