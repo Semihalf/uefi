@@ -283,7 +283,7 @@ end
 -- user aborts input. Output is true or false
 --
 function menu.prompt_yes_no(prompt, optional_default)
-    local result = menu.prompt_string(prompt .. "(y/n)", optional_default)
+    local result = menu.prompt_string(prompt .. "(y/n)", optional_default and "y" or "n")
     if result == "y" then
         return true
     elseif result == "n" then
