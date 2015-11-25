@@ -384,7 +384,7 @@ static inline uint64_t BDK_PBUS_INT_FUNC(void)
 /**
  * Register (RSL) pbus_int_ena_w1c
  *
- * RST Interrupt Enable Clear Register
+ * PBUS Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -430,7 +430,7 @@ static inline uint64_t BDK_PBUS_INT_ENA_W1C_FUNC(void)
 /**
  * Register (RSL) pbus_int_ena_w1s
  *
- * RST Interrupt Enable Set Register
+ * PBUS Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union

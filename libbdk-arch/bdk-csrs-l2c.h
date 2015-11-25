@@ -609,7 +609,30 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_asc_regionx_attr_s cn; */
+    struct bdk_l2c_asc_regionx_attr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t s_en                  : 1;  /**< [  1:  1](R/W) Enables secure access to region.
+                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region. */
+        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables non-secure access to region.
+                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region.
+
+                                                                 Internal:
+                                                                 See also DFA_ASC_REGION()_ATTR[NS_EN]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables non-secure access to region.
+                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region.
+
+                                                                 Internal:
+                                                                 See also DFA_ASC_REGION()_ATTR[NS_EN]. */
+        uint64_t s_en                  : 1;  /**< [  1:  1](R/W) Enables secure access to region.
+                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_l2c_asc_regionx_attr_s cn88xx; */
+    /* struct bdk_l2c_asc_regionx_attr_cn81xx cn83xx; */
 } bdk_l2c_asc_regionx_attr_t;
 
 static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a) __attribute__ ((pure, always_inline));

@@ -2149,14 +2149,7 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
+        uint64_t reserved_4_6          : 3;
         uint64_t grp                   : 3;  /**< [  3:  1](RO) Reserved. */
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
@@ -2166,14 +2159,7 @@ typedef union
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
                                                                  0 = This queue has lower priority. Round-robin between lower priority queues. */
         uint64_t grp                   : 3;  /**< [  3:  1](RO) Reserved. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
+        uint64_t reserved_4_6          : 3;
         uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
                                                                  0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
@@ -2743,15 +2729,15 @@ typedef union
 
                                                                  * When DDF()_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
                                                                  counts. If the counter is >= DDF()_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
-                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
+                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT], i.e. enough time has
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
                                                                  * When DDF()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
-                                                                 the interrupt will be resent immediately.  (This covers the race case between
-                                                                 software acknowledging an interrupt and a result returning.)
+                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
+                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.)
 
                                                                  * When DDF()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
@@ -2774,15 +2760,15 @@ typedef union
 
                                                                  * When DDF()_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
                                                                  counts. If the counter is >= DDF()_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
-                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
+                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT], i.e. enough time has
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
                                                                  * When DDF()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
-                                                                 the interrupt will be resent immediately.  (This covers the race case between
-                                                                 software acknowledging an interrupt and a result returning.)
+                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
+                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.)
 
                                                                  * When DDF()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.

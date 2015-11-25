@@ -146,9 +146,9 @@ union bdk_ssow_get_work_addr_s
  * Register (NCB) ssow_vhws#_grpmsk_chg#
  *
  * SSO Work Slot VF Tag Status Registers
- * These registers change which group or groups a HWS belongs to. Two registers are
- * provided so 4 bits may be changed using a multi-word store instruction (STP, ST1 or
- * LMTDMA).
+ * These registers change which group or groups a HWS belongs to. Multiple registers are
+ * provided so 2 bits may be changed using a multi-word store instruction (STP, ST1), or
+ * 4 bits with LMTST.
  */
 typedef union
 {
@@ -422,11 +422,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_DESCHED_NOSCH(unsigned long a)
  * Register (NCB) ssow_vhws#_op_get_work0
  *
  * SSO Work Slot VF Get-Work Operation Register 0
- * A read to this register performs a get work. A single-transaction 128-bit load (LDP)
- * may be used to GET_WORK0 and GET_WORK1 to perform a single get work and return both
- * the tag and WQP.
- *
- * The address offset is calculated using SSOW_GET_WORK_ADDR_S.
+ * See SSOW_VHWS()_OP_GET_WORK1.
  */
 typedef union
 {
@@ -473,9 +469,15 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_GET_WORK0(unsigned long a)
  * Register (NCB) ssow_vhws#_op_get_work1
  *
  * SSO Work Slot VF Get-Work Operation Register 1
- * A read to this register performs a get work. A single-transaction 128-bit load (LDP)
- * may be used to SSOW_VHWS()_OP_GET_WORK0 and SSOW_VHWS()_OP_GET_WORK1 to perform a
- * single get work and return both the tag and WQP.
+ * This register is used along with SSOW_VHWS()_OP_GET_WORK1,
+ * A read to this register performs a get work. Either:
+ *   * A single-transaction 128-bit load (LDP) is used to GET_WORK0 and GET_WORK1 to
+ *   perform a single get-work, returning both information about the work
+ *   (index/GRP/TT/TAG) and the work pointer.
+ *   * Or, a single 64-bit load is used to GET_WORK1 to return a work pointer.
+ *   * Reading GET_WORK0 without a simultanious read to GET_WORK1
+ *   as described above will return 0x0.
+ *   * Writing GET_WORK0 or GET_WORK1 is ignored.
  *
  * The address offset is calculated using SSOW_GET_WORK_ADDR_S.
  */
@@ -486,7 +488,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t no_work               : 1;  /**< [ 63: 63](RO/H) Set when no new work-queue entry was returned. */
-        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Pending Switch. Set in the result of an indexed GET_WORK when there is a pending SWTAG,
+        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Pending switch. Set in the result of an indexed GET_WORK when there is a pending SWTAG,
                                                                  SWTAG_FULL, or SWTAG_DESCHED to ORDERED or ATOMIC. Always clear otherwise. (The DESCHED
                                                                  portion of a SWTAG_DESCHED cannot still be pending.) */
         uint64_t reserved_49_61        : 13;
@@ -494,7 +496,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) IOVA of the work-queue entry. Unpredictable when [NO_WORK] = 1. */
         uint64_t reserved_49_61        : 13;
-        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Pending Switch. Set in the result of an indexed GET_WORK when there is a pending SWTAG,
+        uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Pending switch. Set in the result of an indexed GET_WORK when there is a pending SWTAG,
                                                                  SWTAG_FULL, or SWTAG_DESCHED to ORDERED or ATOMIC. Always clear otherwise. (The DESCHED
                                                                  portion of a SWTAG_DESCHED cannot still be pending.) */
         uint64_t no_work               : 1;  /**< [ 63: 63](RO/H) Set when no new work-queue entry was returned. */
@@ -609,7 +611,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_FULL0(unsigned long a)
  * SSO Work Slot VF Switch Tag Full Operation Register 1
  * A write to this register performs a switch tag.
  *
- * A 128-bit store (STP) may be used to SSOW_VHWS()_OP_SWTAG_FULL0 and
+ * A 128-bit store (STP) must be used to SSOW_VHWS()_OP_SWTAG_FULL0 and
  * SSOW_VHWS()_OP_SWTAG_FULL1.
  */
 typedef union
@@ -838,7 +840,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTP_SET(unsigned long a)
  * SSO Work Slot VF Update WQP/Group Operation Register 0
  * A write to this register updates the WQP or group.
  *
- * A 128-bit store (STP) may be used to SSOW_VHWS()_OP_UPD_WQP_GRP0 and
+ * A 128-bit store (STP) must be used to SSOW_VHWS()_OP_UPD_WQP_GRP0 and
  * SSOW_VHWS()_OP_UPD_WQP_GRP1 to update both the WQP and group.
  */
 typedef union
@@ -878,9 +880,9 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_UPD_WQP_GRP0(unsigned long a)
  * Register (NCB) ssow_vhws#_op_upd_wqp_grp1
  *
  * SSO Work Slot VF Switch Tag Full Operation Register 1
- * A write to this register performs a switch tag.
+ * A write to this register updates the WQP or group.
  *
- * A 128-bit store (STP) may be used to SSOW_VHWS()_OP_UPD_WQP_GRP0 and
+ * A 128-bit store (STP) must be used to SSOW_VHWS()_OP_UPD_WQP_GRP0 and
  * SSOW_VHWS()_OP_UPD_WQP_GRP1 to update both the WQP and group.
  */
 typedef union

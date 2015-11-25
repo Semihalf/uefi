@@ -6424,6 +6424,8 @@ static inline uint64_t BDK_DTX_USBDRDX_BCST_RSP(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x87e0feb40080ll + 0x8000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0feb40080ll + 0x8000ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_USBDRDX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
@@ -6469,6 +6471,8 @@ static inline uint64_t BDK_DTX_USBDRDX_CTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
         return 0x87e0feb40060ll + 0x8000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0feb40060ll + 0x8000ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_USBDRDX_CTL", 1, a, 0, 0, 0);
 }
 
@@ -6505,6 +6509,8 @@ static inline uint64_t BDK_DTX_USBDRDX_DATX(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DTX_USBDRDX_DATX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e0feb40040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0feb40040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_USBDRDX_DATX", 2, a, b, 0, 0);
 }
@@ -6543,6 +6549,8 @@ static inline uint64_t BDK_DTX_USBDRDX_ENAX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
         return 0x87e0feb40020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
+        return 0x87e0feb40020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_USBDRDX_ENAX", 2, a, b, 0, 0);
 }
 
@@ -6577,6 +6585,8 @@ static inline uint64_t BDK_DTX_USBDRDX_SELX(unsigned long a, unsigned long b) __
 static inline uint64_t BDK_DTX_USBDRDX_SELX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e0feb40000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0feb40000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_USBDRDX_SELX", 2, a, b, 0, 0);
 }

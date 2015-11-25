@@ -1192,7 +1192,8 @@ typedef union
                                                                  [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_45_47        : 3;
         uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be even. */
+                                                                 Must be {a}*n + 1, where n is the number of instructions per buffer segment,
+                                                                 and {a} is 8 for CPT or 16 for DDF. The plus one is for the next-chunk pointer. */
         uint64_t reserved_11_31        : 21;
         uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
 
@@ -1220,14 +1221,7 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
+        uint64_t reserved_4_6          : 3;
         uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
@@ -1237,14 +1231,7 @@ typedef union
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
                                                                  0 = This queue has lower priority. Round-robin between lower priority queues. */
         uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
+        uint64_t reserved_4_6          : 3;
         uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
                                                                  0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
@@ -1273,7 +1260,8 @@ typedef union
                                                                  1 = Ignore errors and continue processing instructions. For diagnostic use only. */
         uint64_t reserved_11_31        : 21;
         uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be even. */
+                                                                 Must be {a}*n + 1, where n is the number of instructions per buffer segment,
+                                                                 and {a} is 8 for CPT or 16 for DDF. The plus one is for the next-chunk pointer. */
         uint64_t reserved_45_47        : 3;
         uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
                                                                  Only used when [INST_FREE] is set.
@@ -1282,107 +1270,7 @@ typedef union
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_cdex_pf_qx_ctl_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set.
-                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
-                                                                 [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be even. */
-        uint64_t reserved_11_31        : 21;
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
-
-                                                                 0 = When CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
-                                                                 CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
-                                                                 CDE(0)_VQ()_MISC_INT_W1S, then CDE()_VQ()_CTL[ENA] is cleared.  Due to
-                                                                 pipelining, additional instructions may have been processed between the
-                                                                 instruction causing the error and the next instruction in the disabled queue
-                                                                 (the instruction at CDE()_VQ()_SADDR).
-
-                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
-        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
-        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
-
-                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
-                                                                 line hits and is is dirty will cause the line to be written back before being
-                                                                 replaced.
-
-                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
-                                                                 when fetching the last word of instructions; as a result the line will not be
-                                                                 written back when replaced.  This improves performance, but software must not
-                                                                 read the instructions after they are posted to the hardware.
-
-                                                                 Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
-        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
-                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
-                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
-#else /* Word 0 - Little Endian */
-        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
-                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
-                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
-        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
-        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
-
-                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
-                                                                 line hits and is is dirty will cause the line to be written back before being
-                                                                 replaced.
-
-                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
-                                                                 when fetching the last word of instructions; as a result the line will not be
-                                                                 written back when replaced.  This improves performance, but software must not
-                                                                 read the instructions after they are posted to the hardware.
-
-                                                                 Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
-        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
-
-                                                                 0 = When CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
-                                                                 CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
-                                                                 CDE(0)_VQ()_MISC_INT_W1S, then CDE()_VQ()_CTL[ENA] is cleared.  Due to
-                                                                 pipelining, additional instructions may have been processed between the
-                                                                 instruction causing the error and the next instruction in the disabled queue
-                                                                 (the instruction at CDE()_VQ()_SADDR).
-
-                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
-        uint64_t reserved_11_31        : 21;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
-                                                                 Must be even. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set.
-                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
-                                                                 [AURA] and CDE()_PF_Q()_GMCTL[GMID] as valid. */
-        uint64_t reserved_60_63        : 4;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_cdex_pf_qx_ctl_s cn83xx; */
+    /* struct bdk_cdex_pf_qx_ctl_s cn; */
 } bdk_cdex_pf_qx_ctl_t;
 
 static inline uint64_t BDK_CDEX_PF_QX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1870,15 +1758,15 @@ typedef union
 
                                                                  * When CDE()_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
                                                                  counts. If the counter is >= CDE()_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
-                                                                 CDE()_VQ()_DONE[DONE] >= CDE()_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
+                                                                 CDE()_VQ()_DONE[DONE] >= CDE()_VQ()_DONE_WAIT[NUM_WAIT], i.e. enough time has
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
                                                                  * When CDE()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 CDE()_VQ()_DONE[DONE] >= CDE()_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
-                                                                 the interrupt will be resent immediately.  (This covers the race case between
-                                                                 software acknowledging an interrupt and a result returning.)
+                                                                 CDE()_VQ()_DONE[DONE] >= CDE()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
+                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.)
 
                                                                  * When CDE()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
@@ -1901,15 +1789,15 @@ typedef union
 
                                                                  * When CDE()_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
                                                                  counts. If the counter is >= CDE()_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
-                                                                 CDE()_VQ()_DONE[DONE] >= CDE()_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
+                                                                 CDE()_VQ()_DONE[DONE] >= CDE()_VQ()_DONE_WAIT[NUM_WAIT], i.e. enough time has
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
                                                                  * When CDE()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 CDE()_VQ()_DONE[DONE] >= CDE()_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
-                                                                 the interrupt will be resent immediately.  (This covers the race case between
-                                                                 software acknowledging an interrupt and a result returning.)
+                                                                 CDE()_VQ()_DONE[DONE] >= CDE()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
+                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.)
 
                                                                  * When CDE()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
@@ -2217,7 +2105,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
         uint64_t dbell_cnt             : 20; /**< [ 19:  0](R/W/H) Number of instruction queue 64-bit words to add to the CDE instruction doorbell
-                                                                 count.
+                                                                 count.  Readback value is the the current number of pending doorbell requests.
 
                                                                  CPT: Must be a multiple of 8. All CPT instructions are 8 words and require a
                                                                  doorbell count of multiple of 8.
@@ -2226,7 +2114,7 @@ typedef union
                                                                  doorbell count of multiple of 16. */
 #else /* Word 0 - Little Endian */
         uint64_t dbell_cnt             : 20; /**< [ 19:  0](R/W/H) Number of instruction queue 64-bit words to add to the CDE instruction doorbell
-                                                                 count.
+                                                                 count.  Readback value is the the current number of pending doorbell requests.
 
                                                                  CPT: Must be a multiple of 8. All CPT instructions are 8 words and require a
                                                                  doorbell count of multiple of 8.

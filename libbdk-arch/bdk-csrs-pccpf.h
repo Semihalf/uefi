@@ -61,9 +61,11 @@
  * of the devices available. The value of the enumeration is formatted as defined by
  * PCC_DEV_CON_S.
  */
-#define BDK_PCC_DEV_CON_E_BCH (0x50) /**< BCH. */
+#define BDK_PCC_DEV_CON_E_BCH_CN81XX (0x300) /**< BCH. */
+#define BDK_PCC_DEV_CON_E_BCH_CN83XX (0x1000) /**< BCH. */
 #define BDK_PCC_DEV_CON_E_BGXX(a) (0x180 + (a)) /**< Ethernet interface. */
-#define BDK_PCC_DEV_CON_E_CPT0 (0x500) /**< CPT 0. */
+#define BDK_PCC_DEV_CON_E_CPT0_CN81XX (0x400) /**< CPT 0. */
+#define BDK_PCC_DEV_CON_E_CPT0_CN83XX (0x500) /**< CPT 0. */
 #define BDK_PCC_DEV_CON_E_CPT1 (0x600) /**< CPT 1. */
 #define BDK_PCC_DEV_CON_E_DAP (0x102) /**< Debug access point. */
 #define BDK_PCC_DEV_CON_E_DDF0 (0x700) /**< DDF. */
@@ -94,29 +96,31 @@
 #define BDK_PCC_DEV_CON_E_MRML (0x100) /**< Master RSL bus bridge. */
 #define BDK_PCC_DEV_CON_E_NCSI (0x108) /**< NC-SI interface. */
 #define BDK_PCC_DEV_CON_E_NDF (0x58) /**< NAND flash. */
-#define BDK_PCC_DEV_CON_E_NIC_CN81XX (0x200) /**< Network interface controller.  Contains 1 PF + 128 VFs. */
+#define BDK_PCC_DEV_CON_E_NIC_CN81XX (0x500) /**< Network interface controller. */
 #define BDK_PCC_DEV_CON_E_NIC_CN88XX (0x20100) /**< Network interface controller.  Contains 1 PF + 128 VFs. */
 #define BDK_PCC_DEV_CON_E_NIC_CN83XX (0x20100) /**< Network interface controller.  Contains 1 PF + 128 VFs. */
 #define BDK_PCC_DEV_CON_E_OCLAX(a) (0x160 + (a)) /**< OCLA. */
 #define BDK_PCC_DEV_CON_E_OCX (0x105) /**< OCX. */
 #define BDK_PCC_DEV_CON_E_PBUS (0x10f) /**< Parallel bus. */
-#define BDK_PCC_DEV_CON_E_PCCBR_CPT0 (0x60) /**< Bridge for CPT 0, creating ECAM 0's bus 5. */
+#define BDK_PCC_DEV_CON_E_PCCBR_BCH_CN81XX (0x50) /**< Bridge for BCH, creating ECAM 0's bus 3. */
+#define BDK_PCC_DEV_CON_E_PCCBR_BCH_CN83XX (0x50) /**< Bridge for BCH, creating ECAM 0's bus 16. */
+#define BDK_PCC_DEV_CON_E_PCCBR_CPT0_CN81XX (0x60) /**< Bridge for CPT 0, creating ECAM 0's bus 4. */
+#define BDK_PCC_DEV_CON_E_PCCBR_CPT0_CN83XX (0x60) /**< Bridge for CPT 0, creating ECAM 0's bus 5. */
 #define BDK_PCC_DEV_CON_E_PCCBR_CPT1 (0x68) /**< Bridge for CPT 1, creating ECAM 0's bus 6. */
 #define BDK_PCC_DEV_CON_E_PCCBR_DDF0 (0xb8) /**< Bridge for DDF0, creating ECAM 0's bus 7. */
 #define BDK_PCC_DEV_CON_E_PCCBR_DFA (0xb0) /**< Bridge for DFA, creating ECAM 0's bus 4. */
 #define BDK_PCC_DEV_CON_E_PCCBR_DPI0 (0xf8) /**< Bridge for DPI 0, creating ECAM 0's bus 15. */
 #define BDK_PCC_DEV_CON_E_PCCBR_FPA (0xe8) /**< Bridge for FPA, creating ECAM 0's bus 13. */
 #define BDK_PCC_DEV_CON_E_PCCBR_MRML (8) /**< Bridge for MRML, creating ECAM 0's bus 1. */
-#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN81XX (0x78) /**< Bridge for NIC, creating ECAM 2's bus 2. */
+#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN81XX (0x78) /**< Bridge for NIC, creating ECAM 2's bus 5. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN88XX (0x20010) /**< Bridge for NIC, creating ECAM 2's bus 1. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN83XX (0x20010) /**< Bridge for NIC, creating ECAM 2's bus 1. */
-#define BDK_PCC_DEV_CON_E_PCCBR_PCM_CN81XX (0x68) /**< Bridge for PCM, creating ECAM 0's bus 3. */
-#define BDK_PCC_DEV_CON_E_PCCBR_PCM_CN83XX (0xe0) /**< Bridge for PCM, creating ECAM 0's bus 12. */
+#define BDK_PCC_DEV_CON_E_PCCBR_PCM (0xe0) /**< Bridge for PCM, creating ECAM 0's bus 12. */
 #define BDK_PCC_DEV_CON_E_PCCBR_PKI (0xc0) /**< Bridge for PKI, creating ECAM 0's bus 8. */
 #define BDK_PCC_DEV_CON_E_PCCBR_PKO (0xc8) /**< Bridge for PKO, creating ECAM 0's bus 9. */
 #define BDK_PCC_DEV_CON_E_PCCBR_RAD (0xa0) /**< Bridge for RAD, creating ECAM 0's bus 2. */
-#define BDK_PCC_DEV_CON_E_PCCBR_RNM_CN81XX (0x48) /**< Bridge for RNM, creating ECAM 0's bus 4. */
-#define BDK_PCC_DEV_CON_E_PCCBR_RNM_CN83XX (0x48) /**< Bridge for RNM, creating ECAM 0's bus 16. */
+#define BDK_PCC_DEV_CON_E_PCCBR_RNM_CN81XX (0x48) /**< Bridge for RNM, creating ECAM 0's bus 2. */
+#define BDK_PCC_DEV_CON_E_PCCBR_RNM_CN83XX (0x48) /**< Bridge for RNM, creating ECAM 0's bus 4. */
 #define BDK_PCC_DEV_CON_E_PCCBR_SSO (0xd0) /**< Bridge for SSO, creating ECAM 0's bus 10. */
 #define BDK_PCC_DEV_CON_E_PCCBR_SSOW (0xd8) /**< Bridge for SSOW, creating ECAM 0's bus 11. */
 #define BDK_PCC_DEV_CON_E_PCCBR_TIM (0xf0) /**< Bridge for TIM, creating ECAM 0's bus 14. */
@@ -140,16 +144,16 @@
 #define BDK_PCC_DEV_CON_E_PCIERC3_CN83XX (0x100a0) /**< PCIe endpoint 3. */
 #define BDK_PCC_DEV_CON_E_PCIERC4 (0x30090) /**< PCIe endpoint 4. */
 #define BDK_PCC_DEV_CON_E_PCIERC5 (0x300a0) /**< PCIe endpoint 5. */
-#define BDK_PCC_DEV_CON_E_PCM_CN81XX (0x300) /**< PCM. */
+#define BDK_PCC_DEV_CON_E_PCM_CN81XX (0x68) /**< PCM. */
 #define BDK_PCC_DEV_CON_E_PCM_CN83XX (0xc00) /**< PCM. */
 #define BDK_PCC_DEV_CON_E_PEMX(a) (0x170 + (a)) /**< PCI controller. */
 #define BDK_PCC_DEV_CON_E_PKI (0x800) /**< PKI. */
 #define BDK_PCC_DEV_CON_E_PKO (0x900) /**< PKO. */
 #define BDK_PCC_DEV_CON_E_RAD (0x200) /**< RAID unit. */
 #define BDK_PCC_DEV_CON_E_RGXX(a) (0x190 + (a)) /**< Ethernet interface. */
-#define BDK_PCC_DEV_CON_E_RNM_CN81XX (0x400) /**< Random number generator. */
+#define BDK_PCC_DEV_CON_E_RNM_CN81XX (0x200) /**< Random number generator. */
 #define BDK_PCC_DEV_CON_E_RNM_CN88XX (0x48) /**< Random number generator. */
-#define BDK_PCC_DEV_CON_E_RNM_CN83XX (0x1000) /**< Random number generator. */
+#define BDK_PCC_DEV_CON_E_RNM_CN83XX (0x400) /**< Random number generator. */
 #define BDK_PCC_DEV_CON_E_RST (0x101) /**< Reset. */
 #define BDK_PCC_DEV_CON_E_SATA0_CN81XX (0xb0) /**< SATA 0. */
 #define BDK_PCC_DEV_CON_E_SATA0_CN88XX (0x10020) /**< SATA 0. */
@@ -174,8 +178,8 @@
 #define BDK_PCC_DEV_CON_E_SGP (0x10a) /**< Serial GPIO. */
 #define BDK_PCC_DEV_CON_E_SLI0_CN81XX (0x70) /**< SLI 0. */
 #define BDK_PCC_DEV_CON_E_SLI0_CN88XX (0x10010) /**< SLI 0. */
-#define BDK_PCC_DEV_CON_E_SLI0_CN83XX (0x10010) /**< SLI 0. */
 #define BDK_PCC_DEV_CON_E_SLI1 (0x30010) /**< SLI 1. */
+#define BDK_PCC_DEV_CON_E_SLIRE0 (0x10010) /**< SLI 0. */
 #define BDK_PCC_DEV_CON_E_SMI (0x10b) /**< SMI. */
 #define BDK_PCC_DEV_CON_E_SMMU0 (0x10) /**< System memory management unit. */
 #define BDK_PCC_DEV_CON_E_SMMU1 (0x10008) /**< System memory management unit. */
@@ -279,7 +283,9 @@
 #define BDK_PCC_DEV_IDL_E_PCIERC (0x2d) /**< PCIe host bridge.
                                        Internal:
                                        Also used by fake PCCBR_PCIERC inside IOB. */
-#define BDK_PCC_DEV_IDL_E_PCM (0x4e) /**< PCM interface. */
+#define BDK_PCC_DEV_IDL_E_PCM_CN81XX (0x4e) /**< PCM interface. */
+#define BDK_PCC_DEV_IDL_E_PCM_CN83XX (0x4e) /**< Internal:
+                                       Reserved. */
 #define BDK_PCC_DEV_IDL_E_PEM (0x20) /**< PCI controller. */
 #define BDK_PCC_DEV_IDL_E_PKI_CN81XX (0x47) /**< Internal:
                                        Reserved. */
@@ -294,13 +300,20 @@
                                        Reserved. */
 #define BDK_PCC_DEV_IDL_E_RAD_CN88XX (0x1d) /**< RAID unit. */
 #define BDK_PCC_DEV_IDL_E_RAD_CN83XX (0x1d) /**< RAID unit. */
-#define BDK_PCC_DEV_IDL_E_RGX (0x54) /**< RGMII Ethernet interface. */
+#define BDK_PCC_DEV_IDL_E_RAD_VF (0x36) /**< RAID unit VF. */
+#define BDK_PCC_DEV_IDL_E_RGX_CN81XX (0x54) /**< RGMII Ethernet interface. */
+#define BDK_PCC_DEV_IDL_E_RGX_CN83XX (0x54) /**< Internal:
+                                       Reserved. */
 #define BDK_PCC_DEV_IDL_E_RNM (0x18) /**< Random number generator. */
 #define BDK_PCC_DEV_IDL_E_RNM_VF (0x33) /**< Random number generator SR-IOV virtual function. */
 #define BDK_PCC_DEV_IDL_E_RST (0xe) /**< Reset. */
 #define BDK_PCC_DEV_IDL_E_SATA (0x1c) /**< SATA interface. */
 #define BDK_PCC_DEV_IDL_E_SGP (0x2a) /**< Serial GPIO interface. */
-#define BDK_PCC_DEV_IDL_E_SLI (0x15) /**< SLI. */
+#define BDK_PCC_DEV_IDL_E_SLI_CN81XX (0x15) /**< SLI. */
+#define BDK_PCC_DEV_IDL_E_SLI_CN88XX (0x15) /**< SLI. */
+#define BDK_PCC_DEV_IDL_E_SLI_CN83XX (0x15) /**< Internal:
+                                       Reserved. SLI, which supports only root complex. */
+#define BDK_PCC_DEV_IDL_E_SLIRE (0x38) /**< SLI, which supports both root complex and endpoint. */
 #define BDK_PCC_DEV_IDL_E_SMI (0x2b) /**< SMI. */
 #define BDK_PCC_DEV_IDL_E_SMMU (8) /**< System Memory Management Unit. */
 #define BDK_PCC_DEV_IDL_E_SSO (0x4a) /**< SSO. */
@@ -331,6 +344,7 @@
                                        Reserved. */
 #define BDK_PCC_DEV_IDL_E_ZIP_CN88XX (0x1a) /**< ZIP. */
 #define BDK_PCC_DEV_IDL_E_ZIP_CN83XX (0x1a) /**< ZIP. */
+#define BDK_PCC_DEV_IDL_E_ZIP_VF (0x37) /**< ZIP VF. */
 
 /**
  * Enumeration pcc_pidr_partnum0_e

@@ -5255,12 +5255,18 @@ typedef union
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
@@ -5411,12 +5417,18 @@ typedef union
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
@@ -5455,12 +5467,18 @@ typedef union
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
@@ -5611,12 +5629,18 @@ typedef union
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
@@ -5655,12 +5679,18 @@ typedef union
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush.
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
@@ -5811,12 +5841,18 @@ typedef union
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed.
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
@@ -5862,12 +5898,18 @@ typedef union
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
@@ -6018,12 +6060,18 @@ typedef union
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.

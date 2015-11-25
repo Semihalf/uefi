@@ -2578,7 +2578,7 @@ typedef union
 
                                                                  For CNXXXX not supported. */
         uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
-
+                                                                 The reset value depends on the number of cores fuse-enabled in this part.
                                                                  For CNXXXX this trace unit can support up to 6 processors. */
         uint32_t sysstall              : 1;  /**< [ 27: 27](RO) Indicates if the implementation can support stall control:
                                                                    0 = The system does not support stall control of the PE.
@@ -2636,7 +2636,7 @@ typedef union
 
                                                                  CNXXXX supports stalling the PE. */
         uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
-
+                                                                 The reset value depends on the number of cores fuse-enabled in this part.
                                                                  For CNXXXX this trace unit can support up to 6 processors. */
         uint32_t noovflw               : 1;  /**< [ 31: 31](RO) Indicates if TRC()_TRCSTALLCTLR[NOOVERFLOW] is supported.
 

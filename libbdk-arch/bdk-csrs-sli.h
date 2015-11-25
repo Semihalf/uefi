@@ -67,10 +67,10 @@
  * SLI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_SLI_INT_VEC_E_MACX_CN81XX(a) (1 + (a)) /**< See interrupt clears SLI(0..1)_MAC(0..2)_INT_SUM,
-                                       interrupt sets SLI(0..1)_MAC(0..2)_INT_SUM_W1S,
-                                       enable clears SLI(0..1)_MAC(0..2)_INT_ENA_W1C,
-                                       and enable sets SLI(0..1)_MAC(0..2)_INT_ENA_W1S. */
+#define BDK_SLI_INT_VEC_E_MACX_CN81XX(a) (1 + (a)) /**< See interrupt clears SLI(0)_MAC(0..2)_INT_SUM,
+                                       interrupt sets SLI(0)_MAC(0..2)_INT_SUM_W1S,
+                                       enable clears SLI(0)_MAC(0..2)_INT_ENA_W1C,
+                                       and enable sets SLI(0)_MAC(0..2)_INT_ENA_W1S. */
 #define BDK_SLI_INT_VEC_E_MACX_CN88XX(a) (1 + (a)) /**< See interrupt clears SLI(0..1)_MAC(0..2)_INT_SUM,
                                        interrupt sets SLI(0..1)_MAC(0..2)_INT_SUM_W1S,
                                        enable clears SLI(0..1)_MAC(0..2)_INT_ENA_W1C,
@@ -79,7 +79,15 @@
                                        interrupt sets SLI(0..1)_MAC(0..3)_INT_SUM_W1S,
                                        enable clears SLI(0..1)_MAC(0..3)_INT_ENA_W1C,
                                        and enable sets SLI(0..1)_MAC(0..3)_INT_ENA_W1S. */
-#define BDK_SLI_INT_VEC_E_MBE (0) /**< See interrupt clears SLI(0..1)_MBE_INT_SUM,
+#define BDK_SLI_INT_VEC_E_MBE_CN81XX (0) /**< See interrupt clears SLI(0)_MBE_INT_SUM,
+                                       interrupt sets SLI(0)_MBE_INT_SUM_W1S,
+                                       enable clears SLI(0)_MBE_INT_ENA_W1C,
+                                       and enable sets SLI(0)_MBE_INT_ENA_W1S. */
+#define BDK_SLI_INT_VEC_E_MBE_CN88XX (0) /**< See interrupt clears SLI(0..1)_MBE_INT_SUM,
+                                       interrupt sets SLI(0..1)_MBE_INT_SUM_W1S,
+                                       enable clears SLI(0..1)_MBE_INT_ENA_W1C,
+                                       and enable sets SLI(0..1)_MBE_INT_ENA_W1S. */
+#define BDK_SLI_INT_VEC_E_MBE_CN83XX (0) /**< See interrupt clears SLI(0..1)_MBE_INT_SUM,
                                        interrupt sets SLI(0..1)_MBE_INT_SUM_W1S,
                                        enable clears SLI(0..1)_MBE_INT_ENA_W1C,
                                        and enable sets SLI(0..1)_MBE_INT_ENA_W1S. */
@@ -139,8 +147,8 @@ typedef union
     struct bdk_slix_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_63        : 34;
-        uint64_t status                : 30; /**< [ 29:  0](RO) BIST status.
+        uint64_t reserved_32_63        : 32;
+        uint64_t status                : 32; /**< [ 31:  0](RO) BIST status.
                                                                  Internal:
                                                                  22 = sli_nod_nfif_bstatus.
                                                                  21 = csr_region_mem_bstatus.
@@ -166,7 +174,7 @@ typedef union
                                                                  1 = cpl1_fifo_bstatus.
                                                                  0 = cpl2_fifo_bstatus. */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 30; /**< [ 29:  0](RO) BIST status.
+        uint64_t status                : 32; /**< [ 31:  0](RO) BIST status.
                                                                  Internal:
                                                                  22 = sli_nod_nfif_bstatus.
                                                                  21 = csr_region_mem_bstatus.
@@ -191,7 +199,7 @@ typedef union
                                                                  2 = cpl0_fifo_bstatus.
                                                                  1 = cpl1_fifo_bstatus.
                                                                  0 = cpl2_fifo_bstatus. */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     struct bdk_slix_bist_status_cn81xx
@@ -256,9 +264,11 @@ typedef union
     struct bdk_slix_bist_status_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_63        : 34;
-        uint64_t status                : 30; /**< [ 29:  0](RO) BIST status.
+        uint64_t reserved_32_63        : 32;
+        uint64_t status                : 32; /**< [ 31:  0](RO) BIST status.
                                                                  Internal:
+                                                                 31 = dsi_ldf_bstatus.
+                                                                 30 = dsi_stf_bstatus.
                                                                  29 = sli_nod_nfif_bstatus.
                                                                  28 = csr_region_mem_bstatus.
                                                                  27 = sncf0_ffifo_bstatus.
@@ -290,8 +300,10 @@ typedef union
                                                                  1 = cpl2_fifo_bstatus.
                                                                  0 = cpl3_fifo_bstatus. */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 30; /**< [ 29:  0](RO) BIST status.
+        uint64_t status                : 32; /**< [ 31:  0](RO) BIST status.
                                                                  Internal:
+                                                                 31 = dsi_ldf_bstatus.
+                                                                 30 = dsi_stf_bstatus.
                                                                  29 = sli_nod_nfif_bstatus.
                                                                  28 = csr_region_mem_bstatus.
                                                                  27 = sncf0_ffifo_bstatus.
@@ -322,7 +334,7 @@ typedef union
                                                                  2 = cpl1_fifo_bstatus.
                                                                  1 = cpl2_fifo_bstatus.
                                                                  0 = cpl3_fifo_bstatus. */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn83xx;
 } bdk_slix_bist_status_t;
@@ -330,7 +342,11 @@ typedef union
 static inline uint64_t BDK_SLIX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_BIST_STATUS(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874001002180ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874001002180ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874001002180ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -379,8 +395,8 @@ typedef union
 static inline uint64_t BDK_SLIX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_CONST(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x874001002020ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874001002020ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x874001002020ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_CONST", 1, a, 0, 0, 0);
@@ -416,8 +432,8 @@ typedef union
 static inline uint64_t BDK_SLIX_CONST1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_CONST1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x874001002030ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874001002030ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x874001002030ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_CONST1", 1, a, 0, 0, 0);
@@ -461,7 +477,11 @@ typedef union
 static inline uint64_t BDK_SLIX_DATA_OUT_CNTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_DATA_OUT_CNTX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2)))
+        return 0x874000001080ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=2)))
+        return 0x874000001080ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
         return 0x874000001080ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SLIX_DATA_OUT_CNTX", 2, a, b, 0, 0);
 }
@@ -496,7 +516,11 @@ typedef union
 static inline uint64_t BDK_SLIX_END_MERGE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_END_MERGE(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874001002300ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874001002300ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874001002300ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_END_MERGE", 1, a, 0, 0, 0);
 }
@@ -772,8 +796,8 @@ typedef union
 static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
-        return 0x874001002100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2)))
+        return 0x874001002100ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x874001002100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
@@ -813,7 +837,22 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_macx_int_ena_w1c_s cn81xx; */
+    struct bdk_slix_macx_int_ena_w1c_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SLI(0)_MAC(0..2)_INT_SUM[UN_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SLI(0)_MAC(0..2)_INT_SUM[UN_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SLI(0)_MAC(0..2)_INT_SUM[UP_WI]. */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SLI(0)_MAC(0..2)_INT_SUM[UP_B0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SLI(0)_MAC(0..2)_INT_SUM[UP_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SLI(0)_MAC(0..2)_INT_SUM[UP_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SLI(0)_MAC(0..2)_INT_SUM[UN_B0]. */
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SLI(0)_MAC(0..2)_INT_SUM[UN_WI]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn81xx;
     /* struct bdk_slix_macx_int_ena_w1c_s cn88xx; */
     struct bdk_slix_macx_int_ena_w1c_cn83xx
     {
@@ -836,8 +875,8 @@ typedef union
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
-        return 0x874000001200ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2)))
+        return 0x874000001200ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x874000001200ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
@@ -877,7 +916,22 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_macx_int_ena_w1s_s cn81xx; */
+    struct bdk_slix_macx_int_ena_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SLI(0)_MAC(0..2)_INT_SUM[UN_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SLI(0)_MAC(0..2)_INT_SUM[UN_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SLI(0)_MAC(0..2)_INT_SUM[UP_WI]. */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SLI(0)_MAC(0..2)_INT_SUM[UP_B0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SLI(0)_MAC(0..2)_INT_SUM[UP_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SLI(0)_MAC(0..2)_INT_SUM[UP_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SLI(0)_MAC(0..2)_INT_SUM[UN_B0]. */
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SLI(0)_MAC(0..2)_INT_SUM[UN_WI]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn81xx;
     /* struct bdk_slix_macx_int_ena_w1s_s cn88xx; */
     struct bdk_slix_macx_int_ena_w1s_cn83xx
     {
@@ -900,8 +954,8 @@ typedef union
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
-        return 0x874000001280ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2)))
+        return 0x874000001280ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x874000001280ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
@@ -980,8 +1034,8 @@ typedef union
 static inline uint64_t BDK_SLIX_MACX_INT_SUM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_SUM(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
-        return 0x874000001100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2)))
+        return 0x874000001100ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x874000001100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
@@ -1021,7 +1075,22 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_macx_int_sum_w1s_s cn81xx; */
+    struct bdk_slix_macx_int_sum_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SLI(0)_MAC(0..2)_INT_SUM[UN_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SLI(0)_MAC(0..2)_INT_SUM[UN_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SLI(0)_MAC(0..2)_INT_SUM[UP_WI]. */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SLI(0)_MAC(0..2)_INT_SUM[UP_B0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t up_b0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SLI(0)_MAC(0..2)_INT_SUM[UP_B0]. */
+        uint64_t up_wi                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SLI(0)_MAC(0..2)_INT_SUM[UP_WI]. */
+        uint64_t un_b0                 : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SLI(0)_MAC(0..2)_INT_SUM[UN_B0]. */
+        uint64_t un_wi                 : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SLI(0)_MAC(0..2)_INT_SUM[UN_WI]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn81xx;
     /* struct bdk_slix_macx_int_sum_w1s_s cn88xx; */
     struct bdk_slix_macx_int_sum_w1s_cn83xx
     {
@@ -1044,8 +1113,8 @@ typedef union
 static inline uint64_t BDK_SLIX_MACX_INT_SUM_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_SUM_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
-        return 0x874000001180ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2)))
+        return 0x874000001180ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x874000001180ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
@@ -1095,7 +1164,11 @@ typedef union
 static inline uint64_t BDK_SLIX_MAC_NUMBER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MAC_NUMBER(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x80ll + 0x10000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x80ll + 0x10000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x80ll + 0x10000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_MAC_NUMBER", 1, a, 0, 0, 0);
 }
@@ -1133,6 +1206,20 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
+        uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1C/H) Reads or clears enable for SLI(0)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_22_31        : 10;
+        uint64_t sed0_sbe              : 22; /**< [ 21:  0](R/W1C/H) Reads or clears enable for SLI(0)_MBE_INT_SUM[SED0_SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sed0_sbe              : 22; /**< [ 21:  0](R/W1C/H) Reads or clears enable for SLI(0)_MBE_INT_SUM[SED0_SBE]. */
+        uint64_t reserved_22_31        : 10;
+        uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1C/H) Reads or clears enable for SLI(0)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_54_63        : 10;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_slix_mbe_int_ena_w1c_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_54_63        : 10;
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1C/H) Reads or clears enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_22_31        : 10;
         uint64_t sed0_sbe              : 22; /**< [ 21:  0](R/W1C/H) Reads or clears enable for SLI(0..1)_MBE_INT_SUM[SED0_SBE]. */
@@ -1142,15 +1229,18 @@ typedef union
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1C/H) Reads or clears enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_slix_mbe_int_ena_w1c_cn81xx cn88xx; */
+    } cn88xx;
     /* struct bdk_slix_mbe_int_ena_w1c_s cn83xx; */
 } bdk_slix_mbe_int_ena_w1c_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1C(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874001002260ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874001002260ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874001002260ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_MBE_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -1189,6 +1279,20 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
+        uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets enable for SLI(0)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_22_31        : 10;
+        uint64_t sed0_sbe              : 22; /**< [ 21:  0](R/W1S/H) Reads or sets enable for SLI(0)_MBE_INT_SUM[SED0_SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sed0_sbe              : 22; /**< [ 21:  0](R/W1S/H) Reads or sets enable for SLI(0)_MBE_INT_SUM[SED0_SBE]. */
+        uint64_t reserved_22_31        : 10;
+        uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets enable for SLI(0)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_54_63        : 10;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_slix_mbe_int_ena_w1s_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_54_63        : 10;
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_22_31        : 10;
         uint64_t sed0_sbe              : 22; /**< [ 21:  0](R/W1S/H) Reads or sets enable for SLI(0..1)_MBE_INT_SUM[SED0_SBE]. */
@@ -1198,15 +1302,18 @@ typedef union
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets enable for SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_slix_mbe_int_ena_w1s_cn81xx cn88xx; */
+    } cn88xx;
     /* struct bdk_slix_mbe_int_ena_w1s_s cn83xx; */
 } bdk_slix_mbe_int_ena_w1s_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1S(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874001002280ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874001002280ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874001002280ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_MBE_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -1262,7 +1369,11 @@ typedef union
 static inline uint64_t BDK_SLIX_MBE_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_SUM(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874001002220ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874001002220ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874001002220ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_MBE_INT_SUM", 1, a, 0, 0, 0);
 }
@@ -1301,6 +1412,20 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
+        uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets SLI(0)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_22_31        : 10;
+        uint64_t sed0_sbe              : 22; /**< [ 21:  0](R/W1S/H) Reads or sets SLI(0)_MBE_INT_SUM[SED0_SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sed0_sbe              : 22; /**< [ 21:  0](R/W1S/H) Reads or sets SLI(0)_MBE_INT_SUM[SED0_SBE]. */
+        uint64_t reserved_22_31        : 10;
+        uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets SLI(0)_MBE_INT_SUM[SED0_DBE]. */
+        uint64_t reserved_54_63        : 10;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_slix_mbe_int_sum_w1s_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_54_63        : 10;
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_22_31        : 10;
         uint64_t sed0_sbe              : 22; /**< [ 21:  0](R/W1S/H) Reads or sets SLI(0..1)_MBE_INT_SUM[SED0_SBE]. */
@@ -1310,15 +1435,18 @@ typedef union
         uint64_t sed0_dbe              : 22; /**< [ 53: 32](R/W1S/H) Reads or sets SLI(0..1)_MBE_INT_SUM[SED0_DBE]. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_slix_mbe_int_sum_w1s_cn81xx cn88xx; */
+    } cn88xx;
     /* struct bdk_slix_mbe_int_sum_w1s_s cn83xx; */
 } bdk_slix_mbe_int_sum_w1s_t;
 
 static inline uint64_t BDK_SLIX_MBE_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_SUM_W1S(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874001002240ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874001002240ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874001002240ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_MBE_INT_SUM_W1S", 1, a, 0, 0, 0);
 }
@@ -1580,7 +1708,11 @@ typedef union
 static inline uint64_t BDK_SLIX_MEM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MEM_CTL(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874001002200ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874001002200ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874001002200ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_MEM_CTL", 1, a, 0, 0, 0);
 }
@@ -1617,7 +1749,11 @@ typedef union
 static inline uint64_t BDK_SLIX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b==0))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x8740100f0000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
+        return 0x8740100f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b==0)))
         return 0x8740100f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("SLIX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -1672,8 +1808,8 @@ typedef union
 static inline uint64_t BDK_SLIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
-        return 0x874010000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=3)))
+        return 0x874010000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=4)))
         return 0x874010000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
@@ -1717,8 +1853,8 @@ typedef union
 static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
-        return 0x874010000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=3)))
+        return 0x874010000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=4)))
         return 0x874010000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
@@ -1858,7 +1994,11 @@ typedef union
 static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874001002000ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874001002000ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874001002000ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_S2M_CTL", 1, a, 0, 0, 0);
 }
@@ -1911,8 +2051,8 @@ typedef union
 static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2)))
-        return 0x874001002080ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=2)))
+        return 0x874001002080ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x874001002080ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=2)))
@@ -1991,7 +2131,11 @@ typedef union
 static inline uint64_t BDK_SLIX_S2M_REGX_ACC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_S2M_REGX_ACC(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=255))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=255)))
+        return 0x874001000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=255)))
+        return 0x874001000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=255)))
         return 0x874001000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xff);
     __bdk_csr_fatal("SLIX_S2M_REGX_ACC", 2, a, b, 0, 0);
 }
@@ -2026,7 +2170,11 @@ typedef union
 static inline uint64_t BDK_SLIX_SCRATCH_1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_SCRATCH_1(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874000001000ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874000001000ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874000001000ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_SCRATCH_1", 1, a, 0, 0, 0);
 }
@@ -2061,7 +2209,11 @@ typedef union
 static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874000001010ll + 0x1000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874000001010ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x874000001010ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_SCRATCH_2", 1, a, 0, 0, 0);
 }
@@ -2118,8 +2270,8 @@ typedef union
 static inline uint64_t BDK_SLIX_SCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_SCTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x874001002010ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x874001002010ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x874001002010ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
@@ -2240,7 +2392,11 @@ typedef union
 static inline uint64_t BDK_SLIX_WIN_RD_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_RD_ADDR(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x10ll + 0x10000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x10ll + 0x10000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x10ll + 0x10000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_WIN_RD_ADDR", 1, a, 0, 0, 0);
 }
@@ -2274,7 +2430,11 @@ typedef union
 static inline uint64_t BDK_SLIX_WIN_RD_DATA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_RD_DATA(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x40ll + 0x10000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x40ll + 0x10000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x40ll + 0x10000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_WIN_RD_DATA", 1, a, 0, 0, 0);
 }
@@ -2367,7 +2527,11 @@ typedef union
 static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0ll + 0x10000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0ll + 0x10000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0ll + 0x10000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_WIN_WR_ADDR", 1, a, 0, 0, 0);
 }
@@ -2402,7 +2566,11 @@ typedef union
 static inline uint64_t BDK_SLIX_WIN_WR_DATA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_DATA(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x20ll + 0x10000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x20ll + 0x10000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x20ll + 0x10000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_WIN_WR_DATA", 1, a, 0, 0, 0);
 }
@@ -2438,7 +2606,11 @@ typedef union
 static inline uint64_t BDK_SLIX_WIN_WR_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_MASK(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x30ll + 0x10000000000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x30ll + 0x10000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x30ll + 0x10000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_WIN_WR_MASK", 1, a, 0, 0, 0);
 }

@@ -755,7 +755,102 @@ typedef union
                                                                  will XOR with this value. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mio_fus_dat3_s cn81xx; */
+    struct bdk_mio_fus_dat3_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ema0                  : 6;  /**< [ 63: 58](RO) Fuse information - EMA0.
+                                                                 Internal:
+                                                                 dflt value is 0x11. Soft or hard blow of these fuses
+                                                                 will XOR with this value. */
+        uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
+        uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
+        uint64_t dfa_info_clm          : 4;  /**< [ 44: 41](RO) Fuse information - HFA information (cluster mask). */
+        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Select alternate PLL matrix. */
+        uint64_t pll_bwadj_denom       : 2;  /**< [ 39: 38](RO) Select CLKF denominator for BWADJ value.
+                                                                    0x0 = Selects CLKF/4.
+                                                                    0x1 = Selects CLKF/2.
+                                                                    0x2 = Selects CLKF/8. */
+        uint64_t efus_lck_rsv          : 1;  /**< [ 37: 37](RO) Fuse information - efuse lockdown. */
+        uint64_t efus_lck_man          : 1;  /**< [ 36: 36](RO) Fuse information - efuse lockdown. */
+        uint64_t pll_half_dis          : 1;  /**< [ 35: 35](RO/H) Fuse information - Coprocessor-clock PLL control. */
+        uint64_t l2c_crip              : 3;  /**< [ 34: 32](RO) Fuse information - L2C cripple:
+                                                                 0x0 = Full cache (16-way, 2 MB).
+                                                                 0x1 = 3/4 ways (12-way, 1.5 MB).
+                                                                 0x2 = 1/2 ways (8-way, 1 MB).
+                                                                 0x3 = 1/4 ways (4-way, 512 KB).
+                                                                 0x4-0x7 = Reserved. */
+        uint64_t use_int_refclk        : 1;  /**< [ 31: 31](RO) If set, use the PLL output as the low-jitter reference clock to the rclk DLLs. Default is
+                                                                 to use the internal input reference clock. */
+        uint64_t zip_info              : 2;  /**< [ 30: 29](RO) Fuse information - Zip information. */
+        uint64_t bar2_sz_conf          : 1;  /**< [ 28: 28](RO) Fuse information - When 0, BAR2 size conforms to PCIe specification. */
+        uint64_t efus_lck              : 1;  /**< [ 27: 27](RO) Fuse information - efuse lockdown. */
+        uint64_t efus_ign              : 1;  /**< [ 26: 26](RO) Fuse information - efuse ignore. */
+        uint64_t nozip                 : 1;  /**< [ 25: 25](RO) Fuse information - ZIP disable. */
+        uint64_t nodfa_dte             : 1;  /**< [ 24: 24](RO) Fuse information - HFA disable (HTE). */
+        uint64_t ema1                  : 6;  /**< [ 23: 18](RO) Fuse information - EMA1.
+                                                                 Internal:
+                                                                 Default value is 0x02. Soft or hard blow of these fuses
+                                                                 will XOR with this value. */
+        uint64_t nohna_dte             : 1;  /**< [ 17: 17](RO) Fuse information - HNA disable (DTE). */
+        uint64_t hna_info_dte          : 3;  /**< [ 16: 14](RO) Fuse information - HNA information (DTE). */
+        uint64_t hna_info_clm          : 4;  /**< [ 13: 10](RO) Fuse information - HNA information (cluster mask). */
+        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) Reserved.
+                                                                 Internal:
+                                                                 When set to 1, TNS switching functionality is permanently disabled. */
+        uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier hardware limit. Indicates maximum
+                                                                 value for PLL_MUL[5:1] straps.  Any strap setting above this
+                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
+        uint64_t pnr_pll_mul           : 4;  /**< [  3:  0](RO) Coprocessor-clock PLL multiplier hardware limit.  Indicates maximum
+                                                                 value for PNR_MUL[5:1] straps.  Any strap setting above this
+                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
+#else /* Word 0 - Little Endian */
+        uint64_t pnr_pll_mul           : 4;  /**< [  3:  0](RO) Coprocessor-clock PLL multiplier hardware limit.  Indicates maximum
+                                                                 value for PNR_MUL[5:1] straps.  Any strap setting above this
+                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
+        uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier hardware limit. Indicates maximum
+                                                                 value for PLL_MUL[5:1] straps.  Any strap setting above this
+                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
+        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) Reserved.
+                                                                 Internal:
+                                                                 When set to 1, TNS switching functionality is permanently disabled. */
+        uint64_t hna_info_clm          : 4;  /**< [ 13: 10](RO) Fuse information - HNA information (cluster mask). */
+        uint64_t hna_info_dte          : 3;  /**< [ 16: 14](RO) Fuse information - HNA information (DTE). */
+        uint64_t nohna_dte             : 1;  /**< [ 17: 17](RO) Fuse information - HNA disable (DTE). */
+        uint64_t ema1                  : 6;  /**< [ 23: 18](RO) Fuse information - EMA1.
+                                                                 Internal:
+                                                                 Default value is 0x02. Soft or hard blow of these fuses
+                                                                 will XOR with this value. */
+        uint64_t nodfa_dte             : 1;  /**< [ 24: 24](RO) Fuse information - HFA disable (HTE). */
+        uint64_t nozip                 : 1;  /**< [ 25: 25](RO) Fuse information - ZIP disable. */
+        uint64_t efus_ign              : 1;  /**< [ 26: 26](RO) Fuse information - efuse ignore. */
+        uint64_t efus_lck              : 1;  /**< [ 27: 27](RO) Fuse information - efuse lockdown. */
+        uint64_t bar2_sz_conf          : 1;  /**< [ 28: 28](RO) Fuse information - When 0, BAR2 size conforms to PCIe specification. */
+        uint64_t zip_info              : 2;  /**< [ 30: 29](RO) Fuse information - Zip information. */
+        uint64_t use_int_refclk        : 1;  /**< [ 31: 31](RO) If set, use the PLL output as the low-jitter reference clock to the rclk DLLs. Default is
+                                                                 to use the internal input reference clock. */
+        uint64_t l2c_crip              : 3;  /**< [ 34: 32](RO) Fuse information - L2C cripple:
+                                                                 0x0 = Full cache (16-way, 2 MB).
+                                                                 0x1 = 3/4 ways (12-way, 1.5 MB).
+                                                                 0x2 = 1/2 ways (8-way, 1 MB).
+                                                                 0x3 = 1/4 ways (4-way, 512 KB).
+                                                                 0x4-0x7 = Reserved. */
+        uint64_t pll_half_dis          : 1;  /**< [ 35: 35](RO/H) Fuse information - Coprocessor-clock PLL control. */
+        uint64_t efus_lck_man          : 1;  /**< [ 36: 36](RO) Fuse information - efuse lockdown. */
+        uint64_t efus_lck_rsv          : 1;  /**< [ 37: 37](RO) Fuse information - efuse lockdown. */
+        uint64_t pll_bwadj_denom       : 2;  /**< [ 39: 38](RO) Select CLKF denominator for BWADJ value.
+                                                                    0x0 = Selects CLKF/4.
+                                                                    0x1 = Selects CLKF/2.
+                                                                    0x2 = Selects CLKF/8. */
+        uint64_t pll_alt_matrix        : 1;  /**< [ 40: 40](RO) Select alternate PLL matrix. */
+        uint64_t dfa_info_clm          : 4;  /**< [ 44: 41](RO) Fuse information - HFA information (cluster mask). */
+        uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
+        uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
+        uint64_t ema0                  : 6;  /**< [ 63: 58](RO) Fuse information - EMA0.
+                                                                 Internal:
+                                                                 dflt value is 0x11. Soft or hard blow of these fuses
+                                                                 will XOR with this value. */
+#endif /* Word 0 - End */
+    } cn81xx;
     struct bdk_mio_fus_dat3_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -887,7 +982,9 @@ typedef union
         uint64_t nohna_dte             : 1;  /**< [ 17: 17](RO) Fuse information - HNA disable (DTE). */
         uint64_t hna_info_dte          : 3;  /**< [ 16: 14](RO) Fuse information - HNA information (DTE). */
         uint64_t hna_info_clm          : 4;  /**< [ 13: 10](RO) Fuse information - HNA information (cluster mask). */
-        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) When set to 1, TNS switching functionality is permanently disabled. */
+        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) Reserved.
+                                                                 Internal:
+                                                                 When set to 1, TNS switching functionality is permanently disabled. */
         uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier hardware limit. Indicates maximum
                                                                  value for PLL_MUL[5:1] straps.  Any strap setting above this
                                                                  value will be ignored.  A value of 0 indicates no hardware limit. */
@@ -901,7 +998,9 @@ typedef union
         uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier hardware limit. Indicates maximum
                                                                  value for PLL_MUL[5:1] straps.  Any strap setting above this
                                                                  value will be ignored.  A value of 0 indicates no hardware limit. */
-        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) When set to 1, TNS switching functionality is permanently disabled. */
+        uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) Reserved.
+                                                                 Internal:
+                                                                 When set to 1, TNS switching functionality is permanently disabled. */
         uint64_t hna_info_clm          : 4;  /**< [ 13: 10](RO) Fuse information - HNA information (cluster mask). */
         uint64_t hna_info_dte          : 3;  /**< [ 16: 14](RO) Fuse information - HNA information (DTE). */
         uint64_t nohna_dte             : 1;  /**< [ 17: 17](RO) Fuse information - HNA disable (DTE). */
@@ -1085,6 +1184,9 @@ static inline uint64_t BDK_MIO_FUS_PDF_FUNC(void)
  * Register (RSL) mio_fus_pll
  *
  * MIO Fuse PLL Register
+ * This register contains PLL status and controls for the MSC_CLKOUT and
+ * MSC_SYS_CLKOUT pins.  The fields are reset to zero on a cold reset.
+ * the values are preserved on both a warm and soft reset starting with pass 3.
  */
 typedef union
 {
@@ -1098,17 +1200,18 @@ typedef union
         uint64_t pnr_status            : 3;  /**< [ 10:  8](RO) Coprocessor-clock PLL status information. */
         uint64_t c_cout_rst            : 1;  /**< [  7:  7](R/W) Core clockout postscaler reset. The core clockout postscaler should be placed in reset at
                                                                  least 10 reference-clock cycles prior to changing C_COUT_SEL. The core clockout postscaler
-                                                                 should remain under reset for at least 10 reference-clock cycles after C_COUT_SEL changes. */
+                                                                 should remain under reset for at least 10 reference-clock cycles after C_COUT_SEL changes.
+                                                                 This field is reset to zero on a cold reset, it is preserved on both a warm and soft
+                                                                 reset. */
         uint64_t c_cout_sel            : 2;  /**< [  6:  5](R/W) Core-clock output select:
                                                                  0x0 = Core clock.
                                                                  0x1 = PS output.
                                                                  0x2 = PLL output.
                                                                  0x3 = Undivided core clock. */
-        uint64_t pnr_cout_rst          : 1;  /**< [  4:  4](R/W) SYS clockout postscaler reset. The PNR clockout postscaler should be placed in reset at
-                                                                 least 10 reference-clock cycles prior to changing PNR_COUT_SEL. The SYS clockout
-                                                                 postscaler
-                                                                 should remain under reset for at least 10 reference-clock cycles after PNR_COUT_SEL
-                                                                 changes. */
+        uint64_t pnr_cout_rst          : 1;  /**< [  4:  4](R/W) SYS clockout postscaler reset. The PNR clockout postscaler should be placed in
+                                                                 reset at least 10 reference-clock cycles prior to changing PNR_COUT_SEL. The
+                                                                 SYS clockout postscaler should remain under reset for at least 10
+                                                                 reference clock cycles after PNR_COUT_SEL changes. */
         uint64_t pnr_cout_sel          : 2;  /**< [  3:  2](R/W) Coprocessor-clock output select:
                                                                  0x0 = Coprocessor clock.
                                                                  0x1 = PS output.
@@ -1122,11 +1225,10 @@ typedef union
                                                                  0x1 = PS output.
                                                                  0x2 = PLL output.
                                                                  0x3 = Undivided core clock. */
-        uint64_t pnr_cout_rst          : 1;  /**< [  4:  4](R/W) SYS clockout postscaler reset. The PNR clockout postscaler should be placed in reset at
-                                                                 least 10 reference-clock cycles prior to changing PNR_COUT_SEL. The SYS clockout
-                                                                 postscaler
-                                                                 should remain under reset for at least 10 reference-clock cycles after PNR_COUT_SEL
-                                                                 changes. */
+        uint64_t pnr_cout_rst          : 1;  /**< [  4:  4](R/W) SYS clockout postscaler reset. The PNR clockout postscaler should be placed in
+                                                                 reset at least 10 reference-clock cycles prior to changing PNR_COUT_SEL. The
+                                                                 SYS clockout postscaler should remain under reset for at least 10
+                                                                 reference clock cycles after PNR_COUT_SEL changes. */
         uint64_t c_cout_sel            : 2;  /**< [  6:  5](R/W) Core-clock output select:
                                                                  0x0 = Core clock.
                                                                  0x1 = PS output.
@@ -1134,7 +1236,9 @@ typedef union
                                                                  0x3 = Undivided core clock. */
         uint64_t c_cout_rst            : 1;  /**< [  7:  7](R/W) Core clockout postscaler reset. The core clockout postscaler should be placed in reset at
                                                                  least 10 reference-clock cycles prior to changing C_COUT_SEL. The core clockout postscaler
-                                                                 should remain under reset for at least 10 reference-clock cycles after C_COUT_SEL changes. */
+                                                                 should remain under reset for at least 10 reference-clock cycles after C_COUT_SEL changes.
+                                                                 This field is reset to zero on a cold reset, it is preserved on both a warm and soft
+                                                                 reset. */
         uint64_t pnr_status            : 3;  /**< [ 10:  8](RO) Coprocessor-clock PLL status information. */
         uint64_t reserved_11           : 1;
         uint64_t core_status           : 3;  /**< [ 14: 12](RO) Core-clock PLL status information. */

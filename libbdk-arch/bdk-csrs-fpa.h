@@ -974,9 +974,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
-        uint64_t dwbq                  : 6;  /**< [ 17: 12](RAZ) Don't write back queue size. Number of transactions requesting DWB that may be
+        uint64_t dwbq                  : 6;  /**< [ 17: 12](R/W) Don't write back queue size. Number of transactions requesting DWB that may be
                                                                  held waiting for DWB. Once the stack is full, additional DWB requests will be
-                                                                 ignored. 0x0 disables DWBs. 0x3F sets to maximum size. */
+                                                                 ignored. 0x0 disables DWBs. 0x3F sets to maximum size.
+                                                                 See also FPA_STATUS[DWBQ_BUSY]. */
         uint64_t halfrate              : 1;  /**< [ 11: 11](R/W) Half rate. Limit peak alloc/free rate to half of peak to insure all alloc/frees are
                                                                  visible to OCLA. */
         uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure
@@ -1018,9 +1019,10 @@ typedef union
                                                                  alloc/frees. See also [HALFRATE]. */
         uint64_t halfrate              : 1;  /**< [ 11: 11](R/W) Half rate. Limit peak alloc/free rate to half of peak to insure all alloc/frees are
                                                                  visible to OCLA. */
-        uint64_t dwbq                  : 6;  /**< [ 17: 12](RAZ) Don't write back queue size. Number of transactions requesting DWB that may be
+        uint64_t dwbq                  : 6;  /**< [ 17: 12](R/W) Don't write back queue size. Number of transactions requesting DWB that may be
                                                                  held waiting for DWB. Once the stack is full, additional DWB requests will be
-                                                                 ignored. 0x0 disables DWBs. 0x3F sets to maximum size. */
+                                                                 ignored. 0x0 disables DWBs. 0x3F sets to maximum size.
+                                                                 See also FPA_STATUS[DWBQ_BUSY]. */
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;
@@ -1424,7 +1426,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's FPA_PF_MSIX_VEC()_ADDR, FPA_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of FPA_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -1434,7 +1436,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's FPA_PF_MSIX_VEC()_ADDR, FPA_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of FPA_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -2024,7 +2026,7 @@ static inline uint64_t BDK_FPA_RED_DELAY_FUNC(void)
  * Register (NCB) fpa_sft_rst
  *
  * FPA Soft Reset Register
- * Allows soft reset.
+ * This register can initiate soft resets.
  */
 typedef union
 {
@@ -2065,6 +2067,46 @@ static inline uint64_t BDK_FPA_SFT_RST_FUNC(void)
 #define device_bar_BDK_FPA_SFT_RST 0x0 /* PF_BAR0 */
 #define busnum_BDK_FPA_SFT_RST 0
 #define arguments_BDK_FPA_SFT_RST -1,-1,-1,-1
+
+/**
+ * Register (NCB) fpa_status
+ *
+ * FPA Status Register
+ * This register returns FPA operational status.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_fpa_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t dwbq_busy             : 1;  /**< [  1:  1](RO/H) When 1, the DWBQ queue is non-empty. */
+        uint64_t inp_busy              : 1;  /**< [  0:  0](R/W1/H) When 1, an input queue is non-empty. */
+#else /* Word 0 - Little Endian */
+        uint64_t inp_busy              : 1;  /**< [  0:  0](R/W1/H) When 1, an input queue is non-empty. */
+        uint64_t dwbq_busy             : 1;  /**< [  1:  1](RO/H) When 1, the DWBQ queue is non-empty. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_fpa_status_s cn; */
+} bdk_fpa_status_t;
+
+#define BDK_FPA_STATUS BDK_FPA_STATUS_FUNC()
+static inline uint64_t BDK_FPA_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_FPA_STATUS_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8280000000c0ll;
+    __bdk_csr_fatal("FPA_STATUS", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_FPA_STATUS bdk_fpa_status_t
+#define bustype_BDK_FPA_STATUS BDK_CSR_TYPE_NCB
+#define basename_BDK_FPA_STATUS "FPA_STATUS"
+#define device_bar_BDK_FPA_STATUS 0x0 /* PF_BAR0 */
+#define busnum_BDK_FPA_STATUS 0
+#define arguments_BDK_FPA_STATUS -1,-1,-1,-1
 
 /**
  * Register (NCB) fpa_unmap_info

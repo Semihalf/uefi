@@ -94,8 +94,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG000(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG000(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000000ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000000ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000000ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -178,8 +178,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG001(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG001(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000004ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000004ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000004ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -292,8 +292,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG002(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG002(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000008ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000008ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000008ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -365,8 +365,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG003(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG003(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000000cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000000cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000000cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -412,8 +412,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG004(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG004(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000010ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000010ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000010ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -459,8 +459,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG005(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG005(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000014ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000014ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000014ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -519,8 +519,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG006(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG006(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000018ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000018ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000018ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -646,8 +646,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG007(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG007(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000001cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000001cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000001cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -690,8 +690,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG008(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG008(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000020ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000020ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000020ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -785,8 +785,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG009(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG009(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000024ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000024ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000024ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -825,8 +825,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG010(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG010(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000028ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000028ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000028ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -865,8 +865,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG011(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG011(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000002cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000002cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000002cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -905,8 +905,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG012(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG012(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000030ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000030ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000030ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -947,8 +947,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG013(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG013(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000034ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000034ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000034ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -994,8 +994,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG014(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG014(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000038ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000038ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000038ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -1115,8 +1115,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG015(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG015(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000003cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000003cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000003cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -1270,8 +1270,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG016(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG016(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000040ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000040ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000040ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -1389,8 +1389,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG017(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG017(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000044ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000044ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000044ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -1455,8 +1455,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG020(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG020(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000050ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000050ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000050ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIERCX_CFG020", 1, a, 0, 0, 0);
@@ -1493,8 +1493,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG021(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG021(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000054ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000054ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000054ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIERCX_CFG021", 1, a, 0, 0, 0);
@@ -1529,8 +1529,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG022(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG022(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000058ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000058ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x20000000058ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIERCX_CFG022", 1, a, 0, 0, 0);
@@ -1569,8 +1569,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG023(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG023(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000005cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000005cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x2000000005cll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIERCX_CFG023", 1, a, 0, 0, 0);
@@ -1623,8 +1623,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG028(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG028(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000070ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000070ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000070ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -1740,8 +1740,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG029(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG029(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000074ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000074ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000074ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -1959,8 +1959,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG030(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG030(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000078ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000078ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000078ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -2154,8 +2154,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG031(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG031(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000007cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000007cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000007cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -2179,6 +2179,101 @@ typedef union
 {
     uint32_t u;
     struct bdk_pciercx_cfg032_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lab                   : 1;  /**< [ 31: 31](R/W1C/H) Link autonomous bandwidth status. This bit is set to indicate that hardware has
+                                                                 autonomously changed link speed or width, without the port transitioning through DL_Down
+                                                                 status, for reasons other than to attempt to correct unreliable link operation. */
+        uint32_t lbm                   : 1;  /**< [ 30: 30](R/W1C/H) Link bandwidth management status. This bit is set to indicate either of the following has
+                                                                 occurred without the port transitioning through DL_DOWN status:
+
+                                                                 * A link retraining has completed following a write of 1b to the retrain link bit
+
+                                                                 * Hardware has changed the Link speed or width to attempt to correct unreliable link
+                                                                 operation, either through a LTSSM timeout of higher level process. This bit must be set if
+                                                                 the physical layer reports a speed or width change was initiated by the downstream
+                                                                 component that was not indicated as an autonomous change. */
+        uint32_t dlla                  : 1;  /**< [ 29: 29](RO/H) Data link layer active. */
+        uint32_t scc                   : 1;  /**< [ 28: 28](RO/WRSL) Slot clock configuration. Indicates that the component uses the same physical reference
+                                                                 clock that the platform provides on the connector. The default value is the value you
+                                                                 select during hardware configuration, writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t lt                    : 1;  /**< [ 27: 27](RO/H) Link training. */
+        uint32_t reserved_26           : 1;
+        uint32_t nlw                   : 6;  /**< [ 25: 20](RO/H) Negotiated link width. Set automatically by hardware after link initialization. Value is
+                                                                 undefined when link is not up. */
+        uint32_t ls                    : 4;  /**< [ 19: 16](RO/H) Current link speed. The encoded value specifies a bit location in the supported link
+                                                                 speeds vector (in the link capabilities 2 register) that corresponds to the current link
+                                                                 speed.
+                                                                 0x1 = Supported link speeds vector field bit 0.
+                                                                 0x2 = Supported link speeds vector field bit 1.
+                                                                 0x3 = Supported link speeds vector field bit 2. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](R/W) Link autonomous bandwidth interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link autonomous bandwidth status bit has been set. */
+        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link bandwidth management status bit has been set. */
+        uint32_t hawd                  : 1;  /**< [  9:  9](RO) Hardware autonomous width disable (not supported). */
+        uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
+                                                                 link capabilities register. */
+        uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
+        uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
+        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link (always 0 for RC). */
+        uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
+        uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through
+                                                                 PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
+                                                                 bytes is not supported. */
+        uint32_t reserved_2            : 1;
+        uint32_t aslpc                 : 2;  /**< [  1:  0](R/W) Active state link PM control. */
+#else /* Word 0 - Little Endian */
+        uint32_t aslpc                 : 2;  /**< [  1:  0](R/W) Active state link PM control. */
+        uint32_t reserved_2            : 1;
+        uint32_t rcb                   : 1;  /**< [  3:  3](RO/WRSL) Read completion boundary (RCB), writable through
+                                                                 PEM()_CFG_WR. However, the application must not change this field because an RCB of 64
+                                                                 bytes is not supported. */
+        uint32_t ld                    : 1;  /**< [  4:  4](R/W) Link disable. */
+        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link (always 0 for RC). */
+        uint32_t ccc                   : 1;  /**< [  6:  6](R/W) Common clock configuration. */
+        uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
+        uint32_t ecpm                  : 1;  /**< [  8:  8](R/W/H) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
+                                                                 link capabilities register. */
+        uint32_t hawd                  : 1;  /**< [  9:  9](RO) Hardware autonomous width disable (not supported). */
+        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link bandwidth management status bit has been set. */
+        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](R/W) Link autonomous bandwidth interrupt enable. When set, enables the generation of an
+                                                                 interrupt to indicate that the link autonomous bandwidth status bit has been set. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t ls                    : 4;  /**< [ 19: 16](RO/H) Current link speed. The encoded value specifies a bit location in the supported link
+                                                                 speeds vector (in the link capabilities 2 register) that corresponds to the current link
+                                                                 speed.
+                                                                 0x1 = Supported link speeds vector field bit 0.
+                                                                 0x2 = Supported link speeds vector field bit 1.
+                                                                 0x3 = Supported link speeds vector field bit 2. */
+        uint32_t nlw                   : 6;  /**< [ 25: 20](RO/H) Negotiated link width. Set automatically by hardware after link initialization. Value is
+                                                                 undefined when link is not up. */
+        uint32_t reserved_26           : 1;
+        uint32_t lt                    : 1;  /**< [ 27: 27](RO/H) Link training. */
+        uint32_t scc                   : 1;  /**< [ 28: 28](RO/WRSL) Slot clock configuration. Indicates that the component uses the same physical reference
+                                                                 clock that the platform provides on the connector. The default value is the value you
+                                                                 select during hardware configuration, writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t dlla                  : 1;  /**< [ 29: 29](RO/H) Data link layer active. */
+        uint32_t lbm                   : 1;  /**< [ 30: 30](R/W1C/H) Link bandwidth management status. This bit is set to indicate either of the following has
+                                                                 occurred without the port transitioning through DL_DOWN status:
+
+                                                                 * A link retraining has completed following a write of 1b to the retrain link bit
+
+                                                                 * Hardware has changed the Link speed or width to attempt to correct unreliable link
+                                                                 operation, either through a LTSSM timeout of higher level process. This bit must be set if
+                                                                 the physical layer reports a speed or width change was initiated by the downstream
+                                                                 component that was not indicated as an autonomous change. */
+        uint32_t lab                   : 1;  /**< [ 31: 31](R/W1C/H) Link autonomous bandwidth status. This bit is set to indicate that hardware has
+                                                                 autonomously changed link speed or width, without the port transitioning through DL_Down
+                                                                 status, for reasons other than to attempt to correct unreliable link operation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg032_s cn81xx; */
+    struct bdk_pciercx_cfg032_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lab                   : 1;  /**< [ 31: 31](R/W1C) Link autonomous bandwidth status. This bit is set to indicate that hardware has
@@ -2271,9 +2366,7 @@ typedef union
                                                                  autonomously changed link speed or width, without the port transitioning through DL_Down
                                                                  status, for reasons other than to attempt to correct unreliable link operation. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg032_s cn81xx; */
-    /* struct bdk_pciercx_cfg032_s cn88xx; */
+    } cn88xx;
     struct bdk_pciercx_cfg032_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2373,8 +2466,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG032(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG032(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000080ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000080ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000080ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -2505,8 +2598,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG033(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG033(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000084ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000084ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000084ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -2530,6 +2623,57 @@ typedef union
 {
     uint32_t u;
     struct bdk_pciercx_cfg034_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t dlls_c                : 1;  /**< [ 24: 24](R/W1C/H) Data link layer state changed. */
+        uint32_t emis                  : 1;  /**< [ 23: 23](RO) Electromechanical interlock status. */
+        uint32_t pds                   : 1;  /**< [ 22: 22](RO/H) Presence detect state. */
+        uint32_t mrlss                 : 1;  /**< [ 21: 21](RO) MRL sensor state. */
+        uint32_t ccint_d               : 1;  /**< [ 20: 20](R/W1C/H) Command completed. */
+        uint32_t pd_c                  : 1;  /**< [ 19: 19](R/W1C/H) Presence detect changed. */
+        uint32_t mrls_c                : 1;  /**< [ 18: 18](R/W1C/H) MRL sensor changed. */
+        uint32_t pf_d                  : 1;  /**< [ 17: 17](R/W1C/H) Power fault detected. */
+        uint32_t abp_d                 : 1;  /**< [ 16: 16](R/W1C/H) Attention button pressed. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t dlls_en               : 1;  /**< [ 12: 12](R/W) Data link layer state changed enable. */
+        uint32_t emic                  : 1;  /**< [ 11: 11](WO) Electromechanical interlock control. */
+        uint32_t pcc                   : 1;  /**< [ 10: 10](R/W) Power controller control. */
+        uint32_t pic                   : 2;  /**< [  9:  8](R/W) Power indicator control. */
+        uint32_t aic                   : 2;  /**< [  7:  6](R/W) Attention indicator control. */
+        uint32_t hpint_en              : 1;  /**< [  5:  5](R/W) Hot-plug interrupt enable. */
+        uint32_t ccint_en              : 1;  /**< [  4:  4](R/W) Command completed interrupt enable. */
+        uint32_t pd_en                 : 1;  /**< [  3:  3](R/W) Presence detect changed enable. */
+        uint32_t mrls_en               : 1;  /**< [  2:  2](R/W) MRL sensor changed enable. */
+        uint32_t pf_en                 : 1;  /**< [  1:  1](R/W) Power fault detected enable. */
+        uint32_t abp_en                : 1;  /**< [  0:  0](R/W) Attention button pressed enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t abp_en                : 1;  /**< [  0:  0](R/W) Attention button pressed enable. */
+        uint32_t pf_en                 : 1;  /**< [  1:  1](R/W) Power fault detected enable. */
+        uint32_t mrls_en               : 1;  /**< [  2:  2](R/W) MRL sensor changed enable. */
+        uint32_t pd_en                 : 1;  /**< [  3:  3](R/W) Presence detect changed enable. */
+        uint32_t ccint_en              : 1;  /**< [  4:  4](R/W) Command completed interrupt enable. */
+        uint32_t hpint_en              : 1;  /**< [  5:  5](R/W) Hot-plug interrupt enable. */
+        uint32_t aic                   : 2;  /**< [  7:  6](R/W) Attention indicator control. */
+        uint32_t pic                   : 2;  /**< [  9:  8](R/W) Power indicator control. */
+        uint32_t pcc                   : 1;  /**< [ 10: 10](R/W) Power controller control. */
+        uint32_t emic                  : 1;  /**< [ 11: 11](WO) Electromechanical interlock control. */
+        uint32_t dlls_en               : 1;  /**< [ 12: 12](R/W) Data link layer state changed enable. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t abp_d                 : 1;  /**< [ 16: 16](R/W1C/H) Attention button pressed. */
+        uint32_t pf_d                  : 1;  /**< [ 17: 17](R/W1C/H) Power fault detected. */
+        uint32_t mrls_c                : 1;  /**< [ 18: 18](R/W1C/H) MRL sensor changed. */
+        uint32_t pd_c                  : 1;  /**< [ 19: 19](R/W1C/H) Presence detect changed. */
+        uint32_t ccint_d               : 1;  /**< [ 20: 20](R/W1C/H) Command completed. */
+        uint32_t mrlss                 : 1;  /**< [ 21: 21](RO) MRL sensor state. */
+        uint32_t pds                   : 1;  /**< [ 22: 22](RO/H) Presence detect state. */
+        uint32_t emis                  : 1;  /**< [ 23: 23](RO) Electromechanical interlock status. */
+        uint32_t dlls_c                : 1;  /**< [ 24: 24](R/W1C/H) Data link layer state changed. */
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg034_s cn81xx; */
+    struct bdk_pciercx_cfg034_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_25_31        : 7;
@@ -2578,9 +2722,7 @@ typedef union
         uint32_t dlls_c                : 1;  /**< [ 24: 24](R/W1C/H) Data link layer state changed. */
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg034_s cn81xx; */
-    /* struct bdk_pciercx_cfg034_s cn88xx; */
+    } cn88xx;
     struct bdk_pciercx_cfg034_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2636,8 +2778,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG034(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG034(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000088ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000088ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000088ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -2688,8 +2830,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG035(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG035(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000008cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000008cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000008cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -2732,8 +2874,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG036(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG036(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000090ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000090ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000090ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -2968,8 +3110,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG037(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000094ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000094ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000094ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -3006,6 +3148,59 @@ typedef union
         uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
         uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
         uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W) Completion timeout value.
+                                                                 0x0 = Default range: 50 us to 50 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x5 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s.
+                                                                 0xE = 17 s to 64 s.
+
+                                                                 Values not defined are reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W) Completion timeout value.
+                                                                 0x0 = Default range: 50 us to 50 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x5 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s.
+                                                                 0xE = 17 s to 64 s.
+
+                                                                 Values not defined are reserved. */
+        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
+        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](RO) AtomicOp egress blocking (not supported). */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
+        uint32_t reserved_11_12        : 2;
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg038_s cn81xx; */
+    struct bdk_pciercx_cfg038_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enable (not supported). */
+        uint32_t reserved_11_12        : 2;
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](RO) AtomicOp egress blocking (not supported). */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
+        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
+        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
         uint32_t ctv                   : 4;  /**< [  3:  0](RO/H) Completion timeout value.
                                                                  0x0 = Default range: 16 ms to 55 ms.
                                                                  0x1 = 50 us to 100 us.
@@ -3043,9 +3238,7 @@ typedef union
         uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) Unsupported end-end TLP prefix blocking. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg038_s cn81xx; */
-    /* struct bdk_pciercx_cfg038_s cn88xx; */
+    } cn88xx;
     struct bdk_pciercx_cfg038_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3060,7 +3253,7 @@ typedef union
         uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
         uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
         uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
-        uint32_t ctv                   : 4;  /**< [  3:  0](RO/H) Completion timeout value.
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W/H) Completion timeout value.
                                                                  0x0 = Default range: 16 ms to 55 ms.
                                                                  0x1 = 50 us to 100 us.
                                                                  0x2 = 1 ms to 10 ms.
@@ -3073,7 +3266,7 @@ typedef union
 
                                                                  Values not defined are reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t ctv                   : 4;  /**< [  3:  0](RO/H) Completion timeout value.
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W/H) Completion timeout value.
                                                                  0x0 = Default range: 16 ms to 55 ms.
                                                                  0x1 = 50 us to 100 us.
                                                                  0x2 = 1 ms to 10 ms.
@@ -3103,8 +3296,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG038(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG038(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000098ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000098ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000098ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -3240,8 +3433,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG039(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG039(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000009cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000009cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000009cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -3412,8 +3605,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG040(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG040(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x200000000a0ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000a0ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000a0ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -3450,8 +3643,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG041(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG041(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x200000000a4ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000a4ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000a4ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -3488,8 +3681,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG042(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG042(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x200000000a8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000a8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000a8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -3571,8 +3764,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG044(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG044(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x200000000b0ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000b0ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000b0ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -3638,8 +3831,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG045(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG045(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x200000000b4ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000b4ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000b4ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -3686,8 +3879,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG046(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG046(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x200000000b8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000b8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000000b8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -3700,6 +3893,686 @@ static inline uint64_t BDK_PCIERCX_CFG046(unsigned long a)
 #define basename_BDK_PCIERCX_CFG046(a) "PCIERCX_CFG046"
 #define busnum_BDK_PCIERCX_CFG046(a) (a)
 #define arguments_BDK_PCIERCX_CFG046(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg047
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg047_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg047_s cn; */
+} bdk_pciercx_cfg047_t;
+
+static inline uint64_t BDK_PCIERCX_CFG047(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG047(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000bcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000bcll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG047", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG047(a) bdk_pciercx_cfg047_t
+#define bustype_BDK_PCIERCX_CFG047(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG047(a) "PCIERCX_CFG047"
+#define busnum_BDK_PCIERCX_CFG047(a) (a)
+#define arguments_BDK_PCIERCX_CFG047(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg048
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg048_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg048_s cn; */
+} bdk_pciercx_cfg048_t;
+
+static inline uint64_t BDK_PCIERCX_CFG048(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG048(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000c0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000c0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG048", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG048(a) bdk_pciercx_cfg048_t
+#define bustype_BDK_PCIERCX_CFG048(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG048(a) "PCIERCX_CFG048"
+#define busnum_BDK_PCIERCX_CFG048(a) (a)
+#define arguments_BDK_PCIERCX_CFG048(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg049
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg049_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg049_s cn; */
+} bdk_pciercx_cfg049_t;
+
+static inline uint64_t BDK_PCIERCX_CFG049(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG049(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000c4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000c4ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG049", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG049(a) bdk_pciercx_cfg049_t
+#define bustype_BDK_PCIERCX_CFG049(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG049(a) "PCIERCX_CFG049"
+#define busnum_BDK_PCIERCX_CFG049(a) (a)
+#define arguments_BDK_PCIERCX_CFG049(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg050
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg050_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg050_s cn; */
+} bdk_pciercx_cfg050_t;
+
+static inline uint64_t BDK_PCIERCX_CFG050(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG050(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000c8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000c8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG050", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG050(a) bdk_pciercx_cfg050_t
+#define bustype_BDK_PCIERCX_CFG050(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG050(a) "PCIERCX_CFG050"
+#define busnum_BDK_PCIERCX_CFG050(a) (a)
+#define arguments_BDK_PCIERCX_CFG050(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg051
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg051_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg051_s cn; */
+} bdk_pciercx_cfg051_t;
+
+static inline uint64_t BDK_PCIERCX_CFG051(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG051(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000ccll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000ccll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG051", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG051(a) bdk_pciercx_cfg051_t
+#define bustype_BDK_PCIERCX_CFG051(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG051(a) "PCIERCX_CFG051"
+#define busnum_BDK_PCIERCX_CFG051(a) (a)
+#define arguments_BDK_PCIERCX_CFG051(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg052
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg052_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg052_s cn; */
+} bdk_pciercx_cfg052_t;
+
+static inline uint64_t BDK_PCIERCX_CFG052(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG052(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000d0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000d0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG052", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG052(a) bdk_pciercx_cfg052_t
+#define bustype_BDK_PCIERCX_CFG052(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG052(a) "PCIERCX_CFG052"
+#define busnum_BDK_PCIERCX_CFG052(a) (a)
+#define arguments_BDK_PCIERCX_CFG052(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg053
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg053_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg053_s cn; */
+} bdk_pciercx_cfg053_t;
+
+static inline uint64_t BDK_PCIERCX_CFG053(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG053(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000d4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000d4ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG053", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG053(a) bdk_pciercx_cfg053_t
+#define bustype_BDK_PCIERCX_CFG053(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG053(a) "PCIERCX_CFG053"
+#define busnum_BDK_PCIERCX_CFG053(a) (a)
+#define arguments_BDK_PCIERCX_CFG053(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg054
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg054_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg054_s cn; */
+} bdk_pciercx_cfg054_t;
+
+static inline uint64_t BDK_PCIERCX_CFG054(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG054(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000d8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000d8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG054", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG054(a) bdk_pciercx_cfg054_t
+#define bustype_BDK_PCIERCX_CFG054(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG054(a) "PCIERCX_CFG054"
+#define busnum_BDK_PCIERCX_CFG054(a) (a)
+#define arguments_BDK_PCIERCX_CFG054(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg055
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg055_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg055_s cn; */
+} bdk_pciercx_cfg055_t;
+
+static inline uint64_t BDK_PCIERCX_CFG055(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG055(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000dcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000dcll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG055", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG055(a) bdk_pciercx_cfg055_t
+#define bustype_BDK_PCIERCX_CFG055(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG055(a) "PCIERCX_CFG055"
+#define busnum_BDK_PCIERCX_CFG055(a) (a)
+#define arguments_BDK_PCIERCX_CFG055(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg056
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg056_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg056_s cn; */
+} bdk_pciercx_cfg056_t;
+
+static inline uint64_t BDK_PCIERCX_CFG056(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG056(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000e0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000e0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG056", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG056(a) bdk_pciercx_cfg056_t
+#define bustype_BDK_PCIERCX_CFG056(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG056(a) "PCIERCX_CFG056"
+#define busnum_BDK_PCIERCX_CFG056(a) (a)
+#define arguments_BDK_PCIERCX_CFG056(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg057
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg057_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg057_s cn; */
+} bdk_pciercx_cfg057_t;
+
+static inline uint64_t BDK_PCIERCX_CFG057(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG057(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000e4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000e4ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG057", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG057(a) bdk_pciercx_cfg057_t
+#define bustype_BDK_PCIERCX_CFG057(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG057(a) "PCIERCX_CFG057"
+#define busnum_BDK_PCIERCX_CFG057(a) (a)
+#define arguments_BDK_PCIERCX_CFG057(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg058
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg058_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg058_s cn; */
+} bdk_pciercx_cfg058_t;
+
+static inline uint64_t BDK_PCIERCX_CFG058(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG058(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000e8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000e8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG058", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG058(a) bdk_pciercx_cfg058_t
+#define bustype_BDK_PCIERCX_CFG058(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG058(a) "PCIERCX_CFG058"
+#define busnum_BDK_PCIERCX_CFG058(a) (a)
+#define arguments_BDK_PCIERCX_CFG058(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg059
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg059_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg059_s cn; */
+} bdk_pciercx_cfg059_t;
+
+static inline uint64_t BDK_PCIERCX_CFG059(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG059(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000ecll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000ecll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG059", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG059(a) bdk_pciercx_cfg059_t
+#define bustype_BDK_PCIERCX_CFG059(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG059(a) "PCIERCX_CFG059"
+#define busnum_BDK_PCIERCX_CFG059(a) (a)
+#define arguments_BDK_PCIERCX_CFG059(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg060
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg060_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg060_s cn; */
+} bdk_pciercx_cfg060_t;
+
+static inline uint64_t BDK_PCIERCX_CFG060(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG060(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000f0ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000f0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG060", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG060(a) bdk_pciercx_cfg060_t
+#define bustype_BDK_PCIERCX_CFG060(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG060(a) "PCIERCX_CFG060"
+#define busnum_BDK_PCIERCX_CFG060(a) (a)
+#define arguments_BDK_PCIERCX_CFG060(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg061
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg061_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg061_s cn; */
+} bdk_pciercx_cfg061_t;
+
+static inline uint64_t BDK_PCIERCX_CFG061(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG061(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000f4ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000f4ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG061", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG061(a) bdk_pciercx_cfg061_t
+#define bustype_BDK_PCIERCX_CFG061(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG061(a) "PCIERCX_CFG061"
+#define busnum_BDK_PCIERCX_CFG061(a) (a)
+#define arguments_BDK_PCIERCX_CFG061(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg062
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg062_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg062_s cn; */
+} bdk_pciercx_cfg062_t;
+
+static inline uint64_t BDK_PCIERCX_CFG062(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG062(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000f8ll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000f8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG062", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG062(a) bdk_pciercx_cfg062_t
+#define bustype_BDK_PCIERCX_CFG062(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG062(a) "PCIERCX_CFG062"
+#define busnum_BDK_PCIERCX_CFG062(a) (a)
+#define arguments_BDK_PCIERCX_CFG062(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg063
+ *
+ * PCIe RC Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg063_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIERC() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg063_s cn; */
+} bdk_pciercx_cfg063_t;
+
+static inline uint64_t BDK_PCIERCX_CFG063(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG063(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000000fcll + 0x100000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x200000000fcll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG063", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG063(a) bdk_pciercx_cfg063_t
+#define bustype_BDK_PCIERCX_CFG063(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG063(a) "PCIERCX_CFG063"
+#define busnum_BDK_PCIERCX_CFG063(a) (a)
+#define arguments_BDK_PCIERCX_CFG063(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_cfg064
@@ -3747,8 +4620,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG064(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG064(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000100ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000100ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000100ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -3866,8 +4739,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG065(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG065(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000104ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000104ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000104ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4078,8 +4951,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG066(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG066(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000108ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000108ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000108ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4274,8 +5147,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG067(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG067(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000010cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000010cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000010cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4359,8 +5232,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG068(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG068(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000110ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000110ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000110ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4444,8 +5317,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG069(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG069(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000114ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000114ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000114ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4496,8 +5369,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG070(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG070(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000118ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000118ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000118ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4535,8 +5408,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG071(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG071(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000011cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000011cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000011cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4574,8 +5447,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG072(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG072(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000120ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000120ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000120ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4613,8 +5486,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG073(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG073(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000124ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000124ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000124ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4652,8 +5525,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG074(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG074(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000128ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000128ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000128ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4696,8 +5569,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG075(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG075(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000012cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000012cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000012cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4752,8 +5625,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG076(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG076(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000130ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000130ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000130ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4779,21 +5652,32 @@ typedef union
     struct bdk_pciercx_cfg077_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t efnfsi                : 16; /**< [ 31: 16](RO/H) ERR_FATAL/NONFATAL source identification. */
+        uint32_t ecsi                  : 16; /**< [ 15:  0](RO/H) ERR_COR source identification. */
+#else /* Word 0 - Little Endian */
+        uint32_t ecsi                  : 16; /**< [ 15:  0](RO/H) ERR_COR source identification. */
+        uint32_t efnfsi                : 16; /**< [ 31: 16](RO/H) ERR_FATAL/NONFATAL source identification. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg077_s cn81xx; */
+    struct bdk_pciercx_cfg077_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t efnfsi                : 16; /**< [ 31: 16](RO) ERR_FATAL/NONFATAL source identification. */
         uint32_t ecsi                  : 16; /**< [ 15:  0](RO) ERR_COR source identification. */
 #else /* Word 0 - Little Endian */
         uint32_t ecsi                  : 16; /**< [ 15:  0](RO) ERR_COR source identification. */
         uint32_t efnfsi                : 16; /**< [ 31: 16](RO) ERR_FATAL/NONFATAL source identification. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg077_s cn; */
+    } cn88xx;
+    /* struct bdk_pciercx_cfg077_cn88xx cn83xx; */
 } bdk_pciercx_cfg077_t;
 
 static inline uint64_t BDK_PCIERCX_CFG077(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG077(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000134ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000134ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000134ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4853,8 +5737,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG086(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG086(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000158ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000158ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000158ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4908,8 +5792,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG087(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG087(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000015cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000015cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000015cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -4948,8 +5832,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG088(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG088(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000160ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000160ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000160ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -5024,8 +5908,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG089(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG089(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000164ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000164ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000164ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -5100,8 +5984,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG090(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG090(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000168ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000168ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000168ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -5176,8 +6060,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG091(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG091(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000016cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000016cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000016cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -5252,8 +6136,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG092(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG092(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000170ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000170ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000170ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -6057,8 +6941,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG448(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG448(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000700ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000700ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000700ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -6109,8 +6993,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG449(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG449(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000704ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000704ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000704ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -6342,8 +7226,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG450(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG450(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000708ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000708ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000708ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -6513,8 +7397,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG451(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG451(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000070cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000070cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000070cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -6846,8 +7730,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG452(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG452(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000710ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000710ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000710ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -6898,8 +7782,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG453(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG453(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000714ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000714ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000714ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -6981,8 +7865,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG454(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG454(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000718ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000718ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000718ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7055,8 +7939,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG455(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG455(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000071cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000071cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000071cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7101,8 +7985,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG456(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG456(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000720ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000720ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000720ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7139,8 +8023,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG458(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG458(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000728ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000728ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000728ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7177,8 +8061,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG459(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG459(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000072cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000072cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000072cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7223,8 +8107,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG460(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG460(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000730ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000730ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000730ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7269,8 +8153,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG461(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG461(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000734ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000734ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000734ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7315,8 +8199,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG462(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG462(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000738ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000738ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000738ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7377,8 +8261,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG463(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG463(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000073cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000073cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000073cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7436,8 +8320,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG464(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG464(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000740ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000740ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000740ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7495,8 +8379,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG465(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG465(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000744ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000744ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000744ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7593,8 +8477,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG466(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG466(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000748ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000748ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000748ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7667,8 +8551,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG467(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG467(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000074cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000074cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000074cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7743,8 +8627,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG468(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG468(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000750ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000750ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000750ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7946,8 +8830,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG515(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG515(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x2000000080cll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x2000000080cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000080cll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -7984,8 +8868,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG516(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG516(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000810ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000810ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000810ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -8022,8 +8906,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG517(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG517(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000814ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000814ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000814ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -8207,8 +9091,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG548(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG548(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x20000000890ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000890ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000890ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -8749,8 +9633,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG554(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG554(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x200000008a8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000008a8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000008a8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
@@ -8800,8 +9684,8 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG558(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG558(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=5))
-        return 0x200000008b8ll + 0x100000000ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x200000008b8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x200000008b8ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))

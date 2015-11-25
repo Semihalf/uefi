@@ -1247,22 +1247,28 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) In case of LMAC_TYPE != SGMII/QSGMII and BGX()_SMU()_CBFC_CTL[RX_EN] or
-                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN] is set,
-                                                                 or
-                                                                 LMAC_TYPE == SGMII/QSGMII and BGX()_GMP_GMI_PAUSE_CTL[RX_FC_TYPE] = 0 (G.999.1 pause)
-                                                                 and the hardware is backpressuring any LMACs. (from either PFC/CBFC PAUSE packets
-                                                                 or BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by PHYS_BP are
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) If LMAC_TYPE != SGMII/QSGMII and BGX()_SMU()_CBFC_CTL[RX_EN] or
+                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN] is set and the hardware is backpressuring any LMACs.
+                                                                 (from either PFC/CBFC PAUSE packets or BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all
+                                                                 channels indicated by PHYS_BP are backpressured, simulate physical backpressure
+                                                                 by deferring all packets on the transmitter.
+
+                                                                 If LMAC_TYPE = SGMII/QSGMII and BGX()_GMP_GMI_PAUSE_CTL[RX_FC_TYPE] = 0 and the
+                                                                 hardware is backpressuring any LMACs due to G.999.1 pause packets or
+                                                                 BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by PHYS_BP are
                                                                  backpressured, simulate physical backpressure by deferring all packets on the transmitter. */
         uint64_t reserved_0_15         : 16;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_15         : 16;
-        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) In case of LMAC_TYPE != SGMII/QSGMII and BGX()_SMU()_CBFC_CTL[RX_EN] or
-                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN] is set,
-                                                                 or
-                                                                 LMAC_TYPE == SGMII/QSGMII and BGX()_GMP_GMI_PAUSE_CTL[RX_FC_TYPE] = 0 (G.999.1 pause)
-                                                                 and the hardware is backpressuring any LMACs. (from either PFC/CBFC PAUSE packets
-                                                                 or BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by PHYS_BP are
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) If LMAC_TYPE != SGMII/QSGMII and BGX()_SMU()_CBFC_CTL[RX_EN] or
+                                                                 BGX()_SMU()_HG2_CONTROL[HG2RX_EN] is set and the hardware is backpressuring any LMACs.
+                                                                 (from either PFC/CBFC PAUSE packets or BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all
+                                                                 channels indicated by PHYS_BP are backpressured, simulate physical backpressure
+                                                                 by deferring all packets on the transmitter.
+
+                                                                 If LMAC_TYPE = SGMII/QSGMII and BGX()_GMP_GMI_PAUSE_CTL[RX_FC_TYPE] = 0 and the
+                                                                 hardware is backpressuring any LMACs due to G.999.1 pause packets or
+                                                                 BGX()_CMR()_TX_OVR_BP[TX_CHAN_BP]) and all channels indicated by PHYS_BP are
                                                                  backpressured, simulate physical backpressure by deferring all packets on the transmitter. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
@@ -1618,7 +1624,7 @@ typedef union
         uint64_t reserved_15_63        : 49;
         uint64_t rid                   : 7;  /**< [ 14:  8](R/W) Reserved.
                                                                  Internal:
-                                                                 Reassembly ID for Octeon PKI; not used in CNXXXX.
+                                                                 Defeatured. Reassembly ID for Octeon PKI; not used in CN8XXX.
                                                                  Reassembly ID map for this LMAC. A shared pool of 96 reassembly IDs (RIDs) exists for all
                                                                  MACs.
 
@@ -1636,7 +1642,7 @@ typedef union
         uint64_t unused                : 2;  /**< [  7:  6](RAZ) Reserved bits. */
         uint64_t rid                   : 7;  /**< [ 14:  8](R/W) Reserved.
                                                                  Internal:
-                                                                 Reassembly ID for Octeon PKI; not used in CNXXXX.
+                                                                 Defeatured. Reassembly ID for Octeon PKI; not used in CN8XXX.
                                                                  Reassembly ID map for this LMAC. A shared pool of 96 reassembly IDs (RIDs) exists for all
                                                                  MACs.
 
@@ -7565,14 +7571,14 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every ([INTERVAL] * 512)
+        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet every ([INTERVAL] * 512)
                                                                  bit-times. Normally, 0 < [INTERVAL] < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
 
                                                                  [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
                                                                  BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when [INTERVAL] = 0.
                                                                  INTERVAL should be 0x0 if BGX_GMP_GMI_PAUSE_CTL[FC_TYPE] is clear (G.999.1) */
 #else /* Word 0 - Little Endian */
-        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every ([INTERVAL] * 512)
+        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet every ([INTERVAL] * 512)
                                                                  bit-times. Normally, 0 < [INTERVAL] < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
 
                                                                  [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
@@ -7586,13 +7592,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every ([INTERVAL] * 512)
+        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet every ([INTERVAL] * 512)
                                                                  bit-times. Normally, 0 < [INTERVAL] < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
 
                                                                  [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
                                                                  BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when [INTERVAL] = 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every ([INTERVAL] * 512)
+        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet every ([INTERVAL] * 512)
                                                                  bit-times. Normally, 0 < [INTERVAL] < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
 
                                                                  [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
@@ -7630,13 +7636,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets or CBFC PAUSE packets
+        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets
                                                                  in 512 bit-times. Normally, P_TIME >
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL.
                                                                  PTIME should be 0x0 if BGX_GMP_GMI_PAUSE_CTL[FC_TYPE] is clear (G.999.1) */
 #else /* Word 0 - Little Endian */
-        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets or CBFC PAUSE packets
+        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets
                                                                  in 512 bit-times. Normally, P_TIME >
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL.
@@ -7649,12 +7655,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets or CBFC PAUSE packets
+        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets
                                                                  in 512 bit-times. Normally, P_TIME >
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL. */
 #else /* Word 0 - Little Endian */
-        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets or CBFC PAUSE packets
+        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets
                                                                  in 512 bit-times. Normally, P_TIME >
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL. */

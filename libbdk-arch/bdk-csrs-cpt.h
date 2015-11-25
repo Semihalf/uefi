@@ -675,11 +675,11 @@ typedef union
         uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to 1, it forces CPT clocks on. For diagnostic use only. */
         uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
                                                                  may improve CPT performance but may starve other devices on the same NCB. Values
-                                                                 > 32 are treated as 32. */
+                                                                 > 64 are treated as 64. */
 #else /* Word 0 - Little Endian */
         uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
                                                                  may improve CPT performance but may starve other devices on the same NCB. Values
-                                                                 > 32 are treated as 32. */
+                                                                 > 64 are treated as 64. */
         uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to 1, it forces CPT clocks on. For diagnostic use only. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
@@ -1990,7 +1990,8 @@ typedef union
                                                                  For the FPA to not discard the request, FPA_PF_MAP() must map
                                                                  [AURA] and CPT()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_45_47        : 3;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be 8*n + 1, where n is the number of instructions per buffer segment. */
         uint64_t reserved_11_31        : 21;
         uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
 
@@ -2018,14 +2019,7 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a result structure write will use STY. When clear, a result structure
-                                                                 write will use STF. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
+        uint64_t reserved_4_6          : 3;
         uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
@@ -2035,14 +2029,7 @@ typedef union
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
                                                                  0 = This queue has lower priority. Round-robin between lower priority queues. */
         uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a result structure write will use STY. When clear, a result structure
-                                                                 write will use STF. */
+        uint64_t reserved_4_6          : 3;
         uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
                                                                  0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
@@ -2070,7 +2057,8 @@ typedef union
 
                                                                  1 = Ignore errors and continue processing instructions. For diagnostic use only. */
         uint64_t reserved_11_31        : 21;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be 8*n + 1, where n is the number of instructions per buffer segment. */
         uint64_t reserved_45_47        : 3;
         uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
                                                                  Only used when [INST_FREE] is set.
@@ -2079,105 +2067,7 @@ typedef union
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_cptx_pf_qx_ctl_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set.
-                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
-                                                                 [AURA] and CPT()_PF_Q()_GMCTL[GMID] as valid. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
-        uint64_t reserved_11_31        : 21;
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
-
-                                                                 0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
-                                                                 CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
-                                                                 CPT(0..1)_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
-                                                                 pipelining, additional instructions may have been processed between the
-                                                                 instruction causing the error and the next instruction in the disabled queue
-                                                                 (the instruction at CPT()_VQ()_SADDR).
-
-                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
-        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
-        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
-
-                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
-                                                                 line hits and is is dirty will cause the line to be written back before being
-                                                                 replaced.
-
-                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
-                                                                 when fetching the last word of instructions; as a result the line will not be
-                                                                 written back when replaced.  This improves performance, but software must not
-                                                                 read the instructions after they are posted to the hardware.
-
-                                                                 Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
-        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
-                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
-                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
-#else /* Word 0 - Little Endian */
-        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
-                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
-                                                                 0 = This queue has lower priority. Round-robin between lower priority queues. */
-        uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
-        uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
-
-                                                                 0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
-                                                                 line hits and is is dirty will cause the line to be written back before being
-                                                                 replaced.
-
-                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
-                                                                 when fetching the last word of instructions; as a result the line will not be
-                                                                 written back when replaced.  This improves performance, but software must not
-                                                                 read the instructions after they are posted to the hardware.
-
-                                                                 Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
-        uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
-                                                                 chunk, that chunk will be freed to the FPA. */
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
-
-                                                                 0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
-                                                                 CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
-                                                                 CPT(0..1)_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
-                                                                 pipelining, additional instructions may have been processed between the
-                                                                 instruction causing the error and the next instruction in the disabled queue
-                                                                 (the instruction at CPT()_VQ()_SADDR).
-
-                                                                 1 = Ignore errors and continue processing instructions. For diagnostic use only. */
-        uint64_t reserved_11_31        : 21;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
-        uint64_t reserved_45_47        : 3;
-        uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
-                                                                 Only used when [INST_FREE] is set.
-                                                                 For the FPA to not discard the request, FPA_PF_MAP() must map
-                                                                 [AURA] and CPT()_PF_Q()_GMCTL[GMID] as valid. */
-        uint64_t reserved_60_63        : 4;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_cptx_pf_qx_ctl_s cn83xx; */
+    /* struct bdk_cptx_pf_qx_ctl_s cn; */
 } bdk_cptx_pf_qx_ctl_t;
 
 static inline uint64_t BDK_CPTX_PF_QX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -2196,6 +2086,70 @@ static inline uint64_t BDK_CPTX_PF_QX_CTL(unsigned long a, unsigned long b)
 #define device_bar_BDK_CPTX_PF_QX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_QX_CTL(a,b) (a)
 #define arguments_BDK_CPTX_PF_QX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_q#_ctl2
+ *
+ * CPT Queue Control 2 Register
+ * This register configures queues. This register should be changed only when quiescent
+ * (see CPT()_VQ()_STATUS[BUSY]).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_qx_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t exe_ldwb              : 1;  /**< [  1:  1](R/W) Execution engine load-don't-write-back.
+
+                                                                 0 = An execution engine request to LDWB will be converted to NCB transient
+                                                                 loads (LDT) towards the cache, which if the line hits and is is dirty will cause
+                                                                 the line to be written back before being replaced.
+
+                                                                 1 = An execution engine may request a NCB LDWB read-and-invalidate command
+                                                                 towards the cache; as a result the line will not be written back when replaced.
+                                                                 This improves performance, but software must not read the instructions after
+                                                                 they are posted to the hardware. */
+        uint64_t exe_no_swap           : 1;  /**< [  0:  0](R/W) Execution units no byte swap. See the HRM endian section.
+                                                                 0 = Execution unit read/writes have a byte-swap applied when accessing NCB.
+                                                                 1 = Execution unit read/writes do not byte-swap. */
+#else /* Word 0 - Little Endian */
+        uint64_t exe_no_swap           : 1;  /**< [  0:  0](R/W) Execution units no byte swap. See the HRM endian section.
+                                                                 0 = Execution unit read/writes have a byte-swap applied when accessing NCB.
+                                                                 1 = Execution unit read/writes do not byte-swap. */
+        uint64_t exe_ldwb              : 1;  /**< [  1:  1](R/W) Execution engine load-don't-write-back.
+
+                                                                 0 = An execution engine request to LDWB will be converted to NCB transient
+                                                                 loads (LDT) towards the cache, which if the line hits and is is dirty will cause
+                                                                 the line to be written back before being replaced.
+
+                                                                 1 = An execution engine may request a NCB LDWB read-and-invalidate command
+                                                                 towards the cache; as a result the line will not be written back when replaced.
+                                                                 This improves performance, but software must not read the instructions after
+                                                                 they are posted to the hardware. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_qx_ctl2_s cn; */
+} bdk_cptx_pf_qx_ctl2_t;
+
+static inline uint64_t BDK_CPTX_PF_QX_CTL2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_QX_CTL2(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
+        return 0x872008000100ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
+        return 0x872008000100ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    __bdk_csr_fatal("CPTX_PF_QX_CTL2", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_QX_CTL2(a,b) bdk_cptx_pf_qx_ctl2_t
+#define bustype_BDK_CPTX_PF_QX_CTL2(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_QX_CTL2(a,b) "CPTX_PF_QX_CTL2"
+#define device_bar_BDK_CPTX_PF_QX_CTL2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_CPTX_PF_QX_CTL2(a,b) (a)
+#define arguments_BDK_CPTX_PF_QX_CTL2(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) cpt#_pf_q#_gmctl
@@ -2703,15 +2657,15 @@ typedef union
 
                                                                  * When CPT()_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
                                                                  counts. If the counter is >= CPT()_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
-                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
+                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT], i.e. enough time has
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
                                                                  * When CPT()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
-                                                                 the interrupt will be resent immediately.  (This covers the race case between
-                                                                 software acknowledging an interrupt and a result returning.)
+                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
+                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.)
 
                                                                  * When CPT()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
@@ -2734,15 +2688,15 @@ typedef union
 
                                                                  * When CPT()_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
                                                                  counts. If the counter is >= CPT()_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
-                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
+                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT], i.e. enough time has
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
                                                                  * When CPT()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
-                                                                 the interrupt will be resent immediately.  (This covers the race case between
-                                                                 software acknowledging an interrupt and a result returning.)
+                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
+                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.)
 
                                                                  * When CPT()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.

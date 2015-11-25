@@ -3662,7 +3662,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's SSO_PF_MSIX_VEC()_ADDR, SSO_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of SSO_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -3672,7 +3672,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's SSO_PF_MSIX_VEC()_ADDR, SSO_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of SSO_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -3901,7 +3901,7 @@ typedef union
 static inline uint64_t BDK_SSO_TAQX_WAEX_TAG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TAQX_WAEX_TAG(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=319) && (b<=12)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=319) && (b<=10)))
         return 0x8600d0000000ll + 0x1000ll * ((a) & 0x1ff) + 0x10ll * ((b) & 0xf);
     __bdk_csr_fatal("SSO_TAQX_WAEX_TAG", 2, a, b, 0, 0);
 }
@@ -3938,7 +3938,7 @@ typedef union
 static inline uint64_t BDK_SSO_TAQX_WAEX_WQP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TAQX_WAEX_WQP(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=319) && (b<=12)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=319) && (b<=10)))
         return 0x8600d0000008ll + 0x1000ll * ((a) & 0x1ff) + 0x10ll * ((b) & 0xf);
     __bdk_csr_fatal("SSO_TAQX_WAEX_WQP", 2, a, b, 0, 0);
 }
@@ -4054,7 +4054,7 @@ typedef union
     struct bdk_sso_tiaqx_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-12. This provides the second index into
+        uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-10. This provides the second index into
                                                                  SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP. */
         uint64_t wae_tail              : 4;  /**< [ 59: 56](RO/H) When [WAE_USED] is non-zero, this provides the next free WAE number in the cache
                                                                  line of the tail entry. If 0x0, the next entry will be placed at the beginning of
@@ -4081,7 +4081,7 @@ typedef union
                                                                  line of the tail entry. If 0x0, the next entry will be placed at the beginning of
                                                                  a new cache line. This provides the second index into SSO_TAQ()_WAE()_TAG and
                                                                  SSO_TAQ()_WAE()_WQP. */
-        uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-12. This provides the second index into
+        uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-10. This provides the second index into
                                                                  SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP. */
 #endif /* Word 0 - End */
     } s;
@@ -5188,9 +5188,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t strm                  : 8;  /**< [  7:  0](R/W) Stream identifier bits <7:0>. */
+        uint64_t strm                  : 8;  /**< [  7:  0](R/W) Stream identifier bits <7:0>. Resets and typically programmed to the index (XAQ
+                                                                 and VF number) plus one, to match standard SR-IOV function number assignment. */
 #else /* Word 0 - Little Endian */
-        uint64_t strm                  : 8;  /**< [  7:  0](R/W) Stream identifier bits <7:0>. */
+        uint64_t strm                  : 8;  /**< [  7:  0](R/W) Stream identifier bits <7:0>. Resets and typically programmed to the index (XAQ
+                                                                 and VF number) plus one, to match standard SR-IOV function number assignment. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;

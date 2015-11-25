@@ -1433,7 +1433,10 @@ typedef union
                                                                  receive any of the errors in PCIEEP()_CFG068, for example a replay-timer timeout.
                                                                  Also, it can be set if we get any of the errors in PCIEEP()_CFG066 that has a severity
                                                                  set to Nonfatal and meets the Advisory Nonfatal criteria, which most ECRC errors should. */
-        uint32_t i_flr                 : 1;  /**< [ 15: 15](R/W) Initiate function level reset (not supported). */
+        uint32_t i_flr                 : 1;  /**< [ 15: 15](R/W) Initiate function level reset.
+
+                                                                 [I_FLR] must not be written to one via the indirect PEM()_CFG_WR. It should only ever
+                                                                 be written to one via a direct PCIe access. */
         uint32_t mrrs                  : 3;  /**< [ 14: 12](R/W) Max read request size.
                                                                  0x0 =128 bytes.
                                                                  0x1 = 256 bytes.
@@ -1483,7 +1486,10 @@ typedef union
                                                                  SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must also be set properly.
                                                                  SLI_S2M_PORT()_CTL[MRRS] and DPI_SLI_PRT()_CFG[MRRS] must not exceed the desired
                                                                  max read request size. */
-        uint32_t i_flr                 : 1;  /**< [ 15: 15](R/W) Initiate function level reset (not supported). */
+        uint32_t i_flr                 : 1;  /**< [ 15: 15](R/W) Initiate function level reset.
+
+                                                                 [I_FLR] must not be written to one via the indirect PEM()_CFG_WR. It should only ever
+                                                                 be written to one via a direct PCIe access. */
         uint32_t ce_d                  : 1;  /**< [ 16: 16](R/W1C/H) Correctable error detected. Errors are logged in this register regardless of whether or
                                                                  not error reporting is enabled in the device control register. This field is set if we
                                                                  receive any of the errors in PCIEEP()_CFG068, for example a replay-timer timeout.
@@ -1849,11 +1855,31 @@ typedef union
         uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable (not supported). */
         uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
         uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
-        uint32_t ctv                   : 4;  /**< [  3:  0](RO/H) Completion timeout value. Completion timeout programming is not supported. Completion
-                                                                 timeout is the range of 16 ms to 55 ms. */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W/H) Completion timeout value.
+                                                                 0x0 = Default range: 16 ms to 55 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x3 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s.
+                                                                 0xE = 17 s to 64 s.
+
+                                                                 Values not defined are reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t ctv                   : 4;  /**< [  3:  0](RO/H) Completion timeout value. Completion timeout programming is not supported. Completion
-                                                                 timeout is the range of 16 ms to 55 ms. */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W/H) Completion timeout value.
+                                                                 0x0 = Default range: 16 ms to 55 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x3 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s.
+                                                                 0xE = 17 s to 64 s.
+
+                                                                 Values not defined are reserved. */
         uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
         uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
         uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable (not supported). */
@@ -2273,6 +2299,652 @@ static inline uint64_t BDK_PCIEEPX_CFG046(unsigned long a)
 #define basename_BDK_PCIEEPX_CFG046(a) "PCIEEPX_CFG046"
 #define busnum_BDK_PCIEEPX_CFG046(a) (a)
 #define arguments_BDK_PCIEEPX_CFG046(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg047
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg047_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg047_s cn; */
+} bdk_pcieepx_cfg047_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG047(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG047(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000bcll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG047", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG047(a) bdk_pcieepx_cfg047_t
+#define bustype_BDK_PCIEEPX_CFG047(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG047(a) "PCIEEPX_CFG047"
+#define busnum_BDK_PCIEEPX_CFG047(a) (a)
+#define arguments_BDK_PCIEEPX_CFG047(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg048
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg048_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg048_s cn; */
+} bdk_pcieepx_cfg048_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG048(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG048(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000c0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG048", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG048(a) bdk_pcieepx_cfg048_t
+#define bustype_BDK_PCIEEPX_CFG048(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG048(a) "PCIEEPX_CFG048"
+#define busnum_BDK_PCIEEPX_CFG048(a) (a)
+#define arguments_BDK_PCIEEPX_CFG048(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg049
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg049_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg049_s cn; */
+} bdk_pcieepx_cfg049_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG049(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG049(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000c4ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG049", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG049(a) bdk_pcieepx_cfg049_t
+#define bustype_BDK_PCIEEPX_CFG049(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG049(a) "PCIEEPX_CFG049"
+#define busnum_BDK_PCIEEPX_CFG049(a) (a)
+#define arguments_BDK_PCIEEPX_CFG049(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg050
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg050_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg050_s cn; */
+} bdk_pcieepx_cfg050_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG050(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG050(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000c8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG050", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG050(a) bdk_pcieepx_cfg050_t
+#define bustype_BDK_PCIEEPX_CFG050(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG050(a) "PCIEEPX_CFG050"
+#define busnum_BDK_PCIEEPX_CFG050(a) (a)
+#define arguments_BDK_PCIEEPX_CFG050(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg051
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg051_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg051_s cn; */
+} bdk_pcieepx_cfg051_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG051(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG051(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000ccll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG051", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG051(a) bdk_pcieepx_cfg051_t
+#define bustype_BDK_PCIEEPX_CFG051(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG051(a) "PCIEEPX_CFG051"
+#define busnum_BDK_PCIEEPX_CFG051(a) (a)
+#define arguments_BDK_PCIEEPX_CFG051(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg052
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg052_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg052_s cn; */
+} bdk_pcieepx_cfg052_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG052(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG052(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000d0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG052", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG052(a) bdk_pcieepx_cfg052_t
+#define bustype_BDK_PCIEEPX_CFG052(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG052(a) "PCIEEPX_CFG052"
+#define busnum_BDK_PCIEEPX_CFG052(a) (a)
+#define arguments_BDK_PCIEEPX_CFG052(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg053
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg053_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg053_s cn; */
+} bdk_pcieepx_cfg053_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG053(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG053(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000d4ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG053", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG053(a) bdk_pcieepx_cfg053_t
+#define bustype_BDK_PCIEEPX_CFG053(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG053(a) "PCIEEPX_CFG053"
+#define busnum_BDK_PCIEEPX_CFG053(a) (a)
+#define arguments_BDK_PCIEEPX_CFG053(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg054
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg054_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg054_s cn; */
+} bdk_pcieepx_cfg054_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG054(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG054(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000d8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG054", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG054(a) bdk_pcieepx_cfg054_t
+#define bustype_BDK_PCIEEPX_CFG054(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG054(a) "PCIEEPX_CFG054"
+#define busnum_BDK_PCIEEPX_CFG054(a) (a)
+#define arguments_BDK_PCIEEPX_CFG054(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg055
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg055_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg055_s cn; */
+} bdk_pcieepx_cfg055_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG055(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG055(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000dcll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG055", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG055(a) bdk_pcieepx_cfg055_t
+#define bustype_BDK_PCIEEPX_CFG055(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG055(a) "PCIEEPX_CFG055"
+#define busnum_BDK_PCIEEPX_CFG055(a) (a)
+#define arguments_BDK_PCIEEPX_CFG055(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg056
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg056_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg056_s cn; */
+} bdk_pcieepx_cfg056_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG056(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG056(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000e0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG056", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG056(a) bdk_pcieepx_cfg056_t
+#define bustype_BDK_PCIEEPX_CFG056(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG056(a) "PCIEEPX_CFG056"
+#define busnum_BDK_PCIEEPX_CFG056(a) (a)
+#define arguments_BDK_PCIEEPX_CFG056(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg057
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg057_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg057_s cn; */
+} bdk_pcieepx_cfg057_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG057(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG057(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000e4ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG057", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG057(a) bdk_pcieepx_cfg057_t
+#define bustype_BDK_PCIEEPX_CFG057(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG057(a) "PCIEEPX_CFG057"
+#define busnum_BDK_PCIEEPX_CFG057(a) (a)
+#define arguments_BDK_PCIEEPX_CFG057(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg058
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg058_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg058_s cn; */
+} bdk_pcieepx_cfg058_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG058(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG058(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000e8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG058", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG058(a) bdk_pcieepx_cfg058_t
+#define bustype_BDK_PCIEEPX_CFG058(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG058(a) "PCIEEPX_CFG058"
+#define busnum_BDK_PCIEEPX_CFG058(a) (a)
+#define arguments_BDK_PCIEEPX_CFG058(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg059
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg059_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg059_s cn; */
+} bdk_pcieepx_cfg059_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG059(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG059(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000ecll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG059", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG059(a) bdk_pcieepx_cfg059_t
+#define bustype_BDK_PCIEEPX_CFG059(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG059(a) "PCIEEPX_CFG059"
+#define busnum_BDK_PCIEEPX_CFG059(a) (a)
+#define arguments_BDK_PCIEEPX_CFG059(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg060
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg060_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg060_s cn; */
+} bdk_pcieepx_cfg060_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG060(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG060(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000f0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG060", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG060(a) bdk_pcieepx_cfg060_t
+#define bustype_BDK_PCIEEPX_CFG060(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG060(a) "PCIEEPX_CFG060"
+#define busnum_BDK_PCIEEPX_CFG060(a) (a)
+#define arguments_BDK_PCIEEPX_CFG060(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg061
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg061_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg061_s cn; */
+} bdk_pcieepx_cfg061_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG061(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG061(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000f4ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG061", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG061(a) bdk_pcieepx_cfg061_t
+#define bustype_BDK_PCIEEPX_CFG061(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG061(a) "PCIEEPX_CFG061"
+#define busnum_BDK_PCIEEPX_CFG061(a) (a)
+#define arguments_BDK_PCIEEPX_CFG061(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg062
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg062_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg062_s cn; */
+} bdk_pcieepx_cfg062_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG062(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG062(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000f8ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG062", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG062(a) bdk_pcieepx_cfg062_t
+#define bustype_BDK_PCIEEPX_CFG062(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG062(a) "PCIEEPX_CFG062"
+#define busnum_BDK_PCIEEPX_CFG062(a) (a)
+#define arguments_BDK_PCIEEPX_CFG062(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg063
+ *
+ * PCIe EP Unused Capability Registers
+ * This register contains 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg063_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sw_hdr                : 32; /**< [ 31:  0](RO/WRSL) Software headers. This configuration area is opaque to PCIEEP() hardware. It is available
+                                                                 for software to add additional configuration capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg063_s cn; */
+} bdk_pcieepx_cfg063_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG063(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG063(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000000fcll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG063", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG063(a) bdk_pcieepx_cfg063_t
+#define bustype_BDK_PCIEEPX_CFG063(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG063(a) "PCIEEPX_CFG063"
+#define busnum_BDK_PCIEEPX_CFG063(a) (a)
+#define arguments_BDK_PCIEEPX_CFG063(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieep#_cfg064

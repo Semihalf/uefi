@@ -67,7 +67,7 @@
  * GPIO MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_GPIO_INT_VEC_E_INTR_PINX_CN81XX(a) (0x30 + 2 * (a)) /**< GPIO general interrupts.
+#define BDK_GPIO_INT_VEC_E_INTR_PINX_CN81XX(a) (4 + 2 * (a)) /**< GPIO general interrupts.
                                        See interrupt clears GPIO_INTR(0..47)[INTR],
                                        interrupt sets GPIO_INTR(0..47)[INTR_W1S],
                                        enable clears GPIO_INTR(0..47)[INTR_ENA_W1C],
@@ -77,12 +77,14 @@
                                        interrupt sets GPIO_INTR(0..50)[INTR_W1S],
                                        enable clears GPIO_INTR(0..50)[INTR_ENA_W1C],
                                        and enable sets GPIO_INTR(0..50)[INTR_ENA_W1S]. */
-#define BDK_GPIO_INT_VEC_E_INTR_PINX_CN83XX(a) (0x30 + 2 * (a)) /**< GPIO general interrupts.
+#define BDK_GPIO_INT_VEC_E_INTR_PINX_CN83XX(a) (0x18 + 2 * (a)) /**< GPIO general interrupts.
                                        See interrupt clears GPIO_INTR(0..79)[INTR],
                                        interrupt sets GPIO_INTR(0..79)[INTR_W1S],
                                        enable clears GPIO_INTR(0..79)[INTR_ENA_W1C],
                                        and enable sets GPIO_INTR(0..79)[INTR_ENA_W1S]. */
-#define BDK_GPIO_INT_VEC_E_INTR_PINX_CLEAR(a) (0x31 + 2 * (a)) /**< Level sensitive interrupt clear vector. */
+#define BDK_GPIO_INT_VEC_E_INTR_PINX_CLEAR_CN81XX(a) (5 + 2 * (a)) /**< Level sensitive interrupt clear vector. */
+#define BDK_GPIO_INT_VEC_E_INTR_PINX_CLEAR_CN88XX(a) (0x31 + 2 * (a)) /**< Level sensitive interrupt clear vector. */
+#define BDK_GPIO_INT_VEC_E_INTR_PINX_CLEAR_CN83XX(a) (0x19 + 2 * (a)) /**< Level sensitive interrupt clear vector. */
 #define BDK_GPIO_INT_VEC_E_MC_INTR_PPX(a) (0 + (a)) /**< GPIO multicast interrupts.
                                        All four pins 4..7 are collapsed onto the same vector.
                                        See interrupt clears GPIO_MC_INTR(4..7)[INTR<{a}>],
@@ -126,7 +128,23 @@
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN81XX(a) (0x242 + (a)) /**< Multichip debug output; see OCLA chapter. */
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN88XX(a) (0x14 + (a)) /**< Multichip debug output; see OCLA chapter. */
 #define BDK_GPIO_PIN_SEL_E_MCDX_OUT_CN83XX(a) (0x242 + (a)) /**< Multichip debug output; see OCLA chapter. */
-#define BDK_GPIO_PIN_SEL_E_NCSI (0x230) /**< NCSI inputs and outputs.
+#define BDK_GPIO_PIN_SEL_E_NCSI_CN81XX (0x230) /**< Internal:
+                                       NCSI inputs and outputs.
+                                       
+                                       This encoding must be used on 8 contiguous GPIO pins, either GPIO<16..31>,
+                                       GPIO<24..31>, GPIO<32..39>, GPIO<40..47>, GPIO<48..55> or GPIO<56..63>.
+                                       
+                                       <pre>
+                                       NCSI_REF_CLK input = GPIO<16> or <24> or <32> or <40> or <48> or <56>
+                                       NCSI_TX_EN output  = GPIO<17> or <25> or <33> or <41> or <49> or <57>
+                                       NCSI_TXD<0> output = GPIO<18> or <26> or <34> or <42> or <50> or <58>
+                                       NCSI_TXD<1> output = GPIO<19> or <27> or <35> or <43> or <51> or <59>
+                                       NCSI_CRS_DV input  = GPIO<20> or <28> or <36> or <44> or <52> or <60>
+                                       NCSI_RXD<0> input  = GPIO<21> or <29> or <37> or <45> or <53> or <61>
+                                       NCSI_RXD<1> input  = GPIO<22> or <30> or <38> or <46> or <54> or <62>
+                                       NCSI_RX_ER input   = GPIO<23> or <31> or <39> or <47> or <55> or <63>
+                                       </pre> */
+#define BDK_GPIO_PIN_SEL_E_NCSI_CN83XX (0x230) /**< NCSI inputs and outputs.
                                        
                                        This encoding must be used on 8 contiguous GPIO pins, either GPIO<16..31>,
                                        GPIO<24..31>, GPIO<32..39>, GPIO<40..47>, GPIO<48..55> or GPIO<56..63>.
@@ -156,7 +174,7 @@
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_PBUSX_AD(a) (0xfa + (a)) /**< This is a bi-directional bus. see See Chapter BOOT BUS. FIXME this needs more text. */
+#define BDK_GPIO_PIN_SEL_E_PBUS_ADX(a) (0xfa + (a)) /**< This is a bi-directional bus. see See Chapter BOOT BUS. FIXME this needs more text. */
 #define BDK_GPIO_PIN_SEL_E_PBUS_ALEX(a) (0xe8 + (a)) /**< PBUS_ALE output; see See Chapter BOOT BUS. */
 #define BDK_GPIO_PIN_SEL_E_PBUS_CE_NX(a) (0xec + (a)) /**< PBUS_CE_N output; see See Chapter BOOT BUS. */
 #define BDK_GPIO_PIN_SEL_E_PBUS_CLE (0xe0) /**< PBUS_CLE output; see See Chapter BOOT BUS. */
@@ -762,19 +780,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t pp                    : 8;  /**< [ 15:  8](RO) Number of PP vectors in GPIO_INT_VEC_E::MC_INTR_PP().
-
-                                                                 Internal:
-                                                                 Need CSR3 fix to add this:
-                                                                 reset_matches_size: "GPIO_INT_VEC_E::MC_INTR_PP(),a" */
+        uint64_t pp                    : 8;  /**< [ 15:  8](RO) Number of PP vectors in GPIO_INT_VEC_E::MC_INTR_PP(). */
         uint64_t gpios                 : 8;  /**< [  7:  0](RO) Number of GPIOs implemented. */
 #else /* Word 0 - Little Endian */
         uint64_t gpios                 : 8;  /**< [  7:  0](RO) Number of GPIOs implemented. */
-        uint64_t pp                    : 8;  /**< [ 15:  8](RO) Number of PP vectors in GPIO_INT_VEC_E::MC_INTR_PP().
-
-                                                                 Internal:
-                                                                 Need CSR3 fix to add this:
-                                                                 reset_matches_size: "GPIO_INT_VEC_E::MC_INTR_PP(),a" */
+        uint64_t pp                    : 8;  /**< [ 15:  8](RO) Number of PP vectors in GPIO_INT_VEC_E::MC_INTR_PP(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -1043,9 +1053,9 @@ typedef union
 static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
-        return 0x803000ff0000ll + 8ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x803000ff0000ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x803000ff0000ll + 8ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x803000ff0000ll + 8ll * ((a) & 0x3);
@@ -1102,9 +1112,9 @@ typedef union
 static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=143))
-        return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=207))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=99))
+        return 0x803000f00000ll + 0x10ll * ((a) & 0x7f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=183))
         return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=149))
         return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
@@ -1147,9 +1157,9 @@ typedef union
 static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=143))
-        return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=207))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=99))
+        return 0x803000f00008ll + 0x10ll * ((a) & 0x7f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=183))
         return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=149))
         return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
@@ -1215,17 +1225,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t m_trig                : 1;  /**< [  0:  0](R/W) Manual Trigger.  This external trigger can also use the GPIO(0..50) input pin, when
-                                                                 GPIO_BIT_CFG()[PIN_SEL] = GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER.
-                                                                 This signal report to the OCLA coprocessor for GPIO-based triggering. When external
-                                                                 trigger and manual trigger
-                                                                 active at the same time, an ORed version of trigger is used. */
+        uint64_t m_trig                : 1;  /**< [  0:  0](R/W) Manual trigger. Assert the OCLA trigger for GPIO-based triggering. This manual
+                                                                 trigger is ORed with the optional GPIO input pin selected with
+                                                                 GPIO_BIT_CFG()[PIN_SEL] = GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER. */
 #else /* Word 0 - Little Endian */
-        uint64_t m_trig                : 1;  /**< [  0:  0](R/W) Manual Trigger.  This external trigger can also use the GPIO(0..50) input pin, when
-                                                                 GPIO_BIT_CFG()[PIN_SEL] = GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER.
-                                                                 This signal report to the OCLA coprocessor for GPIO-based triggering. When external
-                                                                 trigger and manual trigger
-                                                                 active at the same time, an ORed version of trigger is used. */
+        uint64_t m_trig                : 1;  /**< [  0:  0](R/W) Manual trigger. Assert the OCLA trigger for GPIO-based triggering. This manual
+                                                                 trigger is ORed with the optional GPIO input pin selected with
+                                                                 GPIO_BIT_CFG()[PIN_SEL] = GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
