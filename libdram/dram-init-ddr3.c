@@ -177,6 +177,78 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     return;
 }
 
+unsigned short load_dac_override(int node, int ddr_interface_num,
+					int dac_value, int byte)
+{
+    bdk_lmcx_dll_ctl3_t ddr_dll_ctl3;
+    int bytex = (byte == 0x0A) ? byte : byte + 1; // single bytelanes incr by 1; A is for ALL
+
+    ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
+
+    SET_DDR_DLL_CTL3(byte_sel, bytex);
+    SET_DDR_DLL_CTL3(offset, dac_value >> 1);
+
+    ddr_dll_ctl3.s.bit_select    = 0x9; /* No-op */
+    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num), ddr_dll_ctl3.u);
+               
+    ddr_dll_ctl3.s.bit_select    = 0xC; /* Vref bypass setting load */
+    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num), ddr_dll_ctl3.u);
+               
+    ddr_dll_ctl3.s.bit_select    = 0xD; /* Vref bypass on. */
+    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num), ddr_dll_ctl3.u);
+               
+    ddr_dll_ctl3.s.bit_select    = 0x9; /* No-op */
+    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num), ddr_dll_ctl3.u);
+
+    return ((unsigned short) GET_DDR_DLL_CTL3(offset));
+}
+
+// arg dac_or_dbi is 1 for DAC, 0 for DBI
+// returns 9 entries (bytelanes 0 through 8) in settings[]
+// returns 0 if OK, -1 if a problem
+int read_DAC_DBI_settings(int node, int rank_mask, int ddr_interface_num,
+				 int dac_or_dbi, int *settings)
+{
+    bdk_lmcx_phy_ctl_t phy_ctl;
+    int byte_lane, bit_num;
+    int deskew;
+    int dac_value;
+    int is_t88p2 = CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X);
+
+    BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+                   phy_ctl.s.dsk_dbg_clk_scaler = 3);
+
+    bit_num = (dac_or_dbi) ? 4 : 5;
+    if ((bit_num == 5) && !is_t88p2) { // NOTE: this is for pass 1.x
+	return -1;
+    }
+
+    for (byte_lane = 8; byte_lane >= 0 ; --byte_lane) { // FIXME: always assume ECC is available
+
+	//set byte lane and bit to read
+	BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+		       (phy_ctl.s.dsk_dbg_bit_sel = bit_num,
+			phy_ctl.s.dsk_dbg_byte_sel = byte_lane));
+
+	//start read sequence
+	BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+		       phy_ctl.s.dsk_dbg_rd_start = 1);
+
+	//poll for read sequence to complete
+	do {
+	    phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(ddr_interface_num));
+	} while (phy_ctl.s.dsk_dbg_rd_complete != 1);
+			
+	deskew = phy_ctl.s.dsk_dbg_rd_data >> 3;
+	dac_value = phy_ctl.s.dsk_dbg_rd_data & 0xff;
+
+	settings[byte_lane] =  (dac_or_dbi) ? dac_value : deskew;
+
+    } /* for (byte_lane = 8; byte_lane >= 0 ; --byte_lane) { */
+
+    return 0;
+}
+
 #define DEFAULT_SAT_RETRY_LIMIT    11    // 1 + 10 retries
 #define DEFAULT_LOCK_RETRY_LIMIT   10    // 10 retries
 #define PRINT_RETRY_LIMIT           0    // make equal to sat_retry_limit if you want all of them

@@ -104,6 +104,50 @@ int bdk_dram_tune(int node)
 }
 
 /**
+ * Do all the DRAM Margin tests 
+ *
+ * @param node   Node to test
+ *
+ * @return Success or Fail
+ */
+void bdk_dram_margin_all(int node)
+{
+    int ret_rt, ret_wt, ret_rv, ret_wv;
+    char *risk[2] = { "Low Risk", "Needs Review" };
+
+    BDK_TRACE(DRAM, "N%d: Starting DRAM Margin ALL\n", node);
+    ret_rt = libdram_margin_read_timing(node);
+    ret_wt = libdram_margin_write_timing(node);
+    ret_rv = libdram_margin_read_voltage(node);
+    ret_wv = libdram_margin_write_voltage(node);
+    BDK_TRACE(DRAM, "N%d: DRAM Margin ALL finished\n", node);
+    /*
+      >>> Summary from DDR Margining tool:
+      >>> N0: Read Timing Margin   : Low Risk
+      >>> N0: Write Timing Margin  : Low Risk
+      >>> N0: Read Voltage Margin  : Low Risk
+      >>> N0: Write Voltage Margin : Low Risk  
+     */
+    printf("  \n");
+    printf("-------------------------------------\n");
+    printf("  \n");
+    printf("Summary from DDR Margining tool\n");
+    printf("N%d: Read Timing Margin   : %s\n", node, risk[!!ret_rt]);
+    printf("N%d: Write Timing Margin  : %s\n", node, risk[!!ret_wt]);
+
+    // these may not have been done due to DDR3 and/or THUNDER pass 1.x
+    // FIXME? would it be better to print an appropriate message here? 
+    if (ret_rv != -1) printf("N%d: Read Voltage Margin  : %s\n", node, risk[!!ret_rv]);
+    if (ret_wv != -1) printf("N%d: Write Voltage Margin : %s\n", node, risk[!!ret_wv]);
+
+    printf("  \n");
+    printf("-------------------------------------\n");
+    printf("  \n");
+
+    return;
+}
+
+/**
  * Lookup a DRAM configuration by name and return ddr_clock_hertz field
  *
  * @param node   Node to configure
