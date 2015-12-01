@@ -40,7 +40,7 @@ repeat
             dram_enabled = true
         end)
     else
-        m:item("tune", "DRAM Tuning", function()
+        m:item("tune", "DDR Read Tuning", function()
             local start_time = os.time()
             cavium.c.bdk_dram_tune(menu.node)
             local end_time = os.time()
@@ -50,6 +50,9 @@ repeat
             local sec = (total_time % 3600) % 60
             printf("DRAM tuning took %02d:%02d:%02d\n", hour, min, sec)
         end)
+	m:item("margin", "DDR Margining Tool", function()
+	    cavium.c.bdk_dram_margin_all(menu.node)
+	end)
     end
     m:item("test", "Memory Testing Menu", menu.dofile, "ddr_test_menu")
     m:item("quit", "Main menu")
