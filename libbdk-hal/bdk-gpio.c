@@ -18,13 +18,13 @@ BDK_REQUIRE_DEFINE(GPIO);
  */
 int bdk_gpio_initialize(bdk_node_t node, int gpio, int is_output, int output_value)
 {
-    if (output_value)
-        bdk_gpio_set(node, 1ull<<gpio);
-    else
-        bdk_gpio_clear(node, 1ull<<gpio);
-
-    if (gpio <= 50)
+    if ((gpio >= 0) && (gpio <= 50))
     {
+        if (output_value)
+            bdk_gpio_set(node, 1ull<<gpio);
+        else
+            bdk_gpio_clear(node, 1ull<<gpio);
+
         BDK_CSR_DEFINE(cfg, BDK_GPIO_BIT_CFGX(gpio));
         cfg.u = 0;
         cfg.s.tx_oe = !!is_output;
