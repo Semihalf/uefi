@@ -79,3 +79,20 @@ void bdk_gpio_set(bdk_node_t node, uint64_t set_mask)
     BDK_CSR_WRITE(node, BDK_GPIO_TX_SET, gpio_tx_set.u);
 }
 
+
+/** GPIO Select pin
+ *
+ * @param node      CPU node
+ * @param gpio      GPIO number
+ * @param pin       Pin number
+ */
+void bdk_gpio_select_pin(bdk_node_t node, int gpio, int pin)
+{
+    if ((gpio < 0) && (gpio > 50))
+    {
+        bdk_warn("bdk_gpio_select_pin: Illegal GPIO %d\n", gpio);
+        return;
+    }
+
+    BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(gpio), c.s.pin_sel = pin);
+}

@@ -51,4 +51,12 @@ extern void bdk_gpio_clear(bdk_node_t node, uint64_t clear_mask);
  */
 extern void bdk_gpio_set(bdk_node_t node, uint64_t set_mask);
 
+/** GPIO Select pin
+ *
+ * @param node      CPU node
+ * @param gpio      GPIO number
+ * @param pin       Pin number
+ */
+extern void bdk_gpio_select_pin(bdk_node_t node, int gpio, int pin);
+
 /** @} */
