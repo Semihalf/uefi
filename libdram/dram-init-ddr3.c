@@ -417,9 +417,10 @@ static int compute_Vref_2slot_2rank(int rtt_wr, int rtt_park_00, int rtt_park_01
 }
 
 // NOTE: only call this for DIMMs with 1 or 2 ranks, not 4.
-static int
-compute_vref_value(bdk_node_t node, int ddr_interface_num, int rankx,
-		   int dimm_count, int rank_count, impedence_values_t *imp_values)
+int
+compute_vref_value(bdk_node_t node, int ddr_interface_num,
+		   int rankx, int dimm_count, int rank_count,
+		   impedence_values_t *imp_values, int is_stacked_die)
 {
     int computed_final_vref_value = 0;
 
@@ -2087,7 +2088,8 @@ static unsigned char ddr4_rtt_wr_ohms   [RTT_WR_OHMS_COUNT   ] = {  0, 120, 240,
 static unsigned char ddr4_dic_ohms      [DIC_OHMS_COUNT      ] = { 34,  48 };
 static short         ddr4_drive_strength[DRIVE_STRENGTH_COUNT] = {  0,   0, 26, 30, 34, 40, 48, 68, 0,0,0,0,0,0,0 };
 static short         ddr4_dqx_strength  [DRIVE_STRENGTH_COUNT] = {  0,  24, 27, 30, 34, 40, 48, 60, 0,0,0,0,0,0,0 };
-static impedence_values_t ddr4_impedence_values = {
+
+impedence_values_t ddr4_impedence_values = {
     .rodt_ohms             =  ddr4_rodt_ohms     ,
     .rtt_nom_ohms          =  ddr4_rtt_nom_ohms  ,
     .rtt_nom_table         =  ddr4_rtt_nom_table ,
@@ -2252,6 +2254,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int spd_package = 0;
     int spd_rawcard = 0;
     int spd_rawcard_AorB = 0;
+    int is_stacked_die = 0;
 
     /* FTB values are two's complement ranging from +127 to -128. */
     typedef signed char SC_t;
@@ -2389,6 +2392,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 	spd_package = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_PACKAGE_TYPE);
 	extra_ddr_print("DDR4: Package Type 0x%x \n", spd_package);
+	is_stacked_die = ((spd_package & 0xf3) == 0x91);
 
         spd_rdimm       = (spd_dimm_type == 1);
 	if (spd_rdimm) {
@@ -5736,7 +5740,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #endif /* NOSKIP_40_48_OHM */
 #if NOSKIP_48_STACKED
 		    // For now, do not skip RODT row 48 ohm for 2Rx4 stacked die DIMMs
-		    if (((spd_package & 0xf3) == 0x91) && (num_ranks == 2) && (dram_width == 4)) {
+		    if ((is_stacked_die) && (num_ranks == 2) && (dram_width == 4)) {
 			rodt_row_skip_mask &= ~(1 << ddr4_rodt_ctl_48_ohm); // noskip RODT row 48 ohms
 		    }
 #endif /* NOSKIP_48_STACKED */
@@ -6477,7 +6481,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 	    if ((ddr_type == DDR4_DRAM) && (num_ranks != 4) && !measured_vref_flag) {
 		computed_final_vref_value = compute_vref_value(node, ddr_interface_num, rankx,
-							       dimm_count, num_ranks, imp_values);
+							       dimm_count, num_ranks, imp_values,
+							       is_stacked_die);
 		start_vref_value = 0x33; // skip all the measured Vref processing, just the final setting
 	    }
 

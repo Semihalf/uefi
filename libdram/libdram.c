@@ -22,7 +22,7 @@ static void bdk_dram_clear_mem(bdk_node_t node)
 	uint64_t len =  (mbytes << 20) - skip;
 
 	BDK_TRACE(DRAM, "N%d: Clearing DRAM\n", node);
-	printf("N%d: Clearing DRAM: start 0x%lx length 0x%lx\n", node, skip, len);
+	ddr_print("N%d: Clearing DRAM: start 0x%lx length 0x%lx\n", node, skip, len);
 	bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)), len);
 	BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);
     }
@@ -42,18 +42,34 @@ static void bdk_dram_clear_ecc(bdk_node_t node)
 static int bdk_libdram_tune_node(int node)
 {
     int errs, tot_errs;
+    int do_dllwo = 0; // default to NO
+    const char *str;
 
     // Automatically tune the data byte DLL read offsets
     BDK_TRACE(DRAM, "N%d: Starting DLL Read Offset Tuning for LMCs\n", node);
-    errs = perform_dll_offset_tuning(node, 2); 
+    errs = perform_dll_offset_tuning(node, 2, /* tune */1); 
     BDK_TRACE(DRAM, "N%d: Finished DLL Read Offset Tuning for LMCs, %d errors)\n",
 	      node, errs);
     tot_errs = errs;
 
+    // disabled by default for now, does not seem to be needed?
+    // Automatically tune the data byte DLL read offsets
+    // allow override of default setting
+    str = getenv("ddr_tune_write_offsets");
+    if (str)
+	do_dllwo = !!strtoul(str, NULL, 0);
+    if (do_dllwo) {
+	BDK_TRACE(DRAM, "N%d: Starting DLL Write Offset Tuning for LMCs\n", node);
+	errs = perform_dll_offset_tuning(node, 1, /* tune */1); 
+	BDK_TRACE(DRAM, "N%d: Finished DLL Write Offset Tuning for LMCs, %d errors)\n",
+	       node, errs);
+	tot_errs += errs;
+    }
+
     // Automatically tune the ECC byte DLL read offsets
     BDK_TRACE(DRAM, "N%d: Starting ECC DLL Read Offset Tuning for LMCs\n", node);
-    errs = perform_ECC_dll_offset_tuning(node, 2); 
-    BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors)\n",
+    errs = perform_ECC_dll_offset_tuning(node, 2, /* tune */1); 
+    BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors\n",
 	      node, errs);
     tot_errs += errs;
 
@@ -96,9 +112,15 @@ static const uint32_t ddr_speed_filter[2][2][2] = {
 
 static int bdk_libdram_maybe_tune_node(int node)
 {
-    // FIXME: allow an override here so that all configs can be tuned
-    if (getenv("ddr_tune_all_configs") != NULL) // just being defined is enough...
-	return bdk_libdram_tune_node(node);
+    const char *str;
+
+    // FIXME: allow an override here so that all configs can be tuned or none
+    // If the envvar is defined, always either force it or avoid it accordingly
+    if ((str = getenv("ddr_tune_all_configs")) != NULL) {
+	int tune_it = !!strtoul(str, NULL, 0);
+	printf("N%d: DRAM auto-tuning %s.\n", node, (tune_it) ? "forced" : "avoided");
+	return (tune_it) ? bdk_libdram_tune_node(node) : 0;
+    }
 
     // filter the tuning calls here...
     // determine if we should/can run automatically for this configuration
@@ -117,9 +139,9 @@ static int bdk_libdram_maybe_tune_node(int node)
     uint32_t ddr_min_speed = ddr_speed_filter[is_ddr4][is_rdimm][is_1slot];
     do_tune = (ddr_min_speed && (ddr_speed > ddr_min_speed));
 
-    printf("N%d: DDR%d %cDIMM %d-slot at %d MHz %s eligible for auto-tuning.\n",
-	   node, (is_ddr4)?4:3, (is_rdimm)?'R':'U', (is_1slot)?1:2,
-	   ddr_speed, (do_tune)?"is":"is not");
+    ddr_print("N%d: DDR%d %cDIMM %d-slot at %d MHz %s eligible for auto-tuning.\n",
+	      node, (is_ddr4)?4:3, (is_rdimm)?'R':'U', (is_1slot)?1:2,
+	      ddr_speed, (do_tune)?"is":"is not");
 
     // call the tuning routines, done filtering...
     return ((do_tune) ? bdk_libdram_tune_node(node) : 0);
@@ -237,6 +259,102 @@ int libdram_tune(int node)
 
     // call the tuning routines, no filtering...
     tot_errs = bdk_libdram_tune_node(node);
+
+    // make sure to clear memory and any ECC errs when done... 
+    bdk_dram_clear_mem(node);
+    bdk_dram_clear_ecc(node);
+
+    return tot_errs;
+}
+
+/**
+ * This is the main function for DRAM margining of Write Voltage.
+ * Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to test. This may not be the same node as the one running the code
+ *
+ * @return Success or Fail
+ */
+int libdram_margin_write_voltage(int node)
+{
+    int tot_errs;
+
+    // call the margining routine
+    tot_errs = perform_margin_write_voltage(node);
+
+    // make sure to clear memory and any ECC errs when done... 
+    bdk_dram_clear_mem(node);
+    bdk_dram_clear_ecc(node);
+
+    return tot_errs;
+}
+
+/**
+ * This is the main function for DRAM margining of Read Voltage.
+ * Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to test. This may not be the same node as the one running the code
+ *
+ * @return Success or Fail
+ */
+int libdram_margin_read_voltage(int node)
+{
+    int tot_errs;
+
+    // call the margining routine
+    tot_errs = perform_margin_read_voltage(node);
+
+    // make sure to clear memory and any ECC errs when done... 
+    bdk_dram_clear_mem(node);
+    bdk_dram_clear_ecc(node);
+
+    return tot_errs;
+}
+
+/**
+ * This is the main function for DRAM margining of Write Timing.
+ * Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to test. This may not be the same node as the one running the code
+ *
+ * @return Success or Fail
+ */
+int libdram_margin_write_timing(int node)
+{
+    int tot_errs;
+
+    // call the tuning routine, tell it we are margining not tuning...
+    tot_errs = perform_dll_offset_tuning(node, /* write offsets */1, /* margin */0);
+
+    // make sure to clear memory and any ECC errs when done... 
+    bdk_dram_clear_mem(node);
+    bdk_dram_clear_ecc(node);
+
+    return tot_errs;
+}
+
+/**
+ * This is the main function for DRAM margining of Read Timing.
+ * Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to test. This may not be the same node as the one running the code
+ *
+ * @return Success or Fail
+ */
+int libdram_margin_read_timing(int node)
+{
+    int tot_errs;
+
+    // call the tuning routine, tell it we are margining not tuning...
+    tot_errs = perform_dll_offset_tuning(node, /* read offsets */2, /* margin */0);
 
     // make sure to clear memory and any ECC errs when done... 
     bdk_dram_clear_mem(node);

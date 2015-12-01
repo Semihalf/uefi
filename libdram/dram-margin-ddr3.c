@@ -1236,7 +1236,7 @@ margin_vref_int(bdk_node_t node, int lmc, int ddr_interface_64b)
 /*
  * Margining tool for Write Voltage (DRAM External VREF)
  */
-int perform_margining_vref_external(bdk_node_t node)
+int perform_margin_write_voltage(bdk_node_t node)
 {
     int ret = perform_margining_vref_all(node, 1); // write
     return ret;
@@ -1244,7 +1244,7 @@ int perform_margining_vref_external(bdk_node_t node)
 /*
  * Margining tool for Read Voltage (DRAM Internal VREF)
  */
-int perform_margining_vref_internal(bdk_node_t node)
+int perform_margin_read_voltage(bdk_node_t node)
 {
     int ret = 0;
 

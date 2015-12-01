@@ -25,7 +25,7 @@
 // MUST BE odd!!
 // assume there should only be 2 possible values that will show up,
 // so treat ties as a problem!!!
-#define WLEVEL_LOOPS_DEFAULT     3 // NOTE: do not change this without code changes!!!
+#define WLEVEL_LOOPS_DEFAULT     3 // NOTE: do not change this without checking the code!!!
 
 // define how many HW RL samples per rank to take
 // multiple samples will allow either:
@@ -139,8 +139,10 @@ unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num,
 			       int dll_offset_mode, int byte_offset, int byte);
 void change_dll_offset_enable(bdk_node_t node, int ddr_interface_num, int change);
 
-extern int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode);
-extern int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode);
+extern int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune);
+extern int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune);
 
+extern int perform_margin_write_voltage(bdk_node_t node);
+extern int perform_margin_read_voltage(bdk_node_t node);
 #endif /* __DRAM_INTERNAL_H__ */
 

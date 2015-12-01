@@ -233,6 +233,10 @@ typedef struct {
 
 extern int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_override);
 extern int libdram_tune(int node);
+extern int libdram_margin_write_voltage(int node);
+extern int libdram_margin_read_voltage(int node);
+extern int libdram_margin_read_timing(int node);
+extern int libdram_margin_write_timing(int node);
 extern uint32_t libdram_get_freq(int node);
 extern uint32_t libdram_get_freq_from_pll(int node, int lmc);
 
