@@ -277,6 +277,7 @@ int libdram_tune(int node)
  *
  * @return Success or Fail
  */
+static
 int libdram_margin_write_voltage(int node)
 {
     int tot_errs;
@@ -301,6 +302,7 @@ int libdram_margin_write_voltage(int node)
  *
  * @return Success or Fail
  */
+static
 int libdram_margin_read_voltage(int node)
 {
     int tot_errs;
@@ -325,6 +327,7 @@ int libdram_margin_read_voltage(int node)
  *
  * @return Success or Fail
  */
+static
 int libdram_margin_write_timing(int node)
 {
     int tot_errs;
@@ -349,6 +352,7 @@ int libdram_margin_write_timing(int node)
  *
  * @return Success or Fail
  */
+static
 int libdram_margin_read_timing(int node)
 {
     int tot_errs;
@@ -361,6 +365,54 @@ int libdram_margin_read_timing(int node)
     bdk_dram_clear_ecc(node);
 
     return tot_errs;
+}
+
+/**
+ * This is the main function for all DRAM margining.
+ * Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to test. This may not be the same node as the one running the code
+ *
+ * @return Success or Fail
+ */
+int libdram_margin(int node)
+{
+    int ret_rt, ret_wt, ret_rv, ret_wv;
+    char *risk[2] = { "Low Risk", "Needs Review" };
+
+    debug_print("N%d: Starting DRAM Margin ALL\n", node);
+    ret_rt = libdram_margin_read_timing(node);
+    ret_wt = libdram_margin_write_timing(node);
+    ret_rv = libdram_margin_read_voltage(node);
+    ret_wv = libdram_margin_write_voltage(node);
+    debug_print("N%d: DRAM Margin ALL finished\n", node);
+
+    /*
+      >>> Summary from DDR Margining tool:
+      >>> N0: Read Timing Margin   : Low Risk
+      >>> N0: Write Timing Margin  : Low Risk
+      >>> N0: Read Voltage Margin  : Low Risk
+      >>> N0: Write Voltage Margin : Low Risk  
+     */
+    printf("  \n");
+    printf("-------------------------------------\n");
+    printf("  \n");
+    printf("Summary from DDR Margining tool\n");
+    printf("N%d: Read Timing Margin   : %s\n", node, risk[!!ret_rt]);
+    printf("N%d: Write Timing Margin  : %s\n", node, risk[!!ret_wt]);
+
+    // these may not have been done due to DDR3 and/or THUNDER pass 1.x
+    // FIXME? would it be better to print an appropriate message here? 
+    if (ret_rv != -1) printf("N%d: Read Voltage Margin  : %s\n", node, risk[!!ret_rv]);
+    if (ret_wv != -1) printf("N%d: Write Voltage Margin : %s\n", node, risk[!!ret_wv]);
+
+    printf("  \n");
+    printf("-------------------------------------\n");
+    printf("  \n");
+
+    return 0;
 }
 
 /**

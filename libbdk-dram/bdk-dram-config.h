@@ -38,7 +38,7 @@ extern int bdk_dram_tune(int node);
  *
  * @return None
  */
-extern void bdk_dram_margin_all(int node);
+extern void bdk_dram_margin(int node);
 
 /**
  * Get the amount of DRAM configured for a node. This is read from the LMC

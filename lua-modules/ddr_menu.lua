@@ -51,7 +51,7 @@ repeat
             printf("DRAM tuning took %02d:%02d:%02d\n", hour, min, sec)
         end)
 	m:item("margin", "DDR Margining Tool", function()
-	    cavium.c.bdk_dram_margin_all(menu.node)
+	    cavium.c.bdk_dram_margin(menu.node)
 	end)
     end
     m:item("test", "Memory Testing Menu", menu.dofile, "ddr_test_menu")
