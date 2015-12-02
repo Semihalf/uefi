@@ -1104,15 +1104,17 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 	    byte_offset =  byte_delay_best_start[lmc][byte] +
 		((count - incr_offset) / 2); // adj by incr
 
-	    int will_need_review = !is_low_risk_winlen(speed_bin, (count - incr_offset)) &&
+	    int will_need_review = !do_tune && !is_low_risk_winlen(speed_bin, (count - incr_offset)) &&
 		                   !is_low_risk_offset(speed_bin, byte_offset);
 
 	    printf("%10d%c", byte_offset, (will_need_review) ? '<' :' ');
 
-	    if (will_need_review)
-		needs_review_count++;
-	    else
-		low_risk_count++;
+	    if (!do_tune) { // do bother counting if not tuning
+		if (will_need_review)
+		    needs_review_count++;
+		else
+		    low_risk_count++;
+	    }
 
 	    // FIXME? should we be able to override this?
 	    if (mode_is_read) // for READ offsets, always store what we found
