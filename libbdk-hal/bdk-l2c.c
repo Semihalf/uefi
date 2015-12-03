@@ -205,3 +205,46 @@ int bdk_l2c_get_num_assoc(bdk_node_t node)
     return l2_node_state[node].ways;
 }
 
+/* Return the number of locked ways in the L2 Cache */
+int bdk_l2c_get_num_locked(bdk_node_t node)
+{
+    /* The number of ways can be reduced with fuses, but the equations below
+       assume the max number of ways */
+    const int MAX_WAYS = 16;
+    int num_sets = bdk_l2c_get_num_sets(node);
+    int num_ways = bdk_l2c_get_num_assoc(node);
+    int is_rtg;
+    int locked = 0;
+
+#if 0
+    // FIXME: for now no remotes
+    is_rtg = 1; /* Read the remote tags */
+    for (int l2_way = 0; l2_way < num_ways; l2_way++)
+    {
+        for (int l2_set = 0; l2_set < num_sets; l2_set++)
+        {
+            uint64_t encoded = 128 * (l2_set + num_sets * (l2_way + (is_rtg * MAX_WAYS)));
+            BDK_CACHE_WBI_L2_INDEXED(encoded);
+        }
+    }
+#endif
+
+    is_rtg = 0; /* Read the local tags */
+    for (int l2_way = 0; l2_way < num_ways; l2_way++)
+    {
+        for (int l2_set = 0; l2_set < num_sets; l2_set++)
+        {
+	    bdk_l2c_tadx_tag_t tag;
+            uint64_t encoded = 128 * (l2_set + num_sets * (l2_way + (is_rtg * MAX_WAYS)));
+	    int tadno = (encoded >> 8) & 7; // which TAD, so we can read its TAG
+
+            BDK_CACHE_LTG_L2_INDEXED(encoded);
+	    BDK_DSB;
+            tag.u = BDK_CSR_READ(node, BDK_L2C_TADX_TAG(tadno));
+	    if ((tag.s.ts != 0) && tag.s.lock) {
+		locked++;
+	    }
+        }
+    }
+    return locked;
+}
