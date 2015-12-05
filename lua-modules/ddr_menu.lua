@@ -48,7 +48,7 @@ repeat
             local hour = total_time / 3600
             local min = (total_time % 3600) / 60
             local sec = (total_time % 3600) % 60
-            printf("DRAM tuning took %02d:%02d:%02d\n", hour, min, sec)
+            printf("DDR Read Tuning took %02d:%02d:%02d\n", hour, min, sec)
         end)
 	m:item("margin", "DDR Margining Tool", function()
 	    cavium.c.bdk_dram_margin(menu.node)
