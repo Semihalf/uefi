@@ -531,8 +531,8 @@ get_computed_vref(bdk_node_t node, int lmc, int rankx, int maybe)
 	}
     }
 
-    ddr_print("+++ DEBUG: N%d.LMC%d.R%d: using %d for exernal VREF\n",
-	      node, lmc, rankx, ret);
+    debug_print("+++ DEBUG: N%d.LMC%d.R%d: using %d for exernal VREF\n",
+		node, lmc, rankx, ret);
 
     return ret;
 }
@@ -567,8 +567,8 @@ margin_vref_ext(bdk_node_t node, int lmc, int ddr_interface_64b)
     int maybe_computed_vref;
     BDK_CSR_INIT(lmc_mr_mpr_ctl, node, BDK_LMCX_MR_MPR_CTL(lmc));
     maybe_computed_vref = lmc_mr_mpr_ctl.s.mr_wr_addr & 0x7f;
-    ddr_print("+++ DEBUG: N%d.LMC%d: MR_MPR_CTL[mr_wr_addr] returned %d\n",
-	      node, lmc, maybe_computed_vref);
+    debug_print("+++ DEBUG: N%d.LMC%d: MR_MPR_CTL[mr_wr_addr] returned %d\n",
+		node, lmc, maybe_computed_vref);
 #endif
 
     if (dram_margin_ext_gran != DEFAULT_MARGIN_EXT_GRAN) {
@@ -834,7 +834,7 @@ static void margin_vref_int(bdk_node_t node, int lmc, int ddr_interface_64b);
 
 // arg ext_or_int - 1 = write, 0 = read
 static int
-perform_margining_vref_all(bdk_node_t node, int ext_or_int)
+perform_margining_vref_common(bdk_node_t node, int ext_or_int)
 {
     int ddr_interface_64b;
     int save_ecc_ena[4];
@@ -846,6 +846,7 @@ perform_margining_vref_all(bdk_node_t node, int ext_or_int)
 #endif
     int loops = 1, loop;
     char *mode_str = (ext_or_int) ? "Write" : "Read";
+    uint64_t orig_coremask;
 
     // clear the global counts
     low_risk_count = 0;
@@ -857,29 +858,30 @@ perform_margining_vref_all(bdk_node_t node, int ext_or_int)
 	return -1;
     }
 
-    // check: maybe verbose was not set during init, but is now set...
-    s = getenv("ddr_verbose");
-    if (s)
-        dram_verbosity = strtoul(s, NULL, 0);
-    else
-        dram_verbosity = 0;
-
-    // enable all the cores on this node
-    bdk_init_cores(node, 0);
-    dram_tune_max_cores = bdk_get_num_running_cores(node);
-
+    // consult LMC_CONFIG contents for various information
     // FIXME? consult LMC0 only
     BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(0));
     if (lmcx_config.s.rank_ena) { // replace the default offset when there is more than 1 rank...
-	dram_tune_rank_offset = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena + (num_lmcs/2));
-	ddr_print("N%d: %s: changing rank offset to 0x%lx\n", node, __FUNCTION__, dram_tune_rank_offset);
+	dram_tune_rank_offset =
+	    1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena + (num_lmcs/2));
+	ddr_print("N%d: %s: changing rank offset to 0x%lx\n",
+		  node, __FUNCTION__, dram_tune_rank_offset);
 	dram_tune_rank_ena = 1;
     }
     dram_tune_rank_mask = lmcx_config.s.init_status;
     if (dram_tune_rank_mask & 0x0c) { // bit 2 or 3 set indicates 2 DIMMs
 	dram_tune_dimm_offset = 1ull << (28 + lmcx_config.s.pbank_lsb + (num_lmcs/2));
-	ddr_print("N%d: %s: changing dimm offset to 0x%lx\n", node, __FUNCTION__, dram_tune_dimm_offset);
+	ddr_print("N%d: %s: changing dimm offset to 0x%lx\n",
+		  node, __FUNCTION__, dram_tune_dimm_offset);
     }
+    ddr_interface_64b = !lmc_config.s.mode32b;
+
+    // enable any non-running cores on this node
+    orig_coremask = bdk_get_running_coremask(node);
+    ddr_print("N%d: %s: Starting cores (mask was 0x%lx)\n",
+	      node, __FUNCTION__, orig_coremask);
+    bdk_init_cores(node, ~0ULL & ~orig_coremask);
+    dram_tune_max_cores = bdk_get_num_running_cores(node);
 
     // but use only a certain number of cores, at most what is available
     if ((s = getenv("ddr_tune_use_cores")) != NULL) {
@@ -940,9 +942,6 @@ perform_margining_vref_all(bdk_node_t node, int ext_or_int)
 	ways = bdk_l2c_get_num_assoc(node);
     }
 #endif
-
-    // FIXME? get flag from LMC0 only
-    ddr_interface_64b = !lmc_config.s.mode32b;
 
 #if USE_L2_WAYS_LIMIT
     /* Disable l2 sets for DRAM testing */
@@ -1016,12 +1015,20 @@ perform_margining_vref_all(bdk_node_t node, int ext_or_int)
     limit_l2_ways(node, ways, ways_print);
 #endif
 
-    // put the unnecessary cores on this node back into reset
-    bdk_reset_cores(node, ((int)node == 0) ? ~1ULL: ~0ULL);
+    // put any cores on this node, that were not running at the start, back into reset
+    uint64_t reset_coremask = bdk_get_running_coremask(node) & ~orig_coremask;
+    if (reset_coremask) {
+	ddr_print("N%d: %s: Stopping cores 0x%lx\n", node, __FUNCTION__,
+		  reset_coremask);
+	bdk_reset_cores(node, reset_coremask);
+    } else {
+	ddr_print("N%d: %s: leaving cores set to 0x%lx\n", node, __FUNCTION__,
+		  orig_coremask);
+    }
 
     return !!(needs_review_count > 0);
 
-} /* perform_margining_vref_all */
+} /* perform_margining_vref_common */
 
 //////////////////////////////////////////////////////
 
@@ -1186,7 +1193,8 @@ margin_vref_int(bdk_node_t node, int lmc, int ddr_interface_64b)
 	{
 	    int dac_min = index_best_start[byte];
 	    int dac_max = dac_min + index_best_count[byte] - incr_index;
-	    int is_low_risk = is_dac_delta_low_risk(orig_dac_settings[byte], dac_max, dac_min, 20); // FIXME: 20 should be symbolic!!
+	    // FIXME: limit of 20 should be symbolic!!
+	    int is_low_risk = is_dac_delta_low_risk(orig_dac_settings[byte], dac_max, dac_min, 20);
 	    printf("    %7d%c", index, (is_low_risk) ? ' ' : '<');
 	    if (is_low_risk)
 		low_risk_count++;
@@ -1217,7 +1225,7 @@ margin_vref_int(bdk_node_t node, int lmc, int ddr_interface_64b)
     // print the windows bit arrays
     printf("N%d.LMC%d: Valid Window Bitmap          : ", node, lmc);
     for (byte = 8; byte >= 0; byte--) {
-	printf(" %07lx ", index_windows[byte]);
+	printf("    %07lx ", index_windows[byte]);
     }
     printf("\n");
 #endif
@@ -1238,7 +1246,7 @@ margin_vref_int(bdk_node_t node, int lmc, int ddr_interface_64b)
  */
 int perform_margin_write_voltage(bdk_node_t node)
 {
-    int ret = perform_margining_vref_all(node, 1); // write
+    int ret = perform_margining_vref_common(node, 1); // write
     return ret;
 }
 /*
@@ -1250,7 +1258,7 @@ int perform_margin_read_voltage(bdk_node_t node)
 
     // FIXME: check: internal/read voltage margining only for T88 pass 2.x
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
-	ret = perform_margining_vref_all(node, 0); // read
+	ret = perform_margining_vref_common(node, 0); // read
     } else {
 	printf("Read Voltage Margining not available for THUNDER pass 1.x.\n");
 	ret = -1;

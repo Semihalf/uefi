@@ -254,11 +254,46 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
 int libdram_tune(int node)
 {
     int tot_errs;
+    int l2c_num_locked = bdk_l2c_get_num_locked(node);
 
     dram_verbosity = bdk_config_get_int(BDK_CONFIG_DRAM_VERBOSE);
 
+    // the only way this entry point should be called is from a MENU item,
+    // so, enable any non-running cores on this node, and leave them
+    // running at the end...
+    ddr_print("N%d: %s: Starting cores (mask was 0x%lx)\n",
+	      node, __FUNCTION__, bdk_get_running_coremask(node));
+    bdk_init_cores(node, ~0ULL);
+
+    // must test for L2C locked here, cannot go on with it unlocked
+    // FIXME: but we only need to worry about Node 0???
+    if (node == 0) {
+	if (l2c_num_locked == 0) { // is unlocked, must lock it now
+	    ddr_print("N%d: %s: L2C was unlocked - locking it now\n", node, __FUNCTION__);
+	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
+	    bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+	} else {
+	    ddr_print("N%d: %s: L2C was already locked - continuing\n", node, __FUNCTION__);
+	}
+    } else {
+	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+    }
+
     // call the tuning routines, no filtering...
     tot_errs = bdk_libdram_tune_node(node);
+
+    // FIXME: only for node 0, unlock L2C if it was unlocked before...
+    if (node == 0) {
+	if (l2c_num_locked == 0) { // it was Node 0 and unlocked, must re-unlock it now
+	    ddr_print("N%d: Node 0 L2C was unlocked before - unlocking it now\n", node);
+	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
+	    bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+	} else {
+	    ddr_print("N%d: %s: L2C was already locked - leaving it locked\n", node, __FUNCTION__);
+	}
+    } else {
+	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+    }
 
     // make sure to clear memory and any ECC errs when done... 
     bdk_dram_clear_mem(node);
@@ -381,6 +416,30 @@ int libdram_margin(int node)
 {
     int ret_rt, ret_wt, ret_rv, ret_wv;
     char *risk[2] = { "Low Risk", "Needs Review" };
+    int l2c_num_locked = bdk_l2c_get_num_locked(node);
+
+    dram_verbosity = bdk_config_get_int(BDK_CONFIG_DRAM_VERBOSE);
+
+    // the only way this entry point should be called is from a MENU item,
+    // so, enable any non-running cores on this node, and leave them
+    // running at the end...
+    ddr_print("N%d: %s: Starting cores (mask was 0x%lx)\n",
+	      node, __FUNCTION__, bdk_get_running_coremask(node));
+    bdk_init_cores(node, ~0ULL);
+
+    // must test for L2C locked here, cannot go on with it unlocked
+    // FIXME: but we only need to worry about Node 0???
+    if (node == 0) {
+	if (l2c_num_locked == 0) { // is unlocked, must lock it now
+	    ddr_print("N%d: %s: L2C was unlocked - locking it now\n", node, __FUNCTION__);
+	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
+	    bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+	} else {
+	    ddr_print("N%d: %s: L2C was already locked - continuing\n", node, __FUNCTION__);
+	}
+    } else {
+	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+    }
 
     debug_print("N%d: Starting DRAM Margin ALL\n", node);
     ret_rt = libdram_margin_read_timing(node);
@@ -411,6 +470,19 @@ int libdram_margin(int node)
     printf("  \n");
     printf("-------------------------------------\n");
     printf("  \n");
+
+    // FIXME: only for node 0, unlock L2C if it was unlocked before...
+    if (node == 0) {
+	if (l2c_num_locked == 0) { // it was Node 0 and unlocked, must re-unlock it now
+	    ddr_print("N%d: Node 0 L2C was unlocked before - unlocking it now\n", node);
+	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
+	    bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+	} else {
+	    ddr_print("N%d: %s: L2C was already locked - leaving it locked\n", node, __FUNCTION__);
+	}
+    } else {
+	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+    }
 
     return 0;
 }

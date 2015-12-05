@@ -1,8 +1,6 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
-extern dram_verbosity_t dram_verbosity;
-
 static  int64_t test_dram_byte_threads_done;
 static uint64_t test_dram_byte_threads_errs;
 static uint64_t test_dram_byte_lmc_errs[4];
@@ -798,13 +796,6 @@ bdk_run_dram_tuning_test(int node)
 	return 0;
     }
 
-    // check: maybe verbose was not set during init, but is now set...
-    s = getenv("ddr_verbose");
-    if (s)
-        dram_verbosity = strtoul(s, NULL, 0);
-    else
-        dram_verbosity = 0;
-
     // but use only a certain number of cores, at most what is available
     if ((s = getenv("ddr_tune_use_cores")) != NULL) {
 	dram_tune_use_cores = strtoul(s, NULL, 0);
@@ -1195,11 +1186,13 @@ auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 		  node, lmc, ops_sum[lmc], dclk_sum[lmc], percent_x10 / 10, percent_x10 % 10);
     } /* for (lmc = 0; lmc < num_lmcs; lmc++) */
 
-    // FIXME: only when verbose, opr only when there are errors?
+    // FIXME: only when verbose, or only when there are errors?
     // run the test one last time 
     // print whether there are errors or not, but only when verbose...
     bdk_watchdog_poke();
+    debug_print("N%d: %s: Start running test one last time\n", node, __FUNCTION__);
     tot_errors = run_dram_tuning_threads(node, num_lmcs, bytemask);
+    debug_print("N%d: %s: Finished running test one last time\n", node, __FUNCTION__);
     if (tot_errors)
 	ddr_print("%s Timing Final Test: errors 0x%x\n", mode_str, tot_errors);
 
@@ -1221,12 +1214,18 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 #if USE_L2_WAYS_LIMIT
     int ways, ways_print = 0;
 #endif
+#if 0
     int dram_tune_use_rodt = -1, save_rodt[4];
     bdk_lmcx_comp_ctl2_t comp_ctl2;
+#endif
     int loops = 1, loop;
+    uint64_t orig_coremask;
 
-    // enable all the cores on this node
-    bdk_init_cores(node, 0);
+    // enable any non-running cores on this node
+    orig_coremask = bdk_get_running_coremask(node);
+    ddr_print("N%d: %s: Starting cores (mask was 0x%lx)\n",
+	      node, __FUNCTION__, orig_coremask);
+    bdk_init_cores(node, ~0ULL & ~orig_coremask);
     dram_tune_max_cores = bdk_get_num_running_cores(node);
 
     // but use only a certain number of cores, at most what is available
@@ -1253,6 +1252,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
         dram_tune_use_bursts = strtoul(s, NULL, 10);
     }
 
+#if 0
     // allow override of Read ODT setting just during the tuning run(s)
     if ((s = getenv("ddr_tune_use_rodt")) != NULL) {
         int temp = strtoul(s, NULL, 10);
@@ -1260,6 +1260,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 	if (temp >= 0 && temp <= 7)
 	    dram_tune_use_rodt = temp;
     }
+#endif
 
 #if 0
     // allow override of the test pattern
@@ -1276,8 +1277,9 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 #endif
 
     // print current working values
-    debug_print("N%d: perform_lmc_offset_tuning: started %d cores, use %d cores, use %d bursts.\n",
-	      node, dram_tune_max_cores, dram_tune_use_cores, dram_tune_use_bursts);
+    ddr_print("N%d: %s: started %d cores, use %d cores, use %d bursts.\n",
+		node, __FUNCTION__, dram_tune_max_cores, dram_tune_use_cores,
+		dram_tune_use_bursts);
 
 #if USE_L2_WAYS_LIMIT
     // see if L2 ways are limited
@@ -1289,19 +1291,23 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
     }
 #endif
 
+#if 0
     // if RODT is to be overridden during tuning, note change
     if (dram_tune_use_rodt >= 0) {
 	ddr_print("N%d: using RODT %d for tuning.\n",
 		  node, dram_tune_use_rodt);
     }
+#endif
 
     // FIXME? get flag from LMC0 only
+    lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(0));
     ddr_interface_64b = !lmc_config.s.mode32b;
 
     // do setup for each active LMC
-    debug_print("N%d: perform_lmc_offset_tuning: starting LMCs setup.\n", node);
+    ddr_print("N%d: %s: starting LMCs setup.\n", node, __FUNCTION__);
     for (lmc = 0; lmc < num_lmcs; lmc++) {
 
+#if 0
 	// if RODT change, save old and set new here...
 	if (dram_tune_use_rodt >= 0) {
 	    comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(lmc));
@@ -1310,7 +1316,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 	    DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(lmc), comp_ctl2.u);
 	    BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(lmc));
 	}
-
+#endif
 	/* Disable ECC for DRAM tests */
 	lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(lmc));
 	save_ecc_ena[lmc] = lmc_config.s.ecc_ena;
@@ -1338,7 +1344,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 #endif
 
     // perform cleanup on all active LMCs   
-    debug_print("N%d: perform_lmc_offset_tuning: starting LMCs cleanup.\n", node);
+    ddr_print("N%d: %s: starting LMCs cleanup.\n", node, __FUNCTION__);
     for (lmc = 0; lmc < num_lmcs; lmc++) {
 
 	/* Restore ECC for DRAM tests */
@@ -1346,7 +1352,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 	lmc_config.s.ecc_ena = save_ecc_ena[lmc];
 	DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(lmc), lmc_config.u);
 	lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(lmc));
-
+#if 0
 	// if RODT change, restore old here...
 	if (dram_tune_use_rodt >= 0) {
 	    comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(lmc));
@@ -1364,19 +1370,29 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 		change_dll_offset_enable(node, lmc, 1);
 	    }
 	}
-
+#endif
     } /* for (lmc = 0; lmc < num_lmcs; lmc++) */
 
     // finish up...
 
+#if 0
     // if RODT was overridden during tuning, note restore
     if (dram_tune_use_rodt >= 0) {
 	ddr_print("N%d: restoring RODT %d after tuning.\n",
 		  node, save_rodt[0]); // FIXME? use LMC0
     }
+#endif
 
-    // put the unnecessary cores on this node back into reset
-    bdk_reset_cores(node, ((int)node == 0) ? ~1ULL: ~0ULL);
+    // put any cores on this node, that were not running at the start, back into reset
+    uint64_t reset_coremask = bdk_get_running_coremask(node) & ~orig_coremask;
+    if (reset_coremask) {
+	ddr_print("N%d: %s: Stopping cores 0x%lx\n", node, __FUNCTION__,
+		  reset_coremask);
+	bdk_reset_cores(node, reset_coremask);
+    } else {
+	ddr_print("N%d: %s: leaving cores set to 0x%lx\n", node, __FUNCTION__,
+		  orig_coremask);
+    }
 
     return 0;
 } /* perform_dll_offset_tuning */
