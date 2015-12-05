@@ -33,9 +33,8 @@ repeat
             local new_speed = menu.prompt_number("DRAM speed in MT/s, return for default", ddr_speed)
             if new_speed ~= ddr_speed then
                 cavium.c.bdk_config_set_int(new_speed, cavium.CONFIG_DDR_SPEED, menu.node)
-                ddr_speed = cavium.c.bdk_config_get_int(cavium.CONFIG_DDR_SPEED, menu.node)
             end
-            local dram_mbytes = cavium.c.bdk_dram_config(menu.node, ddr_speed * 1000000 / 2)
+            local dram_mbytes = cavium.c.bdk_dram_config(menu.node, 0)
             printf("BDK DRAM:%s\n", cavium.c.bdk_dram_get_info_string(menu.node))
             dram_enabled = true
         end)
