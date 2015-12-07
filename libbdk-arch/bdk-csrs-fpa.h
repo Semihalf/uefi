@@ -524,11 +524,11 @@ typedef union
     struct bdk_fpa_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_38_63        : 26;
-        uint64_t status                : 38; /**< [ 37:  0](RO/H) Memory BIST status. */
+        uint64_t reserved_39_63        : 25;
+        uint64_t status                : 39; /**< [ 38:  0](RO/H) Memory BIST status. */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 38; /**< [ 37:  0](RO/H) Memory BIST status. */
-        uint64_t reserved_38_63        : 26;
+        uint64_t status                : 39; /**< [ 38:  0](RO/H) Memory BIST status. */
+        uint64_t reserved_39_63        : 25;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_bist_status_s cn; */
@@ -755,23 +755,19 @@ typedef union
     struct bdk_fpa_ecc_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
-        uint64_t ram_flip1             : 20; /**< [ 61: 42](R/W) Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
+        uint64_t reserved_63           : 1;
+        uint64_t ram_flip1             : 21; /**< [ 62: 42](R/W) Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. */
-        uint64_t reserved_41           : 1;
-        uint64_t ram_flip0             : 20; /**< [ 40: 21](R/W) Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
+        uint64_t ram_flip0             : 21; /**< [ 41: 21](R/W) Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. */
-        uint64_t reserved_20           : 1;
-        uint64_t ram_cdis              : 20; /**< [ 19:  0](R/W) RAM ECC correction disable. Each bit corresponds to a different RAM. */
+        uint64_t ram_cdis              : 21; /**< [ 20:  0](R/W) RAM ECC correction disable. Each bit corresponds to a different RAM. */
 #else /* Word 0 - Little Endian */
-        uint64_t ram_cdis              : 20; /**< [ 19:  0](R/W) RAM ECC correction disable. Each bit corresponds to a different RAM. */
-        uint64_t reserved_20           : 1;
-        uint64_t ram_flip0             : 20; /**< [ 40: 21](R/W) Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
+        uint64_t ram_cdis              : 21; /**< [ 20:  0](R/W) RAM ECC correction disable. Each bit corresponds to a different RAM. */
+        uint64_t ram_flip0             : 21; /**< [ 41: 21](R/W) Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. */
-        uint64_t reserved_41           : 1;
-        uint64_t ram_flip1             : 20; /**< [ 61: 42](R/W) Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
+        uint64_t ram_flip1             : 21; /**< [ 62: 42](R/W) Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_ctl_s cn; */
@@ -805,15 +801,15 @@ typedef union
     struct bdk_fpa_ecc_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1C/H) Set when a double-bit error is detected in the corresponding RAM. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1C/H) Set when a single-bit error is detected in the corresponding RAM. */
+        uint64_t reserved_53_63        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Set when a double-bit error is detected in the corresponding RAM. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Set when a single-bit error is detected in the corresponding RAM. */
 #else /* Word 0 - Little Endian */
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1C/H) Set when a single-bit error is detected in the corresponding RAM. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1C/H) Set when a double-bit error is detected in the corresponding RAM. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Set when a single-bit error is detected in the corresponding RAM. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Set when a double-bit error is detected in the corresponding RAM. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_s cn; */
@@ -847,15 +843,15 @@ typedef union
     struct bdk_fpa_ecc_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_53_63        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_SBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_ena_w1c_s cn; */
@@ -889,15 +885,15 @@ typedef union
     struct bdk_fpa_ecc_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_53_63        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_SBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_ena_w1s_s cn; */
@@ -931,15 +927,15 @@ typedef union
     struct bdk_fpa_ecc_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_53_63        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_SBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_w1s_s cn; */
@@ -976,8 +972,7 @@ typedef union
         uint64_t reserved_18_63        : 46;
         uint64_t dwbq                  : 6;  /**< [ 17: 12](R/W) Don't write back queue size. Number of transactions requesting DWB that may be
                                                                  held waiting for DWB. Once the stack is full, additional DWB requests will be
-                                                                 ignored. 0x0 disables DWBs. 0x3F sets to maximum size.
-                                                                 See also FPA_STATUS[DWBQ_BUSY]. */
+                                                                 ignored. 0x0 disables DWBs. 0x3F sets to maximum size. */
         uint64_t halfrate              : 1;  /**< [ 11: 11](R/W) Half rate. Limit peak alloc/free rate to half of peak to insure all alloc/frees are
                                                                  visible to OCLA. */
         uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure
@@ -1021,8 +1016,7 @@ typedef union
                                                                  visible to OCLA. */
         uint64_t dwbq                  : 6;  /**< [ 17: 12](R/W) Don't write back queue size. Number of transactions requesting DWB that may be
                                                                  held waiting for DWB. Once the stack is full, additional DWB requests will be
-                                                                 ignored. 0x0 disables DWBs. 0x3F sets to maximum size.
-                                                                 See also FPA_STATUS[DWBQ_BUSY]. */
+                                                                 ignored. 0x0 disables DWBs. 0x3F sets to maximum size. */
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;
@@ -1057,9 +1051,11 @@ typedef union
     struct bdk_fpa_gen_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
+        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID/GAURA
+                                                                 have multiple hits in FPA_PF_MAP(). */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID
                                                                  not mapped in FPA_PF_MAP(). When a request thus dropped, even if this bit is
                                                                  already set, FPA_UNMAP_INFO is loaded. */
@@ -1073,9 +1069,11 @@ typedef union
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID
                                                                  not mapped in FPA_PF_MAP(). When a request thus dropped, even if this bit is
                                                                  already set, FPA_UNMAP_INFO is loaded. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID/GAURA
+                                                                 have multiple hits in FPA_PF_MAP(). */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_s cn; */
@@ -1109,17 +1107,19 @@ typedef union
     struct bdk_fpa_gen_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[MULTI_HIT]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[MULTI_HIT]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_ena_w1c_s cn; */
@@ -1153,17 +1153,19 @@ typedef union
     struct bdk_fpa_gen_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[MULTI_HIT]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[MULTI_HIT]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_ena_w1s_s cn; */
@@ -1197,17 +1199,19 @@ typedef union
     struct bdk_fpa_gen_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
+        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[MULTI_HIT]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[MULTI_HIT]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_w1s_s cn; */
@@ -1251,7 +1255,7 @@ typedef union
 
                                                                  Internal:
                                                                  FIXME update based on input bus connections in fpa_xfr.v. */
-        uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
+        uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Dellocation input disable. Each bit corresponds to a hardware deallocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped
                                                                  and FPA_GEN_INT[FREE_DIS] set
                                                                  <0> = SSO.
@@ -1259,18 +1263,20 @@ typedef union
                                                                  <2> = PKI.
                                                                  <3> = Reserved.
                                                                  <4> = ZIP.
-                                                                 <5> = RAD.
-                                                                 <6> = PKO send commands.
-                                                                 <7> = Reserved.
-                                                                 <8> = DPI.
-                                                                 <9> = DFA.
-                                                                 <10> = BCH.
-                                                                 <19:11> = Reserved.
+                                                                 <5> = TIM.
+                                                                 <6> = RAD.
+                                                                 <7> = PKO send commands.
+                                                                 <8> = Reserved.
+                                                                 <9> = DPI.
+                                                                 <10> = Reserved.
+                                                                 <11> = BCH.
+                                                                 <19:12> = Reserved.
 
                                                                  Internal:
-                                                                 FIXME update based on input bus connections in fpa_xpd.v. */
+                                                                 Once the grant is sent, the request is marked and it is dropped when the request
+                                                                 data is received. */
 #else /* Word 0 - Little Endian */
-        uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
+        uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Dellocation input disable. Each bit corresponds to a hardware deallocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped
                                                                  and FPA_GEN_INT[FREE_DIS] set
                                                                  <0> = SSO.
@@ -1278,16 +1284,18 @@ typedef union
                                                                  <2> = PKI.
                                                                  <3> = Reserved.
                                                                  <4> = ZIP.
-                                                                 <5> = RAD.
-                                                                 <6> = PKO send commands.
-                                                                 <7> = Reserved.
-                                                                 <8> = DPI.
-                                                                 <9> = DFA.
-                                                                 <10> = BCH.
-                                                                 <19:11> = Reserved.
+                                                                 <5> = TIM.
+                                                                 <6> = RAD.
+                                                                 <7> = PKO send commands.
+                                                                 <8> = Reserved.
+                                                                 <9> = DPI.
+                                                                 <10> = Reserved.
+                                                                 <11> = BCH.
+                                                                 <19:12> = Reserved.
 
                                                                  Internal:
-                                                                 FIXME update based on input bus connections in fpa_xpd.v. */
+                                                                 Once the grant is sent, the request is marked and it is dropped when the request
+                                                                 data is received. */
         uint64_t alloc_dis             : 20; /**< [ 39: 20](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped
                                                                  and FPA_GEN_INT[ALLOC_DIS] set.
@@ -1325,7 +1333,7 @@ static inline uint64_t BDK_FPA_INP_CTL_FUNC(void)
  *
  * FPA PF VF-Mapping Registers
  * These registers map GMIDs and guest aura-sets to hardware aura-sets. Regardless of
- * these registers, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one
+ * this mapping, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one
  * mapping of GAURASET into VHAURASET.
  */
 typedef union
@@ -2026,7 +2034,7 @@ static inline uint64_t BDK_FPA_RED_DELAY_FUNC(void)
  * Register (NCB) fpa_sft_rst
  *
  * FPA Soft Reset Register
- * This register can initiate soft resets.
+ * Allows soft reset.
  */
 typedef union
 {
@@ -2398,7 +2406,6 @@ static inline uint64_t BDK_FPA_VFX_INT_W1S(unsigned long a)
  * FPA MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the FPA_VF()_INT_VEC_E
  * enumeration.
- * FIXME: arch_max: "1024,4"
  */
 typedef union
 {

@@ -374,52 +374,52 @@ union bdk_zip_inst_s
                                                                  1 = beginning of the file, create a new context. */
         uint64_t reserved_3_4          : 2;
         uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
-                                                                 1 = IWORD8/9 (the output pointer) points to a list of scatter pointers that are read
+                                                                 1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
                                                                  by the coprocessor before writing the actual output data.
-                                                                 0 = IWORD8/9 points directly at the locations to write the output data.
+                                                                 0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the IWORD9 LENGTH field, indicating the number of pointers in the
-                                                                 output scatter list, must be at least 0x2. */
+                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
+                                                                 the output scatter list, must be at least 0x2. */
         uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
-                                                                 1 = IWORD6/7 (the input and compression history pointer) points to a gather list of
+                                                                 1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
-                                                                 0 = IWORD6/7 points directly at the actual history/input data.
+                                                                 0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the IWORD7 LENGTH field, indicating the number of pointers in the
+                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
                                                                  input and compression history gather list, must be at least 0x2. */
         uint64_t hg                    : 1;  /**< [  0:  0] History gather:
-                                                                 1 = IWORD4/5 (the decompression history pointer) points to a gather list of
+                                                                 1 = [HIS_PTR_ADDR] points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history data.
-                                                                 0 = IWORD4/5 points directly at the actual history data.
+                                                                 0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
                                                                  If HG = 1, history data must be present for the decompression operation, and the
-                                                                 IWORD5 LENGTH field, indicating the number of pointers in the decompression
-                                                                 history gather list, must be at least 0x2. */
+                                                                 [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
+                                                                 decompression history gather list, must be at least 0x2. */
 #else /* Word 0 - Little Endian */
         uint64_t hg                    : 1;  /**< [  0:  0] History gather:
-                                                                 1 = IWORD4/5 (the decompression history pointer) points to a gather list of
+                                                                 1 = [HIS_PTR_ADDR] points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history data.
-                                                                 0 = IWORD4/5 points directly at the actual history data.
+                                                                 0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
                                                                  If HG = 1, history data must be present for the decompression operation, and the
-                                                                 IWORD5 LENGTH field, indicating the number of pointers in the decompression
-                                                                 history gather list, must be at least 0x2. */
+                                                                 [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
+                                                                 decompression history gather list, must be at least 0x2. */
         uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
-                                                                 1 = IWORD6/7 (the input and compression history pointer) points to a gather list of
+                                                                 1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
-                                                                 0 = IWORD6/7 points directly at the actual history/input data.
+                                                                 0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the IWORD7 LENGTH field, indicating the number of pointers in the
+                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
                                                                  input and compression history gather list, must be at least 0x2. */
         uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
-                                                                 1 = IWORD8/9 (the output pointer) points to a list of scatter pointers that are read
+                                                                 1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
                                                                  by the coprocessor before writing the actual output data.
-                                                                 0 = IWORD8/9 points directly at the locations to write the output data.
+                                                                 0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the IWORD9 LENGTH field, indicating the number of pointers in the
-                                                                 output scatter list, must be at least 0x2. */
+                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
+                                                                 the output scatter list, must be at least 0x2. */
         uint64_t reserved_3_4          : 2;
         uint64_t bf                    : 1;  /**< [  5:  5] Beginning of file. Set when the beginning of the (non-history) input stream starts a
                                                                  file.
@@ -1198,52 +1198,52 @@ union bdk_zip_inst_s
                                                                  1 = beginning of the file, create a new context. */
         uint64_t op                    : 2;  /**< [  4:  3] Compression/decompression operation. Enumerated by ZIP_OP_E. */
         uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
-                                                                 1 = IWORD8/9 (the output pointer) points to a list of scatter pointers that are read
+                                                                 1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
                                                                  by the coprocessor before writing the actual output data.
-                                                                 0 = IWORD8/9 points directly at the locations to write the output data.
+                                                                 0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the IWORD9 LENGTH field, indicating the number of pointers in the
-                                                                 output scatter list, must be at least 0x2. */
+                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
+                                                                 the output scatter list, must be at least 0x2. */
         uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
-                                                                 1 = IWORD6/7 (the input and compression history pointer) points to a gather list of
+                                                                 1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
-                                                                 0 = IWORD6/7 points directly at the actual history/input data.
+                                                                 0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the IWORD7 LENGTH field, indicating the number of pointers in the
+                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
                                                                  input and compression history gather list, must be at least 0x2. */
         uint64_t hg                    : 1;  /**< [  0:  0] History gather:
-                                                                 1 = IWORD4/5 (the decompression history pointer) points to a gather list of
+                                                                 1 = [HIS_PTR_ADDR] points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history data.
-                                                                 0 = IWORD4/5 points directly at the actual history data.
+                                                                 0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
                                                                  If HG = 1, history data must be present for the decompression operation, and the
-                                                                 IWORD5 LENGTH field, indicating the number of pointers in the decompression
-                                                                 history gather list, must be at least 0x2. */
+                                                                 [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
+                                                                 decompression history gather list, must be at least 0x2. */
 #else /* Word 0 - Little Endian */
         uint64_t hg                    : 1;  /**< [  0:  0] History gather:
-                                                                 1 = IWORD4/5 (the decompression history pointer) points to a gather list of
+                                                                 1 = [HIS_PTR_ADDR] points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history data.
-                                                                 0 = IWORD4/5 points directly at the actual history data.
+                                                                 0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
                                                                  If HG = 1, history data must be present for the decompression operation, and the
-                                                                 IWORD5 LENGTH field, indicating the number of pointers in the decompression
-                                                                 history gather list, must be at least 0x2. */
+                                                                 [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
+                                                                 decompression history gather list, must be at least 0x2. */
         uint64_t dg                    : 1;  /**< [  1:  1] Data gather:
-                                                                 1 = IWORD6/7 (the input and compression history pointer) points to a gather list of
+                                                                 1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
-                                                                 0 = IWORD6/7 points directly at the actual history/input data.
+                                                                 0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the IWORD7 LENGTH field, indicating the number of pointers in the
+                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
                                                                  input and compression history gather list, must be at least 0x2. */
         uint64_t ds                    : 1;  /**< [  2:  2] Data scatter:
-                                                                 1 = IWORD8/9 (the output pointer) points to a list of scatter pointers that are read
+                                                                 1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
                                                                  by the coprocessor before writing the actual output data.
-                                                                 0 = IWORD8/9 points directly at the locations to write the output data.
+                                                                 0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the IWORD9 LENGTH field, indicating the number of pointers in the
-                                                                 output scatter list, must be at least 0x2. */
+                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
+                                                                 the output scatter list, must be at least 0x2. */
         uint64_t op                    : 2;  /**< [  4:  3] Compression/decompression operation. Enumerated by ZIP_OP_E. */
         uint64_t bf                    : 1;  /**< [  5:  5] Beginning of file. Set when the beginning of the (non-history) input stream starts a
                                                                  file.
@@ -2432,6 +2432,8 @@ typedef union
 static inline uint64_t BDK_ZIP_CORE_RESET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_CORE_RESET_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x838000000300ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
         return 0x838000000300ll;
     __bdk_csr_fatal("ZIP_CORE_RESET", 0, 0, 0, 0, 0);
@@ -2737,6 +2739,29 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
         uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, core is wait for outstanding L2C transaction(s).
+                                                                 Otherwise, there is no outstanding L2C transaction and core can be reset if needed. */
+        uint64_t cto                   : 1;  /**< [ 61: 61](RO/H) Core timeout detected. When set, it indicated this core is timed out when
+                                                                 executig the current instruction with instruction ID [IID] from queue [QID]. */
+        uint64_t reserved_35_60        : 26;
+        uint64_t qid                   : 3;  /**< [ 34: 32](RO/H) Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
+        uint64_t iid                   : 32; /**< [ 31:  0](RO/H) Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
+#else /* Word 0 - Little Endian */
+        uint64_t iid                   : 32; /**< [ 31:  0](RO/H) Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
+        uint64_t qid                   : 3;  /**< [ 34: 32](RO/H) Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
+        uint64_t reserved_35_60        : 26;
+        uint64_t cto                   : 1;  /**< [ 61: 61](RO/H) Core timeout detected. When set, it indicated this core is timed out when
+                                                                 executig the current instruction with instruction ID [IID] from queue [QID]. */
+        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, core is wait for outstanding L2C transaction(s).
+                                                                 Otherwise, there is no outstanding L2C transaction and core can be reset if needed. */
+        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_zip_dbg_corex_inst_s cn83xx; */
+    struct bdk_zip_dbg_corex_inst_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
+        uint64_t outstanding           : 1;  /**< [ 62: 62](RO/H) When set, core is wait for outstanding L2C transaction(s).
                                                                  Otherwise, there is no outstanding L2C transaction and core can be reset if needed. Added
                                                                  in pass 2. */
         uint64_t cto                   : 1;  /**< [ 61: 61](RO/H) Core timeout detected. When set, it indicated this core is timed out when
@@ -2757,22 +2782,7 @@ typedef union
                                                                  in pass 2. */
         uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
 #endif /* Word 0 - End */
-    } s;
-    struct bdk_zip_dbg_corex_inst_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
-        uint64_t reserved_35_62        : 28;
-        uint64_t qid                   : 3;  /**< [ 34: 32](RO/H) Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
-        uint64_t iid                   : 32; /**< [ 31:  0](RO/H) Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
-#else /* Word 0 - Little Endian */
-        uint64_t iid                   : 32; /**< [ 31:  0](RO/H) Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
-        uint64_t qid                   : 3;  /**< [ 34: 32](RO/H) Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
-        uint64_t reserved_35_62        : 28;
-        uint64_t busy                  : 1;  /**< [ 63: 63](RO/H) Core state. 0 = core is idle; 1 = core is busy. */
-#endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_zip_dbg_corex_inst_s cn88xxp2; */
+    } cn88xxp2;
     struct bdk_zip_dbg_corex_inst_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3584,7 +3594,7 @@ static inline uint64_t BDK_ZIP_PF_INST_LATENCY_PC_FUNC(void) __attribute__ ((pur
 static inline uint64_t BDK_ZIP_PF_INST_LATENCY_PC_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x838000000410ll;
+        return 0x838000000420ll;
     __bdk_csr_fatal("ZIP_PF_INST_LATENCY_PC", 0, 0, 0, 0, 0);
 }
 
@@ -3619,7 +3629,7 @@ static inline uint64_t BDK_ZIP_PF_INST_REQ_PC_FUNC(void) __attribute__ ((pure, a
 static inline uint64_t BDK_ZIP_PF_INST_REQ_PC_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x838000000400ll;
+        return 0x838000000410ll;
     __bdk_csr_fatal("ZIP_PF_INST_REQ_PC", 0, 0, 0, 0, 0);
 }
 
@@ -3979,7 +3989,7 @@ static inline uint64_t BDK_ZIP_PF_RD_LATENCY_PC_FUNC(void) __attribute__ ((pure,
 static inline uint64_t BDK_ZIP_PF_RD_LATENCY_PC_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x838000000430ll;
+        return 0x838000000440ll;
     __bdk_csr_fatal("ZIP_PF_RD_LATENCY_PC", 0, 0, 0, 0, 0);
 }
 
@@ -4014,7 +4024,7 @@ static inline uint64_t BDK_ZIP_PF_RD_REQ_PC_FUNC(void) __attribute__ ((pure, alw
 static inline uint64_t BDK_ZIP_PF_RD_REQ_PC_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x838000000420ll;
+        return 0x838000000430ll;
     __bdk_csr_fatal("ZIP_PF_RD_REQ_PC", 0, 0, 0, 0, 0);
 }
 
@@ -5087,6 +5097,8 @@ typedef union
 static inline uint64_t BDK_ZIP_QUE_RESET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUE_RESET_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x838000000400ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
         return 0x838000000400ll;
     __bdk_csr_fatal("ZIP_QUE_RESET", 0, 0, 0, 0, 0);
@@ -5155,7 +5167,8 @@ typedef union
     struct bdk_zip_vfx_misc_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_7_63         : 57;
+        uint64_t cto                   : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for ZIP_VF(0..7)_MISC_INT[CTO]. */
         uint64_t mbox                  : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for ZIP_VF(0..7)_MISC_INT[MBOX]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for ZIP_VF(0..7)_MISC_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for ZIP_VF(0..7)_MISC_INT[NWRP]. */
@@ -5169,7 +5182,8 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for ZIP_VF(0..7)_MISC_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for ZIP_VF(0..7)_MISC_INT[MDBE]. */
         uint64_t mbox                  : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for ZIP_VF(0..7)_MISC_INT[MBOX]. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t cto                   : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for ZIP_VF(0..7)_MISC_INT[CTO]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_misc_ena_w1c_s cn; */
@@ -5202,7 +5216,8 @@ typedef union
     struct bdk_zip_vfx_misc_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_7_63         : 57;
+        uint64_t cto                   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for ZIP_VF(0..7)_MISC_INT[CTO]. */
         uint64_t mbox                  : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for ZIP_VF(0..7)_MISC_INT[MBOX]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for ZIP_VF(0..7)_MISC_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for ZIP_VF(0..7)_MISC_INT[NWRP]. */
@@ -5216,7 +5231,8 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for ZIP_VF(0..7)_MISC_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for ZIP_VF(0..7)_MISC_INT[MDBE]. */
         uint64_t mbox                  : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for ZIP_VF(0..7)_MISC_INT[MBOX]. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t cto                   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for ZIP_VF(0..7)_MISC_INT[CTO]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_misc_ena_w1s_s cn; */
@@ -5249,7 +5265,8 @@ typedef union
     struct bdk_zip_vfx_misc_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_7_63         : 57;
+        uint64_t cto                   : 1;  /**< [  6:  6](R/W1C/H) Core time out detected. */
         uint64_t mbox                  : 1;  /**< [  5:  5](R/W1C/H) PF to VF mailbox interrupt. Set when ZIP_VF(0..7)_PF_MBOX(0)
                                                                  is written. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) SRAM ECC double-bit error. */
@@ -5265,7 +5282,8 @@ typedef union
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1C/H) SRAM ECC double-bit error. */
         uint64_t mbox                  : 1;  /**< [  5:  5](R/W1C/H) PF to VF mailbox interrupt. Set when ZIP_VF(0..7)_PF_MBOX(0)
                                                                  is written. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t cto                   : 1;  /**< [  6:  6](R/W1C/H) Core time out detected. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_misc_int_s cn; */
@@ -5298,7 +5316,8 @@ typedef union
     struct bdk_zip_vfx_misc_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_7_63         : 57;
+        uint64_t cto                   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets ZIP_VF(0..7)_MISC_INT[CTO]. */
         uint64_t mbox                  : 1;  /**< [  5:  5](R/W1S/H) Reads or sets ZIP_VF(0..7)_MISC_INT[MBOX]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets ZIP_VF(0..7)_MISC_INT[MDBE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets ZIP_VF(0..7)_MISC_INT[NWRP]. */
@@ -5312,7 +5331,8 @@ typedef union
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets ZIP_VF(0..7)_MISC_INT[NWRP]. */
         uint64_t mdbe                  : 1;  /**< [  4:  4](R/W1S/H) Reads or sets ZIP_VF(0..7)_MISC_INT[MDBE]. */
         uint64_t mbox                  : 1;  /**< [  5:  5](R/W1S/H) Reads or sets ZIP_VF(0..7)_MISC_INT[MBOX]. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t cto                   : 1;  /**< [  6:  6](R/W1S/H) Reads or sets ZIP_VF(0..7)_MISC_INT[CTO]. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_zip_vfx_misc_int_w1s_s cn; */

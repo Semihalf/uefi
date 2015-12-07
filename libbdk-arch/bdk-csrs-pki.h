@@ -84,42 +84,15 @@
  * Internal:
  * A subset of PKI_CHAN_E also enumerates the values of PKI_FEWQ_S[PORT] and PKI_BEWQ_S[PORT].
  */
-#define BDK_PKI_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX {a} port {b} channel {c}.
-                                       
-                                       The channel {c} is always 0 when used as a port number, or pre-QPG channel number,
-                                       by PKI, then made non-zero as part of the conversion to a PKI_WQE_S[CHAN] via
-                                       PKI_QPG_TBL()[PADD].
-                                       
+#define BDK_PKI_CHAN_E_BGXX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX/RGX {a} LMAC {b} channel {c}.
                                        Internal:
-                                       The BGX(*)_PORT(*)_CH(0) subset of the range may occur in PKI_FEWQ_S[PORT] and
-                                       PKI_BEWQ_S[PORT] (when the corresponding BGX is present). None of BGX(*)_PORT(*)_CH(1..15)
-                                       can ever occur in PKI_FEWQ_S[PORT] and PKI_BEWQ_S[PORT]. */
-#define BDK_PKI_CHAN_E_DPI_CHX(a) (0x100 + (a)) /**< DPI ring {a}.
+                                       Used for BGX and RGX. */
+#define BDK_PKI_CHAN_E_DPI_CHX(a) (0x400 + (a)) /**< DPI/SDP channel {a}. */
+#define BDK_PKI_CHAN_E_LBKX_CHX(a,b) (0 + 0x100 * (a) + (b)) /**< Loopback {a} channel {b}. */
+#define BDK_PKI_CHAN_E_PKO_NULL (0xfff) /**< PKO NULL channel. */
+#define BDK_PKI_CHAN_E_RX(a) (0 + 0x100 * (a)) /**< Reserved.
                                        Internal:
-                                       The entire DPI_CH() range may occur in PKI_FEWQ_S[PORT] and PKI_BEWQ_S[PORT]. */
-#define BDK_PKI_CHAN_E_ILKX_CHX(a,b) (0x400 + 0x100 * (a) + (b)) /**< Internal:
-                                       Interlaken RX/TX {a} channel {b}.
-                                       
-                                       The entire ILK()_CH() range may occur in PKI_FEWQ_S[PORT] and PKI_BEWQ_S[PORT] (when
-                                       ILK is present). */
-#define BDK_PKI_CHAN_E_LOOPBACK_CHX(a) (0 + (a)) /**< Loopback channel {a}.
-                                       
-                                       PKO_L3_L2_SQ()_CHANNEL[CHANNEL] or TBD NIC CSR determines {a}.
-                                       
-                                       Internal:
-                                       The entire LOOPBACK_CH() range may occur in PKI_FEWQ_S[PORT] and PKI_BEWQ_S[PORT]. */
-#define BDK_PKI_CHAN_E_NQM_CH (0x200) /**< Internal:
-                                       NQM traffic. NQM traffic does not pass through PKI nor PKO, however NQM_WQE_S[PORT]
-                                       bits are positioned the same as PKI_WQE_S[CHAN] bits. Reserving this value ensures
-                                       software can differentiate a NQM_WQE_S from a PKI_WQE_S.
-                                       
-                                       NQM_CH will not occur in any of PKI_WQE_S[CHAN], PKI_FEWQ_S[PORT], and PKI_BEWQ_S[PORT],
-                                       and also should not be used in PKO_L3_L2_SQ()_CHANNEL[CHANNEL]. */
-#define BDK_PKI_CHAN_E_SRIOX_CHX(a,b) (0x240 + 2 * (a) + (b)) /**< Internal:
-                                       SRIO message unit mac {a} channel {b}.
-                                       
-                                       The entire SRIO()_CH() range may occur in PKI_FEWQ_S[PORT] and PKI_BEWQ_S[PORT] (when
-                                       S-RIO is present). */
+                                       R(5) is reserved for NVME. */
 
 /**
  * Enumeration pki_errlev_e
@@ -8236,6 +8209,258 @@ static inline uint64_t BDK_PKI_PBE_ECO_FUNC(void)
 #define device_bar_BDK_PKI_PBE_ECO 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKI_PBE_ECO 0
 #define arguments_BDK_PKI_PBE_ECO -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_pbe_fxa_result
+ *
+ * INTERNAL: PKI PBE FXA Result Register
+ *
+ * Internal:
+ * For diagnostic use only.
+ * Reads of this register will indicate whether or not FPA has returned a pointer back
+ * to PKI and, if so, the values that were returned.  A write to this register with any
+ * data value will clear the VALID field.  This will indicate to HW that SW has consumed
+ * the values associated with the most recently returned pointer information set.  It
+ * is recommended that SW write to this register prior to each write of PKI_PBE_XFR_REQUEST.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_pbe_fxa_result_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W/H) Internal:
+                                                                 If set, indicates that remaining fields within this register are valid to be
+                                                                 read by SW. */
+        uint64_t fault                 : 1;  /**< [ 62: 62](R/W/H) Internal:
+                                                                 The value of FAULT returned by FPA.  Indicates an illegal combination of GMID/GAURA
+                                                                 during the request for a pointer. */
+        uint64_t avail                 : 1;  /**< [ 61: 61](R/W/H) Internal:
+                                                                 The value of AVAIL returned by FPA as part of a pointer return. */
+        uint64_t red                   : 1;  /**< [ 60: 60](R/W/H) Internal:
+                                                                 The value of RED returned by FPA as part of a pointer return. */
+        uint64_t reserved_42_59        : 18;
+        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Internal:
+                                                                 Defines the 128-byte aligned pointer returned by FPA.  So pointer[48:7]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Internal:
+                                                                 Defines the 128-byte aligned pointer returned by FPA.  So pointer[48:7]. */
+        uint64_t reserved_42_59        : 18;
+        uint64_t red                   : 1;  /**< [ 60: 60](R/W/H) Internal:
+                                                                 The value of RED returned by FPA as part of a pointer return. */
+        uint64_t avail                 : 1;  /**< [ 61: 61](R/W/H) Internal:
+                                                                 The value of AVAIL returned by FPA as part of a pointer return. */
+        uint64_t fault                 : 1;  /**< [ 62: 62](R/W/H) Internal:
+                                                                 The value of FAULT returned by FPA.  Indicates an illegal combination of GMID/GAURA
+                                                                 during the request for a pointer. */
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W/H) Internal:
+                                                                 If set, indicates that remaining fields within this register are valid to be
+                                                                 read by SW. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_pbe_fxa_result_s cn; */
+} bdk_pki_pbe_fxa_result_t;
+
+#define BDK_PKI_PBE_FXA_RESULT BDK_PKI_PBE_FXA_RESULT_FUNC()
+static inline uint64_t BDK_PKI_PBE_FXA_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_PBE_FXA_RESULT_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000fff008ll;
+    __bdk_csr_fatal("PKI_PBE_FXA_RESULT", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_PBE_FXA_RESULT bdk_pki_pbe_fxa_result_t
+#define bustype_BDK_PKI_PBE_FXA_RESULT BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_PBE_FXA_RESULT "PKI_PBE_FXA_RESULT"
+#define device_bar_BDK_PKI_PBE_FXA_RESULT 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_PBE_FXA_RESULT 0
+#define arguments_BDK_PKI_PBE_FXA_RESULT -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_pbe_xfr_inject
+ *
+ * INTERNAL: PKI PBE XFR Inject Register
+ *
+ * Internal:
+ * For diagnostic use only.
+ * A write to this register will initiate a pointer request using the fields shown below.
+ * A read of this register will be RAZ for all bits except [0] which will indicate if
+ * a previous request is pending (FPA has not yet granted PKI's XFR request).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_pbe_xfr_inject_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_34_63        : 30;
+        uint64_t red                   : 1;  /**< [ 33: 33](R/W) Internal:
+                                                                 RED field for request when written.  RAZ for reads. */
+        uint64_t drop                  : 1;  /**< [ 32: 32](R/W) Internal:
+                                                                 DROP field for request when written.  RAZ for reads. */
+        uint64_t gmid                  : 16; /**< [ 31: 16](R/W) Internal:
+                                                                 GMID field for request when written.  RAZ for reads. */
+        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) Internal:
+                                                                 GAURA field for request when written.  On reads,
+                                                                 indicates a previously initiated request is still waiting for grant. */
+#else /* Word 0 - Little Endian */
+        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) Internal:
+                                                                 GAURA field for request when written.  On reads,
+                                                                 indicates a previously initiated request is still waiting for grant. */
+        uint64_t gmid                  : 16; /**< [ 31: 16](R/W) Internal:
+                                                                 GMID field for request when written.  RAZ for reads. */
+        uint64_t drop                  : 1;  /**< [ 32: 32](R/W) Internal:
+                                                                 DROP field for request when written.  RAZ for reads. */
+        uint64_t red                   : 1;  /**< [ 33: 33](R/W) Internal:
+                                                                 RED field for request when written.  RAZ for reads. */
+        uint64_t reserved_34_63        : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_pbe_xfr_inject_s cn; */
+} bdk_pki_pbe_xfr_inject_t;
+
+#define BDK_PKI_PBE_XFR_INJECT BDK_PKI_PBE_XFR_INJECT_FUNC()
+static inline uint64_t BDK_PKI_PBE_XFR_INJECT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_PBE_XFR_INJECT_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000fff000ll;
+    __bdk_csr_fatal("PKI_PBE_XFR_INJECT", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_PBE_XFR_INJECT bdk_pki_pbe_xfr_inject_t
+#define bustype_BDK_PKI_PBE_XFR_INJECT BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_PBE_XFR_INJECT "PKI_PBE_XFR_INJECT"
+#define device_bar_BDK_PKI_PBE_XFR_INJECT 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_PBE_XFR_INJECT 0
+#define arguments_BDK_PKI_PBE_XFR_INJECT -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_pbe_xpd_inject_hi
+ *
+ * INTERNAL: PKI PBE XPD Inject High Register
+ *
+ * Internal:
+ * For diagnostic use only.
+ * A write to this register will prepare some of the control fields needed to initiate
+ * a pointer deallocate request.  The request will not be made until both
+ * PKI_PBE_XPD_INJECT_LO and PKI_PBE_XPD_INJECT_HI have been written as a pair.  It is
+ * recommended to write PKI_PBE_XPD_INJECT_HI as the second of the two writes.
+ * A read of this register will be RAZ for all bits except [0] which will indicate if
+ * a previous deallocate is pending (FPA has not yet granted PKI's XPD request).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_pbe_xpd_inject_hi_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t gmid                  : 16; /**< [ 63: 48](R/W) Internal:
+                                                                 GMID field for request when written.  RAZ for reads. */
+        uint64_t reserved_38_47        : 10;
+        uint64_t abs                   : 1;  /**< [ 37: 37](R/W) Internal:
+                                                                 ABS field for request when written.  RAZ for reads. */
+        uint64_t sub                   : 1;  /**< [ 36: 36](R/W) Internal:
+                                                                 SUB field for request when written.  RAZ for reads. */
+        uint64_t reserved_33_35        : 3;
+        uint64_t value                 : 17; /**< [ 32: 16](R/W) Internal:
+                                                                 VALUE field for request when written.  RAZ for reads. */
+        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) Internal:
+                                                                 GAURA field for the request when written.
+                                                                 On a read, [0] of this field will indicate that a previous deallocate request
+                                                                 is pending (FPA has not yet given a grant for the request). */
+#else /* Word 0 - Little Endian */
+        uint64_t gaura                 : 16; /**< [ 15:  0](R/W) Internal:
+                                                                 GAURA field for the request when written.
+                                                                 On a read, [0] of this field will indicate that a previous deallocate request
+                                                                 is pending (FPA has not yet given a grant for the request). */
+        uint64_t value                 : 17; /**< [ 32: 16](R/W) Internal:
+                                                                 VALUE field for request when written.  RAZ for reads. */
+        uint64_t reserved_33_35        : 3;
+        uint64_t sub                   : 1;  /**< [ 36: 36](R/W) Internal:
+                                                                 SUB field for request when written.  RAZ for reads. */
+        uint64_t abs                   : 1;  /**< [ 37: 37](R/W) Internal:
+                                                                 ABS field for request when written.  RAZ for reads. */
+        uint64_t reserved_38_47        : 10;
+        uint64_t gmid                  : 16; /**< [ 63: 48](R/W) Internal:
+                                                                 GMID field for request when written.  RAZ for reads. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_pbe_xpd_inject_hi_s cn; */
+} bdk_pki_pbe_xpd_inject_hi_t;
+
+#define BDK_PKI_PBE_XPD_INJECT_HI BDK_PKI_PBE_XPD_INJECT_HI_FUNC()
+static inline uint64_t BDK_PKI_PBE_XPD_INJECT_HI_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_PBE_XPD_INJECT_HI_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000fff018ll;
+    __bdk_csr_fatal("PKI_PBE_XPD_INJECT_HI", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_PBE_XPD_INJECT_HI bdk_pki_pbe_xpd_inject_hi_t
+#define bustype_BDK_PKI_PBE_XPD_INJECT_HI BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_PBE_XPD_INJECT_HI "PKI_PBE_XPD_INJECT_HI"
+#define device_bar_BDK_PKI_PBE_XPD_INJECT_HI 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_PBE_XPD_INJECT_HI 0
+#define arguments_BDK_PKI_PBE_XPD_INJECT_HI -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_pbe_xpd_inject_lo
+ *
+ * INTERNAL: PKI PBE XPD Inject Low Register
+ *
+ * Internal:
+ * For diagnostic use only.
+ * A write to this register will prepare some of the control fields needed to initiate
+ * a pointer deallocate request.  The request will not be made until both
+ * PKI_PBE_XPD_INJECT_LO and PKI_PBE_XPD_INJECT_HI have been written as a pair.  It is
+ * recommended to write PKI_PBE_XPD_INJECT_HI as the second of the two writes.
+ * A read of this register will be RAZ for all bits except [0] which will indicate if
+ * a previous deallocate is pending (FPA has not yet granted PKI's XPD request).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_pbe_xpd_inject_lo_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dmode                 : 2;  /**< [ 63: 62](R/W) Internal:
+                                                                 Defines DMODE field for request when written.  RAZ for reads. */
+        uint64_t reserved_42_61        : 20;
+        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Internal:
+                                                                 Defines the 128-byte aligned pointer to be deallocated.  So pointer[48:7].
+                                                                 On a read, [0] of this field will indicate that a previous deallocate request
+                                                                 is pending (FPA has not yet given a grant for the request). */
+#else /* Word 0 - Little Endian */
+        uint64_t pointer               : 42; /**< [ 41:  0](R/W) Internal:
+                                                                 Defines the 128-byte aligned pointer to be deallocated.  So pointer[48:7].
+                                                                 On a read, [0] of this field will indicate that a previous deallocate request
+                                                                 is pending (FPA has not yet given a grant for the request). */
+        uint64_t reserved_42_61        : 20;
+        uint64_t dmode                 : 2;  /**< [ 63: 62](R/W) Internal:
+                                                                 Defines DMODE field for request when written.  RAZ for reads. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_pbe_xpd_inject_lo_s cn; */
+} bdk_pki_pbe_xpd_inject_lo_t;
+
+#define BDK_PKI_PBE_XPD_INJECT_LO BDK_PKI_PBE_XPD_INJECT_LO_FUNC()
+static inline uint64_t BDK_PKI_PBE_XPD_INJECT_LO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_PBE_XPD_INJECT_LO_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000fff010ll;
+    __bdk_csr_fatal("PKI_PBE_XPD_INJECT_LO", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_PBE_XPD_INJECT_LO bdk_pki_pbe_xpd_inject_lo_t
+#define bustype_BDK_PKI_PBE_XPD_INJECT_LO BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_PBE_XPD_INJECT_LO "PKI_PBE_XPD_INJECT_LO"
+#define device_bar_BDK_PKI_PBE_XPD_INJECT_LO 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKI_PBE_XPD_INJECT_LO 0
+#define arguments_BDK_PKI_PBE_XPD_INJECT_LO -1,-1,-1,-1
 
 /**
  * Register (NCB) pki_pcam_lookup

@@ -782,10 +782,10 @@ typedef union
 
                                                                  1. If CIM()_ICC_CTLR_EL3[CBPR_EL1S] is one:
 
-                                                                     o CPU writes to CIM()_ICC_BPR1_EL1 at secure EL1 will modify
+                                                                     * CPU writes to CIM()_ICC_BPR1_EL1 at secure EL1 will modify
                                                                  CIM()_ICC_BPR0_EL1.
 
-                                                                     o CPU reads  of CIM()_ICC_BPR1_EL1 at secure EL1 will return the value of
+                                                                     * CPU reads  of CIM()_ICC_BPR1_EL1 at secure EL1 will return the value of
                                                                  CIM()_ICC_BPR0_EL1.
 
                                                                  2. If CIM()_ICC_CTLR_EL3[CBPR_EL1NS] is one, nonsecure accesses at EL1 or EL2 behave
@@ -829,10 +829,10 @@ typedef union
 
                                                                  1. If CIM()_ICC_CTLR_EL3[CBPR_EL1S] is one:
 
-                                                                     o CPU writes to CIM()_ICC_BPR1_EL1 at secure EL1 will modify
+                                                                     * CPU writes to CIM()_ICC_BPR1_EL1 at secure EL1 will modify
                                                                  CIM()_ICC_BPR0_EL1.
 
-                                                                     o CPU reads  of CIM()_ICC_BPR1_EL1 at secure EL1 will return the value of
+                                                                     * CPU reads  of CIM()_ICC_BPR1_EL1 at secure EL1 will return the value of
                                                                  CIM()_ICC_BPR0_EL1.
 
                                                                  2. If CIM()_ICC_CTLR_EL3[CBPR_EL1NS] is one, nonsecure accesses at EL1 or EL2 behave

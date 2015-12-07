@@ -15669,8 +15669,8 @@ typedef union
     struct bdk_ap_par_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mair                  : 8;  /**< [ 63: 56](R/W) - On success (f=0): Memory Attributes, following the encodings for the MAIR.
-                                                                 - On failure (f=1): Zero */
+        uint64_t mair                  : 8;  /**< [ 63: 56](R/W) On success (f=0): Memory Attributes, following the encodings for the MAIR.
+                                                                 On failure (f=1): Zero. */
         uint64_t reserved_48_55        : 8;
         uint64_t pa                    : 36; /**< [ 47: 12](R/W) Physical Address. The physical address corresponding to the
                                                                      supplied virtual address. This field returns address
@@ -15686,15 +15686,15 @@ typedef union
                                                                  0x0 = Non-shareable.
                                                                  0x2 = Outer Shareable.
                                                                  0x3 = Inner Shareable. */
-        uint64_t fs                    : 6;  /**< [  6:  1](R/W) - On success (f=0): Zero.
-                                                                 - On failure (f=1): Fault Status code shown in the Data Abort. */
+        uint64_t fs                    : 6;  /**< [  6:  1](R/W) On success (f=0): Zero.
+                                                                 On failure (f=1): Fault Status code shown in the Data Abort. */
         uint64_t f                     : 1;  /**< [  0:  0](R/W) Indicates whether the conversion completed successfully.
                                                                  0 = VA to PA conversion completed successfully. */
 #else /* Word 0 - Little Endian */
         uint64_t f                     : 1;  /**< [  0:  0](R/W) Indicates whether the conversion completed successfully.
                                                                  0 = VA to PA conversion completed successfully. */
-        uint64_t fs                    : 6;  /**< [  6:  1](R/W) - On success (f=0): Zero.
-                                                                 - On failure (f=1): Fault Status code shown in the Data Abort. */
+        uint64_t fs                    : 6;  /**< [  6:  1](R/W) On success (f=0): Zero.
+                                                                 On failure (f=1): Fault Status code shown in the Data Abort. */
         uint64_t sha                   : 2;  /**< [  8:  7](R/W) Shareability attribute, from the translation table entry for
                                                                      the returned PA.
                                                                  0x0 = Non-shareable.
@@ -15710,8 +15710,8 @@ typedef union
                                                                      supplied virtual address. This field returns address
                                                                      bits <47:12>. */
         uint64_t reserved_48_55        : 8;
-        uint64_t mair                  : 8;  /**< [ 63: 56](R/W) - On success (f=0): Memory Attributes, following the encodings for the MAIR.
-                                                                 - On failure (f=1): Zero */
+        uint64_t mair                  : 8;  /**< [ 63: 56](R/W) On success (f=0): Memory Attributes, following the encodings for the MAIR.
+                                                                 On failure (f=1): Zero. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_par_el1_s cn; */

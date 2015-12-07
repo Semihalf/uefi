@@ -996,6 +996,90 @@ static inline uint64_t BDK_GIC_ECC_INT_STATUSR_FUNC(void)
 #define arguments_BDK_GIC_ECC_INT_STATUSR -1,-1,-1,-1
 
 /**
+ * Register (NCB) gic_rdb_its_if_err_statusr
+ *
+ * GIC Redistributor Network ITS Interface Error Status Register
+ * This register holds the status of errors detected on the Redistributor network interface to ITS.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gic_rdb_its_if_err_statusr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_62_63        : 2;
+        uint64_t v                     : 1;  /**< [ 61: 61](R/W1C/H) When set, the command error is valid. */
+        uint64_t m                     : 1;  /**< [ 60: 60](RO/H) When set, it means multiple errors have happened. It is meaningful only when V=1. */
+        uint64_t reserved_59           : 1;
+        uint64_t cmd                   : 3;  /**< [ 58: 56](RO/H) ITS Command. Relevant only when [V]=1. Command encodings are
+                                                                  SETLPIR = 0x1,
+                                                                  CLRLPIR = 0x2,
+                                                                  INVLPIR = 0x3,
+                                                                  INVALLR = 0x4,
+                                                                  SYNCR = 0x5,
+                                                                  MOVLPIR = 0x6, and
+                                                                  MOVALLR = 0x7. */
+        uint64_t reserved_52_55        : 4;
+        uint64_t err_multi_socket      : 1;  /**< [ 51: 51](RO/H) Invalid multi-socket message. Relevant only when [V]=1. Indicates incompatibility between
+                                                                 operation mode setting (GIC_CFG_CTLR[OM]) and the ITS message. */
+        uint64_t err_dest_gicr_id      : 1;  /**< [ 50: 50](RO/H) Invalid destination GICR (redistributor). Relevant only when [V]=1 and [CMD]=MOVLPIR or MOVALLR. */
+        uint64_t err_src_gicr_id       : 1;  /**< [ 49: 49](RO/H) Invalid source GICR (Redistributor). Relevant only when [V]=1. */
+        uint64_t err_int_id_range      : 1;  /**< [ 48: 48](RO/H) LPI interrupt ID out of range. Relevant only when [V]=1. */
+        uint64_t reserved_44_47        : 4;
+        uint64_t dst_id                : 8;  /**< [ 43: 36](RO/H) DestID, specified as node_id[1:0], gicr_id[5:0]. Relevant only when [V]=1 and
+                                                                 [CMD]=MOVLPIR or MOVALLR. */
+        uint64_t src_id                : 8;  /**< [ 35: 28](RO/H) SourceID, specified as node_id[1:0], gicr_id[5:0]. It is meaningful only when [V]=1. */
+        uint64_t reserved_20_27        : 8;
+        uint64_t int_id                : 20; /**< [ 19:  0](RO/H) Interrrupt ID in the ITS message (except for INVALLR, SYNCR, MOVALLR). It is meaningful
+                                                                 only when [V]=1. */
+#else /* Word 0 - Little Endian */
+        uint64_t int_id                : 20; /**< [ 19:  0](RO/H) Interrrupt ID in the ITS message (except for INVALLR, SYNCR, MOVALLR). It is meaningful
+                                                                 only when [V]=1. */
+        uint64_t reserved_20_27        : 8;
+        uint64_t src_id                : 8;  /**< [ 35: 28](RO/H) SourceID, specified as node_id[1:0], gicr_id[5:0]. It is meaningful only when [V]=1. */
+        uint64_t dst_id                : 8;  /**< [ 43: 36](RO/H) DestID, specified as node_id[1:0], gicr_id[5:0]. Relevant only when [V]=1 and
+                                                                 [CMD]=MOVLPIR or MOVALLR. */
+        uint64_t reserved_44_47        : 4;
+        uint64_t err_int_id_range      : 1;  /**< [ 48: 48](RO/H) LPI interrupt ID out of range. Relevant only when [V]=1. */
+        uint64_t err_src_gicr_id       : 1;  /**< [ 49: 49](RO/H) Invalid source GICR (Redistributor). Relevant only when [V]=1. */
+        uint64_t err_dest_gicr_id      : 1;  /**< [ 50: 50](RO/H) Invalid destination GICR (redistributor). Relevant only when [V]=1 and [CMD]=MOVLPIR or MOVALLR. */
+        uint64_t err_multi_socket      : 1;  /**< [ 51: 51](RO/H) Invalid multi-socket message. Relevant only when [V]=1. Indicates incompatibility between
+                                                                 operation mode setting (GIC_CFG_CTLR[OM]) and the ITS message. */
+        uint64_t reserved_52_55        : 4;
+        uint64_t cmd                   : 3;  /**< [ 58: 56](RO/H) ITS Command. Relevant only when [V]=1. Command encodings are
+                                                                  SETLPIR = 0x1,
+                                                                  CLRLPIR = 0x2,
+                                                                  INVLPIR = 0x3,
+                                                                  INVALLR = 0x4,
+                                                                  SYNCR = 0x5,
+                                                                  MOVLPIR = 0x6, and
+                                                                  MOVALLR = 0x7. */
+        uint64_t reserved_59           : 1;
+        uint64_t m                     : 1;  /**< [ 60: 60](RO/H) When set, it means multiple errors have happened. It is meaningful only when V=1. */
+        uint64_t v                     : 1;  /**< [ 61: 61](R/W1C/H) When set, the command error is valid. */
+        uint64_t reserved_62_63        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gic_rdb_its_if_err_statusr_s cn; */
+} bdk_gic_rdb_its_if_err_statusr_t;
+
+#define BDK_GIC_RDB_ITS_IF_ERR_STATUSR BDK_GIC_RDB_ITS_IF_ERR_STATUSR_FUNC()
+static inline uint64_t BDK_GIC_RDB_ITS_IF_ERR_STATUSR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GIC_RDB_ITS_IF_ERR_STATUSR_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x801000010070ll;
+    __bdk_csr_fatal("GIC_RDB_ITS_IF_ERR_STATUSR", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_GIC_RDB_ITS_IF_ERR_STATUSR bdk_gic_rdb_its_if_err_statusr_t
+#define bustype_BDK_GIC_RDB_ITS_IF_ERR_STATUSR BDK_CSR_TYPE_NCB
+#define basename_BDK_GIC_RDB_ITS_IF_ERR_STATUSR "GIC_RDB_ITS_IF_ERR_STATUSR"
+#define device_bar_BDK_GIC_RDB_ITS_IF_ERR_STATUSR 0x0 /* PF_BAR0 */
+#define busnum_BDK_GIC_RDB_ITS_IF_ERR_STATUSR 0
+#define arguments_BDK_GIC_RDB_ITS_IF_ERR_STATUSR -1,-1,-1,-1
+
+/**
  * Register (NCB) gic_rib_err_adrr
  *
  * GIC Implementation RIB Error Address Register

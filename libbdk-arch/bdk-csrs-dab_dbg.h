@@ -2441,12 +2441,15 @@ typedef union
                                                                      processor is not in the powered down state.
                                                                  There are two logical power off states for the Core power
                                                                      domain:
-                                                                 - Retention: The states of the debug registers, including
+
+                                                                 * Retention: The states of the debug registers, including
                                                                      EDPRSR.SPD, in the Core power domain is preserved, and
                                                                      restored on leaving retention state.
-                                                                 - Power-down: The states of the debug registers in the Core
+
+                                                                 * Power-down: The states of the debug registers in the Core
                                                                      power domain is lost, and a Cold reset is asserted on leaving
                                                                      power-down state.
+
                                                                   If EDPRSR.PU is zero,
                                                                   <0> It is now known whether the state of the degug regsiters in the Core power domain is
                                                                  lost.
@@ -2478,12 +2481,15 @@ typedef union
                                                                      processor is not in the powered down state.
                                                                  There are two logical power off states for the Core power
                                                                      domain:
-                                                                 - Retention: The states of the debug registers, including
+
+                                                                 * Retention: The states of the debug registers, including
                                                                      EDPRSR.SPD, in the Core power domain is preserved, and
                                                                      restored on leaving retention state.
-                                                                 - Power-down: The states of the debug registers in the Core
+
+                                                                 * Power-down: The states of the debug registers in the Core
                                                                      power domain is lost, and a Cold reset is asserted on leaving
                                                                      power-down state.
+
                                                                   If EDPRSR.PU is zero,
                                                                   <0> It is now known whether the state of the degug regsiters in the Core power domain is
                                                                  lost.

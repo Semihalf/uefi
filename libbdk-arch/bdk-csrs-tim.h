@@ -190,17 +190,23 @@ typedef union
     struct bdk_tim_bist_result_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t tstmp_mem             : 1;  /**< [  3:  3](RO/H) BIST result of the Time Stamp memory. */
-        uint64_t wqe_fifo              : 1;  /**< [  2:  2](RO/H) BIST result of the NCB WQE FIFO. */
-        uint64_t lslr_fifo             : 1;  /**< [  1:  1](RO/H) BIST result of the NCB LSLR FIFO. */
-        uint64_t rds_mem               : 1;  /**< [  0:  0](RO/H) BIST result of the RDS memory. */
+        uint64_t reserved_7_63         : 57;
+        uint64_t msix_mem              : 1;  /**< [  6:  6](RO/H) BIST result of the MSIX memory. */
+        uint64_t tstmp_mem             : 1;  /**< [  5:  5](RO/H) BIST result of the Time Stamp memory. */
+        uint64_t wqe_fifo              : 1;  /**< [  4:  4](RO/H) BIST result of the NCB WQE FIFO. */
+        uint64_t lslr_fifo             : 1;  /**< [  3:  3](RO/H) BIST result of the NCB LSLR FIFO. */
+        uint64_t ctl2_mem              : 1;  /**< [  2:  2](RO/H) BIST result of the CTL2 memory. */
+        uint64_t ctl1_mem              : 1;  /**< [  1:  1](RO/H) BIST result of the CTL1 memory. */
+        uint64_t ctl0_mem              : 1;  /**< [  0:  0](RO/H) BIST result of the CTL0 memory. */
 #else /* Word 0 - Little Endian */
-        uint64_t rds_mem               : 1;  /**< [  0:  0](RO/H) BIST result of the RDS memory. */
-        uint64_t lslr_fifo             : 1;  /**< [  1:  1](RO/H) BIST result of the NCB LSLR FIFO. */
-        uint64_t wqe_fifo              : 1;  /**< [  2:  2](RO/H) BIST result of the NCB WQE FIFO. */
-        uint64_t tstmp_mem             : 1;  /**< [  3:  3](RO/H) BIST result of the Time Stamp memory. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t ctl0_mem              : 1;  /**< [  0:  0](RO/H) BIST result of the CTL0 memory. */
+        uint64_t ctl1_mem              : 1;  /**< [  1:  1](RO/H) BIST result of the CTL1 memory. */
+        uint64_t ctl2_mem              : 1;  /**< [  2:  2](RO/H) BIST result of the CTL2 memory. */
+        uint64_t lslr_fifo             : 1;  /**< [  3:  3](RO/H) BIST result of the NCB LSLR FIFO. */
+        uint64_t wqe_fifo              : 1;  /**< [  4:  4](RO/H) BIST result of the NCB WQE FIFO. */
+        uint64_t tstmp_mem             : 1;  /**< [  5:  5](RO/H) BIST result of the Time Stamp memory. */
+        uint64_t msix_mem              : 1;  /**< [  6:  6](RO/H) BIST result of the MSIX memory. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_bist_result_s cn; */
@@ -625,9 +631,9 @@ typedef union
     struct bdk_tim_fr_rn_ptp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_REG_FLAGS[CTL_TIM] = 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_REG_FLAGS[CTL_TIM] = 0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_tim_fr_rn_ptp_s cn; */
@@ -1500,11 +1506,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Guest-aura number used to free and return chucks to. Bits <15:12> must be zero.
+        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Guest-aura number used to free and return chunks to. Bits <15:12> must be zero.
                                                                  For the FPA to not discard the request, FPA_PF_MAP() must map
                                                                  [AURA] and TIM_VRING()_GMCTL[GMID] as valid. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Guest-aura number used to free and return chucks to. Bits <15:12> must be zero.
+        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Guest-aura number used to free and return chunks to. Bits <15:12> must be zero.
                                                                  For the FPA to not discard the request, FPA_PF_MAP() must map
                                                                  [AURA] and TIM_VRING()_GMCTL[GMID] as valid. */
         uint64_t reserved_16_63        : 48;

@@ -976,11 +976,7 @@ typedef union
 static inline uint64_t BDK_RST_COLD_DATAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_COLD_DATAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
-        return 0x87e0060017c0ll + 8ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e0060017c0ll + 8ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
+    if (a<=5)
         return 0x87e0060017c0ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("RST_COLD_DATAX", 1, a, 0, 0, 0);
 }

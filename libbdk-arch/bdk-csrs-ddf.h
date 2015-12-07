@@ -66,18 +66,33 @@
 /**
  * Enumeration ddf_comp_e
  *
- * DDF Completion Enumeration
- * Enumerates the values of DDF_RES_FIND_S/DDF_RES_MATCH_S[COMPCODE].
+ * DDF Completion Status Enumeration
+ * Enumerates the status values of DDF_RES_FIND_S/DDF_RES_MATCH_S[COMPCODE].
  */
 #define BDK_DDF_COMP_E_FAULT (2) /**< Memory fault was detected reading/writing data related to this instruction.  The
                                        instruction may have been partially completed, and as such the result and record state is
                                        now undefined. */
+#define BDK_DDF_COMP_E_FILTER_TOO_BIG (5) /**< Filter is larger than 512B, 2^(2+NESTSZP2+NBKTP2) > 512. */
 #define BDK_DDF_COMP_E_FULL (3) /**< Insert operation not completed due to no space (nests all full, and if
                                        DDF_INST_FIND_S[VICTEN]=1 the victim is full). */
-#define BDK_DDF_COMP_E_GOOD (1) /**< Operation completed. */
+#define BDK_DDF_COMP_E_GOOD (1) /**< Operation completed without error. */
+#define BDK_DDF_COMP_E_HDR_ALIGN (0x10) /**< Improperly aligned header address; HDR_ADDR % 2^HDRSZP2 != 0. */
+#define BDK_DDF_COMP_E_HDR_LT_NEST (7) /**< Header is smaller than nest and won't fit all of opaque data, tag; VICTEN && ((HDRSZP2 <
+                                       NESTSZP2) && NBKTP2==0) || (HDRSZP2 <= NESTSZP2) && NBKTP2 > 0)). */
+#define BDK_DDF_COMP_E_HDR_TOO_BIG (6) /**< Header is larger than 128B, 2^(NWAYP2 + HDRSZP2) > 128. */
+#define BDK_DDF_COMP_E_ILLEGAL_QWORDS (4) /**< Instruction contained an illegal QWORDS value, must be between 1 and 16. */
+#define BDK_DDF_COMP_E_KEY_GT_HDR (9) /**< Key is larger than header, entire tag won't fit; VICTEN && ((NBKTP2<<2) + TAGBITSM1 + 1 >
+                                       (HDRSZP2<<3)). */
+#define BDK_DDF_COMP_E_KEY_GT_NEST (8) /**< Key is larger than nest, entire tag won't fit; (NBKTP2 + TAGBITSM1+1) > (NESTSZP2<<3). */
+#define BDK_DDF_COMP_E_KEY_TOO_SMALL (0xa) /**< Configured data won't fit in key; NRANKP2+2*NBKTP2+TAGBITS > 256. */
 #define BDK_DDF_COMP_E_NOTDONE (0) /**< The COMPCODE value of zero is not written by hardware, but may be used by
                                        software to indicate the DDF_RES_FIND_S/DDF_RES_MATCH_S has not yet been
                                        updated by hardware. */
+#define BDK_DDF_COMP_E_NO_HDR (0xc) /**< No header address; VICTEN && HDR_ADDR == 0. */
+#define BDK_DDF_COMP_E_NO_RANK (0xb) /**< No rank address; RANK_ADDR == 0. */
+#define BDK_DDF_COMP_E_NO_RB (0xd) /**< No record block address; RB_ADDR == 0. */
+#define BDK_DDF_COMP_E_NULL_INSERT (0xe) /**< No key specified for FIND_INSERT; {KEY3,KEY2,KEY1,KEY0} == 0x0. */
+#define BDK_DDF_COMP_E_RANK_ALIGN (0xf) /**< Improperly aligned rank address; RANK_ADDR % (2^(NWAYP2+NBKTP2+NESTP2+2)) !=0. */
 
 /**
  * Enumeration ddf_op_e
@@ -1410,11 +1425,11 @@ typedef union
         uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to 1, it forces DDF clocks on. For diagnostic use only. */
         uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
                                                                  may improve DDF performance but may starve other devices on the same NCB. Values
-                                                                 > 32 are treated as 32. */
+                                                                 > 64 are treated as 64. */
 #else /* Word 0 - Little Endian */
         uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
                                                                  may improve DDF performance but may starve other devices on the same NCB. Values
-                                                                 > 32 are treated as 32. */
+                                                                 > 64 are treated as 64. */
         uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to 1, it forces DDF clocks on. For diagnostic use only. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */

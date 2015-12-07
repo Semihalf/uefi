@@ -1551,7 +1551,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
-                                                                 <41:7> of the starting instructions address. When new chunks are fetched by the hardware,
+                                                                 <48:7> of the starting instructions address. When new chunks are fetched by the hardware,
                                                                  SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
                                                                  the queue's doorbell (DPI(0)_DMA()_COUNTS[DBELL) and its tail pointer
                                                                  (DPI(0)_DMA()_NADDR[ADDR]). */
@@ -1559,7 +1559,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
         uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
-                                                                 <41:7> of the starting instructions address. When new chunks are fetched by the hardware,
+                                                                 <48:7> of the starting instructions address. When new chunks are fetched by the hardware,
                                                                  SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
                                                                  the queue's doorbell (DPI(0)_DMA()_COUNTS[DBELL) and its tail pointer
                                                                  (DPI(0)_DMA()_NADDR[ADDR]). */

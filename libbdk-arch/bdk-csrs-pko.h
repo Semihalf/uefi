@@ -1307,9 +1307,10 @@ union bdk_pko_send_hdr_s
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed [TOTAL].
 
                                                                  [TOTAL] constraints when a PKO_SEND_TSO_S is present:
-                                                                 - For IPv4: [TOTAL] = [L3PTR]+(IPv4.total length)
-                                                                 - For IPv6: [TOTAL] = [L3PTR]+40+(IPv6.payload length)
-                                                                 - 576 <= PKO_SEND_TSO_S[MSS] < [TOTAL] <= (128*PKO_SEND_TSO_S[MSS]-127*PKO_SEND_TSO_S[SB]) */
+                                                                 * For IPv4: [TOTAL] = [L3PTR]+(IPv4.total length).
+                                                                 * For IPv6: [TOTAL] = [L3PTR]+40+(IPv6.payload length).
+                                                                 * 576 <= PKO_SEND_TSO_S[MSS] < [TOTAL] <=
+                                                                 (128*PKO_SEND_TSO_S[MSS]-127*PKO_SEND_TSO_S[SB]). */
 #else /* Word 0 - Little Endian */
         uint64_t total                 : 16; /**< [ 15:  0] The number of bytes that PKO will fetch from memory and immediate subdescriptors
                                                                  to create the outgoing packet. Also the size in bytes of the outgoing packet that
@@ -1325,9 +1326,10 @@ union bdk_pko_send_hdr_s
                                                                  linked by any PKO_SEND_LINK_S must equal or exceed [TOTAL].
 
                                                                  [TOTAL] constraints when a PKO_SEND_TSO_S is present:
-                                                                 - For IPv4: [TOTAL] = [L3PTR]+(IPv4.total length)
-                                                                 - For IPv6: [TOTAL] = [L3PTR]+40+(IPv6.payload length)
-                                                                 - 576 <= PKO_SEND_TSO_S[MSS] < [TOTAL] <= (128*PKO_SEND_TSO_S[MSS]-127*PKO_SEND_TSO_S[SB]) */
+                                                                 * For IPv4: [TOTAL] = [L3PTR]+(IPv4.total length).
+                                                                 * For IPv6: [TOTAL] = [L3PTR]+40+(IPv6.payload length).
+                                                                 * 576 <= PKO_SEND_TSO_S[MSS] < [TOTAL] <=
+                                                                 (128*PKO_SEND_TSO_S[MSS]-127*PKO_SEND_TSO_S[SB]). */
         uint64_t l3ptr                 : 8;  /**< [ 23: 16] Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for L3
                                                                  checksum and/or L4 checksum and/or shaper marking. (See [CKL3,CKL4,FORMAT] and
                                                                  PKO_SEND_EXT_S[MARKPTR].) The IP packet must be exactly [L3PTR] bytes from the beginning
@@ -1944,25 +1946,30 @@ union bdk_pko_send_mem_s
  * packet to the TSO segments. PKO modifies the following pre-segmented
  * source packet fields in each produced TSO segment:
  *
- * - If PKO considers the L2 type/length field to be a length (see [L2LEN] below):
- *    o PKO sets the L2 length field to (FPS + [SB] - ([L2LEN] + 2))
+ * * If PKO considers the L2 type/length field to be a length (see [L2LEN] below):
  *
- * - In the IPv4 case:
- *    o PKO sets IPv4.totallength to (FPS + [SB] - PKO_SEND_HDR_S[L3PTR])
- *    o PKO calculates and inserts the IP checksum
+ *    o PKO sets the L2 length field to (FPS + [SB] - ([L2LEN] + 2)).
+ *
+ * * In the IPv4 case:
+ *
+ *    o PKO sets IPv4.totallength to (FPS + [SB] - PKO_SEND_HDR_S[L3PTR]).
+ *
+ *    o PKO calculates and inserts the IP checksum.
+ *
  *    o PKO increments the IP Identification field from the last segment
  *      by one. The IP Identification field in the first produced segment
  *      is unmodified from the pre-segmented source packet.
  *
- * - In the IPv6 case:
+ * * In the IPv6 case:
+ *
  *    o PKO sets IPv6.payloadlength to (FPS + [SB] - PKO_SEND_HDR_S[L3PTR] - 40)
  *
- * - PKO produces the TCP sequence number by adding the FPS from the prior
+ * * PKO produces the TCP sequence number by adding the FPS from the prior
  *   segment to the TCP sequence number used in the prior segment.
  *   The TCP sequence number in the first produced segment is unmodified
  *   from the pre-segmented source packet.
  *
- * - PKO produces the TCP flags by logical-anding
+ * * PKO produces the TCP flags by logical-anding
  *   PKO_PEB_TSO_CFG[FSF, MSF, or LSF] with the pre-segmented source TCP flags -
  *   FSF is used for the first segment, MSF for the middle segments, and
  *   LSF for the last segment.
@@ -1975,49 +1982,50 @@ union bdk_pko_send_mem_s
  * that would be produced for the pre-segmented source packet, with the
  * following exceptions:
  *
- * - PKO_META_DESC_S[LENGTH] / PKO_*_PICK[LENGTH] for each TSO segment is
+ * * PKO_META_DESC_S[LENGTH] / PKO_*_PICK[LENGTH] for each TSO segment is
  *       (PKO_PDM_DQ*_MINPAD[MINPAD] ?
  *           MAX(PKO_PDM_CFG[PKO_PAD_MINLEN], (FPS+[SB])) :
  *           (FPS+[SB]))
  *
- * - PKO_META_DESC_S[FPD] / PKO_*_PICK[FPD] is independently calculated
+ * * PKO_META_DESC_S[FPD] / PKO_*_PICK[FPD] is independently calculated
  *   for each descriptor copy
  *
  * The following are constraints when a PKO_SEND_TSO_S is present
  * in a descriptor:
  *
- * - 576 <= [MSS] < PKO_SEND_HDR_S[TOTAL] <= (128*[MSS] - 127*[SB])
+ * * 576 <= [MSS] < PKO_SEND_HDR_S[TOTAL] <= (128*[MSS] - 127*[SB])
  *
- * - PKO_SEND_HDR_S[CKL4] = TCP
+ * * PKO_SEND_HDR_S[CKL4] = TCP
  *
- * - PKO_SEND_HDR_S[L3PTR] must point to the first byte in the one and only IP header
+ * * PKO_SEND_HDR_S[L3PTR] must point to the first byte in the one and only IP header
  *   o IP tunneled packets are not supported with TSO.
  *
- * - PKO_SEND_HDR_S[L4PTR] must point to the first byte in the corresponding TCP header
+ * * PKO_SEND_HDR_S[L4PTR] must point to the first byte in the corresponding TCP header
  *
- * - In the IPv4 case:
+ * * In the IPv4 case:
  *    o PKO_SEND_HDR_S[TOTAL] = PKO_SEND_HDR_S[L3PTR]+(IPv4.totallength)
  *    o PKO_SEND_HDR_S[CKL3] = 1
  *
- * - In the IPv6 case:
+ * * In the IPv6 case:
  *    o PKO_SEND_HDR_S[TOTAL] = PKO_SEND_HDR_S[L3PTR]+40+(IPv6.payloadlength)
  *    o PKO_SEND_HDR_S[CKL3] = 0
  *
- * - If PKO considers the L2 type/length field to be a length (see [L2LEN] below):
+ * * If PKO considers the L2 type/length field to be a length (see [L2LEN] below):
  *    o [MSS] < 0x600
  *    o PKO_SEND_HDR_S[L3PTR] = [L2LEN] + 10 (likely, if not required)
- * - else if PKO does not consider the L2 type/length field to be a length:
+ *
+ * * else if PKO does not consider the L2 type/length field to be a length:
  *    o PKO_SEND_HDR_S[L3PTR] = [L2LEN] + 2
  *
- * - If any PKO_SEND_IMM_S's are present in the descriptor, they must never
+ * * If any PKO_SEND_IMM_S's are present in the descriptor, they must never
  *   provide source packet bytes after the first [SB] bytes in the source packet.
  *
- * - PKO_MAC*_CFG[MIN_PAD_ENA] and PKO_PDM_CFG[PKO_PAD_MINLEN] must be set
+ * * PKO_MAC*_CFG[MIN_PAD_ENA] and PKO_PDM_CFG[PKO_PAD_MINLEN] must be set
  *   appropriately if minimum pad is required by the interface/MAC.
  *   PKO_PDM_DQ*_MINPAD[MINPAD] should normally also be set when minimum
  *   pad is required by the interface/MAC.
  *
- * - PKO_MAC*_CFG[FCS_ENA] should normally be set if the interface/MAC requires
+ * * PKO_MAC*_CFG[FCS_ENA] should normally be set if the interface/MAC requires
  *   FCS. But an alternative is to enable FCS in the MAC in the cases when
  *   the MAC supports FCS generation.
  *
@@ -7039,20 +7047,25 @@ static inline uint64_t BDK_PKO_L3_SQB_DEBUG_FUNC(void)
  *   LINK/   PKI_CHAN_E    Corresponding
  * MAC_NUM   Range         PKO_LUT index   Description
  * -------   -----------   -------------   -----------------
- *     0     0x000-0x03F   0x0C0-0x0FF     LBK Loopback
- *     1     0x100-0x17F   0x100-0x17F     DPI packet output
- *     2     0x800-0x80F   0x000-0x00F     BGX0 Logical MAC 0
- *     3     0x810-0x81F   0x010-0x01F     BGX0 Logical MAC 1
- *     4     0x820-0x82F   0x020-0x02F     BGX0 Logical MAC 2
- *     5     0x830-0x83F   0x030-0x03F     BGX0 Logical MAC 3
- *     6     0x900-0x90F   0x040-0x04F     BGX1 Logical MAC 0
- *     7     0x910-0x91F   0x050-0x05F     BGX1 Logical MAC 1
- *     8     0x920-0x92F   0x060-0x06F     BGX1 Logical MAC 2
- *     9     0x930-0x93F   0x070-0x07F     BGX1 Logical MAC 3
- *    10     0xA00-0xA0F   0x080-0x08F     BGX2 Logical MAC 0
- *    11     0xA10-0xA1F   0x090-0x09F     BGX2 Logical MAC 1
- *    12     0xA20-0xA2F   0x0A0-0x0AF     BGX2 Logical MAC 2
- *    13     0xA30-0xA3F   0x0B0-0x0BF     BGX2 Logical MAC 3
+ *     0     0x000-0x03F   0x100-0x13F     LBK0 Loopback
+ *     1     0x200-0x23F   0x140-0x17F     LBK1 Loopback
+ *     2     0x400-0x47F   0x180-0x1FF     DPI packet output
+ *     3     0x800-0x80F   0x000-0x00F     BGX0 Logical MAC 0
+ *     4     0x810-0x81F   0x010-0x01F     BGX0 Logical MAC 1
+ *     5     0x820-0x82F   0x020-0x02F     BGX0 Logical MAC 2
+ *     6     0x830-0x83F   0x030-0x03F     BGX0 Logical MAC 3
+ *     7     0x900-0x90F   0x040-0x04F     BGX1 Logical MAC 0
+ *     8     0x910-0x91F   0x050-0x05F     BGX1 Logical MAC 1
+ *     9     0x920-0x92F   0x060-0x06F     BGX1 Logical MAC 2
+ *    10     0x930-0x93F   0x070-0x07F     BGX1 Logical MAC 3
+ *    11     0xA00-0xA0F   0x080-0x08F     BGX2 Logical MAC 0
+ *    12     0xA10-0xA1F   0x090-0x09F     BGX2 Logical MAC 1
+ *    13     0xA20-0xA2F   0x0A0-0x0AF     BGX2 Logical MAC 2
+ *    14     0xA30-0xA3F   0x0B0-0x0BF     BGX2 Logical MAC 3
+ *    15     0xB00-0xB0F   0x0C0-0x0CF     BGX3 Logical MAC 0
+ *    16     0xB10-0xB1F   0x0D0-0x0DF     BGX3 Logical MAC 1
+ *    17     0xB20-0xB2F   0x0E0-0x0EF     BGX3 Logical MAC 2
+ *    18     0xB30-0xB3F   0x0F0-0x0FF     BGX3 Logical MAC 3
  * </pre>
  */
 typedef union
@@ -7063,8 +7076,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t valid                 : 1;  /**< [ 15: 15](R/W) Declares if the index in the LUT is valid. */
-        uint64_t reserved_13_14        : 2;
-        uint64_t pq_idx                : 4;  /**< [ 12:  9](R/W) When [VALID] is set, [PQ_IDX] must select the L1 SQ that services the L2/L3 SQ that
+        uint64_t reserved_14           : 1;
+        uint64_t pq_idx                : 5;  /**< [ 13:  9](R/W) When [VALID] is set, [PQ_IDX] must select the L1 SQ that services the L2/L3 SQ that
                                                                  is selected by [QUEUE_NUMBER]. */
         uint64_t reserved_8            : 1;
         uint64_t queue_number          : 8;  /**< [  7:  0](R/W) When [VALID] is set, [QUEUE_NUMBER] selects the PKO_L3_L2_SQ()_CHANNEL CSR array entry
@@ -7077,9 +7090,9 @@ typedef union
                                                                  PKO_CHANNEL_LEVEL[CC_LEVEL]
                                                                  determines whether [QUEUE_NUMBER] selects an L2 SQ or a L3 SQ. */
         uint64_t reserved_8            : 1;
-        uint64_t pq_idx                : 4;  /**< [ 12:  9](R/W) When [VALID] is set, [PQ_IDX] must select the L1 SQ that services the L2/L3 SQ that
+        uint64_t pq_idx                : 5;  /**< [ 13:  9](R/W) When [VALID] is set, [PQ_IDX] must select the L1 SQ that services the L2/L3 SQ that
                                                                  is selected by [QUEUE_NUMBER]. */
-        uint64_t reserved_13_14        : 2;
+        uint64_t reserved_14           : 1;
         uint64_t valid                 : 1;  /**< [ 15: 15](R/W) Declares if the index in the LUT is valid. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -7090,7 +7103,7 @@ typedef union
 static inline uint64_t BDK_PKO_LUTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_LUTX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=383))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
         return 0x854000b00000ll + 8ll * ((a) & 0x1ff);
     __bdk_csr_fatal("PKO_LUTX", 1, a, 0, 0, 0);
 }
@@ -7472,8 +7485,8 @@ typedef union
 static inline uint64_t BDK_PKO_MCI1_CRED_CNTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_MCI1_CRED_CNTX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x854000a80100ll + 8ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=18))
+        return 0x854000a80100ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_MCI1_CRED_CNTX", 1, a, 0, 0, 0);
 }
 
@@ -11443,13 +11456,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_FCS_SOP_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_FCS_SOP_ERR. */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_FCS_SOP_ERR. */
 #else /* Word 0 - Little Endian */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_FCS_SOP_ERR. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_FCS_SOP_ERR. */
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_FCS_SOP_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -11484,13 +11497,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_JUMP_DEF_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_JUMP_DEF_ERR. */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_JUMP_DEF_ERR. */
 #else /* Word 0 - Little Endian */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_JUMP_DEF_ERR. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_JUMP_DEF_ERR. */
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_JUMP_DEF_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -11525,11 +11538,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t val                   : 1;  /**< [  7:  7](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_MACX_CFG_WR_ERR] is set. */
+        uint64_t val                   : 1;  /**< [  7:  7](RAZ) Deprecated. */
         uint64_t mac                   : 7;  /**< [  6:  0](RO/H) MAC number associated with the captured PEB_MACX_CFG_WR_ERR. */
 #else /* Word 0 - Little Endian */
         uint64_t mac                   : 7;  /**< [  6:  0](RO/H) MAC number associated with the captured PEB_MACX_CFG_WR_ERR. */
-        uint64_t val                   : 1;  /**< [  7:  7](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_MACX_CFG_WR_ERR] is set. */
+        uint64_t val                   : 1;  /**< [  7:  7](RAZ) Deprecated. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -11564,13 +11577,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_MAX_LINK_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_MAX_LINK_ERR. */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_MAX_LINK_ERR. */
 #else /* Word 0 - Little Endian */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_MAX_LINK_ERR. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_MAX_LINK_ERR. */
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_MAX_LINK_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -11642,13 +11655,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_PAD_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_PAD_ERR. */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_PAD_ERR. */
 #else /* Word 0 - Little Endian */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_PAD_ERR. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_PAD_ERR. */
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_PAD_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -11683,13 +11696,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_PSE_FIFO_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_PSE_FIFO_ERR. */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_PSE_FIFO_ERR. */
 #else /* Word 0 - Little Endian */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_PSE_FIFO_ERR. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_PSE_FIFO_ERR. */
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_PSE_FIFO_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -11724,13 +11737,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_SUBD_ADDR_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_SUBD_ADDR_ERR. */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_SUBD_ADDR_ERR. */
 #else /* Word 0 - Little Endian */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_SUBD_ADDR_ERR. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_SUBD_ADDR_ERR. */
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_SUBD_ADDR_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -11765,13 +11778,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_SUBD_SIZE_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_SUBD_SIZE_ERR. */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_SUBD_SIZE_ERR. */
 #else /* Word 0 - Little Endian */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_SUBD_SIZE_ERR. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_SUBD_SIZE_ERR. */
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_SUBD_SIZE_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -11806,13 +11819,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_TRUNC_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_TRUNC_ERR. */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_TRUNC_ERR. */
 #else /* Word 0 - Little Endian */
         uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_TRUNC_ERR. */
         uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_TRUNC_ERR. */
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_TRUNC_ERR] is set. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RAZ) Deprecated. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -15076,8 +15089,8 @@ typedef union
 static inline uint64_t BDK_PKO_TXFX_PKT_CNT_RD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_TXFX_PKT_CNT_RD(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000900e00ll + 8ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=19))
+        return 0x854000900e00ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_TXFX_PKT_CNT_RD", 1, a, 0, 0, 0);
 }
 

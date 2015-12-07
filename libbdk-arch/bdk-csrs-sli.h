@@ -2125,7 +2125,66 @@ typedef union
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_slix_s2m_regx_acc_s cn; */
+    /* struct bdk_slix_s2m_regx_acc_s cn81xx; */
+    /* struct bdk_slix_s2m_regx_acc_s cn88xx; */
+    struct bdk_slix_s2m_regx_acc_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_55_63        : 9;
+        uint64_t ctype                 : 2;  /**< [ 54: 53](R/W) The command type to be genereated:
+                                                                 0x0 = PCI memory.
+                                                                 0x1 = PCI configuration (only 8, 16, 32-bit loads are supported). Note normally the ECAM
+                                                                 would be used in place of this CTYPE.
+                                                                 0x2 = PCI I/O (Only 8, 16, 32-bit loads are supported).
+                                                                 0x3 = Reserved. */
+        uint64_t zero                  : 1;  /**< [ 52: 52](R/W) Causes all byte read operations to be zero-length read operations. Returns zeros to the
+                                                                 EXEC for all read data. */
+        uint64_t mac                   : 3;  /**< [ 51: 49](R/W) The MAC that reads/writes to this subid are sent.
+                                                                 0x0 = MAC corresponding to the LSB set in SLI()_CONST[PEMS].
+                                                                 0x1 = MAC corresponding to the second least significant bit set in SLI()_CONST[PEMS],
+                                                                 _ etc.
+
+                                                                 e.g. if SLI()_CONST[PEMS] = 0xF0, then 0x0 is PEM4, 0x1 is PEM5, etc. */
+        uint64_t nmerge                : 1;  /**< [ 48: 48](R/W) When set, no write merging is allowed in this window. */
+        uint64_t esr                   : 2;  /**< [ 47: 46](RO) Reserved. */
+        uint64_t esw                   : 2;  /**< [ 45: 44](RO) Reserved. */
+        uint64_t wtype                 : 2;  /**< [ 43: 42](R/W) Write type. ADDRTYPE<1:0> for write operations to this region.
+                                                                 ADDRTYPE<0> is the relaxed-order attribute.
+                                                                 ADDRTYPE<1> is the no-snoop attribute. */
+        uint64_t rtype                 : 2;  /**< [ 41: 40](R/W) Read type. ADDRTYPE<1:0> for read operations to this region.
+                                                                 ADDRTYPE<0> is the relaxed-order attribute.
+                                                                 ADDRTYPE<1> is the no-snoop attribute. */
+        uint64_t reserved_32_39        : 8;
+        uint64_t ba                    : 32; /**< [ 31:  0](R/W) Bus address. Address bits<63:32> for read/write operations that use this region. */
+#else /* Word 0 - Little Endian */
+        uint64_t ba                    : 32; /**< [ 31:  0](R/W) Bus address. Address bits<63:32> for read/write operations that use this region. */
+        uint64_t reserved_32_39        : 8;
+        uint64_t rtype                 : 2;  /**< [ 41: 40](R/W) Read type. ADDRTYPE<1:0> for read operations to this region.
+                                                                 ADDRTYPE<0> is the relaxed-order attribute.
+                                                                 ADDRTYPE<1> is the no-snoop attribute. */
+        uint64_t wtype                 : 2;  /**< [ 43: 42](R/W) Write type. ADDRTYPE<1:0> for write operations to this region.
+                                                                 ADDRTYPE<0> is the relaxed-order attribute.
+                                                                 ADDRTYPE<1> is the no-snoop attribute. */
+        uint64_t esw                   : 2;  /**< [ 45: 44](RO) Reserved. */
+        uint64_t esr                   : 2;  /**< [ 47: 46](RO) Reserved. */
+        uint64_t nmerge                : 1;  /**< [ 48: 48](R/W) When set, no write merging is allowed in this window. */
+        uint64_t mac                   : 3;  /**< [ 51: 49](R/W) The MAC that reads/writes to this subid are sent.
+                                                                 0x0 = MAC corresponding to the LSB set in SLI()_CONST[PEMS].
+                                                                 0x1 = MAC corresponding to the second least significant bit set in SLI()_CONST[PEMS],
+                                                                 _ etc.
+
+                                                                 e.g. if SLI()_CONST[PEMS] = 0xF0, then 0x0 is PEM4, 0x1 is PEM5, etc. */
+        uint64_t zero                  : 1;  /**< [ 52: 52](R/W) Causes all byte read operations to be zero-length read operations. Returns zeros to the
+                                                                 EXEC for all read data. */
+        uint64_t ctype                 : 2;  /**< [ 54: 53](R/W) The command type to be genereated:
+                                                                 0x0 = PCI memory.
+                                                                 0x1 = PCI configuration (only 8, 16, 32-bit loads are supported). Note normally the ECAM
+                                                                 would be used in place of this CTYPE.
+                                                                 0x2 = PCI I/O (Only 8, 16, 32-bit loads are supported).
+                                                                 0x3 = Reserved. */
+        uint64_t reserved_55_63        : 9;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_slix_s2m_regx_acc_t;
 
 static inline uint64_t BDK_SLIX_S2M_REGX_ACC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

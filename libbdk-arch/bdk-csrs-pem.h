@@ -1576,7 +1576,8 @@ typedef union
     struct bdk_pemx_dbg_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[RASDP]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
@@ -1774,7 +1775,8 @@ typedef union
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[RASDP]. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     struct bdk_pemx_dbg_ena_w1c_cn88xxp1
@@ -2258,7 +2260,8 @@ typedef union
     struct bdk_pemx_dbg_ena_w1c_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[RASDP]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
@@ -2504,7 +2507,8 @@ typedef union
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1C/H) Reads or clears enable for PEM(0..3)_DBG_INFO[RASDP]. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn83xx;
     struct bdk_pemx_dbg_ena_w1c_cn88xxp2
@@ -2780,7 +2784,8 @@ typedef union
     struct bdk_pemx_dbg_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[RASDP]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
@@ -2978,7 +2983,8 @@ typedef union
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[RASDP]. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     struct bdk_pemx_dbg_ena_w1s_cn88xxp1
@@ -3462,7 +3468,8 @@ typedef union
     struct bdk_pemx_dbg_ena_w1s_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[RASDP]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
@@ -3708,7 +3715,8 @@ typedef union
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets enable for PEM(0..3)_DBG_INFO[RASDP]. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn83xx;
     struct bdk_pemx_dbg_ena_w1s_cn88xxp2
@@ -3984,7 +3992,8 @@ typedef union
     struct bdk_pemx_dbg_info_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1C/H) Core entered RAS data protection error mode. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1C/H) Detected a M2S data fifo double bit error. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1C/H) Detected a M2S data fifo single bit error. */
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1C/H) Detected a M2S data fifo double bit error. */
@@ -4204,7 +4213,8 @@ typedef union
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1C/H) Detected a M2S data fifo double bit error. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1C/H) Detected a M2S data fifo single bit error. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1C/H) Detected a M2S data fifo double bit error. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1C/H) Core entered RAS data protection error mode. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     struct bdk_pemx_dbg_info_cn88xxp1
@@ -4732,7 +4742,8 @@ typedef union
     struct bdk_pemx_dbg_info_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1C/H) Core entered RAS data protection error mode. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1C/H) Detected a M2S data fifo double bit error. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1C/H) Detected a M2S data fifo single bit error. */
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1C/H) Detected a M2S data fifo double bit error. */
@@ -4838,15 +4849,15 @@ typedef union
         uint64_t rpmerc                : 1;  /**< [  8:  8](R/W1C/H) Received PME message (RC mode only).
                                                                  Internal:
                                                                  pedc_radm_pm_pme. */
-        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1C/H) Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
+        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1C/H) Received fatal-error message. This bit is set when a message with ERR_FATAL
                                                                  is set.
 
                                                                  Internal:
                                                                  pedc_radm_fatal_err. */
-        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1C/H) Received nonfatal error message (RC mode only).
+        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1C/H) Received nonfatal error message.
                                                                  Internal:
                                                                  pedc_radm_nonfatal_err. */
-        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1C/H) Received correctable error message (RC mode only).
+        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1C/H) Received correctable error message.
                                                                  Internal:
                                                                  pedc_radm_correctable_err. */
         uint64_t rpoison               : 1;  /**< [  4:  4](R/W1C/H) Received poisoned TLP.
@@ -4888,13 +4899,13 @@ typedef union
         uint64_t rpoison               : 1;  /**< [  4:  4](R/W1C/H) Received poisoned TLP.
                                                                  Internal:
                                                                  pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv. */
-        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1C/H) Received correctable error message (RC mode only).
+        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1C/H) Received correctable error message.
                                                                  Internal:
                                                                  pedc_radm_correctable_err. */
-        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1C/H) Received nonfatal error message (RC mode only).
+        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1C/H) Received nonfatal error message.
                                                                  Internal:
                                                                  pedc_radm_nonfatal_err. */
-        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1C/H) Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
+        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1C/H) Received fatal-error message. This bit is set when a message with ERR_FATAL
                                                                  is set.
 
                                                                  Internal:
@@ -5004,7 +5015,8 @@ typedef union
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1C/H) Detected a M2S data fifo double bit error. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1C/H) Detected a M2S data fifo single bit error. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1C/H) Detected a M2S data fifo double bit error. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1C/H) Core entered RAS data protection error mode. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn83xx;
     struct bdk_pemx_dbg_info_cn88xxp2
@@ -5302,7 +5314,8 @@ typedef union
     struct bdk_pemx_dbg_info_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[RASDP]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
@@ -5500,7 +5513,8 @@ typedef union
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[RASDP]. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     struct bdk_pemx_dbg_info_w1s_cn88xxp1
@@ -5984,7 +5998,8 @@ typedef union
     struct bdk_pemx_dbg_info_w1s_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[RASDP]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
@@ -6230,7 +6245,8 @@ typedef union
         uint64_t m2s_c_dbe             : 1;  /**< [ 59: 59](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_C_DBE]. */
         uint64_t m2s_d_sbe             : 1;  /**< [ 60: 60](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_D_SBE]. */
         uint64_t m2s_d_dbe             : 1;  /**< [ 61: 61](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[M2S_D_DBE]. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t rasdp                 : 1;  /**< [ 62: 62](R/W1S/H) Reads or sets PEM(0..3)_DBG_INFO[RASDP]. */
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn83xx;
     struct bdk_pemx_dbg_info_w1s_cn88xxp2
@@ -7239,11 +7255,15 @@ typedef union
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B2]. */
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B1]. */
         uint64_t reserved_2_3          : 2;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_2_3          : 2;
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B1]. */
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..5)_INT_SUM[UP_B2]. */
@@ -7273,11 +7293,15 @@ typedef union
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..2)_INT_SUM[UP_B2]. */
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..2)_INT_SUM[UP_B1]. */
         uint64_t reserved_2_3          : 2;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..2)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..2)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..2)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..2)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_2_3          : 2;
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..2)_INT_SUM[UP_B1]. */
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..2)_INT_SUM[UP_B2]. */
@@ -7308,11 +7332,15 @@ typedef union
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..3)_INT_SUM[UP_B2]. */
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..3)_INT_SUM[UP_B1]. */
         uint64_t reserved_2_3          : 2;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..3)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..3)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..3)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..3)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_2_3          : 2;
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..3)_INT_SUM[UP_B1]. */
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..3)_INT_SUM[UP_B2]. */
@@ -7372,11 +7400,15 @@ typedef union
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B2]. */
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B1]. */
         uint64_t reserved_2_3          : 2;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_2_3          : 2;
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B1]. */
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..5)_INT_SUM[UP_B2]. */
@@ -7406,11 +7438,15 @@ typedef union
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..2)_INT_SUM[UP_B2]. */
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..2)_INT_SUM[UP_B1]. */
         uint64_t reserved_2_3          : 2;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..2)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..2)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..2)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..2)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_2_3          : 2;
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..2)_INT_SUM[UP_B1]. */
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..2)_INT_SUM[UP_B2]. */
@@ -7441,11 +7477,15 @@ typedef union
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..3)_INT_SUM[UP_B2]. */
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..3)_INT_SUM[UP_B1]. */
         uint64_t reserved_2_3          : 2;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..3)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..3)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..3)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..3)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_2_3          : 2;
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..3)_INT_SUM[UP_B1]. */
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..3)_INT_SUM[UP_B2]. */
@@ -7505,11 +7545,15 @@ typedef union
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1C/H) Received P-TLP for BAR2 when BAR2 is disabled. */
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1C/H) Received P-TLP for BAR1 when BAR1 index valid is not set. */
         uint64_t reserved_2_3          : 2;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) System error, RC mode only.  (cfg_sys_err_rc) */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) System error, RC mode only.
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) System error, RC mode only.  (cfg_sys_err_rc) */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1C/H) System error, RC mode only.
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_2_3          : 2;
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1C/H) Received P-TLP for BAR1 when BAR1 index valid is not set. */
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1C/H) Received P-TLP for BAR2 when BAR2 is disabled. */
@@ -7570,11 +7614,15 @@ typedef union
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B2]. */
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B1]. */
         uint64_t reserved_2_3          : 2;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_2_3          : 2;
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B1]. */
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..5)_INT_SUM[UP_B2]. */
@@ -7604,11 +7652,15 @@ typedef union
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..2)_INT_SUM[UP_B2]. */
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..2)_INT_SUM[UP_B1]. */
         uint64_t reserved_2_3          : 2;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..2)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..2)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..2)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..2)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_2_3          : 2;
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..2)_INT_SUM[UP_B1]. */
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..2)_INT_SUM[UP_B2]. */
@@ -7639,11 +7691,15 @@ typedef union
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..3)_INT_SUM[UP_B2]. */
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..3)_INT_SUM[UP_B1]. */
         uint64_t reserved_2_3          : 2;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..3)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..3)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..3)_INT_SUM[SE]. */
+        uint64_t se                    : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..3)_INT_SUM[SE].
+                                                                 Internal:
+                                                                 cfg_sys_err_rc. */
         uint64_t reserved_2_3          : 2;
         uint64_t up_b1                 : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..3)_INT_SUM[UP_B1]. */
         uint64_t up_b2                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..3)_INT_SUM[UP_B2]. */
@@ -8240,6 +8296,60 @@ static inline uint64_t BDK_PEMX_QLM(unsigned long a)
 #define arguments_BDK_PEMX_QLM(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) pem#_ras_tba_ctl
+ *
+ * PEM RAS Time Based Analysis Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pemx_ras_tba_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t tba_ctrl              : 2;  /**< [  1:  0](WO) Controls the start/end of time based analysis (TBA) in the core.  Note that TBA can also
+                                                                 be controlled
+                                                                 by setting the contents of PCIEEP()_CFG114/RC()_CFG114, and that TBA_CTRL will also
+                                                                 affect the contents of PCIEEP()_CFG114/RC()_CFG114[TIMER_START].
+                                                                 0x0 = No action.
+                                                                 0x1 = Start time based analysis.
+                                                                 0x2 = End time based anaylsis.
+                                                                       Only used if PCIEEP()_CFG114/RC()_CFG114[TBASE_DUR_SEL] is set to manual control,
+                                                                       otherwise it is ignored.
+                                                                 0x3 = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t tba_ctrl              : 2;  /**< [  1:  0](WO) Controls the start/end of time based analysis (TBA) in the core.  Note that TBA can also
+                                                                 be controlled
+                                                                 by setting the contents of PCIEEP()_CFG114/RC()_CFG114, and that TBA_CTRL will also
+                                                                 affect the contents of PCIEEP()_CFG114/RC()_CFG114[TIMER_START].
+                                                                 0x0 = No action.
+                                                                 0x1 = Start time based analysis.
+                                                                 0x2 = End time based anaylsis.
+                                                                       Only used if PCIEEP()_CFG114/RC()_CFG114[TBASE_DUR_SEL] is set to manual control,
+                                                                       otherwise it is ignored.
+                                                                 0x3 = Reserved. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pemx_ras_tba_ctl_s cn; */
+} bdk_pemx_ras_tba_ctl_t;
+
+static inline uint64_t BDK_PEMX_RAS_TBA_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PEMX_RAS_TBA_CTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0c0000240ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PEMX_RAS_TBA_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PEMX_RAS_TBA_CTL(a) bdk_pemx_ras_tba_ctl_t
+#define bustype_BDK_PEMX_RAS_TBA_CTL(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_PEMX_RAS_TBA_CTL(a) "PEMX_RAS_TBA_CTL"
+#define device_bar_BDK_PEMX_RAS_TBA_CTL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_PEMX_RAS_TBA_CTL(a) (a)
+#define arguments_BDK_PEMX_RAS_TBA_CTL(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) pem#_spi_ctl
  *
  * PEM SPI Control Register
@@ -8440,23 +8550,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0xff
+        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0x4F
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x20
+        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x8 to 0x17
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0xff
+        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0x4F
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
 #else /* Word 0 - Little Endian */
-        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0xff
+        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0x4F
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x20
+        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x8 to 0x17
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0xff
+        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0x4F
                                                                  and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
         uint64_t reserved_24_63        : 40;

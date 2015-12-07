@@ -1452,8 +1452,13 @@ typedef union
         uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) AUX power PM enable (not suppported). */
         uint32_t pf_en                 : 1;  /**< [  9:  9](R/W) Phantom function enable. This bit should never be set; PEM requests never use phantom functions. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. */
-        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values: 0x0 = 128 B, 0x1 = 256 B.
+        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
+                                                                 0x0 = 128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
                                                                  Larger sizes are not supported by CNXXXX.
+
                                                                  DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
                                                                  functionality. */
         uint32_t ro_en                 : 1;  /**< [  4:  4](R/W) Enable relaxed ordering. */
@@ -1467,8 +1472,13 @@ typedef union
         uint32_t fe_en                 : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
         uint32_t ur_en                 : 1;  /**< [  3:  3](R/W) Unsupported request reporting enable. */
         uint32_t ro_en                 : 1;  /**< [  4:  4](R/W) Enable relaxed ordering. */
-        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values: 0x0 = 128 B, 0x1 = 256 B.
+        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
+                                                                 0x0 = 128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
                                                                  Larger sizes are not supported by CNXXXX.
+
                                                                  DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
                                                                  functionality. */
         uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. */
@@ -1852,7 +1862,7 @@ typedef union
         uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
         uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
         uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking (not supported). */
-        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable (not supported). */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
         uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
         uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
         uint32_t ctv                   : 4;  /**< [  3:  0](R/W/H) Completion timeout value.
@@ -1882,7 +1892,7 @@ typedef union
                                                                  Values not defined are reserved. */
         uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
         uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
-        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable (not supported). */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
         uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking (not supported). */
         uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
         uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
@@ -4966,7 +4976,7 @@ typedef union
 
                                                                  0x0-0x7 = Lane number.
                                                                  0x8-0xf = Reserved. */
-        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO) Event counter status.  Returns the current value of the event counter
+        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO) Event counter status.  Returns the Enable status of the event counter
                                                                  selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL]. */
         uint32_t reserved_5_6          : 2;
         uint32_t ev_cntr_en            : 3;  /**< [  4:  2](WO) Event counter enable.  Enables/disables the event counter
@@ -5015,7 +5025,7 @@ typedef union
                                                                  0x6 = No change.
                                                                  0x7 = All on. */
         uint32_t reserved_5_6          : 2;
-        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO) Event counter status.  Returns the current value of the event counter
+        uint32_t ev_cntr_stat          : 1;  /**< [  7:  7](RO) Event counter status.  Returns the Enable status of the event counter
                                                                  selected by [EV_CNTR_DATA_SEL] and [EV_CNTR_LANE_SEL]. */
         uint32_t ev_cntr_lane_sel      : 4;  /**< [ 11:  8](R/W) Event counter lane select.  This field in conjuction with [EV_CNTR_DATA_SEL]
                                                                  indexes the event counter data returned in the PCIEEP()_CFG113[EV_CNTR_DATA].
@@ -7387,7 +7397,7 @@ typedef union
                                                                  returned by the SD_EQ_CONTROL[2/3] and
                                                                  SD_EQ_STATUS[1/2/3] viewport registers.
                                                                  0x0 = 8.0GT/s Speed
-                                                                 0x1 = 16.0GT/s Speed (Not Supported). */
+                                                                 0x1 = 16.0GT/s Speed (Not supported). */
         uint32_t eq_lane_sel           : 4;  /**< [  3:  0](R/W) EQ status lane select.
                                                                  Setting this field in conjunction with the EQ_RATE_SEL field
                                                                  determines the per-lane Silicon Debug EQ Status data
@@ -7417,7 +7427,7 @@ typedef union
                                                                  returned by the SD_EQ_CONTROL[2/3] and
                                                                  SD_EQ_STATUS[1/2/3] viewport registers.
                                                                  0x0 = 8.0GT/s Speed
-                                                                 0x1 = 16.0GT/s Speed (Not Supported). */
+                                                                 0x1 = 16.0GT/s Speed (Not supported). */
         uint32_t reserved_5_15         : 11;
         uint32_t eval_interval_time    : 2;  /**< [ 17: 16](R/W) Eval interval time.
                                                                  Indicates interval time of RxEqEval assertion.
@@ -8520,9 +8530,9 @@ typedef union
         uint32_t reserved_2_31         : 30;
         uint32_t auto_lnk_dn_en        : 1;  /**< [  1:  1](R/W) Set this bit to enablea the core to bring the link down when RASDP error mode is entered.
                                                                  REG_LAST_CORR_ERR. */
-        uint32_t err_mode_en           : 1;  /**< [  0:  0](R/W) Set this bit to enables the core to enter RASDP error mode when it detects an uncorrectable error. */
+        uint32_t err_mode_en           : 1;  /**< [  0:  0](R/W) Set this bit to enable the core to enter RASDP error mode when it detects an uncorrectable error. */
 #else /* Word 0 - Little Endian */
-        uint32_t err_mode_en           : 1;  /**< [  0:  0](R/W) Set this bit to enables the core to enter RASDP error mode when it detects an uncorrectable error. */
+        uint32_t err_mode_en           : 1;  /**< [  0:  0](R/W) Set this bit to enable the core to enter RASDP error mode when it detects an uncorrectable error. */
         uint32_t auto_lnk_dn_en        : 1;  /**< [  1:  1](R/W) Set this bit to enablea the core to bring the link down when RASDP error mode is entered.
                                                                  REG_LAST_CORR_ERR. */
         uint32_t reserved_2_31         : 30;
@@ -8548,7 +8558,7 @@ static inline uint64_t BDK_PCIEEPX_CFG184(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg185
  *
- * PCI Express RAS Data Error Mode Enable Register
+ * PCI Express RAS Data Error Mode Clear Register
  * This register contains the one hundred eighty-sixth  32-bits of PCIe type 0 configuration space.
  */
 typedef union
@@ -8711,19 +8721,17 @@ typedef union
     struct bdk_pcieepx_cfg189_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_30_31        : 2;
-        uint32_t srs                   : 26; /**< [ 29:  4](RO/WRSL) "Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
-                                                                 0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CNXXXX
-                                                                 advertises a BAR size of 32TB (0x3FF_FFFF). The BAR is disabled at runtime by writing all
-                                                                 zeros through PEM()_CFG_WR to this field." */
+        uint32_t srs                   : 28; /**< [ 31:  4](RO/WRSL) Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
+                                                                 0xF_FFFF) when the fus__bar2_size_conf is intact. When the fuse is blown, the CNXXXX
+                                                                 advertises a BAR size of 512TB (0xFFF_FFFF and PCIEEP)_CFG190[ESRS] = 0x3).
+                                                                 The BAR is disabled at runtime by writing all zeros through PEM()_CFG_WR to this field. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
-        uint32_t srs                   : 26; /**< [ 29:  4](RO/WRSL) "Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
-                                                                 0xF_FFFF) when the fus__bar2_size_conf is in tact. When the fuse is blown, the CNXXXX
-                                                                 advertises a BAR size of 32TB (0x3FF_FFFF). The BAR is disabled at runtime by writing all
-                                                                 zeros through PEM()_CFG_WR to this field." */
-        uint32_t reserved_30_31        : 2;
+        uint32_t srs                   : 28; /**< [ 31:  4](RO/WRSL) Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB -
+                                                                 0xF_FFFF) when the fus__bar2_size_conf is intact. When the fuse is blown, the CNXXXX
+                                                                 advertises a BAR size of 512TB (0xFFF_FFFF and PCIEEP)_CFG190[ESRS] = 0x3).
+                                                                 The BAR is disabled at runtime by writing all zeros through PEM()_CFG_WR to this field. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg189_s cn; */
@@ -8755,9 +8763,13 @@ typedef union
     struct bdk_pcieepx_cfg190_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_13_31        : 19;
-        uint32_t rbars                 : 5;  /**< [ 12:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
-                                                                 values as large as 0x19 (32TB). */
+        uint32_t esrs                  : 16; /**< [ 31: 16](RO/WRSL) Extended Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB)
+                                                                 when the fus__bar2_size_conf is intact. When the fuse is blown, the CNXXXX
+                                                                 advertises a BAR size of 512TB (PCIEEP)_CFG190[SRS] = 0xFFF_FFFF and ESRS = 0x3).
+                                                                 The BAR is disabled at runtime by writing all zeros through PEM()_CFG_WR to this field. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t rbars                 : 6;  /**< [ 13:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
+                                                                 values as large as 0x1D (512TB). */
         uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
         uint32_t reserved_3_4          : 2;
         uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
@@ -8765,9 +8777,13 @@ typedef union
         uint32_t rbari                 : 3;  /**< [  2:  0](RO) BAR Index. Points to BAR2. */
         uint32_t reserved_3_4          : 2;
         uint32_t nrbar                 : 3;  /**< [  7:  5](RO) Number of resizable BARs */
-        uint32_t rbars                 : 5;  /**< [ 12:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
-                                                                 values as large as 0x19 (32TB). */
-        uint32_t reserved_13_31        : 19;
+        uint32_t rbars                 : 6;  /**< [ 13:  8](R/W) BAR Size. PEM advertises the minimum allowable BAR size of 0x0 (1MB) but will accept
+                                                                 values as large as 0x1D (512TB). */
+        uint32_t reserved_14_15        : 2;
+        uint32_t esrs                  : 16; /**< [ 31: 16](RO/WRSL) Extended Supported resource sizes. PEM advertises the maximum allowable BAR size (512 GB)
+                                                                 when the fus__bar2_size_conf is intact. When the fuse is blown, the CNXXXX
+                                                                 advertises a BAR size of 512TB (PCIEEP)_CFG190[SRS] = 0xFFF_FFFF and ESRS = 0x3).
+                                                                 The BAR is disabled at runtime by writing all zeros through PEM()_CFG_WR to this field. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepx_cfg190_s cn; */
@@ -10378,5 +10394,131 @@ static inline uint64_t BDK_PCIEEPX_CFG558(unsigned long a)
 #define basename_BDK_PCIEEPX_CFG558(a) "PCIEEPX_CFG558"
 #define busnum_BDK_PCIEEPX_CFG558(a) (a)
 #define arguments_BDK_PCIEEPX_CFG558(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg559
+ *
+ * PCIe EP DBI Read-Only Write Enable Register
+ * This register contains the five hundred sixtieth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg559_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO Registers using DBI.  When you set this bit, then some
+                                                                 RO bits are writeable from the DBI. */
+#else /* Word 0 - Little Endian */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO Registers using DBI.  When you set this bit, then some
+                                                                 RO bits are writeable from the DBI. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg559_s cn; */
+} bdk_pcieepx_cfg559_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG559(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG559(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000008bcll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG559", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG559(a) bdk_pcieepx_cfg559_t
+#define bustype_BDK_PCIEEPX_CFG559(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG559(a) "PCIEEPX_CFG559"
+#define busnum_BDK_PCIEEPX_CFG559(a) (a)
+#define arguments_BDK_PCIEEPX_CFG559(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_cfg560
+ *
+ * PCIe EP UpConfigure Multi-lane Control Register
+ * This register contains the five hundred sixty-first 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg560_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t upc_supp              : 1;  /**< [  7:  7](R/W) Upconfigure support.
+                                                                 The core sends this value to the Link Upconfigure Capability in TS2 Ordered
+                                                                 Sets in Configuration.Complete state. */
+        uint32_t dir_lnk_wdth_chg      : 1;  /**< [  6:  6](R/W) Directed Link Width Change.
+                                                                 The core always moves to Configuration state through Recovery state
+                                                                 when this bit is set.
+
+                                                                 If PCIEEP()_CFG144[LTSSM_VAR] is set and PCIEEP(0)_CFG040[HASD]
+                                                                 is '0', the core starts upconfigure or autonomous width
+                                                                 downsizing (to the TRGT_LNK_WDTH value) in the Configuration
+                                                                 state.
+
+                                                                 If TRGT_LNK_WDTH value is 0x0, the core does not
+                                                                 start upconfigure or autonomous width downsizing in the
+                                                                 Configuration state.
+
+                                                                 The core self-clears this field when the core accepts this
+                                                                 request. */
+        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W) Target Link Width.
+                                                                 0x0  = Core does not start upconfigure or autonomous width downsizing in Configuration
+                                                                 state.
+                                                                 0x1  = x1.
+                                                                 0x2  = x2.
+                                                                 0x4  = x4.
+                                                                 0x8  = x8.
+                                                                 0x10 = x16 (Not supported).
+                                                                 0x20 = x32 (Not supported). */
+#else /* Word 0 - Little Endian */
+        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W) Target Link Width.
+                                                                 0x0  = Core does not start upconfigure or autonomous width downsizing in Configuration
+                                                                 state.
+                                                                 0x1  = x1.
+                                                                 0x2  = x2.
+                                                                 0x4  = x4.
+                                                                 0x8  = x8.
+                                                                 0x10 = x16 (Not supported).
+                                                                 0x20 = x32 (Not supported). */
+        uint32_t dir_lnk_wdth_chg      : 1;  /**< [  6:  6](R/W) Directed Link Width Change.
+                                                                 The core always moves to Configuration state through Recovery state
+                                                                 when this bit is set.
+
+                                                                 If PCIEEP()_CFG144[LTSSM_VAR] is set and PCIEEP(0)_CFG040[HASD]
+                                                                 is '0', the core starts upconfigure or autonomous width
+                                                                 downsizing (to the TRGT_LNK_WDTH value) in the Configuration
+                                                                 state.
+
+                                                                 If TRGT_LNK_WDTH value is 0x0, the core does not
+                                                                 start upconfigure or autonomous width downsizing in the
+                                                                 Configuration state.
+
+                                                                 The core self-clears this field when the core accepts this
+                                                                 request. */
+        uint32_t upc_supp              : 1;  /**< [  7:  7](R/W) Upconfigure support.
+                                                                 The core sends this value to the Link Upconfigure Capability in TS2 Ordered
+                                                                 Sets in Configuration.Complete state. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg560_s cn; */
+} bdk_pcieepx_cfg560_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG560(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG560(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x300000008c0ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIEEPX_CFG560", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG560(a) bdk_pcieepx_cfg560_t
+#define bustype_BDK_PCIEEPX_CFG560(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG560(a) "PCIEEPX_CFG560"
+#define busnum_BDK_PCIEEPX_CFG560(a) (a)
+#define arguments_BDK_PCIEEPX_CFG560(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_PCIEEP_H__ */

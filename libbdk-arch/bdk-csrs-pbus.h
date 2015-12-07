@@ -918,34 +918,34 @@ typedef union
                                                                   0x2 = 4 bytes.
                                                                   0x3 = 8 bytes. */
         uint64_t ale                   : 6;  /**< [ 59: 54](R/W) Region ALE count. Must be non-zero to ensure legal transitions on the corresponding
-                                                                 boot bus outputs. */
+                                                                 pbus outputs. */
         uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be non-zero to ensure legal transitions on the corresponding
-                                                                 boot bus outputs. */
+                                                                 pbus outputs. */
         uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be nonzero when WAITM is set to 1. */
         uint64_t pause                 : 6;  /**< [ 41: 36](R/W) Region pause count. */
         uint64_t wr_hld                : 6;  /**< [ 35: 30](R/W) Region write-hold count. */
         uint64_t rd_hld                : 6;  /**< [ 29: 24](R/W) Region read-hold count. */
         uint64_t we                    : 6;  /**< [ 23: 18](R/W) Region write-enable count. Must be non-zero to ensure legal transitions on the
-                                                                 corresponding boot bus outputs. */
+                                                                 corresponding pbus outputs. */
         uint64_t oe                    : 6;  /**< [ 17: 12](R/W) Region output-enable count. Must be non-zero to ensure legal transitions on the
-                                                                 corresponding boot bus outputs. */
+                                                                 corresponding pbus outputs. */
         uint64_t ce                    : 6;  /**< [ 11:  6](R/W) Region chip-enable count. */
         uint64_t adr                   : 6;  /**< [  5:  0](R/W) Region address count. */
 #else /* Word 0 - Little Endian */
         uint64_t adr                   : 6;  /**< [  5:  0](R/W) Region address count. */
         uint64_t ce                    : 6;  /**< [ 11:  6](R/W) Region chip-enable count. */
         uint64_t oe                    : 6;  /**< [ 17: 12](R/W) Region output-enable count. Must be non-zero to ensure legal transitions on the
-                                                                 corresponding boot bus outputs. */
+                                                                 corresponding pbus outputs. */
         uint64_t we                    : 6;  /**< [ 23: 18](R/W) Region write-enable count. Must be non-zero to ensure legal transitions on the
-                                                                 corresponding boot bus outputs. */
+                                                                 corresponding pbus outputs. */
         uint64_t rd_hld                : 6;  /**< [ 29: 24](R/W) Region read-hold count. */
         uint64_t wr_hld                : 6;  /**< [ 35: 30](R/W) Region write-hold count. */
         uint64_t pause                 : 6;  /**< [ 41: 36](R/W) Region pause count. */
         uint64_t wait                  : 6;  /**< [ 47: 42](R/W) Region wait count, must be nonzero when WAITM is set to 1. */
         uint64_t page                  : 6;  /**< [ 53: 48](R/W) Region page count. Must be non-zero to ensure legal transitions on the corresponding
-                                                                 boot bus outputs. */
+                                                                 pbus outputs. */
         uint64_t ale                   : 6;  /**< [ 59: 54](R/W) Region ALE count. Must be non-zero to ensure legal transitions on the corresponding
-                                                                 boot bus outputs. */
+                                                                 pbus outputs. */
         uint64_t pages                 : 2;  /**< [ 61: 60](R/W) Region page size.
                                                                   0x0 = 8 bytes.
                                                                   0x1 = 2 bytes.

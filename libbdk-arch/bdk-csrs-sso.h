@@ -300,7 +300,8 @@ typedef union
                                                                  <5> = TIM.
                                                                  <6> = ZIP.
                                                                  <7> = CPT.
-                                                                 <19:8> = Reserved.
+                                                                 <8> = DDF.
+                                                                 <19:9> = Reserved.
 
                                                                  Internal:
                                                                  FIXME update based on input bus connections in sso_params.vh. */
@@ -315,7 +316,8 @@ typedef union
                                                                  <5> = TIM.
                                                                  <6> = ZIP.
                                                                  <7> = CPT.
-                                                                 <19:8> = Reserved.
+                                                                 <8> = DDF.
+                                                                 <19:9> = Reserved.
 
                                                                  Internal:
                                                                  FIXME update based on input bus connections in sso_params.vh. */
@@ -3419,9 +3421,9 @@ static inline uint64_t BDK_SSO_PAGE_CNT_FUNC(void)
  * Register (NCB) sso_pf_map#
  *
  * SSO PF VF Mapping Registers
- * These registers map GMIDs and guest groups to hardware groups. Regardless of these
- * registers, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one mapping of
- * GGRP into VHGRP.
+ * These registers map GMIDs and guest groups to hardware groups. Regardless of
+ * this mapping, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one
+ * mapping of GGRP into VHGRP.
  */
 typedef union
 {

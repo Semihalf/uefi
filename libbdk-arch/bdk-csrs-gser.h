@@ -9367,8 +9367,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t l3_rst                : 1;  /**< [  3:  3](R/W) Reserved. */
-        uint64_t l2_rst                : 1;  /**< [  2:  2](R/W) Reserved. */
+        uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Reserved. */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Reserved. */
         uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1.
                                                                  This register is used for SATA lanes only for GSER(4..6). */
         uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for lane 0.
@@ -9378,8 +9378,8 @@ typedef union
                                                                  This register is used for SATA lanes only for GSER(4..6). */
         uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1.
                                                                  This register is used for SATA lanes only for GSER(4..6). */
-        uint64_t l2_rst                : 1;  /**< [  2:  2](R/W) Reserved. */
-        uint64_t l3_rst                : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;
@@ -9545,8 +9545,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t l3_inv                : 1;  /**< [  3:  3](R/W) Reserved. */
-        uint64_t l2_inv                : 1;  /**< [  2:  2](R/W) Reserved. */
+        uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Reserved. */
+        uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Reserved. */
         uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
                                                                  lane 1 transmitted data.
                                                                  This register is used for SATA lanes only for GSER(4..6). */
@@ -9560,8 +9560,8 @@ typedef union
         uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
                                                                  lane 1 transmitted data.
                                                                  This register is used for SATA lanes only for GSER(4..6). */
-        uint64_t l2_inv                : 1;  /**< [  2:  2](R/W) Reserved. */
-        uint64_t l3_inv                : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;

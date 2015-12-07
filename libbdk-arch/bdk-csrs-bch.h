@@ -890,7 +890,7 @@ typedef union
                                                                  clear. For the FPA to not discard the request, FPA_PF_MAP() must consider the
                                                                  [AURA] and BCH_PF_Q()_GMCTL[GMID] to be valid. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Reserved, must be 1.
+        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved, must be 1.
                                                                  Internal:
                                                                  Don't free buffers to the FPA. */
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64s per command buffer segment. */
@@ -898,7 +898,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_32         : 33;
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64s per command buffer segment. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Reserved, must be 1.
+        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved, must be 1.
                                                                  Internal:
                                                                  Don't free buffers to the FPA. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */
