@@ -819,6 +819,7 @@ static void update_rlevel_rank_struct(bdk_lmcx_rlevel_rankx_t *lmc_rlevel_rank,
     }
 }
 
+#if RLEXTRAS_PATCH || !DISABLE_SW_WL_PASS_2
 static int  get_rlevel_rank_struct(bdk_lmcx_rlevel_rankx_t *lmc_rlevel_rank,
 				   int byte)
 {
@@ -828,6 +829,7 @@ static int  get_rlevel_rank_struct(bdk_lmcx_rlevel_rankx_t *lmc_rlevel_rank,
     }
     return delay;
 }
+#endif
 
 static void unpack_rlevel_settings(int ddr_interface_bytemask, int ecc_ena, 
 				   rlevel_byte_data_t *rlevel_byte,
