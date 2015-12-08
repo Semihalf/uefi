@@ -354,6 +354,7 @@ static int dram_margin_mem_xor(uint64_t p, uint64_t bitmask)
 #if 0
 	    bdk_atomic_fetch_and_bset64(&dram_margin_lmc_errs[rankx], errs_by_lmc[rankx]);
 #else
+            // FIXME: this was done to avoid compilation problems...
 	    __atomic_fetch_or(&dram_margin_lmc_errs[rankx], (uint64_t)errs_by_lmc[rankx], __ATOMIC_ACQ_REL);
 #endif
 	}
@@ -832,9 +833,9 @@ static void margin_vref_int(bdk_node_t node, int lmc, int ddr_interface_64b);
  * Common margining tool for Read and Write Voltage  
  */
 
-// arg ext_or_int - 1 = write, 0 = read
+// arg do_write - 1 = write, 0 = read
 static int
-perform_margining_vref_common(bdk_node_t node, int ext_or_int)
+perform_margining_vref_common(bdk_node_t node, int do_write)
 {
     int ddr_interface_64b;
     int save_ecc_ena[4];
@@ -845,18 +846,12 @@ perform_margining_vref_common(bdk_node_t node, int ext_or_int)
     int ways, ways_print = 0;
 #endif
     int loops = 1, loop;
-    char *mode_str = (ext_or_int) ? "Write" : "Read";
+    char *mode_str = (do_write) ? "Write" : "Read";
     uint64_t orig_coremask;
 
     // clear the global counts
     low_risk_count = 0;
     needs_review_count = 0;
-
-    // FIXME: check: this can only be done for DDR4, so exit if DDR3
-    if (!__bdk_dram_is_ddr4(node, 0)) {
-	printf("%s Voltage Margining not available for DDR3.\n", mode_str);
-	return -1;
-    }
 
     // consult LMC_CONFIG contents for various information
     // FIXME? consult LMC0 only
@@ -976,7 +971,7 @@ perform_margining_vref_common(bdk_node_t node, int ext_or_int)
 	for (loop = 0; loop < loops; loop++) {
 
 	    /* Perform margining write or read voltage */
-	    if (ext_or_int)
+	    if (do_write)
 		margin_vref_ext(node, lmc, ddr_interface_64b); // ext = write
 	    else
 		margin_vref_int(node, lmc, ddr_interface_64b); // int = read
@@ -987,7 +982,7 @@ perform_margining_vref_common(bdk_node_t node, int ext_or_int)
     // print the Summary line(s) here
     printf("  \n");
     printf("N%d: %s Voltage Margining Summary  %s : %s ", node, mode_str,
-	   (ext_or_int) ? "" : " ", 
+	   (do_write) ? "" : " ", 
 	   (needs_review_count > 0) ? "Needs Review" : "Low Risk");
 
     if (needs_review_count > 0) 
@@ -1037,6 +1032,8 @@ perform_margining_vref_common(bdk_node_t node, int ext_or_int)
 #define MAX_INDEX_MARGIN_INT 0xFF
 int dram_margin_int_gran = DEFAULT_MARGIN_INT_GRAN;
 
+// Read Voltage Margining
+//
 // NOTE: this is called once per LMC
 static void
 margin_vref_int(bdk_node_t node, int lmc, int ddr_interface_64b)
@@ -1193,8 +1190,8 @@ margin_vref_int(bdk_node_t node, int lmc, int ddr_interface_64b)
 	{
 	    int dac_min = index_best_start[byte];
 	    int dac_max = dac_min + index_best_count[byte] - incr_index;
-	    // FIXME: limit of 20 should be symbolic!!
-	    int is_low_risk = is_dac_delta_low_risk(orig_dac_settings[byte], dac_max, dac_min, 20);
+	    // FIXME: limit of 15 should be symbolic, and maybe dependent on DDR type or DIMM type or??!!
+	    int is_low_risk = is_dac_delta_low_risk(orig_dac_settings[byte], dac_max, dac_min, 15);
 	    printf("    %7d%c", index, (is_low_risk) ? ' ' : '<');
 	    if (is_low_risk)
 		low_risk_count++;
@@ -1246,24 +1243,25 @@ margin_vref_int(bdk_node_t node, int lmc, int ddr_interface_64b)
  */
 int perform_margin_write_voltage(bdk_node_t node)
 {
-    int ret = perform_margining_vref_common(node, 1); // write
-    return ret;
+    // CHECK: external/write voltage margining only for DDR4
+    if (!__bdk_dram_is_ddr4(node, 0)) {
+	printf("Write Voltage Margining not available for DDR3.\n");
+	return -1;
+    }
+
+    return perform_margining_vref_common(node, /* write */1);
 }
 /*
  * Margining tool for Read Voltage (DRAM Internal VREF)
  */
 int perform_margin_read_voltage(bdk_node_t node)
 {
-    int ret = 0;
-
-    // FIXME: check: internal/read voltage margining only for T88 pass 2.x
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
-	ret = perform_margining_vref_common(node, 0); // read
-    } else {
+    // CHECK: internal/read voltage margining only for T88 pass 2.x
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
 	printf("Read Voltage Margining not available for THUNDER pass 1.x.\n");
-	ret = -1;
+	return -1;
     }
 
-    return ret;
+    return perform_margining_vref_common(node, /* read */0);
 }
 
