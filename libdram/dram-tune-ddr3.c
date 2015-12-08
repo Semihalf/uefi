@@ -1360,17 +1360,19 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 	    DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(lmc), comp_ctl2.u);
 	    BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(lmc));
 	}
-
-	// finally, see if there are any read offset overrides after tuning
-	for (int by = 0; by < 9; by++) {
-	    if ((s = lookup_env_parameter("ddr%d_tune_byte%d", lmc, by)) != NULL) {
-		int dllro = strtoul(s, NULL, 10);
-		change_dll_offset_enable(node, lmc, 0);
-		load_dll_offset(node, lmc, 2 /* 2=read */, dllro, by);
-		change_dll_offset_enable(node, lmc, 1);
-	    }
-	}
 #endif
+	// finally, see if there are any read offset overrides after tuning
+        // FIXME: provide a way to do write offsets also??
+        if (dll_offset_mode == 2) {
+            for (int by = 0; by < 9; by++) {
+                if ((s = lookup_env_parameter("ddr%d_tune_byte%d", lmc, by)) != NULL) {
+                    int dllro = strtoul(s, NULL, 10);
+                    change_dll_offset_enable(node, lmc, 0);
+                    load_dll_offset(node, lmc, /* read */2, dllro, by);
+                    change_dll_offset_enable(node, lmc, 1);
+                }
+            }
+        }
     } /* for (lmc = 0; lmc < num_lmcs; lmc++) */
 
     // finish up...
