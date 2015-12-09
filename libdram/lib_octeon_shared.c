@@ -1675,7 +1675,21 @@ int octeon_ddr_initialize(bdk_node_t node,
 
 	if (! (ddr_config_valid_mask & (1 << interface_index)))
 	    continue;
-
+#if 1
+    try_again:
+        // if we are LMC0 
+        if (interface_index == 0) {
+            // if we are asking for 100 MHz refclk, we can only get it via alternate, so switch to it
+            if (ddr_ref_hertz == 100000000) {
+                DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(0), c.s.dclk_alt_refclk_sel = 1);
+                bdk_wait_usec(1000); // wait 1 msec
+            } else {
+                // if we are NOT asking for 100MHz, then reset to (assumed) 50MHz and go on
+                DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(0), c.s.dclk_alt_refclk_sel = 0);
+                bdk_wait_usec(1000); // wait 1 msec
+            }
+        }
+#endif
 	tmp_hertz = measure_octeon_ddr_clock(node,
 					     &ddr_configuration[interface_index],
 					     cpu_hertz,
@@ -1683,6 +1697,25 @@ int octeon_ddr_initialize(bdk_node_t node,
 					     ddr_ref_hertz,
 					     interface_index,
 					     ddr_config_valid_mask);
+#if 1
+        // if we are LMC0 and we are asked for 100 MHz refclk,
+        // we must be sure it is available
+        // If not, we print an error message, set to 50MHz, and go on...
+        if ((interface_index == 0) && (ddr_ref_hertz == 100000000)) {
+            // validate that the clock returned is close enough to the clock desired
+            // FIXME: is 5% close enough?
+            int hertz_diff = _abs((int)tmp_hertz - (int)ddr_hertz);
+            if (hertz_diff > ((int)ddr_hertz * 5 / 100)) { // nope, diff is greater than than 5%
+                ddr_print("N%d: DRAM init: required 100 MHz refclk NOT found\n", node);
+                ddr_ref_hertz = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
+                set_ddr_clock_initialized(node, 0, 0); // clear the flag before trying again!!
+                goto try_again;
+            } else {
+                ddr_print("N%d: DRAM init: required 100 MHz refclk FOUND and SELECTED it\n", node);
+            }
+        }
+#endif
+
 	if (tmp_hertz > 0)
 	    calc_ddr_hertz = tmp_hertz;
 
