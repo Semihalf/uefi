@@ -12,6 +12,8 @@
 
 #define DISABLE_SW_WL_PASS_2 1
 
+#define DAC_OVERRIDE_EARLY 1
+
 #define DEBUG_VALIDATE_BITMASK 0
 #if DEBUG_VALIDATE_BITMASK
 #define debug_bitmask_print printf
@@ -4316,6 +4318,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Internal Vref Training */
 
+#if DAC_OVERRIDE_EARLY
+    // as a second step, after internal VREF training, before starting deskew training:
+    // for DDR3 and THUNDER pass 2.x, override the DAC setting to 127
+    // FIXME: will need to add CN83XX (all) and CN81XX (all) at some point...
+    if ((ddr_type == DDR3_DRAM) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
+        load_dac_override(node, ddr_interface_num, 127, /* all */0x0A);
+        ddr_print("N%d.LMC%d, Overriding DDR3 internal VREF DAC settings to 127.\n",
+                  node, ddr_interface_num);
+    }
+#endif
+
     //} /* while (--offset_vref_training_loops) */
 
     deskew_training_errors = perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard_AorB);
@@ -4350,6 +4363,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     // save the results of the original training
     Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &deskew_training_results, 0);
+
+#if !DAC_OVERRIDE_EARLY
+    // as a final step in internal VREF training, after deskew training but before HW WL:
+    // for DDR3 and THUNDER pass 2.x, override the DAC setting to 127
+    // FIXME: will need to add CN83XX (all) and CN81XX (all) at some point...
+    if ((ddr_type == DDR3_DRAM) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
+        load_dac_override(node, ddr_interface_num, 127, /* all */0x0A);
+        ddr_print("N%d.LMC%d, Overriding DDR3 internal VREF DAC settings to 127.\n",
+                  node, ddr_interface_num);
+    }
+#endif
 
 
 #if RUN_INIT_SEQ_3
