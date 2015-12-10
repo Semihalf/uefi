@@ -1054,8 +1054,9 @@ typedef union
         uint64_t reserved_5_63         : 59;
         uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
         uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
-        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID/GAURA
-                                                                 have multiple hits in FPA_PF_MAP(). */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with
+                                                                 GMID/GAURA have multiple hits in FPA_PF_MAP(). When a request thus dropped, even
+                                                                 if this bit is already set, FPA_UNMAP_INFO is loaded. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID
                                                                  not mapped in FPA_PF_MAP(). When a request thus dropped, even if this bit is
                                                                  already set, FPA_UNMAP_INFO is loaded. */
@@ -1069,8 +1070,9 @@ typedef union
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID
                                                                  not mapped in FPA_PF_MAP(). When a request thus dropped, even if this bit is
                                                                  already set, FPA_UNMAP_INFO is loaded. */
-        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID/GAURA
-                                                                 have multiple hits in FPA_PF_MAP(). */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with
+                                                                 GMID/GAURA have multiple hits in FPA_PF_MAP(). When a request thus dropped, even
+                                                                 if this bit is already set, FPA_UNMAP_INFO is loaded. */
         uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
         uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
         uint64_t reserved_5_63         : 59;
@@ -1110,13 +1112,13 @@ typedef union
         uint64_t reserved_5_63         : 59;
         uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
         uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
-        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[MULTI_HIT]. */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_MULTI]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[MULTI_HIT]. */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_MULTI]. */
         uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
         uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
         uint64_t reserved_5_63         : 59;
@@ -1156,13 +1158,13 @@ typedef union
         uint64_t reserved_5_63         : 59;
         uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
         uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
-        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[MULTI_HIT]. */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_MULTI]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[MULTI_HIT]. */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_MULTI]. */
         uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
         uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
         uint64_t reserved_5_63         : 59;
@@ -1202,13 +1204,13 @@ typedef union
         uint64_t reserved_5_63         : 59;
         uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
         uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
-        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[MULTI_HIT]. */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_MULTI]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t multi_hit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[MULTI_HIT]. */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_MULTI]. */
         uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
         uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
         uint64_t reserved_5_63         : 59;
@@ -1332,9 +1334,19 @@ static inline uint64_t BDK_FPA_INP_CTL_FUNC(void)
  * Register (NCB) fpa_pf_map#
  *
  * FPA PF VF-Mapping Registers
- * These registers map GMIDs and guest aura-sets to hardware aura-sets. Regardless of
- * this mapping, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one
- * mapping of GAURASET into VHAURASET.
+ * These registers map GMIDs and guest aura-sets to hardware aura-sets.
+ *
+ * * Regardless of this mapping table, GMID 0x0 is always invalid and use of 0x0 will
+ * cause a FPA_GEN_INT[GMID0] error.
+ *
+ * * else, regardless of this mapping table, GMID 0x1 is always a one-to-one mapping of
+ * GAURASET into VHAURASET.
+ *
+ * * else (excluding GMID 0x0 and 0x1), if a request hits duplicate entries a
+ * FPA_GEN_INT[GMID_MULTI] error will be reported.
+ *
+ * * else (excluding GMID 0x0 and 0x1), if a request does not hit any entries a
+ * FPA_GEN_INT[GMID_UNMAP] error will be reported.
  */
 typedef union
 {

@@ -69,7 +69,7 @@
  * NIC Channel Number Enumeration
  * Enumerates the values of NIC_CQE_RX_S[CHAN].
  */
-#define BDK_NIC_CHAN_E_BGXX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX/RGX {a} LMAC {b} channel {c}.
+#define BDK_NIC_CHAN_E_BGXX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX {a} LMAC {b} channel {c}. Also used for RGX.
                                        Internal:
                                        Used for BGX and RGX. */
 #define BDK_NIC_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX {a} port {b} channel {c}. */
@@ -95,7 +95,7 @@
 #define BDK_NIC_CHAN_IDX_E_LBKX_CHX_CN83XX(a,b) (0x80 + 0x40 * (a) + (b)) /**< Loopback interface {a} channel {b}. Receives from
                                        NIC_CHAN_E::LBK(NIC_LBK_RX_CONN_E::LBK({a}))_CH({b}) and transmits to
                                        NIC_CHAN_E::LBK(NIC_LBK_TX_CONN_E::LBK({a}))_CH({b}). */
-#define BDK_NIC_CHAN_IDX_E_RGXX_LMACX_CHX(a,b,c) (0 + 0x20 * (a) + 8 * (b) + (c)) /**< RGX {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_LMAC({b})_CH({c}). */
+#define BDK_NIC_CHAN_IDX_E_RGXX_LMACX_CHX(a,b,c) (0x40 + 0x20 * (a) + 8 * (b) + (c)) /**< RGX {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a+2})_LMAC({b})_CH({c}). */
 
 /**
  * Enumeration nic_cpi_alg_e
@@ -472,12 +472,13 @@
  * NIC Interface Block ID Enumeration
  * Enumerates the values of NIC_PF_INTF()_SEND_CFG[BLOCK] and NIC_PF_INTF()_BP_CFG[BP_ID].
  */
-#define BDK_NIC_INTF_BLOCK_E_BGXX(a) (8 + (a)) /**< BGX{a}. */
+#define BDK_NIC_INTF_BLOCK_E_BGXX(a) (8 + (a)) /**< BGX {a}. Also used for RGX. */
 #define BDK_NIC_INTF_BLOCK_E_BGXX_BLOCK(a) (8 + (a)) /**< BGX{a} block ID. */
-#define BDK_NIC_INTF_BLOCK_E_LBKX(a) (0 + (a)) /**< Loopback {a}.
+#define BDK_NIC_INTF_BLOCK_E_DPI (4) /**< DPI/SDP. */
+#define BDK_NIC_INTF_BLOCK_E_LBKX(a) (0 + (a)) /**< Loopback {a}. */
+#define BDK_NIC_INTF_BLOCK_E_RX(a) (0 + (a)) /**< Reserved.
                                        Internal:
-                                       Value TBD; using 0x6 for now. */
-#define BDK_NIC_INTF_BLOCK_E_RGXX(a) (8 + (a)) /**< RGX{a}. */
+                                       R(5) is reserved for NVME. */
 #define BDK_NIC_INTF_BLOCK_E_TNS_PORTX_BLOCK(a) (6 + (a)) /**< TNS port {a} block ID. */
 
 /**
@@ -492,7 +493,7 @@
                                        NIC_LBK_TX_CONN_E::LBK({a}). */
 #define BDK_NIC_INTF_E_LBKX_CN83XX(a) (4 + (a)) /**< Loopback interface {a}. Receives from NIC_LBK_RX_CONN_E::LBK({a}) and transmits to
                                        NIC_LBK_TX_CONN_E::LBK({a}). */
-#define BDK_NIC_INTF_E_RGXX(a) (0 + (a)) /**< RGX{a}. */
+#define BDK_NIC_INTF_E_RGXX(a) (2 + (a)) /**< RGX{a}. Corresponds to NIC_INTF_BLOCK_E::BGX({a+2}). */
 
 /**
  * Enumeration nic_ipproto_e
@@ -618,6 +619,28 @@
 #define BDK_NIC_L4TYPE_E_UDP_VXLAN_CN88XXP2 (0xa) /**< UDP with VXLAN tunneling layer. Added in pass 2. */
 
 /**
+ * Enumeration nic_lbk_rx_conn_e
+ *
+ * NIC Loopback Receive Connection Enumeration
+ * Specifies which LBK block connects to NIC's internal NIC_INTF_E::LBK()
+ * receive interface. Values enumerated by NIC_INTF_BLOCK_E::LBK().
+ */
+#define BDK_NIC_LBK_RX_CONN_E_LBKX_CN81XX(a) (0 + (a)) /**< NIC's NIC_INTF_E::LBK(0) receive interface connects to LBK 0. */
+#define BDK_NIC_LBK_RX_CONN_E_LBKX_CN83XX(a) (2 + (a)) /**< NIC's NIC_INTF_E::LBK(0) receive interface connects to LBK 2.
+                                       NIC's NIC_INTF_E::LBK(1) receive interface connects to LBK 3. */
+
+/**
+ * Enumeration nic_lbk_tx_conn_e
+ *
+ * NIC Loopback Transmit Connection Enumeration
+ * Specifies which LBK block connects to NIC's internal NIC_INTF_E::LBK()
+ * transmit interface. Values enumerated by NIC_INTF_BLOCK_E::LBK().
+ */
+#define BDK_NIC_LBK_TX_CONN_E_LBKX_CN81XX(a) (0 + (a)) /**< NIC's NIC_INTF_E::LBK(0) transmit interface connects to LBK 0. */
+#define BDK_NIC_LBK_TX_CONN_E_LBKX_CN83XX(a) (1 + 2 * (a)) /**< NIC's NIC_INTF_E::LBK(0) transmit interface connects to LBK 1.
+                                       NIC's NIC_INTF_E::LBK(1) transmit interface connects to LBK 3. */
+
+/**
  * Enumeration nic_lmac_e
  *
  * NIC LMAC Enumeration
@@ -627,7 +650,7 @@
 #define BDK_NIC_LMAC_E_BGXX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< BGX {a} LMAC {b}. */
 #define BDK_NIC_LMAC_E_LBKX_CN81XX(a) (9 + (a)) /**< Loopback {a}. */
 #define BDK_NIC_LMAC_E_LBKX_CN83XX(a) (0x10 + (a)) /**< Loopback {a}. */
-#define BDK_NIC_LMAC_E_RGXX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< RGX {a} LMAC {b}. */
+#define BDK_NIC_LMAC_E_RGXX_LMACX(a,b) (8 + 4 * (a) + (b)) /**< RGX {a} LMAC {b}. */
 
 /**
  * Enumeration nic_pf_int_vec_e
@@ -3306,15 +3329,15 @@ typedef union
         uint64_t channels              : 12; /**< [ 43: 32](RO) Number of channels enumerated by NIC_CHAN_IDX_E. */
         uint64_t num_lbk               : 4;  /**< [ 31: 28](RO) Number of LBK interfaces enumerated in NIC_INTF_E. */
         uint64_t num_bgx_rgx           : 4;  /**< [ 27: 24](RO) Number of BGX/RGX interfaces enumerated in NIC_INTF_E. */
-        uint64_t rgx_map               : 8;  /**< [ 23: 16](RO) Bit map specifying which of the [NUM_BGX_RGX] instances are RGX; bit 0 for BGX/RGX 0, bit
-                                                                 1 for BGX/RGX 1, etc. Per bit: 0=BGX, 1=RGX. */
+        uint64_t rgx_map               : 8;  /**< [ 23: 16](RO) Bit map indexed by NIC_INTF_BLOCK_E::BGX() specifying which of the [NUM_BGX_RGX] instances
+                                                                 are RGX; bit 0 for BGX 0, bit 1 for BGX 1, etc. Per bit: 0=BGX, 1=RGX. */
         uint64_t lbk_lmac_channels     : 8;  /**< [ 15:  8](RO) Number of channels supported by NIC per LBK interface/LMAC. */
         uint64_t bgx_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels supported by NIC per BGX/RGX LMAC. */
 #else /* Word 0 - Little Endian */
         uint64_t bgx_lmac_channels     : 8;  /**< [  7:  0](RO) Number of channels supported by NIC per BGX/RGX LMAC. */
         uint64_t lbk_lmac_channels     : 8;  /**< [ 15:  8](RO) Number of channels supported by NIC per LBK interface/LMAC. */
-        uint64_t rgx_map               : 8;  /**< [ 23: 16](RO) Bit map specifying which of the [NUM_BGX_RGX] instances are RGX; bit 0 for BGX/RGX 0, bit
-                                                                 1 for BGX/RGX 1, etc. Per bit: 0=BGX, 1=RGX. */
+        uint64_t rgx_map               : 8;  /**< [ 23: 16](RO) Bit map indexed by NIC_INTF_BLOCK_E::BGX() specifying which of the [NUM_BGX_RGX] instances
+                                                                 are RGX; bit 0 for BGX 0, bit 1 for BGX 1, etc. Per bit: 0=BGX, 1=RGX. */
         uint64_t num_bgx_rgx           : 4;  /**< [ 27: 24](RO) Number of BGX/RGX interfaces enumerated in NIC_INTF_E. */
         uint64_t num_lbk               : 4;  /**< [ 31: 28](RO) Number of LBK interfaces enumerated in NIC_INTF_E. */
         uint64_t channels              : 12; /**< [ 43: 32](RO) Number of channels enumerated by NIC_CHAN_IDX_E. */
@@ -17433,7 +17456,10 @@ typedef union
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
         uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Packet dropped interrupt. Hardware sets this bit and generates an interrupt message when
                                                                  any packet has been dropped. This is intended for diagnostic use; typical production
-                                                                 software will want this interrupt disabled. */
+                                                                 software will want this interrupt disabled.
+                                                                 Note the interrupt is posted to the VNIC's base VF, i.e. the VF number that matches the
+                                                                 dropped packet's VNIC number. For example, if NIC_PF_QS(2)_CFG[VNIC] = 1, then a dropped
+                                                                 packet by QS 2 will set NIC_VF(1)_INT[VNIC_DROP]. */
         uint64_t reserved_18_19        : 2;
         uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) RBDR interrupt. One bit for each RBDR in the QS. Hardware sets each bit and generates
                                                                  an interrupt message under any of the following condition for its RBDR:
@@ -17497,7 +17523,10 @@ typedef union
         uint64_t reserved_18_19        : 2;
         uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Packet dropped interrupt. Hardware sets this bit and generates an interrupt message when
                                                                  any packet has been dropped. This is intended for diagnostic use; typical production
-                                                                 software will want this interrupt disabled. */
+                                                                 software will want this interrupt disabled.
+                                                                 Note the interrupt is posted to the VNIC's base VF, i.e. the VF number that matches the
+                                                                 dropped packet's VNIC number. For example, if NIC_PF_QS(2)_CFG[VNIC] = 1, then a dropped
+                                                                 packet by QS 2 will set NIC_VF(1)_INT[VNIC_DROP]. */
         uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
@@ -17530,7 +17559,10 @@ typedef union
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
         uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Packet dropped interrupt. Hardware sets this bit and generates an interrupt message when
                                                                  any packet has been dropped. This is intended for diagnostic use; typical production
-                                                                 software will want this interrupt disabled. */
+                                                                 software will want this interrupt disabled.
+                                                                 Note the interrupt is posted to the VNIC's base VF, i.e. the VF number that matches the
+                                                                 dropped packet's VNIC number. For example, if NIC_PF_QS(2)_CFG[VNIC] = 1, then a dropped
+                                                                 packet by QS 2 will set NIC_VF(1)_INT[VNIC_DROP]. */
         uint64_t reserved_18_19        : 2;
         uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) RBDR interrupt. One bit for each RBDR in the QS. Hardware sets each bit and generates
                                                                  an interrupt message under any of the following condition for its RBDR:
@@ -17594,7 +17626,10 @@ typedef union
         uint64_t reserved_18_19        : 2;
         uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Packet dropped interrupt. Hardware sets this bit and generates an interrupt message when
                                                                  any packet has been dropped. This is intended for diagnostic use; typical production
-                                                                 software will want this interrupt disabled. */
+                                                                 software will want this interrupt disabled.
+                                                                 Note the interrupt is posted to the VNIC's base VF, i.e. the VF number that matches the
+                                                                 dropped packet's VNIC number. For example, if NIC_PF_QS(2)_CFG[VNIC] = 1, then a dropped
+                                                                 packet by QS 2 will set NIC_VF(1)_INT[VNIC_DROP]. */
         uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */

@@ -84,7 +84,7 @@
  * Internal:
  * A subset of PKI_CHAN_E also enumerates the values of PKI_FEWQ_S[PORT] and PKI_BEWQ_S[PORT].
  */
-#define BDK_PKI_CHAN_E_BGXX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX/RGX {a} LMAC {b} channel {c}.
+#define BDK_PKI_CHAN_E_BGXX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX {a} LMAC {b} channel {c}. Also used for RGX.
                                        Internal:
                                        Used for BGX and RGX. */
 #define BDK_PKI_CHAN_E_DPI_CHX(a) (0x400 + (a)) /**< DPI/SDP channel {a}. */

@@ -1100,7 +1100,46 @@ typedef union
                                                                  Bits [27:21] are the JEP 106 ID code, 0x3B. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dbgx_eddevarch_s cn; */
+    struct bdk_dbgx_eddevarch_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For debug, this is
+                                                                     ARM Limited.
+                                                                 Bits [31:28] are the JEP 106 continuation code, 0x4.
+                                                                 Bits [27:21] are the JEP 106 ID code, 0x3B. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
+                                                                 This field is 1 in v8-A. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
+                                                                     by ARM this is the minor revision.
+                                                                 For debug, the revision defined by v8-A is 0x0.
+                                                                 All other values are reserved. */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
+                                                                     architectures defined by ARM this is further subdivided.
+                                                                 For debug:
+                                                                  Bits [15:12] are the architecture version, 0x7.
+                                                                  Bits [11:0] are the architecture part number, 0xA15.
+                                                                 This corresponds to debug architecture version v8-A. */
+#else /* Word 0 - Little Endian */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
+                                                                     architectures defined by ARM this is further subdivided.
+                                                                 For debug:
+                                                                  Bits [15:12] are the architecture version, 0x7.
+                                                                  Bits [11:0] are the architecture part number, 0xA15.
+                                                                 This corresponds to debug architecture version v8-A. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
+                                                                     by ARM this is the minor revision.
+                                                                 For debug, the revision defined by v8-A is 0x0.
+                                                                 All other values are reserved. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
+                                                                 This field is 1 in v8-A. */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For debug, this is
+                                                                     ARM Limited.
+                                                                 Bits [31:28] are the JEP 106 continuation code, 0x4.
+                                                                 Bits [27:21] are the JEP 106 ID code, 0x3B. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_dbgx_eddevarch_s cn88xx; */
+    /* struct bdk_dbgx_eddevarch_cn81xx cn83xx; */
 } bdk_dbgx_eddevarch_t;
 
 static inline uint64_t BDK_DBGX_EDDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
