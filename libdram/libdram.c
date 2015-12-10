@@ -177,27 +177,6 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
     int errs;
 
-#if 0
-    // look for an envvar or board config option to select 100 MHz or default to 50 MHz refclk
-    // assumption: the alternate refclk is setup for 100MHz
-    // note: we only need to turn on the alternate refclk select bit in LMC0
-    int ddr_refclk_hertz = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
-    int alt_refclk = bdk_config_get_int(BDK_CONFIG_DDR_ALT_REFCLK, node);
-
-    const char *str;
-    str = getenv("ddr_100mhz_refclk");
-    if (str)
-        alt_refclk = strtoul(str, NULL, 0) * 100;
-
-    if (alt_refclk) { // if alternate clock was selected, we also need to set the bit and wait a little...
-	ddr_refclk_hertz = alt_refclk * 1000000;
-	DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(0), c.s.dclk_alt_refclk_sel = 1);
-	bdk_wait_usec(1000); // wait 1 msec
-    }
-
-    BDK_TRACE(DRAM, "N%d: DRAM init started (hertz=%d, refclk=%d, config=%p)\n",
-	      node, ddr_clock_hertz, ddr_refclk_hertz, dram_config);
-#else
     // At this point, we only know the desired clock rate (ddr_clock_hertz).
     // We do not know whether we are configuring RDIMMs.
     // We also do not yet know if 100MHz alternate refclk is actually available.
@@ -210,7 +189,8 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     // 2. I think we need to first probe to see if we need it, and configure it then if dictated use
     // 3. then go on to configure at the selected refclk
     int ddr_refclk_hertz = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
-#endif
+    int alt_refclk = bdk_config_get_int(BDK_CONFIG_DDR_ALT_REFCLK, node);
+
     dram_verbosity = bdk_config_get_int(BDK_CONFIG_DRAM_VERBOSE);
 
     /* We need to calculate the interface mask based on the provided SPD
@@ -221,29 +201,31 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
         if (ddr_config[i].dimm_config_table[0].spd_addrs[0] ||
             ddr_config[i].dimm_config_table[0].spd_ptrs[0])
             interface_mask |= 1 << i;
-#if 1
-        // we know already if we want 2133 MT/s
-        // if so, then probe DDR and DIMM type
+
+        // we know whether alternate refclk is always wanted
+        // we also know already if we want 2133 MT/s
+        // if alt refclk not always wanted, then probe DDR and DIMM type
         // if DDR4 and RDIMMs, then set desired refclk to 100MHz, otherwise to default (50MHz)
-        // depend on ddr_initialize() to do the 100MHz validation and selection
-        if ((i == 0) && (ddr_clock_hertz > 1000000000)) { // LMC0 and more than 2000 MT/s
-            int ddr_type = get_ddr_type(node, &ddr_config[0].dimm_config_table[0], 0);
-            int spd_dimm_type = get_dimm_module_type(node, &ddr_config[0].dimm_config_table[0], 0, ddr_type);
-            if ((ddr_type == DDR4_DRAM) && (spd_dimm_type == 1)) { // is DDR4 and RDIMM just to be sure
-                // yes, we require 100MHz refclk, so set it
-                ddr_refclk_hertz = 100000000;
-                ddr_print("N%d: DRAM init: 100 MHz refclk is REQUIRED\n", node);
-            }
-        }
-#endif
+        // depend on ddr_initialize() to do the refclk selection and validation
+        if (i == 0) { // only check for LMC0
+            if (alt_refclk) { // if alternate refclk was specified, let it override everything
+                ddr_refclk_hertz = alt_refclk * 1000000;
+                ddr_print("N%d: DRAM init: %d MHz refclk is REQUESTED ALWAYS\n", node, alt_refclk);
+            } else if (ddr_clock_hertz > 1000000000) { // if more than 2000 MT/s
+                int ddr_type = get_ddr_type(node, &ddr_config[0].dimm_config_table[0], 0);
+                int spd_dimm_type = get_dimm_module_type(node, &ddr_config[0].dimm_config_table[0], 0, ddr_type);
+                if ((ddr_type == DDR4_DRAM) && (spd_dimm_type == 1)) { // is DDR4 and RDIMM just to be sure
+                    ddr_refclk_hertz = 100000000; // yes, we require 100MHz refclk, so set it
+                    ddr_print("N%d: DRAM init: 100 MHz refclk is REQUIRED\n", node);
+                }
+            } // if (ddr_clock_hertz > 1000000000)
+        } // if (i == 0)
     }
 
-#if 1
     BDK_TRACE(DRAM, "N%d: DRAM init started (hertz=%d, refclk=%d, config=%p)\n",
               node, ddr_clock_hertz, ddr_refclk_hertz, dram_config);
-    printf("N%d: DRAM init started (hertz=%d, refclk=%d, config=%p)\n", // FIXME: force print
-           node, ddr_clock_hertz, ddr_refclk_hertz, dram_config);
-#endif
+    debug_print("N%d: DRAM init started (hertz=%d, refclk=%d, config=%p)\n",
+                node, ddr_clock_hertz, ddr_refclk_hertz, dram_config);
 
     BDK_TRACE(DRAM, "N%d: Calling DRAM init\n", node);
     measured_ddr_hertz[node] = 0;
