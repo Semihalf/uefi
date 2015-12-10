@@ -1,8 +1,8 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
-#define RLEXTRAS_PATCH     0 // write to unused RL rank entries
-#define WLEXTRAS_PATCH     0 // write to unused WL rank entries
+#define RLEXTRAS_PATCH     1 // write to unused RL rank entries
+#define WLEXTRAS_PATCH     1 // write to unused WL rank entries
 #define ADD_48_OHM_SKIP    1
 #define NOSKIP_40_48_OHM   1
 #define NOSKIP_48_STACKED  1
@@ -6337,24 +6337,36 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    display_RL_with_final(node, ddr_interface_num, lmc_rlevel_rank, rankx, best_rank_score);
 
 #if RLEXTRAS_PATCH
-		    {
 #define RLEVEL_RANKX_EXTRAS_INCR  4
-			bdk_lmcx_rlevel_rankx_t temp_rlevel_rank = lmc_rlevel_rank;
+		    if ((rank_mask & 0x0F) != 0x0F) { // if there are unused entries to be filled		    
+			bdk_lmcx_rlevel_rankx_t temp_rlevel_rank = lmc_rlevel_rank; // copy the current rank
 			int byte, delay;
 			if (rankx < 3) {
-			    extra_ddr_print("N%d.LMC%d.R%d: writing RLEVEL_RANK unused entries.\n",
-					    node, ddr_interface_num, rankx);
-			    for (byte = 0; byte < 9; byte++) {
+			    debug_print("N%d.LMC%d.R%d: checking for RLEVEL_RANK unused entries.\n",
+				      node, ddr_interface_num, rankx);
+			    for (byte = 0; byte < 9; byte++) { // modify the copy in prep for writing to empty slot(s)
 				delay = get_rlevel_rank_struct(&temp_rlevel_rank, byte) + RLEVEL_RANKX_EXTRAS_INCR;
 				if (delay > (int)RLEVEL_BYTE_MSK) delay = RLEVEL_BYTE_MSK;
 				update_rlevel_rank_struct(&temp_rlevel_rank, byte, delay);
 			    }
-			    if (rankx == 0) { // if rank 0, write rank 1, and rank 2
-				DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 1), temp_rlevel_rank.u);
-				DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 2), temp_rlevel_rank.u);
+			    if (rankx == 0) { // if rank 0, write rank 1 and rank 2 here if empty
+				if (!(rank_mask & (1<<1))) { // check that rank 1 is empty
+				    ddr_print("N%d.LMC%d.R%d: writing RLEVEL_RANK unused entry R%d.\n",
+						    node, ddr_interface_num, rankx, 1);
+				    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 1), temp_rlevel_rank.u);
+				}
+				if (!(rank_mask & (1<<2))) { // check that rank 2 is empty
+				    ddr_print("N%d.LMC%d.R%d: writing RLEVEL_RANK unused entry R%d.\n",
+						    node, ddr_interface_num, rankx, 2);
+				    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 2), temp_rlevel_rank.u);
+				}
 			    }
-			    // if ranks 0, 1 or 2, write rank 3
-			    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 3), temp_rlevel_rank.u);
+			    // if ranks 0, 1 or 2, write rank 3 here if empty
+			    if (!(rank_mask & (1<<3))) { // check that rank 3 is empty
+				ddr_print("N%d.LMC%d.R%d: writing RLEVEL_RANK unused entry R%d.\n",
+					  node, ddr_interface_num, rankx, 3);
+				DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 3), temp_rlevel_rank.u);
+			    }
 			}
 		    }
 #endif /* RLEXTRAS_PATCH */
@@ -7080,17 +7092,28 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		display_WL(node, ddr_interface_num, lmc_wlevel_rank, rankx);
             }
 #if WLEXTRAS_PATCH
-	    {
+	    if ((rank_mask & 0x0F) != 0x0F) { // if there are unused entries to be filled
 		if (rankx < 3) {
-		    ddr_print("N%d.LMC%d.R%d: writing WLEVEL_RANK unused entries.\n",
+		    debug_print("N%d.LMC%d.R%d: checking for WLEVEL_RANK unused entries.\n",
 			      node, ddr_interface_num, rankx);
-
-		    if (rankx == 0) { // if rank 0, write ranks 1 and 2 here
-			DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, 1), lmc_wlevel_rank.u);
-			DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, 2), lmc_wlevel_rank.u);
+		    if (rankx == 0) { // if rank 0, write ranks 1 and 2 here if empty
+			if (!(rank_mask & (1<<1))) { // check that rank 1 is empty
+			    DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, 1), lmc_wlevel_rank.u);
+			    ddr_print("N%d.LMC%d.R%d: writing WLEVEL_RANK unused entry R%d.\n",
+				      node, ddr_interface_num, rankx, 1);
+			}
+			if (!(rank_mask & (1<<2))) { // check that rank 2 is empty
+			    ddr_print("N%d.LMC%d.R%d: writing WLEVEL_RANK unused entry R%d.\n",
+				      node, ddr_interface_num, rankx, 2);
+			    DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, 2), lmc_wlevel_rank.u);
+			}
 		    }
-		    // if rank 0, 1 or 2, write rank 3 here
-		    DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, 3), lmc_wlevel_rank.u);
+		    // if rank 0, 1 or 2, write rank 3 here if empty
+		    if (!(rank_mask & (1<<3))) { // check that rank 3 is empty
+			ddr_print("N%d.LMC%d.R%d: writing WLEVEL_RANK unused entry R%d.\n",
+				  node, ddr_interface_num, rankx, 3);
+			DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, 3), lmc_wlevel_rank.u);
+		    }
 		}
 	    }
 #endif /* WLEXTRAS_PATCH */
