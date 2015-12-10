@@ -2464,19 +2464,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved.
-                                                                 Internal:
-                                                                 Node number of current chip, to ensure that the aura is on the local node. */
-        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA guest-aura to use for PKO command buffering allocations and frees. The
+        uint64_t laura                 : 12; /**< [ 11:  0](R/W) FPA guest-aura to use for PKO command buffering allocations and frees. The
                                                                  FPA guest-aura selected by LAURA must correspond to a pool where the buffers (after
                                                                  any FPA_POOL()_CFG[BUF_OFFSET]) are at least of size PKO_CONST[PDM_BUF_SIZE] (4KB). */
 #else /* Word 0 - Little Endian */
-        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA guest-aura to use for PKO command buffering allocations and frees. The
+        uint64_t laura                 : 12; /**< [ 11:  0](R/W) FPA guest-aura to use for PKO command buffering allocations and frees. The
                                                                  FPA guest-aura selected by LAURA must correspond to a pool where the buffers (after
                                                                  any FPA_POOL()_CFG[BUF_OFFSET]) are at least of size PKO_CONST[PDM_BUF_SIZE] (4KB). */
-        uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved.
-                                                                 Internal:
-                                                                 Node number of current chip, to ensure that the aura is on the local node. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;

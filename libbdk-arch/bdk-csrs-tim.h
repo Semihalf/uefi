@@ -165,13 +165,17 @@ union bdk_tim_mem_entry_s
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_113_127      : 15;
-        uint64_t wqp                   : 49; /**< [112: 64] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
-                                                                 a NOP. <2:0> must be zero. */
+        uint64_t wqp                   : 64; /**< [127: 64] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
+                                                                 a NOP.
+
+                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
+                                                                 store a sign-extended [WQP]<48> for forward compatibility. */
 #else /* Word 1 - Little Endian */
-        uint64_t wqp                   : 49; /**< [112: 64] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
-                                                                 a NOP. <2:0> must be zero. */
-        uint64_t reserved_113_127      : 15;
+        uint64_t wqp                   : 64; /**< [127: 64] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
+                                                                 a NOP.
+
+                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
+                                                                 store a sign-extended [WQP]<48> for forward compatibility. */
 #endif /* Word 1 - End */
     } s;
     /* struct bdk_tim_mem_entry_s_s cn; */

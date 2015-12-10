@@ -72,19 +72,21 @@
 #define BDK_DDF_COMP_E_FAULT (2) /**< Memory fault was detected reading/writing data related to this instruction.  The
                                        instruction may have been partially completed, and as such the result and record state is
                                        now undefined. */
-#define BDK_DDF_COMP_E_FILTER_TOO_BIG (5) /**< Filter is larger than 512B, 2^(2+NESTSZP2+NBKTP2) > 512. */
+#define BDK_DDF_COMP_E_FILTER_TOO_BIG (5) /**< Filter is larger than 512B. Violates the rule 2^(2+NESTSZP2+NBKTP2) <= 512. */
 #define BDK_DDF_COMP_E_FULL (3) /**< Insert operation not completed due to no space (nests all full, and if
                                        DDF_INST_FIND_S[VICTEN]=1 the victim is full). */
 #define BDK_DDF_COMP_E_GOOD (1) /**< Operation completed without error. */
 #define BDK_DDF_COMP_E_HDR_ALIGN (0x10) /**< Improperly aligned header address; HDR_ADDR % 2^HDRSZP2 != 0. */
-#define BDK_DDF_COMP_E_HDR_LT_NEST (7) /**< Header is smaller than nest and won't fit all of opaque data, tag; VICTEN && ((HDRSZP2 <
-                                       NESTSZP2) && NBKTP2==0) || (HDRSZP2 <= NESTSZP2) && NBKTP2 > 0)). */
-#define BDK_DDF_COMP_E_HDR_TOO_BIG (6) /**< Header is larger than 128B, 2^(NWAYP2 + HDRSZP2) > 128. */
+#define BDK_DDF_COMP_E_HDR_LT_NEST (7) /**< Header is smaller than nest and won't fit all of opaque data and tag. Violates
+                                       the rule VICTEN && ((HDRSZP2 >= NESTSZP2) && NBKTP2==0) || (HDRSZP2 > NESTSZP2)
+                                       && NBKTP2 > 0)). */
+#define BDK_DDF_COMP_E_HDR_TOO_BIG (6) /**< Header is larger than 128B. Violates the rule 2^(NWAYP2 + HDRSZP2) <= 128. */
 #define BDK_DDF_COMP_E_ILLEGAL_QWORDS (4) /**< Instruction contained an illegal QWORDS value, must be between 1 and 16. */
-#define BDK_DDF_COMP_E_KEY_GT_HDR (9) /**< Key is larger than header, entire tag won't fit; VICTEN && ((NBKTP2<<2) + TAGBITSM1 + 1 >
-                                       (HDRSZP2<<3)). */
-#define BDK_DDF_COMP_E_KEY_GT_NEST (8) /**< Key is larger than nest, entire tag won't fit; (NBKTP2 + TAGBITSM1+1) > (NESTSZP2<<3). */
-#define BDK_DDF_COMP_E_KEY_TOO_SMALL (0xa) /**< Configured data won't fit in key; NRANKP2+2*NBKTP2+TAGBITS > 256. */
+#define BDK_DDF_COMP_E_KEY_GT_HDR (9) /**< Key is larger than header, entire tag won't fit. Violates the rule
+                                       VICTEN && (((NBKTP2<<2) + TAGBITSM1 + 1) <= (HDRSZP2<<3)). */
+#define BDK_DDF_COMP_E_KEY_GT_NEST (8) /**< Key is larger than nest, entire tag won't fit. Violates the rule
+                                       (NBKTP2 + TAGBITSM1+1) <= (NESTSZP2<<3). */
+#define BDK_DDF_COMP_E_KEY_TOO_SMALL (0xa) /**< Configured data won't fit in key. Violates the rule (NRANKP2 + (2 * NBKTP2) + TAGBITS) <= 256. */
 #define BDK_DDF_COMP_E_NOTDONE (0) /**< The COMPCODE value of zero is not written by hardware, but may be used by
                                        software to indicate the DDF_RES_FIND_S/DDF_RES_MATCH_S has not yet been
                                        updated by hardware. */
@@ -120,14 +122,14 @@
  * DDF PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_DDF_PF_INT_VEC_E_ECC0 (0) /**< See interrupt clears DDF(0)_PF_ECC0_INT,
-                                       interrupt sets DDF(0)_PF_ECC0_INT_W1S,
-                                       enable clears DDF(0)_PF_ECC0_ENA_W1C,
-                                       and enable sets DDF(0)_PF_ECC0_ENA_W1S. */
-#define BDK_DDF_PF_INT_VEC_E_MBOXX(a) (1 + (a)) /**< See interrupt clears DDF(0)_PF_MBOX_INT(0),
-                                       interrupt sets DDF(0)_PF_MBOX_INT_W1S(0),
-                                       enable clears DDF(0)_PF_MBOX_ENA_W1C(0),
-                                       and enable sets DDF(0)_PF_MBOX_ENA_W1S(0). */
+#define BDK_DDF_PF_INT_VEC_E_ECC0 (0) /**< See interrupt clears DDF()_PF_ECC0_INT,
+                                       interrupt sets DDF()_PF_ECC0_INT_W1S,
+                                       enable clears DDF()_PF_ECC0_ENA_W1C,
+                                       and enable sets DDF()_PF_ECC0_ENA_W1S. */
+#define BDK_DDF_PF_INT_VEC_E_MBOXX(a) (1 + (a)) /**< See interrupt clears DDF()_PF_MBOX_INT(),
+                                       interrupt sets DDF()_PF_MBOX_INT_W1S(),
+                                       enable clears DDF()_PF_MBOX_ENA_W1C(),
+                                       and enable sets DDF()_PF_MBOX_ENA_W1S(). */
 
 /**
  * Enumeration ddf_rams_e
@@ -153,14 +155,14 @@
  * DDF VF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_DDF_VF_INT_VEC_E_DONE (1) /**< See interrupt clears DDF(0)_VQ(0..63)_DONE_INT_W1C,
-                                       interrupt sets DDF(0)_VQ(0..63)_DONE_INT_W1S,
-                                       enable clears DDF(0)_VQ(0..63)_DONE_ENA_W1C
-                                       and enable sets DDF(0)_VQ(0..63)_DONE_ENA_W1S. */
-#define BDK_DDF_VF_INT_VEC_E_MISC (0) /**< See interrupt clears DDF(0)_VQ(0..63)_MISC_INT,
-                                       interrupt sets DDF(0)_VQ(0..63)_MISC_INT_W1S,
-                                       enable clears DDF(0)_VQ(0..63)_MISC_ENA_W1C
-                                       and enable sets DDF(0)_VQ(0..63)_MISC_ENA_W1S. */
+#define BDK_DDF_VF_INT_VEC_E_DONE (1) /**< See interrupt clears DDF()_VQ()_DONE_INT_W1C,
+                                       interrupt sets DDF()_VQ()_DONE_INT_W1S,
+                                       enable clears DDF()_VQ()_DONE_ENA_W1C
+                                       and enable sets DDF()_VQ()_DONE_ENA_W1S. */
+#define BDK_DDF_VF_INT_VEC_E_MISC (0) /**< See interrupt clears DDF()_VQ()_MISC_INT,
+                                       interrupt sets DDF()_VQ()_MISC_INT_W1S,
+                                       enable clears DDF()_VQ()_MISC_ENA_W1C
+                                       and enable sets DDF()_VQ()_MISC_ENA_W1S. */
 
 /**
  * Structure ddf_inst_find_s
@@ -258,21 +260,25 @@ union bdk_ddf_inst_find_s
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_113_127      : 15;
-        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_FIND_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
-                                                                 If [RR] is set, address must be 128-byte aligned. */
+                                                                 If [RR] is set, address must be 128-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 1 - Little Endian */
-        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_FIND_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
-                                                                 If [RR] is set, address must be 128-byte aligned. */
-        uint64_t reserved_113_127      : 15;
+                                                                 If [RR] is set, address must be 128-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t tag_rank              : 5;  /**< [191:187] If set, extract [TAG_RANK] number of bits from the computed nest number and
@@ -304,27 +310,37 @@ union bdk_ddf_inst_find_s
                                                                     0x1F: SSO tag = [TAG] ^ {DDF_RES_FIND_S[RANK]<30:0>}. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t reserved_241_255      : 15;
-        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that DDF submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that DDF submits
                                                                  work to SSO after all context, output data, and result write operations are
-                                                                 visible to other CNXXXX units and the cores. */
+                                                                 visible to other CNXXXX units and the cores.
+
+                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
+                                                                 use a sign-extended bit <48> for forward compatibility.
+
+                                                                 Internal:
+                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that DDF submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that DDF submits
                                                                  work to SSO after all context, output data, and result write operations are
-                                                                 visible to other CNXXXX units and the cores. */
-        uint64_t reserved_241_255      : 15;
+                                                                 visible to other CNXXXX units and the cores.
+
+                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
+                                                                 use a sign-extended bit <48> for forward compatibility.
+
+                                                                 Internal:
+                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t reserved_288_319      : 32;
         uint64_t set_bdis              : 32; /**< [287:256] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA3] byte. If
                                                                  that bit is clear the corresponding byte will be set in the record. Only bits
-                                                                 [SET_BDIS]<NESTSZM1-NBUCKP2:0> have an effect on nests and on the upper 2^[NESTSZP2]
-                                                                 bytes of the header. */
+                                                                 [SET_BDIS]<NESTSZM1:0> have an effect on nests and on the lower 2^[NESTSZP2]
+                                                                 bytes of the header. Bucket fields of the nest and header are not settable. */
 #else /* Word 4 - Little Endian */
         uint64_t set_bdis              : 32; /**< [287:256] Set byte disables. One bit corresponds to each [KEYDATA0]..[KEYDATA3] byte. If
                                                                  that bit is clear the corresponding byte will be set in the record. Only bits
-                                                                 [SET_BDIS]<NESTSZM1-NBUCKP2:0> have an effect on nests and on the upper 2^[NESTSZP2]
-                                                                 bytes of the header. */
+                                                                 [SET_BDIS]<NESTSZM1:0> have an effect on nests and on the lower 2^[NESTSZP2]
+                                                                 bytes of the header. Bucket fields of the nest and header are not settable. */
         uint64_t reserved_288_319      : 32;
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
@@ -449,40 +465,46 @@ union bdk_ddf_inst_find_s
         uint64_t reserved_380_383      : 4;
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t reserved_433_447      : 15;
-        uint64_t hdr_addr              : 49; /**< [432:384] Header IOVA. Must be non-zero when [VICTEN] is set, otherwise
-                                                                 reserved.
+        uint64_t hdr_addr              : 64; /**< [447:384] Header IOVA. Must be non-zero when [VICTEN] is set, otherwise reserved.
 
                                                                  If [RANK_ABS]=0, points to rank 0 way 0's header. Hardware accesses the way 0
                                                                  header at address [HDR_ADDR] + computed_rank * (2^[NWAYP2]) * (2^[HDRSZP2]).
 
                                                                  If [RANK_ABS]=1, points to the desired rank's way 0 header. Hardware accesses
-                                                                 the way 0 header at address [HDR_ADDR]. */
+                                                                 the way 0 header at address [HDR_ADDR].
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 6 - Little Endian */
-        uint64_t hdr_addr              : 49; /**< [432:384] Header IOVA. Must be non-zero when [VICTEN] is set, otherwise
-                                                                 reserved.
+        uint64_t hdr_addr              : 64; /**< [447:384] Header IOVA. Must be non-zero when [VICTEN] is set, otherwise reserved.
 
                                                                  If [RANK_ABS]=0, points to rank 0 way 0's header. Hardware accesses the way 0
                                                                  header at address [HDR_ADDR] + computed_rank * (2^[NWAYP2]) * (2^[HDRSZP2]).
 
                                                                  If [RANK_ABS]=1, points to the desired rank's way 0 header. Hardware accesses
-                                                                 the way 0 header at address [HDR_ADDR]. */
-        uint64_t reserved_433_447      : 15;
+                                                                 the way 0 header at address [HDR_ADDR].
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t reserved_497_511      : 15;
-        uint64_t rank_addr             : 49; /**< [496:448] Must be non-zero.
+        uint64_t rank_addr             : 64; /**< [511:448] Must be non-zero.
 
                                                                  If [RANK_ABS]=0, IOVA for rank 0, bucket 0, way 0, nest 0.
 
-                                                                 If [RANK_ABS]=1, IOVA for precise rank, bucket 0, way 0, nest 0. */
+                                                                 If [RANK_ABS]=1, IOVA for precise rank, bucket 0, way 0, nest 0.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 7 - Little Endian */
-        uint64_t rank_addr             : 49; /**< [496:448] Must be non-zero.
+        uint64_t rank_addr             : 64; /**< [511:448] Must be non-zero.
 
                                                                  If [RANK_ABS]=0, IOVA for rank 0, bucket 0, way 0, nest 0.
 
-                                                                 If [RANK_ABS]=1, IOVA for precise rank, bucket 0, way 0, nest 0. */
-        uint64_t reserved_497_511      : 15;
+                                                                 If [RANK_ABS]=1, IOVA for precise rank, bucket 0, way 0, nest 0.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t keydata0              : 64; /**< [575:512] Key or opaque data bytes. */
@@ -610,21 +632,25 @@ union bdk_ddf_inst_match_s
                                                                  If 0x0, compare nothing. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_113_127      : 15;
-        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
-                                                                 If [RR] is set, address must be 128-byte aligned. */
+                                                                 If [RR] is set, address must be 128-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 1 - Little Endian */
-        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
-                                                                 If [RR] is set, address must be 128-byte aligned. */
-        uint64_t reserved_113_127      : 15;
+                                                                 If [RR] is set, address must be 128-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t reserved_172_191      : 20;
@@ -638,24 +664,26 @@ union bdk_ddf_inst_match_s
         uint64_t reserved_172_191      : 20;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t reserved_241_255      : 15;
-        uint64_t wq_ptr                : 49; /**< [240:192] See DDF_INST_FIND_S[WQ_PTR]. */
+        uint64_t wq_ptr                : 64; /**< [255:192] See DDF_INST_FIND_S[WQ_PTR]. */
 #else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 49; /**< [240:192] See DDF_INST_FIND_S[WQ_PTR]. */
-        uint64_t reserved_241_255      : 15;
+        uint64_t wq_ptr                : 64; /**< [255:192] See DDF_INST_FIND_S[WQ_PTR]. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t reserved_305_319      : 15;
-        uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
+        uint64_t rb_addr               : 64; /**< [319:256] Record block IOVA.
                                                                  For DDF_OP_E::RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
-                                                                 If 0x0, this way is not used, and will never match. */
+                                                                 If 0x0, this way is not used, and will never match.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 4 - Little Endian */
-        uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
+        uint64_t rb_addr               : 64; /**< [319:256] Record block IOVA.
                                                                  For DDF_OP_E::RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
-                                                                 If 0x0, this way is not used, and will never match. */
-        uint64_t reserved_305_319      : 15;
+                                                                 If 0x0, this way is not used, and will never match.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t reserved_320_383      : 64;
@@ -797,21 +825,25 @@ union bdk_ddf_inst_match_s
                                                                  If 0x0, compare nothing. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_113_127      : 15;
-        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
-                                                                 If [RR] is set, address must be 128-byte aligned. */
+                                                                 If [RR] is set, address must be 128-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 1 - Little Endian */
-        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
-                                                                 If [RR] is set, address must be 128-byte aligned. */
-        uint64_t reserved_113_127      : 15;
+                                                                 If [RR] is set, address must be 128-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t reserved_172_191      : 20;
@@ -825,24 +857,26 @@ union bdk_ddf_inst_match_s
         uint64_t reserved_172_191      : 20;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t reserved_241_255      : 15;
-        uint64_t wq_ptr                : 49; /**< [240:192] See DDF_INST_FIND_S[WQ_PTR]. */
+        uint64_t wq_ptr                : 64; /**< [255:192] See DDF_INST_FIND_S[WQ_PTR]. */
 #else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 49; /**< [240:192] See DDF_INST_FIND_S[WQ_PTR]. */
-        uint64_t reserved_241_255      : 15;
+        uint64_t wq_ptr                : 64; /**< [255:192] See DDF_INST_FIND_S[WQ_PTR]. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t reserved_305_319      : 15;
-        uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
+        uint64_t rb_addr               : 64; /**< [319:256] Record block IOVA.
                                                                  For DDF_OP_E::RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
-                                                                 If 0x0, this way is not used, and will never match. */
+                                                                 If 0x0, this way is not used, and will never match.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 4 - Little Endian */
-        uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
+        uint64_t rb_addr               : 64; /**< [319:256] Record block IOVA.
                                                                  For DDF_OP_E::RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
-                                                                 If 0x0, this way is not used, and will never match. */
-        uint64_t reserved_305_319      : 15;
+                                                                 If 0x0, this way is not used, and will never match.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t reserved_320_383      : 64;
@@ -2761,7 +2795,11 @@ typedef union
                                                                  interrupts the suggested scheme is to request a DONEINT on each request, and
                                                                  when an interrupt arrives perform a "greedy" scan for completions; even if a
                                                                  later command is acknowledged first this will not result in missing a
-                                                                 completion. */
+                                                                 completion.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When DDF_INST_FIND_S/DDF_INST_MATCH_S[DONEINT] set and that
                                                                  instruction completes, DDF()_VQ()_DONE[DONE] is incremented when the instruction
@@ -2792,7 +2830,11 @@ typedef union
                                                                  interrupts the suggested scheme is to request a DONEINT on each request, and
                                                                  when an interrupt arrives perform a "greedy" scan for completions; even if a
                                                                  later command is acknowledged first this will not result in missing a
-                                                                 completion. */
+                                                                 completion.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;

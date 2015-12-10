@@ -17360,7 +17360,10 @@ typedef union
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */
         uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Packet dropped interrupt. Hardware sets this bit and generates an interrupt message when
                                                                  any packet has been dropped. This is intended for diagnostic use; typical production
-                                                                 software will want this interrupt disabled. */
+                                                                 software will want this interrupt disabled.
+                                                                 Note the interrupt is posted to the VNIC's base VF, i.e. the VF number that matches the
+                                                                 dropped packet's VNIC number. For example, if NIC_PF_QS(2)_CFG[VNIC] = 1, then a dropped
+                                                                 packet by QS 2 will set NIC_VF(1)_INT[VNIC_DROP]. */
         uint64_t reserved_18_19        : 2;
         uint64_t rbdr                  : 2;  /**< [ 17: 16](R/W1C/H) RBDR interrupt. One bit for each RBDR in the QS. Hardware sets each bit and generates
                                                                  an interrupt message under any of the following condition for its RBDR:
@@ -17424,7 +17427,10 @@ typedef union
         uint64_t reserved_18_19        : 2;
         uint64_t vnic_drop             : 1;  /**< [ 20: 20](R/W1C/H) Packet dropped interrupt. Hardware sets this bit and generates an interrupt message when
                                                                  any packet has been dropped. This is intended for diagnostic use; typical production
-                                                                 software will want this interrupt disabled. */
+                                                                 software will want this interrupt disabled.
+                                                                 Note the interrupt is posted to the VNIC's base VF, i.e. the VF number that matches the
+                                                                 dropped packet's VNIC number. For example, if NIC_PF_QS(2)_CFG[VNIC] = 1, then a dropped
+                                                                 packet by QS 2 will set NIC_VF(1)_INT[VNIC_DROP]. */
         uint64_t tcp_timer             : 1;  /**< [ 21: 21](R/W1C/H) TCP timer interrupt. Enabled when NIC_PF_TCP_TIMER[ENA] and
                                                                  NIC_VF()_CFG[TCP_TIMER_INT_ENA] are both set. Set every
                                                                  NIC_PF_TCP_TIMER[DURATION]*256*128 coprocessor cycles when enabled. */

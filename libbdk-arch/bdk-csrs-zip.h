@@ -4573,7 +4573,11 @@ typedef union
                                                                  request a DONEINT on each request, and when an interrupt arrives perform a "greedy" scan
                                                                  for completions; even if a later command is acknowledged first this will not result in
                                                                  missing a completion. Software could also use ZIP_ZRES_S[DONEINT] to check when
-                                                                 instruction needs to be counted into ZIP_QUE()_DONE/ZIP_QUE()_DONE_ACK. */
+                                                                 instruction needs to be counted into ZIP_QUE()_DONE/ZIP_QUE()_DONE_ACK.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When ZIP_INST_S[DONEINT] set and that instruction completes,
                                                                  ZIP_QUE()_DONE[DONE] is incremented when the instruction finishes. Write to this
@@ -4605,7 +4609,11 @@ typedef union
                                                                  request a DONEINT on each request, and when an interrupt arrives perform a "greedy" scan
                                                                  for completions; even if a later command is acknowledged first this will not result in
                                                                  missing a completion. Software could also use ZIP_ZRES_S[DONEINT] to check when
-                                                                 instruction needs to be counted into ZIP_QUE()_DONE/ZIP_QUE()_DONE_ACK. */
+                                                                 instruction needs to be counted into ZIP_QUE()_DONE/ZIP_QUE()_DONE_ACK.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -6011,7 +6019,11 @@ typedef union
                                                                  request a DONEINT on each request, and when an interrupt arrives perform a "greedy" scan
                                                                  for completions; even if a later command is acknowledged first this will not result in
                                                                  missing a completion. Software could also use ZIP_ZRES_S[DONEINT] to check when
-                                                                 instruction needs to be counted into ZIP_VQ()_DONE/ZIP_VQ()_DONE_ACK. */
+                                                                 instruction needs to be counted into ZIP_VQ()_DONE/ZIP_VQ()_DONE_ACK.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When ZIP_INST_S[DONEINT] set and that instruction completes,
                                                                  ZIP_VQ()_DONE[DONE] is incremented when the instruction finishes. Write to this
@@ -6043,7 +6055,11 @@ typedef union
                                                                  request a DONEINT on each request, and when an interrupt arrives perform a "greedy" scan
                                                                  for completions; even if a later command is acknowledged first this will not result in
                                                                  missing a completion. Software could also use ZIP_ZRES_S[DONEINT] to check when
-                                                                 instruction needs to be counted into ZIP_VQ()_DONE/ZIP_VQ()_DONE_ACK. */
+                                                                 instruction needs to be counted into ZIP_VQ()_DONE/ZIP_VQ()_DONE_ACK.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;

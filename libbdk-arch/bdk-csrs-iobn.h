@@ -327,7 +327,9 @@ static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long a)
 /**
  * Register (RSL) iobn#_chip_cur_pwr
  *
- * IOBN Chip Current Power Register
+ * INTERNAL: IOBN Chip Current Power Register
+ *
+ * For diagnostic use only.
  * This register contains the current power setting.
  * Only index zero (IOB(0)) is used.
  */
@@ -393,7 +395,9 @@ static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long a)
 /**
  * Register (RSL) iobn#_chip_glb_pwr_throttle
  *
- * IOBN Chip Global Power Throttle Register
+ * INTERNAL: IOBN Chip Global Power Throttle Register
+ *
+ * For diagnostic use only.
  * This register controls the min/max power settings.
  * Only index zero (IOB(0)) is used.
  */
@@ -488,20 +492,22 @@ typedef union
                                                                  values indicate linearly higher power consumption. This power consumption estimate is
                                                                  energy per core clock. */
         uint64_t chip_power            : 16; /**< [ 47: 32](RO/H) An estimate of the current total power consumption by the chip. Linearly larger values
-                                                                 indicate linearly higher power consumption. CHIP_POWER is the sum of CPU_POWER and
-                                                                 COPROC_POWER. */
+                                                                 indicate linearly higher power consumption. [CHIP_POWER] is the sum of [CPU_POWER] and
+                                                                 [COPROC_POWER]. */
         uint64_t coproc_power          : 16; /**< [ 31: 16](RO/H) An estimate of the current coprocessor power consumption. Linearly larger values indicate
                                                                  linearly higher power consumption. This estimate is energy per core clock, and will
                                                                  generally decrease as the ratio of core to coprocessor clock speed increases. */
-        uint64_t avg_chip_power        : 16; /**< [ 15:  0](RO/H) An average of CHIP_POWER, calculated using an IIR filter with an average weight of 16K core clocks. */
+        uint64_t avg_chip_power        : 16; /**< [ 15:  0](RO/H) An average of [CHIP_POWER], calculated using an IIR filter with an average
+                                                                 weight of 16K core clocks. */
 #else /* Word 0 - Little Endian */
-        uint64_t avg_chip_power        : 16; /**< [ 15:  0](RO/H) An average of CHIP_POWER, calculated using an IIR filter with an average weight of 16K core clocks. */
+        uint64_t avg_chip_power        : 16; /**< [ 15:  0](RO/H) An average of [CHIP_POWER], calculated using an IIR filter with an average
+                                                                 weight of 16K core clocks. */
         uint64_t coproc_power          : 16; /**< [ 31: 16](RO/H) An estimate of the current coprocessor power consumption. Linearly larger values indicate
                                                                  linearly higher power consumption. This estimate is energy per core clock, and will
                                                                  generally decrease as the ratio of core to coprocessor clock speed increases. */
         uint64_t chip_power            : 16; /**< [ 47: 32](RO/H) An estimate of the current total power consumption by the chip. Linearly larger values
-                                                                 indicate linearly higher power consumption. CHIP_POWER is the sum of CPU_POWER and
-                                                                 COPROC_POWER. */
+                                                                 indicate linearly higher power consumption. [CHIP_POWER] is the sum of [CPU_POWER] and
+                                                                 [COPROC_POWER]. */
         uint64_t cpu_pwr               : 16; /**< [ 63: 48](RO/H) An estimate of the current CPU core complex power consumption. The CPU core complex
                                                                  includes the caches and DRAM controller(s), as well as all CPU cores. Linearly larger
                                                                  values indicate linearly higher power consumption. This power consumption estimate is

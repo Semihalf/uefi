@@ -524,11 +524,11 @@ typedef union
     struct bdk_fpa_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_39_63        : 25;
-        uint64_t status                : 39; /**< [ 38:  0](RO/H) Memory BIST status. */
+        uint64_t reserved_42_63        : 22;
+        uint64_t status                : 42; /**< [ 41:  0](RO/H) Memory BIST status. */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 39; /**< [ 38:  0](RO/H) Memory BIST status. */
-        uint64_t reserved_39_63        : 25;
+        uint64_t status                : 42; /**< [ 41:  0](RO/H) Memory BIST status. */
+        uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_bist_status_s cn; */
@@ -561,20 +561,43 @@ typedef union
     struct bdk_fpa_bp_test_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
                                                                  <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
-        uint64_t reserved_24_59        : 36;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 <60> = Reserved. FIXME - add some.
+                                                                 <59> = Reserved. FIXME - add some.
+                                                                 <58> = Reserved. FIXME - add some.
+                                                                 <57> = Reserved. FIXME - add some.
+                                                                 <56> = Reserved. FIXME - add some.
+                                                                 <55> = Reserved. FIXME - add some.
+                                                                 <54> = Reserved. FIXME - add some.
+                                                                 <53> = Reserved. FIXME - add some.
+                                                                 <52> = Reserved. FIXME - add some.
+                                                                 <51> = Reserved. FIXME - add some.
+                                                                 <50> = Reserved. FIXME - add some.
+                                                                 <49> = Reserved. FIXME - add some.
+                                                                 <48> = Reserved. FIXME - add some. */
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
                                                                  0x3=75% of the time.
+                                                                   <47:46> = BP_CFG3.
+                                                                   <45:44> = BP_CFG2.
+                                                                   <43:42> = BP_CFG1.
+                                                                   <41:40> = BP_CFG0.
+                                                                   <39:38> = BP_CFG3.
+                                                                   <37:36> = BP_CFG2.
+                                                                   <35:34> = BP_CFG1.
+                                                                   <33:32> = BP_CFG0.
+                                                                   <31:30> = BP_CFG3.
+                                                                   <29:28> = BP_CFG2.
+                                                                   <27:26> = BP_CFG1.
+                                                                   <25:24> = BP_CFG0.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -584,24 +607,47 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
                                                                  0x3=75% of the time.
+                                                                   <47:46> = BP_CFG3.
+                                                                   <45:44> = BP_CFG2.
+                                                                   <43:42> = BP_CFG1.
+                                                                   <41:40> = BP_CFG0.
+                                                                   <39:38> = BP_CFG3.
+                                                                   <37:36> = BP_CFG2.
+                                                                   <35:34> = BP_CFG1.
+                                                                   <33:32> = BP_CFG0.
+                                                                   <31:30> = BP_CFG3.
+                                                                   <29:28> = BP_CFG2.
+                                                                   <27:26> = BP_CFG1.
+                                                                   <25:24> = BP_CFG0.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
                                                                    <17:16> = BP_CFG0. */
-        uint64_t reserved_24_59        : 36;
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
                                                                  <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <60> = Reserved. FIXME - add some.
+                                                                 <59> = Reserved. FIXME - add some.
+                                                                 <58> = Reserved. FIXME - add some.
+                                                                 <57> = Reserved. FIXME - add some.
+                                                                 <56> = Reserved. FIXME - add some.
+                                                                 <55> = Reserved. FIXME - add some.
+                                                                 <54> = Reserved. FIXME - add some.
+                                                                 <53> = Reserved. FIXME - add some.
+                                                                 <52> = Reserved. FIXME - add some.
+                                                                 <51> = Reserved. FIXME - add some.
+                                                                 <50> = Reserved. FIXME - add some.
+                                                                 <49> = Reserved. FIXME - add some.
+                                                                 <48> = Reserved. FIXME - add some. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_bp_test_s cn; */
@@ -2722,13 +2768,17 @@ typedef union
     struct bdk_fpa_vhaurax_op_allocx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) IOVA newly allocated by hardware. Bits <6:0> are always zero. If all zeros, the
-                                                                 selected pool is empty, aura limit has been hit, or RED/DROP was applied. */
+        uint64_t addr                  : 64; /**< [ 63:  0](RO/H) IOVA newly allocated by hardware. Bits <6:0> are always zero.  Bits <63:49> are
+                                                                 a sign extension of bit <48>.
+
+                                                                 If all zeros, the selected pool is empty, aura limit has been hit, or RED/DROP
+                                                                 was applied. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) IOVA newly allocated by hardware. Bits <6:0> are always zero. If all zeros, the
-                                                                 selected pool is empty, aura limit has been hit, or RED/DROP was applied. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 64; /**< [ 63:  0](RO/H) IOVA newly allocated by hardware. Bits <6:0> are always zero.  Bits <63:49> are
+                                                                 a sign extension of bit <48>.
+
+                                                                 If all zeros, the selected pool is empty, aura limit has been hit, or RED/DROP
+                                                                 was applied. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhaurax_op_allocx_s cn; */
@@ -2769,11 +2819,11 @@ typedef union
     struct bdk_fpa_vhaurax_op_freex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte aligned. */
+        uint64_t addr                  : 64; /**< [ 63:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte
+                                                                 aligned. Bits<63:49> are ignored (as they are typically sign extensions of bit <48>). */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte aligned. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 64; /**< [ 63:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte
+                                                                 aligned. Bits<63:49> are ignored (as they are typically sign extensions of bit <48>). */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhaurax_op_freex_s cn; */

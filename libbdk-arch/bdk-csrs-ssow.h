@@ -222,9 +222,7 @@ typedef union
         uint64_t reserved_58_62        : 5;
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
         uint64_t reserved_36_47        : 12;
-        uint64_t grp                   : 8;  /**< [ 35: 28](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
-                                                                 Internal:
-                                                                 The upper two bits are hardcoded to the node number. */
+        uint64_t grp                   : 8;  /**< [ 35: 28](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t head                  : 1;  /**< [ 27: 27](RO/H) Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t tail                  : 1;  /**< [ 26: 26](RO/H) Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t reserved_21_25        : 5;
@@ -244,9 +242,7 @@ typedef union
         uint64_t reserved_21_25        : 5;
         uint64_t tail                  : 1;  /**< [ 26: 26](RO/H) Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t head                  : 1;  /**< [ 27: 27](RO/H) Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state. */
-        uint64_t grp                   : 8;  /**< [ 35: 28](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
-                                                                 Internal:
-                                                                 The upper two bits are hardcoded to the node number. */
+        uint64_t grp                   : 8;  /**< [ 35: 28](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t reserved_36_47        : 12;
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
         uint64_t reserved_58_62        : 5;
@@ -323,11 +319,11 @@ typedef union
     struct bdk_ssow_vhwsx_op_clr_nsched_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to CLR_NSCHED on. */
+        uint64_t wqp                   : 64; /**< [ 63:  0](WO) IOVA of the work-queue entry to CLR_NSCHED on.
+                                                                 Bits <63:49> and <2:0> are ignored. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to CLR_NSCHED on. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t wqp                   : 64; /**< [ 63:  0](WO) IOVA of the work-queue entry to CLR_NSCHED on.
+                                                                 Bits <63:49> and <2:0> are ignored. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_clr_nsched_s cn; */
@@ -492,9 +488,11 @@ typedef union
                                                                  SWTAG_FULL, or SWTAG_DESCHED to ORDERED or ATOMIC. Always clear otherwise. (The DESCHED
                                                                  portion of a SWTAG_DESCHED cannot still be pending.) */
         uint64_t reserved_49_61        : 13;
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) IOVA of the work-queue entry. Unpredictable when [NO_WORK] = 1. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) IOVA of the work-queue entry. Unpredictable when [NO_WORK] = 1.
+                                                                 FIXME software requests a sign-extended WQP, however this conflicts with use of <63:62>. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) IOVA of the work-queue entry. Unpredictable when [NO_WORK] = 1. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) IOVA of the work-queue entry. Unpredictable when [NO_WORK] = 1.
+                                                                 FIXME software requests a sign-extended WQP, however this conflicts with use of <63:62>. */
         uint64_t reserved_49_61        : 13;
         uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Pending switch. Set in the result of an indexed GET_WORK when there is a pending SWTAG,
                                                                  SWTAG_FULL, or SWTAG_DESCHED to ORDERED or ATOMIC. Always clear otherwise. (The DESCHED
@@ -620,11 +618,11 @@ typedef union
     struct bdk_ssow_vhwsx_op_swtag_full1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to switch to. */
+        uint64_t wqp                   : 64; /**< [ 63:  0](WO) IOVA of the work-queue entry to switch to.
+                                                                 Bits <63:49> and <2:0> are ignored. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to switch to. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t wqp                   : 64; /**< [ 63:  0](WO) IOVA of the work-queue entry to switch to.
+                                                                 Bits <63:49> and <2:0> are ignored. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_swtag_full1_s cn; */
@@ -891,11 +889,11 @@ typedef union
     struct bdk_ssow_vhwsx_op_upd_wqp_grp1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to switch to. */
+        uint64_t wqp                   : 64; /**< [ 63:  0](WO) IOVA of the work-queue entry to switch to.
+                                                                 Bits <63:49> and <2:0> are ignored. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to switch to. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t wqp                   : 64; /**< [ 63:  0](WO) IOVA of the work-queue entry to switch to.
+                                                                 Bits <63:49> and <2:0> are ignored. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_op_upd_wqp_grp1_s cn; */
@@ -991,11 +989,11 @@ typedef union
     struct bdk_ssow_vhwsx_pendwqp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t pend_wqp              : 49; /**< [ 48:  0](RO/H) The WQP when SSOW_VHWS()_PENDTAG[PEND_NOSCHED_CLR] is set. */
+        uint64_t pend_wqp              : 64; /**< [ 63:  0](RO/H) The WQP when SSOW_VHWS()_PENDTAG[PEND_NOSCHED_CLR] is set.
+                                                                 Bits <63:49> are a sign extension of <48>.  Bits <2:0> are 0x0. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend_wqp              : 49; /**< [ 48:  0](RO/H) The WQP when SSOW_VHWS()_PENDTAG[PEND_NOSCHED_CLR] is set. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t pend_wqp              : 64; /**< [ 63:  0](RO/H) The WQP when SSOW_VHWS()_PENDTAG[PEND_NOSCHED_CLR] is set.
+                                                                 Bits <63:49> are a sign extension of <48>.  Bits <2:0> are 0x0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_pendwqp_s cn; */
@@ -1077,9 +1075,7 @@ typedef union
         uint64_t reserved_58_62        : 5;
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
         uint64_t reserved_44_47        : 4;
-        uint64_t grp                   : 8;  /**< [ 43: 36](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
-                                                                 Internal:
-                                                                 The upper two bits are hardcoded to the node number. */
+        uint64_t grp                   : 8;  /**< [ 43: 36](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t tail                  : 1;  /**< [ 34: 34](RO/H) Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t tt                    : 2;  /**< [ 33: 32](RO/H) The tag type attached to the HWS (updated when new tag list entered on SWTAG, SWTAG_FULL,
@@ -1093,9 +1089,7 @@ typedef union
                                                                  or SWTAG_DESCHED.) */
         uint64_t tail                  : 1;  /**< [ 34: 34](RO/H) Set when this SSO entry is at the tail of its tag list, or when in the UNTAGGED or EMPTY state. */
         uint64_t head                  : 1;  /**< [ 35: 35](RO/H) Set when this SSO entry is at the head of its tag list, or when in the UNTAGGED or EMPTY state. */
-        uint64_t grp                   : 8;  /**< [ 43: 36](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL).
-                                                                 Internal:
-                                                                 The upper two bits are hardcoded to the node number. */
+        uint64_t grp                   : 8;  /**< [ 43: 36](RO/H) The group attached to the HWS (updated when new tag list entered on SWTAG_FULL). */
         uint64_t reserved_44_47        : 4;
         uint64_t index                 : 10; /**< [ 57: 48](RO/H) The SSO entry attached to the HWS. */
         uint64_t reserved_58_62        : 5;
@@ -1133,11 +1127,11 @@ typedef union
     struct bdk_ssow_vhwsx_wqp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) The WQP attached to the HWS (updated when new tag list entered on SWTAG_FULL.) */
+        uint64_t wqp                   : 64; /**< [ 63:  0](RO/H) The WQP attached to the HWS (updated when new tag list entered on SWTAG_FULL.)
+                                                                 Bits <63:49> are a sign extension of <48>.  Bits <2:0> are 0x0. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) The WQP attached to the HWS (updated when new tag list entered on SWTAG_FULL.) */
-        uint64_t reserved_49_63        : 15;
+        uint64_t wqp                   : 64; /**< [ 63:  0](RO/H) The WQP attached to the HWS (updated when new tag list entered on SWTAG_FULL.)
+                                                                 Bits <63:49> are a sign extension of <48>.  Bits <2:0> are 0x0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ssow_vhwsx_wqp_s cn; */

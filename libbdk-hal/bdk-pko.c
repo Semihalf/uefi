@@ -39,7 +39,6 @@ int bdk_pko_global_init(bdk_node_t node)
         return -1;
     const int aura = BDK_FPA_PKO_POOL; /* Use 1:1 mapping aura */
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_FPA_AURA,
-        c.s.node = node;
         c.s.laura = aura);
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_ENA,
         c.s.enable = 1);

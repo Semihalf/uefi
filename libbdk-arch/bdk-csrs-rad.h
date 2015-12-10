@@ -737,7 +737,11 @@ typedef union
                                                                  software acknowledging an interrupt and a result returning.)
 
                                                                  * When RAD_INT_ENA_W1S[DONE] = 0, interrupts are not sent, but the counting described
-                                                                 above still occurs. */
+                                                                 above still occurs.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 21; /**< [ 20:  0](R/W/H) When an instruction with RAD_CWORD_S[DN] completes, [DONE] is incremented. Writes to this
                                                                  field are for diagnostic use only; instead software writes RAD_DONE_ACK[DONE_ACK] with the
@@ -761,7 +765,11 @@ typedef union
                                                                  software acknowledging an interrupt and a result returning.)
 
                                                                  * When RAD_INT_ENA_W1S[DONE] = 0, interrupts are not sent, but the counting described
-                                                                 above still occurs. */
+                                                                 above still occurs.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
@@ -3052,7 +3060,11 @@ typedef union
                                                                  software acknowledging an interrupt and a result returning.)
 
                                                                  * When RAD_VF()_INT_ENA_W1S[DONE] = 0, interrupts are not sent, but the counting described
-                                                                 above still occurs. */
+                                                                 above still occurs.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 21; /**< [ 20:  0](R/W/H) When an instruction with RAD_CWORD_S[DN] completes, [DONE] is
                                                                  incremented. Writes to this field are for diagnostic use only; instead software
@@ -3076,7 +3088,11 @@ typedef union
                                                                  software acknowledging an interrupt and a result returning.)
 
                                                                  * When RAD_VF()_INT_ENA_W1S[DONE] = 0, interrupts are not sent, but the counting described
-                                                                 above still occurs. */
+                                                                 above still occurs.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;

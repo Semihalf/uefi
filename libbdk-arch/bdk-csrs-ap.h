@@ -3658,7 +3658,8 @@ static inline uint64_t BDK_AP_CVM_DCACHEVTAG1_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug0_el3
  *
- * AP Cavium Debug 0 Register
+ * INTERNAL: AP Cavium Debug 0 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3691,7 +3692,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG0_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug1_el3
  *
- * AP Cavium Debug 1 Register
+ * INTERNAL: AP Cavium Debug 1 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3724,7 +3726,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG1_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug2_el3
  *
- * AP Cavium Debug 2 Register
+ * INTERNAL: AP Cavium Debug 2 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3757,7 +3760,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG2_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug3_el3
  *
- * AP Cavium Debug 3 Register
+ * INTERNAL: AP Cavium Debug 3 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3790,7 +3794,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG3_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug4_el3
  *
- * Cavium Debug 4 Register
+ * INTERNAL: Cavium Debug 4 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3837,7 +3842,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG4_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug6_el3
  *
- * Cavium Debug 6 Register
+ * INTERNAL: Cavium Debug 6 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3880,7 +3886,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG6_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug7_el3
  *
- * Cavium Debug 7 Register
+ * INTERNAL: Cavium Debug 7 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3913,7 +3920,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG7_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug8_el3
  *
- * Cavium Debug 8 Register
+ * INTERNAL: Cavium Debug 8 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3958,7 +3966,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG8_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug9_el3
  *
- * Cavium Debug 9 Register
+ * INTERNAL: Cavium Debug 9 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -4753,7 +4762,6 @@ static inline uint64_t BDK_AP_CVM_NVBAR_EL3_FUNC(void)
  *
  * AP Cavium Power Control Register
  * This register controls power management.
- * Resets to 0x2ffff00.
  */
 typedef union
 {
@@ -4761,29 +4769,65 @@ typedef union
     struct bdk_ap_cvm_power_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t maxpow                : 8;  /**< [ 63: 56](R/W) Maximum power. */
+        uint64_t maxpow                : 8;  /**< [ 63: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum power. */
         uint64_t average_power         : 8;  /**< [ 55: 48](R/W) Average power. */
-        uint64_t current_setting       : 8;  /**< [ 47: 40](R/W) Current setting. */
-        uint64_t hrm_adjustment        : 8;  /**< [ 39: 32](R/W) HRM adjustment. */
+        uint64_t current_setting       : 8;  /**< [ 47: 40](R/W) Reserved.
+                                                                 Internal:
+                                                                 Current setting. */
+        uint64_t hrm_adjustment        : 8;  /**< [ 39: 32](R/W) Reserved.
+                                                                 Internal:
+                                                                 HRM adjustment. */
         uint64_t reserved_29_31        : 3;
-        uint64_t secret_override       : 1;  /**< [ 28: 28](R/W) Secret override. */
-        uint64_t disable_stagger       : 1;  /**< [ 27: 27](R/W) Disable stagger. */
-        uint64_t period                : 3;  /**< [ 26: 24](R/W) Period. */
-        uint64_t powlim                : 8;  /**< [ 23: 16](R/W) Power limit. */
-        uint64_t max_setting           : 8;  /**< [ 15:  8](R/W) Maximum setting. */
-        uint64_t min_setting           : 8;  /**< [  7:  0](R/W) Minimum setting. */
+        uint64_t override              : 1;  /**< [ 28: 28](R/W) Reserved.
+                                                                 Internal:
+                                                                 Override. */
+        uint64_t disable_stagger       : 1;  /**< [ 27: 27](R/W) Reserved.
+                                                                 Internal:
+                                                                 Disable stagger. */
+        uint64_t period                : 3;  /**< [ 26: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Period. */
+        uint64_t powlim                : 8;  /**< [ 23: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Power limit. */
+        uint64_t max_setting           : 8;  /**< [ 15:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum setting. */
+        uint64_t min_setting           : 8;  /**< [  7:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Minimum setting. */
 #else /* Word 0 - Little Endian */
-        uint64_t min_setting           : 8;  /**< [  7:  0](R/W) Minimum setting. */
-        uint64_t max_setting           : 8;  /**< [ 15:  8](R/W) Maximum setting. */
-        uint64_t powlim                : 8;  /**< [ 23: 16](R/W) Power limit. */
-        uint64_t period                : 3;  /**< [ 26: 24](R/W) Period. */
-        uint64_t disable_stagger       : 1;  /**< [ 27: 27](R/W) Disable stagger. */
-        uint64_t secret_override       : 1;  /**< [ 28: 28](R/W) Secret override. */
+        uint64_t min_setting           : 8;  /**< [  7:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Minimum setting. */
+        uint64_t max_setting           : 8;  /**< [ 15:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum setting. */
+        uint64_t powlim                : 8;  /**< [ 23: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Power limit. */
+        uint64_t period                : 3;  /**< [ 26: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Period. */
+        uint64_t disable_stagger       : 1;  /**< [ 27: 27](R/W) Reserved.
+                                                                 Internal:
+                                                                 Disable stagger. */
+        uint64_t override              : 1;  /**< [ 28: 28](R/W) Reserved.
+                                                                 Internal:
+                                                                 Override. */
         uint64_t reserved_29_31        : 3;
-        uint64_t hrm_adjustment        : 8;  /**< [ 39: 32](R/W) HRM adjustment. */
-        uint64_t current_setting       : 8;  /**< [ 47: 40](R/W) Current setting. */
+        uint64_t hrm_adjustment        : 8;  /**< [ 39: 32](R/W) Reserved.
+                                                                 Internal:
+                                                                 HRM adjustment. */
+        uint64_t current_setting       : 8;  /**< [ 47: 40](R/W) Reserved.
+                                                                 Internal:
+                                                                 Current setting. */
         uint64_t average_power         : 8;  /**< [ 55: 48](R/W) Average power. */
-        uint64_t maxpow                : 8;  /**< [ 63: 56](R/W) Maximum power. */
+        uint64_t maxpow                : 8;  /**< [ 63: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum power. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_power_el1_s cn; */

@@ -668,15 +668,19 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t reserved_126_127      : 2;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t reserved_177_191      : 15;
-        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
+                                                                 and requirements in each case.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 2 - Little Endian */
-        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
-        uint64_t reserved_177_191      : 15;
+                                                                 and requirements in each case.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_192_255      : 64;
@@ -1089,15 +1093,19 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t reserved_126_127      : 2;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t reserved_177_191      : 15;
-        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
+                                                                 and requirements in each case.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 2 - Little Endian */
-        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
-        uint64_t reserved_177_191      : 15;
+                                                                 and requirements in each case.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_192_255      : 64;
@@ -1690,9 +1698,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions. */
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions.  For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions. */
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions.  For diagnostic use only. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
