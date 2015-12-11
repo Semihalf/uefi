@@ -322,9 +322,27 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
             }
         }
 
+#if 0
         /* Wait for threads to finish */
         while (bdk_atomic_get64(&dram_test_thread_done) < total_count)
             bdk_thread_yield();
+#else
+#define TIMEOUT_SECS 30  // FIXME: long enough so multicore RXOR 224 should not print out
+        /* Wait for threads to finish, with progress */
+        int cur_count;
+        uint64_t cur_time;
+        uint64_t period = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) * TIMEOUT_SECS; // FIXME? 
+        uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + period;
+        do {
+            bdk_thread_yield();
+            cur_count = bdk_atomic_get64(&dram_test_thread_done);
+            cur_time = bdk_clock_get_count(BDK_CLOCK_TIME);
+            if (cur_time >= timeout) {
+                printf("Waiting for %d cores\n", total_count - cur_count);
+                timeout = cur_time + period;
+            }
+        } while (cur_count < total_count);
+#endif
     }
 
     /* Get the DRAM perf counters */
