@@ -1,6 +1,8 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
+#define ENABLE_COMPUTED_VREF_ADJUSTMENT 1
+
 #define RLEXTRAS_PATCH     1 // write to unused RL rank entries
 #define WLEXTRAS_PATCH     1 // write to unused WL rank entries
 #define ADD_48_OHM_SKIP    1
@@ -536,6 +538,36 @@ compute_vref_value(bdk_node_t node, int ddr_interface_num,
 	computed_final_vref_value = compute_Vref_2slot_2rank(rtt_wr, rtt_park_00, rtt_park_01, dqx_ctl, rtt_nom);
     }
 
+#if ENABLE_COMPUTED_VREF_ADJUSTMENT
+    {
+	BDK_CSR_INIT(lmc_config, node, BDK_LMCX_CONFIG(ddr_interface_num));
+	/*
+	  New computed Vref = existing computed Vref – X
+ 
+	  The value of X is depending on different conditions. Both #122 and #139 are 2Rx4 RDIMM,
+	  while #124 is stacked die 2Rx4, so I conclude the results into two conditions:
+
+	  1. Stacked Die: 2Rx4
+	     1-slot: offset = 7. i, e New computed Vref = existing computed Vref – 7
+	     2-slot: offset = 6
+
+          2. Regular: 2Rx4
+             1-slot: offset = 3
+	     2-slot:  offset = 2
+	*/
+	// we know we never get called unless DDR4, so test just the other conditions
+	if((!!__bdk_dram_is_rdimm(node, 0)) &&
+	   (rank_count == 2) &&
+	   (lmc_config.s.mode_x4dev))
+	{ // it must first be RDIMM and 2-rank and x4
+	    if (is_stacked_die) { // now do according to stacked die or not...
+		computed_final_vref_value -= (dimm_count == 1) ? 7 : 6;
+	    } else {
+		computed_final_vref_value -= (dimm_count == 1) ? 3 : 2;
+	    }
+	}
+    }
+#endif
     return computed_final_vref_value;
 }
 
@@ -4324,7 +4356,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     // FIXME: will need to add CN83XX (all) and CN81XX (all) at some point...
     if ((ddr_type == DDR3_DRAM) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
         load_dac_override(node, ddr_interface_num, 127, /* all */0x0A);
-        ddr_print("N%d.LMC%d, Overriding DDR3 internal VREF DAC settings to 127.\n",
+        ddr_print("N%d.LMC%d, Overriding DDR3 internal VREF DAC settings to 127 (early).\n",
                   node, ddr_interface_num);
     }
 #endif
@@ -4370,7 +4402,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     // FIXME: will need to add CN83XX (all) and CN81XX (all) at some point...
     if ((ddr_type == DDR3_DRAM) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
         load_dac_override(node, ddr_interface_num, 127, /* all */0x0A);
-        ddr_print("N%d.LMC%d, Overriding DDR3 internal VREF DAC settings to 127.\n",
+        ddr_print("N%d.LMC%d, Overriding DDR3 internal VREF DAC settings to 127 (late).\n",
                   node, ddr_interface_num);
     }
 #endif
@@ -6589,11 +6621,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             if (!(rank_mask & (1 << rankx)))
                 continue;
 
-	    if ((ddr_type == DDR4_DRAM) && (num_ranks != 4) && !measured_vref_flag) {
+	    if ((ddr_type == DDR4_DRAM) && (num_ranks != 4)) {
+		// always compute when we can...
 		computed_final_vref_value = compute_vref_value(node, ddr_interface_num, rankx,
 							       dimm_count, num_ranks, imp_values,
 							       is_stacked_die);
-		start_vref_value = 0x33; // skip all the measured Vref processing, just the final setting
+		if (!measured_vref_flag) // but only use it if allowed
+		    start_vref_value = 0x33; // skip all the measured Vref processing, just the final setting
 	    }
 
             /* Save off the h/w wl results */
@@ -6611,17 +6645,19 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		        set_vref(node, ddr_interface_num, rankx, 0, vref_value);
                     } else { /* if (vref_value < 0x33) */
                         /* Print the final Vref value first. */
-			/* If we are going to use the computed, print it */
-			if (computed_final_vref_value >= 0) {
-			    best_vref_values_count = 1;
-			    final_vref_value = computed_final_vref_value;
 
+			/* Always print the computed first if its valid */
+			if (computed_final_vref_value >= 0) {
 			    ddr_print("N%d.LMC%d.R%d: Vref Computed Summary                 :"
 				      "              %2d (0x%02x)\n",
 				      node, ddr_interface_num,
 				      rankx, computed_final_vref_value,
 				      computed_final_vref_value);
-			} else {
+			} 
+			if (!measured_vref_flag) { // setup to use the computed
+			    best_vref_values_count = 1;
+			    final_vref_value = computed_final_vref_value;
+			} else { // setup to use the measured
 			    if (best_vref_values_count > 0) {
 				best_vref_values_count = max(best_vref_values_count, 2);
 				final_vref_value = best_vref_values_start + divide_roundup((best_vref_values_count-1)*4,10);
@@ -6761,31 +6797,34 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                 }
 
 #if SW_WL_CHECK_PATCH
-                                test_byte8 &= ~1; /* Use only even settings, rounding down... */
+				// only do the check if we are not using measured VREF 
+				if (!measured_vref_flag) {
+                                    test_byte8 &= ~1; /* Use only even settings, rounding down... */
 
-				// do validity check on the calculated ECC delay value 
-				// this depends on the DIMM type
-				if (spd_rdimm) { // RDIMM
-				    // it can be > byte4, but should never be > byte3
-				    if (test_byte8 > lmc_wlevel_rank.s.byte3) {
-					byte_test_status[8] = WL_ESTIMATED; /* say it is still estimated */
-				    }
-				} else { // UDIMM
-				    if ((test_byte8 < lmc_wlevel_rank.s.byte3) ||
-					(test_byte8 > lmc_wlevel_rank.s.byte4))
-				    { // should never be outside the byte 3-4 range
-					byte_test_status[8] = WL_ESTIMATED; /* say it is still estimated */
-				    }
-				}
-				// check if we came up with a bad calculation
-				// this happens if some of the original values were off
-				if (byte_test_status[8] == WL_ESTIMATED) {
-				    // ESTIMATED means there is an issue, will trigger bytes_failed later
-				    ddr_print("N%d.LMC%d.R%d: ATTENTION (%cDIMM): calculated ECC delay bogus (%d/%d/%d)\n",
-					      node, ddr_interface_num, rankx, (spd_rdimm?'R':'U'),
-					      lmc_wlevel_rank.s.byte4, test_byte8, lmc_wlevel_rank.s.byte3);
-				    test_byte8 = save_byte8; // restore orig HW value
-				}
+                                    // do validity check on the calculated ECC delay value 
+                                    // this depends on the DIMM type
+                                    if (spd_rdimm) { // RDIMM
+                                        // it can be > byte4, but should never be > byte3
+                                        if (test_byte8 > lmc_wlevel_rank.s.byte3) {
+                                            byte_test_status[8] = WL_ESTIMATED; /* say it is still estimated */
+                                        }
+                                    } else { // UDIMM
+                                        if ((test_byte8 < lmc_wlevel_rank.s.byte3) ||
+                                            (test_byte8 > lmc_wlevel_rank.s.byte4))
+                                            { // should never be outside the byte 3-4 range
+                                                byte_test_status[8] = WL_ESTIMATED; /* say it is still estimated */
+                                            }
+                                    }
+                                    // check if we came up with a bad calculation
+                                    // this happens if some of the original values were off
+                                    if (byte_test_status[8] == WL_ESTIMATED) {
+                                        // ESTIMATED means there is an issue, will trigger bytes_failed later
+                                        ddr_print("N%d.LMC%d.R%d: ATTENTION (%cDIMM): calculated ECC delay bogus (%d/%d/%d)\n",
+                                                  node, ddr_interface_num, rankx, (spd_rdimm?'R':'U'),
+                                                  lmc_wlevel_rank.s.byte4, test_byte8, lmc_wlevel_rank.s.byte3);
+                                        test_byte8 = save_byte8; // restore orig HW value
+                                    }
+                                }
 #endif /* SW_WL_CHECK_PATCH */
                                 lmc_wlevel_rank.s.byte8 = test_byte8 & ~1; /* Use only even settings */
                             }
