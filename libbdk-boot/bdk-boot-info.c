@@ -88,7 +88,7 @@ void bdk_boot_info_strapping(bdk_node_t node)
         (vrm_disable) ? "Disabled" : "Enabled",
         (trust_mode) ? "Enabled" : "Disabled");
 
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && !bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
         const char *ccpi;
         BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(8));
