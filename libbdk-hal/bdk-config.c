@@ -1057,6 +1057,9 @@ static void config_set_defaults(void)
     /* CN88XX pass 1.x doesn't support EA */
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
         config_info[BDK_CONFIG_PCIE_EA].default_value = 0;
+    /* Emulator only supports 4 cores */
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        config_info[BDK_CONFIG_COREMASK].default_value = 0xf;
 }
 
 /**
