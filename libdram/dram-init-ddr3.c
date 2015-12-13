@@ -1,6 +1,8 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
+#define ENABLE_WRITE_DESKEW_DEFAULT 0
+
 #define ENABLE_COMPUTED_VREF_ADJUSTMENT 1
 
 #define RLEXTRAS_PATCH     1 // write to unused RL rank entries
@@ -276,7 +278,7 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
     do_print = 1; // print the first one
 
     lock_retries_limit = DEFAULT_LOCK_RETRY_LIMIT;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) // FIXME? modify for 81xx, 83xx?
         lock_retries_limit += 5; // give pass 2.0 a few more
 
 
@@ -381,6 +383,41 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
     // NOTE: we (currently) always print one last training validation before starting Read Leveling... 
 
     return 0;
+}
+
+static void Write_Deskew_Config(int node, int rank_mask, int ddr_interface_num)
+{
+
+    /*
+    **
+    ** Reuse read bit-deskew settings for write bit-deskew.
+    ** 
+    ** 1) Run read bit deskew and make sure everything is
+    **    locked and valid.
+    ** 
+    ** 2) Enable write_bit_deskew:
+    ** 
+    **    a.  DLL_CTL3.BIT_SELECT.set(10);   // Enable reuse read deskew settings
+    **    b.  DLL_CTL3.BYTE_SEL.set(10);     // Select all bytes
+    **    c.  DLL_CTL3.WR_DESKEW_ENA.set(1); // Enable write bit-deskew
+    **    d.  Then write DLL_CTL3
+    **    e.  DLL_CTL3.WR_DESKEW_LD.set(1);  // go
+    **    f.  Then write DLL_CTL3
+    ** 
+    ** 3) Now that write-bit-deskew is on,  re-run Write and Read leveling.
+    ** 
+    */
+
+    bdk_lmcx_dll_ctl3_t ddr_dll_ctl3;
+    ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
+
+    ddr_dll_ctl3.s.bit_select    = 0xA; /* Enable reuse read deskew settings */
+    ddr_dll_ctl3.s.byte_sel      = 0xA; /* Select all bytes */
+    ddr_dll_ctl3.s.wr_deskew_ena = 0x1;  /* Enable write bit-deskew */
+    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+
+    ddr_dll_ctl3.s.wr_deskew_ld  = 1;  /* go */
+    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
 }
 
 #define SCALING_FACTOR (1000)
@@ -2860,7 +2897,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         tclk_psecs = tCKmin;
 
     if (tclk_psecs < (uint64_t)tCKmin) {
-        error_print("WARNING!!!!: DDR Clock Rate (tCLK: %ld) exceeds DIMM specifications (tCKmin: %ld)!!!!\n",
+        ddr_print("WARNING!!!!: DDR Clock Rate (tCLK: %ld) exceeds DIMM specifications (tCKmin: %ld)!!!!\n",
                     tclk_psecs, (uint64_t)tCKmin);
     }
 
@@ -3270,7 +3307,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         lmc_timing_params1.s.twtr     = divide_roundup(twtr, tclk_psecs) - 1;
         lmc_timing_params1.s.trfc     = divide_roundup(trfc, 8*tclk_psecs);
-        if ((ddr_type == DDR4_DRAM) /*&& CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)*/) {
+
+	// workaround needed for all THUNDER chips thru T88 Pass 2.0
+	// FIXME: but not 81xx most likely, TBD...
+        if ((ddr_type == DDR4_DRAM)) {
             /* Workaround bug 24006. Use Trrd_l. */
             lmc_timing_params1.s.trrd     = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 2;
         } else
@@ -3314,7 +3354,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmc_timing_params2.u = BDK_CSR_READ(node, BDK_LMCX_TIMING_PARAMS2(ddr_interface_num));
         ddr_print("TIMING_PARAMS2                                : 0x%016lx\n", lmc_timing_params2.u);
 
-        lmc_timing_params2.s.trrd_l = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 1;
+        //lmc_timing_params2.s.trrd_l = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 1;
+	// NOTE: this is reworked for pass 2.x
+	int temp_trrd_l = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 2;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (temp_trrd_l > 7)) {
+	    temp_trrd_l = 7; // max it out
+	}
+	lmc_timing_params2.s.trrd_l      = temp_trrd_l & 7;
+	lmc_timing_params2.s.trrd_l_ext  = (temp_trrd_l >> 3) & 1;
+
         lmc_timing_params2.s.twtr_l = divide_nint(max(4*tclk_psecs, 7500ull), tclk_psecs) - 1; // correct for 1600-2400
         lmc_timing_params2.s.t_rw_op_max = 7;
         lmc_timing_params2.s.trtp = divide_roundup(max(4*tclk_psecs, 7500ull), tclk_psecs) - 1;
@@ -3404,7 +3452,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmc_modereg_params0.s.wlev    = 0; /* Read Only */
         lmc_modereg_params0.s.tdqs    = ((ddr_type == DDR4_DRAM) || (dram_width != 8))?0:1; /* disable(0) for DDR4 and x4/x16 DDR3 */
         lmc_modereg_params0.s.qoff    = 0;
-        lmc_modereg_params0.s.bl      = 0; /* Read Only */
+        //lmc_modereg_params0.s.bl      = 0; /* Don't touch block dirty logic */
 
         if ((s = lookup_env_parameter("ddr_cl")) != NULL) {
             CL = strtoul(s, NULL, 0);
@@ -5090,6 +5138,78 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		break;
 	} while (retry_count < 5);
     }
+
+    /* Enable the Write bit-deskew feature. */
+    // NOTE: THUNDER pass 2.x only
+    // FIXME: allow override
+    int enable_write_deskew = ENABLE_WRITE_DESKEW_DEFAULT;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
+	if ((s = lookup_env_parameter("ddr_enable_write_deskew")) != NULL) {
+	    enable_write_deskew = !!strtoul(s, NULL, 0);
+	} // else take default setting
+    } else { // not pass 2.x
+	enable_write_deskew = 0; // force disabled
+    }
+
+    if (enable_write_deskew) {
+
+        bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank;
+        bdk_lmcx_config_t lmc_config;
+        int rankx;
+        int passx;
+        int ecc_ena;
+        int wlevel_bitmask[9];
+
+        ddr_print("N%d.LMC%d: Enabling the Write bit-deskew feature.\n",
+                  node, ddr_interface_num);
+
+        Write_Deskew_Config(node, rank_mask, ddr_interface_num);
+
+        ddr_print("N%d.LMC%d: Repeating Write-Leveling.\n",
+                  node, ddr_interface_num);
+
+        lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
+        ecc_ena = lmc_config.s.ecc_ena;
+
+        for (rankx = 0; rankx < dimm_count * 4; rankx++) {
+            if (!(rank_mask & (1 << rankx)))
+                continue;
+            /* Rerun write-leveling now that write-deskew is enabled. */
+
+            /* Read and write values back in order to update the
+               status field. This insurs that we read the updated
+               values after write-leveling has completed. */
+            DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx),
+			   BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx)));
+
+            perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 6); /* write-leveling */
+
+            do {
+                lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
+            } while (lmc_wlevel_rank.s.status != 3);
+
+            for (passx=0; passx<(8+ecc_ena); ++passx) {
+                wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
+                if (wlevel_bitmask[passx] == 0)
+                    ++wlevel_bitmask_errors;
+            } /* for (passx=0; passx<(8+ecc_ena); ++passx) */
+
+            ddr_print("N%d.LMC%d.R%d: Wlevel Debug Results                  : %05x %05x %05x %05x %05x %05x %05x %05x %05x\n",
+                      node, ddr_interface_num, rankx,
+                      wlevel_bitmask[8],
+                      wlevel_bitmask[7],
+                      wlevel_bitmask[6],
+                      wlevel_bitmask[5],
+                      wlevel_bitmask[4],
+                      wlevel_bitmask[3],
+                      wlevel_bitmask[2],
+                      wlevel_bitmask[1],
+                      wlevel_bitmask[0]
+                      );
+            display_WL(node, ddr_interface_num, lmc_wlevel_rank, rankx);
+        } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
+
+    } /* if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) */
 
     /*
      * 4.8.10 LMC Read Leveling
@@ -6824,7 +6944,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                     // this happens if some of the original values were off
                                     if (byte_test_status[8] == WL_ESTIMATED) {
                                         // ESTIMATED means there is an issue, will trigger bytes_failed later
-                                        ddr_print("N%d.LMC%d.R%d: ATTENTION (%cDIMM): calculated ECC delay bogus (%d/%d/%d)\n",
+                                        ddr_print("N%d.LMC%d.R%d: SW write-leveling (%cDIMM): calculated ECC delay poor (%d/%d/%d)\n",
                                                   node, ddr_interface_num, rankx, (spd_rdimm?'R':'U'),
                                                   lmc_wlevel_rank.s.byte4, test_byte8, lmc_wlevel_rank.s.byte3);
                                         test_byte8 = save_byte8; // restore orig HW value
