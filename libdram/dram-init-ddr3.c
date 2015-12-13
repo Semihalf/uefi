@@ -263,7 +263,7 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
 					int spd_rawcard_AorB)
 {
     int unsaturated, locked;
-    int sat_retries, lock_retries, lock_retries_total;
+    int sat_retries, lock_retries, lock_retries_total, lock_retries_limit;
     int do_print;
     int print_them_all = 0; // set to 1 for printing all deskew attempts
     deskew_counts_t dsk_counts;
@@ -274,6 +274,11 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
     lock_retries_total = 0;
     unsaturated = 0;
     do_print = 1; // print the first one
+
+    lock_retries_limit = DEFAULT_LOCK_RETRY_LIMIT;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+        lock_retries_limit += 5; // give pass 2.0 a few more
+
 
     do { /* while (sat_retries < sat_retry_limit) */
 
@@ -314,7 +319,7 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
 
 #ifdef EARLY_NIBBLE_ERR_RETURN
 	if ((dsk_counts.nibsat_errs != 0) || (dsk_counts.nibunl_errs != 0)) {
-	    ddr_print("N%d.LMC%d: NIBBLE ERROR(S) found, returning FAULT immediately\n",
+	    debug_print("N%d.LMC%d: NIBBLE ERROR(S) found, returning FAULT immediately\n",
 		      node, ddr_interface_num);
 	    return -1; // we do not retry locally, they do not help
 	}
@@ -330,11 +335,11 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
 	    if (!locked) { // and not locked
 		lock_retries++;
 		lock_retries_total++;
-		if (lock_retries <= DEFAULT_LOCK_RETRY_LIMIT) {
+		if (lock_retries <= lock_retries_limit) {
 		    goto perform_deskew_training;
 		} else {
 		    ddr_print("N%d.LMC%d: LOCK RETRIES failed after %d retries\n",
-			      node, ddr_interface_num, DEFAULT_LOCK_RETRY_LIMIT);
+			      node, ddr_interface_num, lock_retries_limit);
 		}
 	    } else {
 		if (lock_retries_total > 0) // only print if we did try
@@ -367,7 +372,7 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
 
 #ifndef EARLY_NIBBLE_ERR_RETURN
     if ((dsk_counts.nibsat_errs != 0) || (dsk_counts.nibunl_errs != 0)) {
-	ddr_print("N%d.LMC%d: NIBBLE ERROR(S) found, returning FAULT finally\n",
+	debug_print("N%d.LMC%d: NIBBLE ERROR(S) found, returning FAULT finally\n",
 		  node, ddr_interface_num);
 	return -1; // we did retry locally, they did not help
     }
