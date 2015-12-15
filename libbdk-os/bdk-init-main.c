@@ -38,6 +38,9 @@ static void __bdk_init_sysreg(void)
     BDK_MRS(s3_0_c11_c0_4, cvmmemctl0_el1.u);
     cvmmemctl0_el1.s.wbftonshena = 1; /* NSH has 2^18 timeout. All BDK mem is NSH */
     cvmmemctl0_el1.s.wbftomrgclrena = 1; /* Reset timer on merge. Hardware default is brain dead */
+    /* Errata (AP-27388) Flavors of DMB not stalling on subsequent LD */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+        cvmmemctl0_el1.s.dmbstallforce = 1;
     BDK_MSR(s3_0_c11_c0_4, cvmmemctl0_el1.u);
 }
 
