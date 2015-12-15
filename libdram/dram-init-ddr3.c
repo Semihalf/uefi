@@ -11,6 +11,7 @@
 #define NOSKIP_40_48_OHM   1
 #define NOSKIP_48_STACKED  1
 #define MAJORITY_OVER_AVG  1
+#define RANK_MAJORITY      MAJORITY_OVER_AVG && 1
 #define SW_WL_CHECK_PATCH  1 // check validity after SW adjust
 #define HW_WL_MAJORITY     1
 
@@ -6362,6 +6363,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			// NOTE: we do this next loop separately from above, because we count relative to "best_byte"
 			// which may have been modified by the above averaging operation...
 			int count_less = 0, count_same = 0, count_more = 0;
+#if RANK_MAJORITY
+			int rank_less = 0, rank_same = 0, rank_more = 0;
+#endif /* RANK_MAJORITY */
 
 			for (rtt_idx = min_rtt_nom_idx; rtt_idx <= max_rtt_nom_idx; ++rtt_idx) {
 			    rtt_nom = imp_values->rtt_nom_table[rtt_idx];
@@ -6394,15 +6398,33 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    else if (temp_byte == best_byte + 1)
 					count_more++;
 				    // else do not count anything more than 1 away from the best
+#if RANK_MAJORITY
+				    // FIXME? count is relative to best_byte; should it be rank-based?
+				    if (orankx != rankx) // rank counts only on main rank
+					continue;
+				    else if (temp_byte == best_byte)
+					rank_same++;
+				    else if (temp_byte == best_byte - 1)
+					rank_less++;
+				    else if (temp_byte == best_byte + 1)
+					rank_more++;
+#endif /* RANK_MAJORITY */
 				} /* for (int orankx = 0; orankx < dimm_count * 4; orankx++) */
 			    } /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
 			} /* for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) */
 
+#if RANK_MAJORITY
+			extra_ddr_print("N%d.LMC%d.R%d: COUNT:   Byte %d: orig %d now %d, more %d same %d less %d (%d/%d/%d)\n",
+					node, ddr_interface_num, rankx,
+					byte_idx, (int)orig_best_byte, (int)best_byte,
+					count_more, count_same, count_less,
+					rank_more, rank_same, rank_less);
+#else /* RANK_MAJORITY */
 			extra_ddr_print("N%d.LMC%d.R%d: COUNT:   Byte %d: orig %d now %d, more %d same %d less %d\n",
 					node, ddr_interface_num, rankx,
 					byte_idx, (int)orig_best_byte, (int)best_byte,
 					count_more, count_same, count_less);
-
+#endif /* RANK_MAJORITY */
 			////////////////// this is the end of the BEST BYTE COUNTING LOOP 
 
 			// choose the new byte value
@@ -6460,6 +6482,36 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 						node, ddr_interface_num, rankx,
 						byte_idx, (int)new_byte);
 			    }
+#if RANK_MAJORITY
+			    // rank majority is dependent on the rank counts, which are relative to best_byte,
+			    // so start there, and adjust according to the rank counts majority
+			    uint64_t rank_maj = best_byte;
+			    if ((rank_more > rank_same) && (rank_more > rank_less)) {
+				rank_maj++;
+			    } else if ((rank_less > rank_same) && (rank_less > rank_more)) {
+				rank_maj--;
+			    }
+			    int rank_sum = rank_more + rank_same + rank_less;
+
+			    // now, let rank majority possibly rule over the current new_byte however we got it
+			    if (rank_maj != new_byte) { // only if different 
+				// Here is where we decide whether to completely apply RANK_MAJORITY or not
+				// FIXME: For the moment, we do it ONLY when running 2-slot configs...
+				// FIXME? this may not be correct, also could we use rank_sum to help for 1-slot?
+				if (dimm_count > 1) {
+				    // print only when rank majority choice is selected
+				    extra_ddr_print("N%d.LMC%d.R%d: RANKMAJ: Byte %d: picking %d over %d.\n",
+						    node, ddr_interface_num, rankx,
+						    byte_idx, (int)rank_maj, (int)new_byte);
+				    new_byte = rank_maj;
+				} else { // FIXME: print some info when we could have chosen RANKMAJ but did not
+				    extra_ddr_print("N%d.LMC%d.R%d: RANKMAJ: Byte %d: NOT using %d over %d (best=%d,sum=%d).\n",
+						    node, ddr_interface_num, rankx,
+						    byte_idx, (int)rank_maj, (int)new_byte,
+						    (int)best_byte, rank_sum);
+				}
+			    }
+#endif /* RANK_MAJORITY */
 			}
 #else
 			else {
