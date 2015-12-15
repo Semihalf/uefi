@@ -1067,9 +1067,15 @@ int __bdk_init_ccpi_multinode(void)
         if (node == my_node)
         {
             BDK_CSR_MODIFY(l2c_oci_ctl, node, BDK_L2C_OCI_CTL,
-                /* Errata TBD - Local STC are needed for pass 2 stability */
+                /* Errata (L2C-27380) L2C_OCI_CTL[LOCK_LOCAL_*,CAS_FDX] must be set */
                 if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+                {
+                    l2c_oci_ctl.s.lock_local_cas = 1;
                     l2c_oci_ctl.s.lock_local_stc = 1;
+                    l2c_oci_ctl.s.lock_local_pp = 1;
+                    l2c_oci_ctl.s.lock_local_iob = 1;
+                    l2c_oci_ctl.s.cas_fdx = 1;
+                }
                 l2c_oci_ctl.s.iofrcl = 0;
                 l2c_oci_ctl.s.enaoci = node_exists);
         }
@@ -1077,9 +1083,15 @@ int __bdk_init_ccpi_multinode(void)
         {
             bdk_l2c_oci_ctl_t l2c_oci_ctl;
             l2c_oci_ctl.u = ocx_pp_read(node, BDK_L2C_OCI_CTL);
-            /* Errata TBD - Local STC are needed for pass 2 stability */
+            /* Errata (L2C-27380) L2C_OCI_CTL[LOCK_LOCAL_*,CAS_FDX] must be set */
             if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+            {
+                l2c_oci_ctl.s.lock_local_cas = 1;
                 l2c_oci_ctl.s.lock_local_stc = 1;
+                l2c_oci_ctl.s.lock_local_pp = 1;
+                l2c_oci_ctl.s.lock_local_iob = 1;
+                l2c_oci_ctl.s.cas_fdx = 1;
+            }
             l2c_oci_ctl.s.iofrcl = 0;
             l2c_oci_ctl.s.enaoci = node_exists;
             ocx_pp_write(node, BDK_L2C_OCI_CTL, l2c_oci_ctl.u);
