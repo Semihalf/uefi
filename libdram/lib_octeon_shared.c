@@ -148,7 +148,7 @@ static int init_octeon_dram_interface(bdk_node_t node,
     return mem_size_mbytes;
 }
 
-#define DO_LIKE_RANDOM_XOR 0
+#define DO_LIKE_RANDOM_XOR 1
 
 #if !DO_LIKE_RANDOM_XOR
 /*

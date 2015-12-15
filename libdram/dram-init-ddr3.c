@@ -14,6 +14,7 @@
 #define RANK_MAJORITY      MAJORITY_OVER_AVG && 1
 #define SW_WL_CHECK_PATCH  1 // check validity after SW adjust
 #define HW_WL_MAJORITY     1
+#define SWL_TRY_HWL_ALT    HW_WL_MAJORITY && 1 // try HW WL base alternate if available when SW WL fails
 
 #define DISABLE_SW_WL_PASS_2 1
 
@@ -880,6 +881,61 @@ static int  get_wlevel_rank_struct(bdk_lmcx_wlevel_rankx_t *lmc_wlevel_rank,
 	delay = ((lmc_wlevel_rank->u) >> (WLEVEL_BYTE_BITS * byte)) & WLEVEL_BYTE_MSK;
     }
     return delay;
+}
+
+#if 0
+// entry = 1 is valid, entry = 0 is invalid
+static int
+validity_matrix[4][4] = {[0] {1,1,1,0},  // valid pairs when cv == 0: 0,0 + 0,1 + 0,2
+			 [1] {0,1,1,1},  // valid pairs when cv == 1: 1,1 + 1,2 + 1,3
+			 [2] {1,0,1,1},  // valid pairs when cv == 2: 2,2 + 2,3 + 2,0
+			 [3] {1,1,0,1}}; // valid pairs when cv == 3: 3,3 + 3,0 + 3,1
+#endif
+static int
+validate_seq(int *wl, int *seq)
+{
+    int seqx; // sequence index, step through the sequence array
+    int bitnum;
+    seqx = 0;
+    while (seq[seqx+1] >= 0) { // stop on next seq entry == -1
+	// but now, check current versus next
+#if 0
+	if ( !validity_matrix [wl[seq[seqx]]] [wl[seq[seqx+1]]] )
+	    return 1;
+#else
+	bitnum = (wl[seq[seqx]] << 2) | wl[seq[seqx+1]];
+	if (!((1 << bitnum) & 0xBDE7)) // magic validity number :-D
+	    return 1;
+#endif
+	seqx++;
+    }
+    return 0;
+}
+
+static int
+Validate_HW_WL_Settings(bdk_node_t node, int ddr_interface_num,
+			bdk_lmcx_wlevel_rankx_t *lmc_wlevel_rank)
+{
+    int wl[9], byte, errors;
+    // arrange the sequences so 
+    int useq[] = { 0,1,2,3,8,4,5,6,7,-1 }; // index 0 has byte 0, etc
+    int rseq1[] = { 8,3,2,1,0,-1 }; // index 0 is ECC, then go down
+    int rseq2[] = { 4,5,6,7,-1 }; // index 0 has byte 4, then go up
+    
+    // in the CSR, bytes 0-7 are always data, byte 8 is ECC
+    for (byte = 0; byte < 9; byte++) {
+	wl[byte] = (get_wlevel_rank_struct(lmc_wlevel_rank, byte) >> 1) & 3; // preprocess :-)
+    }
+
+    errors = 0;
+    if (__bdk_dram_is_rdimm(node, 0) != 0) { // RDIMM order
+	errors  = validate_seq(wl, rseq1);
+	errors += validate_seq(wl, rseq2);
+    } else { // UDIMM order
+	errors  = validate_seq(wl, useq);
+    }
+
+    return errors;
 }
 
 #define RLEVEL_BYTE_BITS 6
@@ -2443,6 +2499,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     impedence_values_t *imp_values;
     int default_rodt_ctl;
     int ddr_disable_deskew_fail_reset = 1; // default to disabled (ie, no chip reset)
+
+#if SWL_TRY_HWL_ALT
+    typedef struct {
+	uint16_t hwl_alt_mask; // mask of bytelanes with alternate
+	uint16_t  hwl_alt_delay[9]; // bytelane alternate avail if mask=1
+    } hwl_alt_by_rank_t;
+    hwl_alt_by_rank_t hwl_alts[4];
+    memset(hwl_alts, 0, sizeof(hwl_alts));
+#endif /* SWL_TRY_HWL_ALT */
 
     /* Initialize these to shut up the compiler. They are configured
        and used only for DDR4  */
@@ -4743,6 +4808,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int ecc_ena;
         int ddr_wlevel_roundup = 0;
         int save_mode32b;
+        int ddr_wlevel_printall = 1; // default to ON to print all HW WL samples
 #pragma pack(pop)
 
         if (wlevel_loops)
@@ -4770,6 +4836,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	if ((s = lookup_env_parameter("ddr_wlevel_roundup")) != NULL) {
 	    ddr_wlevel_roundup = strtoul(s, NULL, 0);
 	}
+	if ((s = lookup_env_parameter("ddr_wlevel_printall")) != NULL) {
+	    ddr_wlevel_printall = strtoul(s, NULL, 0);
+	}
 
 #if RUN_INIT_SEQ_3
 	lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
@@ -4788,7 +4857,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	    memset(wlevel_bytes, 0, sizeof(wlevel_bytes));
 #endif
 
-	    for (int wloop = 0; wloop < wlevel_loops; wloop++) {
+	    // restructure the looping so we can keep trying until we get the samples we want
+	    //for (int wloop = 0; wloop < wlevel_loops; wloop++) {
+	    int wloop = 0;
+	    int wloop_retries = 0; // retries for HW-related issues with bitmasks or values
+#define WLOOP_RETRIES_DEFAULT 5
+
+	    while (wloop < wlevel_loops) {
 
 #if RUN_INIT_SEQ_3
 		uint32_t mr_wr_addr;
@@ -4929,11 +5004,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
 		    if (wlevel_bitmask[passx] == 0)
 			++wlevel_bitmask_errors;
-#if HW_WL_MAJORITY
-		    // increment count of byte-lane value
-		    int ix = (get_wlevel_rank_struct(&lmc_wlevel_rank, passx) >> 1) & 3;
-		    wlevel_bytes[passx][ix]++;
-#endif
 		} /* for (passx=0; passx<(8+ecc_ena); ++passx) */
 #else
 		wlevel_ctl.s.lanemask = 0x1ff;
@@ -4954,22 +5024,47 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		{
 		    error_print("ERROR: Timeout waiting for WLEVEL\n");
 		}
+
 		lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
 		for (passx=0; passx<(8+ecc_ena); ++passx) {
 		    wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
 		    if (wlevel_bitmask[passx] == 0)
 			++wlevel_bitmask_errors;
-#if HW_WL_MAJORITY
-		    // increment count of byte-lane value
-		    int ix = (get_wlevel_rank_struct(&lmc_wlevel_rank, passx) >> 1) & 3;
-		    wlevel_bytes[passx][ix]++;
-#endif
 		} /* for (passx=0; passx<(8+ecc_ena); ++passx) */
 #endif
 
-		// when only 1, print the bitmasks first
-		if (wlevel_loops < 2) {
+		// before we print, if we had bitmask errors, do a retry...
+		if (wlevel_bitmask_errors != 0) {
+		    if (wloop_retries < WLOOP_RETRIES_DEFAULT) {
+			wloop_retries++;
+			// FIXME: at some point remove this printout
+			ddr_print("N%d.LMC%d.R%d: H/W Write-Leveling had %d Bitmask errors - retrying...\n",
+				  node, ddr_interface_num, rankx, wlevel_bitmask_errors);
+			continue; // this takes us back to the top without counting a sample
+		    } else {
+			ddr_print("N%d.LMC%d.R%d: H/W Write-Leveling Failed: %d Bitmask errors\n",
+				  node, ddr_interface_num, rankx, wlevel_bitmask_errors);
+		    }
+		}
+
+		// also before we print, validate the HW WL settings we got
+		int wlevel_validity_errors = Validate_HW_WL_Settings(node, ddr_interface_num, &lmc_wlevel_rank);
+		if (wlevel_validity_errors != 0) {
+		    if (wloop_retries < WLOOP_RETRIES_DEFAULT) {
+			wloop_retries++;
+			// FIXME: at some point remove this printout
+			ddr_print("N%d.LMC%d.R%d: H/W Write-Leveling had %d Validity errors - retrying...\n",
+				  node, ddr_interface_num, rankx, wlevel_validity_errors);
+			continue; // this takes us back to the top without counting a sample
+		    } else {
+			ddr_print("N%d.LMC%d.R%d: H/W Write-Leveling Failed: %d Validity errors\n",
+				  node, ddr_interface_num, rankx, wlevel_validity_errors);
+		    }
+		}
+
+		// when only 1 sample or forced, print the bitmasks first and current HW WL
+		if ((wlevel_loops == 1) || ddr_wlevel_printall) {
 		    ddr_print("N%d.LMC%d.R%d: Wlevel Debug Results                  : %05x %05x %05x %05x %05x %05x %05x %05x %05x\n",
 			      node, ddr_interface_num, rankx,
 			      wlevel_bitmask[8],
@@ -4997,10 +5092,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    display_WL(node, ddr_interface_num, lmc_wlevel_rank, rankx);
 		}
 
-		if (wlevel_bitmask_errors != 0) {
-		    ddr_print("N%d.LMC%d.R%d: Write-Leveling Failed: %d Bitmask errors\n",
-			      node, ddr_interface_num, rankx, wlevel_bitmask_errors);
-		}
+#if HW_WL_MAJORITY
+		// OK, we have a decent sample, no bitmask or validity errors
+		for (passx=0; passx<(8+ecc_ena); ++passx) {
+		    // increment count of byte-lane value
+		    int ix = (get_wlevel_rank_struct(&lmc_wlevel_rank, passx) >> 1) & 3; // only 4 values
+		    wlevel_bytes[passx][ix]++;
+		} /* for (passx=0; passx<(8+ecc_ena); ++passx) */
+#endif
+
 #if RUN_INIT_SEQ_3
 		if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
 		    /*
@@ -5050,25 +5150,48 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    ddr_print("38) Repeat Step 31-34 for all ranks that needed to be write leveled.\n");
 		}
 #endif
-	    } /* for (int wloop = 0; wloop < wlevel_loops; wloop++) */
+		wloop++; // if we get here, we have taken a decent sample
+
+	    } /* while (wloop < wlevel_loops) */
 
 #if HW_WL_MAJORITY
+	    // if we did sample more than once, try to pick a majority vote
 	    if (wlevel_loops > 1) {
 		// look for the majority in each byte-lane
 		for (passx = 0; passx < (8+ecc_ena); ++passx) {
-		    int mx = -1, mc = 0;
-		    for (int ix = 0; ix < 4; ix++) {
-			int ic = wlevel_bytes[passx][ix];
-			if (ic > 1) { // a count of 2 or 3 must be majority
-			    mx = ix;
-			    break; // found majority for this byte-lane
-			} 
-			 // make a bitmask of the ones with a count
-			mc |= (ic << ix); // assume ic is 0 or 1
+		    int mx = -1, mc = 0, xc = 0, cc = 0; 
+		    int ix, ic;
+		    for (ix = 0; ix < 4; ix++) {
+			ic = wlevel_bytes[passx][ix];
+			// make a bitmask of the ones with a count
+			if (ic > 0) {
+			    mc |= (1 << ix);
+			    cc++; // count how many had non-zero counts
+			}
+			// find the majority
+			if (ic > xc) { // new max?
+			    xc = ic; // yes
+			    mx = ix; // set its index
+			}
 		    }
-		    if (mx == -1) {
-			ddr_print("N%d.LMC%d.R%d: HW WL MAJORITY: bad byte-lane %d (0x%x).\n",
-				  node, ddr_interface_num, rankx, passx, mc);
+#if SWL_TRY_HWL_ALT
+		    // see if there was an alternate
+		    int alts = (mc & ~(1 << mx)); // take out the majority choice
+		    if (alts != 0) {
+			for (ix = 0; ix < 4; ix++) {
+			    if (alts & (1 << ix)) { // FIXME: could be done multiple times? bad if so
+				hwl_alts[rankx].hwl_alt_mask |= (1 << passx); // set the mask
+				hwl_alts[rankx].hwl_alt_delay[passx] = ix << 1; // record the value
+				ddr_print("N%d.LMC%d.R%d: SWL_TRY_HWL_ALT: Byte %d maj %d alt %d.\n",
+					  node, ddr_interface_num, rankx, passx, mx << 1, ix << 1);
+			    }
+			}
+		    } else {
+			debug_print("N%d.LMC%d.R%d: SWL_TRY_HWL_ALT: Byte %d maj %d alt NONE.\n",
+				    node, ddr_interface_num, rankx, passx, mx << 1);
+		    }
+#endif /* SWL_TRY_HWL_ALT */
+		    if (cc > 2) { // unlikely, but...
 			// assume: counts for 3 indices are all 1
 			// possiblities are: 0/2/4, 2/4/6, 0/4/6, 0/2/6
 			// and the desired?:   2  ,   4  ,     6, 0
@@ -5080,22 +5203,18 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			case 0xd: mx = 3; break; // was 0/4/6, choose 6
 			case 0xe: mx = 2; break; // was 2/4/6, choose 4
 			default:
-			    // this should never happen, but...
-			    bdk_error("N%d.LMC%d.R%d: HW WL MAJORITY: bad byte-lane %d (0x%x).\n",
-				      node, ddr_interface_num, rankx, passx, mc);
-			    
-			    mx = 0; // choose something...
-			    break;
+			case 0xf: mx = 1; break; // was 0/2/4/6, choose 2?
 			}
-
+			ddr_print("N%d.LMC%d.R%d: HW WL MAJORITY: bad byte-lane %d (0x%x), using %d.\n",
+				  node, ddr_interface_num, rankx, passx, mc, mx << 1);
 		    }
 		    update_wlevel_rank_struct(&lmc_wlevel_rank, passx, mx << 1);
 		} /* for (passx=0; passx<(8+ecc_ena); ++passx) */
 
 		DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
 		display_WL_with_final(node, ddr_interface_num, lmc_wlevel_rank, rankx);
-	    }
-#endif
+	    } /* if (wlevel_loops > 1) */
+#endif /* HW_WL_MAJORITY */
 	} /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
 
 #if RUN_INIT_SEQ_3
@@ -6925,16 +7044,32 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				if (errors & (1 << byte)) { // yes, an error in this byte lane
 				    debug_print("        byte %d delay %2d Errors\n", byte, delay);
 				    // since this byte had an error, we move to the next delay value, unless maxxed out
-				    delay += 8; // incr by 8 to do delay high-order bits
+				    delay += 8; // incr by 8 to do only delay high-order bits
 				    if (delay < 32) {
 					update_wlevel_rank_struct(&lmc_wlevel_rank, byte, delay);
 					debug_print("        byte %d delay %2d New\n", byte, delay);
 					byte_delay[byte] = delay;
-				    } else { // reached max delay, really done with this byte
-					bytemask &= ~(0xffULL << (8*byte)); // test no longer, remove from byte mask
-					bytes_todo &= ~(1 << byte); // remove from bytes to do
-					byte_test_status[byte] = WL_ESTIMATED; // make sure this is set for this case
-					debug_print("        byte %d delay %2d Exhausted\n", byte, delay);
+				    } else { // reached max delay, maybe really done with this byte
+#if SWL_TRY_HWL_ALT
+					if (hwl_alts[rankx].hwl_alt_mask & (1 << byte)) { // does an alt exist
+					    delay = hwl_alts[rankx].hwl_alt_delay[byte]; // yes, use it
+					    hwl_alts[rankx].hwl_alt_mask &= ~(1 << byte); // clear that flag
+					    update_wlevel_rank_struct(&lmc_wlevel_rank, byte, delay);
+					    byte_delay[byte] = delay;
+					    debug_print("        byte %d delay %2d ALTERNATE\n", byte, delay);
+					    ddr_print("N%d.LMC%d.R%d: SWL: Byte %d: trying ALTERNATE %d\n",
+						      node, ddr_interface_num, rankx, byte, delay);
+
+					} else
+#endif /* SWL_TRY_HWL_ALT */
+                                        {
+					    bytemask &= ~(0xffULL << (8*byte)); // test no longer, remove from byte mask
+                                            bytes_todo &= ~(1 << byte); // remove from bytes to do
+                                            byte_test_status[byte] = WL_ESTIMATED; // make sure this is set for this case
+                                            debug_print("        byte %d delay %2d Exhausted\n", byte, delay);
+					    ddr_print("N%d.LMC%d.R%d: SWL: Byte %d: delay %d EXHAUSTED \n",
+						      node, ddr_interface_num, rankx, byte, delay);
+                                        }
 				    }
 				} else { // no error, stay with current delay, but keep testing it...
 				    debug_print("        byte %d delay %2d Passed\n", byte, delay);

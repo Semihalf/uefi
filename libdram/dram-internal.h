@@ -25,7 +25,7 @@
 // MUST BE odd!!
 // assume there should only be 2 possible values that will show up,
 // so treat ties as a problem!!!
-#define WLEVEL_LOOPS_DEFAULT     3 // NOTE: do not change this without checking the code!!!
+#define WLEVEL_LOOPS_DEFAULT     5 // NOTE: do not change this without checking the code!!!
 
 // define how many HW RL samples per rank to take
 // multiple samples will allow either:
