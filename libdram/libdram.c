@@ -173,6 +173,12 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     if (gpio_select != -1)
         bdk_gpio_initialize(bdk_numa_master(), gpio_select, 1, 1);
 
+    /* Read all the SPDs and store them in the device tree. They are needed by
+       later software to populate SMBIOS information */
+    for (int lmc = 0; lmc < 4; lmc++)
+        for (int dimm = 0; dimm < DDR_CFG_T_MAX_DIMMS; dimm++)
+            read_entire_spd(node, (dram_config_t *)dram_config, lmc, dimm);
+
     const ddr_configuration_t *ddr_config = dram_config->config;
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
     int errs;
