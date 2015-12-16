@@ -2,6 +2,74 @@
 #include <ctype.h>
 #include "dram-internal.h"
 
+/**
+ * Read the entire contents of a DIMM SPD and store it in the device tree. The
+ * current DRAM config is also updated, so future SPD accesses used the cached
+ * copy.
+ *
+ * @param node   Node the DRAM config is for
+ * @param cfg    Current DRAM config. Updated with SPD data
+ * @param lmc    LMC to read DIMM for
+ * @param dimm   DIMM slot for SPD to read
+ *
+ * @return Zero on success, negative on failure
+ */
+int read_entire_spd(bdk_node_t node, dram_config_t *cfg, int lmc, int dimm)
+{
+    /* If pointer to data is provided, use it, otherwise read from SPD over twsi */
+    if (cfg->config[lmc].dimm_config_table[dimm].spd_ptrs[0])
+        return 0;
+    if (!cfg->config[lmc].dimm_config_table[dimm].spd_addrs[0])
+        return -1;
+
+    /* Figure out how to access the SPD */
+    int spd_addr = cfg->config[lmc].dimm_config_table[dimm].spd_addrs[0];
+    int bus = spd_addr >> 12;
+    int address = spd_addr & 0x7f;
+
+    /* Figure out the size we will read */
+    int64_t dev_type = bdk_twsix_read_ia(node, bus, address, DDR4_SPD_KEY_BYTE_DEVICE_TYPE, 1, 1);
+    if (dev_type < 0)
+        return -1; /* No DIMM */
+    int spd_size = (dev_type == 0xc0) ? 512 : 256;
+
+    /* Allocate storage */
+    uint32_t *spd_buf = malloc(spd_size);
+    if (!spd_buf)
+        return -1;
+    uint32_t *ptr = spd_buf;
+
+    for (int bank = 0; bank < (spd_size >> 8); bank++)
+    {
+        /* this should only happen for DDR4, which has a second bank of 256 bytes */
+        if (bank)
+            bdk_twsix_write_ia(node, bus, 0x36 | bank, 0, 2, 1, 0);
+        int bank_size = 256;
+        for (int i = 0; i < bank_size; i += 4)
+        {
+            int64_t data = bdk_twsix_read_ia(node, bus, address, i, 4, 1);
+            if (data < 0)
+            {
+                bdk_error("Failed to read SPD data at 0x%x\n", i + (bank << 8));
+                /* Restore the bank to zero */
+                if (bank)
+                    bdk_twsix_write_ia(node, bus, 0x36 | 0, 0, 2, 1, 0);
+                return -1;
+            }
+            else
+                *ptr++ = bdk_be32_to_cpu(data);
+        }
+        /* Restore the bank to zero */
+        if (bank)
+            bdk_twsix_write_ia(node, bus, 0x36 | 0, 0, 2, 1, 0);
+    }
+
+    /* Store the SPD in the device tree */
+    bdk_config_set_blob(spd_size, spd_buf, BDK_CONFIG_DDR_SPD_DATA, dimm, lmc, node);
+    cfg->config[lmc].dimm_config_table[dimm].spd_ptrs[0] = (void*)spd_buf;
+
+    return 0;
+}
 
 /* Read an DIMM SPD value, either using TWSI to read it from the DIMM, or
  * from a provided array.
