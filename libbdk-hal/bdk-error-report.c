@@ -107,8 +107,12 @@ static void construct_phase_info(char *buffer, int fill_order, int fail_index, i
     int basic_phase, bitno, bitmask, phase_no, read_no;
     //printf("decode_err(%d, %d, %d)\n", fill_order, fail_index, err_bits);
 
-    if ((fill_order != 0) || ((err_bits & 15) == 0)) {
-	snprintf(buffer, 8, "BAD!");
+    if (fill_order != 0) {
+	snprintf(buffer, 8, "FO%02d", fill_order);
+	return;
+    }
+    if ((err_bits & 15) == 0) {
+	snprintf(buffer, 8, "EBZ!");
 	return;
     }
 
@@ -140,6 +144,42 @@ static void construct_phase_info(char *buffer, int fill_order, int fail_index, i
     snprintf(buffer, 8, "R%dP%d", read_no, phase_no);
     return;
 }
+
+// Table to translate ECC single-bit syndrome to "byte.bit" format.
+//
+// indexed by syndrome, data is [7:4] = byte no. + 1 and [3:0] = bit no.
+// hack: make the byte no. bits be non-zero even for byte 0;
+// this is so non-explicit data can be 0x00 and will be illegal.
+static const unsigned char
+ecc_syndrome_to_bytebit[256] = {
+    // byte 0, bits 0 to 7
+    [0xce] = 0x10, [0xcb] = 0x11, [0xd3] = 0x12, [0xd5] = 0x13,
+    [0xd6] = 0x14, [0xd9] = 0x15, [0xda] = 0x16, [0xdc] = 0x17,
+    // byte 1, bits 0 to 7
+    [0x23] = 0x20, [0x25] = 0x21, [0x26] = 0x22, [0x29] = 0x23,
+    [0x2a] = 0x24, [0x2c] = 0x25, [0x31] = 0x26, [0x34] = 0x27,
+    // byte 2, bits 0 to 7
+    [0x0e] = 0x30, [0x0b] = 0x31, [0x13] = 0x32, [0x15] = 0x33,
+    [0x16] = 0x34, [0x19] = 0x35, [0x1a] = 0x36, [0x1c] = 0x37,
+    // byte 3, bits 0 to 7
+    [0xe3] = 0x40, [0xe5] = 0x41, [0xe6] = 0x42, [0xe9] = 0x43,
+    [0xea] = 0x44, [0xec] = 0x45, [0xf1] = 0x46, [0xf4] = 0x47,
+    // byte 4, bits 0 to 7
+    [0x4f] = 0x50, [0x4a] = 0x51, [0x52] = 0x52, [0x54] = 0x53,
+    [0x57] = 0x54, [0x58] = 0x55, [0x5b] = 0x56, [0x5d] = 0x57,
+    // byte 5, bits 0 to 7
+    [0xa2] = 0x60, [0xa4] = 0x61, [0xa7] = 0x62, [0xa8] = 0x63,
+    [0xab] = 0x64, [0xad] = 0x65, [0xb0] = 0x66, [0xb5] = 0x67,
+    // byte 6, bits 0 to 7
+    [0x8f] = 0x70, [0x8a] = 0x71, [0x92] = 0x72, [0x94] = 0x73,
+    [0x97] = 0x74, [0x98] = 0x75, [0x9b] = 0x76, [0x9d] = 0x77,
+    // byte 7, bits 0 to 7
+    [0x62] = 0x80, [0x64] = 0x81, [0x67] = 0x82, [0x68] = 0x83,
+    [0x6b] = 0x84, [0x6d] = 0x85, [0x70] = 0x86, [0x75] = 0x87,
+    // byte 8, bits 0 to 7
+    [0x01] = 0x90, [0x02] = 0x91, [0x04] = 0x92, [0x08] = 0x93,
+    [0x10] = 0x94, [0x20] = 0x95, [0x40] = 0x96, [0x80] = 0x97
+};
 
 static void check_cn88xx(bdk_node_t node)
 {
@@ -215,14 +255,21 @@ static void check_cn88xx(bdk_node_t node)
                     bdk_atomic_add64_nosync(&__bdk_dram_ecc_double_bit_errors[index], 1);
                     err_type = "double";
 		    err_bits = c.s.ded_err;
-                    snprintf(synstr, sizeof(synstr), "DED=%d", err_bits);
+                    snprintf(synstr, sizeof(synstr), "DED=%X", err_bits);
                 } else { // must be just SEC, also extract the syndrome byte
                     bdk_atomic_add64_nosync(&__bdk_dram_ecc_single_bit_errors[index], 1);
                     err_type = "single";
 		    err_bits = c.s.sec_err;
                     int i = err_bits;
                     while ((i & 1) == 0) {syndrome >>= 8; i >>= 1; }
-                    snprintf(synstr, sizeof(synstr), "SYND 0x%02lx/%d", syndrome & 0xff, err_bits);
+		    syndrome &= 0xff;
+		    int bytebit = ecc_syndrome_to_bytebit[syndrome];
+		    if (bytebit != 0x00) {
+			snprintf(synstr, sizeof(synstr), "BYTE %d.%d/%X",
+				 ((bytebit >> 4) & 0x0f) - 1, bytebit & 0x0f, err_bits);
+		    } else {
+			snprintf(synstr, sizeof(synstr), "SYND 0x%02lx/%X", syndrome, err_bits);
+		    }
                 }
                 uint32_t frow = fadr.s.frow & __bdk_dram_get_row_mask(node, index);
                 uint32_t fcol = fadr.s.fcol & __bdk_dram_get_col_mask(node, index);
