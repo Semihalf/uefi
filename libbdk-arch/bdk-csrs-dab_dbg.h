@@ -223,8 +223,8 @@ typedef union
                                                                      DBGBVR<n>_EL1[39:32] is a VMID.
                                                                   BT[0]: Enable linking.
                                                                  If the breakpoint is not context-aware, BT[3] and BT[1] are
-                                                                     RAZ. If EL2 is not implemented, BT[3] is RAZ. If EL1 using
-                                                                     AArch32 is not implemented, BT[2] is RAZ.
+                                                                     clear. If EL2 is not implemented, BT[3] is RAZ. If EL1 using
+                                                                     AArch32 is not implemented, BT[2] is clear.
                                                                  The values0b011x0b11xx
                                                                  <0000>      Unlinked instruction address match.
                                                                  <0001>      Linked instruction address match.
@@ -313,8 +313,8 @@ typedef union
                                                                      DBGBVR<n>_EL1[39:32] is a VMID.
                                                                   BT[0]: Enable linking.
                                                                  If the breakpoint is not context-aware, BT[3] and BT[1] are
-                                                                     RAZ. If EL2 is not implemented, BT[3] is RAZ. If EL1 using
-                                                                     AArch32 is not implemented, BT[2] is RAZ.
+                                                                     clear. If EL2 is not implemented, BT[3] is RAZ. If EL1 using
+                                                                     AArch32 is not implemented, BT[2] is clear.
                                                                  The values0b011x0b11xx
                                                                  <0000>      Unlinked instruction address match.
                                                                  <0001>      Linked instruction address match.
@@ -329,7 +329,130 @@ typedef union
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dbgx_dbgbcrx_el1_s cn; */
+    struct bdk_dbgx_dbgbcrx_el1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 The field breaks down as follows:
+                                                                  BT[3:1]: Base type.- 000: Match address. DBGBVR<n>_EL1 is the
+                                                                     address of an     instruction. - 010: Mismatch address.
+                                                                     Behaves as type0b000 DBGBVR<n>_EL1 is     the address of an
+                                                                     instruction to be stepped. - 001: Match context ID.
+                                                                     DBGBVR<n>_EL1[31:0] is a context ID. - 100: Match VMID.
+                                                                     DBGBVR<n>_EL1[39:32] is a VMID. - 101: Match VMID and context
+                                                                     ID. DBGBVR<n>_EL1[31:0] is a     context ID, and
+                                                                     DBGBVR<n>_EL1[39:32] is a VMID.
+                                                                  BT[0]: Enable linking.
+                                                                 If the breakpoint is not context-aware, BT[3] and BT[1] are
+                                                                     clear. If EL2 is not implemented, BT[3] is 0. If EL1 using
+                                                                     AArch32 is not implemented, BT[2] is clear.
+                                                                 The values0b011x0b11xx
+                                                                 <0000>      Unlinked instruction address match.
+                                                                 <0001>      Linked instruction address match.
+                                                                 <0010>      Unlinked context ID match.
+                                                                 <0011>      Linked context ID match
+                                                                 <0100>      Unlinked instruction address mismatch.
+                                                                 <0101>      Linked instruction address mismatch.
+                                                                 <1000>      Unlinked VMID match.
+                                                                 <1001>      Linked VMID match.
+                                                                 <1010>      Unlinked VMID and context ID match.
+                                                                 <1011>      Linked VMID and context ID match. */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching
+                                                                     breakpoints, this specifies the index of the Context-matching
+                                                                     breakpoint linked to.  For non-linked breakpoints, this field is ignored. */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
+                                                                     which a breakpoint debug event for breakpoint n is generated.
+                                                                     This field must be interpreted along with the HMC and PMC
+                                                                     fields. Possible values are summarised in the "Processor state
+                                                                     matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
+                                                                     deciding when a breakpoint debug event for breakpoint n is
+                                                                     generated. This field must be interpreted along with the SSC
+                                                                     and PMC fields. Possible values are summarised in the
+                                                                     "Processor state matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t reserved_9_12         : 4;
+        uint32_t bas                   : 4;  /**< [  8:  5](RO) Byte address select. Defines which half-words an address-
+                                                                     matching breakpoint matches, regardless of the instruction set
+                                                                     and execution state. In CNXXXX this field is reserved, RES1.
+
+                                                                 For Context matching breakpoints, this field is RES1 and
+                                                                     ignored. */
+        uint32_t reserved_3_4          : 2;
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the exception level or
+                                                                     levels at which a breakpoint debug event for breakpoint n is
+                                                                     generated. This field must be interpreted along with the SSC
+                                                                     and HMC fields. Possible values are summarised in the
+                                                                     "Processor state matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enable breakpoint DBGBVR<n>_EL1. Possible values are:
+                                                                 <0> Breakpoint disabled.
+                                                                 <1> Breakpoint enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enable breakpoint DBGBVR<n>_EL1. Possible values are:
+                                                                 <0> Breakpoint disabled.
+                                                                 <1> Breakpoint enabled. */
+        uint32_t pmc                   : 2;  /**< [  2:  1](R/W) Privilege mode control. Determines the exception level or
+                                                                     levels at which a breakpoint debug event for breakpoint n is
+                                                                     generated. This field must be interpreted along with the SSC
+                                                                     and HMC fields. Possible values are summarised in the
+                                                                     "Processor state matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t reserved_3_4          : 2;
+        uint32_t bas                   : 4;  /**< [  8:  5](RO) Byte address select. Defines which half-words an address-
+                                                                     matching breakpoint matches, regardless of the instruction set
+                                                                     and execution state. In CNXXXX this field is reserved, RES1.
+
+                                                                 For Context matching breakpoints, this field is RES1 and
+                                                                     ignored. */
+        uint32_t reserved_9_12         : 4;
+        uint32_t hmc                   : 1;  /**< [ 13: 13](R/W) Higher mode control. Determines the debug perspective for
+                                                                     deciding when a breakpoint debug event for breakpoint n is
+                                                                     generated. This field must be interpreted along with the SSC
+                                                                     and PMC fields. Possible values are summarised in the
+                                                                     "Processor state matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t ssc                   : 2;  /**< [ 15: 14](R/W) Security state control. Determines the security states under
+                                                                     which a breakpoint debug event for breakpoint n is generated.
+                                                                     This field must be interpreted along with the HMC and PMC
+                                                                     fields. Possible values are summarised in the "Processor state
+                                                                     matching" section of the Debug specification
+                                                                     (PRD03-PRDC-010486). */
+        uint32_t lbn                   : 4;  /**< [ 19: 16](R/W) Linked breakpoint number. For Linked address matching
+                                                                     breakpoints, this specifies the index of the Context-matching
+                                                                     breakpoint linked to.  For non-linked breakpoints, this field is ignored. */
+        uint32_t bt                    : 4;  /**< [ 23: 20](R/W) Breakpoint Type. Possible values are:
+                                                                 The field breaks down as follows:
+                                                                  BT[3:1]: Base type.- 000: Match address. DBGBVR<n>_EL1 is the
+                                                                     address of an     instruction. - 010: Mismatch address.
+                                                                     Behaves as type0b000 DBGBVR<n>_EL1 is     the address of an
+                                                                     instruction to be stepped. - 001: Match context ID.
+                                                                     DBGBVR<n>_EL1[31:0] is a context ID. - 100: Match VMID.
+                                                                     DBGBVR<n>_EL1[39:32] is a VMID. - 101: Match VMID and context
+                                                                     ID. DBGBVR<n>_EL1[31:0] is a     context ID, and
+                                                                     DBGBVR<n>_EL1[39:32] is a VMID.
+                                                                  BT[0]: Enable linking.
+                                                                 If the breakpoint is not context-aware, BT[3] and BT[1] are
+                                                                     clear. If EL2 is not implemented, BT[3] is 0. If EL1 using
+                                                                     AArch32 is not implemented, BT[2] is clear.
+                                                                 The values0b011x0b11xx
+                                                                 <0000>      Unlinked instruction address match.
+                                                                 <0001>      Linked instruction address match.
+                                                                 <0010>      Unlinked context ID match.
+                                                                 <0011>      Linked context ID match
+                                                                 <0100>      Unlinked instruction address mismatch.
+                                                                 <0101>      Linked instruction address mismatch.
+                                                                 <1000>      Unlinked VMID match.
+                                                                 <1001>      Linked VMID match.
+                                                                 <1010>      Unlinked VMID and context ID match.
+                                                                 <1011>      Linked VMID and context ID match. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_dbgx_dbgbcrx_el1_s cn88xx; */
+    /* struct bdk_dbgx_dbgbcrx_el1_cn81xx cn83xx; */
 } bdk_dbgx_dbgbcrx_el1_t;
 
 static inline uint64_t BDK_DBGX_DBGBCRX_EL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -833,9 +956,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t cclass                : 4;  /**< [  7:  4](RO) Component class. 0x9 = Debug component. */
-        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. */
 #else /* Word 0 - Little Endian */
-        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. */
         uint32_t cclass                : 4;  /**< [  7:  4](RO) Component class. 0x9 = Debug component. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -1451,7 +1574,7 @@ typedef union
         uint32_t reserved_8_31         : 24;
         uint32_t nse                   : 4;  /**< [  7:  4](R/W) Coarse-grained Non-secure exception catch. Possible values of
                                                                      this field are:
-                                                                 All other values are reserved. Bits [7,4] are reserved, RAZ.
+                                                                 All other values are reserved. Bits [7,4] are reserved, Reads as zero.
                                                                  <0000>      Exception catch debug event disabled for Non-secure exception
                                                                      levels.
                                                                  <0010>      Exception catch debug event enabled for Non-secure EL1.
@@ -1460,7 +1583,7 @@ typedef union
                                                                      EL2. */
         uint32_t se                    : 4;  /**< [  3:  0](R/W) Coarse-grained Secure exception catch. Possible values of this
                                                                      field are:
-                                                                 All other values are reserved. Bits [2,0] are reserved. RAZ.
+                                                                 All other values are reserved. Bits [2,0] are reserved. Reads as zero.
                                                                      Ignored if ExternalSecureInvasiveDebugEnabled() == FALSE.
                                                                  <0000>      Exception catch debug event disabled for Secure exception
                                                                      levels.
@@ -1470,7 +1593,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint32_t se                    : 4;  /**< [  3:  0](R/W) Coarse-grained Secure exception catch. Possible values of this
                                                                      field are:
-                                                                 All other values are reserved. Bits [2,0] are reserved. RAZ.
+                                                                 All other values are reserved. Bits [2,0] are reserved. Reads as zero.
                                                                      Ignored if ExternalSecureInvasiveDebugEnabled() == FALSE.
                                                                  <0000>      Exception catch debug event disabled for Secure exception
                                                                      levels.
@@ -1479,7 +1602,7 @@ typedef union
                                                                  <1010>      Exception catch debug event enabled for Secure EL1 and EL3. */
         uint32_t nse                   : 4;  /**< [  7:  4](R/W) Coarse-grained Non-secure exception catch. Possible values of
                                                                      this field are:
-                                                                 All other values are reserved. Bits [7,4] are reserved, RAZ.
+                                                                 All other values are reserved. Bits [7,4] are reserved, Reads as zero.
                                                                  <0000>      Exception catch debug event disabled for Non-secure exception
                                                                      levels.
                                                                  <0010>      Exception catch debug event enabled for Non-secure EL1.
@@ -1764,7 +1887,7 @@ static inline uint64_t BDK_DBGX_EDLAR(unsigned long a)
  * AP DBG External Debug Lock Status Register
  * Indicates the current status of the software lock for memory mapped external
  *     debug registers.  This register when accessed from an external debugger (via DAP)
- *     is RAZ.   However, when accessed from internal software indicates the value of hte
+ *     is 0x0.   However, when accessed from internal software indicates the value of hte
  * software lock.
  *     The software lock is intended to prevent accidental corruption of the external debug
  *     registers.
@@ -1776,10 +1899,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. */
         uint32_t slk                   : 1;  /**< [  1:  1](RO/H) Software lock status for this component. For an access to LSR
                                                                      that is not a memory-mapped access (i.e. from inside the device)
-                                                                     this field is RAZ.
+                                                                     this field reads as zero.
                                                                  For memory-mapped accesses when the software lock is
                                                                      implemented, possible values of this field are:
                                                                  <0> Lock clear. Writes are permitted to this component's
@@ -1787,28 +1910,28 @@ typedef union
                                                                  <1> Lock set. Writes to this component's registers are ignored,
                                                                      and reads have no side effects. */
         uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented for CNXXXX. For an access to LSR that is not a
-                                                                     memory-mapped access, this field is RAZ. For memory-mapped
+                                                                     memory-mapped access, this field reads as zero. For memory-mapped
                                                                      accesses, the value of this field is 1
                                                                      Permitted values are:
                                                                  <0> Software lock not implemented or not memory-mapped access.
                                                                  <1> Software lock implemented and memory-mapped access. */
 #else /* Word 0 - Little Endian */
         uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented for CNXXXX. For an access to LSR that is not a
-                                                                     memory-mapped access, this field is RAZ. For memory-mapped
+                                                                     memory-mapped access, this field reads as zero. For memory-mapped
                                                                      accesses, the value of this field is 1
                                                                      Permitted values are:
                                                                  <0> Software lock not implemented or not memory-mapped access.
                                                                  <1> Software lock implemented and memory-mapped access. */
         uint32_t slk                   : 1;  /**< [  1:  1](RO/H) Software lock status for this component. For an access to LSR
                                                                      that is not a memory-mapped access (i.e. from inside the device)
-                                                                     this field is RAZ.
+                                                                     this field reads as zero.
                                                                  For memory-mapped accesses when the software lock is
                                                                      implemented, possible values of this field are:
                                                                  <0> Lock clear. Writes are permitted to this component's
                                                                      registers.
                                                                  <1> Lock set. Writes to this component's registers are ignored,
                                                                      and reads have no side effects. */
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -2166,13 +2289,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. RAZ. Log<sub>2</sub> of the number of
+        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log<sub>2</sub> of the number of
                                                                      4KB pages from the start of the component to the end of the
                                                                      component ID registers. */
         uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. 0x3 = Cavium. */
 #else /* Word 0 - Little Endian */
         uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. 0x3 = Cavium. */
-        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. RAZ. Log<sub>2</sub> of the number of
+        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log<sub>2</sub> of the number of
                                                                      4KB pages from the start of the component to the end of the
                                                                      component ID registers. */
         uint32_t reserved_8_31         : 24;
@@ -2993,7 +3116,7 @@ typedef union
                                                                  In CNXXXX, this field is always <1111>..  All other values will be ignored. */
         uint32_t el                    : 2;  /**< [  9:  8](RO) Exception level.  In Debug state, this gives the
                                                                      current EL of the processor.
-                                                                 In Non-debug state, this field is RAZ. */
+                                                                 In Non-debug state, this field reads as zero. */
         uint32_t aa                    : 1;  /**< [  7:  7](RO) System Error interrupt (asynchronous abort) pending.
                                                                      In Debug state, indicates whether a SError interrupt is
                                                                      pending:
@@ -3061,7 +3184,7 @@ typedef union
                                                                  <1> SError interrupt pending. */
         uint32_t el                    : 2;  /**< [  9:  8](RO) Exception level.  In Debug state, this gives the
                                                                      current EL of the processor.
-                                                                 In Non-debug state, this field is RAZ. */
+                                                                 In Non-debug state, this field reads as zero. */
         uint32_t rw                    : 4;  /**< [ 13: 10](RO) Exception level register-width status. Read-only. In debug
                                                                      state, each bit gives the current register width status of
                                                                      each EL:
@@ -3211,19 +3334,19 @@ typedef union
                                                                      EDPCSR was read, this bit is 0. */
         uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
                                                                     most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
-                                                                    value of EDPCSR[63:32] is RAZ. */
+                                                                    value of EDPCSR[63:32] is 0x0. */
         uint32_t reserved_8_27         : 20;
         uint32_t vmid                  : 8;  /**< [  7:  0](RO) VMID sample. The value of VTTBR_EL2.VMID associated with the
                                                                      most recent EDPCSR sample. If EDVIDSR.NS == 0 or EDVIDSR.E2 ==
-                                                                     1, this field is RAZ. */
+                                                                     1, this field is 0x0. */
 #else /* Word 0 - Little Endian */
         uint32_t vmid                  : 8;  /**< [  7:  0](RO) VMID sample. The value of VTTBR_EL2.VMID associated with the
                                                                      most recent EDPCSR sample. If EDVIDSR.NS == 0 or EDVIDSR.E2 ==
-                                                                     1, this field is RAZ. */
+                                                                     1, this field is 0x0. */
         uint32_t reserved_8_27         : 20;
         uint32_t hv                    : 1;  /**< [ 28: 28](RO) EDPCSR high half valid. Indicates whether bits [63:32] of the
                                                                     most recent EDPCSR sample are valid. If EDVIDSR.HV == 0, the
-                                                                    value of EDPCSR[63:32] is RAZ. */
+                                                                    value of EDPCSR[63:32] is 0x0. */
         uint32_t e3                    : 1;  /**< [ 29: 29](RO) Exception level 3 status sample. Indicates whether the most
                                                                      recent EDPCSR sample was associated with AArch64 EL3. If
                                                                      EDVIDSR.NS == 1 or the processor was in AArch32 state when

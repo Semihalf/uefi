@@ -2827,7 +2827,7 @@ typedef union
         uint32_t mbis                  : 1;  /**< [ 16: 16](RO) Message based interrupt supported. */
         uint32_t lspi                  : 5;  /**< [ 15: 11](RO) The number of lockable SPI interrupts. This is not supported in GICv3 and is RES0. */
         uint32_t securityextn          : 1;  /**< [ 10: 10](RO) Security extension supported. When GICD_(S)CTLR[DS] is
-                                                                 set, this field is RAZ. */
+                                                                 set, this field is clear. */
         uint32_t reserved_8_9          : 2;
         uint32_t cpunumber             : 3;  /**< [  7:  5](RO) Reserved. In CNXXXX implementation, not used. */
         uint32_t itlinesnumber         : 5;  /**< [  4:  0](RO) The value derived from this specifies the maximum number of SPIs. */
@@ -2836,7 +2836,7 @@ typedef union
         uint32_t cpunumber             : 3;  /**< [  7:  5](RO) Reserved. In CNXXXX implementation, not used. */
         uint32_t reserved_8_9          : 2;
         uint32_t securityextn          : 1;  /**< [ 10: 10](RO) Security extension supported. When GICD_(S)CTLR[DS] is
-                                                                 set, this field is RAZ. */
+                                                                 set, this field is clear. */
         uint32_t lspi                  : 5;  /**< [ 15: 11](RO) The number of lockable SPI interrupts. This is not supported in GICv3 and is RES0. */
         uint32_t mbis                  : 1;  /**< [ 16: 16](RO) Message based interrupt supported. */
         uint32_t lpis                  : 1;  /**< [ 17: 17](RO) Locality-specific peripheral interrupt supported. */
@@ -7146,8 +7146,8 @@ typedef union
         uint64_t reserved_37_63        : 27;
         uint64_t cil                   : 1;  /**< [ 36: 36](RAZ) 0 = ITS supports 16-bit Collection ID, GITS_TYPER[CIDbits] is RES0.
                                                                  1 = GITS_TYPER[CIDBITS] indicates supported collection ID size
-                                                                 CNXXXX implementations do not support collections in external memory, this bit is
-                                                                 RAZ and number of Collections supported is reported by GITS_TYPER[HCC]. */
+                                                                 CNXXXX implementations do not support collections in external memory, this bit
+                                                                 reads as zero and number of Collections supported is reported by GITS_TYPER[HCC]. */
         uint64_t cid_bits              : 4;  /**< [ 35: 32](RAZ) Number of Collection ID bits. The number of bits of Collection ID - 1.
                                                                  When GITS_TYPER.CIL==0, this field is RES0. */
         uint64_t hcc                   : 8;  /**< [ 31: 24](RO) Hardware collection count. The number of collections supported by the ITS without
@@ -7172,13 +7172,13 @@ typedef union
                                                                  bytes (32-bit). */
         uint64_t distributed           : 1;  /**< [  3:  3](RO) Distributed ITS implementation supported. */
         uint64_t reserved_2            : 1;
-        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported. This field is RAZ
-                                                                 in GICv3 implementations. */
+        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported.
+                                                                 This field is 0 in GICv3 implementations. */
         uint64_t physical              : 1;  /**< [  0:  0](RO) Reserved 1. */
 #else /* Word 0 - Little Endian */
         uint64_t physical              : 1;  /**< [  0:  0](RO) Reserved 1. */
-        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported. This field is RAZ
-                                                                 in GICv3 implementations. */
+        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported.
+                                                                 This field is 0 in GICv3 implementations. */
         uint64_t reserved_2            : 1;
         uint64_t distributed           : 1;  /**< [  3:  3](RO) Distributed ITS implementation supported. */
         uint64_t itte_size             : 4;  /**< [  7:  4](RO) ITT entry size.  Number of bytes per entry, minus one. The ITT entry size implemented is 4
@@ -7205,8 +7205,8 @@ typedef union
                                                                  When GITS_TYPER.CIL==0, this field is RES0. */
         uint64_t cil                   : 1;  /**< [ 36: 36](RAZ) 0 = ITS supports 16-bit Collection ID, GITS_TYPER[CIDbits] is RES0.
                                                                  1 = GITS_TYPER[CIDBITS] indicates supported collection ID size
-                                                                 CNXXXX implementations do not support collections in external memory, this bit is
-                                                                 RAZ and number of Collections supported is reported by GITS_TYPER[HCC]. */
+                                                                 CNXXXX implementations do not support collections in external memory, this bit
+                                                                 reads as zero and number of Collections supported is reported by GITS_TYPER[HCC]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } s;
@@ -7270,8 +7270,8 @@ typedef union
         uint64_t reserved_37_63        : 27;
         uint64_t cil                   : 1;  /**< [ 36: 36](RAZ) 0 = ITS supports 16-bit Collection ID, GITS_TYPER[CIDbits] is RES0.
                                                                  1 = GITS_TYPER[CIDBITS] indicates supported collection ID size
-                                                                 CNXXXX implementations do not support collections in external memory, this bit is
-                                                                 RAZ and number of Collections supported is reported by GITS_TYPER[HCC]. */
+                                                                 CNXXXX implementations do not support collections in external memory, this bit
+                                                                 reads as zero and number of Collections supported is reported by GITS_TYPER[HCC]. */
         uint64_t cid_bits              : 4;  /**< [ 35: 32](RAZ) Number of Collection ID bits. The number of bits of Collection ID - 1.
                                                                  When GITS_TYPER.CIL==0, this field is RES0. */
         uint64_t hcc                   : 8;  /**< [ 31: 24](RO) Hardware collection count. The number of collections supported by the ITS without
@@ -7294,13 +7294,13 @@ typedef union
                                                                  bytes (32-bit). */
         uint64_t distributed           : 1;  /**< [  3:  3](RO) Distributed ITS implementation supported. */
         uint64_t reserved_2            : 1;
-        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported. This field is RAZ
-                                                                 in GICv3 implementations. */
+        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported.
+                                                                 This field is 0 in GICv3 implementations. */
         uint64_t physical              : 1;  /**< [  0:  0](RO) Reserved 1. */
 #else /* Word 0 - Little Endian */
         uint64_t physical              : 1;  /**< [  0:  0](RO) Reserved 1. */
-        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported. This field is RAZ
-                                                                 in GICv3 implementations. */
+        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported.
+                                                                 This field is 0 in GICv3 implementations. */
         uint64_t reserved_2            : 1;
         uint64_t distributed           : 1;  /**< [  3:  3](RO) Distributed ITS implementation supported. */
         uint64_t itte_size             : 4;  /**< [  7:  4](RO) ITT entry size.  Number of bytes per entry, minus one. The ITT entry size implemented is 4
@@ -7325,8 +7325,8 @@ typedef union
                                                                  When GITS_TYPER.CIL==0, this field is RES0. */
         uint64_t cil                   : 1;  /**< [ 36: 36](RAZ) 0 = ITS supports 16-bit Collection ID, GITS_TYPER[CIDbits] is RES0.
                                                                  1 = GITS_TYPER[CIDBITS] indicates supported collection ID size
-                                                                 CNXXXX implementations do not support collections in external memory, this bit is
-                                                                 RAZ and number of Collections supported is reported by GITS_TYPER[HCC]. */
+                                                                 CNXXXX implementations do not support collections in external memory, this bit
+                                                                 reads as zero and number of Collections supported is reported by GITS_TYPER[HCC]. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } cn81xx;
@@ -7364,14 +7364,14 @@ typedef union
                                                                  bytes (32-bit). */
         uint64_t distributed           : 1;  /**< [  3:  3](RO) Distributed ITS implementation supported. */
         uint64_t reserved_2            : 1;
-        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported. This field is RAZ
-                                                                 in GICv3 implementations.
+        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported. This field is
+                                                                 clear in GICv3 implementations.
                                                                  Added in pass 2. */
         uint64_t physical              : 1;  /**< [  0:  0](RO) Reserved 1. */
 #else /* Word 0 - Little Endian */
         uint64_t physical              : 1;  /**< [  0:  0](RO) Reserved 1. */
-        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported. This field is RAZ
-                                                                 in GICv3 implementations.
+        uint64_t vlpi                  : 1;  /**< [  1:  1](RAZ) Reserved. Virtual LPIs and Direct injection of Virtual LPIs supported. This field is
+                                                                 clear in GICv3 implementations.
                                                                  Added in pass 2. */
         uint64_t reserved_2            : 1;
         uint64_t distributed           : 1;  /**< [  3:  3](RO) Distributed ITS implementation supported. */

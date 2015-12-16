@@ -4772,7 +4772,24 @@ typedef union
         uint64_t maxpow                : 8;  /**< [ 63: 56](R/W) Reserved.
                                                                  Internal:
                                                                  Maximum power. */
-        uint64_t average_power         : 8;  /**< [ 55: 48](R/W) Average power. */
+        uint64_t average_power         : 8;  /**< [ 55: 48](R/W) Average power.
+                                                                 Time-averaged dynamic-power estimate for this core, in mA/GHz.
+                                                                 An approximation of this core's power is calculated with:
+
+                                                                   _ core_power = core_const * core_powered_on + [AVERAGE_POWER] * voltage * freq.
+
+                                                                 Where:
+
+                                                                 _ core_power is in mW.
+
+                                                                 _ core_const is a per-core constant leakage from the HRM power application note, and is in
+                                                                 mA.
+
+                                                                 _ core_powered_on is a boolean indicating power applied, from RST_PP_POWER<core_number>.
+
+                                                                 _ voltage is determined by the platform, perhaps by reading a VRM setting.
+
+                                                                 _ freq is in GHz and is from RST_BOOT[C_MUL] * 0.050, assuming standard 50 MHz ref-clock. */
         uint64_t current_setting       : 8;  /**< [ 47: 40](R/W) Reserved.
                                                                  Internal:
                                                                  Current setting. */
@@ -4824,7 +4841,24 @@ typedef union
         uint64_t current_setting       : 8;  /**< [ 47: 40](R/W) Reserved.
                                                                  Internal:
                                                                  Current setting. */
-        uint64_t average_power         : 8;  /**< [ 55: 48](R/W) Average power. */
+        uint64_t average_power         : 8;  /**< [ 55: 48](R/W) Average power.
+                                                                 Time-averaged dynamic-power estimate for this core, in mA/GHz.
+                                                                 An approximation of this core's power is calculated with:
+
+                                                                   _ core_power = core_const * core_powered_on + [AVERAGE_POWER] * voltage * freq.
+
+                                                                 Where:
+
+                                                                 _ core_power is in mW.
+
+                                                                 _ core_const is a per-core constant leakage from the HRM power application note, and is in
+                                                                 mA.
+
+                                                                 _ core_powered_on is a boolean indicating power applied, from RST_PP_POWER<core_number>.
+
+                                                                 _ voltage is determined by the platform, perhaps by reading a VRM setting.
+
+                                                                 _ freq is in GHz and is from RST_BOOT[C_MUL] * 0.050, assuming standard 50 MHz ref-clock. */
         uint64_t maxpow                : 8;  /**< [ 63: 56](R/W) Reserved.
                                                                  Internal:
                                                                  Maximum power. */
@@ -15596,7 +15630,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
         uint32_t oslm_high             : 1;  /**< [  3:  3](RO) See below for description of the OSLM field. */
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not 32-bit access. This bit is always RAZ. It indicates that a
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not 32-bit access. This bit is always 0. It indicates that a
                                                                      32-bit access is needed to write the key to the OS lock access
                                                                      register. */
         uint32_t oslk                  : 1;  /**< [  1:  1](RO) OS Lock Status.
@@ -15620,7 +15654,7 @@ typedef union
                                                                      Access Register.
                                                                  0 = OS lock unlocked.
                                                                  1 = OS lock locked. */
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not 32-bit access. This bit is always RAZ. It indicates that a
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not 32-bit access. This bit is always 0. It indicates that a
                                                                      32-bit access is needed to write the key to the OS lock access
                                                                      register. */
         uint32_t oslm_high             : 1;  /**< [  3:  3](RO) See below for description of the OSLM field. */
@@ -16291,17 +16325,17 @@ typedef union
                                                                  0 = When enabled, AP_PMCCNTR_EL0 counts every clock cycle.
                                                                  1 = When enabled, AP_PMCCNTR_EL0 counts once every 64 clock cycles.
 
-                                                                 CNXXXX doesn't support 32-bit, so this bit is RAZ / WI. */
+                                                                 CNXXXX doesn't support 32-bit, so this bit is RAZ/WI. */
         uint32_t cc                    : 1;  /**< [  2:  2](R/W) Cycle counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit reads as zero.
                                                                  Resetting AP_PMCCNTR_EL0 does not clear the AP_PMCCNTR_EL0 overflow
                                                                      bit to 0.
                                                                  0 = No action.
                                                                  1 = Reset AP_PMCCNTR_EL0 to zero. */
         uint32_t p                     : 1;  /**< [  1:  1](R/W) Event counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit reads as zero.
                                                                  In non-secure EL0 and EL1, if EL2 is implemented, a write of 1
                                                                      to this bit does not reset event counters that AP_MDCR_EL2[HPMN]
                                                                      reserves for EL2 use.
@@ -16329,7 +16363,7 @@ typedef union
                                                                  1 = All counters are enabled by AP_PMCNTENSET_EL0. */
         uint32_t p                     : 1;  /**< [  1:  1](R/W) Event counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit reads as zero.
                                                                  In non-secure EL0 and EL1, if EL2 is implemented, a write of 1
                                                                      to this bit does not reset event counters that AP_MDCR_EL2[HPMN]
                                                                      reserves for EL2 use.
@@ -16342,7 +16376,7 @@ typedef union
                                                                      including AP_PMCCNTR_EL0, to zero. */
         uint32_t cc                    : 1;  /**< [  2:  2](R/W) Cycle counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit reads as zero.
                                                                  Resetting AP_PMCCNTR_EL0 does not clear the AP_PMCCNTR_EL0 overflow
                                                                      bit to 0.
                                                                  0 = No action.
@@ -16354,7 +16388,7 @@ typedef union
                                                                  0 = When enabled, AP_PMCCNTR_EL0 counts every clock cycle.
                                                                  1 = When enabled, AP_PMCCNTR_EL0 counts once every 64 clock cycles.
 
-                                                                 CNXXXX doesn't support 32-bit, so this bit is RAZ / WI. */
+                                                                 CNXXXX doesn't support 32-bit, so this bit is RAZ/WI. */
         uint32_t x                     : 1;  /**< [  4:  4](RO) Enable export of events in an implementation defined event
                                                                      stream.
                                                                  This bit is used to permit events to be exported to another

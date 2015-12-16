@@ -322,18 +322,16 @@
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_CTS_N(a) (0x13f + (a)) /**< UART_CTS_N input; see See Chapter UART( Interface) UAA. */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N_CN81XX(a) (0x131 + (a)) /**< UART_DCD_N input; see UAA(0..3)_FR[DCD].
+#define BDK_GPIO_PIN_SEL_E_UARTX_CTS(a) (0x13f + (a)) /**< UART_CTS input; see See Chapter UART( Interface) UAA.  Typically the board requires active
+                                       low; use GPIO_BIT_CFG()[PIN_XOR]. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DCD(a) (0x131 + (a)) /**< UART_DCD input; see UAA(0..3)_FR[DCD].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N_CN88XX(a) (0x84 + (a)) /**< UART_DCD_N input; see UAA(0..1)_FR[DCD].
+                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.)
                                        
-                                       Multiple GPIO pins may not be configured to point to the same input encoding, or
-                                       the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
-                                       GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N_CN83XX(a) (0x131 + (a)) /**< UART_DCD_N input; see UAA(0..3)_FR[DCD].
+                                       Typically the board requires active low; use GPIO_BIT_CFG()[PIN_XOR]. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DCD_N(a) (0x84 + (a)) /**< UART_DCD_N input; see UAA(0..1)_FR[DCD].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
@@ -357,9 +355,9 @@
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N_CN81XX(a) (0x11d + (a)) /**< UART_DTR_N output; see UAA()_CR[DTR]. */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N_CN88XX(a) (9 + (a)) /**< UART_DTR_N output; see UAA()_CR[DTR]. */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N_CN83XX(a) (0x11d + (a)) /**< UART_DTR_N output; see UAA()_CR[DTR]. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DTR(a) (0x11d + (a)) /**< UART_DTR output; see UAA()_CR[DTR].  Typically the board requires active low; use
+                                       GPIO_BIT_CFG()[PIN_XOR]. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N(a) (9 + (a)) /**< UART_DTR_N output; see UAA()_CR[DTR]. */
 #define BDK_GPIO_PIN_SEL_E_UARTX_RI_CN81XX(a) (0x129 + (a)) /**< UART_RI input; see UAA()_FR[RI].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
@@ -375,7 +373,8 @@
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_RTS_N(a) (0x123 + (a)) /**< UART_RTS_N output; see See Chapter UART( Interface) UAA. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_RTS(a) (0x123 + (a)) /**< UART_RTS output; see See Chapter UART( Interface) UAA. Typically the board requires active
+                                       low; use GPIO_BIT_CFG()[PIN_XOR]. */
 #define BDK_GPIO_PIN_SEL_E_UARTX_SIN(a) (0x141 + (a)) /**< UART_SIN input; see See Chapter UART( Interface) UAA. */
 #define BDK_GPIO_PIN_SEL_E_UARTX_SOUT(a) (0x125 + (a)) /**< UART_SOUT output; see See Chapter UART( Interface) UAA. */
 #define BDK_GPIO_PIN_SEL_E_USBX_OVR_CRNT_CN81XX(a) (0x228 + (a)) /**< USB over-current input; see USBH(0..1)_UCTL_HOST_CFG[OCI_EN].

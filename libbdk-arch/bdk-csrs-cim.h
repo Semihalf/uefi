@@ -4038,7 +4038,7 @@ typedef union
         uint64_t reserved_56_59        : 4;
         uint64_t pri                   : 8;  /**< [ 55: 48](R/W) Priority. The priority of this interrupt.
                                                                  It is implementation defined how many bits are implemented, though at least five
-                                                                 bits must be implemented. Unimplemented bits are RAZ and start from bit [48].
+                                                                 bits must be implemented. Unimplemented bits are 0 and start from bit [48].
                                                                  Number of implemented bits determines how many CIM()_ICH_APRn registers exist.
                                                                  It is a programming error if the priority is set to the lowest implemented priority
                                                                  (i.e. the highest numeric value). Interrupts with this value can never assert
@@ -4081,7 +4081,7 @@ typedef union
                                                                  Software must ensure there is only a single valid entry for a given Virtual ID.
 
                                                                  It is implementation defined how many bits are implemented, though at least 16
-                                                                 bits must be implemented; unimplemented bits are RAZ. The number of implemented
+                                                                 bits must be implemented; unimplemented bits are 0. The number of implemented
                                                                  bits can be discovered from CIM()_ICH_VTR_EL2[IDBITS]. */
 #else /* Word 0 - Little Endian */
         uint64_t virtid                : 32; /**< [ 31:  0](R/W) Virtual ID.
@@ -4099,7 +4099,7 @@ typedef union
                                                                  Software must ensure there is only a single valid entry for a given Virtual ID.
 
                                                                  It is implementation defined how many bits are implemented, though at least 16
-                                                                 bits must be implemented; unimplemented bits are RAZ. The number of implemented
+                                                                 bits must be implemented; unimplemented bits are 0. The number of implemented
                                                                  bits can be discovered from CIM()_ICH_VTR_EL2[IDBITS]. */
         uint64_t physid                : 10; /**< [ 41: 32](R/W) Physical ID.
                                                                  The function of this field depends on the value of the HW bit as follows:
@@ -4125,7 +4125,7 @@ typedef union
         uint64_t reserved_42_47        : 6;
         uint64_t pri                   : 8;  /**< [ 55: 48](R/W) Priority. The priority of this interrupt.
                                                                  It is implementation defined how many bits are implemented, though at least five
-                                                                 bits must be implemented. Unimplemented bits are RAZ and start from bit [48].
+                                                                 bits must be implemented. Unimplemented bits are 0 and start from bit [48].
                                                                  Number of implemented bits determines how many CIM()_ICH_APRn registers exist.
                                                                  It is a programming error if the priority is set to the lowest implemented priority
                                                                  (i.e. the highest numeric value). Interrupts with this value can never assert

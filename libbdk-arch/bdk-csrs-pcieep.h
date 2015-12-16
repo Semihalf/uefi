@@ -5217,11 +5217,11 @@ typedef union
     struct bdk_pcieepx_cfg115_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t tbase_data            : 32; /**< [ 31:  0](RO) Time-based analysis data.  This register returns data selected in the
+        uint32_t tbase_data            : 32; /**< [ 31:  0](RO/H) Time-based analysis data.  This register returns data selected in the
                                                                  PCIEEP()_CFG114[TBASE_RPT_SEL] field.  The results are cleared when
                                                                  the next measurement starts. */
 #else /* Word 0 - Little Endian */
-        uint32_t tbase_data            : 32; /**< [ 31:  0](RO) Time-based analysis data.  This register returns data selected in the
+        uint32_t tbase_data            : 32; /**< [ 31:  0](RO/H) Time-based analysis data.  This register returns data selected in the
                                                                  PCIEEP()_CFG114[TBASE_RPT_SEL] field.  The results are cleared when
                                                                  the next measurement starts. */
 #endif /* Word 0 - End */
@@ -7736,9 +7736,9 @@ typedef union
         uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO) EQ local figure of merit.
                                                                  Indicates local maximum figure of merit value. */
         uint32_t reserved_21_23        : 3;
-        uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO) EQ local receiver preset hint.
+        uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO/H) EQ local receiver preset hint.
                                                                  Indicates local receiver preset hint value. */
-        uint32_t eq_loc_post_cur       : 6;  /**< [ 17: 12](RO) EQ local post-cursor.
+        uint32_t eq_loc_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ local post-cursor.
                                                                  Indicates local post cursor coefficient value. */
         uint32_t eq_loc_cur            : 6;  /**< [ 11:  6](RO) EQ local cursor.
                                                                  Indicates local cursor coefficient value. */
@@ -7749,9 +7749,9 @@ typedef union
                                                                  Indicates local pre cursor coefficient value. */
         uint32_t eq_loc_cur            : 6;  /**< [ 11:  6](RO) EQ local cursor.
                                                                  Indicates local cursor coefficient value. */
-        uint32_t eq_loc_post_cur       : 6;  /**< [ 17: 12](RO) EQ local post-cursor.
+        uint32_t eq_loc_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ local post-cursor.
                                                                  Indicates local post cursor coefficient value. */
-        uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO) EQ local receiver preset hint.
+        uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO/H) EQ local receiver preset hint.
                                                                  Indicates local receiver preset hint value. */
         uint32_t reserved_21_23        : 3;
         uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO) EQ local figure of merit.
@@ -10464,7 +10464,7 @@ typedef union
 
                                                                  The core self-clears this field when the core accepts this
                                                                  request. */
-        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W) Target Link Width.
+        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W/H) Target Link Width.
                                                                  0x0  = Core does not start upconfigure or autonomous width downsizing in Configuration
                                                                  state.
                                                                  0x1  = x1.
@@ -10474,7 +10474,7 @@ typedef union
                                                                  0x10 = x16 (Not supported).
                                                                  0x20 = x32 (Not supported). */
 #else /* Word 0 - Little Endian */
-        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W) Target Link Width.
+        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W/H) Target Link Width.
                                                                  0x0  = Core does not start upconfigure or autonomous width downsizing in Configuration
                                                                  state.
                                                                  0x1  = x1.

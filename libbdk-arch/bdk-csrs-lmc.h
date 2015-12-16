@@ -12982,10 +12982,10 @@ typedef union
                                                                  TYP = max(4nCK, 10 ns)
 
                                                                  0x0 = Reserved.
-                                                                 0x1 = 2 TCYC.
+                                                                 0x1 = 3 TCYC.
                                                                  ...
-                                                                 0x6 = 7 TCYC.
-                                                                 0x7 = 8 TCYC.
+                                                                 0x6 = 8 TCYC.
+                                                                 0x7 = 9 TCYC.
 
                                                                  For DDR4, this is the TRRD_S parameter. */
         uint64_t trfc                  : 7;  /**< [ 24: 18](R/W) Indicates TRFC constraints. Set this field as follows:
@@ -13143,10 +13143,10 @@ typedef union
                                                                  TYP = max(4nCK, 10 ns)
 
                                                                  0x0 = Reserved.
-                                                                 0x1 = 2 TCYC.
+                                                                 0x1 = 3 TCYC.
                                                                  ...
-                                                                 0x6 = 7 TCYC.
-                                                                 0x7 = 8 TCYC.
+                                                                 0x6 = 8 TCYC.
+                                                                 0x7 = 9 TCYC.
 
                                                                  For DDR4, this is the TRRD_S parameter. */
         uint64_t txp                   : 3;  /**< [ 30: 28](R/W) Indicates TXP constraints. Set this field as follows:
@@ -13309,10 +13309,10 @@ typedef union
                                                                  TYP = max(4nCK, 10 ns)
 
                                                                  0x0 = Reserved.
-                                                                 0x1 = 2 TCYC.
+                                                                 0x1 = 3 TCYC.
                                                                  ...
-                                                                 0x6 = 7 TCYC.
-                                                                 0x7 = 8 TCYC.
+                                                                 0x6 = 8 TCYC.
+                                                                 0x7 = 9 TCYC.
 
                                                                  For DDR4, this is the TRRD_S parameter. */
         uint64_t trfc                  : 7;  /**< [ 24: 18](R/W) Indicates TRFC constraints. Set this field as follows:
@@ -13470,10 +13470,10 @@ typedef union
                                                                  TYP = max(4nCK, 10 ns)
 
                                                                  0x0 = Reserved.
-                                                                 0x1 = 2 TCYC.
+                                                                 0x1 = 3 TCYC.
                                                                  ...
-                                                                 0x6 = 7 TCYC.
-                                                                 0x7 = 8 TCYC.
+                                                                 0x6 = 8 TCYC.
+                                                                 0x7 = 9 TCYC.
 
                                                                  For DDR4, this is the TRRD_S parameter. */
         uint64_t txp                   : 3;  /**< [ 30: 28](R/W) Indicates TXP constraints. Set this field as follows:
@@ -13642,10 +13642,10 @@ typedef union
                                                                  TYP = max(4nCK, 10 ns)
 
                                                                  0x0 = Reserved.
-                                                                 0x1 = 2 TCYC.
+                                                                 0x1 = 3 TCYC.
                                                                  ...
-                                                                 0x6 = 7 TCYC.
-                                                                 0x7 = 8 TCYC.
+                                                                 0x6 = 8 TCYC.
+                                                                 0x7 = 9 TCYC.
 
                                                                  For DDR4, this is the TRRD_S parameter. */
         uint64_t trfc                  : 7;  /**< [ 24: 18](R/W) Indicates TRFC constraints. Set this field as follows:
@@ -13803,10 +13803,10 @@ typedef union
                                                                  TYP = max(4nCK, 10 ns)
 
                                                                  0x0 = Reserved.
-                                                                 0x1 = 2 TCYC.
+                                                                 0x1 = 3 TCYC.
                                                                  ...
-                                                                 0x6 = 7 TCYC.
-                                                                 0x7 = 8 TCYC.
+                                                                 0x6 = 8 TCYC.
+                                                                 0x7 = 9 TCYC.
 
                                                                  For DDR4, this is the TRRD_S parameter. */
         uint64_t txp                   : 3;  /**< [ 30: 28](R/W) Indicates TXP constraints. Set this field as follows:
@@ -13923,7 +13923,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t trrd_l_ext            : 1;  /**< [ 15: 15](R/W) MSB of TWTR_L constraints. Set this field
-                                                                 when requiring tRRD_L of more than 8 nCK. Otherwise
+                                                                 when requiring tRRD_L of more than 9 nCK. Otherwise
                                                                  this bit must be 0. */
         uint64_t trtp                  : 4;  /**< [ 14: 11](R/W) Specifies the TRTP parameter, in cycles. Set this field as follows:
                                                                  _ RNDUP[TRTP(ns) / TCYC(ns)] - 1,
@@ -13957,13 +13957,13 @@ typedef union
 
                                                                  Typical = MAX(4 nCK, 7.5 ns).
                                                                  0x0 = reserved.
-                                                                 0x1 = two TCYC.
-                                                                 0x2 = three TCYC.
-                                                                 0x3 = four TCYC.
-                                                                 0x4 = five TCYC.
-                                                                 0x5 = six TCYC.
-                                                                 0x6 = seven TCYC.
-                                                                 0x7 = eight TCYC. */
+                                                                 0x1 = three TCYC.
+                                                                 0x2 = four TCYC.
+                                                                 0x3 = five TCYC.
+                                                                 0x4 = six TCYC.
+                                                                 0x5 = seven TCYC.
+                                                                 0x6 = eight TCYC.
+                                                                 0x7 = nine TCYC. */
 #else /* Word 0 - Little Endian */
         uint64_t trrd_l                : 3;  /**< [  2:  0](R/W) Specifies TRRD_L constraints. Set this field as follows:
 
@@ -13974,13 +13974,13 @@ typedef union
 
                                                                  Typical = MAX(4 nCK, 7.5 ns).
                                                                  0x0 = reserved.
-                                                                 0x1 = two TCYC.
-                                                                 0x2 = three TCYC.
-                                                                 0x3 = four TCYC.
-                                                                 0x4 = five TCYC.
-                                                                 0x5 = six TCYC.
-                                                                 0x6 = seven TCYC.
-                                                                 0x7 = eight TCYC. */
+                                                                 0x1 = three TCYC.
+                                                                 0x2 = four TCYC.
+                                                                 0x3 = five TCYC.
+                                                                 0x4 = six TCYC.
+                                                                 0x5 = seven TCYC.
+                                                                 0x6 = eight TCYC.
+                                                                 0x7 = nine TCYC. */
         uint64_t twtr_l                : 4;  /**< [  6:  3](R/W) Specifies TWTR_L constraints. Set this field as follows:
 
                                                                  _ RNDUP[TWTR_L(ns) / TCYC(ns)] - 1
@@ -14005,7 +14005,7 @@ typedef union
 
                                                                  For DDR4 the TRTP parameter is dictated by the TWR MR bits. */
         uint64_t trrd_l_ext            : 1;  /**< [ 15: 15](R/W) MSB of TWTR_L constraints. Set this field
-                                                                 when requiring tRRD_L of more than 8 nCK. Otherwise
+                                                                 when requiring tRRD_L of more than 9 nCK. Otherwise
                                                                  this bit must be 0. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */

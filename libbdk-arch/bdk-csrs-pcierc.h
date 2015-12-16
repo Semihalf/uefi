@@ -5709,6 +5709,25 @@ typedef union
     struct bdk_pciercx_cfg086_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCIE Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg086_s cn81xx; */
+    struct bdk_pciercx_cfg086_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL/H) Next capability offset.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
@@ -5723,9 +5742,7 @@ typedef union
         uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL/H) Next capability offset.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg086_s cn81xx; */
-    /* struct bdk_pciercx_cfg086_s cn88xx; */
+    } cn88xx;
     struct bdk_pciercx_cfg086_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -6497,11 +6514,11 @@ typedef union
     struct bdk_pciercx_cfg115_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t tbase_data            : 32; /**< [ 31:  0](RO) Time-based analysis data.  This register returns data selected in the
+        uint32_t tbase_data            : 32; /**< [ 31:  0](RO/H) Time-based analysis data.  This register returns data selected in the
                                                                  PCIERC()_CFG114[TBASE_RPT_SEL] field.  The results are cleared when
                                                                  the next measurement starts. */
 #else /* Word 0 - Little Endian */
-        uint32_t tbase_data            : 32; /**< [ 31:  0](RO) Time-based analysis data.  This register returns data selected in the
+        uint32_t tbase_data            : 32; /**< [ 31:  0](RO/H) Time-based analysis data.  This register returns data selected in the
                                                                  PCIERC()_CFG114[TBASE_RPT_SEL] field.  The results are cleared when
                                                                  the next measurement starts. */
 #endif /* Word 0 - End */
@@ -7265,6 +7282,32 @@ typedef union
     struct bdk_pciercx_cfg128_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pciercx_cfg128_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the secondary PCI Express capabilities by default.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset. Points to the secondary PCI Express capabilities by default.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_pciercx_cfg128_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_com_val_h0      : 32; /**< [ 31:  0](R/W) Packet compare value 1st DWORD.
                                                                  Specifies the value to compare against Tx the TLP header
                                                                  DWORD0 bits specified in PCIERC()_CFG123[EINJ_COM_PT_H0]. */
@@ -7273,13 +7316,14 @@ typedef union
                                                                  Specifies the value to compare against Tx the TLP header
                                                                  DWORD0 bits specified in PCIERC()_CFG123[EINJ_COM_PT_H0]. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg128_s cn; */
+    } cn83xx;
 } bdk_pciercx_cfg128_t;
 
 static inline uint64_t BDK_PCIERCX_CFG128(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG128(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000200ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000204ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG128", 1, a, 0, 0, 0);
@@ -7303,6 +7347,70 @@ typedef union
     struct bdk_pciercx_cfg129_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pciercx_cfg129_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_23_31        : 9;
+        uint32_t dte                   : 1;  /**< [ 22: 22](R/W) ACS direct translated P2P enable. */
+        uint32_t ece                   : 1;  /**< [ 21: 21](R/W) ACS P2P egress control enable. */
+        uint32_t ufe                   : 1;  /**< [ 20: 20](R/W) ACS upstream forwarding enable. */
+        uint32_t cre                   : 1;  /**< [ 19: 19](R/W) ACS P2P completion redirect enable. */
+        uint32_t rre                   : 1;  /**< [ 18: 18](R/W) ACS P2P request redirect enable. */
+        uint32_t tbe                   : 1;  /**< [ 17: 17](R/W) ACS translation blocking enable. */
+        uint32_t sve                   : 1;  /**< [ 16: 16](R/W) ACS source validation enable. */
+        uint32_t ecvs                  : 8;  /**< [ 15:  8](RO/WRSL) Egress control vector size.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t reserved_7            : 1;
+        uint32_t dt                    : 1;  /**< [  6:  6](RO/WRSL) ACS direct translated P2P.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t ec                    : 1;  /**< [  5:  5](RO/WRSL) ACS P2P egress control.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t uf                    : 1;  /**< [  4:  4](RO/WRSL) ACS upstream forwarding.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cr                    : 1;  /**< [  3:  3](RO/WRSL) ACS P2P completion redirect.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t rr                    : 1;  /**< [  2:  2](RO/WRSL) ACS P2P request redirect.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t tb                    : 1;  /**< [  1:  1](RO/WRSL) ACS translation blocking.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t sv                    : 1;  /**< [  0:  0](RO/WRSL) ACS source validation.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sv                    : 1;  /**< [  0:  0](RO/WRSL) ACS source validation.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t tb                    : 1;  /**< [  1:  1](RO/WRSL) ACS translation blocking.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t rr                    : 1;  /**< [  2:  2](RO/WRSL) ACS P2P request redirect.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cr                    : 1;  /**< [  3:  3](RO/WRSL) ACS P2P completion redirect.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t uf                    : 1;  /**< [  4:  4](RO/WRSL) ACS upstream forwarding.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t ec                    : 1;  /**< [  5:  5](RO/WRSL) ACS P2P egress control.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t dt                    : 1;  /**< [  6:  6](RO/WRSL) ACS direct translated P2P.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t reserved_7            : 1;
+        uint32_t ecvs                  : 8;  /**< [ 15:  8](RO/WRSL) Egress control vector size.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t sve                   : 1;  /**< [ 16: 16](R/W) ACS source validation enable. */
+        uint32_t tbe                   : 1;  /**< [ 17: 17](R/W) ACS translation blocking enable. */
+        uint32_t rre                   : 1;  /**< [ 18: 18](R/W) ACS P2P request redirect enable. */
+        uint32_t cre                   : 1;  /**< [ 19: 19](R/W) ACS P2P completion redirect enable. */
+        uint32_t ufe                   : 1;  /**< [ 20: 20](R/W) ACS upstream forwarding enable. */
+        uint32_t ece                   : 1;  /**< [ 21: 21](R/W) ACS P2P egress control enable. */
+        uint32_t dte                   : 1;  /**< [ 22: 22](R/W) ACS direct translated P2P enable. */
+        uint32_t reserved_23_31        : 9;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_pciercx_cfg129_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_com_val_h1      : 32; /**< [ 31:  0](R/W) Packet compare value 2nd DWORD.
                                                                  Specifies the value to compare against Tx the TLP header
                                                                  DWORD1 bits specified in PCIERC()_CFG124[EINJ_COM_PT_H1]. */
@@ -7311,13 +7419,14 @@ typedef union
                                                                  Specifies the value to compare against Tx the TLP header
                                                                  DWORD1 bits specified in PCIERC()_CFG124[EINJ_COM_PT_H1]. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg129_s cn; */
+    } cn83xx;
 } bdk_pciercx_cfg129_t;
 
 static inline uint64_t BDK_PCIERCX_CFG129(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG129(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000204ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x20000000208ll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG129", 1, a, 0, 0, 0);
@@ -7341,6 +7450,22 @@ typedef union
     struct bdk_pciercx_cfg130_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pciercx_cfg130_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ecv                   : 32; /**< [ 31:  0](R/W) Egress control vector. */
+#else /* Word 0 - Little Endian */
+        uint32_t ecv                   : 32; /**< [ 31:  0](R/W) Egress control vector. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_pciercx_cfg130_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t einj6_com_val_h2      : 32; /**< [ 31:  0](R/W) Packet compare value 3rd DWORD.
                                                                  Specifies the value to compare against Tx the TLP header
                                                                  DWORD2 bits specified in the PCIERC()_CFG125[EINJ_COM_PT_H3]. */
@@ -7349,13 +7474,14 @@ typedef union
                                                                  Specifies the value to compare against Tx the TLP header
                                                                  DWORD2 bits specified in the PCIERC()_CFG125[EINJ_COM_PT_H3]. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg130_s cn; */
+    } cn83xx;
 } bdk_pciercx_cfg130_t;
 
 static inline uint64_t BDK_PCIERCX_CFG130(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG130(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000208ll + 0x100000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x2000000020cll + 0x100000000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCIERCX_CFG130", 1, a, 0, 0, 0);
@@ -9016,9 +9142,9 @@ typedef union
         uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO) EQ local figure of merit.
                                                                  Indicates local maximum figure of merit value. */
         uint32_t reserved_21_23        : 3;
-        uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO) EQ local receiver preset hint.
+        uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO/H) EQ local receiver preset hint.
                                                                  Indicates local receiver preset hint value. */
-        uint32_t eq_loc_post_cur       : 6;  /**< [ 17: 12](RO) EQ local post-cursor.
+        uint32_t eq_loc_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ local post-cursor.
                                                                  Indicates local post cursor coefficient value. */
         uint32_t eq_loc_cur            : 6;  /**< [ 11:  6](RO) EQ local cursor.
                                                                  Indicates local cursor coefficient value. */
@@ -9029,9 +9155,9 @@ typedef union
                                                                  Indicates local pre cursor coefficient value. */
         uint32_t eq_loc_cur            : 6;  /**< [ 11:  6](RO) EQ local cursor.
                                                                  Indicates local cursor coefficient value. */
-        uint32_t eq_loc_post_cur       : 6;  /**< [ 17: 12](RO) EQ local post-cursor.
+        uint32_t eq_loc_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ local post-cursor.
                                                                  Indicates local post cursor coefficient value. */
-        uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO) EQ local receiver preset hint.
+        uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO/H) EQ local receiver preset hint.
                                                                  Indicates local receiver preset hint value. */
         uint32_t reserved_21_23        : 3;
         uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO) EQ local figure of merit.
@@ -12842,7 +12968,7 @@ typedef union
 
                                                                  The core self-clears this field when the core accepts this
                                                                  request. */
-        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W) Target link width.
+        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W/H) Target link width.
                                                                  0x0  = Core does not start upconfigure or autonomous width downsizing in Configuration
                                                                  state.
                                                                  0x1  = x1.
@@ -12852,7 +12978,7 @@ typedef union
                                                                  0x10 = x16 (Not Supported).
                                                                  0x20 = x32 (Not Supported). */
 #else /* Word 0 - Little Endian */
-        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W) Target link width.
+        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W/H) Target link width.
                                                                  0x0  = Core does not start upconfigure or autonomous width downsizing in Configuration
                                                                  state.
                                                                  0x1  = x1.

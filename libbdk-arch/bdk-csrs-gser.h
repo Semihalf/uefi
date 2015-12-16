@@ -2302,8 +2302,8 @@ static inline uint64_t BDK_GSERX_LANEX_LBERT_PAT_CFG(unsigned long a, unsigned l
  *
  * GSER Lane Miscellaneous Configuration 0 Register
  * These registers are for diagnostic use only.
- * They are reset by hardware only during chip cold reset.
- * The values of the fields in these registers do not change during chip warm or soft resets.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
  */
 typedef union
 {
@@ -4544,6 +4544,10 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_OS_MVALBBD_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_OS_MVALBBD_1(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e090440230ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440230ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440230ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_OS_MVALBBD_1", 2, a, b, 0, 0);
@@ -4591,6 +4595,10 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_OS_MVALBBD_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_OS_MVALBBD_2(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e090440238ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440238ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e090440238ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_OS_MVALBBD_2", 2, a, b, 0, 0);
@@ -4634,6 +4642,8 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_1(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e0904402a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904402a0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_OS_OUT_1", 2, a, b, 0, 0);
@@ -4677,6 +4687,8 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_2(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e0904402a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904402a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_OS_OUT_2", 2, a, b, 0, 0);
@@ -4720,6 +4732,8 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_3(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e0904402b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904402b0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_OS_OUT_3", 2, a, b, 0, 0);
@@ -5548,9 +5562,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_3[CFG_RX_ERRDET_CTRL[6:5]:
-                                                                 0x0 = Window counter[19:12] (VMA RAW FOM).
-                                                                 0x1 = Window counter[11:4].
+        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL]<6:5>:
+                                                                 0x0 = Window counter<19:12> (VMA RAW FOM).
+                                                                 0x1 = Window counter<11:4>.
                                                                  0x2 = CTLE (continous time linear equalizer) pole, SDLL_IQ.
                                                                  0x3 = Pre-CTLE gain, CTLE Peak.
 
@@ -5562,9 +5576,9 @@ typedef union
 
                                                                  <2:0>: CDR Phase Offset, DLL IQ Training value. */
 #else /* Word 0 - Little Endian */
-        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_3[CFG_RX_ERRDET_CTRL[6:5]:
-                                                                 0x0 = Window counter[19:12] (VMA RAW FOM).
-                                                                 0x1 = Window counter[11:4].
+        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL]<6:5>:
+                                                                 0x0 = Window counter<19:12> (VMA RAW FOM).
+                                                                 0x1 = Window counter<11:4>.
                                                                  0x2 = CTLE (continous time linear equalizer) pole, SDLL_IQ.
                                                                  0x3 = Pre-CTLE gain, CTLE Peak.
 
@@ -5578,42 +5592,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_lanex_rx_vma_status_1_s cn81xx; */
-    struct bdk_gserx_lanex_rx_vma_status_1_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL]<6:5>:
-                                                                 0x0 = Window counter<19:12> (VMA RAW FOM).
-                                                                 0x1 = Window counter<11:4>.
-                                                                 0x2 = CTLE (continous time linear equalizer) pole, SDLL_IQ.
-                                                                 0x3 = Pre-CTLE gain, CTLE Peak.
-
-                                                                 <7>: Training done.
-
-                                                                 <6>: Internal state machine training done.
-
-                                                                 <5:3>: Internal state machine delta.
-
-                                                                 <2:0>: CDR Phase Offset, DLL IQ Training value. */
-#else /* Word 0 - Little Endian */
-        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL]<6:5>:
-                                                                 0x0 = Window counter<19:12> (VMA RAW FOM).
-                                                                 0x1 = Window counter<11:4>.
-                                                                 0x2 = CTLE (continous time linear equalizer) pole, SDLL_IQ.
-                                                                 0x3 = Pre-CTLE gain, CTLE Peak.
-
-                                                                 <7>: Training done.
-
-                                                                 <6>: Internal state machine training done.
-
-                                                                 <5:3>: Internal state machine delta.
-
-                                                                 <2:0>: CDR Phase Offset, DLL IQ Training value. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_gserx_lanex_rx_vma_status_1_s cn83xx; */
+    /* struct bdk_gserx_lanex_rx_vma_status_1_s cn; */
 } bdk_gserx_lanex_rx_vma_status_1_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_VMA_STATUS_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7699,39 +7678,7 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_pipe_lpbk_s cn81xx; */
-    struct bdk_gserx_pipe_lpbk_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pcie_lpbk             : 1;  /**< [  0:  0](R/W) For links that are in PCIE mode, places the PHY in serial loopback mode, where the
-                                                                 QLMn_TXN/QLMn_TXP data are looped back to the QLMn_RXN/QLMn_RXP.
-
-                                                                 This register has no meaning for links that don't support PCIe i.e. GSER(5..13). */
-#else /* Word 0 - Little Endian */
-        uint64_t pcie_lpbk             : 1;  /**< [  0:  0](R/W) For links that are in PCIE mode, places the PHY in serial loopback mode, where the
-                                                                 QLMn_TXN/QLMn_TXP data are looped back to the QLMn_RXN/QLMn_RXP.
-
-                                                                 This register has no meaning for links that don't support PCIe i.e. GSER(5..13). */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn88xx;
-    struct bdk_gserx_pipe_lpbk_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pcie_lpbk             : 1;  /**< [  0:  0](R/W) For links that are in PCIE mode, places the PHY in serial loopback mode, where the
-                                                                 QLMn_TXN/QLMn_TXP data are looped back to the QLMn_RXN/QLMn_RXP.
-
-                                                                 This register has no meaning for links that don't support PCIe i.e. */
-#else /* Word 0 - Little Endian */
-        uint64_t pcie_lpbk             : 1;  /**< [  0:  0](R/W) For links that are in PCIE mode, places the PHY in serial loopback mode, where the
-                                                                 QLMn_TXN/QLMn_TXP data are looped back to the QLMn_RXN/QLMn_RXP.
-
-                                                                 This register has no meaning for links that don't support PCIe i.e. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_gserx_pipe_lpbk_s cn; */
 } bdk_gserx_pipe_lpbk_t;
 
 static inline uint64_t BDK_GSERX_PIPE_LPBK(unsigned long a) __attribute__ ((pure, always_inline));

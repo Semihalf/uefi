@@ -3110,46 +3110,6 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RST_EN(unsigned long a)
 #define arguments_BDK_DPIX_REQ_ERR_RST_EN(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) dpi#_req_err_skip_comp
- *
- * INTERNAL: DPI Instruction Queue Skip Completion Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_req_err_skip_comp_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t en_rst                : 8;  /**< [ 23: 16](RAZ) Reserved. */
-        uint64_t reserved_8_15         : 8;
-        uint64_t en_rsp                : 8;  /**< [  7:  0](R/W/H) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t en_rsp                : 8;  /**< [  7:  0](R/W/H) Reserved. */
-        uint64_t reserved_8_15         : 8;
-        uint64_t en_rst                : 8;  /**< [ 23: 16](RAZ) Reserved. */
-        uint64_t reserved_24_63        : 40;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_req_err_skip_comp_s cn; */
-} bdk_dpix_req_err_skip_comp_t;
-
-static inline uint64_t BDK_DPIX_REQ_ERR_SKIP_COMP(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_REQ_ERR_SKIP_COMP(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000838ll + 0x10000000000ll * ((a) & 0x0);
-    __bdk_csr_fatal("DPIX_REQ_ERR_SKIP_COMP", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DPIX_REQ_ERR_SKIP_COMP(a) bdk_dpix_req_err_skip_comp_t
-#define bustype_BDK_DPIX_REQ_ERR_SKIP_COMP(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_REQ_ERR_SKIP_COMP(a) "DPIX_REQ_ERR_SKIP_COMP"
-#define device_bar_BDK_DPIX_REQ_ERR_SKIP_COMP(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_REQ_ERR_SKIP_COMP(a) (a)
-#define arguments_BDK_DPIX_REQ_ERR_SKIP_COMP(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) dpi#_req_gbl_en
  *
  * DPI Request Global Enable Register

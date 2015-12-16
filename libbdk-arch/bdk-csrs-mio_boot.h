@@ -108,43 +108,45 @@ typedef union
     struct bdk_mio_boot_bist_stat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t stat                  : 15; /**< [ 14:  0](RO/H) BIST status.
+        uint64_t reserved_16_63        : 48;
+        uint64_t stat                  : 16; /**< [ 15:  0](RO/H) BIST status.
                                                                  Internal:
                                                                  <0> = mio.mio_boot.mio_boot_fifo.mem.
-                                                                   <1> = mio.mio_boot.mio_boot_rsp.mem.
-                                                                   <2> = mio.mio_boot.mio_boot_dma.mem.
-                                                                   <3> = mio.mio_nbt.mio_nbt_fifo.mem.
-                                                                   <4> = mio.mio_emm.bufs.mem.mem.
-                                                                   <5> = mio.mio_nbr.ncbo_crd_fif_mem0.
-                                                                   <6> = mio.csr.csr_fifo.
-                                                                   <7> = mio_boot_rom/mio_boot_rom1 (internal bootroms).
-                                                                   <8> = mio.mio_rsl.mio_pcc.gpi_pcc.
-                                                                   <9> = mio.mio_pbus.mio_pbus_fifo.mem.
-                                                                  <10> = mio.mio_pbus.mio_pbus_rsp.mem.
-                                                                  <11> = mio.mio_ndf.mio_ndf_bufs.ndf_buf.
-                                                                  <12> = mio.mio_ndf.ndf_ncb_rcv_fif.
-                                                                  <13> = mio.mio_pcm.mio_pcm_ctl.dmamem.
-                                                                  <14> = mio.mio_pcm.mio_pcm_ctl.maskmem. */
+                                                                 <1> = mio.mio_boot.mio_boot_rsp.mem.
+                                                                 <2> = mio.mio_boot.mio_boot_dma.mem.
+                                                                 <3> = mio.mio_nbt.mio_nbt_fifo.mem.
+                                                                 <4> = mio.mio_emm.bufs.mem.mem.
+                                                                 <5> = mio.mio_nbr.ncbo_crd_fif_mem0.
+                                                                 <6> = mio.csr.csr_fifo.
+                                                                 <7> = mio_boot_rom/mio_boot_rom1 (internal bootroms).
+                                                                 <8> = mio.mio_rsl.mio_pcc.gpi_pcc.
+                                                                 <9> = mio.mio_pbus.mio_pbus_fifo.mem.
+                                                                 <10> = mio.mio_pbus.mio_pbus_rsp.mem.
+                                                                 <11> = mio.mio_ndf.mio_ndf_bufs.ndf_buf.
+                                                                 <12> = mio.mio_ndf.ndf_ncb_rcv_fif.
+                                                                 <13> = mio.mio_pcm.mio_pcm_ctl.dmamem.
+                                                                 <14> = mio.mio_pcm.mio_pcm_ctl.maskmem.
+                                                                 <15> = mio.mio_nbt.mio_nbt_pfifo.mem. */
 #else /* Word 0 - Little Endian */
-        uint64_t stat                  : 15; /**< [ 14:  0](RO/H) BIST status.
+        uint64_t stat                  : 16; /**< [ 15:  0](RO/H) BIST status.
                                                                  Internal:
                                                                  <0> = mio.mio_boot.mio_boot_fifo.mem.
-                                                                   <1> = mio.mio_boot.mio_boot_rsp.mem.
-                                                                   <2> = mio.mio_boot.mio_boot_dma.mem.
-                                                                   <3> = mio.mio_nbt.mio_nbt_fifo.mem.
-                                                                   <4> = mio.mio_emm.bufs.mem.mem.
-                                                                   <5> = mio.mio_nbr.ncbo_crd_fif_mem0.
-                                                                   <6> = mio.csr.csr_fifo.
-                                                                   <7> = mio_boot_rom/mio_boot_rom1 (internal bootroms).
-                                                                   <8> = mio.mio_rsl.mio_pcc.gpi_pcc.
-                                                                   <9> = mio.mio_pbus.mio_pbus_fifo.mem.
-                                                                  <10> = mio.mio_pbus.mio_pbus_rsp.mem.
-                                                                  <11> = mio.mio_ndf.mio_ndf_bufs.ndf_buf.
-                                                                  <12> = mio.mio_ndf.ndf_ncb_rcv_fif.
-                                                                  <13> = mio.mio_pcm.mio_pcm_ctl.dmamem.
-                                                                  <14> = mio.mio_pcm.mio_pcm_ctl.maskmem. */
-        uint64_t reserved_15_63        : 49;
+                                                                 <1> = mio.mio_boot.mio_boot_rsp.mem.
+                                                                 <2> = mio.mio_boot.mio_boot_dma.mem.
+                                                                 <3> = mio.mio_nbt.mio_nbt_fifo.mem.
+                                                                 <4> = mio.mio_emm.bufs.mem.mem.
+                                                                 <5> = mio.mio_nbr.ncbo_crd_fif_mem0.
+                                                                 <6> = mio.csr.csr_fifo.
+                                                                 <7> = mio_boot_rom/mio_boot_rom1 (internal bootroms).
+                                                                 <8> = mio.mio_rsl.mio_pcc.gpi_pcc.
+                                                                 <9> = mio.mio_pbus.mio_pbus_fifo.mem.
+                                                                 <10> = mio.mio_pbus.mio_pbus_rsp.mem.
+                                                                 <11> = mio.mio_ndf.mio_ndf_bufs.ndf_buf.
+                                                                 <12> = mio.mio_ndf.ndf_ncb_rcv_fif.
+                                                                 <13> = mio.mio_pcm.mio_pcm_ctl.dmamem.
+                                                                 <14> = mio.mio_pcm.mio_pcm_ctl.maskmem.
+                                                                 <15> = mio.mio_nbt.mio_nbt_pfifo.mem. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_mio_boot_bist_stat_s cn81xx; */

@@ -112,7 +112,7 @@
 #define BDK_PCC_DEV_CON_E_PCCBR_DPI0 (0xf8) /**< Bridge for DPI 0, creating ECAM 0's bus 15. */
 #define BDK_PCC_DEV_CON_E_PCCBR_FPA (0xe8) /**< Bridge for FPA, creating ECAM 0's bus 13. */
 #define BDK_PCC_DEV_CON_E_PCCBR_MRML (8) /**< Bridge for MRML, creating ECAM 0's bus 1. */
-#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN81XX (0x78) /**< Bridge for NIC, creating ECAM 2's bus 5. */
+#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN81XX (0x78) /**< Bridge for NIC, creating ECAM 0's bus 5. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN88XX (0x20010) /**< Bridge for NIC, creating ECAM 2's bus 1. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN83XX (0x20010) /**< Bridge for NIC, creating ECAM 2's bus 1. */
 #define BDK_PCC_DEV_CON_E_PCCBR_PCM (0xe0) /**< Bridge for PCM, creating ECAM 0's bus 12. */
@@ -1421,7 +1421,7 @@ static inline uint64_t BDK_PCCPF_XXX_E_DEV_CAP_FUNC(void)
  * PCC PF PCI Enhanced Allocation Capabilities Register
  * This register is the header of the variable-sized PCI enhanced allocation capability
  * structure for type 0 devices.
- * The register is RAZ when PCCPF_XXX_VSEC_SCTL[EA] is clear.
+ * The register is 0x0 when PCCPF_XXX_VSEC_SCTL[EA] is clear.
  * Added in pass 2.
  */
 typedef union
@@ -1483,7 +1483,7 @@ static inline uint64_t BDK_PCCPF_XXX_EA_CAP_HDR_FUNC(void)
  * PCC PF PCI Enhanced Allocation Entry Registers
  * These registers contain up to four sequential enhanced allocation entries. Each
  * entry consists of 5 sequential words described by PCC_EA_ENTRY_S.
- * All entries are RAZ when PCCPF_XXX_VSEC_SCTL[EA] is clear.
+ * All entries are 0x0 when PCCPF_XXX_VSEC_SCTL[EA] is clear.
  * Added in pass 2.
  */
 typedef union

@@ -8369,7 +8369,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t gmid                  : 16; /**< [ 47: 32](R/W) Internal:
-                                                                 Bus GMID field for the request when written.  RAZ for reads. */
+                                                                 Bus GMID field for the request when written.  Reads as 0. */
         uint64_t tag                   : 32; /**< [ 31:  0](R/W) Internal:
                                                                  Bus tag field for the request when written.
                                                                  On a read, <0> indicates that a previous LWA request
@@ -8380,7 +8380,7 @@ typedef union
                                                                  On a read, <0> indicates that a previous LWA request
                                                                  is pending (SSO has not yet given a grant for the request). */
         uint64_t gmid                  : 16; /**< [ 47: 32](R/W) Internal:
-                                                                 Bus GMID field for the request when written.  RAZ for reads. */
+                                                                 Bus GMID field for the request when written.  Reads as 0. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -8424,12 +8424,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t ttype                 : 2;  /**< [ 63: 62](R/W) Internal:
-                                                                 Bus ttype field for request when written.  RAZ for reads. */
+                                                                 Bus ttype field for request when written.  Reads as 0. */
         uint64_t reserved_61           : 1;
         uint64_t lwa                   : 1;  /**< [ 60: 60](R/W) Internal:
-                                                                 Bus LWA field for request when written.  RAZ for reads. */
+                                                                 Bus LWA field for request when written.  Reads as 0. */
         uint64_t ggrp                  : 10; /**< [ 59: 50](R/W) Internal:
-                                                                 Bus GGRP field for request when written.  RAZ for reads. */
+                                                                 Bus GGRP field for request when written.  Reads as 0. */
         uint64_t reserved_46_49        : 4;
         uint64_t wqp                   : 46; /**< [ 45:  0](R/W) Internal:
                                                                  Bus WQP<48:3> field for the LWA request to SSO when written.
@@ -8442,12 +8442,12 @@ typedef union
                                                                  is pending (SSO has not yet given a grant for the request). */
         uint64_t reserved_46_49        : 4;
         uint64_t ggrp                  : 10; /**< [ 59: 50](R/W) Internal:
-                                                                 Bus GGRP field for request when written.  RAZ for reads. */
+                                                                 Bus GGRP field for request when written.  Reads as 0. */
         uint64_t lwa                   : 1;  /**< [ 60: 60](R/W) Internal:
-                                                                 Bus LWA field for request when written.  RAZ for reads. */
+                                                                 Bus LWA field for request when written.  Reads as 0. */
         uint64_t reserved_61           : 1;
         uint64_t ttype                 : 2;  /**< [ 63: 62](R/W) Internal:
-                                                                 Bus ttype field for request when written.  RAZ for reads. */
+                                                                 Bus ttype field for request when written.  Reads as 0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_lwa_inject_lo_s cn; */
@@ -8488,11 +8488,11 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
         uint64_t red                   : 1;  /**< [ 33: 33](R/W) Internal:
-                                                                 RED field for request when written.  RAZ for reads. */
+                                                                 RED field for request when written.  Reads as 0. */
         uint64_t drop                  : 1;  /**< [ 32: 32](R/W) Internal:
-                                                                 DROP field for request when written.  RAZ for reads. */
+                                                                 DROP field for request when written.  Reads as 0. */
         uint64_t gmid                  : 16; /**< [ 31: 16](R/W) Internal:
-                                                                 GMID field for request when written.  RAZ for reads. */
+                                                                 GMID field for request when written.  Reads as 0. */
         uint64_t gaura                 : 16; /**< [ 15:  0](R/W) Internal:
                                                                  GAURA field for request when written.  On reads,
                                                                  indicates a previously initiated request is still waiting for grant. */
@@ -8501,11 +8501,11 @@ typedef union
                                                                  GAURA field for request when written.  On reads,
                                                                  indicates a previously initiated request is still waiting for grant. */
         uint64_t gmid                  : 16; /**< [ 31: 16](R/W) Internal:
-                                                                 GMID field for request when written.  RAZ for reads. */
+                                                                 GMID field for request when written.  Reads as 0. */
         uint64_t drop                  : 1;  /**< [ 32: 32](R/W) Internal:
-                                                                 DROP field for request when written.  RAZ for reads. */
+                                                                 DROP field for request when written.  Reads as 0. */
         uint64_t red                   : 1;  /**< [ 33: 33](R/W) Internal:
-                                                                 RED field for request when written.  RAZ for reads. */
+                                                                 RED field for request when written.  Reads as 0. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
     } s;
@@ -8549,15 +8549,15 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t gmid                  : 16; /**< [ 63: 48](R/W) Internal:
-                                                                 GMID field for request when written.  RAZ for reads. */
+                                                                 GMID field for request when written.  Reads as 0. */
         uint64_t reserved_38_47        : 10;
         uint64_t abs                   : 1;  /**< [ 37: 37](R/W) Internal:
-                                                                 ABS field for request when written.  RAZ for reads. */
+                                                                 ABS field for request when written.  Reads as 0. */
         uint64_t sub                   : 1;  /**< [ 36: 36](R/W) Internal:
-                                                                 SUB field for request when written.  RAZ for reads. */
+                                                                 SUB field for request when written.  Reads as 0. */
         uint64_t reserved_33_35        : 3;
         uint64_t value                 : 17; /**< [ 32: 16](R/W) Internal:
-                                                                 VALUE field for request when written.  RAZ for reads. */
+                                                                 VALUE field for request when written.  Reads as 0. */
         uint64_t gaura                 : 16; /**< [ 15:  0](R/W) Internal:
                                                                  GAURA field for the request when written.
                                                                  On a read, <0> indicates that a previous deallocate request
@@ -8568,15 +8568,15 @@ typedef union
                                                                  On a read, <0> indicates that a previous deallocate request
                                                                  is pending (FPA has not yet given a grant for the request). */
         uint64_t value                 : 17; /**< [ 32: 16](R/W) Internal:
-                                                                 VALUE field for request when written.  RAZ for reads. */
+                                                                 VALUE field for request when written.  Reads as 0. */
         uint64_t reserved_33_35        : 3;
         uint64_t sub                   : 1;  /**< [ 36: 36](R/W) Internal:
-                                                                 SUB field for request when written.  RAZ for reads. */
+                                                                 SUB field for request when written.  Reads as 0. */
         uint64_t abs                   : 1;  /**< [ 37: 37](R/W) Internal:
-                                                                 ABS field for request when written.  RAZ for reads. */
+                                                                 ABS field for request when written.  Reads as 0. */
         uint64_t reserved_38_47        : 10;
         uint64_t gmid                  : 16; /**< [ 63: 48](R/W) Internal:
-                                                                 GMID field for request when written.  RAZ for reads. */
+                                                                 GMID field for request when written.  Reads as 0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_xpd_inject_hi_s cn; */
@@ -8619,7 +8619,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dmode                 : 2;  /**< [ 63: 62](R/W) Internal:
-                                                                 Defines DMODE field for request when written.  RAZ for reads. */
+                                                                 Defines DMODE field for request when written.  Reads as 0. */
         uint64_t reserved_42_61        : 20;
         uint64_t pointer               : 42; /**< [ 41:  0](R/W) Internal:
                                                                  Defines the 128-byte aligned pointer to be deallocated.  So pointer<48:7>.
@@ -8632,7 +8632,7 @@ typedef union
                                                                  is pending (FPA has not yet given a grant for the request). */
         uint64_t reserved_42_61        : 20;
         uint64_t dmode                 : 2;  /**< [ 63: 62](R/W) Internal:
-                                                                 Defines DMODE field for request when written.  RAZ for reads. */
+                                                                 Defines DMODE field for request when written.  Reads as 0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_pbe_xpd_inject_lo_s cn; */

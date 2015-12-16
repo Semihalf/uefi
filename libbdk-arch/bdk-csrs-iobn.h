@@ -487,31 +487,77 @@ typedef union
     struct bdk_iobnx_chip_pwr_out_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cpu_pwr               : 16; /**< [ 63: 48](RO/H) An estimate of the current CPU core complex power consumption. The CPU core complex
-                                                                 includes the caches and DRAM controller(s), as well as all CPU cores. Linearly larger
-                                                                 values indicate linearly higher power consumption. This power consumption estimate is
-                                                                 energy per core clock. */
+        uint64_t cpu_pwr               : 16; /**< [ 63: 48](RO/H) An estimate of the current CPU core complex power consumption, including a sum
+                                                                 of all processor's AP_CVM_POWER_EL1[AVERAGE_POWER]. The CPU core complex
+                                                                 includes the caches and DRAM controller(s), as well as all CPU cores. Linearly
+                                                                 larger values indicate linearly higher power consumption. */
         uint64_t chip_power            : 16; /**< [ 47: 32](RO/H) An estimate of the current total power consumption by the chip. Linearly larger values
                                                                  indicate linearly higher power consumption. [CHIP_POWER] is the sum of [CPU_POWER] and
                                                                  [COPROC_POWER]. */
         uint64_t coproc_power          : 16; /**< [ 31: 16](RO/H) An estimate of the current coprocessor power consumption. Linearly larger values indicate
                                                                  linearly higher power consumption. This estimate is energy per core clock, and will
                                                                  generally decrease as the ratio of core to coprocessor clock speed increases. */
-        uint64_t avg_chip_power        : 16; /**< [ 15:  0](RO/H) An average of [CHIP_POWER], calculated using an IIR filter with an average
-                                                                 weight of 16K core clocks. */
+        uint64_t avg_chip_power        : 16; /**< [ 15:  0](RO/H) Average chip power.
+                                                                 An average of [CHIP_POWER], calculated using an IIR filter with an average
+                                                                 weight of 16K core clocks, in mA/GHz.
+
+                                                                 Accurate power numbers should be calculated using a platform-specific method which
+                                                                 e.g. reads the current consumption of the VRM.
+
+                                                                 Otherwise an approximation of this chip's power is calculated with:
+
+                                                                   _ power = chip_const + core_const * cores_powered_on + [AVG_CHIP_POWER] * voltage
+
+                                                                 Where:
+
+                                                                 _ power is in mW.
+
+                                                                 _ chip_const is in mW and represents the I/O power and chip excluding core_const.
+                                                                 This may vary as I/O and coprocessor loads vary, therefore only
+                                                                 platform methods can be used for accurate estimates.
+
+                                                                 _ core_const is a per-core constant leakage from the HRM power application note, and is in
+                                                                 mA.
+
+                                                                 _ cores_powered_on is a population count of all bits set in RST_PP_POWER.
+
+                                                                 _ voltage is determined by the platform, perhaps by reading a VRM setting. */
 #else /* Word 0 - Little Endian */
-        uint64_t avg_chip_power        : 16; /**< [ 15:  0](RO/H) An average of [CHIP_POWER], calculated using an IIR filter with an average
-                                                                 weight of 16K core clocks. */
+        uint64_t avg_chip_power        : 16; /**< [ 15:  0](RO/H) Average chip power.
+                                                                 An average of [CHIP_POWER], calculated using an IIR filter with an average
+                                                                 weight of 16K core clocks, in mA/GHz.
+
+                                                                 Accurate power numbers should be calculated using a platform-specific method which
+                                                                 e.g. reads the current consumption of the VRM.
+
+                                                                 Otherwise an approximation of this chip's power is calculated with:
+
+                                                                   _ power = chip_const + core_const * cores_powered_on + [AVG_CHIP_POWER] * voltage
+
+                                                                 Where:
+
+                                                                 _ power is in mW.
+
+                                                                 _ chip_const is in mW and represents the I/O power and chip excluding core_const.
+                                                                 This may vary as I/O and coprocessor loads vary, therefore only
+                                                                 platform methods can be used for accurate estimates.
+
+                                                                 _ core_const is a per-core constant leakage from the HRM power application note, and is in
+                                                                 mA.
+
+                                                                 _ cores_powered_on is a population count of all bits set in RST_PP_POWER.
+
+                                                                 _ voltage is determined by the platform, perhaps by reading a VRM setting. */
         uint64_t coproc_power          : 16; /**< [ 31: 16](RO/H) An estimate of the current coprocessor power consumption. Linearly larger values indicate
                                                                  linearly higher power consumption. This estimate is energy per core clock, and will
                                                                  generally decrease as the ratio of core to coprocessor clock speed increases. */
         uint64_t chip_power            : 16; /**< [ 47: 32](RO/H) An estimate of the current total power consumption by the chip. Linearly larger values
                                                                  indicate linearly higher power consumption. [CHIP_POWER] is the sum of [CPU_POWER] and
                                                                  [COPROC_POWER]. */
-        uint64_t cpu_pwr               : 16; /**< [ 63: 48](RO/H) An estimate of the current CPU core complex power consumption. The CPU core complex
-                                                                 includes the caches and DRAM controller(s), as well as all CPU cores. Linearly larger
-                                                                 values indicate linearly higher power consumption. This power consumption estimate is
-                                                                 energy per core clock. */
+        uint64_t cpu_pwr               : 16; /**< [ 63: 48](RO/H) An estimate of the current CPU core complex power consumption, including a sum
+                                                                 of all processor's AP_CVM_POWER_EL1[AVERAGE_POWER]. The CPU core complex
+                                                                 includes the caches and DRAM controller(s), as well as all CPU cores. Linearly
+                                                                 larger values indicate linearly higher power consumption. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_iobnx_chip_pwr_out_s cn; */

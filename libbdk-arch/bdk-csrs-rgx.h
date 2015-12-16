@@ -2557,61 +2557,61 @@ typedef union
                                                                  run.'
 
                                                                  Internal:
-                                                                 "<0> = bgx#.rxb.infif_gmp
-                                                                 <1> = bgx#.rxb.infif_smu
-                                                                 <2> = bgx#.rxb.fif_bnk00
-                                                                 <3> = bgx#.rxb.fif_bnk01
-                                                                 <4> = bgx#.rxb.fif_bnk10
-                                                                 <5> = bgx#.rxb.fif_bnk11
-                                                                 <6> = bgx#.rxb.pki_skd_fif
-                                                                 <7> = bgx#.rxb.nic_skd_fif
-                                                                 <8> = bgx#.rxb_mix0_fif
-                                                                 <9> = bgx#.rxb_mix1_fif
-                                                                 <10> = RAZ
-                                                                 <11> = bgx#.txb_fif_bnk0
-                                                                 <12> = bgx#.txb_fif_bnk1
-                                                                 <13> = bgx#.txb_skd_m0_pko_fif
-                                                                 <14> = bgx#.txb_skd_m1_pko_fif
-                                                                 <15> = bgx#.txb_skd_m2_pko_fif
-                                                                 <16> = bgx#.txb_skd_m3_pko_fif
-                                                                 <17> = bgx#.txb_skd_m0_nic_fif
-                                                                 <18> = bgx#.txb_skd_m1_nic_fif
-                                                                 <19> = bgx#.txb_skd_m2_nic_fif
-                                                                 <20> = bgx#.txb_skd_m3_nic_fif
-                                                                 <21> = bgx#.txb_mix0_fif
-                                                                 <22> = bgx#.txb_mix1_fif
-                                                                 <23> = bgx#.txb_ncsi_fif
-                                                                 <24> = RAZ"" */
+                                                                 "<0> = bgx#.rxb.infif_gmp.
+                                                                 <1> = bgx#.rxb.infif_smu.
+                                                                 <2> = bgx#.rxb.fif_bnk00.
+                                                                 <3> = bgx#.rxb.fif_bnk01.
+                                                                 <4> = bgx#.rxb.fif_bnk10.
+                                                                 <5> = bgx#.rxb.fif_bnk11.
+                                                                 <6> = bgx#.rxb.pki_skd_fif.
+                                                                 <7> = bgx#.rxb.nic_skd_fif.
+                                                                 <8> = bgx#.rxb_mix0_fif.
+                                                                 <9> = bgx#.rxb_mix1_fif.
+                                                                 <10> = 0.
+                                                                 <11> = bgx#.txb_fif_bnk0.
+                                                                 <12> = bgx#.txb_fif_bnk1.
+                                                                 <13> = bgx#.txb_skd_m0_pko_fif.
+                                                                 <14> = bgx#.txb_skd_m1_pko_fif.
+                                                                 <15> = bgx#.txb_skd_m2_pko_fif.
+                                                                 <16> = bgx#.txb_skd_m3_pko_fif.
+                                                                 <17> = bgx#.txb_skd_m0_nic_fif.
+                                                                 <18> = bgx#.txb_skd_m1_nic_fif.
+                                                                 <19> = bgx#.txb_skd_m2_nic_fif.
+                                                                 <20> = bgx#.txb_skd_m3_nic_fif.
+                                                                 <21> = bgx#.txb_mix0_fif.
+                                                                 <22> = bgx#.txb_mix1_fif.
+                                                                 <23> = bgx#.txb_ncsi_fif.
+                                                                 <24> = 0." */
 #else /* Word 0 - Little Endian */
         uint64_t status                : 25; /**< [ 24:  0](RO/H) '"BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
                                                                  run.'
 
                                                                  Internal:
-                                                                 "<0> = bgx#.rxb.infif_gmp
-                                                                 <1> = bgx#.rxb.infif_smu
-                                                                 <2> = bgx#.rxb.fif_bnk00
-                                                                 <3> = bgx#.rxb.fif_bnk01
-                                                                 <4> = bgx#.rxb.fif_bnk10
-                                                                 <5> = bgx#.rxb.fif_bnk11
-                                                                 <6> = bgx#.rxb.pki_skd_fif
-                                                                 <7> = bgx#.rxb.nic_skd_fif
-                                                                 <8> = bgx#.rxb_mix0_fif
-                                                                 <9> = bgx#.rxb_mix1_fif
-                                                                 <10> = RAZ
-                                                                 <11> = bgx#.txb_fif_bnk0
-                                                                 <12> = bgx#.txb_fif_bnk1
-                                                                 <13> = bgx#.txb_skd_m0_pko_fif
-                                                                 <14> = bgx#.txb_skd_m1_pko_fif
-                                                                 <15> = bgx#.txb_skd_m2_pko_fif
-                                                                 <16> = bgx#.txb_skd_m3_pko_fif
-                                                                 <17> = bgx#.txb_skd_m0_nic_fif
-                                                                 <18> = bgx#.txb_skd_m1_nic_fif
-                                                                 <19> = bgx#.txb_skd_m2_nic_fif
-                                                                 <20> = bgx#.txb_skd_m3_nic_fif
-                                                                 <21> = bgx#.txb_mix0_fif
-                                                                 <22> = bgx#.txb_mix1_fif
-                                                                 <23> = bgx#.txb_ncsi_fif
-                                                                 <24> = RAZ"" */
+                                                                 "<0> = bgx#.rxb.infif_gmp.
+                                                                 <1> = bgx#.rxb.infif_smu.
+                                                                 <2> = bgx#.rxb.fif_bnk00.
+                                                                 <3> = bgx#.rxb.fif_bnk01.
+                                                                 <4> = bgx#.rxb.fif_bnk10.
+                                                                 <5> = bgx#.rxb.fif_bnk11.
+                                                                 <6> = bgx#.rxb.pki_skd_fif.
+                                                                 <7> = bgx#.rxb.nic_skd_fif.
+                                                                 <8> = bgx#.rxb_mix0_fif.
+                                                                 <9> = bgx#.rxb_mix1_fif.
+                                                                 <10> = 0.
+                                                                 <11> = bgx#.txb_fif_bnk0.
+                                                                 <12> = bgx#.txb_fif_bnk1.
+                                                                 <13> = bgx#.txb_skd_m0_pko_fif.
+                                                                 <14> = bgx#.txb_skd_m1_pko_fif.
+                                                                 <15> = bgx#.txb_skd_m2_pko_fif.
+                                                                 <16> = bgx#.txb_skd_m3_pko_fif.
+                                                                 <17> = bgx#.txb_skd_m0_nic_fif.
+                                                                 <18> = bgx#.txb_skd_m1_nic_fif.
+                                                                 <19> = bgx#.txb_skd_m2_nic_fif.
+                                                                 <20> = bgx#.txb_skd_m3_nic_fif.
+                                                                 <21> = bgx#.txb_mix0_fif.
+                                                                 <22> = bgx#.txb_mix1_fif.
+                                                                 <23> = bgx#.txb_ncsi_fif.
+                                                                 <24> = 0." */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
@@ -4008,54 +4008,6 @@ static inline uint64_t BDK_RGXX_CMR_TX_LMACS(unsigned long a)
 #define arguments_BDK_RGXX_CMR_TX_LMACS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) rgx#_gmp_gmi_pause_ctl#
- *
- * RGX GMI Pause Control Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_rgxx_gmp_gmi_pause_ctlx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_50_63        : 14;
-        uint64_t rx_fc_type            : 1;  /**< [ 49: 49](R/W) Receive side flow control type select.
-                                                                 0 = GMI MAC recieves and processes ITU G.999.1 pause frames.
-                                                                 1 = GMI MAC recieves and processes 802.3 pause frames. */
-        uint64_t tx_fc_type            : 1;  /**< [ 48: 48](R/W) Receive side flow control type select.
-                                                                 0 = GMI MAC transmits ITU G.999.1 pause frames.
-                                                                 1 = GMI MAC transmits 802.3 pause frames. */
-        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
-#else /* Word 0 - Little Endian */
-        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
-        uint64_t tx_fc_type            : 1;  /**< [ 48: 48](R/W) Receive side flow control type select.
-                                                                 0 = GMI MAC transmits ITU G.999.1 pause frames.
-                                                                 1 = GMI MAC transmits 802.3 pause frames. */
-        uint64_t rx_fc_type            : 1;  /**< [ 49: 49](R/W) Receive side flow control type select.
-                                                                 0 = GMI MAC recieves and processes ITU G.999.1 pause frames.
-                                                                 1 = GMI MAC recieves and processes 802.3 pause frames. */
-        uint64_t reserved_50_63        : 14;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rgxx_gmp_gmi_pause_ctlx_s cn; */
-} bdk_rgxx_gmp_gmi_pause_ctlx_t;
-
-static inline uint64_t BDK_RGXX_GMP_GMI_PAUSE_CTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_RGXX_GMP_GMI_PAUSE_CTLX(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
-        return 0x87e0e8038230ll + 0x1000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x0);
-    __bdk_csr_fatal("RGXX_GMP_GMI_PAUSE_CTLX", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_RGXX_GMP_GMI_PAUSE_CTLX(a,b) bdk_rgxx_gmp_gmi_pause_ctlx_t
-#define bustype_BDK_RGXX_GMP_GMI_PAUSE_CTLX(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_RGXX_GMP_GMI_PAUSE_CTLX(a,b) "RGXX_GMP_GMI_PAUSE_CTLX"
-#define device_bar_BDK_RGXX_GMP_GMI_PAUSE_CTLX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_RGXX_GMP_GMI_PAUSE_CTLX(a,b) (a)
-#define arguments_BDK_RGXX_GMP_GMI_PAUSE_CTLX(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) rgx#_gmp_gmi_prt#_cfg
  *
  * RGX GMP GMI LMAC Configuration Registers
@@ -4274,7 +4226,10 @@ typedef union
     struct bdk_rgxx_gmp_gmi_rxx_frm_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
+        uint64_t reserved_14_63        : 50;
+        uint64_t rx_fc_type            : 1;  /**< [ 13: 13](R/W) Receive side flow control type select.
+                                                                 0 = GMI MAC receives and processes ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC receives and processes 802.3 pause frames. */
         uint64_t ptp_mode              : 1;  /**< [ 12: 12](R/W) Timestamp mode. When PTP_MODE is set, a 64-bit timestamp is prepended to every incoming
                                                                  packet.
 
@@ -4360,13 +4315,19 @@ typedef union
                                                                  RGX()_CMR()_RX_STAT0..RGX()_CMR()_RX_STAT8
                                                                  do not require any adjustment as they operate on the received
                                                                  packet size. When the packet reaches NIC, its size reflects the additional bytes. */
-        uint64_t reserved_13_63        : 51;
+        uint64_t rx_fc_type            : 1;  /**< [ 13: 13](R/W) Receive side flow control type select.
+                                                                 0 = GMI MAC receives and processes ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC receives and processes 802.3 pause frames. */
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
     struct bdk_rgxx_gmp_gmi_rxx_frm_ctl_cn
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
+        uint64_t reserved_14_63        : 50;
+        uint64_t rx_fc_type            : 1;  /**< [ 13: 13](R/W) Receive side flow control type select.
+                                                                 0 = GMI MAC receives and processes ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC receives and processes 802.3 pause frames. */
         uint64_t ptp_mode              : 1;  /**< [ 12: 12](R/W) Timestamp mode. When PTP_MODE is set, a 64-bit timestamp is prepended to every incoming
                                                                  packet.
 
@@ -4454,7 +4415,10 @@ typedef union
                                                                  RGX()_CMR()_RX_STAT0..RGX()_CMR()_RX_STAT8
                                                                  do not require any adjustment as they operate on the received
                                                                  packet size. When the packet reaches NIC, its size reflects the additional bytes. */
-        uint64_t reserved_13_63        : 51;
+        uint64_t rx_fc_type            : 1;  /**< [ 13: 13](R/W) Receive side flow control type select.
+                                                                 0 = GMI MAC receives and processes ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC receives and processes 802.3 pause frames. */
+        uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn;
 } bdk_rgxx_gmp_gmi_rxx_frm_ctl_t;
@@ -4981,6 +4945,42 @@ static inline uint64_t BDK_RGXX_GMP_GMI_RXX_UDD_SKP(unsigned long a, unsigned lo
 #define arguments_BDK_RGXX_GMP_GMI_RXX_UDD_SKP(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) rgx#_gmp_gmi_smac#
+ *
+ * RGX GMI SMAC Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_rgxx_gmp_gmi_smacx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
+#else /* Word 0 - Little Endian */
+        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_rgxx_gmp_gmi_smacx_s cn; */
+} bdk_rgxx_gmp_gmi_smacx_t;
+
+static inline uint64_t BDK_RGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_RGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x87e0e8038230ll + 0x1000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x0);
+    __bdk_csr_fatal("RGXX_GMP_GMI_SMACX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_RGXX_GMP_GMI_SMACX(a,b) bdk_rgxx_gmp_gmi_smacx_t
+#define bustype_BDK_RGXX_GMP_GMI_SMACX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_RGXX_GMP_GMI_SMACX(a,b) "RGXX_GMP_GMI_SMACX"
+#define device_bar_BDK_RGXX_GMP_GMI_SMACX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_RGXX_GMP_GMI_SMACX(a,b) (a)
+#define arguments_BDK_RGXX_GMP_GMI_SMACX(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) rgx#_gmp_gmi_tx#_append
  *
  * RGX GMI TX Append Control Registers
@@ -5077,7 +5077,10 @@ typedef union
     struct bdk_rgxx_gmp_gmi_txx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
+        uint64_t reserved_3_63         : 61;
+        uint64_t tx_fc_type            : 1;  /**< [  2:  2](R/W) Transmit side flow control type select.
+                                                                 0 = GMI MAC transmits ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC transmits 802.3 pause frames. */
         uint64_t xsdef_en              : 1;  /**< [  1:  1](R/W) Enables the excessive-deferral check for statistics and interrupts. SGMII/1000Base-X half-
                                                                  duplex only. */
         uint64_t xscol_en              : 1;  /**< [  0:  0](R/W) Enables the excessive-collision check for statistics and interrupts. SGMII/1000Base-X
@@ -5087,7 +5090,10 @@ typedef union
                                                                  half-duplex only. */
         uint64_t xsdef_en              : 1;  /**< [  1:  1](R/W) Enables the excessive-deferral check for statistics and interrupts. SGMII/1000Base-X half-
                                                                  duplex only. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t tx_fc_type            : 1;  /**< [  2:  2](R/W) Transmit side flow control type select.
+                                                                 0 = GMI MAC transmits ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC transmits 802.3 pause frames. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_rgxx_gmp_gmi_txx_ctl_s cn; */
@@ -5367,13 +5373,15 @@ typedef union
                                                                  Normally, 0 < INTERVAL < RGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
 
                                                                  INTERVAL = 0 only sends a single PAUSE packet for each backpressure event.
-                                                                 BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when INTERVAL = 0. */
+                                                                 RGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when INTERVAL = 0.
+                                                                 INTERVAL should be 0x0 if RGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
 #else /* Word 0 - Little Endian */
         uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet or CBFC PAUSE packet every (INTERVAL * 512) bit-times.
                                                                  Normally, 0 < INTERVAL < RGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
 
                                                                  INTERVAL = 0 only sends a single PAUSE packet for each backpressure event.
-                                                                 BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when INTERVAL = 0. */
+                                                                 RGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when INTERVAL = 0.
+                                                                 INTERVAL should be 0x0 if RGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -5410,12 +5418,14 @@ typedef union
         uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets or CBFC PAUSE packets
                                                                  in 512 bit-times. Normally, P_TIME >
                                                                  RGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
-                                                                 RGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL. */
+                                                                 RGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL.
+                                                                 PTIME should be 0x0 if RGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
 #else /* Word 0 - Little Endian */
         uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets or CBFC PAUSE packets
                                                                  in 512 bit-times. Normally, P_TIME >
                                                                  RGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
-                                                                 RGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL. */
+                                                                 RGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL.
+                                                                 PTIME should be 0x0 if RGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -5486,10 +5496,12 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t send                  : 1;  /**< [  0:  0](R/W) Send PAUSE-zero enable. When this bit is set, and the backpressure condition is clear, it
-                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel. */
+                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel.
+                                                                 SEND should be set if RGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
 #else /* Word 0 - Little Endian */
         uint64_t send                  : 1;  /**< [  0:  0](R/W) Send PAUSE-zero enable. When this bit is set, and the backpressure condition is clear, it
-                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel. */
+                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel.
+                                                                 SEND should be set if RGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;

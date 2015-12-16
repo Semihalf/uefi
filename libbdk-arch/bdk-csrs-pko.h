@@ -456,8 +456,7 @@ union bdk_pko_meta_desc_s
  * Structure pko_send_aura_s
  *
  * PKO Send Aura Subdescriptor Structure
- * The Send Aura subdescriptor changes the aura used for FPA frees
- * of this PKO SEND descriptor, and can also decrement aura counts.
+ * The Send Aura subdescriptor is used to decrement aura counts.
  *
  * When a PKO_SEND_TSO_S is present in the descriptor, the PKO_SEND_AURA_S
  * operations effectively execute only once for the descriptor, not once
@@ -979,9 +978,7 @@ union bdk_pko_send_gather_s
                                                                  the buffer free. An FPA naturally-aligned pool is recommended, though opaque
                                                                  pool mode may also be possible. Refer to the FPA Chapter.
 
-                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
-                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
+                                                                 PKO frees the buffer to PKO_SEND_GATHER_S[AURA].
 
                                                                  PKO will not free [ADDR] to FPA until after it has finished reading
                                                                  this segment (and the PKI_BUFLINK_S that precedes this segment in
@@ -1027,9 +1024,7 @@ union bdk_pko_send_gather_s
                                                                  the buffer free. An FPA naturally-aligned pool is recommended, though opaque
                                                                  pool mode may also be possible. Refer to the FPA Chapter.
 
-                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
-                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
+                                                                 PKO frees the buffer to PKO_SEND_GATHER_S[AURA].
 
                                                                  PKO will not free [ADDR] to FPA until after it has finished reading
                                                                  this segment (and the PKI_BUFLINK_S that precedes this segment in
@@ -1168,13 +1163,60 @@ union bdk_pko_send_hdr_s
 
                                                                  PKO naturally aligns PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
                                                                  to 128 bytes before sending it to FPA as part of the buffer free. An FPA
+                                                                 naturally-aligned pool is recommended, though opaque pool mode may also be
+                                                                 possible. Refer to the FPA Chapter.
+
+                                                                 PKO frees the buffer to the [AURA] contained in the descriptor (GATHER/LINK/JUMP/FREE).
+
+                                                                 PKO will not free PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
+                                                                 to FPA until after it has finished reading the segment (and its preceding
+                                                                 PKI_BUFLINK_S, if necessary) from the buffer.
+                                                                 Provided the path of meta descriptors from the DQ through PKO to an output FIFO is
+                                                                 unmodified between the meta descriptors (as should normally be the case, but it is
+                                                                 possible for software to change the path), PKO also will not free
+                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR] to FPA
+                                                                 until after it has completed all L2/DRAM reads related
+                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
+                                                                 descriptor enqueued earlier in the same DQ. PKO may free
+                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR] in
+                                                                 any order with respect to any processing of any descriptor that is
+                                                                 in a different DQ. PKO may create the FPA
+                                                                 frees needed to process a PKO_SEND_GATHER_S or PKO_SEND_LINK_S subdescriptor
+                                                                 in any order relative to any other PKO FPA frees needed to process
+                                                                 this or any other PKO SEND descriptor, and in any order relative to
+                                                                 any FPA frees/allocates needed for DQ DRAM buffering, and in any order
+                                                                 relative any FPA aura count updates needed to process a PKO_SEND_AURA_S
+                                                                 subdescriptor in this or any other PKO SEND. The FPA free may occur in any
+                                                                 order relative to any L2/DRAM updates or any work queue add needed to
+                                                                 process this or any other PKO SEND.
+
+                                                                 Note that [DF] has no effect on any buffer frees from a PKO_SEND_FREE_S or
+                                                                 PKO_SEND_JUMP_S.
+
+                                                                 When a PKO_SEND_TSO_S is present in the descriptor, PKO
+                                                                 frees the surrounding buffer only once for the descriptor,
+                                                                 not once per TSO segment.
+                                                                 Software must not modify the path of meta descriptors from the DQ through
+                                                                 PKO to an output FIFO between TSO segments. */
+        uint64_t df                    : 1;  /**< [ 40: 40] Don't Free. If set, by default PKO will not free the surrounding buffer after
+                                                                 processing a packet segment. If clear, by default PKO will free the
+                                                                 surrounding buffer after processing a packet segment.
+
+                                                                 If [II] is set, [DF] is more than the default -- it completely controls whether
+                                                                 surrounding buffers are freed by PKO. If [II] is clear, the I bit in the
+                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S can invert the default behavior.
+
+                                                                 PKO frees the buffer surrounding a PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S
+                                                                 segment when:
+
+                                                                 _   [DF] XOR ([II] AND PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[I]) = 0.
+
+                                                                 PKO naturally aligns PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
+                                                                 to 128 bytes before sending it to FPA as part of the buffer free. An FPA
                                                                  naturally-aligned pool is recommended, though opaque pool mode may also
                                                                  be possible. Refer to the FPA Chapter.
 
-                                                                 PKO frees the buffer to the last PKO_SEND_AURA_S[AURA] before the
-                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S in the PKO SEND descriptor, or
-                                                                 to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
+                                                                 PKO frees the buffer to the [AURA] contained in the descriptor (GATHER, LINK, JUMP, FREE)
 
                                                                  PKO will not free PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
                                                                  to FPA until after it has finished reading the segment (and its preceding
@@ -1202,59 +1244,6 @@ union bdk_pko_send_hdr_s
                                                                  any other PKO SEND.
 
                                                                  Note that [II] has no effect on any buffer frees from a PKO_SEND_FREE_S or
-                                                                 PKO_SEND_JUMP_S.
-
-                                                                 When a PKO_SEND_TSO_S is present in the descriptor, PKO
-                                                                 frees the surrounding buffer only once for the descriptor,
-                                                                 not once per TSO segment.
-                                                                 Software must not modify the path of meta descriptors from the DQ through
-                                                                 PKO to an output FIFO between TSO segments. */
-        uint64_t df                    : 1;  /**< [ 40: 40] Don't Free. If set, by default PKO will not free the surrounding buffer after
-                                                                 processing a packet segment. If clear, by default PKO will free the
-                                                                 surrounding buffer after processing a packet segment.
-
-                                                                 If [II] is set, [DF] is more than the default -- it completely controls whether
-                                                                 surrounding buffers are freed by PKO. If [II] is clear, the I bit in the
-                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S can invert the default behavior.
-
-                                                                 PKO frees the buffer surrounding a PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S
-                                                                 segment when:
-
-                                                                 _   [DF] XOR ([II] AND PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[I]) = 0.
-
-                                                                 PKO naturally aligns PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
-                                                                 to 128 bytes before sending it to FPA as part of the buffer free. An FPA
-                                                                 naturally-aligned pool is recommended, though opaque pool mode may also be
-                                                                 possible. Refer to the FPA Chapter.
-
-                                                                 PKO frees the buffer to the last PKO_SEND_AURA_S[AURA] before the
-                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S in the PKO SEND descriptor, or
-                                                                 to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
-
-                                                                 PKO will not free PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
-                                                                 to FPA until after it has finished reading the segment (and its preceding
-                                                                 PKI_BUFLINK_S, if necessary) from the buffer.
-                                                                 Provided the path of meta descriptors from the DQ through PKO to an output FIFO is
-                                                                 unmodified between the meta descriptors (as should normally be the case, but it is
-                                                                 possible for software to change the path), PKO also will not free
-                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR] to FPA
-                                                                 until after it has completed all L2/DRAM reads related
-                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
-                                                                 descriptor enqueued earlier in the same DQ. PKO may free
-                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR] in
-                                                                 any order with respect to any processing of any descriptor that is
-                                                                 in a different DQ. PKO may create the FPA
-                                                                 frees needed to process a PKO_SEND_GATHER_S or PKO_SEND_LINK_S subdescriptor
-                                                                 in any order relative to any other PKO FPA frees needed to process
-                                                                 this or any other PKO SEND descriptor, and in any order relative to
-                                                                 any FPA frees/allocates needed for DQ DRAM buffering, and in any order
-                                                                 relative any FPA aura count updates needed to process a PKO_SEND_AURA_S
-                                                                 subdescriptor in this or any other PKO SEND. The FPA free may occur in any
-                                                                 order relative to any L2/DRAM updates or any work queue add needed to
-                                                                 process this or any other PKO SEND.
-
-                                                                 Note that [DF] has no effect on any buffer frees from a PKO_SEND_FREE_S or
                                                                  PKO_SEND_JUMP_S.
 
                                                                  When a PKO_SEND_TSO_S is present in the descriptor, PKO
@@ -1376,66 +1365,10 @@ union bdk_pko_send_hdr_s
 
                                                                  PKO naturally aligns PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
                                                                  to 128 bytes before sending it to FPA as part of the buffer free. An FPA
-                                                                 naturally-aligned pool is recommended, though opaque pool mode may also be
-                                                                 possible. Refer to the FPA Chapter.
-
-                                                                 PKO frees the buffer to the last PKO_SEND_AURA_S[AURA] before the
-                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S in the PKO SEND descriptor, or
-                                                                 to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
-
-                                                                 PKO will not free PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
-                                                                 to FPA until after it has finished reading the segment (and its preceding
-                                                                 PKI_BUFLINK_S, if necessary) from the buffer.
-                                                                 Provided the path of meta descriptors from the DQ through PKO to an output FIFO is
-                                                                 unmodified between the meta descriptors (as should normally be the case, but it is
-                                                                 possible for software to change the path), PKO also will not free
-                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR] to FPA
-                                                                 until after it has completed all L2/DRAM reads related
-                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
-                                                                 descriptor enqueued earlier in the same DQ. PKO may free
-                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR] in
-                                                                 any order with respect to any processing of any descriptor that is
-                                                                 in a different DQ. PKO may create the FPA
-                                                                 frees needed to process a PKO_SEND_GATHER_S or PKO_SEND_LINK_S subdescriptor
-                                                                 in any order relative to any other PKO FPA frees needed to process
-                                                                 this or any other PKO SEND descriptor, and in any order relative to
-                                                                 any FPA frees/allocates needed for DQ DRAM buffering, and in any order
-                                                                 relative any FPA aura count updates needed to process a PKO_SEND_AURA_S
-                                                                 subdescriptor in this or any other PKO SEND. The FPA free may occur in any
-                                                                 order relative to any L2/DRAM updates or any work queue add needed to
-                                                                 process this or any other PKO SEND.
-
-                                                                 Note that [DF] has no effect on any buffer frees from a PKO_SEND_FREE_S or
-                                                                 PKO_SEND_JUMP_S.
-
-                                                                 When a PKO_SEND_TSO_S is present in the descriptor, PKO
-                                                                 frees the surrounding buffer only once for the descriptor,
-                                                                 not once per TSO segment.
-                                                                 Software must not modify the path of meta descriptors from the DQ through
-                                                                 PKO to an output FIFO between TSO segments. */
-        uint64_t ii                    : 1;  /**< [ 41: 41] Ignore I. If set, ignore all PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[I] bits
-                                                                 (effectively, force them all to zero) for the entire PKO SEND descriptor.
-
-                                                                 If [II] is set, [DF] controls whether PKO frees the surrounding buffer
-                                                                 after processing a packet segment. If [II] is clear,
-                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[I] can invert the default
-                                                                 behavior selected by [DF].
-
-                                                                 PKO frees the buffer surrounding a PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S
-                                                                 segment when:
-
-                                                                 _   [DF] XOR ([II] AND PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[I]) = 0.
-
-                                                                 PKO naturally aligns PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
-                                                                 to 128 bytes before sending it to FPA as part of the buffer free. An FPA
                                                                  naturally-aligned pool is recommended, though opaque pool mode may also
                                                                  be possible. Refer to the FPA Chapter.
 
-                                                                 PKO frees the buffer to the last PKO_SEND_AURA_S[AURA] before the
-                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S in the PKO SEND descriptor, or
-                                                                 to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
+                                                                 PKO frees the buffer to the [AURA] contained in the descriptor (GATHER, LINK, JUMP, FREE)
 
                                                                  PKO will not free PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
                                                                  to FPA until after it has finished reading the segment (and its preceding
@@ -1463,6 +1396,56 @@ union bdk_pko_send_hdr_s
                                                                  any other PKO SEND.
 
                                                                  Note that [II] has no effect on any buffer frees from a PKO_SEND_FREE_S or
+                                                                 PKO_SEND_JUMP_S.
+
+                                                                 When a PKO_SEND_TSO_S is present in the descriptor, PKO
+                                                                 frees the surrounding buffer only once for the descriptor,
+                                                                 not once per TSO segment.
+                                                                 Software must not modify the path of meta descriptors from the DQ through
+                                                                 PKO to an output FIFO between TSO segments. */
+        uint64_t ii                    : 1;  /**< [ 41: 41] Ignore I. If set, ignore all PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[I] bits
+                                                                 (effectively, force them all to zero) for the entire PKO SEND descriptor.
+
+                                                                 If [II] is set, [DF] controls whether PKO frees the surrounding buffer
+                                                                 after processing a packet segment. If [II] is clear,
+                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[I] can invert the default
+                                                                 behavior selected by [DF].
+
+                                                                 PKO frees the buffer surrounding a PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S
+                                                                 segment when:
+
+                                                                 _   [DF] XOR ([II] AND PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[I]) = 0.
+
+                                                                 PKO naturally aligns PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
+                                                                 to 128 bytes before sending it to FPA as part of the buffer free. An FPA
+                                                                 naturally-aligned pool is recommended, though opaque pool mode may also be
+                                                                 possible. Refer to the FPA Chapter.
+
+                                                                 PKO frees the buffer to the [AURA] contained in the descriptor (GATHER/LINK/JUMP/FREE).
+
+                                                                 PKO will not free PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR]
+                                                                 to FPA until after it has finished reading the segment (and its preceding
+                                                                 PKI_BUFLINK_S, if necessary) from the buffer.
+                                                                 Provided the path of meta descriptors from the DQ through PKO to an output FIFO is
+                                                                 unmodified between the meta descriptors (as should normally be the case, but it is
+                                                                 possible for software to change the path), PKO also will not free
+                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR] to FPA
+                                                                 until after it has completed all L2/DRAM reads related
+                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
+                                                                 descriptor enqueued earlier in the same DQ. PKO may free
+                                                                 PKO_SEND_GATHER_S/PKO_SEND_LINK_S/PKI_BUFLINK_S[ADDR] in
+                                                                 any order with respect to any processing of any descriptor that is
+                                                                 in a different DQ. PKO may create the FPA
+                                                                 frees needed to process a PKO_SEND_GATHER_S or PKO_SEND_LINK_S subdescriptor
+                                                                 in any order relative to any other PKO FPA frees needed to process
+                                                                 this or any other PKO SEND descriptor, and in any order relative to
+                                                                 any FPA frees/allocates needed for DQ DRAM buffering, and in any order
+                                                                 relative any FPA aura count updates needed to process a PKO_SEND_AURA_S
+                                                                 subdescriptor in this or any other PKO SEND. The FPA free may occur in any
+                                                                 order relative to any L2/DRAM updates or any work queue add needed to
+                                                                 process this or any other PKO SEND.
+
+                                                                 Note that [DF] has no effect on any buffer frees from a PKO_SEND_FREE_S or
                                                                  PKO_SEND_JUMP_S.
 
                                                                  When a PKO_SEND_TSO_S is present in the descriptor, PKO
@@ -2232,11 +2215,19 @@ typedef union
     struct bdk_pko_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t pdm_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a DQ buffer. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t pdm_buf_size          : 16; /**< [ 31: 16](RO) Number of bytes in a PDM buffer. */
+        uint64_t formats               : 8;  /**< [ 15:  8](RO) Number of PKO_FORMAT()_CTL registers. */
+        uint64_t ptgfs                 : 4;  /**< [  7:  4](RO) Number of PKO_PTGF()_CFG registers. */
+        uint64_t levels                : 4;  /**< [  3:  0](RO) Number of hierarchical shaping levels in PKO.  See PKO_*_CONST
+                                                                 for the number of queues at each level. */
 #else /* Word 0 - Little Endian */
-        uint64_t pdm_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a DQ buffer. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t levels                : 4;  /**< [  3:  0](RO) Number of hierarchical shaping levels in PKO.  See PKO_*_CONST
+                                                                 for the number of queues at each level. */
+        uint64_t ptgfs                 : 4;  /**< [  7:  4](RO) Number of PKO_PTGF()_CFG registers. */
+        uint64_t formats               : 8;  /**< [ 15:  8](RO) Number of PKO_FORMAT()_CTL registers. */
+        uint64_t pdm_buf_size          : 16; /**< [ 31: 16](RO) Number of bytes in a PDM buffer. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_const_s cn; */
@@ -2247,7 +2238,7 @@ static inline uint64_t BDK_PKO_CONST_FUNC(void) __attribute__ ((pure, always_inl
 static inline uint64_t BDK_PKO_CONST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000d00040ll;
+        return 0x854000d00010ll;
     __bdk_csr_fatal("PKO_CONST", 0, 0, 0, 0, 0);
 }
 
@@ -2283,7 +2274,7 @@ static inline uint64_t BDK_PKO_CONST1_FUNC(void) __attribute__ ((pure, always_in
 static inline uint64_t BDK_PKO_CONST1_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000d00048ll;
+        return 0x854000d00018ll;
     __bdk_csr_fatal("PKO_CONST1", 0, 0, 0, 0, 0);
 }
 
@@ -2293,78 +2284,6 @@ static inline uint64_t BDK_PKO_CONST1_FUNC(void)
 #define device_bar_BDK_PKO_CONST1 0x0 /* PF_BAR0 */
 #define busnum_BDK_PKO_CONST1 0
 #define arguments_BDK_PKO_CONST1 -1,-1,-1,-1
-
-/**
- * Register (NCB) pko_const2
- *
- * PKO Constants Register 2
- * This register contains constants for software discovery.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_const2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_const2_s cn; */
-} bdk_pko_const2_t;
-
-#define BDK_PKO_CONST2 BDK_PKO_CONST2_FUNC()
-static inline uint64_t BDK_PKO_CONST2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_CONST2_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000d00050ll;
-    __bdk_csr_fatal("PKO_CONST2", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_CONST2 bdk_pko_const2_t
-#define bustype_BDK_PKO_CONST2 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_CONST2 "PKO_CONST2"
-#define device_bar_BDK_PKO_CONST2 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_CONST2 0
-#define arguments_BDK_PKO_CONST2 -1,-1,-1,-1
-
-/**
- * Register (NCB) pko_const3
- *
- * PKO Constants Register 3
- * This register contains constants for software discovery.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_const3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_const3_s cn; */
-} bdk_pko_const3_t;
-
-#define BDK_PKO_CONST3 BDK_PKO_CONST3_FUNC()
-static inline uint64_t BDK_PKO_CONST3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_CONST3_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000d00058ll;
-    __bdk_csr_fatal("PKO_CONST3", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_CONST3 bdk_pko_const3_t
-#define bustype_BDK_PKO_CONST3 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_CONST3 "PKO_CONST3"
-#define device_bar_BDK_PKO_CONST3 0x0 /* PF_BAR0 */
-#define busnum_BDK_PKO_CONST3 0
-#define arguments_BDK_PKO_CONST3 -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_dpfi_ena
@@ -2742,11 +2661,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -2771,11 +2690,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -3124,11 +3043,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -3153,11 +3072,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -3703,6 +3622,44 @@ static inline uint64_t BDK_PKO_DQX_WM_CTL_W1C(unsigned long a)
 #define arguments_BDK_PKO_DQX_WM_CTL_W1C(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) pko_dq_const
+ *
+ * PKO DQ Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_dq_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of descriptor queues. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of descriptor queues. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_dq_const_s cn; */
+} bdk_pko_dq_const_t;
+
+#define BDK_PKO_DQ_CONST BDK_PKO_DQ_CONST_FUNC()
+static inline uint64_t BDK_PKO_DQ_CONST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_DQ_CONST_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000d00138ll;
+    __bdk_csr_fatal("PKO_DQ_CONST", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_DQ_CONST bdk_pko_dq_const_t
+#define bustype_BDK_PKO_DQ_CONST BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_DQ_CONST "PKO_DQ_CONST"
+#define device_bar_BDK_PKO_DQ_CONST 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_DQ_CONST 0
+#define arguments_BDK_PKO_DQ_CONST -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_dq_debug
  *
  * INTERNAL: PKO PSE DQ Internal Debug Register
@@ -3888,6 +3845,48 @@ static inline uint64_t BDK_PKO_FORMATX_CTL(unsigned long a)
 #define arguments_BDK_PKO_FORMATX_CTL(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) pko_l1_const
+ *
+ * PKO Level 1 Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l1_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-1 shaping queues.
+                                                                 Internal:
+                                                                 FIXME?  reset_matches_size: "PKO_L1_SQ()_TOPOLOGY,a" */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-1 shaping queues.
+                                                                 Internal:
+                                                                 FIXME?  reset_matches_size: "PKO_L1_SQ()_TOPOLOGY,a" */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l1_const_s cn; */
+} bdk_pko_l1_const_t;
+
+#define BDK_PKO_L1_CONST BDK_PKO_L1_CONST_FUNC()
+static inline uint64_t BDK_PKO_L1_CONST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L1_CONST_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000d00100ll;
+    __bdk_csr_fatal("PKO_L1_CONST", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L1_CONST bdk_pko_l1_const_t
+#define bustype_BDK_PKO_L1_CONST BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L1_CONST "PKO_L1_CONST"
+#define device_bar_BDK_PKO_L1_CONST 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L1_CONST 0
+#define arguments_BDK_PKO_L1_CONST -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_l1_sq#_cir
  *
  * PKO PSE Level 1 Shaping Queue Committed Information Rate Register
@@ -3914,11 +3913,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -3943,11 +3942,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -3969,8 +3968,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_CIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_CIR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000000018ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000000018ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_CIR", 1, a, 0, 0, 0);
 }
 
@@ -4006,8 +4005,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_BYTES(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000000088ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000000088ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_DROPPED_BYTES", 1, a, 0, 0, 0);
 }
 
@@ -4043,8 +4042,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_PACKETS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000000080ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000000080ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_DROPPED_PACKETS", 1, a, 0, 0, 0);
 }
 
@@ -4099,8 +4098,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_GREEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_GREEN(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000080058ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000080058ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_GREEN", 1, a, 0, 0, 0);
 }
 
@@ -4135,8 +4134,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_BYTES(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x8540000000b8ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x8540000000b8ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_GREEN_BYTES", 1, a, 0, 0, 0);
 }
 
@@ -4171,8 +4170,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_PACKETS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x8540000000b0ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x8540000000b0ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_GREEN_PACKETS", 1, a, 0, 0, 0);
 }
 
@@ -4194,8 +4193,8 @@ typedef union
     struct bdk_pko_l1_sqx_link_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t link                  : 4;  /**< [ 47: 44](R/W) Link index. Must match PKO_L1_SQ()_TOPOLOGY[LINK]. */
+        uint64_t reserved_49_63        : 15;
+        uint64_t link                  : 5;  /**< [ 48: 44](R/W) Link index. Must match PKO_L1_SQ()_TOPOLOGY[LINK]. */
         uint64_t reserved_32_43        : 12;
         uint64_t cc_word_cnt           : 20; /**< [ 31: 12](R/W/H) Channel credit word count. This value, plus 1 MTU, represents the maximum outstanding
                                                                  aggregate word count (words are 16 bytes) for all channels feeding into this PQ. Note that
@@ -4227,8 +4226,8 @@ typedef union
                                                                  significant bit should normally be programmed as zero (positive count). This gives a
                                                                  maximum value for this field of 2^19 - 1. */
         uint64_t reserved_32_43        : 12;
-        uint64_t link                  : 4;  /**< [ 47: 44](R/W) Link index. Must match PKO_L1_SQ()_TOPOLOGY[LINK]. */
-        uint64_t reserved_48_63        : 16;
+        uint64_t link                  : 5;  /**< [ 48: 44](R/W) Link index. Must match PKO_L1_SQ()_TOPOLOGY[LINK]. */
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_l1_sqx_link_s cn; */
@@ -4237,8 +4236,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_LINK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_LINK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000000038ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000000038ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_LINK", 1, a, 0, 0, 0);
 }
 
@@ -4373,8 +4372,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_PICK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_PICK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000080070ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000080070ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_PICK", 1, a, 0, 0, 0);
 }
 
@@ -4415,8 +4414,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_RED(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_RED(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000080068ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000080068ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_RED", 1, a, 0, 0, 0);
 }
 
@@ -4452,8 +4451,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_RED_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_RED_BYTES(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000000098ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000000098ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_RED_BYTES", 1, a, 0, 0, 0);
 }
 
@@ -4489,8 +4488,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000000090ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000000090ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_RED_PACKETS", 1, a, 0, 0, 0);
 }
 
@@ -4505,6 +4504,8 @@ static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a)
  * Register (NCB) pko_l1_sq#_schedule
  *
  * PKO PSE Level 1 Scheduling Control Register
+ * PKO_CHANNEL_LEVEL[CC_LEVEL] determines whether this CSR array is associated to
+ * the L2 SQ's or the L3 SQ's.
  */
 typedef union
 {
@@ -4533,8 +4534,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_SCHEDULE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SCHEDULE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000000008ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000000008ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_SCHEDULE", 1, a, 0, 0, 0);
 }
 
@@ -4559,8 +4560,8 @@ typedef union
         uint64_t reserved_25_63        : 39;
         uint64_t length_disable        : 1;  /**< [ 24: 24](R/W) Length disable. Disables the use of packet lengths in DWRR scheduling
                                                                  and shaping calculations such that only the value of [ADJUST] is used. */
-        uint64_t reserved_17_23        : 7;
-        uint64_t link                  : 4;  /**< [ 16: 13](R/W) Link index. Must match PKO_L1_SQ()_TOPOLOGY[LINK]. */
+        uint64_t reserved_18_23        : 6;
+        uint64_t link                  : 5;  /**< [ 17: 13](R/W) Link index. Must match PKO_L1_SQ()_TOPOLOGY[LINK]. */
         uint64_t reserved_9_12         : 4;
         uint64_t adjust                : 9;  /**< [  8:  0](R/W) Shaping and scheduling calculation adjustment. This 9-bit signed value
                                                                  allows -255 .. 255 bytes to be added to the packet length for rate
@@ -4572,8 +4573,8 @@ typedef union
                                                                  limiting and scheduling calculations. [ADJUST] value 0x100 should
                                                                  not be used. */
         uint64_t reserved_9_12         : 4;
-        uint64_t link                  : 4;  /**< [ 16: 13](R/W) Link index. Must match PKO_L1_SQ()_TOPOLOGY[LINK]. */
-        uint64_t reserved_17_23        : 7;
+        uint64_t link                  : 5;  /**< [ 17: 13](R/W) Link index. Must match PKO_L1_SQ()_TOPOLOGY[LINK]. */
+        uint64_t reserved_18_23        : 6;
         uint64_t length_disable        : 1;  /**< [ 24: 24](R/W) Length disable. Disables the use of packet lengths in DWRR scheduling
                                                                  and shaping calculations such that only the value of [ADJUST] is used. */
         uint64_t reserved_25_63        : 39;
@@ -4585,8 +4586,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000000010ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000000010ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_SHAPE", 1, a, 0, 0, 0);
 }
 
@@ -4634,8 +4635,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE_STATE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000000030ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000000030ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_SHAPE_STATE", 1, a, 0, 0, 0);
 }
 
@@ -4671,11 +4672,11 @@ typedef union
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
                                                                  set for the SQ1 level, but is useful at all other levels, including the DQ level.
-                                                                 PKO_DRAIN_IRQ[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
-                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_DRAIN_IRQ[INTR]
+                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
                                                                  (and/or the PKO_INTSN_E::PKO_PSE_PQ_DRAIN CIU interrupt has occured) and
-                                                                 PKO_DRAIN_IRQ[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
                                                                  PKO_*_PICK (i.e. the meta) in the SQ/DQ cannot be transferred to the
@@ -4696,11 +4697,11 @@ typedef union
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
                                                                  set for the SQ1 level, but is useful at all other levels, including the DQ level.
-                                                                 PKO_DRAIN_IRQ[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
-                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_DRAIN_IRQ[INTR]
+                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
                                                                  (and/or the PKO_INTSN_E::PKO_PSE_PQ_DRAIN CIU interrupt has occured) and
-                                                                 PKO_DRAIN_IRQ[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
                                                                  mapped to the NULL FIFO.  Conditions the drain path to drain through
@@ -4720,8 +4721,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SW_XOFF(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x8540000000e0ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x8540000000e0ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_SW_XOFF", 1, a, 0, 0, 0);
 }
 
@@ -4754,30 +4755,35 @@ typedef union
                                                                  if this shaper isn't used, the hardware does not use PRIO_ANCHOR. In this case, we
                                                                  recommend PRIO_ANCHOR be zero. Note that there are 10 available priorities, 0 through 9,
                                                                  with priority 0 being the highest and priority 9 being the lowest. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t link                  : 4;  /**< [ 19: 16](R/W) Link index. Selects the MAC or NULL FIFO used by the L1 SQ.
+        uint64_t reserved_21_31        : 11;
+        uint64_t link                  : 5;  /**< [ 20: 16](R/W) Link index. Selects the MAC or NULL FIFO used by the L1 SQ.
 
                                                                  Legal [LINK] values:
 
                                                                  <pre>
-                                                                                  Relevant
-                                                                   [LINK]    PKO_MAC()_CFG CSR    Description
+                                                                    LINK/          Relevant
+                                                                  MAC_NUM     PKO_MAC()_CFG CSR    Description
                                                                   -------------------------------------------------
                                                                      0         PKO_MAC0_CFG      LBK loopback
-                                                                     1         PKO_MAC1_CFG      DPI packet output
-                                                                     2         PKO_MAC2_CFG      BGX0 logical MAC 0
-                                                                     3         PKO_MAC3_CFG      BGX0 logical MAC 1
-                                                                     4         PKO_MAC4_CFG      BGX0 logical MAC 2
-                                                                     5         PKO_MAC5_CFG      BGX0 logical MAC 3
-                                                                     6         PKO_MAC6_CFG      BGX1 logical MAC 0
-                                                                     7         PKO_MAC7_CFG      BGX1 logical MAC 1
-                                                                     8         PKO_MAC8_CFG      BGX1 logical MAC 2
-                                                                     9         PKO_MAC9_CFG      BGX1 logical MAC 3
-                                                                    10         PKO_MAC10_CFG     BGX2 logical MAC 0
-                                                                    11         PKO_MAC11_CFG     BGX2 logical MAC 1
-                                                                    12         PKO_MAC12_CFG     BGX2 logical MAC 2
-                                                                    13         PKO_MAC13_CFG     BGX2 logical MAC 3
-                                                                    14            None           NULL FIFO
+                                                                     1         PKO_MAC1_CFG      LBK loopback
+                                                                     2         PKO_MAC2_CFG      DPI packet output
+                                                                     3         PKO_MAC3_CFG      BGX0 logical MAC 0
+                                                                     4         PKO_MAC4_CFG      BGX0 logical MAC 1
+                                                                     5         PKO_MAC5_CFG      BGX0 logical MAC 2
+                                                                     6         PKO_MAC6_CFG      BGX0 logical MAC 3
+                                                                     7         PKO_MAC7_CFG      BGX1 logical MAC 0
+                                                                     8         PKO_MAC8_CFG      BGX1 logical MAC 1
+                                                                     9         PKO_MAC9_CFG      BGX1 logical MAC 2
+                                                                    10         PKO_MAC10_CFG     BGX1 logical MAC 3
+                                                                    11         PKO_MAC11_CFG     BGX2 logical MAC 0
+                                                                    12         PKO_MAC12_CFG     BGX2 logical MAC 1
+                                                                    13         PKO_MAC13_CFG     BGX2 logical MAC 2
+                                                                    14         PKO_MAC14_CFG     BGX2 logical MAC 3
+                                                                    15         PKO_MAC15_CFG     BGX3 logical MAC 0
+                                                                    16         PKO_MAC16_CFG     BGX3 logical MAC 1
+                                                                    17         PKO_MAC17_CFG     BGX3 logical MAC 2
+                                                                    18         PKO_MAC18_CFG     BGX3 logical MAC 3
+                                                                    19            None           NULL FIFO
                                                                  </pre>
 
                                                                  When a MAC is used by the L1 SQ, [LINK] must be unique relative to
@@ -4805,34 +4811,39 @@ typedef union
                                                                  one child queue (i.e. when there are no round-robin child queues), and should otherwise be
                                                                  a legal priority (values 0-9). */
         uint64_t reserved_5_15         : 11;
-        uint64_t link                  : 4;  /**< [ 19: 16](R/W) Link index. Selects the MAC or NULL FIFO used by the L1 SQ.
+        uint64_t link                  : 5;  /**< [ 20: 16](R/W) Link index. Selects the MAC or NULL FIFO used by the L1 SQ.
 
                                                                  Legal [LINK] values:
 
                                                                  <pre>
-                                                                                  Relevant
-                                                                   [LINK]    PKO_MAC()_CFG CSR    Description
+                                                                    LINK/          Relevant
+                                                                  MAC_NUM     PKO_MAC()_CFG CSR    Description
                                                                   -------------------------------------------------
                                                                      0         PKO_MAC0_CFG      LBK loopback
-                                                                     1         PKO_MAC1_CFG      DPI packet output
-                                                                     2         PKO_MAC2_CFG      BGX0 logical MAC 0
-                                                                     3         PKO_MAC3_CFG      BGX0 logical MAC 1
-                                                                     4         PKO_MAC4_CFG      BGX0 logical MAC 2
-                                                                     5         PKO_MAC5_CFG      BGX0 logical MAC 3
-                                                                     6         PKO_MAC6_CFG      BGX1 logical MAC 0
-                                                                     7         PKO_MAC7_CFG      BGX1 logical MAC 1
-                                                                     8         PKO_MAC8_CFG      BGX1 logical MAC 2
-                                                                     9         PKO_MAC9_CFG      BGX1 logical MAC 3
-                                                                    10         PKO_MAC10_CFG     BGX2 logical MAC 0
-                                                                    11         PKO_MAC11_CFG     BGX2 logical MAC 1
-                                                                    12         PKO_MAC12_CFG     BGX2 logical MAC 2
-                                                                    13         PKO_MAC13_CFG     BGX2 logical MAC 3
-                                                                    14            None           NULL FIFO
+                                                                     1         PKO_MAC1_CFG      LBK loopback
+                                                                     2         PKO_MAC2_CFG      DPI packet output
+                                                                     3         PKO_MAC3_CFG      BGX0 logical MAC 0
+                                                                     4         PKO_MAC4_CFG      BGX0 logical MAC 1
+                                                                     5         PKO_MAC5_CFG      BGX0 logical MAC 2
+                                                                     6         PKO_MAC6_CFG      BGX0 logical MAC 3
+                                                                     7         PKO_MAC7_CFG      BGX1 logical MAC 0
+                                                                     8         PKO_MAC8_CFG      BGX1 logical MAC 1
+                                                                     9         PKO_MAC9_CFG      BGX1 logical MAC 2
+                                                                    10         PKO_MAC10_CFG     BGX1 logical MAC 3
+                                                                    11         PKO_MAC11_CFG     BGX2 logical MAC 0
+                                                                    12         PKO_MAC12_CFG     BGX2 logical MAC 1
+                                                                    13         PKO_MAC13_CFG     BGX2 logical MAC 2
+                                                                    14         PKO_MAC14_CFG     BGX2 logical MAC 3
+                                                                    15         PKO_MAC15_CFG     BGX3 logical MAC 0
+                                                                    16         PKO_MAC16_CFG     BGX3 logical MAC 1
+                                                                    17         PKO_MAC17_CFG     BGX3 logical MAC 2
+                                                                    18         PKO_MAC18_CFG     BGX3 logical MAC 3
+                                                                    19            None           NULL FIFO
                                                                  </pre>
 
                                                                  When a MAC is used by the L1 SQ, [LINK] must be unique relative to
                                                                  other [LINK]'s. [LINK] should be 14 when the L1 SQ is not used. */
-        uint64_t reserved_20_31        : 12;
+        uint64_t reserved_21_31        : 11;
         uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) Priority Anchor. The base index positioning the static priority child queues of this
                                                                  shaper. A higher-level queue is a child queue of this shaper when its
                                                                  PKO_*_TOPOLOGY[PARENT] selects this shaper, and it further is a static priority child
@@ -4852,8 +4863,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_TOPOLOGY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_TOPOLOGY(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000080000ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000080000ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_TOPOLOGY", 1, a, 0, 0, 0);
 }
 
@@ -4892,8 +4903,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000080060ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x854000080060ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_YELLOW", 1, a, 0, 0, 0);
 }
 
@@ -4929,8 +4940,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_BYTES(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x8540000000a8ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x8540000000a8ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_YELLOW_BYTES", 1, a, 0, 0, 0);
 }
 
@@ -4966,8 +4977,8 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_PACKETS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x8540000000a0ll + 0x200ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x8540000000a0ll + 0x200ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_L1_SQX_YELLOW_PACKETS", 1, a, 0, 0, 0);
 }
 
@@ -5053,6 +5064,44 @@ static inline uint64_t BDK_PKO_L1_SQB_DEBUG_FUNC(void)
 #define arguments_BDK_PKO_L1_SQB_DEBUG -1,-1,-1,-1
 
 /**
+ * Register (NCB) pko_l2_const
+ *
+ * PKO Level 2 Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l2_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-2 shaping queues. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-2 shaping queues. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l2_const_s cn; */
+} bdk_pko_l2_const_t;
+
+#define BDK_PKO_L2_CONST BDK_PKO_L2_CONST_FUNC()
+static inline uint64_t BDK_PKO_L2_CONST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L2_CONST_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000d00108ll;
+    __bdk_csr_fatal("PKO_L2_CONST", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L2_CONST bdk_pko_l2_const_t
+#define bustype_BDK_PKO_L2_CONST BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L2_CONST "PKO_L2_CONST"
+#define device_bar_BDK_PKO_L2_CONST 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L2_CONST 0
+#define arguments_BDK_PKO_L2_CONST -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_l2_sq#_cir
  *
  * PKO PSE Level 2 Shaping Queue Committed Information Rate Register
@@ -5080,11 +5129,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -5109,11 +5158,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -5369,11 +5418,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -5398,11 +5447,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -5811,11 +5860,11 @@ typedef union
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
                                                                  set for the SQ1 level, but is useful at all other levels, including the DQ level.
-                                                                 PKO_DRAIN_IRQ[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
-                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_DRAIN_IRQ[INTR]
+                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
                                                                  (and/or the PKO_INTSN_E::PKO_PSE_PQ_DRAIN CIU interrupt has occured) and
-                                                                 PKO_DRAIN_IRQ[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
                                                                  PKO_*_PICK (i.e. the meta) in the SQ/DQ cannot be transferred to the
@@ -5836,11 +5885,11 @@ typedef union
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
                                                                  set for the SQ1 level, but is useful at all other levels, including the DQ level.
-                                                                 PKO_DRAIN_IRQ[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
-                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_DRAIN_IRQ[INTR]
+                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
                                                                  (and/or the PKO_INTSN_E::PKO_PSE_PQ_DRAIN CIU interrupt has occured) and
-                                                                 PKO_DRAIN_IRQ[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
                                                                  mapped to the NULL FIFO.  Conditions the drain path to drain through
@@ -5885,8 +5934,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_40_63        : 24;
         uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) See PKO_L1_SQ()_TOPOLOGY[PRIO_ANCHOR]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t parent                : 4;  /**< [ 19: 16](R/W) Parent queue index. The index of the shaping element at the next lower hierarchical level
+        uint64_t reserved_21_31        : 11;
+        uint64_t parent                : 5;  /**< [ 20: 16](R/W) Parent queue index. The index of the shaping element at the next lower hierarchical level
                                                                  that accepts this shaping element's outputs. Refer to the PKO_*_SQn_TOPOLOGY
                                                                  [PRIO_ANCHOR,RR_PRIO] descriptions for constraints on which child queues can attach to
                                                                  which shapers at the next lower level. When this shaper is unused, we recommend that
@@ -5898,12 +5947,12 @@ typedef union
         uint64_t reserved_0            : 1;
         uint64_t rr_prio               : 4;  /**< [  4:  1](R/W) See PKO_L1_SQ()_TOPOLOGY[RR_PRIO]. */
         uint64_t reserved_5_15         : 11;
-        uint64_t parent                : 4;  /**< [ 19: 16](R/W) Parent queue index. The index of the shaping element at the next lower hierarchical level
+        uint64_t parent                : 5;  /**< [ 20: 16](R/W) Parent queue index. The index of the shaping element at the next lower hierarchical level
                                                                  that accepts this shaping element's outputs. Refer to the PKO_*_SQn_TOPOLOGY
                                                                  [PRIO_ANCHOR,RR_PRIO] descriptions for constraints on which child queues can attach to
                                                                  which shapers at the next lower level. When this shaper is unused, we recommend that
                                                                  PARENT be zero. */
-        uint64_t reserved_20_31        : 12;
+        uint64_t reserved_21_31        : 11;
         uint64_t prio_anchor           : 8;  /**< [ 39: 32](R/W) See PKO_L1_SQ()_TOPOLOGY[PRIO_ANCHOR]. */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */
@@ -6043,6 +6092,44 @@ static inline uint64_t BDK_PKO_L2_SQB_DEBUG_FUNC(void)
 #define arguments_BDK_PKO_L2_SQB_DEBUG -1,-1,-1,-1
 
 /**
+ * Register (NCB) pko_l3_const
+ *
+ * PKO Level 3 Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l3_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-3 shaping queues. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-3 shaping queues. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l3_const_s cn; */
+} bdk_pko_l3_const_t;
+
+#define BDK_PKO_L3_CONST BDK_PKO_L3_CONST_FUNC()
+static inline uint64_t BDK_PKO_L3_CONST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L3_CONST_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000d00110ll;
+    __bdk_csr_fatal("PKO_L3_CONST", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L3_CONST bdk_pko_l3_const_t
+#define bustype_BDK_PKO_L3_CONST BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L3_CONST "PKO_L3_CONST"
+#define device_bar_BDK_PKO_L3_CONST 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L3_CONST 0
+#define arguments_BDK_PKO_L3_CONST -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_l3_l2_sq#_channel
  *
  * PKO PSE Level 3/2 Shaping Queue Channel Configuration Register
@@ -6138,11 +6225,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -6167,11 +6254,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -6393,7 +6480,7 @@ static inline uint64_t BDK_PKO_L3_SQX_PICK(unsigned long a)
  * Register (NCB) pko_l3_sq#_pir
  *
  * PKO PSE Level 3 Shaping Queue Peak Information Rate Register
- * This register has the same bit fields as PKO_L1_SQ(0..15)_CIR.
+ * This register has the same bit fields as PKO_L1_SQ()_CIR.
  */
 typedef union
 {
@@ -6417,11 +6504,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -6446,11 +6533,11 @@ typedef union
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
 
-                                                                 Note that for the L1-SQs, a time-wheel turn is 48 clocks (SCLK). For the other levels a
+                                                                 Note that for the L1-SQs, a time-wheel turn is 96 clocks (SCLK). For the other levels a
                                                                  time-wheel turn is 768 clocks (SCLK).
 
                                                                  For L1_SQ: RATE (bytes/second) =
-                                                                   (SCLK_FREQUENCY / 48) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
+                                                                   (SCLK_FREQUENCY / 96) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1
                                                                  <<RATE_DIVIDER_EXPONENT)
 
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
@@ -6808,11 +6895,11 @@ typedef union
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
                                                                  set for the SQ1 level, but is useful at all other levels, including the DQ level.
-                                                                 PKO_DRAIN_IRQ[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
-                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_DRAIN_IRQ[INTR]
+                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
                                                                  (and/or the PKO_INTSN_E::PKO_PSE_PQ_DRAIN CIU interrupt has occured) and
-                                                                 PKO_DRAIN_IRQ[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
                                                                  PKO_*_PICK (i.e. the meta) in the SQ/DQ cannot be transferred to the
@@ -6833,11 +6920,11 @@ typedef union
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
                                                                  set for the SQ1 level, but is useful at all other levels, including the DQ level.
-                                                                 PKO_DRAIN_IRQ[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
-                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_DRAIN_IRQ[INTR]
+                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
                                                                  (and/or the PKO_INTSN_E::PKO_PSE_PQ_DRAIN CIU interrupt has occured) and
-                                                                 PKO_DRAIN_IRQ[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
                                                                  mapped to the NULL FIFO.  Conditions the drain path to drain through
@@ -7030,6 +7117,82 @@ static inline uint64_t BDK_PKO_L3_SQB_DEBUG_FUNC(void)
 #define arguments_BDK_PKO_L3_SQB_DEBUG -1,-1,-1,-1
 
 /**
+ * Register (NCB) pko_l4_const
+ *
+ * PKO L4 Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l4_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-4 shaping queues. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-4 shaping queues. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l4_const_s cn; */
+} bdk_pko_l4_const_t;
+
+#define BDK_PKO_L4_CONST BDK_PKO_L4_CONST_FUNC()
+static inline uint64_t BDK_PKO_L4_CONST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L4_CONST_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000d00118ll;
+    __bdk_csr_fatal("PKO_L4_CONST", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L4_CONST bdk_pko_l4_const_t
+#define bustype_BDK_PKO_L4_CONST BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L4_CONST "PKO_L4_CONST"
+#define device_bar_BDK_PKO_L4_CONST 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L4_CONST 0
+#define arguments_BDK_PKO_L4_CONST -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_l5_const
+ *
+ * PKO L5 Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l5_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-5 shaping queues. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 16; /**< [ 15:  0](RO) Number of Level-5 shaping queues. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l5_const_s cn; */
+} bdk_pko_l5_const_t;
+
+#define BDK_PKO_L5_CONST BDK_PKO_L5_CONST_FUNC()
+static inline uint64_t BDK_PKO_L5_CONST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L5_CONST_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000d00120ll;
+    __bdk_csr_fatal("PKO_L5_CONST", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L5_CONST bdk_pko_l5_const_t
+#define bustype_BDK_PKO_L5_CONST BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L5_CONST "PKO_L5_CONST"
+#define device_bar_BDK_PKO_L5_CONST 0x0 /* PF_BAR0 */
+#define busnum_BDK_PKO_L5_CONST 0
+#define arguments_BDK_PKO_L5_CONST -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_lut#
  *
  * PKO Channel to Queue Mapping LUT Registers
@@ -7041,25 +7204,25 @@ static inline uint64_t BDK_PKO_L3_SQB_DEBUG_FUNC(void)
  *   LINK/   PKI_CHAN_E    Corresponding
  * MAC_NUM   Range         PKO_LUT index   Description
  * -------   -----------   -------------   -----------------
- *     0     0x000-0x03F   0x100-0x13F     LBK0 Loopback
- *     1     0x200-0x23F   0x140-0x17F     LBK1 Loopback
- *     2     0x400-0x47F   0x180-0x1FF     DPI packet output
- *     3     0x800-0x80F   0x000-0x00F     BGX0 Logical MAC 0
- *     4     0x810-0x81F   0x010-0x01F     BGX0 Logical MAC 1
- *     5     0x820-0x82F   0x020-0x02F     BGX0 Logical MAC 2
- *     6     0x830-0x83F   0x030-0x03F     BGX0 Logical MAC 3
- *     7     0x900-0x90F   0x040-0x04F     BGX1 Logical MAC 0
- *     8     0x910-0x91F   0x050-0x05F     BGX1 Logical MAC 1
- *     9     0x920-0x92F   0x060-0x06F     BGX1 Logical MAC 2
- *    10     0x930-0x93F   0x070-0x07F     BGX1 Logical MAC 3
- *    11     0xA00-0xA0F   0x080-0x08F     BGX2 Logical MAC 0
- *    12     0xA10-0xA1F   0x090-0x09F     BGX2 Logical MAC 1
- *    13     0xA20-0xA2F   0x0A0-0x0AF     BGX2 Logical MAC 2
- *    14     0xA30-0xA3F   0x0B0-0x0BF     BGX2 Logical MAC 3
- *    15     0xB00-0xB0F   0x0C0-0x0CF     BGX3 Logical MAC 0
- *    16     0xB10-0xB1F   0x0D0-0x0DF     BGX3 Logical MAC 1
- *    17     0xB20-0xB2F   0x0E0-0x0EF     BGX3 Logical MAC 2
- *    18     0xB30-0xB3F   0x0F0-0x0FF     BGX3 Logical MAC 3
+ *     0     0x000-0x03F   0x000-0x03F     LBK0 Loopback
+ *     1     0x200-0x23F   0x200-0x23F     LBK1 Loopback
+ *     2     0x400-0x47F   0x400-0x47F     DPI packet output
+ *     3     0x800-0x80F   0x800-0x80F     BGX0 Logical MAC 0
+ *     4     0x810-0x81F   0x810-0x81F     BGX0 Logical MAC 1
+ *     5     0x820-0x82F   0x820-0x82F     BGX0 Logical MAC 2
+ *     6     0x830-0x83F   0x830-0x83F     BGX0 Logical MAC 3
+ *     7     0x900-0x90F   0x900-0x90F     BGX1 Logical MAC 0
+ *     8     0x910-0x91F   0x910-0x91F     BGX1 Logical MAC 1
+ *     9     0x920-0x92F   0x920-0x92F     BGX1 Logical MAC 2
+ *    10     0x930-0x93F   0x930-0x93F     BGX1 Logical MAC 3
+ *    11     0xA00-0xA0F   0xA00-0xA0F     BGX2 Logical MAC 0
+ *    12     0xA10-0xA1F   0xA10-0xA1F     BGX2 Logical MAC 1
+ *    13     0xA20-0xA2F   0xA20-0xA2F     BGX2 Logical MAC 2
+ *    14     0xA30-0xA3F   0xA30-0xA3F     BGX2 Logical MAC 3
+ *    15     0xB00-0xB0F   0xB00-0xB0F     BGX3 Logical MAC 0
+ *    16     0xB10-0xB1F   0xB10-0xB1F     BGX3 Logical MAC 1
+ *    17     0xB20-0xB2F   0xB20-0xB2F     BGX3 Logical MAC 2
+ *    18     0xB30-0xB3F   0xB30-0xB3F     BGX3 Logical MAC 3
  * </pre>
  */
 typedef union
@@ -7097,8 +7260,8 @@ typedef union
 static inline uint64_t BDK_PKO_LUTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_LUTX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
-        return 0x854000b00000ll + 8ll * ((a) & 0x1ff);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) || ((a>=512)&&(a<=575)) || ((a>=1024)&&(a<=1151)) || ((a>=2048)&&(a<=2111)) || ((a>=2304)&&(a<=2367)) || ((a>=2560)&&(a<=2623)) || ((a>=2816)&&(a<=2879))))
+        return 0x854000b00000ll + 8ll * ((a) & 0xfff);
     __bdk_csr_fatal("PKO_LUTX", 1, a, 0, 0, 0);
 }
 
@@ -7135,7 +7298,7 @@ static inline uint64_t BDK_PKO_LUT_BIST_STATUS_FUNC(void) __attribute__ ((pure, 
 static inline uint64_t BDK_PKO_LUT_BIST_STATUS_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000b02018ll;
+        return 0x854000b08000ll;
     __bdk_csr_fatal("PKO_LUT_BIST_STATUS", 0, 0, 0, 0, 0);
 }
 
@@ -7384,20 +7547,25 @@ static inline uint64_t BDK_PKO_LUT_ECC_SBE_STS_CMB0_FUNC(void)
  * <pre>
  *   CSR Name        Associated MAC
  *   ---------------------------------
- *   PKO_MAC0_CFG   LBK loopback
- *   PKO_MAC1_CFG   DPI packet output
- *   PKO_MAC2_CFG   BGX0 logical MAC 0
- *   PKO_MAC3_CFG   BGX0 logical MAC 1
- *   PKO_MAC4_CFG   BGX0 logical MAC 2
- *   PKO_MAC5_CFG   BGX0 logical MAC 3
- *   PKO_MAC6_CFG   BGX1 logical MAC 0
- *   PKO_MAC7_CFG   BGX1 logical MAC 1
- *   PKO_MAC8_CFG   BGX1 logical MAC 2
- *   PKO_MAC9_CFG   BGX1 logical MAC 3
- *   PKO_MAC10_CFG  BGX2 logical MAC 0
- *   PKO_MAC11_CFG  BGX2 logical MAC 1
- *   PKO_MAC12_CFG  BGX2 logical MAC 2
- *   PKO_MAC13_CFG  BGX2 logical MAC 3
+ *   PKO_MAC0_CFG   LBK0 loopback
+ *   PKO_MAC1_CFG   LBK1 loopback
+ *   PKO_MAC2_CFG   DPI packet output
+ *   PKO_MAC3_CFG   BGX0 logical MAC 0
+ *   PKO_MAC4_CFG   BGX0 logical MAC 1
+ *   PKO_MAC5_CFG   BGX0 logical MAC 2
+ *   PKO_MAC6_CFG   BGX0 logical MAC 3
+ *   PKO_MAC7_CFG   BGX1 logical MAC 0
+ *   PKO_MAC8_CFG   BGX1 logical MAC 1
+ *   PKO_MAC9_CFG   BGX1 logical MAC 2
+ *   PKO_MAC10_CFG  BGX1 logical MAC 3
+ *   PKO_MAC11_CFG  BGX2 logical MAC 0
+ *   PKO_MAC12_CFG  BGX2 logical MAC 1
+ *   PKO_MAC13_CFG  BGX2 logical MAC 2
+ *   PKO_MAC14_CFG  BGX2 logical MAC 3
+ *   PKO_MAC15_CFG  BGX3 logical MAC 0
+ *   PKO_MAC16_CFG  BGX3 logical MAC 1
+ *   PKO_MAC17_CFG  BGX3 logical MAC 2
+ *   PKO_MAC18_CFG  BGX3 logical MAC 3
  * </pre>
  */
 typedef union
@@ -7416,17 +7584,17 @@ typedef union
         uint64_t skid_max_cnt          : 2;  /**< [  6:  5](R/W) Maximum number of SKID credits. 0x0 = 16; 0x1 = 32; 0x2 = 64. */
         uint64_t fifo_num              : 5;  /**< [  4:  0](R/W) The PEB TX FIFO number assigned to the given MAC. A value of 31 means unassigned. Unused
                                                                  MACs must have [FIFO_NUM] = 31. For each active MAC, a unique valid FIFO_NUM must
-                                                                 be assigned. When all PKO_PTGF(0..3)_CFG[SIZE] are zero, legal [FIFO_NUM] values are
-                                                                 0..15 and 31. [FIFO_NUM] can never select the NULL FIFO. At most one
+                                                                 be assigned. When all PKO_PTGF(0..4)_CFG[SIZE] are zero, legal [FIFO_NUM] values are
+                                                                 0..19 and 31. [FIFO_NUM] can never select the NULL FIFO. At most one
                                                                  used MAC can be simultaneously assigned the same used [FIFO_NUM].
-                                                                 [FIFO_NUM] values 16-30 are illegal and must not be used. */
+                                                                 [FIFO_NUM] values 20-30 are illegal and must not be used. */
 #else /* Word 0 - Little Endian */
         uint64_t fifo_num              : 5;  /**< [  4:  0](R/W) The PEB TX FIFO number assigned to the given MAC. A value of 31 means unassigned. Unused
                                                                  MACs must have [FIFO_NUM] = 31. For each active MAC, a unique valid FIFO_NUM must
-                                                                 be assigned. When all PKO_PTGF(0..3)_CFG[SIZE] are zero, legal [FIFO_NUM] values are
-                                                                 0..15 and 31. [FIFO_NUM] can never select the NULL FIFO. At most one
+                                                                 be assigned. When all PKO_PTGF(0..4)_CFG[SIZE] are zero, legal [FIFO_NUM] values are
+                                                                 0..19 and 31. [FIFO_NUM] can never select the NULL FIFO. At most one
                                                                  used MAC can be simultaneously assigned the same used [FIFO_NUM].
-                                                                 [FIFO_NUM] values 16-30 are illegal and must not be used. */
+                                                                 [FIFO_NUM] values 20-30 are illegal and must not be used. */
         uint64_t skid_max_cnt          : 2;  /**< [  6:  5](R/W) Maximum number of SKID credits. 0x0 = 16; 0x1 = 32; 0x2 = 64. */
         uint64_t fcs_sop_off           : 8;  /**< [ 14:  7](R/W) FCS start of packet offset. For this MAC, the number of bytes in the front of each packet
                                                                  to exclude from FCS. */
@@ -7443,8 +7611,8 @@ typedef union
 static inline uint64_t BDK_PKO_MACX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_MACX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x854000900000ll + 8ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=18))
+        return 0x854000900000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_MACX_CFG", 1, a, 0, 0, 0);
 }
 
@@ -7517,8 +7685,8 @@ typedef union
 static inline uint64_t BDK_PKO_MCI1_MAX_CREDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_MCI1_MAX_CREDX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
-        return 0x854000a80000ll + 8ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=18))
+        return 0x854000a80000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_MCI1_MAX_CREDX", 1, a, 0, 0, 0);
 }
 
@@ -14678,8 +14846,8 @@ typedef union
 static inline uint64_t BDK_PKO_PTFX_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PTFX_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
-        return 0x854000900100ll + 8ll * ((a) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=19))
+        return 0x854000900100ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_PTFX_STATUS", 1, a, 0, 0, 0);
 }
 
@@ -14739,8 +14907,8 @@ static inline uint64_t BDK_PKO_PTF_IOBP_CFG_FUNC(void)
  * Register (NCB) pko_ptgf#_cfg
  *
  * PKO TX FIFO Groups Configuration Register
- * This register configures a PKO TX FIFO group. PKO supports up to 17 independent
- * TX FIFOs, where 0-15 are physical and 16 is Virtual/NULL. (PKO drops packets
+ * This register configures a PKO TX FIFO group. PKO supports up to 21 independent
+ * TX FIFOs, where 0-19 are physical and 20 is Virtual/NULL. (PKO drops packets
  * targeting the NULL FIFO, returning their buffers to the FPA.) PKO puts each
  * FIFO into one of five groups:
  *
@@ -14751,7 +14919,8 @@ static inline uint64_t BDK_PKO_PTF_IOBP_CFG_FUNC(void)
  *   PKO_PTGF1_CFG      4,  5,  6,  7
  *   PKO_PTGF2_CFG      8,  9, 10, 11
  *   PKO_PTGF3_CFG     12, 13, 14, 15
- *   PKO_PTGF4_CFG      Virtual/NULL
+ *   PKO_PTGF4_CFG     16, 16, 18, 19
+ *   PKO_PTGF5_CFG      Virtual/NULL
  * </pre>
  */
 typedef union
@@ -14765,7 +14934,7 @@ typedef union
                                                                  performed when a PTGF is empty and the SIZE field is to be changed. */
         uint64_t reserved_5            : 1;
         uint64_t rate                  : 2;  /**< [  4:  3](R/W) The rate / number of inflight packets allowed for the FIFO's in this group.
-                                                                 An individual FIFO can support up to 50 Gbit/sec (i.e. up to 32 inflight packets).
+                                                                 An individual FIFO can support up to 50 Gbit/sec (i.e. up to 48 inflight packets).
                                                                  The total aggregate rate across all FIFOs (including the NULL) should never exceed
                                                                  125 Gbit/sec (i.e. up to 80 inflight packets). This field represents the rate for
                                                                  each active FIFO in in the group; thus the calculation for throughput is a function
@@ -14773,10 +14942,10 @@ typedef union
                                                                  in PKO_MAC()_CFG.
 
                                                                  Encoding:
-                                                                 0x0 = up to   6.25 Gbit/sec (i.e. up to  4 inflight packets)
-                                                                 0x1 = up to  12.5  Gbit/sec (i.e. up to  8 inflight packets)
-                                                                 0x2 = up to  25    Gbit/sec (i.e. up to 16 inflight packets)
-                                                                 0x3 = up to  50    Gbit/sec (i.e. up to 32 inflight packets)
+                                                                 0x0 = up to   6.25 Gbit/sec (i.e. up to  6 inflight packets)
+                                                                 0x1 = up to  12.5  Gbit/sec (i.e. up to 12 inflight packets)
+                                                                 0x2 = up to  25    Gbit/sec (i.e. up to 24 inflight packets)
+                                                                 0x3 = up to  50    Gbit/sec (i.e. up to 48 inflight packets)
 
                                                                  [RATE] applies to all FIFO groups including the NULL. */
         uint64_t size                  : 3;  /**< [  2:  0](R/W) Determines the size and availability of the FIFO's in the FIFO group.
@@ -14810,7 +14979,7 @@ typedef union
                                                                  The second write has the new [SIZE] value, and should clear
                                                                  [RESET].
 
-                                                                 PKO_PTGF(4)_CFG[SIZE] should not change from its reset value
+                                                                 PKO_PTGF(5)_CFG[SIZE] should not change from its reset value
                                                                  of zero. (The NULL FIFO has no real storage, and the SIZE table
                                                                  above does not apply to the NULL FIFO.)
 
@@ -14848,14 +15017,14 @@ typedef union
                                                                  The second write has the new [SIZE] value, and should clear
                                                                  [RESET].
 
-                                                                 PKO_PTGF(4)_CFG[SIZE] should not change from its reset value
+                                                                 PKO_PTGF(5)_CFG[SIZE] should not change from its reset value
                                                                  of zero. (The NULL FIFO has no real storage, and the SIZE table
                                                                  above does not apply to the NULL FIFO.)
 
                                                                  A FIFO of size 2.5kB cannot be configured to have a RATE>25GBs.
                                                                  A FIFO of size 5.0kB cannot be configured to have a RATE>50GBs. */
         uint64_t rate                  : 2;  /**< [  4:  3](R/W) The rate / number of inflight packets allowed for the FIFO's in this group.
-                                                                 An individual FIFO can support up to 50 Gbit/sec (i.e. up to 32 inflight packets).
+                                                                 An individual FIFO can support up to 50 Gbit/sec (i.e. up to 48 inflight packets).
                                                                  The total aggregate rate across all FIFOs (including the NULL) should never exceed
                                                                  125 Gbit/sec (i.e. up to 80 inflight packets). This field represents the rate for
                                                                  each active FIFO in in the group; thus the calculation for throughput is a function
@@ -14863,10 +15032,10 @@ typedef union
                                                                  in PKO_MAC()_CFG.
 
                                                                  Encoding:
-                                                                 0x0 = up to   6.25 Gbit/sec (i.e. up to  4 inflight packets)
-                                                                 0x1 = up to  12.5  Gbit/sec (i.e. up to  8 inflight packets)
-                                                                 0x2 = up to  25    Gbit/sec (i.e. up to 16 inflight packets)
-                                                                 0x3 = up to  50    Gbit/sec (i.e. up to 32 inflight packets)
+                                                                 0x0 = up to   6.25 Gbit/sec (i.e. up to  6 inflight packets)
+                                                                 0x1 = up to  12.5  Gbit/sec (i.e. up to 12 inflight packets)
+                                                                 0x2 = up to  25    Gbit/sec (i.e. up to 24 inflight packets)
+                                                                 0x3 = up to  50    Gbit/sec (i.e. up to 48 inflight packets)
 
                                                                  [RATE] applies to all FIFO groups including the NULL. */
         uint64_t reserved_5            : 1;
@@ -14881,7 +15050,7 @@ typedef union
 static inline uint64_t BDK_PKO_PTGFX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PTGFX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=4))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
         return 0x854000900200ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("PKO_PTGFX_CFG", 1, a, 0, 0, 0);
 }
@@ -15421,11 +15590,11 @@ typedef union
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
                                                                  set for the SQ1 level, but is useful at all other levels, including the DQ level.
-                                                                 PKO_DRAIN_IRQ[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
-                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_DRAIN_IRQ[INTR]
+                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
                                                                  (and/or the PKO_INTSN_E::PKO_PSE_PQ_DRAIN CIU interrupt has occured) and
-                                                                 PKO_DRAIN_IRQ[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t xoff                  : 1;  /**< [  0:  0](R/W) XOFF. Stops meta flow out of the SQ/DQ. When [XOFF] is set, the corresponding
                                                                  PKO_*_PICK (i.e. the meta) in the SQ/DQ cannot be transferred to the
@@ -15446,11 +15615,11 @@ typedef union
                                                                  ends at the SQ1 level. The drain path is prioritized over other paths through PSE and can
                                                                  be used in combination with [DRAIN_NULL_LINK] and [DRAIN_IRQ]. [DRAIN] need never be
                                                                  set for the SQ1 level, but is useful at all other levels, including the DQ level.
-                                                                 PKO_DRAIN_IRQ[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] should be clear prior to initiating a [DRAIN]=1 write to this CSR.
                                                                  After [DRAIN] is set for an SQ/DQ, it should not be set again, for this or any other
-                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_DRAIN_IRQ[INTR]
+                                                                 SQ/DQ, until after a 0->1 transition has been observed on PKO_PQ_DRAIN_W1C[INTR]
                                                                  (and/or the PKO_INTSN_E::PKO_PSE_PQ_DRAIN CIU interrupt has occured) and
-                                                                 PKO_DRAIN_IRQ[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
+                                                                 PKO_PQ_DRAIN_W1C[INTR] has been cleared.  DRAIN has no effect unless XOFF is also set.
                                                                  Only one DRAIN command is allowed to be active at a time. */
         uint64_t drain_null_link       : 1;  /**< [  2:  2](WO) Drain null link. This setting only has effect when the L1 node is
                                                                  mapped to the NULL FIFO.  Conditions the drain path to drain through

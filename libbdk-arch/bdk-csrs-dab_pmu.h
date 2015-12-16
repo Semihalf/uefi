@@ -1161,9 +1161,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t cclass                : 4;  /**< [  7:  4](RO) Component class. 0x9 = Debug component. */
-        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. */
 #else /* Word 0 - Little Endian */
-        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. */
         uint32_t cclass                : 4;  /**< [  7:  4](RO) Component class. 0x9 = Debug component. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -1434,14 +1434,14 @@ typedef union
                                                                  1 = When enabled, PMU()_PMCCNTR_EL0 counts once every 64 clock cycles. */
         uint32_t c_rst                 : 1;  /**< [  2:  2](R/W) Cycle counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit always reads as zero.
                                                                  Resetting PMU()_PMCCNTR_EL0 does not clear the PMU()_PMCCNTR_EL0 overflow
                                                                      bit to 0.
                                                                  0 = No action.
                                                                  1 = Reset PMU()_PMCCNTR_EL0 to zero. */
         uint32_t p                     : 1;  /**< [  1:  1](R/W) Event counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit always reads as zero.
                                                                  Resetting the event counters does not clear any overflow bits
                                                                      to 0.
                                                                  0 = No action.
@@ -1457,14 +1457,14 @@ typedef union
                                                                  1 = All counters are enabled by PMU()_PMCNTENSET_EL0. */
         uint32_t p                     : 1;  /**< [  1:  1](R/W) Event counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit always reads as zero.
                                                                  Resetting the event counters does not clear any overflow bits
                                                                      to 0.
                                                                  0 = No action.
                                                                  1 = Reset all event counters, not including PMU()_PMCCNTR_EL0, to zero. */
         uint32_t c_rst                 : 1;  /**< [  2:  2](R/W) Cycle counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit always reads as zero.
                                                                  Resetting PMU()_PMCCNTR_EL0 does not clear the PMU()_PMCCNTR_EL0 overflow
                                                                      bit to 0.
                                                                  0 = No action.
@@ -1555,14 +1555,14 @@ typedef union
                                                                  1 = When enabled, PMU()_PMCCNTR_EL0 counts once every 64 clock cycles. */
         uint32_t c_rst                 : 1;  /**< [  2:  2](R/W) Cycle counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit always reads as zero.
                                                                  Resetting PMU()_PMCCNTR_EL0 does not clear the PMU()_PMCCNTR_EL0 overflow
                                                                      bit to 0.
                                                                  0 = No action.
                                                                  1 = Reset PMU()_PMCCNTR_EL0 to zero. */
         uint32_t p                     : 1;  /**< [  1:  1](R/W) Event counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit always reads as zero.
                                                                  Resetting the event counters does not clear any overflow bits
                                                                      to 0.
                                                                  0 = No action.
@@ -1578,14 +1578,14 @@ typedef union
                                                                  1 = All counters are enabled by PMU()_PMCNTENSET_EL0. */
         uint32_t p                     : 1;  /**< [  1:  1](R/W) Event counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit always reads as zero.
                                                                  Resetting the event counters does not clear any overflow bits
                                                                      to 0.
                                                                  0 = No action.
                                                                  1 = Reset all event counters, not including PMU()_PMCCNTR_EL0, to zero. */
         uint32_t c_rst                 : 1;  /**< [  2:  2](R/W) Cycle counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit always reads as zero.
                                                                  Resetting PMU()_PMCCNTR_EL0 does not clear the PMU()_PMCCNTR_EL0 overflow
                                                                      bit to 0.
                                                                  0 = No action.
@@ -2524,7 +2524,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. Always clear. */
         uint32_t slk                   : 1;  /**< [  1:  1](RO/H) Software lock status for this component. For an access to LSR
                                                                      that is not a memory-mapped access, or when the software lock
                                                                      is not implemented, this field is RES0.
@@ -2536,14 +2536,14 @@ typedef union
                                                                  1 = Lock set. Writes to this component's registers are ignored,
                                                                      and reads have no side effects. */
         uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented. For an access to LSR that is not a
-                                                                     memory-mapped access, this field is RAZ. For memory-mapped
+                                                                     memory-mapped access, this field reads as zero. For memory-mapped
                                                                      accesses, the value of this field is implementation defined.
                                                                      Permitted values are:
                                                                  0 = Software lock not implemented or not memory-mapped access.
                                                                  1 = Software lock implemented and memory-mapped access. */
 #else /* Word 0 - Little Endian */
         uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented. For an access to LSR that is not a
-                                                                     memory-mapped access, this field is RAZ. For memory-mapped
+                                                                     memory-mapped access, this field reads as zero. For memory-mapped
                                                                      accesses, the value of this field is implementation defined.
                                                                      Permitted values are:
                                                                  0 = Software lock not implemented or not memory-mapped access.
@@ -2558,7 +2558,7 @@ typedef union
                                                                      registers.
                                                                  1 = Lock set. Writes to this component's registers are ignored,
                                                                      and reads have no side effects. */
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. Always clear. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -2872,13 +2872,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. RAZ. Log2 of the number of
+        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log2 of the number of
                                                                      4KB pages from the start of the component to the end of the
                                                                      component ID registers. */
         uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
 #else /* Word 0 - Little Endian */
         uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
-        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. RAZ. Log2 of the number of
+        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log2 of the number of
                                                                      4KB pages from the start of the component to the end of the
                                                                      component ID registers. */
         uint32_t reserved_8_31         : 24;

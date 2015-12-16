@@ -70,14 +70,14 @@ typedef union
                                                                  If external multiplexing of trigger signals is implemented
                                                                      then the number of multiplexed signals on each trigger must be
                                                                      reflected in CTI()_CTIDEVID[EXTMUXNUM].
-                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is RAZ. */
+                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
 #else /* Word 0 - Little Endian */
         uint32_t asicctl               : 3;  /**< [  2:  0](R/W) Implementation defined ASIC control. Provides a control for
                                                                  external multiplexing of additional triggers.
                                                                  If external multiplexing of trigger signals is implemented
                                                                      then the number of multiplexed signals on each trigger must be
                                                                      reflected in CTI()_CTIDEVID[EXTMUXNUM].
-                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is RAZ. */
+                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is 0x0. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -457,7 +457,7 @@ typedef union
         uint32_t chin                  : 3;  /**< [  2:  0](RO) Input channel <n> status.
                                                                  N is the number of ECT channels implemented as defined by
                                                                      CTI()_CTIDEVID[NUMCHAN].
-                                                                 Bits [31:N] are RAZ.
+                                                                 Bits [31:N] are 0.
 
                                                                  0 = Input channel <n> is inactive.
                                                                  1 = Input channel <n> is active. */
@@ -465,7 +465,7 @@ typedef union
         uint32_t chin                  : 3;  /**< [  2:  0](RO) Input channel <n> status.
                                                                  N is the number of ECT channels implemented as defined by
                                                                      CTI()_CTIDEVID[NUMCHAN].
-                                                                 Bits [31:N] are RAZ.
+                                                                 Bits [31:N] are 0.
 
                                                                  0 = Input channel <n> is inactive.
                                                                  1 = Input channel <n> is active. */
@@ -505,7 +505,7 @@ typedef union
         uint32_t chout                 : 3;  /**< [  2:  0](RO) Output channel <n> status.
                                                                  N is the number of ECT channels implemented as defined by
                                                                      CTI()_CTIDEVID[NUMCHAN].
-                                                                 Bits [31:N] are RAZ.
+                                                                 Bits [31:N] are 0.
 
                                                                  0 = Output channel <n> is inactive.
                                                                  1 = Output channel <n> is active. */
@@ -513,7 +513,7 @@ typedef union
         uint32_t chout                 : 3;  /**< [  2:  0](RO) Output channel <n> status.
                                                                  N is the number of ECT channels implemented as defined by
                                                                      CTI()_CTIDEVID[NUMCHAN].
-                                                                 Bits [31:N] are RAZ.
+                                                                 Bits [31:N] are 0.
 
                                                                  0 = Output channel <n> is inactive.
                                                                  1 = Output channel <n> is active. */
@@ -587,9 +587,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t cclass                : 4;  /**< [  7:  4](RO) Component class. 0x9 = Debug component. */
-        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. */
 #else /* Word 0 - Little Endian */
-        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. */
         uint32_t cclass                : 4;  /**< [  7:  4](RO) Component class. 0x9 = Debug component. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -891,7 +891,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
         uint32_t inout_gate            : 2;  /**< [ 25: 24](RO) Input/output options. Indicates presence of the input gate. If
-                                                                     the CTM is not implemented, this field is RAZ.
+                                                                     the CTM is not implemented, this field is 0.
                                                                  All other values are reserved.
                                                                  0x0 = CTIGATE does not mask propagation of input events from
                                                                      external channels.
@@ -953,7 +953,7 @@ typedef union
                                                                  All other values are reserved. */
         uint32_t reserved_22_23        : 2;
         uint32_t inout_gate            : 2;  /**< [ 25: 24](RO) Input/output options. Indicates presence of the input gate. If
-                                                                     the CTM is not implemented, this field is RAZ.
+                                                                     the CTM is not implemented, this field is 0.
                                                                  All other values are reserved.
                                                                  0x0 = CTIGATE does not mask propagation of input events from
                                                                      external channels.
@@ -1369,10 +1369,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. */
         uint32_t slk                   : 1;  /**< [  1:  1](RO/H) Software lock status for this component. For an access to LSR
                                                                      that is not a memory-mapped access, or when the software lock
-                                                                     is not implemented, this field is RAZ.
+                                                                     is not implemented, this field is 0.
                                                                  For memory-mapped accesses when the software lock is
                                                                      implemented, possible values of this field are:
                                                                  0 = Lock clear. Writes are permitted to this component's
@@ -1380,28 +1380,28 @@ typedef union
                                                                  1 = Lock set. Writes to this component's registers are ignored,
                                                                      and reads have no side effects. */
         uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented. For an access to LSR that is not a
-                                                                     memory-mapped access, this field is RAZ. For memory-mapped
+                                                                     memory-mapped access, this field is 0. For memory-mapped
                                                                      accesses, the value of this field is implementation defined.
                                                                      Permitted values are:
                                                                  0 = Software lock not implemented or not memory-mapped access.
                                                                  1 = Software lock implemented and memory-mapped access. */
 #else /* Word 0 - Little Endian */
         uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented. For an access to LSR that is not a
-                                                                     memory-mapped access, this field is RAZ. For memory-mapped
+                                                                     memory-mapped access, this field is 0. For memory-mapped
                                                                      accesses, the value of this field is implementation defined.
                                                                      Permitted values are:
                                                                  0 = Software lock not implemented or not memory-mapped access.
                                                                  1 = Software lock implemented and memory-mapped access. */
         uint32_t slk                   : 1;  /**< [  1:  1](RO/H) Software lock status for this component. For an access to LSR
                                                                      that is not a memory-mapped access, or when the software lock
-                                                                     is not implemented, this field is RAZ.
+                                                                     is not implemented, this field is 0.
                                                                  For memory-mapped accesses when the software lock is
                                                                      implemented, possible values of this field are:
                                                                  0 = Lock clear. Writes are permitted to this component's
                                                                      registers.
                                                                  1 = Lock set. Writes to this component's registers are ignored,
                                                                      and reads have no side effects. */
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -1645,12 +1645,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. RAZ. Log<sub>2</sub> of the number of 4KB pages from the
+        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log<sub>2</sub> of the number of 4KB pages from the
                                                                  start of the component to the end of the component ID registers. */
         uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
 #else /* Word 0 - Little Endian */
         uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
-        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. RAZ. Log<sub>2</sub> of the number of 4KB pages from the
+        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log<sub>2</sub> of the number of 4KB pages from the
                                                                  start of the component to the end of the component ID registers. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -1790,7 +1790,7 @@ typedef union
         uint32_t trin                  : 3;  /**< [  2:  0](RO) Trigger input <n> status.
                                                                  N is the number of CTI triggers implemented as defined by
                                                                      CTI()_CTIDEVID[NUMTRIG].
-                                                                 Bits [31:N] are RAZ.
+                                                                 Bits [31:N] are 0.
 
                                                                  Not implemented and not-connected input triggers are always inactive.
                                                                  0 = Input trigger n is inactive.
@@ -1799,7 +1799,7 @@ typedef union
         uint32_t trin                  : 3;  /**< [  2:  0](RO) Trigger input <n> status.
                                                                  N is the number of CTI triggers implemented as defined by
                                                                      CTI()_CTIDEVID[NUMTRIG].
-                                                                 Bits [31:N] are RAZ.
+                                                                 Bits [31:N] are 0.
 
                                                                  Not implemented and not-connected input triggers are always inactive.
                                                                  0 = Input trigger n is inactive.
@@ -1840,11 +1840,11 @@ typedef union
         uint32_t trout                 : 3;  /**< [  2:  0](RO) Trigger output <n> status.
                                                                  N is the number of CTI triggers implemented as defined by
                                                                      CTI()_CTIDEVID[NUMTRIG].
-                                                                 Bits [31:N] are RAZ.
+                                                                 Bits [31:N] are 0.
 
                                                                  If output trigger <n> is implemented and connected, possible
                                                                      values of this bit are:
-                                                                 Otherwise it is implementation defined whether TROUT<n> is RAZ
+                                                                 Otherwise it is implementation defined whether TROUT<n> is 0
                                                                      or behaves as above.
                                                                  0 = Output trigger n is inactive.
                                                                  1 = Output trigger n is active. */
@@ -1852,11 +1852,11 @@ typedef union
         uint32_t trout                 : 3;  /**< [  2:  0](RO) Trigger output <n> status.
                                                                  N is the number of CTI triggers implemented as defined by
                                                                      CTI()_CTIDEVID[NUMTRIG].
-                                                                 Bits [31:N] are RAZ.
+                                                                 Bits [31:N] are 0.
 
                                                                  If output trigger <n> is implemented and connected, possible
                                                                      values of this bit are:
-                                                                 Otherwise it is implementation defined whether TROUT<n> is RAZ
+                                                                 Otherwise it is implementation defined whether TROUT<n> is 0
                                                                      or behaves as above.
                                                                  0 = Output trigger n is inactive.
                                                                  1 = Output trigger n is active. */
