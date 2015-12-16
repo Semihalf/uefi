@@ -7,8 +7,6 @@ BDK_REQUIRE_DEFINE(DRAM_TEST);
 #define MAX_ERRORS_TO_REPORT 50
 #define RETRY_LIMIT 1000
 
-#define ENABLE_COMPACT_ERRORS 1
-
 typedef struct
 {
     const char *        name;       /* Friendly name for the test */
@@ -551,20 +549,43 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length, bdk_dram_te
  */
 static void __bdk_dram_report_address_decode(uint64_t address, char *buffer, int len)
 {
-#if !ENABLE_COMPACT_ERRORS
-    int core = bdk_get_core_num();
-#endif
     int node, lmc, dimm, rank, bank, row, col;
 
     bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
 
-#if ENABLE_COMPACT_ERRORS
     snprintf(buffer, len, "[0x%011lx] (N%d,LMC%d,DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)",
 	     address, node, lmc, dimm, rank, bank, row, col);
-#else
-    snprintf(buffer, len, "[0x%011lx] (N%d,Core%02d,LMC%d,DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)",
-	     address, node, core, lmc, dimm, rank, bank, row, col);
-#endif
+}
+
+/**
+ * Report a DRAM address in a new decoded format.
+ *
+ * @param address Physical address the error occurred at
+ * @param xor     XOR of data read vs expected data
+ *
+ */
+static void __bdk_dram_report_address_decode_new(uint64_t address, uint64_t xor, char *buffer, int len)
+{
+    int node, lmc, dimm, rank, bank, row, col;
+
+    int byte = 8; // means no byte-lanes in error, should not happen
+
+    // find the byte-lane(s) with errors
+    for (int i = 0; i < 8; i++) {
+	if (xor & (0xffULL << (8 * i))) {
+	    if (byte != 8) {
+		byte = 9; // means more than 1 byte-lane was present
+		break; // quit now
+	    } else {
+		byte = i; // keep checking
+	    }
+	}
+    }
+	
+    bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
+
+    snprintf(buffer, len, "N%d.LMC%d: CMP byte %d (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)[0x%011lx]",
+	     node, lmc, byte, dimm, rank, bank, row, col, address);
 }
 
 /**
@@ -581,29 +602,24 @@ static void __bdk_dram_report_address_decode(uint64_t address, char *buffer, int
  */
 void __bdk_dram_report_error(uint64_t address, uint64_t data, uint64_t correct, int burst, int fails)
 {
-    char buffer[80];
+    char buffer[128];
     char failbuf[32];
     int64_t errors = bdk_atomic_fetch_and_add64(&dram_test_thread_errors, 1);
+    uint64_t xor = data ^ correct;
+
     if (errors < MAX_ERRORS_TO_REPORT)
     {
 	if (fails < 0) {
 	    snprintf(failbuf, sizeof(failbuf), " ");
 	} else {
-	    snprintf(failbuf, sizeof(failbuf), ", retried %d failed %d", RETRY_LIMIT, fails);
+            int percent_x10 = fails * 1000 / RETRY_LIMIT;
+	    snprintf(failbuf, sizeof(failbuf), ", retries failed %3d.%d%%",
+                     percent_x10 / 10, percent_x10 % 10);
 	}
-	__bdk_dram_report_address_decode(address, buffer, sizeof(buffer));
 
-#if ENABLE_COMPACT_ERRORS
-        bdk_error("compare: read: 0x%016lx, xor: 0x%016lx%s\n"
-		  "       %s\n",
-		  data, data ^ correct, failbuf,
-		  buffer);
-#else
-        bdk_error("compare: read: 0x%016lx, expected: 0x%016lx, xor: 0x%016lx%s\n"
-		  "       %s\n",
-		  data, correct, data ^ correct, failbuf,
-		  buffer);
-#endif
+	__bdk_dram_report_address_decode_new(address, xor, buffer, sizeof(buffer));
+        bdk_error("%s%s\n", buffer, failbuf);
+
         if (errors == MAX_ERRORS_TO_REPORT-1)
             bdk_error("No further DRAM errors will be reported\n");
     }
@@ -640,17 +656,11 @@ void __bdk_dram_report_error2(uint64_t address1, uint64_t data1, uint64_t addres
 	__bdk_dram_report_address_decode(address1, buffer1, sizeof(buffer1));
 	__bdk_dram_report_address_decode(address2, buffer2, sizeof(buffer2));
 
-#if ENABLE_COMPACT_ERRORS
         bdk_error("compare: data1: 0x%016lx, xor: 0x%016lx%s\n"
 		  "       %s\n       %s\n",
 		  data1, data1 ^ data2, failbuf,
 		  buffer1, buffer2);
-#else
-        bdk_error("compare: data1: 0x%016lx, data2: 0x%016lx, xor: 0x%016lx%s\n"
-		  "       %s\n       %s\n",
-		  data1, data2, data1 ^ data2, failbuf,
-		  buffer1, buffer2);
-#endif
+
         if (errors == MAX_ERRORS_TO_REPORT-1)
             bdk_error("No further DRAM errors will be reported\n");
     }
