@@ -789,6 +789,45 @@ void bdk_config_set_str(const char *value, bdk_config_t cfg_item, ...)
 }
 
 /**
+ * Set a blob configuration item. Note this only sets the
+ * item in memory, persistent storage is not updated.
+ *
+ * @param size     Size of the item in bytes. A size of zero removes the device tree field
+ * @param value    Configuration item value
+ * @param cfg_item Config item to set. If the item takes parameters (see bdk_config_t), then the
+ *                 parameters are listed following cfg_item.
+ */
+void bdk_config_set_blob(int size, const void *value, bdk_config_t cfg_item, ...)
+{
+    /* Make sure the correct access function was called */
+    if (config_info[cfg_item].ctype != BDK_CONFIG_TYPE_STR)
+        bdk_fatal("bdk_config_set_blob() called for %s, not a str\n",
+            config_info[cfg_item].format);
+
+    char name[64];
+    va_list args;
+
+    va_start(args, cfg_item);
+    vsnprintf(name, sizeof(name)-1, config_info[cfg_item].format, args);
+    va_end(args);
+
+    if (!config_fdt)
+    {
+        bdk_error("bdk-config set %s before configuration loaded\n", name);
+        return;
+    }
+
+    int status;
+    if (size)
+        status = fdt_setprop(config_fdt, config_node, name, value, size);
+    else
+        status = fdt_delprop(config_fdt, config_node, name);
+
+    if ((status < 0) && (status != -FDT_ERR_NOTFOUND))
+        bdk_fatal("Failed to set %s in FDT\n", name);
+}
+
+/**
  * Multiple functions need to display the config item help string in a format
  * suitable for inclusion in a device tree. This function displays the help
  * message properly indented and such.

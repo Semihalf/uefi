@@ -182,6 +182,17 @@ extern void bdk_config_set_int(int64_t value, bdk_config_t cfg_item, ...);
 extern void bdk_config_set_str(const char *value, bdk_config_t cfg_item, ...);
 
 /**
+ * Set a blob configuration item. Note this only sets the
+ * item in memory, persistent storage is not updated.
+ *
+ * @param size     Size of the item in bytes. A size of zero removes the device tree field
+ * @param value    Configuration item value
+ * @param cfg_item Config item to set. If the item takes parameters (see bdk_config_t), then the
+ *                 parameters are listed following cfg_item.
+ */
+extern void bdk_config_set_blob(int size, const void *value, bdk_config_t cfg_item, ...);
+
+/**
  * Display the active configuration
  */
 extern void bdk_config_show(void);
