@@ -24,6 +24,7 @@ static void wait_usec(uint64_t usec)
     }
 }
 
+#if 0 /* Disabled 12/17/2015 as GSER-27140 was found to break CCPI at 10G */
 /**
  * (GSER-27140) SERDES temperature drift sensitivity in receiver
  * Issues have been found with the Bit Error Rate (BER) reliability of
@@ -110,6 +111,7 @@ static int qlm_errata_gser_27140(bdk_node_t node, int qlm)
     /* III. The GSER QLM SerDes Lanes are now ready for 10GBASE-KR link training. */
     return 0;
 }
+#endif
 
 /**
  * Apply custom tuning to the CCPI QLMs on the slave node
@@ -512,11 +514,13 @@ void __bdk_init_incorrect_node(void)
     if ((CAVIUM_CN88XX_PASS1_X & 0xf0fff0) == (model & 0xf0fff0))
         monitor_ccpi();
 
+#if 0 /* Disabled 12/17/2015 as GSER-27140 was found to break CCPI at 10G */
     for (int qlm = 8; qlm < 14; qlm++)
     {
         /* (GSER-27140) SERDES temperature drift sensitivity in receiver */
         qlm_errata_gser_27140(node, qlm);
     }
+#endif
 
     /* All other chips can use the hardware default CCPI init, so put the
        core in reset and wait for the other node to take over */

@@ -223,6 +223,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         return BDK_QLM_MODE_OCI;
 }
 
+#if 0 /* Disabled 12/17/2015 as GSER-27140 was found to break CCPI at 10G */
 /**
  * (GSER-26150) 10 Gb temperature excursions can cause lock
  * failure Change the calibration point of the VCO at start up
@@ -375,6 +376,7 @@ static int qlm_errata_gser_27140(bdk_node_t node, int qlm)
     /* III. The GSER QLM SerDes Lanes are now ready for 10GBASE-KR link training. */
     return 0;
 }
+#endif
 
 static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
@@ -1082,8 +1084,10 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         }
     }
 
+#if 0 /* Disabled 12/17/2015 as GSER-27140 was found to break CCPI at 10G */
     /* (GSER-27140) SERDES temperature drift sensitivity in receiver */
     qlm_errata_gser_27140(node, qlm);
+#endif
 
     /* cdrlock will be checked in the BGX */
 
@@ -1305,10 +1309,12 @@ static void qlm_init(bdk_node_t node)
             BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
                 c.s.rx_precorr_chg_dir = 1;
                 c.s.rx_tap1_chg_dir = 1);
+#if 0 /* Disabled 12/17/2015 as GSER-27140 was found to break CCPI at 10G */
             /* (GSER-27140) SERDES temperature drift sensitivity in receiver */
             /* Don't apply to pass 1.x as it causes unrecoverable CCPI errors */
             if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
                 qlm_errata_gser_27140(node, qlm);
+#endif
             bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, qlm);
             int baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
             __bdk_qlm_tune(node, qlm, mode, baud_mhz);
