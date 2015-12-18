@@ -290,7 +290,7 @@ static int __bdk_sata_is_initialized(bdk_node_t node, int controller)
  * Initialize a SATA controller and begin device detection
  *
  * @param node       Node to initialize
- * @param controller Which controller to initalize
+ * @param controller Which controller to initialize
  *
  * @return Zero on success, negative on failure
  */
@@ -770,7 +770,7 @@ int bdk_sata_bist_fis(bdk_node_t node, int controller, int port, bdk_sata_bist_f
         Setup:
         1) Write SATAX_UAHC_GBL_BISTCR.ferlib = 1
         2) Connect pattern generator
-        3) Pattern generator msut send ALIGNs for PHY sync up
+        3) Pattern generator must send ALIGNs for PHY sync up
         4) Pattern should be looped back out
 
         2) Far-end Transmit Only Responder Mode (Software Initiated)

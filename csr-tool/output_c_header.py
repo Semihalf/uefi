@@ -68,7 +68,7 @@ def consolidateChips(by_chip, useArch=None):
             del dict[key]
         dict[new_key] = ref
         return True
-    # If an architecture was supplied, all chips for said architecture msut be
+    # If an architecture was supplied, all chips for said architecture must be
     # present for consolidation. Otherwise we just require the ones passed.
     if useArch:
         chips = []

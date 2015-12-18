@@ -211,7 +211,7 @@ extern int bdk_config_save(void);
 
 /**
  * Takes the current live device tree and exports it to a memory address suitable
- * for passing to the enxt binary in register X1.
+ * for passing to the next binary in register X1.
  *
  * @return Physical address of the device tree, or 0 on failure
  */

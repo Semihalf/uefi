@@ -51,7 +51,7 @@ int bdk_ccpi_test_loopback(void)
     /* Make sure DRAM is setup */
     if (!__bdk_is_dram_enabled(node_master))
     {
-        bdk_error("CCPI Loopback: Memory msut be setup before this test\n");
+        bdk_error("CCPI Loopback: Memory must be setup before this test\n");
         return -1;
     }
     uint64_t mbytes = bdk_dram_get_size_mbytes(node_master);

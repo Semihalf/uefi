@@ -44,7 +44,7 @@ int bdk_sata_get_controllers(bdk_node_t node);
  * Initialize a SATA controller and begin device detection
  *
  * @param node       Node to initialize
- * @param controller Which controller to initalize
+ * @param controller Which controller to initialize
  *
  * @return Zero on success, negative on failure
  */
