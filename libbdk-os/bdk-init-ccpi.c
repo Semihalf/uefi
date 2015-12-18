@@ -1027,6 +1027,30 @@ skip_to_node_setup:
                     ocx_lnex_cfg.u = ocx_pp_read(node, BDK_OCX_LNEX_CFG(lane));
                     ocx_lnex_cfg.s.rx_stat_wrap_dis = 1;
                     ocx_lnex_cfg.s.rx_stat_ena = 1;
+                    ocx_lnex_cfg.s.rx_stat_rdclr = 1; /* Clear on read, see below */
+                    ocx_pp_write(node, BDK_OCX_LNEX_CFG(lane), ocx_lnex_cfg.u);
+                    /* Make sure the update is complete */
+                    ocx_pp_read(node, BDK_OCX_LNEX_CFG(lane));
+                    /* Read to clear the lane statistics counters. This way
+                       any errors that occurred during init aren't mistakenly
+                       seen later */
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT00(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT01(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT02(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT03(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT04(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT05(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT06(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT07(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT08(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT09(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT10(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT11(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT12(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT13(lane));
+                    ocx_pp_read(node, BDK_OCX_LNEX_STAT14(lane));
+                    /* Disable the clear on read now that we've cleared errors */
+                    ocx_lnex_cfg.s.rx_stat_rdclr = 0;
                     ocx_pp_write(node, BDK_OCX_LNEX_CFG(lane), ocx_lnex_cfg.u);
                 }
 
