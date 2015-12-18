@@ -2614,7 +2614,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	extra_ddr_print("DDR4: Package Type 0x%x \n", spd_package);
 	is_stacked_die = ((spd_package & 0xf3) == 0x91);
 
-        spd_rdimm       = (spd_dimm_type == 1);
+        spd_rdimm = (spd_dimm_type == 1) || (spd_dimm_type == 5) || (spd_dimm_type == 8);
 	if (spd_rdimm) {
 	    int spd_mfgr_id = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REGISTER_MANUFACTURER_ID_LSB) |
 		(read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REGISTER_MANUFACTURER_ID_MSB) << 8);
