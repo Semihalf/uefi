@@ -943,7 +943,7 @@ typedef union
                                                                  Must be {a}*n + 1, where n is the number of instructions per buffer segment,
                                                                  and {a} is 8 for CPT or 16 for DDF. The plus one is for the next-chunk pointer. */
         uint64_t reserved_11_31        : 21;
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
                                                                  CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
@@ -996,7 +996,7 @@ typedef union
                                                                  pointers, and result structures are stored in big endian format in memory. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CDE()_VQ()_MISC_INT[NWRP], CDE()_VQ()_MISC_INT[IRDE] or
                                                                  CDE()_VQ()_MISC_INT[DOVF] are set by hardware or software via
@@ -1538,11 +1538,12 @@ typedef union
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When CDE()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
-                                                                 Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 CDE()_VQ()_DONE[DONE] >= CDE()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
-                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
-                                                                 between software acknowledging an interrupt and a result returning.)
+                                                                 * When CDE()_VQ()_DONE_ACK is written (or CDE()_VQ()_DONE is written but this is
+                                                                 not typical), the interrupt coalescing timer restarts.  Note after decrementing
+                                                                 this interrupt equation is recomputed, for example if CDE()_VQ()_DONE[DONE] >=
+                                                                 CDE()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
+                                                                 be resent immediately.  (This covers the race case between software
+                                                                 acknowledging an interrupt and a result returning.)
 
                                                                  * When CDE()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
@@ -1573,11 +1574,12 @@ typedef union
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When CDE()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
-                                                                 Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 CDE()_VQ()_DONE[DONE] >= CDE()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
-                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
-                                                                 between software acknowledging an interrupt and a result returning.)
+                                                                 * When CDE()_VQ()_DONE_ACK is written (or CDE()_VQ()_DONE is written but this is
+                                                                 not typical), the interrupt coalescing timer restarts.  Note after decrementing
+                                                                 this interrupt equation is recomputed, for example if CDE()_VQ()_DONE[DONE] >=
+                                                                 CDE()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
+                                                                 be resent immediately.  (This covers the race case between software
+                                                                 acknowledging an interrupt and a result returning.)
 
                                                                  * When CDE()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
@@ -1890,6 +1892,12 @@ typedef union
         uint64_t reserved_20_63        : 44;
         uint64_t dbell_cnt             : 20; /**< [ 19:  0](R/W/H) Number of instruction queue 64-bit words to add to the CDE instruction doorbell
                                                                  count.  Readback value is the the current number of pending doorbell requests.
+                                                                 If counter overflows CDE()_VQ()_MISC_INT[DBELL_DOVF] is set.
+
+                                                                 To reset the count back to zero, write one to clear
+                                                                 CDE()_VQ()_MISC_INT_ENA_W1C[DBELL_DOVF], then write a value of 2^20 minus the
+                                                                 read [DBELL_CNT], then write one to CDE()_VQ()_MISC_INT_W1C[DBELL_DOVF] and
+                                                                 CDE()_VQ()_MISC_INT_ENA_W1S[DBELL_DOVF].
 
                                                                  CPT: Must be a multiple of 8. All CPT instructions are 8 words and require a
                                                                  doorbell count of multiple of 8.
@@ -1899,6 +1907,12 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t dbell_cnt             : 20; /**< [ 19:  0](R/W/H) Number of instruction queue 64-bit words to add to the CDE instruction doorbell
                                                                  count.  Readback value is the the current number of pending doorbell requests.
+                                                                 If counter overflows CDE()_VQ()_MISC_INT[DBELL_DOVF] is set.
+
+                                                                 To reset the count back to zero, write one to clear
+                                                                 CDE()_VQ()_MISC_INT_ENA_W1C[DBELL_DOVF], then write a value of 2^20 minus the
+                                                                 read [DBELL_CNT], then write one to CDE()_VQ()_MISC_INT_W1C[DBELL_DOVF] and
+                                                                 CDE()_VQ()_MISC_INT_ENA_W1S[DBELL_DOVF].
 
                                                                  CPT: Must be a multiple of 8. All CPT instructions are 8 words and require a
                                                                  doorbell count of multiple of 8.

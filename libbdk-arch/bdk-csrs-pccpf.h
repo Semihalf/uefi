@@ -98,7 +98,7 @@
 #define BDK_PCC_DEV_CON_E_NDF (0x58) /**< NAND flash. */
 #define BDK_PCC_DEV_CON_E_NIC_CN81XX (0x500) /**< Network interface controller. */
 #define BDK_PCC_DEV_CON_E_NIC_CN88XX (0x20100) /**< Network interface controller.  Contains 1 PF + 128 VFs. */
-#define BDK_PCC_DEV_CON_E_NIC_CN83XX (0x20100) /**< Network interface controller.  Contains 1 PF + 128 VFs. */
+#define BDK_PCC_DEV_CON_E_NIC_CN83XX (0x10100) /**< Network interface controller.  Contains 1 PF + 128 VFs. */
 #define BDK_PCC_DEV_CON_E_OCLAX(a) (0x160 + (a)) /**< OCLA. */
 #define BDK_PCC_DEV_CON_E_OCX (0x105) /**< OCX. */
 #define BDK_PCC_DEV_CON_E_PBUS (0x10f) /**< Parallel bus. */
@@ -114,7 +114,7 @@
 #define BDK_PCC_DEV_CON_E_PCCBR_MRML (8) /**< Bridge for MRML, creating ECAM 0's bus 1. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN81XX (0x78) /**< Bridge for NIC, creating ECAM 0's bus 5. */
 #define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN88XX (0x20010) /**< Bridge for NIC, creating ECAM 2's bus 1. */
-#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN83XX (0x20010) /**< Bridge for NIC, creating ECAM 2's bus 1. */
+#define BDK_PCC_DEV_CON_E_PCCBR_NIC_CN83XX (0x10050) /**< Bridge for NIC, creating ECAM 1's bus 1. */
 #define BDK_PCC_DEV_CON_E_PCCBR_PCM (0xe0) /**< Bridge for PCM, creating ECAM 0's bus 12. */
 #define BDK_PCC_DEV_CON_E_PCCBR_PKI (0xc0) /**< Bridge for PKI, creating ECAM 0's bus 8. */
 #define BDK_PCC_DEV_CON_E_PCCBR_PKO (0xc8) /**< Bridge for PKO, creating ECAM 0's bus 9. */
@@ -430,8 +430,8 @@ union bdk_pcc_dev_con_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_18_31        : 14;
-        uint32_t ecam                  : 2;  /**< [ 17: 16] ECAM number/NCB bus number. */
-        uint32_t bus                   : 8;  /**< [ 15:  8] ECAM bus number. */
+        uint32_t ecam                  : 2;  /**< [ 17: 16] ECAM number. */
+        uint32_t bus                   : 8;  /**< [ 15:  8] PCI requestor bus number. */
         uint32_t func                  : 8;  /**< [  7:  0] For ARI devices (when bus is non-zero), an eight-bit RSL function number.
 
                                                                  For non-ARI devices (when bus is zero), <7:3> is the device number, <2:0> the function
@@ -441,8 +441,8 @@ union bdk_pcc_dev_con_s
 
                                                                  For non-ARI devices (when bus is zero), <7:3> is the device number, <2:0> the function
                                                                  number. */
-        uint32_t bus                   : 8;  /**< [ 15:  8] ECAM bus number. */
-        uint32_t ecam                  : 2;  /**< [ 17: 16] ECAM number/NCB bus number. */
+        uint32_t bus                   : 8;  /**< [ 15:  8] PCI requestor bus number. */
+        uint32_t ecam                  : 2;  /**< [ 17: 16] ECAM number. */
         uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */
     } s;

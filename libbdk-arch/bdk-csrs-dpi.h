@@ -2303,45 +2303,59 @@ typedef union
     struct bdk_dpix_engx_buf_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_38_63        : 26;
-        uint64_t compblks              : 6;  /**< [ 37: 32](RO/H) Computed engine block size */
-        uint64_t reserved_10_31        : 22;
-        uint64_t base                  : 6;  /**< [  9:  4](RO/H) The base address in 512-byte blocks of the DMA engine FIFO. */
-        uint64_t blks                  : 4;  /**< [  3:  0](R/W) The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
+        uint64_t reserved_22_63        : 42;
+        uint64_t base                  : 6;  /**< [ 21: 16](RO/H) The base address in 512-byte blocks of the DMA engine FIFO. */
+        uint64_t reserved_5_15         : 11;
+        uint64_t blks                  : 5;  /**< [  4:  0](R/W) The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
                                                                  DPI()_ENG()_BUF[BLKS] registers must not exceed the overall RDB memory size of
-                                                                 32 KB.
-                                                                 0x0 = Engine disabled.
-                                                                 0x1 = 0.5 KB FIFO.
-                                                                 0x2 = 1.0 KB FIFO.
-                                                                 0x3 = 1.5 KB FIFO.
-                                                                 0x4 = 2.0 KB FIFO.
-                                                                 0x5 = 2.5 KB FIFO.
-                                                                 0x6 = 3.0 KB FIFO.
-                                                                 0x7 = 3.5 KB FIFO.
-                                                                 0x8 = 4.0 KB FIFO.
-                                                                 0x9 = 6.0 KB FIFO.
-                                                                 0xA = 8.0 KB FIFO.
-                                                                 0xB = 16.0 KB FIFO. */
+                                                                 32 KB. If the value of 0 is used, the corresponding engine enable in
+                                                                 DPI()_DMA_CONTROL[DMA_ENB]
+                                                                 must also be cleared.
+
+                                                                 0x00 = Engine disabled.
+                                                                 0x01 = 1 KB FIFO.
+                                                                 0x02 = 2 KB FIFO.
+                                                                 0x03 = 3 KB FIFO.
+                                                                 0x04 = 4 KB FIFO.
+                                                                 0x05 = 5 KB FIFO.
+                                                                 0x06 = 6 KB FIFO.
+                                                                 0x07 = 7 KB FIFO.
+                                                                 0x08 = 8 KB FIFO.
+                                                                 0x09 = 9 KB FIFO.
+                                                                 0x0A = 10 KB FIFO.
+                                                                 0x0B = 11 KB FIFO.
+                                                                 0x0C = 12 KB FIFO.
+                                                                 0x0D = 13 KB FIFO.
+                                                                 0x0E = 14 KB FIFO.
+                                                                 0x0F = 15 KB FIFO.
+                                                                 0x10 = 16 KB FIFO. */
 #else /* Word 0 - Little Endian */
-        uint64_t blks                  : 4;  /**< [  3:  0](R/W) The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
+        uint64_t blks                  : 5;  /**< [  4:  0](R/W) The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
                                                                  DPI()_ENG()_BUF[BLKS] registers must not exceed the overall RDB memory size of
-                                                                 32 KB.
-                                                                 0x0 = Engine disabled.
-                                                                 0x1 = 0.5 KB FIFO.
-                                                                 0x2 = 1.0 KB FIFO.
-                                                                 0x3 = 1.5 KB FIFO.
-                                                                 0x4 = 2.0 KB FIFO.
-                                                                 0x5 = 2.5 KB FIFO.
-                                                                 0x6 = 3.0 KB FIFO.
-                                                                 0x7 = 3.5 KB FIFO.
-                                                                 0x8 = 4.0 KB FIFO.
-                                                                 0x9 = 6.0 KB FIFO.
-                                                                 0xA = 8.0 KB FIFO.
-                                                                 0xB = 16.0 KB FIFO. */
-        uint64_t base                  : 6;  /**< [  9:  4](RO/H) The base address in 512-byte blocks of the DMA engine FIFO. */
-        uint64_t reserved_10_31        : 22;
-        uint64_t compblks              : 6;  /**< [ 37: 32](RO/H) Computed engine block size */
-        uint64_t reserved_38_63        : 26;
+                                                                 32 KB. If the value of 0 is used, the corresponding engine enable in
+                                                                 DPI()_DMA_CONTROL[DMA_ENB]
+                                                                 must also be cleared.
+
+                                                                 0x00 = Engine disabled.
+                                                                 0x01 = 1 KB FIFO.
+                                                                 0x02 = 2 KB FIFO.
+                                                                 0x03 = 3 KB FIFO.
+                                                                 0x04 = 4 KB FIFO.
+                                                                 0x05 = 5 KB FIFO.
+                                                                 0x06 = 6 KB FIFO.
+                                                                 0x07 = 7 KB FIFO.
+                                                                 0x08 = 8 KB FIFO.
+                                                                 0x09 = 9 KB FIFO.
+                                                                 0x0A = 10 KB FIFO.
+                                                                 0x0B = 11 KB FIFO.
+                                                                 0x0C = 12 KB FIFO.
+                                                                 0x0D = 13 KB FIFO.
+                                                                 0x0E = 14 KB FIFO.
+                                                                 0x0F = 15 KB FIFO.
+                                                                 0x10 = 16 KB FIFO. */
+        uint64_t reserved_5_15         : 11;
+        uint64_t base                  : 6;  /**< [ 21: 16](RO/H) The base address in 512-byte blocks of the DMA engine FIFO. */
+        uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_engx_buf_s cn; */

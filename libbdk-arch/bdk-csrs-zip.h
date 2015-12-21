@@ -738,10 +738,10 @@ union bdk_zip_inst_s
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 8-byte aligned. */
+                                                                 The address must be 16-byte aligned. */
 #else /* Word 2 - Little Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 8-byte aligned. */
+                                                                 The address must be 16-byte aligned. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t ctx_ptr_ctl           : 64; /**< [255:192] Decompresion context pointer control (ZIP_ZPTR_S format control word definition).
@@ -792,10 +792,10 @@ union bdk_zip_inst_s
 #endif /* Word 9 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
         uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 Address is 8-byte aligned. */
+                                                                 Address must be 16-byte aligned. */
 #else /* Word 10 - Little Endian */
         uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 Address is 8-byte aligned. */
+                                                                 Address must be 16-byte aligned. */
 #endif /* Word 10 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
         uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
@@ -804,7 +804,7 @@ union bdk_zip_inst_s
                                                                    * ZIP_ZPTR_S[FW] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[NC] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[LENGTH] must be 0. (24-bytes is implied).
-                                                                   * ZIP_ZPTR_S[ADDR] must be eight-byte aligned. */
+                                                                   * ZIP_ZPTR_S[ADDR] must be 16-byte aligned. */
 #else /* Word 11 - Little Endian */
         uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
 
@@ -812,7 +812,7 @@ union bdk_zip_inst_s
                                                                    * ZIP_ZPTR_S[FW] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[NC] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[LENGTH] must be 0. (24-bytes is implied).
-                                                                   * ZIP_ZPTR_S[ADDR] must be eight-byte aligned. */
+                                                                   * ZIP_ZPTR_S[ADDR] must be 16-byte aligned. */
 #endif /* Word 11 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
         uint64_t reserved_812_831      : 20;
@@ -1183,10 +1183,10 @@ union bdk_zip_inst_s
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 8-byte aligned. */
+                                                                 The address must be 16-byte aligned. */
 #else /* Word 2 - Little Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 8-byte aligned. */
+                                                                 The address must be 16-byte aligned. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t ctx_ptr_ctl           : 64; /**< [255:192] Decompresion context pointer control (ZIP_ZPTR_S format control word definition).
@@ -1237,10 +1237,10 @@ union bdk_zip_inst_s
 #endif /* Word 9 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
         uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 Address is 8-byte aligned. */
+                                                                 Address must be 16-byte aligned. */
 #else /* Word 10 - Little Endian */
         uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 Address is 8-byte aligned. */
+                                                                 Address must be 16-byte aligned. */
 #endif /* Word 10 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
         uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
@@ -1249,7 +1249,7 @@ union bdk_zip_inst_s
                                                                    * ZIP_ZPTR_S[FW] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[NC] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[LENGTH] must be 0. (24-bytes is implied).
-                                                                   * ZIP_ZPTR_S[ADDR] must be eight-byte aligned. */
+                                                                   * ZIP_ZPTR_S[ADDR] must be 16-byte aligned. */
 #else /* Word 11 - Little Endian */
         uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
 
@@ -1257,7 +1257,7 @@ union bdk_zip_inst_s
                                                                    * ZIP_ZPTR_S[FW] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[NC] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[LENGTH] must be 0. (24-bytes is implied).
-                                                                   * ZIP_ZPTR_S[ADDR] must be eight-byte aligned. */
+                                                                   * ZIP_ZPTR_S[ADDR] must be 16-byte aligned. */
 #endif /* Word 11 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
         uint64_t reserved_812_831      : 20;
@@ -1606,10 +1606,10 @@ union bdk_zip_inst_s
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 8-byte aligned. */
+                                                                 The address must be 16-byte aligned. */
 #else /* Word 2 - Little Endian */
         uint64_t ctx_ptr_addr          : 64; /**< [191:128] Decompresion context pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 The address must be 8-byte aligned. */
+                                                                 The address must be 16-byte aligned. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t ctx_ptr_ctl           : 64; /**< [255:192] Decompresion context pointer control (ZIP_ZPTR_S format control word definition).
@@ -1660,10 +1660,10 @@ union bdk_zip_inst_s
 #endif /* Word 9 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 10 - Big Endian */
         uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 Address is 8-byte aligned. */
+                                                                 Address must be 16-byte aligned. */
 #else /* Word 10 - Little Endian */
         uint64_t res_ptr_addr          : 64; /**< [703:640] Result pointer address (ZIP_ZPTR_S format address word definition).
-                                                                 Address is 8-byte aligned. */
+                                                                 Address must be 16-byte aligned. */
 #endif /* Word 10 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 11 - Big Endian */
         uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
@@ -1672,7 +1672,7 @@ union bdk_zip_inst_s
                                                                    * ZIP_ZPTR_S[FW] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[NC] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[LENGTH] must be 0. (24-bytes is implied).
-                                                                   * ZIP_ZPTR_S[ADDR] must be eight-byte aligned. */
+                                                                   * ZIP_ZPTR_S[ADDR] must be 16-byte aligned. */
 #else /* Word 11 - Little Endian */
         uint64_t res_ptr_ctl           : 64; /**< [767:704] Result pointer control (ZIP_ZPTR_S format control word definition).
 
@@ -1680,7 +1680,7 @@ union bdk_zip_inst_s
                                                                    * ZIP_ZPTR_S[FW] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[NC] can be either 0 or 1.
                                                                    * ZIP_ZPTR_S[LENGTH] must be 0. (24-bytes is implied).
-                                                                   * ZIP_ZPTR_S[ADDR] must be eight-byte aligned. */
+                                                                   * ZIP_ZPTR_S[ADDR] must be 16-byte aligned. */
 #endif /* Word 11 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 12 - Big Endian */
         uint64_t reserved_812_831      : 20;

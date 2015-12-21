@@ -4644,6 +4644,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_1(unsigned long a, unsigned lon
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904402a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904402a0ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904402a0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_OS_OUT_1", 2, a, b, 0, 0);
@@ -4689,6 +4691,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_2(unsigned long a, unsigned lon
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904402a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904402a8ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904402a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_OS_OUT_2", 2, a, b, 0, 0);
@@ -4734,6 +4738,8 @@ static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_3(unsigned long a, unsigned lon
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
         return 0x87e0904402b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904402b0ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
         return 0x87e0904402b0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("GSERX_LANEX_RX_OS_OUT_3", 2, a, b, 0, 0);
@@ -10089,9 +10095,11 @@ typedef union
     struct bdk_gserx_spd_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_4_63         : 60;
+        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) Not used. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) Not used. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;
     struct bdk_gserx_spd_cn88xxp2

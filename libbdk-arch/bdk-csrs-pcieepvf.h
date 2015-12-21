@@ -1351,11 +1351,13 @@ typedef union
     struct bdk_pcieepvfx_cfg046_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPOFFS]. */
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+                                                                 address of the BAR indicated by the table PBA bits. */
         uint32_t msixpbir              : 3;  /**< [  2:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPBIR]. */
 #else /* Word 0 - Little Endian */
         uint32_t msixpbir              : 3;  /**< [  2:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPBIR]. */
-        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPOFFS]. */
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+                                                                 address of the BAR indicated by the table PBA bits. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg046_s cn; */

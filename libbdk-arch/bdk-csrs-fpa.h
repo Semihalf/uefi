@@ -568,36 +568,49 @@ typedef union
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
                                                                  <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some.
-                                                                 <59> = Reserved. FIXME - add some.
-                                                                 <58> = Reserved. FIXME - add some.
-                                                                 <57> = Reserved. FIXME - add some.
-                                                                 <56> = Reserved. FIXME - add some.
-                                                                 <55> = Reserved. FIXME - add some.
-                                                                 <54> = Reserved. FIXME - add some.
-                                                                 <53> = Reserved. FIXME - add some.
-                                                                 <52> = Reserved. FIXME - add some.
-                                                                 <51> = Reserved. FIXME - add some.
-                                                                 <50> = Reserved. FIXME - add some.
-                                                                 <49> = Reserved. FIXME - add some.
-                                                                 <48> = Reserved. FIXME - add some. */
+                                                                 <60> = Apply backpressure to adp      to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG12].
+                                                                 <59> = Apply backpressure to adp      to l2s traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG11].
+                                                                 <58> = Apply backpressure to adp      to l2l traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG10].
+                                                                 <57> = Apply backpressure to red read to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG9].
+                                                                 <56> = Apply backpressure to l2arb    to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG8].
+                                                                 <55> = Apply backpressure to csr      to adp traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG7].
+                                                                 <54> = Apply backpressure to pcc      to gib traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG6].
+                                                                 <53> = Apply backpressure to adp      to pfc traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG5].
+                                                                 <52> = generate pmc                   to pfc backpressure. Backpressure weight controlled
+                                                                 by [BP_CFG4].
+                                                                 <51> = Apply backpressure to pmc      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG3].
+                                                                 <50> = Apply backpressure to csr      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG2].
+                                                                 <49> = Apply backpressure to l2s      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG1].
+                                                                 <48> = Apply backpressure to l2l      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG0]. */
         uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
                                                                  0x3=75% of the time.
-                                                                   <47:46> = BP_CFG3.
-                                                                   <45:44> = BP_CFG2.
-                                                                   <43:42> = BP_CFG1.
-                                                                   <41:40> = BP_CFG0.
-                                                                   <39:38> = BP_CFG3.
-                                                                   <37:36> = BP_CFG2.
-                                                                   <35:34> = BP_CFG1.
-                                                                   <33:32> = BP_CFG0.
-                                                                   <31:30> = BP_CFG3.
-                                                                   <29:28> = BP_CFG2.
-                                                                   <27:26> = BP_CFG1.
-                                                                   <25:24> = BP_CFG0.
+                                                                   <47:46> = BP_CFG15.
+                                                                   <45:44> = BP_CFG14.
+                                                                   <43:42> = BP_CFG13.
+                                                                   <41:40> = BP_CFG12.
+                                                                   <39:38> = BP_CFG11.
+                                                                   <37:36> = BP_CFG10.
+                                                                   <35:34> = BP_CFG9.
+                                                                   <33:32> = BP_CFG8.
+                                                                   <31:30> = BP_CFG7.
+                                                                   <29:28> = BP_CFG6.
+                                                                   <27:26> = BP_CFG5.
+                                                                   <25:24> = BP_CFG4.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -612,18 +625,18 @@ typedef union
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
                                                                  0x3=75% of the time.
-                                                                   <47:46> = BP_CFG3.
-                                                                   <45:44> = BP_CFG2.
-                                                                   <43:42> = BP_CFG1.
-                                                                   <41:40> = BP_CFG0.
-                                                                   <39:38> = BP_CFG3.
-                                                                   <37:36> = BP_CFG2.
-                                                                   <35:34> = BP_CFG1.
-                                                                   <33:32> = BP_CFG0.
-                                                                   <31:30> = BP_CFG3.
-                                                                   <29:28> = BP_CFG2.
-                                                                   <27:26> = BP_CFG1.
-                                                                   <25:24> = BP_CFG0.
+                                                                   <47:46> = BP_CFG15.
+                                                                   <45:44> = BP_CFG14.
+                                                                   <43:42> = BP_CFG13.
+                                                                   <41:40> = BP_CFG12.
+                                                                   <39:38> = BP_CFG11.
+                                                                   <37:36> = BP_CFG10.
+                                                                   <35:34> = BP_CFG9.
+                                                                   <33:32> = BP_CFG8.
+                                                                   <31:30> = BP_CFG7.
+                                                                   <29:28> = BP_CFG6.
+                                                                   <27:26> = BP_CFG5.
+                                                                   <25:24> = BP_CFG4.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -635,19 +648,32 @@ typedef union
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
                                                                  <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some.
-                                                                 <59> = Reserved. FIXME - add some.
-                                                                 <58> = Reserved. FIXME - add some.
-                                                                 <57> = Reserved. FIXME - add some.
-                                                                 <56> = Reserved. FIXME - add some.
-                                                                 <55> = Reserved. FIXME - add some.
-                                                                 <54> = Reserved. FIXME - add some.
-                                                                 <53> = Reserved. FIXME - add some.
-                                                                 <52> = Reserved. FIXME - add some.
-                                                                 <51> = Reserved. FIXME - add some.
-                                                                 <50> = Reserved. FIXME - add some.
-                                                                 <49> = Reserved. FIXME - add some.
-                                                                 <48> = Reserved. FIXME - add some. */
+                                                                 <60> = Apply backpressure to adp      to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG12].
+                                                                 <59> = Apply backpressure to adp      to l2s traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG11].
+                                                                 <58> = Apply backpressure to adp      to l2l traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG10].
+                                                                 <57> = Apply backpressure to red read to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG9].
+                                                                 <56> = Apply backpressure to l2arb    to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG8].
+                                                                 <55> = Apply backpressure to csr      to adp traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG7].
+                                                                 <54> = Apply backpressure to pcc      to gib traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG6].
+                                                                 <53> = Apply backpressure to adp      to pfc traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG5].
+                                                                 <52> = generate pmc                   to pfc backpressure. Backpressure weight controlled
+                                                                 by [BP_CFG4].
+                                                                 <51> = Apply backpressure to pmc      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG3].
+                                                                 <50> = Apply backpressure to csr      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG2].
+                                                                 <49> = Apply backpressure to l2s      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG1].
+                                                                 <48> = Apply backpressure to l2l      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG0]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_bp_test_s cn; */

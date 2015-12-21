@@ -2172,7 +2172,7 @@ typedef union
         uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
                                                                  Must be 16*n + 1, where n is the number of instructions per buffer segment. */
         uint64_t reserved_11_31        : 21;
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When DDF()_VQ()_MISC_INT[NWRP], DDF()_VQ()_MISC_INT[IRDE] or
                                                                  DDF()_VQ()_MISC_INT[DOVF] are set by hardware or software via
@@ -2225,7 +2225,7 @@ typedef union
                                                                  pointers, and result structures are stored in big endian format in memory. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when DDF reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When DDF()_VQ()_MISC_INT[NWRP], DDF()_VQ()_MISC_INT[IRDE] or
                                                                  DDF()_VQ()_MISC_INT[DOVF] are set by hardware or software via
@@ -3145,6 +3145,45 @@ static inline uint64_t BDK_DDFX_VQX_DOORBELL(unsigned long a, unsigned long b)
 #define device_bar_BDK_DDFX_VQX_DOORBELL(a,b) 0x10 /* VF_BAR0 */
 #define busnum_BDK_DDFX_VQX_DOORBELL(a,b) (a)
 #define arguments_BDK_DDFX_VQX_DOORBELL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) ddf#_vq#_inprog
+ *
+ * DDF Queue In Progress Count Registers
+ * These registers contain the per-queue instruction in flight registers.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ddfx_vqx_inprog_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count.  Counts the number of instructions for the VF which have been
+                                                                 dequeued, but not yet completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t inflight              : 8;  /**< [  7:  0](R/W/H) Inflight count.  Counts the number of instructions for the VF which have been
+                                                                 dequeued, but not yet completed. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ddfx_vqx_inprog_s cn; */
+} bdk_ddfx_vqx_inprog_t;
+
+static inline uint64_t BDK_DDFX_VQX_INPROG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_INPROG(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=63)))
+        return 0x809020000410ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x3f);
+    __bdk_csr_fatal("DDFX_VQX_INPROG", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DDFX_VQX_INPROG(a,b) bdk_ddfx_vqx_inprog_t
+#define bustype_BDK_DDFX_VQX_INPROG(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_INPROG(a,b) "DDFX_VQX_INPROG"
+#define device_bar_BDK_DDFX_VQX_INPROG(a,b) 0x10 /* VF_BAR0 */
+#define busnum_BDK_DDFX_VQX_INPROG(a,b) (a)
+#define arguments_BDK_DDFX_VQX_INPROG(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) ddf#_vq#_misc_ena_w1c

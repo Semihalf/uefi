@@ -2406,11 +2406,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO/NIC.
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO/NIC. Also see BGX()_PRT_CBFC_CTL for
+                                                                 details on impact to physical backpressure.
                                                                  0 = Channel is available.
                                                                  1 = Channel is backpressured. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO/NIC.
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO/NIC. Also see BGX()_PRT_CBFC_CTL for
+                                                                 details on impact to physical backpressure.
                                                                  0 = Channel is available.
                                                                  1 = Channel is backpressured. */
         uint64_t reserved_16_63        : 48;
@@ -5938,54 +5940,6 @@ static inline uint64_t BDK_BGXX_CONST1(unsigned long a)
 #define arguments_BDK_BGXX_CONST1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) bgx#_gmp_gmi_pause_ctl#
- *
- * BGX GMI Pause Control Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_bgxx_gmp_gmi_pause_ctlx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_50_63        : 14;
-        uint64_t rx_fc_type            : 1;  /**< [ 49: 49](R/W) Receive side flow control type select.
-                                                                 0 = GMI MAC receives and processes ITU G.999.1 pause frames.
-                                                                 1 = GMI MAC receives and processes 802.3 pause frames. */
-        uint64_t tx_fc_type            : 1;  /**< [ 48: 48](R/W) Receive side flow control type select.
-                                                                 0 = GMI MAC transmits ITU G.999.1 pause frames.
-                                                                 1 = GMI MAC transmits 802.3 pause frames. */
-        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
-#else /* Word 0 - Little Endian */
-        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
-        uint64_t tx_fc_type            : 1;  /**< [ 48: 48](R/W) Receive side flow control type select.
-                                                                 0 = GMI MAC transmits ITU G.999.1 pause frames.
-                                                                 1 = GMI MAC transmits 802.3 pause frames. */
-        uint64_t rx_fc_type            : 1;  /**< [ 49: 49](R/W) Receive side flow control type select.
-                                                                 0 = GMI MAC receives and processes ITU G.999.1 pause frames.
-                                                                 1 = GMI MAC receives and processes 802.3 pause frames. */
-        uint64_t reserved_50_63        : 14;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_gmp_gmi_pause_ctlx_s cn; */
-} bdk_bgxx_gmp_gmi_pause_ctlx_t;
-
-static inline uint64_t BDK_BGXX_GMP_GMI_PAUSE_CTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BGXX_GMP_GMI_PAUSE_CTLX(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
-        return 0x87e0e0038230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
-    __bdk_csr_fatal("BGXX_GMP_GMI_PAUSE_CTLX", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_BGXX_GMP_GMI_PAUSE_CTLX(a,b) bdk_bgxx_gmp_gmi_pause_ctlx_t
-#define bustype_BDK_BGXX_GMP_GMI_PAUSE_CTLX(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_BGXX_GMP_GMI_PAUSE_CTLX(a,b) "BGXX_GMP_GMI_PAUSE_CTLX"
-#define device_bar_BDK_BGXX_GMP_GMI_PAUSE_CTLX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_BDK_BGXX_GMP_GMI_PAUSE_CTLX(a,b) (a)
-#define arguments_BDK_BGXX_GMP_GMI_PAUSE_CTLX(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) bgx#_gmp_gmi_prt#_cfg
  *
  * BGX GMP GMI LMAC Configuration Registers
@@ -6569,102 +6523,7 @@ typedef union
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_gmp_gmi_rxx_frm_ctl_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t ptp_mode              : 1;  /**< [ 12: 12](R/W) Timestamp mode. When [PTP_MODE] is set, a 64-bit timestamp is prepended to every incoming
-                                                                 packet.
-
-                                                                 The timestamp bytes are added to the packet in such a way as to not modify the packet's
-                                                                 receive byte count. This implies that the BGX()_GMP_GMI_RX()_JABBER,
-                                                                 BGX()_GMP_GMI_RX()_DECISION, BGX()_GMP_GMI_RX()_UDD_SKP, and
-                                                                 BGX()_CMR()_RX_STAT0..BGX()_CMR()_RX_STAT8
-                                                                 do not require any adjustment as they operate on the received
-                                                                 packet size. When the packet reaches NIC, its size reflects the additional bytes. */
-        uint64_t reserved_11           : 1;
-        uint64_t null_dis              : 1;  /**< [ 10: 10](R/W) When set, do not modify the MOD bits on NULL ticks due to partial packets. */
-        uint64_t pre_align             : 1;  /**< [  9:  9](R/W) When set, PREAMBLE parser aligns the SFD byte regardless of the number of previous
-                                                                 PREAMBLE nibbles. In this mode, [PRE_STRP] should be set to account for the variable
-                                                                 nature of the PREAMBLE. [PRE_CHK] must be set to enable this and all PREAMBLE features.
-                                                                 SGMII at 10/100Mbs only. */
-        uint64_t reserved_8            : 1;
-        uint64_t reserved_7            : 1;
-        uint64_t pre_free              : 1;  /**< [  6:  6](RO/H) When set, PREAMBLE checking is less strict. GMI will begin the frame at the first SFD.
-                                                                 [PRE_CHK] must be set to enable this and all PREAMBLE features. SGMII/QSGMII/1000Base-X
-                                                                 only. */
-        uint64_t ctl_smac              : 1;  /**< [  5:  5](R/W) Control PAUSE frames can match station SMAC. */
-        uint64_t ctl_mcst              : 1;  /**< [  4:  4](R/W) Control PAUSE frames can match globally assigned multicast address. */
-        uint64_t ctl_bck               : 1;  /**< [  3:  3](R/W) Forward PAUSE information to TX block. */
-        uint64_t ctl_drp               : 1;  /**< [  2:  2](R/W) Drop control-PAUSE frames. */
-        uint64_t pre_strp              : 1;  /**< [  1:  1](R/W) Strip off the preamble (when present).
-                                                                 0 = PREAMBLE + SFD is sent to core as part of frame.
-                                                                 1 = PREAMBLE + SFD is dropped.
-                                                                 [PRE_CHK] must be set to enable this and all PREAMBLE features.
-
-                                                                 If [PTP_MODE]=1 and [PRE_CHK]=1, [PRE_STRP] must be 1.
-
-                                                                 When [PRE_CHK] is set (indicating that the PREAMBLE will be sent), [PRE_STRP] determines
-                                                                 if
-                                                                 the PREAMBLE+SFD bytes are thrown away or sent to the core as part of the packet. In
-                                                                 either mode, the PREAMBLE+SFD bytes are not counted toward the packet size when checking
-                                                                 against the MIN and MAX bounds. Furthermore, the bytes are skipped when locating the start
-                                                                 of the L2 header for DMAC and Control frame recognition. */
-        uint64_t pre_chk               : 1;  /**< [  0:  0](R/W) Check the preamble for correctness. This port is configured to send a valid 802.3 PREAMBLE
-                                                                 to begin every frame. GMI checks that a valid PREAMBLE is received (based on [PRE_FREE]).
-                                                                 When a problem does occur within the PREAMBLE sequence, the frame is marked as bad and not
-                                                                 sent into the core. The BGX()_SMU()_RX_INT[PCTERR] interrupt is also raised.
-
-                                                                 When BGX()_SMU()_TX_CTL[HG_EN] is set, [PRE_CHK] must be 0. If [PTP_MODE] = 1 and
-                                                                 [PRE_CHK] = 1, [PRE_STRP] must be 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t pre_chk               : 1;  /**< [  0:  0](R/W) Check the preamble for correctness. This port is configured to send a valid 802.3 PREAMBLE
-                                                                 to begin every frame. GMI checks that a valid PREAMBLE is received (based on [PRE_FREE]).
-                                                                 When a problem does occur within the PREAMBLE sequence, the frame is marked as bad and not
-                                                                 sent into the core. The BGX()_SMU()_RX_INT[PCTERR] interrupt is also raised.
-
-                                                                 When BGX()_SMU()_TX_CTL[HG_EN] is set, [PRE_CHK] must be 0. If [PTP_MODE] = 1 and
-                                                                 [PRE_CHK] = 1, [PRE_STRP] must be 1. */
-        uint64_t pre_strp              : 1;  /**< [  1:  1](R/W) Strip off the preamble (when present).
-                                                                 0 = PREAMBLE + SFD is sent to core as part of frame.
-                                                                 1 = PREAMBLE + SFD is dropped.
-                                                                 [PRE_CHK] must be set to enable this and all PREAMBLE features.
-
-                                                                 If [PTP_MODE]=1 and [PRE_CHK]=1, [PRE_STRP] must be 1.
-
-                                                                 When [PRE_CHK] is set (indicating that the PREAMBLE will be sent), [PRE_STRP] determines
-                                                                 if
-                                                                 the PREAMBLE+SFD bytes are thrown away or sent to the core as part of the packet. In
-                                                                 either mode, the PREAMBLE+SFD bytes are not counted toward the packet size when checking
-                                                                 against the MIN and MAX bounds. Furthermore, the bytes are skipped when locating the start
-                                                                 of the L2 header for DMAC and Control frame recognition. */
-        uint64_t ctl_drp               : 1;  /**< [  2:  2](R/W) Drop control-PAUSE frames. */
-        uint64_t ctl_bck               : 1;  /**< [  3:  3](R/W) Forward PAUSE information to TX block. */
-        uint64_t ctl_mcst              : 1;  /**< [  4:  4](R/W) Control PAUSE frames can match globally assigned multicast address. */
-        uint64_t ctl_smac              : 1;  /**< [  5:  5](R/W) Control PAUSE frames can match station SMAC. */
-        uint64_t pre_free              : 1;  /**< [  6:  6](RO/H) When set, PREAMBLE checking is less strict. GMI will begin the frame at the first SFD.
-                                                                 [PRE_CHK] must be set to enable this and all PREAMBLE features. SGMII/QSGMII/1000Base-X
-                                                                 only. */
-        uint64_t reserved_7            : 1;
-        uint64_t reserved_8            : 1;
-        uint64_t pre_align             : 1;  /**< [  9:  9](R/W) When set, PREAMBLE parser aligns the SFD byte regardless of the number of previous
-                                                                 PREAMBLE nibbles. In this mode, [PRE_STRP] should be set to account for the variable
-                                                                 nature of the PREAMBLE. [PRE_CHK] must be set to enable this and all PREAMBLE features.
-                                                                 SGMII at 10/100Mbs only. */
-        uint64_t null_dis              : 1;  /**< [ 10: 10](R/W) When set, do not modify the MOD bits on NULL ticks due to partial packets. */
-        uint64_t reserved_11           : 1;
-        uint64_t ptp_mode              : 1;  /**< [ 12: 12](R/W) Timestamp mode. When [PTP_MODE] is set, a 64-bit timestamp is prepended to every incoming
-                                                                 packet.
-
-                                                                 The timestamp bytes are added to the packet in such a way as to not modify the packet's
-                                                                 receive byte count. This implies that the BGX()_GMP_GMI_RX()_JABBER,
-                                                                 BGX()_GMP_GMI_RX()_DECISION, BGX()_GMP_GMI_RX()_UDD_SKP, and
-                                                                 BGX()_CMR()_RX_STAT0..BGX()_CMR()_RX_STAT8
-                                                                 do not require any adjustment as they operate on the received
-                                                                 packet size. When the packet reaches NIC, its size reflects the additional bytes. */
-        uint64_t reserved_13_63        : 51;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_gmp_gmi_rxx_frm_ctl_cn81xx cn83xx; */
 } bdk_bgxx_gmp_gmi_rxx_frm_ctl_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_FRM_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7283,9 +7142,7 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
-        return 0x87e0e0038230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
+    if ((a<=1) && (b<=3))
         return 0x87e0e0038230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_SMACX", 2, a, b, 0, 0);
 }
@@ -7449,7 +7306,7 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_bgxx_gmp_gmi_txx_ctl_cn88xx cn83xx; */
+    /* struct bdk_bgxx_gmp_gmi_txx_ctl_s cn83xx; */
 } bdk_bgxx_gmp_gmi_txx_ctl_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7750,14 +7607,14 @@ typedef union
 
                                                                  [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
                                                                  BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when [INTERVAL] = 0.
-                                                                 INTERVAL should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
+                                                                 [INTERVAL] should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1). */
 #else /* Word 0 - Little Endian */
         uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet every ([INTERVAL] * 512)
                                                                  bit-times. Normally, 0 < [INTERVAL] < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
 
                                                                  [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
                                                                  BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when [INTERVAL] = 0.
-                                                                 INTERVAL should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
+                                                                 [INTERVAL] should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -7780,26 +7637,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_gmp_gmi_txx_pause_pkt_interval_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet every ([INTERVAL] * 512)
-                                                                 bit-times. Normally, 0 < [INTERVAL] < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
-
-                                                                 [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
-                                                                 BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when [INTERVAL] = 0.
-                                                                 INTERVAL should be 0x0 if BGX()_GMP_GMI_PAUSE_CTL()[TX_FC_TYPE] is clear (G.999.1) */
-#else /* Word 0 - Little Endian */
-        uint64_t interval              : 16; /**< [ 15:  0](R/W) Arbitrate for a 802.3 PAUSE packet every ([INTERVAL] * 512)
-                                                                 bit-times. Normally, 0 < [INTERVAL] < BGX()_GMP_GMI_TX()_PAUSE_PKT_TIME[PTIME].
-
-                                                                 [INTERVAL] = 0 only sends a single PAUSE packet for each backpressure event.
-                                                                 BGX()_GMP_GMI_TX()_PAUSE_ZERO[SEND] must be 1 when [INTERVAL] = 0.
-                                                                 INTERVAL should be 0x0 if BGX()_GMP_GMI_PAUSE_CTL()[TX_FC_TYPE] is clear (G.999.1) */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_gmp_gmi_txx_pause_pkt_interval_s cn83xx; */
 } bdk_bgxx_gmp_gmi_txx_pause_pkt_interval_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7833,13 +7671,13 @@ typedef union
                                                                  in 512 bit-times. Normally, [PTIME] >
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL.
-                                                                 PTIME should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
+                                                                 [PTIME] should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1). */
 #else /* Word 0 - Little Endian */
         uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets
                                                                  in 512 bit-times. Normally, [PTIME] >
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
                                                                  BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL.
-                                                                 PTIME should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
+                                                                 [PTIME] should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -7860,24 +7698,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_gmp_gmi_txx_pause_pkt_time_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets
-                                                                 in 512 bit-times. Normally, [PTIME] >
-                                                                 BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
-                                                                 BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL.
-                                                                 PTIME should be 0x0 if BGX()_GMP_GMI_PAUSE_CTL()[TX_FC_TYPE] is clear (G.999.1) */
-#else /* Word 0 - Little Endian */
-        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Provides the pause_time field placed in outbound 802.3 PAUSE packets
-                                                                 in 512 bit-times. Normally, [PTIME] >
-                                                                 BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL[INTERVAL]. For programming information see
-                                                                 BGX()_GMP_GMI_TX()_PAUSE_PKT_INTERVAL.
-                                                                 PTIME should be 0x0 if BGX()_GMP_GMI_PAUSE_CTL()[TX_FC_TYPE] is clear (G.999.1) */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_gmp_gmi_txx_pause_pkt_time_s cn83xx; */
 } bdk_bgxx_gmp_gmi_txx_pause_pkt_time_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_TIME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7945,11 +7766,11 @@ typedef union
         uint64_t reserved_1_63         : 63;
         uint64_t send                  : 1;  /**< [  0:  0](R/W) Send PAUSE-zero enable. When this bit is set, and the backpressure condition is clear, it
                                                                  allows sending a PAUSE packet with pause_time of 0 to enable the channel.
-                                                                 SEND should be set if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
+                                                                 [SEND] should be set if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1). */
 #else /* Word 0 - Little Endian */
         uint64_t send                  : 1;  /**< [  0:  0](R/W) Send PAUSE-zero enable. When this bit is set, and the backpressure condition is clear, it
                                                                  allows sending a PAUSE packet with pause_time of 0 to enable the channel.
-                                                                 SEND should be set if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
+                                                                 [SEND] should be set if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1). */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -7966,20 +7787,7 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_gmp_gmi_txx_pause_zero_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t send                  : 1;  /**< [  0:  0](R/W) Send PAUSE-zero enable. When this bit is set, and the backpressure condition is clear, it
-                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel.
-                                                                 SEND should be set if BGX()_GMP_GMI_PAUSE_CTL()[TX_FC_TYPE] is clear (G.999.1) */
-#else /* Word 0 - Little Endian */
-        uint64_t send                  : 1;  /**< [  0:  0](R/W) Send PAUSE-zero enable. When this bit is set, and the backpressure condition is clear, it
-                                                                 allows sending a PAUSE packet with pause_time of 0 to enable the channel.
-                                                                 SEND should be set if BGX()_GMP_GMI_PAUSE_CTL()[TX_FC_TYPE] is clear (G.999.1) */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_gmp_gmi_txx_pause_zero_s cn83xx; */
 } bdk_bgxx_gmp_gmi_txx_pause_zero_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_ZERO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -8133,10 +7941,10 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Back off the TX bus for ([PTIME] * 512) bit-times.
-                                                                 PTIME should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
+                                                                 [PTIME] should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1). */
 #else /* Word 0 - Little Endian */
         uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Back off the TX bus for ([PTIME] * 512) bit-times.
-                                                                 PTIME should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1) */
+                                                                 [PTIME] should be 0x0 if BGX()_GMP_GMI_TX()_CTL[TX_FC_TYPE] is clear (G.999.1). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
@@ -8151,18 +7959,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_gmp_gmi_txx_soft_pause_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Back off the TX bus for ([PTIME] * 512) bit-times.
-                                                                 PTIME should be 0x0 if BGX()_GMP_GMI_PAUSE_CTL()[TX_FC_TYPE] is clear (G.999.1) */
-#else /* Word 0 - Little Endian */
-        uint64_t ptime                 : 16; /**< [ 15:  0](R/W) Back off the TX bus for ([PTIME] * 512) bit-times.
-                                                                 PTIME should be 0x0 if BGX()_GMP_GMI_PAUSE_CTL()[TX_FC_TYPE] is clear (G.999.1) */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_gmp_gmi_txx_soft_pause_s cn83xx; */
 } bdk_bgxx_gmp_gmi_txx_soft_pause_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SOFT_PAUSE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

@@ -359,7 +359,24 @@ typedef union
         uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are hardwired to 0. */
 #endif /* Word 0 - End */
     } cn88xx;
-    /* struct bdk_pciercx_cfg003_cn88xx cn83xx; */
+    struct bdk_pciercx_cfg003_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are hardwired to 0. */
+        uint32_t mfd                   : 1;  /**< [ 23: 23](RO) Multi function device. */
+        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x1. */
+        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
+        uint32_t cls                   : 8;  /**< [  7:  0](R/W) Cache line size. The cache line size register is R/W for legacy compatibility purposes and
+                                                                 is not applicable to PCI Express device functionality. */
+#else /* Word 0 - Little Endian */
+        uint32_t cls                   : 8;  /**< [  7:  0](R/W) Cache line size. The cache line size register is R/W for legacy compatibility purposes and
+                                                                 is not applicable to PCI Express device functionality. */
+        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
+        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x1. */
+        uint32_t mfd                   : 1;  /**< [ 23: 23](RO) Multi function device. */
+        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are hardwired to 0. */
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pciercx_cfg003_t;
 
 static inline uint64_t BDK_PCIERCX_CFG003(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1087,11 +1104,11 @@ typedef union
         uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
         uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
         uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin (not supported). */
-        uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO) Interrupt pin (not supported). */
+        uint32_t il                    : 8;  /**< [  7:  0](RO) Interrupt line. */
 #else /* Word 0 - Little Endian */
-        uint32_t il                    : 8;  /**< [  7:  0](R/W) Interrupt line. */
-        uint32_t inta                  : 8;  /**< [ 15:  8](RO/WRSL) Interrupt pin (not supported). */
+        uint32_t il                    : 8;  /**< [  7:  0](RO) Interrupt line. */
+        uint32_t inta                  : 8;  /**< [ 15:  8](RO) Interrupt pin (not supported). */
         uint32_t pere                  : 1;  /**< [ 16: 16](R/W) Parity error response enable. */
         uint32_t see                   : 1;  /**< [ 17: 17](R/W) SERR enable. */
         uint32_t isae                  : 1;  /**< [ 18: 18](R/W) ISA enable. */
@@ -1167,6 +1184,69 @@ typedef union
         uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to 0. */
         uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the EA capabilities by default, writable through
+                                                                 PEM()_CFG_WR. */
+        uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the EA capabilities by default, writable through
+                                                                 PEM()_CFG_WR. */
+        uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
+                                                                 PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to 0. */
+        uint32_t reserved_20           : 1;
+        uint32_t dsi                   : 1;  /**< [ 21: 21](RO/WRSL) Device specific initialization (DSI), writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t auxc                  : 3;  /**< [ 24: 22](RO/WRSL) AUX current, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t d1s                   : 1;  /**< [ 25: 25](RO/WRSL) D1 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t d2s                   : 1;  /**< [ 26: 26](RO/WRSL) D2 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL/H) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
+                                                                 capable of generating PME messages while in that power state:
+
+                                                                 _ Bit 11: If set, PME Messages can be generated from D0.
+
+                                                                 _ Bit 12: If set, PME Messages can be generated from D1.
+
+                                                                 _ Bit 13: If set, PME Messages can be generated from D2.
+
+                                                                 _ Bit 14: If set, PME Messages can be generated from D3hot.
+
+                                                                 _ Bit 15: If set, PME Messages can be generated from D3cold.
+
+                                                                 The PME_Support field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg016_s cn81xx; */
+    struct bdk_pciercx_cfg016_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pmes                  : 5;  /**< [ 31: 27](RO/WRSL/H) PME_Support. A value of 0x0 for any bit indicates that the device (or function) is not
+                                                                 capable of generating PME messages while in that power state:
+
+                                                                 _ Bit 11: If set, PME Messages can be generated from D0.
+
+                                                                 _ Bit 12: If set, PME Messages can be generated from D1.
+
+                                                                 _ Bit 13: If set, PME Messages can be generated from D2.
+
+                                                                 _ Bit 14: If set, PME Messages can be generated from D3hot.
+
+                                                                 _ Bit 15: If set, PME Messages can be generated from D3cold.
+
+                                                                 The PME_Support field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t d2s                   : 1;  /**< [ 26: 26](RO/WRSL) D2 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t d1s                   : 1;  /**< [ 25: 25](RO/WRSL) D1 support, writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t auxc                  : 3;  /**< [ 24: 22](RO/WRSL) AUX current, writable through PEM()_CFG_WR. However, the application must not change
+                                                                 this field. */
+        uint32_t dsi                   : 1;  /**< [ 21: 21](RO/WRSL) Device specific initialization (DSI), writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t reserved_20           : 1;
+        uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to 0. */
+        uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
+                                                                 PEM()_CFG_WR. However, the application must not change this field. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the MSI capabilities by default, writable through
                                                                  PEM()_CFG_WR. */
         uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
@@ -1200,9 +1280,7 @@ typedef union
                                                                  The PME_Support field is writable through PEM()_CFG_WR. However, the application must
                                                                  not change this field. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg016_s cn81xx; */
-    /* struct bdk_pciercx_cfg016_s cn88xx; */
+    } cn88xx;
     struct bdk_pciercx_cfg016_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1231,12 +1309,12 @@ typedef union
         uint32_t pme_clock             : 1;  /**< [ 19: 19](RO) PME clock, hardwired to 0. */
         uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the MSI capabilities by default, writable through
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to PCI Express capabilities by default, writable through
                                                                  PEM()_CFG_WR. */
         uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
 #else /* Word 0 - Little Endian */
         uint32_t pmcid                 : 8;  /**< [  7:  0](RO) Power management capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the MSI capabilities by default, writable through
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to PCI Express capabilities by default, writable through
                                                                  PEM()_CFG_WR. */
         uint32_t pmsv                  : 3;  /**< [ 18: 16](RO/WRSL) Power management specification version, writable through
                                                                  PEM()_CFG_WR. However, the application must not change this field. */
@@ -1416,6 +1494,46 @@ typedef union
     struct bdk_pciercx_cfg020_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the PCIe capabilities list by default, writable through
+                                                                 PEM()_CFG_WR. */
+        uint32_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_7          : 8;
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the PCIe capabilities list by default, writable through
+                                                                 PEM()_CFG_WR. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pciercx_cfg020_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ea_rsvd               : 10; /**< [ 31: 22](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t num_entries           : 6;  /**< [ 21: 16](RO/WRSL) Number of entries following the first DW of the capability.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the PCIe capabilities list by default, writable through
+                                                                 PEM()_CFG_WR. */
+        uint32_t eacid                 : 8;  /**< [  7:  0](RO/WRSL) Enhanced allocation capability ID.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+#else /* Word 0 - Little Endian */
+        uint32_t eacid                 : 8;  /**< [  7:  0](RO/WRSL) Enhanced allocation capability ID.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) Next capability pointer. Points to the PCIe capabilities list by default, writable through
+                                                                 PEM()_CFG_WR. */
+        uint32_t num_entries           : 6;  /**< [ 21: 16](RO/WRSL) Number of entries following the first DW of the capability.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t ea_rsvd               : 10; /**< [ 31: 22](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_pciercx_cfg020_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_25_31        : 7;
         uint32_t pvms                  : 1;  /**< [ 24: 24](RO) Per-vector masking capable. */
         uint32_t m64                   : 1;  /**< [ 23: 23](RO/WRSL) 64-bit address capable, writable through PEM()_CFG_WR. However, the application must
@@ -1448,8 +1566,7 @@ typedef union
         uint32_t pvms                  : 1;  /**< [ 24: 24](RO) Per-vector masking capable. */
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg020_s cn; */
+    } cn88xx;
 } bdk_pciercx_cfg020_t;
 
 static inline uint64_t BDK_PCIERCX_CFG020(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1480,14 +1597,43 @@ typedef union
     struct bdk_pciercx_cfg021_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pciercx_cfg021_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ea_rsvd               : 16; /**< [ 31: 16](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t fixed_subnum          : 8;  /**< [ 15:  8](RO/WRSL) Fixed subordinate bus number.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t fixed_secnum          : 8;  /**< [  7:  0](RO/WRSL) Fixed secondary bus number.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+#else /* Word 0 - Little Endian */
+        uint32_t fixed_secnum          : 8;  /**< [  7:  0](RO/WRSL) Fixed secondary bus number.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t fixed_subnum          : 8;  /**< [ 15:  8](RO/WRSL) Fixed subordinate bus number.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t ea_rsvd               : 16; /**< [ 31: 16](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_pciercx_cfg021_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lmsi                  : 30; /**< [ 31:  2](R/W) Lower 32-bit address. */
         uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_1          : 2;
         uint32_t lmsi                  : 30; /**< [ 31:  2](R/W) Lower 32-bit address. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg021_s cn; */
+    } cn88xx;
 } bdk_pciercx_cfg021_t;
 
 static inline uint64_t BDK_PCIERCX_CFG021(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1518,12 +1664,67 @@ typedef union
     struct bdk_pciercx_cfg022_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pciercx_cfg022_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ena                   : 1;  /**< [ 31: 31](RO/WRSL) Enable for this entry.  This field is writable through PEM()_CFG_WR. However, the
+                                                                 application must
+                                                                 not change this field. */
+        uint32_t wr                    : 1;  /**< [ 30: 30](RO/WRSL) Writable.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t ea_rsvd_1             : 6;  /**< [ 29: 24](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t sprop                 : 8;  /**< [ 23: 16](RO/WRSL) Secondary properties.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t pprop                 : 8;  /**< [ 15:  8](RO/WRSL) Primary properties.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t bei                   : 4;  /**< [  7:  4](RO/WRSL) Bar equivalent indicator.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t ea_rsvd_0             : 1;  /**< [  3:  3](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t esize                 : 3;  /**< [  2:  0](RO/WRSL) Entry size - the number of DW following the initial DW in this entry.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+#else /* Word 0 - Little Endian */
+        uint32_t esize                 : 3;  /**< [  2:  0](RO/WRSL) Entry size - the number of DW following the initial DW in this entry.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t ea_rsvd_0             : 1;  /**< [  3:  3](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t bei                   : 4;  /**< [  7:  4](RO/WRSL) Bar equivalent indicator.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t pprop                 : 8;  /**< [ 15:  8](RO/WRSL) Primary properties.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t sprop                 : 8;  /**< [ 23: 16](RO/WRSL) Secondary properties.
+                                                                 This field is writable through PEM()_CFG_WR. However, the application must not change this
+                                                                 field. */
+        uint32_t ea_rsvd_1             : 6;  /**< [ 29: 24](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t wr                    : 1;  /**< [ 30: 30](RO/WRSL) Writable.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t ena                   : 1;  /**< [ 31: 31](RO/WRSL) Enable for this entry.  This field is writable through PEM()_CFG_WR. However, the
+                                                                 application must
+                                                                 not change this field. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_pciercx_cfg022_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t umsi                  : 32; /**< [ 31:  0](R/W) Upper 32-bit address. */
 #else /* Word 0 - Little Endian */
         uint32_t umsi                  : 32; /**< [ 31:  0](R/W) Upper 32-bit address. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg022_s cn; */
+    } cn88xx;
 } bdk_pciercx_cfg022_t;
 
 static inline uint64_t BDK_PCIERCX_CFG022(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1554,6 +1755,36 @@ typedef union
     struct bdk_pciercx_cfg023_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pciercx_cfg023_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lbase                 : 30; /**< [ 31:  2](RO/WRSL) Lower base.  The value is determined by taking the lower 32-bits of PEM's BAR0 address
+                                                                 (PEM()_BAR_E::PEM()_PF_BAR0) and right-shifting by two bits.  This field is writable
+                                                                 through
+                                                                 PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t size                  : 1;  /**< [  1:  1](RO/WRSL) Size - 64-bit (1), 32-bit (0).  This field is writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t ea_rsvd               : 1;  /**< [  0:  0](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t ea_rsvd               : 1;  /**< [  0:  0](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t size                  : 1;  /**< [  1:  1](RO/WRSL) Size - 64-bit (1), 32-bit (0).  This field is writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t lbase                 : 30; /**< [ 31:  2](RO/WRSL) Lower base.  The value is determined by taking the lower 32-bits of PEM's BAR0 address
+                                                                 (PEM()_BAR_E::PEM()_PF_BAR0) and right-shifting by two bits.  This field is writable
+                                                                 through
+                                                                 PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_pciercx_cfg023_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
         uint32_t msimd                 : 16; /**< [ 15:  0](R/W) MSI data. Pattern assigned by system software. Bits [4:0] are ORed with MSI_VECTOR to
                                                                  generate 32 MSI messages per function. */
@@ -1562,8 +1793,7 @@ typedef union
                                                                  generate 32 MSI messages per function. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg023_s cn; */
+    } cn88xx;
 } bdk_pciercx_cfg023_t;
 
 static inline uint64_t BDK_PCIERCX_CFG023(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1581,6 +1811,98 @@ static inline uint64_t BDK_PCIERCX_CFG023(unsigned long a)
 #define basename_BDK_PCIERCX_CFG023(a) "PCIERCX_CFG023"
 #define busnum_BDK_PCIERCX_CFG023(a) (a)
 #define arguments_BDK_PCIERCX_CFG023(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg024
+ *
+ * PCIe RC Enhanced Allocation Entry 0 Max Offset Register
+ * This register contains the twenty-fifth 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg024_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t moffs                 : 30; /**< [ 31:  2](RO/WRSL) Lower base.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field.
+
+                                                                 Internal:
+                                                                 This is the offset to cover BAR0 and BAR4 0xffffff & 0xfffffc >>2 */
+        uint32_t size                  : 1;  /**< [  1:  1](RO/WRSL) Size - 64-bit (1), 32-bit (0).  This field is writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t ea_rsvd               : 1;  /**< [  0:  0](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t ea_rsvd               : 1;  /**< [  0:  0](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field. */
+        uint32_t size                  : 1;  /**< [  1:  1](RO/WRSL) Size - 64-bit (1), 32-bit (0).  This field is writable through PEM()_CFG_WR. However, the
+                                                                 application must not change this field. */
+        uint32_t moffs                 : 30; /**< [ 31:  2](RO/WRSL) Lower base.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field.
+
+                                                                 Internal:
+                                                                 This is the offset to cover BAR0 and BAR4 0xffffff & 0xfffffc >>2 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg024_s cn; */
+} bdk_pciercx_cfg024_t;
+
+static inline uint64_t BDK_PCIERCX_CFG024(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG024(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000060ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG024", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG024(a) bdk_pciercx_cfg024_t
+#define bustype_BDK_PCIERCX_CFG024(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG024(a) "PCIERCX_CFG024"
+#define busnum_BDK_PCIERCX_CFG024(a) (a)
+#define arguments_BDK_PCIERCX_CFG024(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg025
+ *
+ * PCIe RC Enhanced Allocation Entry 0 Upper Base Register
+ * This register contains the twenty-sixth 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg025_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ubase                 : 32; /**< [ 31:  0](RO/WRSL) Upper base.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field.
+
+                                                                 Internal:
+                                                                 This is the upper 32 bits of PEM_BAR_E::PEM()_PF_BAR0 */
+#else /* Word 0 - Little Endian */
+        uint32_t ubase                 : 32; /**< [ 31:  0](RO/WRSL) Upper base.  This field is writable through PEM()_CFG_WR. However, the application must
+                                                                 not change this field.
+
+                                                                 Internal:
+                                                                 This is the upper 32 bits of PEM_BAR_E::PEM()_PF_BAR0 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg025_s cn; */
+} bdk_pciercx_cfg025_t;
+
+static inline uint64_t BDK_PCIERCX_CFG025(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG025(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x20000000064ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG025", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG025(a) bdk_pciercx_cfg025_t
+#define bustype_BDK_PCIERCX_CFG025(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG025(a) "PCIERCX_CFG025"
+#define busnum_BDK_PCIERCX_CFG025(a) (a)
+#define arguments_BDK_PCIERCX_CFG025(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_cfg028
@@ -2408,7 +2730,7 @@ typedef union
                                                                  interrupt to indicate that the link autonomous bandwidth status bit has been set. */
         uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
                                                                  interrupt to indicate that the link bandwidth management status bit has been set. */
-        uint32_t hawd                  : 1;  /**< [  9:  9](RO) Hardware autonomous width disable (not supported). */
+        uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable (not supported). */
         uint32_t ecpm                  : 1;  /**< [  8:  8](R/W) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
                                                                  link capabilities register. */
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
@@ -2432,7 +2754,7 @@ typedef union
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
         uint32_t ecpm                  : 1;  /**< [  8:  8](R/W) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
                                                                  link capabilities register. */
-        uint32_t hawd                  : 1;  /**< [  9:  9](RO) Hardware autonomous width disable (not supported). */
+        uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable (not supported). */
         uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](R/W) Link bandwidth management interrupt enable. When set, enables the generation of an
                                                                  interrupt to indicate that the link bandwidth management status bit has been set. */
         uint32_t lab_int_enb           : 1;  /**< [ 11: 11](R/W) Link autonomous bandwidth interrupt enable. When set, enables the generation of an
@@ -3011,7 +3333,7 @@ typedef union
                                                                  0x3 = 3.
                                                                  0x0 = 4. */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported (not supported). */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
@@ -3051,7 +3373,7 @@ typedef union
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported (not supported). */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
         uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
                                                                  0x1 = 1.
@@ -3720,6 +4042,33 @@ typedef union
                                                                  1 = All vectors associated with the function are masked, regardless of their respective
                                                                  per-vector mask bits. */
         uint32_t reserved_27_29        : 3;
+        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) "Next capability pointer. Writable through PEM#_CFG_WR. However, the application must not
+                                                                 change this field." */
+        uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X capability ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) "Next capability pointer. Writable through PEM#_CFG_WR. However, the application must not
+                                                                 change this field." */
+        uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL) MSI-X table size encoded as (table size - 1). */
+        uint32_t reserved_27_29        : 3;
+        uint32_t funm                  : 1;  /**< [ 30: 30](RO/WRSL) Function mask.
+                                                                 0 = Each vectors mask bit determines whether the vector is masked or not.
+                                                                 1 = All vectors associated with the function are masked, regardless of their respective
+                                                                 per-vector mask bits. */
+        uint32_t msixen                : 1;  /**< [ 31: 31](RO/WRSL) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg044_s cn81xx; */
+    struct bdk_pciercx_cfg044_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t msixen                : 1;  /**< [ 31: 31](RO/WRSL) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
+        uint32_t funm                  : 1;  /**< [ 30: 30](RO/WRSL) Function mask.
+                                                                 0 = Each vectors mask bit determines whether the vector is masked or not.
+                                                                 1 = All vectors associated with the function are masked, regardless of their respective
+                                                                 per-vector mask bits. */
+        uint32_t reserved_27_29        : 3;
         uint32_t msixts                : 11; /**< [ 26: 16](RO/WRSL/H) MSI-X table size encoded as (table size - 1). */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO/WRSL) "Next capability pointer. Writable through PEM#_CFG_WR. However, the application must not
                                                                  change this field." */
@@ -3736,9 +4085,7 @@ typedef union
                                                                  per-vector mask bits. */
         uint32_t msixen                : 1;  /**< [ 31: 31](RO/WRSL) MSI-X enable. If MSI-X is enabled, MSI and INTx must be disabled. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg044_s cn81xx; */
-    /* struct bdk_pciercx_cfg044_s cn88xx; */
+    } cn88xx;
     struct bdk_pciercx_cfg044_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3797,7 +4144,7 @@ typedef union
     struct bdk_pciercx_cfg045_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL/H) MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
+        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
                                                                  address of the BAR indicated by the table BIR bits. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
         uint32_t msixtbir              : 3;  /**< [  2:  0](RO/WRSL) "MSI-X table BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
@@ -3807,17 +4154,16 @@ typedef union
         uint32_t msixtbir              : 3;  /**< [  2:  0](RO/WRSL) "MSI-X table BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
                                                                  table into memory space.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field." */
-        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL/H) MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
+        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
                                                                  address of the BAR indicated by the table BIR bits. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg045_s cn81xx; */
-    /* struct bdk_pciercx_cfg045_s cn88xx; */
-    struct bdk_pciercx_cfg045_cn83xx
+    struct bdk_pciercx_cfg045_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
+        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL/H) MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
                                                                  address of the BAR indicated by the table BIR bits. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
         uint32_t msixtbir              : 3;  /**< [  2:  0](RO/WRSL) "MSI-X table BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
@@ -3827,11 +4173,12 @@ typedef union
         uint32_t msixtbir              : 3;  /**< [  2:  0](RO/WRSL) "MSI-X table BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
                                                                  table into memory space.
                                                                  Writable through PEM()_CFG_WR. However, the application must not change this field." */
-        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
+        uint32_t msixtoffs             : 29; /**< [ 31:  3](RO/WRSL/H) MSI-X table offset register. Base address of the MSI-X Table, as an offset from the base
                                                                  address of the BAR indicated by the table BIR bits. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_pciercx_cfg045_s cn83xx; */
 } bdk_pciercx_cfg045_t;
 
 static inline uint64_t BDK_PCIERCX_CFG045(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3864,6 +4211,25 @@ typedef union
     struct bdk_pciercx_cfg046_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+                                                                 address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+        uint32_t msixpbir              : 3;  /**< [  2:  0](RO/WRSL) "MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
+                                                                 pending bit array into memory space.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field." */
+#else /* Word 0 - Little Endian */
+        uint32_t msixpbir              : 3;  /**< [  2:  0](RO/WRSL) "MSI-X PBA BAR indicator register (BIR). Indicates which BAR is used to map the MSI-X
+                                                                 pending bit array into memory space.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field." */
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+                                                                 address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_WR.
+                                                                 However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg046_s cn81xx; */
+    struct bdk_pciercx_cfg046_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/WRSL/H) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
                                                                  address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
@@ -3878,8 +4244,8 @@ typedef union
                                                                  address of the BAR indicated by the table PBA bits. Writable through PEM()_CFG_WR.
                                                                  However, the application must not change this field. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg046_s cn; */
+    } cn88xx;
+    /* struct bdk_pciercx_cfg046_cn88xx cn83xx; */
 } bdk_pciercx_cfg046_t;
 
 static inline uint64_t BDK_PCIERCX_CFG046(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4612,13 +4978,19 @@ typedef union
     struct bdk_pciercx_cfg064_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the secondary PCI Express capabilities by default. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the secondary PCI Express capabilities by default.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #else /* Word 0 - Little Endian */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the secondary PCI Express capabilities by default. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the secondary PCI Express capabilities by default.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #endif /* Word 0 - End */
     } cn83xx;
 } bdk_pciercx_cfg064_t;
@@ -5350,6 +5722,28 @@ typedef union
     struct bdk_pciercx_cfg070_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_11_31        : 21;
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](R/W) Multiple Header Recording Enable. */
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO/WRSL) Multiple Header Recording Capability. */
+        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
+        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
+        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
+        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
+        uint32_t fep                   : 5;  /**< [  4:  0](RO) First error pointer. */
+#else /* Word 0 - Little Endian */
+        uint32_t fep                   : 5;  /**< [  4:  0](RO) First error pointer. */
+        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
+        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
+        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
+        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO/WRSL) Multiple Header Recording Capability. */
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](R/W) Multiple Header Recording Enable. */
+        uint32_t reserved_11_31        : 21;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pciercx_cfg070_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
         uint32_t tplp                  : 1;  /**< [ 11: 11](RO) TLP prefix log present. */
         uint32_t reserved_9_10         : 2;
@@ -5368,8 +5762,32 @@ typedef union
         uint32_t tplp                  : 1;  /**< [ 11: 11](RO) TLP prefix log present. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg070_s cn; */
+    } cn81xx;
+    /* struct bdk_pciercx_cfg070_cn81xx cn88xx; */
+    struct bdk_pciercx_cfg070_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present. */
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](R/W) Multiple Header Recording Enable. */
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO/WRSL) Multiple Header Recording Capability. */
+        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
+        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
+        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
+        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
+        uint32_t fep                   : 5;  /**< [  4:  0](RO) First error pointer. */
+#else /* Word 0 - Little Endian */
+        uint32_t fep                   : 5;  /**< [  4:  0](RO) First error pointer. */
+        uint32_t gc                    : 1;  /**< [  5:  5](RO) ECRC generation capability. */
+        uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
+        uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
+        uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO/WRSL) Multiple Header Recording Capability. */
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](R/W) Multiple Header Recording Enable. */
+        uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_pciercx_cfg070_t;
 
 static inline uint64_t BDK_PCIERCX_CFG070(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5746,13 +6164,19 @@ typedef union
     struct bdk_pciercx_cfg086_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the Vendor Specific capabilities. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the Vendor Specific capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #else /* Word 0 - Little Endian */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the Vendor Specific capabilities. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCIE Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the Vendor Specific capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #endif /* Word 0 - End */
     } cn83xx;
 } bdk_pciercx_cfg086_t;
@@ -6186,13 +6610,21 @@ typedef union
     struct bdk_pciercx_cfg110_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the Vendor Specific RAS Data Path Protection capabilities. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the Vendor Specific RAS Data Path Protection
+                                                                 capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #else /* Word 0 - Little Endian */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the Vendor Specific RAS Data Path Protection capabilities. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. Points to the Vendor Specific RAS Data Path Protection
+                                                                 capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg110_s cn; */
@@ -9139,7 +9571,7 @@ typedef union
     struct bdk_pciercx_cfg153_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO) EQ local figure of merit.
+        uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO/H) EQ local figure of merit.
                                                                  Indicates local maximum figure of merit value. */
         uint32_t reserved_21_23        : 3;
         uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO/H) EQ local receiver preset hint.
@@ -9160,7 +9592,7 @@ typedef union
         uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO/H) EQ local receiver preset hint.
                                                                  Indicates local receiver preset hint value. */
         uint32_t reserved_21_23        : 3;
-        uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO) EQ local figure of merit.
+        uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO/H) EQ local figure of merit.
                                                                  Indicates local maximum figure of merit value. */
 #endif /* Word 0 - End */
     } s;
@@ -9196,22 +9628,22 @@ typedef union
         uint32_t reserved_30_31        : 2;
         uint32_t eq_rem_fs             : 6;  /**< [ 29: 24](RO) EQ remote FS.
                                                                  Indicates remote FS value. */
-        uint32_t eq_rem_lf             : 6;  /**< [ 23: 18](RO) EQ remote LF.
+        uint32_t eq_rem_lf             : 6;  /**< [ 23: 18](RO/H) EQ remote LF.
                                                                  Indicates remote LF value. */
-        uint32_t eq_rem_post_cur       : 6;  /**< [ 17: 12](RO) EQ remote post-cursor.
+        uint32_t eq_rem_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ remote post-cursor.
                                                                  Indicates remote post cursor coefficient value. */
-        uint32_t eq_rem_cur            : 6;  /**< [ 11:  6](RO) EQ remote cursor.
+        uint32_t eq_rem_cur            : 6;  /**< [ 11:  6](RO/H) EQ remote cursor.
                                                                  Indicates remote cursor coefficient value. */
         uint32_t eq_rem_pre_cur        : 6;  /**< [  5:  0](RO) EQ remote pre-cursor.
                                                                  Indicates remote post cursor coefficient value. */
 #else /* Word 0 - Little Endian */
         uint32_t eq_rem_pre_cur        : 6;  /**< [  5:  0](RO) EQ remote pre-cursor.
                                                                  Indicates remote post cursor coefficient value. */
-        uint32_t eq_rem_cur            : 6;  /**< [ 11:  6](RO) EQ remote cursor.
+        uint32_t eq_rem_cur            : 6;  /**< [ 11:  6](RO/H) EQ remote cursor.
                                                                  Indicates remote cursor coefficient value. */
-        uint32_t eq_rem_post_cur       : 6;  /**< [ 17: 12](RO) EQ remote post-cursor.
+        uint32_t eq_rem_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ remote post-cursor.
                                                                  Indicates remote post cursor coefficient value. */
-        uint32_t eq_rem_lf             : 6;  /**< [ 23: 18](RO) EQ remote LF.
+        uint32_t eq_rem_lf             : 6;  /**< [ 23: 18](RO/H) EQ remote LF.
                                                                  Indicates remote LF value. */
         uint32_t eq_rem_fs             : 6;  /**< [ 29: 24](RO) EQ remote FS.
                                                                  Indicates remote FS value. */
@@ -9247,13 +9679,19 @@ typedef union
     struct bdk_pciercx_cfg174_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset.  Points to the ACS Extended Capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #else /* Word 0 - Little Endian */
-        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability. */
-        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version. */
-        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO) Next capability offset.  Points to the ACS Extended Capabilities.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg174_s cn; */
@@ -10078,6 +10516,166 @@ static inline uint64_t BDK_PCIERCX_CFG187(unsigned long a)
 #define arguments_BDK_PCIERCX_CFG187(a) (a),-1,-1,-1
 
 /**
+ * Register (PCICONFIGRC) pcierc#_cfg192
+ *
+ * PCIe RC PCI Express ACS Extended Capability Header Register
+ * This register contains the one hundred ninety-third 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg192_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg192_s cn; */
+} bdk_pciercx_cfg192_t;
+
+static inline uint64_t BDK_PCIERCX_CFG192(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG192(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000300ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG192", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG192(a) bdk_pciercx_cfg192_t
+#define bustype_BDK_PCIERCX_CFG192(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG192(a) "PCIERCX_CFG192"
+#define busnum_BDK_PCIERCX_CFG192(a) (a)
+#define arguments_BDK_PCIERCX_CFG192(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg193
+ *
+ * PCIe RC ACS Capability and Control Register
+ * This register contains the one hundred ninety-fourth 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg193_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_23_31        : 9;
+        uint32_t dte                   : 1;  /**< [ 22: 22](R/W) ACS direct translated P2P enable. */
+        uint32_t ece                   : 1;  /**< [ 21: 21](R/W) ACS P2P egress control enable. */
+        uint32_t ufe                   : 1;  /**< [ 20: 20](R/W) ACS upstream forwarding enable. */
+        uint32_t cre                   : 1;  /**< [ 19: 19](R/W) ACS P2P completion redirect enable. */
+        uint32_t rre                   : 1;  /**< [ 18: 18](R/W) ACS P2P request redirect enable. */
+        uint32_t tbe                   : 1;  /**< [ 17: 17](R/W) ACS translation blocking enable. */
+        uint32_t sve                   : 1;  /**< [ 16: 16](R/W) ACS source validation enable. */
+        uint32_t ecvs                  : 8;  /**< [ 15:  8](RO/WRSL) Egress control vector size.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t reserved_7            : 1;
+        uint32_t dt                    : 1;  /**< [  6:  6](RO/WRSL) ACS direct translated P2P.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t ec                    : 1;  /**< [  5:  5](RO/WRSL) ACS P2P egress control.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t uf                    : 1;  /**< [  4:  4](RO/WRSL) ACS upstream forwarding.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cr                    : 1;  /**< [  3:  3](RO/WRSL) ACS P2P completion redirect.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t rr                    : 1;  /**< [  2:  2](RO/WRSL) ACS P2P request redirect.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t tb                    : 1;  /**< [  1:  1](RO/WRSL) ACS translation blocking.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t sv                    : 1;  /**< [  0:  0](RO/WRSL) ACS source validation.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+#else /* Word 0 - Little Endian */
+        uint32_t sv                    : 1;  /**< [  0:  0](RO/WRSL) ACS source validation.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t tb                    : 1;  /**< [  1:  1](RO/WRSL) ACS translation blocking.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t rr                    : 1;  /**< [  2:  2](RO/WRSL) ACS P2P request redirect.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t cr                    : 1;  /**< [  3:  3](RO/WRSL) ACS P2P completion redirect.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t uf                    : 1;  /**< [  4:  4](RO/WRSL) ACS upstream forwarding.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t ec                    : 1;  /**< [  5:  5](RO/WRSL) ACS P2P egress control.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t dt                    : 1;  /**< [  6:  6](RO/WRSL) ACS direct translated P2P.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t reserved_7            : 1;
+        uint32_t ecvs                  : 8;  /**< [ 15:  8](RO/WRSL) Egress control vector size.
+                                                                 Writable through PEM()_CFG_WR. However, the application must not change this field. */
+        uint32_t sve                   : 1;  /**< [ 16: 16](R/W) ACS source validation enable. */
+        uint32_t tbe                   : 1;  /**< [ 17: 17](R/W) ACS translation blocking enable. */
+        uint32_t rre                   : 1;  /**< [ 18: 18](R/W) ACS P2P request redirect enable. */
+        uint32_t cre                   : 1;  /**< [ 19: 19](R/W) ACS P2P completion redirect enable. */
+        uint32_t ufe                   : 1;  /**< [ 20: 20](R/W) ACS upstream forwarding enable. */
+        uint32_t ece                   : 1;  /**< [ 21: 21](R/W) ACS P2P egress control enable. */
+        uint32_t dte                   : 1;  /**< [ 22: 22](R/W) ACS direct translated P2P enable. */
+        uint32_t reserved_23_31        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg193_s cn; */
+} bdk_pciercx_cfg193_t;
+
+static inline uint64_t BDK_PCIERCX_CFG193(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG193(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000304ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG193", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG193(a) bdk_pciercx_cfg193_t
+#define bustype_BDK_PCIERCX_CFG193(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG193(a) "PCIERCX_CFG193"
+#define busnum_BDK_PCIERCX_CFG193(a) (a)
+#define arguments_BDK_PCIERCX_CFG193(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg194
+ *
+ * PCIe RC Egress Control Vector Register
+ * This register contains the one hundred ninety-fifth 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg194_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ecv                   : 32; /**< [ 31:  0](R/W) Egress control vector. */
+#else /* Word 0 - Little Endian */
+        uint32_t ecv                   : 32; /**< [ 31:  0](R/W) Egress control vector. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg194_s cn; */
+} bdk_pciercx_cfg194_t;
+
+static inline uint64_t BDK_PCIERCX_CFG194(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG194(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x20000000308ll + 0x100000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCIERCX_CFG194", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG194(a) bdk_pciercx_cfg194_t
+#define bustype_BDK_PCIERCX_CFG194(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG194(a) "PCIERCX_CFG194"
+#define busnum_BDK_PCIERCX_CFG194(a) (a)
+#define arguments_BDK_PCIERCX_CFG194(a) (a),-1,-1,-1
+
+/**
  * Register (PCICONFIGRC) pcierc#_cfg448
  *
  * PCIe RC Ack Latency Timer/Replay Timer Register
@@ -10110,32 +10708,7 @@ typedef union
                                                                  they should refer to the PCIe specification for the correct value. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pciercx_cfg448_s cn81xx; */
-    /* struct bdk_pciercx_cfg448_s cn88xx; */
-    struct bdk_pciercx_cfg448_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t rtl                   : 16; /**< [ 31: 16](R/W/H) Replay time limit. The replay timer expires when it reaches this limit. The PCI Express
-                                                                 bus initiates a replay upon reception of a nak or when the replay timer expires. This
-                                                                 value is set correctly by the hardware out of reset or when the negotiated link width or
-                                                                 payload size changes. If the user changes this value through a CSR write or by an EEPROM
-                                                                 load then they should refer to the PCIe specification for the correct value. */
-        uint32_t rtltl                 : 16; /**< [ 15:  0](R/W/H) Round trip latency time limit. The ack/nak latency timer expires when it reaches this
-                                                                 limit. This value is set correctly by the hardware out of reset or when the negotiated
-                                                                 link width or payload size changes. If the user changes this value through a CSR write or
-                                                                 by an EEPROM load, they should refer to the PCIe specification for the correct value. */
-#else /* Word 0 - Little Endian */
-        uint32_t rtltl                 : 16; /**< [ 15:  0](R/W/H) Round trip latency time limit. The ack/nak latency timer expires when it reaches this
-                                                                 limit. This value is set correctly by the hardware out of reset or when the negotiated
-                                                                 link width or payload size changes. If the user changes this value through a CSR write or
-                                                                 by an EEPROM load, they should refer to the PCIe specification for the correct value. */
-        uint32_t rtl                   : 16; /**< [ 31: 16](R/W/H) Replay time limit. The replay timer expires when it reaches this limit. The PCI Express
-                                                                 bus initiates a replay upon reception of a nak or when the replay timer expires. This
-                                                                 value is set correctly by the hardware out of reset or when the negotiated link width or
-                                                                 payload size changes. If the user changes this value through a CSR write or by an EEPROM
-                                                                 load then they should refer to the PCIe specification for the correct value. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_pciercx_cfg448_s cn; */
 } bdk_pciercx_cfg448_t;
 
 static inline uint64_t BDK_PCIERCX_CFG448(unsigned long a) __attribute__ ((pure, always_inline));
@@ -10221,6 +10794,109 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t lpec                  : 8;  /**< [ 31: 24](R/W) Low power entrance count. The power management state waits this many clock cycles for the
+                                                                 associated completion of a CfgWr to PCIERC()_CFG017 register, power state (PS) field
+                                                                 register
+                                                                 to go low-power. This register is intended for applications that do not let the PCI
+                                                                 Express bus handle a completion for configuration request to the power management control
+                                                                 and status (PCIRC()_CFG017) register. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t link_state            : 6;  /**< [ 21: 16](R/W) Link state. The link state that the PCI Express bus is forced to when bit 15 (force link)
+                                                                 is set. State encoding:
+                                                                 0x0 = DETECT_QUIET.
+                                                                 0x1 = DETECT_ACT.
+                                                                 0x2 = POLL_ACTIVE.
+                                                                 0x3 = POLL_COMPLIANCE.
+                                                                 0x4 = POLL_CONFIG.
+                                                                 0x5 = PRE_DETECT_QUIET.
+                                                                 0x6 = DETECT_WAIT.
+                                                                 0x7 = CFG_LINKWD_START.
+                                                                 0x8 = CFG_LINKWD_ACEPT.
+                                                                 0x9 = CFG_LANENUM_WAIT.
+                                                                 0xA = CFG_LANENUM_ACEPT.
+                                                                 0xB = CFG_COMPLETE.
+                                                                 0xC = CFG_IDLE.
+                                                                 0xD = RCVRY_LOCK.
+                                                                 0xE = RCVRY_SPEED.
+                                                                 0xF = RCVRY_RCVRCFG.
+                                                                 0x10 = RCVRY_IDLE.
+                                                                 0x11 = L0.
+                                                                 0x12 = L0S.
+                                                                 0x13 = L123_SEND_EIDLE.
+                                                                 0x14 = L1_IDLE.
+                                                                 0x15 = L2_IDLE.
+                                                                 0x16 = L2_WAKE.
+                                                                 0x17 = DISABLED_ENTRY.
+                                                                 0x18 = DISABLED_IDLE.
+                                                                 0x19 = DISABLED.
+                                                                 0x1A = LPBK_ENTRY.
+                                                                 0x1B = LPBK_ACTIVE.
+                                                                 0x1C = LPBK_EXIT.
+                                                                 0x1D = LPBK_EXIT_TIMEOUT.
+                                                                 0x1E = HOT_RESET_ENTRY.
+                                                                 0x1F = HOT_RESET. */
+        uint32_t force_link            : 1;  /**< [ 15: 15](WO/H) Force link. Forces the link to the state specified by the LINK_STATE field. The force link
+                                                                 pulse triggers link renegotiation.
+                                                                 As the force link is a pulse, writing a 1 to it does trigger the forced link state event,
+                                                                 even though reading it always returns a 0. */
+        uint32_t reserved_12_14        : 3;
+        uint32_t forced_ltssm          : 4;  /**< [ 11:  8](R/W) Forced link command. */
+        uint32_t link_num              : 8;  /**< [  7:  0](R/W) Link number. */
+#else /* Word 0 - Little Endian */
+        uint32_t link_num              : 8;  /**< [  7:  0](R/W) Link number. */
+        uint32_t forced_ltssm          : 4;  /**< [ 11:  8](R/W) Forced link command. */
+        uint32_t reserved_12_14        : 3;
+        uint32_t force_link            : 1;  /**< [ 15: 15](WO/H) Force link. Forces the link to the state specified by the LINK_STATE field. The force link
+                                                                 pulse triggers link renegotiation.
+                                                                 As the force link is a pulse, writing a 1 to it does trigger the forced link state event,
+                                                                 even though reading it always returns a 0. */
+        uint32_t link_state            : 6;  /**< [ 21: 16](R/W) Link state. The link state that the PCI Express bus is forced to when bit 15 (force link)
+                                                                 is set. State encoding:
+                                                                 0x0 = DETECT_QUIET.
+                                                                 0x1 = DETECT_ACT.
+                                                                 0x2 = POLL_ACTIVE.
+                                                                 0x3 = POLL_COMPLIANCE.
+                                                                 0x4 = POLL_CONFIG.
+                                                                 0x5 = PRE_DETECT_QUIET.
+                                                                 0x6 = DETECT_WAIT.
+                                                                 0x7 = CFG_LINKWD_START.
+                                                                 0x8 = CFG_LINKWD_ACEPT.
+                                                                 0x9 = CFG_LANENUM_WAIT.
+                                                                 0xA = CFG_LANENUM_ACEPT.
+                                                                 0xB = CFG_COMPLETE.
+                                                                 0xC = CFG_IDLE.
+                                                                 0xD = RCVRY_LOCK.
+                                                                 0xE = RCVRY_SPEED.
+                                                                 0xF = RCVRY_RCVRCFG.
+                                                                 0x10 = RCVRY_IDLE.
+                                                                 0x11 = L0.
+                                                                 0x12 = L0S.
+                                                                 0x13 = L123_SEND_EIDLE.
+                                                                 0x14 = L1_IDLE.
+                                                                 0x15 = L2_IDLE.
+                                                                 0x16 = L2_WAKE.
+                                                                 0x17 = DISABLED_ENTRY.
+                                                                 0x18 = DISABLED_IDLE.
+                                                                 0x19 = DISABLED.
+                                                                 0x1A = LPBK_ENTRY.
+                                                                 0x1B = LPBK_ACTIVE.
+                                                                 0x1C = LPBK_EXIT.
+                                                                 0x1D = LPBK_EXIT_TIMEOUT.
+                                                                 0x1E = HOT_RESET_ENTRY.
+                                                                 0x1F = HOT_RESET. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t lpec                  : 8;  /**< [ 31: 24](R/W) Low power entrance count. The power management state waits this many clock cycles for the
+                                                                 associated completion of a CfgWr to PCIERC()_CFG017 register, power state (PS) field
+                                                                 register
+                                                                 to go low-power. This register is intended for applications that do not let the PCI
+                                                                 Express bus handle a completion for configuration request to the power management control
+                                                                 and status (PCIRC()_CFG017) register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg450_s cn81xx; */
+    struct bdk_pciercx_cfg450_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lpec                  : 8;  /**< [ 31: 24](R/W) Low power entrance count. The power management state waits this many clock cycles for the
                                                                  associated completion of a CfgWr to PCIEEP()_CFG017 register, power state (PS) field
                                                                  register
                                                                  to go low-power. This register is intended for applications that do not let the PCI
@@ -10318,9 +10994,7 @@ typedef union
                                                                  Express bus handle a completion for configuration request to the power management control
                                                                  and status (PCIEP()_CFG017) register. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg450_s cn81xx; */
-    /* struct bdk_pciercx_cfg450_s cn88xx; */
+    } cn88xx;
     struct bdk_pciercx_cfg450_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -11011,7 +11685,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
         uint32_t tmfcwt                : 5;  /**< [ 28: 24](R/W) Used to be 'timer modifier for flow control watchdog timer.' This field is no longer used.
-                                                                 and has moved to the queue status register -- PCIEEP()_CFG463. This field remains to
+                                                                 and has moved to the queue status register -- PCIERC()_CFG463. This field remains to
                                                                  prevent software from breaking. */
         uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for Ack/Nak latency timer. Increases the timer value for the Ack/Nak
                                                                  latency timer, in increments of 64 clock cycles. */
@@ -11027,19 +11701,18 @@ typedef union
         uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for Ack/Nak latency timer. Increases the timer value for the Ack/Nak
                                                                  latency timer, in increments of 64 clock cycles. */
         uint32_t tmfcwt                : 5;  /**< [ 28: 24](R/W) Used to be 'timer modifier for flow control watchdog timer.' This field is no longer used.
-                                                                 and has moved to the queue status register -- PCIEEP()_CFG463. This field remains to
+                                                                 and has moved to the queue status register -- PCIERC()_CFG463. This field remains to
                                                                  prevent software from breaking. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pciercx_cfg454_s cn81xx; */
-    /* struct bdk_pciercx_cfg454_s cn88xx; */
-    struct bdk_pciercx_cfg454_cn83xx
+    struct bdk_pciercx_cfg454_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
         uint32_t tmfcwt                : 5;  /**< [ 28: 24](R/W) Used to be 'timer modifier for flow control watchdog timer.' This field is no longer used.
-                                                                 and has moved to the queue status register -- PCIERC()_CFG463. This field remains to
+                                                                 and has moved to the queue status register -- PCIEEP()_CFG463. This field remains to
                                                                  prevent software from breaking. */
         uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for Ack/Nak latency timer. Increases the timer value for the Ack/Nak
                                                                  latency timer, in increments of 64 clock cycles. */
@@ -11055,11 +11728,12 @@ typedef union
         uint32_t tmanlt                : 5;  /**< [ 23: 19](R/W) Timer modifier for Ack/Nak latency timer. Increases the timer value for the Ack/Nak
                                                                  latency timer, in increments of 64 clock cycles. */
         uint32_t tmfcwt                : 5;  /**< [ 28: 24](R/W) Used to be 'timer modifier for flow control watchdog timer.' This field is no longer used.
-                                                                 and has moved to the queue status register -- PCIERC()_CFG463. This field remains to
+                                                                 and has moved to the queue status register -- PCIEEP()_CFG463. This field remains to
                                                                  prevent software from breaking. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_pciercx_cfg454_s cn83xx; */
 } bdk_pciercx_cfg454_t;
 
 static inline uint64_t BDK_PCIERCX_CFG454(unsigned long a) __attribute__ ((pure, always_inline));
@@ -12332,31 +13006,31 @@ typedef union
 
                                                                  Bit [i] = 1: Preset=i is requested and evaluated in the EQ master phase.
 
-                                                                 _ 0000000000000000: No preset req/evaluated in EQ master phase
+                                                                 _ 0b0000000000000000 = No preset req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxxxxxxx1: Preset 0 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxxxxxxx1 = Preset 0 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxxxxxx1x: Preset 1 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxxxxxx1x = Preset 1 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxxxxx1xx: Preset 2 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxxxxx1xx = Preset 2 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxxxx1xxx: Preset 3 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxxxx1xxx = Preset 3 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxxx1xxxx: Preset 4 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxxx1xxxx = Preset 4 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxx1xxxxx: Preset 5 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxx1xxxxx = Preset 5 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxx1xxxxxx: Preset 6 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxx1xxxxxx = Preset 6 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxx1xxxxxxx: Preset 7 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxx1xxxxxxx = Preset 7 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xx1xxxxxxxx: Preset 8 req/evaluated in EQ master phase
+                                                                 _ 0b00000xx1xxxxxxxx = Preset 8 req/evaluated in EQ master phase.
 
-                                                                 _ 00000x1xxxxxxxxx: Preset 9 req/evaluated in EQ master phase
+                                                                 _ 0b00000x1xxxxxxxxx = Preset 9 req/evaluated in EQ master phase.
 
-                                                                 _ 000001xxxxxxxxxx: Preset 10 req/evaluated in EQ master phase
+                                                                 _ 0b000001xxxxxxxxxx = Preset 10 req/evaluated in EQ master phase.
 
-                                                                 _ All other encodings: Reserved */
+                                                                 _ All other encodings = Reserved. */
         uint32_t reserved_6_7          : 2;
         uint32_t p23td                 : 1;  /**< [  5:  5](R/W) Phase2_3 2 ms timeout disable. Determine behavior in Phase2 for USP (Phase3 if DSP) when
                                                                  the PHY does not respond within 2 ms to the assertion of RxEqEval:
@@ -12414,31 +13088,31 @@ typedef union
 
                                                                  Bit [i] = 1: Preset=i is requested and evaluated in the EQ master phase.
 
-                                                                 _ 0000000000000000: No preset req/evaluated in EQ master phase
+                                                                 _ 0b0000000000000000 = No preset req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxxxxxxx1: Preset 0 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxxxxxxx1 = Preset 0 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxxxxxx1x: Preset 1 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxxxxxx1x = Preset 1 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxxxxx1xx: Preset 2 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxxxxx1xx = Preset 2 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxxxx1xxx: Preset 3 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxxxx1xxx = Preset 3 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxxx1xxxx: Preset 4 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxxx1xxxx = Preset 4 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxxx1xxxxx: Preset 5 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxxx1xxxxx = Preset 5 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxxx1xxxxxx: Preset 6 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxxx1xxxxxx = Preset 6 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xxx1xxxxxxx: Preset 7 req/evaluated in EQ master phase
+                                                                 _ 0b00000xxx1xxxxxxx = Preset 7 req/evaluated in EQ master phase.
 
-                                                                 _ 00000xx1xxxxxxxx: Preset 8 req/evaluated in EQ master phase
+                                                                 _ 0b00000xx1xxxxxxxx = Preset 8 req/evaluated in EQ master phase.
 
-                                                                 _ 00000x1xxxxxxxxx: Preset 9 req/evaluated in EQ master phase
+                                                                 _ 0b00000x1xxxxxxxxx = Preset 9 req/evaluated in EQ master phase.
 
-                                                                 _ 000001xxxxxxxxxx: Preset 10 req/evaluated in EQ master phase
+                                                                 _ 0b000001xxxxxxxxxx = Preset 10 req/evaluated in EQ master phase.
 
-                                                                 _ All other encodings: Reserved */
+                                                                 _ All other encodings = Reserved. */
         uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
                                                                  performed in the EQ Master, when finding the highest FOM among all preset evaluations. */
         uint32_t reserved_25           : 1;

@@ -1346,7 +1346,11 @@ typedef union
 static inline uint64_t BDK_DTX_IOBNX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_BCST_RSP(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0fe780080ll + 0x8000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0fe780080ll + 0x8000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe780080ll + 0x8000ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_IOBNX_BCST_RSP", 1, a, 0, 0, 0);
 }
@@ -1391,7 +1395,11 @@ typedef union
 static inline uint64_t BDK_DTX_IOBNX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_CTL(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0fe780060ll + 0x8000ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0fe780060ll + 0x8000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe780060ll + 0x8000ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_IOBNX_CTL", 1, a, 0, 0, 0);
 }
@@ -1428,7 +1436,11 @@ typedef union
 static inline uint64_t BDK_DTX_IOBNX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_DATX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=1)))
+        return 0x87e0fe780040ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
+        return 0x87e0fe780040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe780040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_IOBNX_DATX", 2, a, b, 0, 0);
 }
@@ -1465,7 +1477,11 @@ typedef union
 static inline uint64_t BDK_DTX_IOBNX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_ENAX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=1)))
+        return 0x87e0fe780020ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
+        return 0x87e0fe780020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe780020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_IOBNX_ENAX", 2, a, b, 0, 0);
 }
@@ -1500,7 +1516,11 @@ typedef union
 static inline uint64_t BDK_DTX_IOBNX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_SELX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=1))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=1)))
+        return 0x87e0fe780000ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
+        return 0x87e0fe780000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe780000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_IOBNX_SELX", 2, a, b, 0, 0);
 }
@@ -3134,7 +3154,11 @@ typedef union
 static inline uint64_t BDK_DTX_NCSI_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NCSI_BCST_RSP_FUNC(void)
 {
-    return 0x87e0fe058080ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e0fe058080ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e0fe058080ll;
+    __bdk_csr_fatal("DTX_NCSI_BCST_RSP", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_NCSI_BCST_RSP bdk_dtx_ncsi_bcst_rsp_t
@@ -3178,7 +3202,11 @@ typedef union
 static inline uint64_t BDK_DTX_NCSI_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NCSI_CTL_FUNC(void)
 {
-    return 0x87e0fe058060ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e0fe058060ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e0fe058060ll;
+    __bdk_csr_fatal("DTX_NCSI_CTL", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_NCSI_CTL bdk_dtx_ncsi_ctl_t
@@ -3213,7 +3241,9 @@ typedef union
 static inline uint64_t BDK_DTX_NCSI_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NCSI_DATX(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0fe058040ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe058040ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_NCSI_DATX", 1, a, 0, 0, 0);
 }
@@ -3250,7 +3280,9 @@ typedef union
 static inline uint64_t BDK_DTX_NCSI_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NCSI_ENAX(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0fe058020ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe058020ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_NCSI_ENAX", 1, a, 0, 0, 0);
 }
@@ -3285,7 +3317,9 @@ typedef union
 static inline uint64_t BDK_DTX_NCSI_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NCSI_SELX(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0fe058000ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe058000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_NCSI_SELX", 1, a, 0, 0, 0);
 }
@@ -5034,6 +5068,195 @@ static inline uint64_t BDK_DTX_RAD_SELX(unsigned long a)
 #define basename_BDK_DTX_RAD_SELX(a) "DTX_RAD_SELX"
 #define busnum_BDK_DTX_RAD_SELX(a) (a)
 #define arguments_BDK_DTX_RAD_SELX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_rgx#_bcst_rsp
+ *
+ * DTX RGX Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_rgxx_bcst_rsp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable this DTX instance as the responder to DTX broadcast read/write operations. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_rgxx_bcst_rsp_s cn; */
+} bdk_dtx_rgxx_bcst_rsp_t;
+
+static inline uint64_t BDK_DTX_RGXX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_RGXX_BCST_RSP(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0fe740080ll + 0x8000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DTX_RGXX_BCST_RSP", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_RGXX_BCST_RSP(a) bdk_dtx_rgxx_bcst_rsp_t
+#define bustype_BDK_DTX_RGXX_BCST_RSP(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_RGXX_BCST_RSP(a) "DTX_RGXX_BCST_RSP"
+#define busnum_BDK_DTX_RGXX_BCST_RSP(a) (a)
+#define arguments_BDK_DTX_RGXX_BCST_RSP(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_rgx#_ctl
+ *
+ * DTX RGX Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_rgxx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
+                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+                                                                 only. */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+#else /* Word 0 - Little Endian */
+        uint64_t swap                  : 1;  /**< [  0:  0](R/W) Swap the high and low 36-bit debug bus outputs. */
+        uint64_t echoen                : 1;  /**< [  1:  1](R/W) Drive debug bus with the value in DTX_MIO_ENA(0..1) instead of normal block debug data.
+                                                                 Not applicable when software directly reads the DAT(0..1) registers.  For diagnostic use
+                                                                 only. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t active                : 1;  /**< [  4:  4](R/W) Force block's gated clocks on, so that the state of idle signals may be captured. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_rgxx_ctl_s cn; */
+} bdk_dtx_rgxx_ctl_t;
+
+static inline uint64_t BDK_DTX_RGXX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_RGXX_CTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e0fe740060ll + 0x8000ll * ((a) & 0x0);
+    __bdk_csr_fatal("DTX_RGXX_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_DTX_RGXX_CTL(a) bdk_dtx_rgxx_ctl_t
+#define bustype_BDK_DTX_RGXX_CTL(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_RGXX_CTL(a) "DTX_RGXX_CTL"
+#define busnum_BDK_DTX_RGXX_CTL(a) (a)
+#define arguments_BDK_DTX_RGXX_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) dtx_rgx#_dat#
+ *
+ * DTX RGX Raw Data Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_rgxx_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
+#else /* Word 0 - Little Endian */
+        uint64_t raw                   : 36; /**< [ 35:  0](RO/H) Raw debug data captured by the DTX before the ENA is applied. This gives the ability to
+                                                                 peek into blocks during an OCLA capture without OCLA reconfiguration. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_rgxx_datx_s cn; */
+} bdk_dtx_rgxx_datx_t;
+
+static inline uint64_t BDK_DTX_RGXX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_RGXX_DATX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=1)))
+        return 0x87e0fe740040ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_RGXX_DATX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DTX_RGXX_DATX(a,b) bdk_dtx_rgxx_datx_t
+#define bustype_BDK_DTX_RGXX_DATX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_RGXX_DATX(a,b) "DTX_RGXX_DATX"
+#define busnum_BDK_DTX_RGXX_DATX(a,b) (a)
+#define arguments_BDK_DTX_RGXX_DATX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_rgx#_ena#
+ *
+ * DTX RGX Data Enable Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_rgxx_enax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+                                                                 only one block will drive each bit. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 36; /**< [ 35:  0](R/W) Output enable vector of which bits to drive onto the low/high 36-bit debug buses. Normally
+                                                                 only one block will drive each bit. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_rgxx_enax_s cn; */
+} bdk_dtx_rgxx_enax_t;
+
+static inline uint64_t BDK_DTX_RGXX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_RGXX_ENAX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=1)))
+        return 0x87e0fe740020ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_RGXX_ENAX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DTX_RGXX_ENAX(a,b) bdk_dtx_rgxx_enax_t
+#define bustype_BDK_DTX_RGXX_ENAX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_RGXX_ENAX(a,b) "DTX_RGXX_ENAX"
+#define busnum_BDK_DTX_RGXX_ENAX(a,b) (a)
+#define arguments_BDK_DTX_RGXX_ENAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) dtx_rgx#_sel#
+ *
+ * DTX RGX Select Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dtx_rgxx_selx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Debug select. Selects which signals to drive onto low/high 36-bit debug buses. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dtx_rgxx_selx_s cn; */
+} bdk_dtx_rgxx_selx_t;
+
+static inline uint64_t BDK_DTX_RGXX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DTX_RGXX_SELX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=1)))
+        return 0x87e0fe740000ll + 0x8000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_RGXX_SELX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DTX_RGXX_SELX(a,b) bdk_dtx_rgxx_selx_t
+#define bustype_BDK_DTX_RGXX_SELX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_DTX_RGXX_SELX(a,b) "DTX_RGXX_SELX"
+#define busnum_BDK_DTX_RGXX_SELX(a,b) (a)
+#define arguments_BDK_DTX_RGXX_SELX(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) dtx_rnm_bcst_rsp

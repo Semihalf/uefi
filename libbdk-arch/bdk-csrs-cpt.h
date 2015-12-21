@@ -121,7 +121,34 @@
  * CPT RAM Field Enumeration
  * Enumerates the relative bit positions within CPT()_PF_ECC0_CTL[CDIS].
  */
-#define BDK_CPT_RAMS_E_TBD (0) /**< Bit position for TBD. */
+#define BDK_CPT_RAMS_E_CDEI_FIFO0 (0x18) /**< Bit position for CDEI_FIFO0. */
+#define BDK_CPT_RAMS_E_CDEI_FIFO1 (0x19) /**< Bit position for CDEI_FIFO1. */
+#define BDK_CPT_RAMS_E_CDEI_UCODE (0x10) /**< Bit position for CDEI_UCODE. */
+#define BDK_CPT_RAMS_E_COMP_ARRAY0 (0x11) /**< Bit position for COMP_ARRAY0. */
+#define BDK_CPT_RAMS_E_COMP_ARRAY1 (0x12) /**< Bit position for COMP_ARRAY1. */
+#define BDK_CPT_RAMS_E_COMP_FIFO (0xe) /**< Bit position for COMP_FIFO. */
+#define BDK_CPT_RAMS_E_CQM_BPTR (3) /**< Bit position for CQM_BPTR. */
+#define BDK_CPT_RAMS_E_CQM_CTLMEM (2) /**< Bit position for CQM_CTLMEM. */
+#define BDK_CPT_RAMS_E_CQM_DONE_CNT (0xc) /**< Bit position for CQM_DONE_CNT. */
+#define BDK_CPT_RAMS_E_CQM_DONE_TIMER (0xd) /**< Bit position for CQM_DONE_TIMER. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF0 (4) /**< Bit position for CQM_INSTFIF0. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF1 (5) /**< Bit position for CQM_INSTFIF1. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF2 (6) /**< Bit position for CQM_INSTFIF2. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF3 (7) /**< Bit position for CQM_INSTFIF3. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF4 (8) /**< Bit position for CQM_INSTFIF4. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF5 (9) /**< Bit position for CQM_INSTFIF5. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF6 (0xa) /**< Bit position for CQM_INSTFIF6. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF7 (0xb) /**< Bit position for CQM_INSTFIF7. */
+#define BDK_CPT_RAMS_E_CSR_VMEM (0x13) /**< Bit position for CSR_VMEM. */
+#define BDK_CPT_RAMS_E_EPCO_FIFO0 (0x1a) /**< Bit position for EPCO_FIFO0. */
+#define BDK_CPT_RAMS_E_EPCO_FIFO1 (0x1b) /**< Bit position for EPCO_FIFO1. */
+#define BDK_CPT_RAMS_E_MBOX_MEM (0xf) /**< Bit position for MBOX_MEM. */
+#define BDK_CPT_RAMS_E_NCBI_DATFIF (0) /**< Bit position for NCBI_DATFIF. */
+#define BDK_CPT_RAMS_E_NCBO_MEM0 (1) /**< Bit position for NCBO_MEM0. */
+#define BDK_CPT_RAMS_E_RSP_INST (0x15) /**< Bit position for RSP_INST. */
+#define BDK_CPT_RAMS_E_RSP_MAP (0x14) /**< Bit position for RSP_MAP. */
+#define BDK_CPT_RAMS_E_RSP_NCBO (0x16) /**< Bit position for RSP_NCBO. */
+#define BDK_CPT_RAMS_E_RSP_RNM (0x17) /**< Bit position for RSP_RNM. */
 
 /**
  * Enumeration cpt_vf_int_vec_e
@@ -2007,7 +2034,7 @@ typedef union
         uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
                                                                  Must be 8*n + 1, where n is the number of instructions per buffer segment. */
         uint64_t reserved_11_31        : 21;
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
@@ -2060,7 +2087,7 @@ typedef union
                                                                  pointers, and result structures are stored in big endian format in memory. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
@@ -2093,7 +2120,7 @@ typedef union
         uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
                                                                  Must be 8*n + 1, where n is the number of instructions per buffer segment. */
         uint64_t reserved_11_31        : 21;
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
@@ -2146,7 +2173,7 @@ typedef union
                                                                  pointers, and result structures are stored in big endian format in memory. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
@@ -2827,11 +2854,12 @@ typedef union
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When CPT()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
-                                                                 Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
-                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
-                                                                 between software acknowledging an interrupt and a result returning.)
+                                                                 * When CPT()_VQ()_DONE_ACK is written (or CPT()_VQ()_DONE is written but this is
+                                                                 not typical), the interrupt coalescing timer restarts.  Note after decrementing
+                                                                 this interrupt equation is recomputed, for example if CPT()_VQ()_DONE[DONE] >=
+                                                                 CPT()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
+                                                                 be resent immediately.  (This covers the race case between software
+                                                                 acknowledging an interrupt and a result returning.)
 
                                                                  * When CPT()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
@@ -2862,11 +2890,12 @@ typedef union
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When CPT()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
-                                                                 Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is
-                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
-                                                                 between software acknowledging an interrupt and a result returning.)
+                                                                 * When CPT()_VQ()_DONE_ACK is written (or CPT()_VQ()_DONE is written but this is
+                                                                 not typical), the interrupt coalescing timer restarts.  Note after decrementing
+                                                                 this interrupt equation is recomputed, for example if CPT()_VQ()_DONE[DONE] >=
+                                                                 CPT()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
+                                                                 be resent immediately.  (This covers the race case between software
+                                                                 acknowledging an interrupt and a result returning.)
 
                                                                  * When CPT()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
@@ -3180,11 +3209,25 @@ typedef union
         uint64_t dbell_cnt             : 20; /**< [ 19:  0](R/W/H) Number of instruction queue 64-bit words to add to the CPT instruction doorbell
                                                                  count. Readback value is the the current number of pending doorbell requests.
 
+                                                                 If counter overflows CPT()_VQ()_MISC_INT[DBELL_DOVF] is set.
+
+                                                                 To reset the count back to zero, write one to clear
+                                                                 CPT()_VQ()_MISC_INT_ENA_W1C[DBELL_DOVF], then write a value of 2^20 minus the
+                                                                 read [DBELL_CNT], then write one to CPT()_VQ()_MISC_INT_W1C[DBELL_DOVF] and
+                                                                 CPT()_VQ()_MISC_INT_ENA_W1S[DBELL_DOVF].
+
                                                                  Must be a multiple of 8.  All CPT instructions are 8 words and require a
                                                                  doorbell count of multiple of 8. */
 #else /* Word 0 - Little Endian */
         uint64_t dbell_cnt             : 20; /**< [ 19:  0](R/W/H) Number of instruction queue 64-bit words to add to the CPT instruction doorbell
                                                                  count. Readback value is the the current number of pending doorbell requests.
+
+                                                                 If counter overflows CPT()_VQ()_MISC_INT[DBELL_DOVF] is set.
+
+                                                                 To reset the count back to zero, write one to clear
+                                                                 CPT()_VQ()_MISC_INT_ENA_W1C[DBELL_DOVF], then write a value of 2^20 minus the
+                                                                 read [DBELL_CNT], then write one to CPT()_VQ()_MISC_INT_W1C[DBELL_DOVF] and
+                                                                 CPT()_VQ()_MISC_INT_ENA_W1S[DBELL_DOVF].
 
                                                                  Must be a multiple of 8.  All CPT instructions are 8 words and require a
                                                                  doorbell count of multiple of 8. */

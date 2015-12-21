@@ -5110,7 +5110,7 @@ typedef union
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
@@ -5150,7 +5150,7 @@ typedef union
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
@@ -5173,7 +5173,7 @@ typedef union
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
@@ -5213,7 +5213,7 @@ typedef union
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
@@ -5236,7 +5236,7 @@ typedef union
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
@@ -5276,7 +5276,7 @@ typedef union
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
@@ -6201,7 +6201,27 @@ typedef union
     struct bdk_ap_cvmmemctl1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_37_63        : 27;
+        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.  Added in pass 3.
+                                                                 0 = Single counter mode (combined hit and miss latency counter).
+                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
+        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
+                                                                 Added in pass 3.
+
+                                                                 Internal:
+                                                                 Backpressure is applied if:
+                                                                 <pre>
+                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
+                                                                 </pre>
+
+                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
+                                                                 is the MSB of the 4-bit miss counter being set. */
+        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency.  Added in pass 3. */
+        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency.  Added in pass 3. */
+        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare.  Added in pass 3. */
         uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
                                                                  Internal:
                                                                  83xx: Enable SSO switch-tag. */
@@ -6241,10 +6261,81 @@ typedef union
         uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
                                                                  Internal:
                                                                  83xx: Enable SSO switch-tag. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare.  Added in pass 3. */
+        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency.  Added in pass 3. */
+        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency.  Added in pass 3. */
+        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
+                                                                 Added in pass 3.
+
+                                                                 Internal:
+                                                                 Backpressure is applied if:
+                                                                 <pre>
+                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
+                                                                 </pre>
+
+                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
+                                                                 is the MSB of the 4-bit miss counter being set. */
+        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.  Added in pass 3.
+                                                                 0 = Single counter mode (combined hit and miss latency counter).
+                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
+        uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ap_cvmmemctl1_el1_s cn; */
+    /* struct bdk_ap_cvmmemctl1_el1_s cn81xx; */
+    struct bdk_ap_cvmmemctl1_el1_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_37_63        : 27;
+        uint64_t reserved_8_36         : 29;
+        uint64_t reserved_7            : 1;
+        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable SSO switch-tag. */
+        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Trap any access to non-zero node id. */
+        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable atomics to I/O space.
+                                                                 0 = Atomic instructions to I/O space (PA<47>=1) will trap.
+                                                                 1 = Atomic instructions to SLI I/O space will succeed,
+                                                                     atomic instructions to other I/O spaces will trap.
+
+                                                                 Internal:
+                                                                 Also PKO/SSO. */
+        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable/disable LMTST(a). */
+        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
+        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
+        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
+        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
+        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
+        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable/disable LMTST(a). */
+        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable atomics to I/O space.
+                                                                 0 = Atomic instructions to I/O space (PA<47>=1) will trap.
+                                                                 1 = Atomic instructions to SLI I/O space will succeed,
+                                                                     atomic instructions to other I/O spaces will trap.
+
+                                                                 Internal:
+                                                                 Also PKO/SSO. */
+        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Trap any access to non-zero node id. */
+        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable SSO switch-tag. */
+        uint64_t reserved_7            : 1;
+        uint64_t reserved_8_36         : 29;
+        uint64_t reserved_37_63        : 27;
+#endif /* Word 0 - End */
+    } cn88xx;
+    /* struct bdk_ap_cvmmemctl1_el1_s cn83xx; */
 } bdk_ap_cvmmemctl1_el1_t;
 
 #define BDK_AP_CVMMEMCTL1_EL1 BDK_AP_CVMMEMCTL1_EL1_FUNC()

@@ -1697,7 +1697,7 @@ typedef union
                                                                  endpoints. */
         uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](RO) Link bandwidth management interrupt enable. This bit is not applicable and is reserved for
                                                                  endpoints. */
-        uint32_t hawd                  : 1;  /**< [  9:  9](RO) Hardware autonomous width disable (not supported). */
+        uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable (not supported). */
         uint32_t ecpm                  : 1;  /**< [  8:  8](R/W) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
                                                                  link capabilities register. */
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
@@ -1717,7 +1717,7 @@ typedef union
         uint32_t es                    : 1;  /**< [  7:  7](R/W) Extended synch. */
         uint32_t ecpm                  : 1;  /**< [  8:  8](R/W) Enable clock power management. Hardwired to 0 if clock power management is disabled in the
                                                                  link capabilities register. */
-        uint32_t hawd                  : 1;  /**< [  9:  9](RO) Hardware autonomous width disable (not supported). */
+        uint32_t hawd                  : 1;  /**< [  9:  9](R/W) Hardware autonomous width disable (not supported). */
         uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](RO) Link bandwidth management interrupt enable. This bit is not applicable and is reserved for
                                                                  endpoints. */
         uint32_t lab_int_enb           : 1;  /**< [ 11: 11](RO) Link autonomous bandwidth interrupt enable. This bit is not applicable and is reserved for
@@ -3449,7 +3449,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
         uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present (not supported). */
-        uint32_t reserved_9_10         : 2;
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](R/W) Multiple Header Recording Enable. */
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO/WRSL) Multiple Header Recording Capability. */
         uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
         uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
         uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
@@ -3461,7 +3462,8 @@ typedef union
         uint32_t ge                    : 1;  /**< [  6:  6](R/W) ECRC generation enable. */
         uint32_t cc                    : 1;  /**< [  7:  7](RO) ECRC check capable. */
         uint32_t ce                    : 1;  /**< [  8:  8](R/W) ECRC check enable. */
-        uint32_t reserved_9_10         : 2;
+        uint32_t mult_hdr_cap          : 1;  /**< [  9:  9](RO/WRSL) Multiple Header Recording Capability. */
+        uint32_t mult_hdr_en           : 1;  /**< [ 10: 10](R/W) Multiple Header Recording Enable. */
         uint32_t tlp_plp               : 1;  /**< [ 11: 11](RO) TLP prefix log present (not supported). */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
@@ -7733,7 +7735,7 @@ typedef union
     struct bdk_pcieepx_cfg153_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO) EQ local figure of merit.
+        uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO/H) EQ local figure of merit.
                                                                  Indicates local maximum figure of merit value. */
         uint32_t reserved_21_23        : 3;
         uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO/H) EQ local receiver preset hint.
@@ -7754,7 +7756,7 @@ typedef union
         uint32_t eq_loc_rxhint         : 3;  /**< [ 20: 18](RO/H) EQ local receiver preset hint.
                                                                  Indicates local receiver preset hint value. */
         uint32_t reserved_21_23        : 3;
-        uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO) EQ local figure of merit.
+        uint32_t eq_loc_fom_val        : 8;  /**< [ 31: 24](RO/H) EQ local figure of merit.
                                                                  Indicates local maximum figure of merit value. */
 #endif /* Word 0 - End */
     } s;
@@ -7790,9 +7792,9 @@ typedef union
         uint32_t reserved_30_31        : 2;
         uint32_t eq_rem_fs             : 6;  /**< [ 29: 24](RO) EQ remote FS.
                                                                  Indicates remote FS value. */
-        uint32_t eq_rem_lf             : 6;  /**< [ 23: 18](RO) EQ remote LF.
+        uint32_t eq_rem_lf             : 6;  /**< [ 23: 18](RO/H) EQ remote LF.
                                                                  Indicates remote LF value. */
-        uint32_t eq_rem_post_cur       : 6;  /**< [ 17: 12](RO) EQ remote post-cursor.
+        uint32_t eq_rem_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ remote post-cursor.
                                                                  Indicates remote post cursor coefficient value. */
         uint32_t eq_rem_cur            : 6;  /**< [ 11:  6](RO) EQ remote cursor.
                                                                  Indicates remote cursor coefficient value. */
@@ -7803,9 +7805,9 @@ typedef union
                                                                  Indicates remote post cursor coefficient value. */
         uint32_t eq_rem_cur            : 6;  /**< [ 11:  6](RO) EQ remote cursor.
                                                                  Indicates remote cursor coefficient value. */
-        uint32_t eq_rem_post_cur       : 6;  /**< [ 17: 12](RO) EQ remote post-cursor.
+        uint32_t eq_rem_post_cur       : 6;  /**< [ 17: 12](RO/H) EQ remote post-cursor.
                                                                  Indicates remote post cursor coefficient value. */
-        uint32_t eq_rem_lf             : 6;  /**< [ 23: 18](RO) EQ remote LF.
+        uint32_t eq_rem_lf             : 6;  /**< [ 23: 18](RO/H) EQ remote LF.
                                                                  Indicates remote LF value. */
         uint32_t eq_rem_fs             : 6;  /**< [ 29: 24](RO) EQ remote FS.
                                                                  Indicates remote FS value. */

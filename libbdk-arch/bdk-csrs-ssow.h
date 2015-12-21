@@ -608,7 +608,7 @@ static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(unsigned long a) __attrib
 static inline uint64_t BDK_SSOW_VHWSX_OP_SWTAG_DESCHED(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x861800000cc0ll + 0x100000ll * ((a) & 0x1f);
+        return 0x8618000008c0ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSOW_VHWSX_OP_SWTAG_DESCHED", 1, a, 0, 0, 0);
 }
 

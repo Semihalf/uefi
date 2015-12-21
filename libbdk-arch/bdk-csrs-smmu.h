@@ -5186,7 +5186,7 @@ static inline uint64_t BDK_SMMUX_NSTLBGSYNC(unsigned long a)
 /**
  * Register (NCB32b) smmu#_pidr0
  *
- * SMMU Component Identification Register 0
+ * SMMU Peripheral Identification Register 0
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
 typedef union

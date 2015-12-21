@@ -1201,14 +1201,14 @@ typedef union
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
                                                                  For debug:
-                                                                  Bits [15:12] are the architecture version, 0x6.
+                                                                  Bits [15:12] are the architecture version, 0x6, v8.0.
                                                                   Bits [11:0] are the architecture part number, 0xA15.
                                                                  This corresponds to debug architecture version v8-A. */
 #else /* Word 0 - Little Endian */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
                                                                  For debug:
-                                                                  Bits [15:12] are the architecture version, 0x6.
+                                                                  Bits [15:12] are the architecture version, 0x6, v8.0.
                                                                   Bits [11:0] are the architecture part number, 0xA15.
                                                                  This corresponds to debug architecture version v8-A. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined

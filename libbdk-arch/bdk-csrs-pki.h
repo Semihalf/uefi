@@ -965,6 +965,7 @@
 #define BDK_PKI_UDPPORT_E_GTPP (0xd3a) /**< GTP Prime port (3GPP). */
 #define BDK_PKI_UDPPORT_E_GTPU (0x868) /**< GTP User plane port (3GPP). */
 #define BDK_PKI_UDPPORT_E_RESERVED (0) /**< Illegal UDP port. */
+#define BDK_PKI_UDPPORT_E_ROCE (0x12b7) /**< RDMA over Converged Ethernet. */
 #define BDK_PKI_UDPPORT_E_VXLAN (0x12b5) /**< VXLAN UDP port. */
 #define BDK_PKI_UDPPORT_E_VXLAN_GPE (0x12b6) /**< VXLAN Generic Protocol Extension UDP port. See PKI_VXLANGPEPROT_E. */
 
@@ -1954,7 +1955,7 @@ union bdk_pki_wqe_s
         uint64_t lfty                  : 5;  /**< [185:181] Layer F header type parsed, often corresponding to layer 4 (UDP/TCP).
                                                                  Enumerated by PKI_LTYPE_E. (See the parser document.)
 
-                                                                 _ The parse engine can set [LFTY] to PKI_LTYPE_E::FRAG during
+                                                                 _ The parse engine can set [LFTY] to PKI_LTYPE_E::IPFRAG during
                                                                  Layer E processing when it finds that the inner IP packet is fragmented.
 
                                                                  _ The parse engine can also set [LFTY] to one of PKI_LTYPE_E::IPCOMP,
@@ -1985,7 +1986,7 @@ union bdk_pki_wqe_s
                                                                  header. Enumerated by PKI_LTYPE_E. See also [LDPTR]. (See the
                                                                  parser document.)
 
-                                                                 _ The parse engine can set [LDTY] to PKI_LTYPE_E::FRAG during
+                                                                 _ The parse engine can set [LDTY] to PKI_LTYPE_E::IPFRAG during
                                                                  Layer C processing when it finds that the outer IP packet is fragmented.
 
                                                                  _ The parse engine can also set [LDTY] to one of PKI_LTYPE_E::UDP_GENEVE,
@@ -2393,7 +2394,7 @@ union bdk_pki_wqe_s
                                                                  header. Enumerated by PKI_LTYPE_E. See also [LDPTR]. (See the
                                                                  parser document.)
 
-                                                                 _ The parse engine can set [LDTY] to PKI_LTYPE_E::FRAG during
+                                                                 _ The parse engine can set [LDTY] to PKI_LTYPE_E::IPFRAG during
                                                                  Layer C processing when it finds that the outer IP packet is fragmented.
 
                                                                  _ The parse engine can also set [LDTY] to one of PKI_LTYPE_E::UDP_GENEVE,
@@ -2423,7 +2424,7 @@ union bdk_pki_wqe_s
         uint64_t lfty                  : 5;  /**< [185:181] Layer F header type parsed, often corresponding to layer 4 (UDP/TCP).
                                                                  Enumerated by PKI_LTYPE_E. (See the parser document.)
 
-                                                                 _ The parse engine can set [LFTY] to PKI_LTYPE_E::FRAG during
+                                                                 _ The parse engine can set [LFTY] to PKI_LTYPE_E::IPFRAG during
                                                                  Layer E processing when it finds that the inner IP packet is fragmented.
 
                                                                  _ The parse engine can also set [LFTY] to one of PKI_LTYPE_E::IPCOMP,
@@ -2535,7 +2536,7 @@ union bdk_pki_wqe_s
         uint64_t lfptr                 : 8;  /**< [303:296] Byte pointer to the start of Layer F relative to the start of the packet.
                                                                  See [LFTY].
 
-                                                                 _ When the parse engine sets [LFTY] to PKI_LTYPE_E::FRAG during Layer E
+                                                                 _ When the parse engine sets [LFTY] to PKI_LTYPE_E::IPFRAG during Layer E
                                                                  parsing, [LFPTR] points to the inner IPv4 header or 8 bytes past the IPv6
                                                                  fragmentation extension header.
 
@@ -2561,7 +2562,7 @@ union bdk_pki_wqe_s
         uint64_t ldptr                 : 8;  /**< [287:280] Byte pointer to the start of Layer D relative to the start of the packet.
                                                                  See [LDTY].
 
-                                                                 _ When the parse engine sets [LDTY] to PKI_LTYPE_E::FRAG during Layer C
+                                                                 _ When the parse engine sets [LDTY] to PKI_LTYPE_E::IPFRAG during Layer C
                                                                  parsing, [LDPTR] points to the outer IPv4 header or 8 bytes past the IPv6
                                                                  fragmentation extension header.
 
@@ -2650,7 +2651,7 @@ union bdk_pki_wqe_s
         uint64_t ldptr                 : 8;  /**< [287:280] Byte pointer to the start of Layer D relative to the start of the packet.
                                                                  See [LDTY].
 
-                                                                 _ When the parse engine sets [LDTY] to PKI_LTYPE_E::FRAG during Layer C
+                                                                 _ When the parse engine sets [LDTY] to PKI_LTYPE_E::IPFRAG during Layer C
                                                                  parsing, [LDPTR] points to the outer IPv4 header or 8 bytes past the IPv6
                                                                  fragmentation extension header.
 
@@ -2679,7 +2680,7 @@ union bdk_pki_wqe_s
         uint64_t lfptr                 : 8;  /**< [303:296] Byte pointer to the start of Layer F relative to the start of the packet.
                                                                  See [LFTY].
 
-                                                                 _ When the parse engine sets [LFTY] to PKI_LTYPE_E::FRAG during Layer E
+                                                                 _ When the parse engine sets [LFTY] to PKI_LTYPE_E::IPFRAG during Layer E
                                                                  parsing, [LFPTR] points to the inner IPv4 header or 8 bytes past the IPv6
                                                                  fragmentation extension header.
 

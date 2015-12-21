@@ -368,9 +368,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset one-shot pulse (lasts for 4 cycles). */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1/H) Reset one-shot pulse (lasts for 4 cycles). */
 #else /* Word 0 - Little Endian */
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset one-shot pulse (lasts for 4 cycles). */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1/H) Reset one-shot pulse (lasts for 4 cycles). */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;

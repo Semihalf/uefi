@@ -75,12 +75,16 @@
 #define BDK_PEM_INT_VEC_E_ERROR_AERI_CLEAR (1) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_ERROR_PMEI (2) /**< See PCIERC()_CFG036. */
 #define BDK_PEM_INT_VEC_E_ERROR_PMEI_CLEAR (3) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_HP_INT_CN81XX (0xe) /**< PCI hot-plug interrupt set vector. */
 #define BDK_PEM_INT_VEC_E_HP_INT_CN88XX (0xe) /**< PCI hot-plug interrupt set vector. Added in pass 2. */
 #define BDK_PEM_INT_VEC_E_HP_INT_CN83XX (0xe) /**< PCI hot-plug interrupt set vector. */
-#define BDK_PEM_INT_VEC_E_HP_INT_CLEAR_CN81XX (0xf) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_HP_INT_CLEAR_CN88XX (0xf) /**< Level sensitive interrupt clear vector. Added in pass 2. */
 #define BDK_PEM_INT_VEC_E_HP_INT_CLEAR_CN83XX (0xf) /**< Level sensitive interrupt clear vector. */
+#define BDK_PEM_INT_VEC_E_HP_PMEI (2) /**< Hot-plug and power management interrupt. See PCIERC()_CFG034 and
+                                       PCIERC()_CFG036.
+                                       
+                                       Internal:
+                                       This is T88's ERROR_PMEI and HP_INT combined onto vector 2. */
+#define BDK_PEM_INT_VEC_E_HP_PMEI_CLEAR (3) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_INTA (4) /**< PCI INTA legacy interrupt set vector. */
 #define BDK_PEM_INT_VEC_E_INTA_CLEAR (5) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_INTB (6) /**< PCI INTB legacy interrupt set vector. */
@@ -6549,9 +6553,11 @@ typedef union
         uint64_t reserved_8_63         : 56;
         uint64_t inv_m2s_par           : 1;  /**< [  7:  7](R/W) Invert the generated parity to be written into the M2S FIFO
                                                                  to force a parity error when it is later read. */
-        uint64_t intval                : 7;  /**< [  6:  0](RO/H) Status of INTX, PMEI, and AERI interrupts. */
+        uint64_t reserved_6            : 1;
+        uint64_t intval                : 6;  /**< [  5:  0](RO/H) Status of INTX, HP_PMEI, and AERI interrupts. */
 #else /* Word 0 - Little Endian */
-        uint64_t intval                : 7;  /**< [  6:  0](RO/H) Status of INTX, PMEI, and AERI interrupts. */
+        uint64_t intval                : 6;  /**< [  5:  0](RO/H) Status of INTX, HP_PMEI, and AERI interrupts. */
+        uint64_t reserved_6            : 1;
         uint64_t inv_m2s_par           : 1;  /**< [  7:  7](R/W) Invert the generated parity to be written into the M2S FIFO
                                                                  to force a parity error when it is later read. */
         uint64_t reserved_8_63         : 56;
@@ -7882,7 +7888,7 @@ typedef union
 static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=2) && (b<=15)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=2) && (b<=13)))
         return 0x87e0c0f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=15)))
         return 0x87e0c0f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
@@ -7930,7 +7936,7 @@ typedef union
 static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=2) && (b<=15)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=2) && (b<=13)))
         return 0x87e0c0f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=15)))
         return 0x87e0c0f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0xf);
