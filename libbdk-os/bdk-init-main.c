@@ -33,6 +33,15 @@ static void __bdk_init_sysreg(void)
         BDK_MSR(s3_0_c11_c0_0, cvmctl_el1.u);
     }
 
+    /* Bug #27499 - ISB not flushing the pipeline after a TLBI */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    {
+        bdk_ap_cvmctl_el1_t cvmctl_el1;
+        BDK_MRS(s3_0_c11_c0_0, cvmctl_el1.u);
+        cvmctl_el1.s.isb_flush = 1;
+        BDK_MSR(s3_0_c11_c0_0, cvmctl_el1.u);
+    }
+
     /* The defaults for write buffer timeouts are poor */
     bdk_ap_cvmmemctl0_el1_t cvmmemctl0_el1;
     BDK_MRS(s3_0_c11_c0_4, cvmmemctl0_el1.u);
