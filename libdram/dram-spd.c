@@ -31,7 +31,7 @@ int read_entire_spd(bdk_node_t node, dram_config_t *cfg, int lmc, int dimm)
     int64_t dev_type = bdk_twsix_read_ia(node, bus, address, DDR4_SPD_KEY_BYTE_DEVICE_TYPE, 1, 1);
     if (dev_type < 0)
         return -1; /* No DIMM */
-    int spd_size = (dev_type == 0xc0) ? 512 : 256;
+    int spd_size = (dev_type == 0x0c) ? 512 : 256;
 
     /* Allocate storage */
     uint32_t *spd_buf = malloc(spd_size);
