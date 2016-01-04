@@ -3,6 +3,7 @@
 #define CCPI_MIN_LANES 24
 #define CCPI_MIN_LINKS 2
 #define CCPI_MAX_LINKS 3
+#define CCPI_SHORT_TIMEOUT 1 /* Seconds to wait for and CCPI links for quick detection of single node */
 #define CCPI_MASTER_TIMEOUT 30 /* Seconds to wait for CCPI links */
 
 #define EOL "\33[0K\r\n" /* Erase EOL */
@@ -284,6 +285,7 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
     const uint64_t one_second = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
     const uint64_t start_time = bdk_clock_get_count(BDK_CLOCK_MAIN_REF);
     const uint64_t master_timeout = start_time + one_second * CCPI_MASTER_TIMEOUT;
+    const uint64_t short_timeout = start_time + one_second * CCPI_SHORT_TIMEOUT;
 
     /* Loop forever trying to get CCPI links up */
     uint64_t link_up_time = start_time + one_second;
@@ -479,6 +481,13 @@ skip_lane:
             bdk_dbg_uart_str("CCPI Lanes Ready: ");
             uart_dec2(good_lanes);
             bdk_dbg_uart_str(EOL);
+        }
+
+        if (is_master && (wall_time >= short_timeout) && (good_lanes == 0))
+        {
+            if (ccpi_trace)
+                bdk_dbg_uart_str("CCPI node not detected, multi-node not available" EOL);
+            return -1;
         }
 
         /* Don't check links until all lanes are up */
