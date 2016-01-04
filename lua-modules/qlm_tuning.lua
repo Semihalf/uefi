@@ -122,7 +122,6 @@ local function do_prbs(mode)
         printf("\n\n");
         printf("Time: %d seconds (Press 'Q' to quit patterns, 'E' to inject an error, 'C' to clear errors,\n", run_time)
         printf("                  'X' to exit output and leave the pattern generators running,\n")
-        printf("                  'P' to change TX pre/post-emphasis, 'S' to change TX swing,\n")
         printf("                  '0' - '3' to display the eye diagram for the lane on QLM %d)\n", qlm_tuning.qlm)
         for qlm_base=1,#qlm_list,3 do
             output_line(qlm_base, "", function(qlm, lane)
@@ -240,37 +239,10 @@ local function do_prbs(mode)
             end
             start_time = os.time()
         end
-        if (key == 'p') or (key =='P') then
-            printf("Usage: CFG_TX_PREMPTAP Bits [8:5] = Tx Post Tap ; Bits [3:0] = Tx Pre Tap\n")
-            for _,qlm_num in ipairs(qlm_list) do
-                local csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm_num,0).cfg_tx_premptap
-                printf("GSERX_LANEX_TX_PRE_EMPHASIS(%d,0)[CFG_TX_PREMPTAP] = 0x%x\n", qlm_num, csr_value)
-                local csr_setting = menu.prompt_number("New setting for CFG_TX_PREMTAP", csr_value, 0, 511)
-                local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_num)
-                for lane=0, num_lanes-1 do
-                    cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm_num,lane).cfg_tx_premptap = csr_setting
-                    cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm_num,lane).tx_premptap_ovrrd_val = 1
-                end
-                cavium.c.bdk_qlm_rx_equalization(menu.node, qlm_num, -1)
-            end
+        if key and (key >= '0') and (key <= '3') then
+            local lane = tonumber(key)
+            cavium.c.bdk_qlm_eye_display(menu.node, qlm_tuning.qlm, lane, 1, nil)
         end
-        if (key == 's') or (key =='S') then
-            for _,qlm_num in ipairs(qlm_list) do
-                local csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm_num,0).cfg_tx_swing
-                printf("GSERX_LANEX_TX_CFG_0(%d,0)[CFG_TX_SWING] = 0x%x\n", qlm_num, csr_value)
-                local csr_setting = menu.prompt_number("New setting for CFG_TX_SWING", csr_value, 0, 31)
-                local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_num)
-                for lane=0, num_lanes-1 do
-                    cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm_num,lane).cfg_tx_swing = csr_setting
-                    cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm_num,lane).tx_swing_ovrrd_en = 1
-                end
-                cavium.c.bdk_qlm_rx_equalization(menu.node, qlm_num, -1)
-            end
-         end
-         if key and (key >= '0') and (key <= '3') then
-             local lane = tonumber(key)
-             cavium.c.bdk_qlm_eye_display(menu.node, qlm_tuning.qlm, lane, 1, nil)
-         end
     until (key == 'x') or (key == 'X') or (key == 'q') or (key == 'Q')
 
     -- Stop the pattern generator unless the user specifically wants it to
@@ -288,38 +260,51 @@ local function do_prbs(mode)
     end
 end
 
-local function set_pre_post_tap(qlm)
+local function tuning_set_pre(qlm)
     local csr_value = 0
     local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
-    printf("Usage: CFG_TX_PREMPTAP Bits [8:5] = Tx Post Tap ; Bits [3:0] = Tx Pre Tap\n")
     for lane=0, num_lanes-1 do
-        csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm,lane).cfg_tx_premptap
-        printf("GSERX_LANEX_TX_PRE_EMPHASIS(%d,%d)[CFG_TX_PREMPTAP] = 0x%x\n", qlm, lane, csr_value)
+        csr_value = cavium.csr[menu.node].GSERX_LANEX_SDS_PIN_MON_2(qlm,lane).pcs_sds_premptap
+        csr_value = bit64.band(csr_value, 0xf)
+        printf("N%d.QLM%d: Lane %d pre-cursor emphasis %d\n", menu.node, qlm, lane, csr_value)
     end
-    local csr_setting = menu.prompt_number("New setting for QLM%s CFG_TX_PREMTAP" % qlm, csr_value, 0, 511)
+    local csr_setting = menu.prompt_number("New setting for pre-cursor emphasis", csr_value, 0, 10)
     for lane=0, num_lanes-1 do
-        cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm,lane).cfg_tx_premptap = csr_setting
-        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_premptap_ovrrd_val = 1
+        cavium.c.bdk_qlm_tune_lane_tx(menu.node, qlm, lane, -1, csr_setting, -1, -1, -1);
     end
     cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
 end
 
-local function set_swing_tap(qlm)
+local function tuning_set_post(qlm)
     local csr_value = 0
     local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
     for lane=0, num_lanes-1 do
-        csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm,lane).cfg_tx_swing
-        printf("GSERX_LANEX_TX_CFG_0(%d,%d)[CFG_TX_SWING] = 0x%x\n", qlm, lane, csr_value)
+        csr_value = cavium.csr[menu.node].GSERX_LANEX_SDS_PIN_MON_2(qlm,lane).pcs_sds_premptap
+        csr_value = bit64.rshift(csr_value, 4)
+        printf("N%d.QLM%d: Lane %d post-cursor emphasis %d\n", menu.node, qlm, lane, csr_value)
     end
-    local csr_setting = menu.prompt_number("New setting for QLM%s CFG_TX_SWING" % qlm, csr_value, 0, 31)
+    local csr_setting = menu.prompt_number("New setting for post-cursor emphasis", csr_value, 0, 15)
     for lane=0, num_lanes-1 do
-        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm,lane).cfg_tx_swing = csr_setting
-        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_swing_ovrrd_en = 1
+        cavium.c.bdk_qlm_tune_lane_tx(menu.node, qlm, lane, -1, -1, csr_setting, -1, -1);
     end
     cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
 end
 
-local function set_gain(qlm)
+local function tuning_set_swing(qlm)
+    local csr_value = 0
+    local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
+    for lane=0, num_lanes-1 do
+        csr_value = cavium.csr[menu.node].GSERX_LANEX_SDS_PIN_MON_1(qlm,lane).pcs_sds_tx_swing
+        printf("N%d.QLM%d: Lane %d cursor swing %d\n", menu.node, qlm, lane, csr_value)
+    end
+    local csr_setting = menu.prompt_number("New setting for cursor swing", csr_value, 0, 25)
+    for lane=0, num_lanes-1 do
+        cavium.c.bdk_qlm_tune_lane_tx(menu.node, qlm, lane, csr_setting, -1, -1, -1, -1);
+    end
+    cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
+end
+
+local function tuning_set_gain(qlm)
     local csr_value = 0
     local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
     for lane=0, num_lanes-1 do
@@ -328,29 +313,21 @@ local function set_gain(qlm)
     end
     local csr_setting = menu.prompt_number("New setting for QLM%s PCS_SDS_TX_GAIN" % qlm, csr_value, 0, 7)
     for lane=0, num_lanes-1 do
-        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_3(qlm,lane).pcs_sds_tx_gain = csr_setting
+        cavium.c.bdk_qlm_tune_lane_tx(menu.node, qlm, lane, -1, -1, -1, csr_setting, -1);
     end
     cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
 end
 
-local function set_vboost(qlm)
+local function tuning_set_vboost(qlm)
     local csr_value = 0
     local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
     for lane=0, num_lanes-1 do
-        if cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_vboost_en_ovrrd_en == 1 then
-            csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_CFG_3(qlm,lane).cfg_tx_vboost_en
-        end
+        csr_value = cavium.csr[menu.node].GSERX_LANEX_SDS_PIN_MON_2(qlm,lane).pcs_sds_tx_vboost_en
         printf("GSERX_LANEX_TX_CFG_3(%d,%d)[CFG_TX_VBOOST_EN] = 0x%x\n", qlm, lane, csr_value)
     end
     local csr_setting = menu.prompt_number("New setting for QLM%s CFG_TX_VBOOST_EN" % qlm, csr_value, 0, 1)
     for lane=0, num_lanes-1 do
-        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_3(qlm,lane).cfg_tx_vboost_en = csr_setting
-        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_vboost_en_ovrrd_en = 1
-        cavium.csr[menu.node].GSERX_LANEX_PCS_CTLIFC_0(qlm,lane).cfg_tx_vboost_en_ovrrd_val = csr_setting
-        cavium.csr[menu.node].GSERX_LANEX_PCS_CTLIFC_0(qlm,lane).cfg_tx_coeff_req_ovrrd_val = csr_setting
-        cavium.csr[menu.node].GSERX_LANEX_PCS_CTLIFC_2(qlm,lane).cfg_tx_vboost_en_ovrrd_en = 1
-        cavium.csr[menu.node].GSERX_LANEX_PCS_CTLIFC_2(qlm,lane).cfg_tx_coeff_req_ovrrd_en = 1
-        cavium.csr[menu.node].GSERX_LANEX_PCS_CTLIFC_2(qlm,lane).ctlifc_ovrrd_req = 1
+        cavium.c.bdk_qlm_tune_lane_tx(menu.node, qlm, lane, -1, -1, -1, -1, csr_setting);
     end
     cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
 end
@@ -467,10 +444,11 @@ function qlm_tuning.run()
         m:item("fixedw", "Fixed 10 bit word (PAT)", do_custom, 0x8)
         m:item("dc-bal", "DC-balanced word (PAT, ~PAT)", do_custom, 0x9)
         m:item("fixedp", "Fixed pattern (000, PAT, 3ff, ~PAT)", do_custom, 0xa)
-        m:item("swing",  "Set %s TX Swing Tap" % current_qlm, set_swing_tap, qlm_tuning.qlm)
-        m:item("prepost","Set %s Post and Pre TX Taps" % current_qlm, set_pre_post_tap, qlm_tuning.qlm)
-        m:item("gain",  "Set %s TX Gain" % current_qlm, set_gain, qlm_tuning.qlm)
-        m:item("vboost","Set %s TX VBoost" % current_qlm, set_vboost, qlm_tuning.qlm)
+        m:item("swing",  "Set %s TX Cursor swing" % current_qlm, tuning_set_swing, qlm_tuning.qlm)
+        m:item("pre",    "Set %s TX Pre-cursor emphasis" % current_qlm, tuning_set_pre, qlm_tuning.qlm)
+        m:item("post",   "Set %s TX Post-cursor emphasis" % current_qlm, tuning_set_post, qlm_tuning.qlm)
+        m:item("gain",   "Set %s TX Gain" % current_qlm, tuning_set_gain, qlm_tuning.qlm)
+        m:item("vboost", "Set %s TX VBoost" % current_qlm, tuning_set_vboost, qlm_tuning.qlm)
         m:item("rx_eval","Perform a RX equalization evaluation on %s" % current_qlm, manual_rx_evaluation, qlm_tuning.qlm)
         m:item("loop",   "Toggle loopback of TX to RX on %s" % current_qlm, do_loopback)
         m:item("eye",    "Display Eye", do_eye)

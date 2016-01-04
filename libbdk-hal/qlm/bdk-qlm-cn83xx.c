@@ -1114,6 +1114,7 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn83xx = {
     .inject_prbs_error = __bdk_qlm_inject_prbs_error,
     .enable_loop = __bdk_qlm_enable_loop,
     .auto_config = bdk_qlm_mcu_auto_config,
+    .tune_lane_tx = __bdk_qlm_tune_lane_tx,
     .rx_equalization = __bdk_qlm_rx_equalization,
     .eye_capture = __bdk_qlm_eye_capture_cn8xxx,
 };

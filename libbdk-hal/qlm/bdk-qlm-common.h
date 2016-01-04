@@ -169,6 +169,23 @@ extern int bdk_qlm_mcu_auto_config(bdk_node_t node);
 extern int __bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int qlm_lane);
 
 /**
+ * Configure the TX tuning parameters for a QLM lane. The tuning parameters can
+ * be specified as -1 to maintain their current value
+ *
+ * @param node      Node to configure
+ * @param qlm       QLM to configure
+ * @param lane      Lane to configure
+ * @param tx_swing  Transmit swing (coef 0) Range 0-31
+ * @param tx_pre    Pre cursor emphasis (Coef -1). Range 0-15
+ * @param tx_post   Post cursor emphasis (Coef +1). Range 0-31
+ * @param tx_gain   Transmit gain. Range 0-7
+ * @param tx_vboost Transmit voltage boost. Range 0-1
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int __bdk_qlm_tune_lane_tx(bdk_node_t node, int qlm, int lane, int tx_swing, int tx_pre, int tx_post, int tx_gain, int tx_vboost);
+
+/**
  * Some QLM speeds need to override the default tuning parameters
  *
  * @param node     Node to use in a Numa setup
