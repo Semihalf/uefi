@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -4467,7 +4467,9 @@ typedef union
     struct bdk_lmcx_ext_config2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
+        uint64_t reserved_27_63        : 37;
+        uint64_t sref_auto_idle_thres  : 5;  /**< [ 26: 22](RO) Reserved. */
+        uint64_t sref_auto_enable      : 1;  /**< [ 21: 21](RO) Reserved. */
         uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](RO) Reserved. */
         uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](RO) Reserved. */
         uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](RO) Reserved. */
@@ -4541,14 +4543,28 @@ typedef union
         uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](RO) Reserved. */
         uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](RO) Reserved. */
         uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](RO) Reserved. */
-        uint64_t reserved_21_63        : 43;
+        uint64_t sref_auto_enable      : 1;  /**< [ 21: 21](RO) Reserved. */
+        uint64_t sref_auto_idle_thres  : 5;  /**< [ 26: 22](RO) Reserved. */
+        uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_lmcx_ext_config2_s cn88xxp1; */
     struct bdk_lmcx_ext_config2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
+        uint64_t reserved_27_63        : 37;
+        uint64_t sref_auto_idle_thres  : 5;  /**< [ 26: 22](R/W) Self-refresh idle threshold.
+                                                                 Enter self-refresh mode after the memory controller has been idle for
+                                                                 2^(SREF_AUTO_IDLE_THRES-1) * TREFI.
+                                                                 Where TREFI time is controlled by LMC()_CONFIG[REF_ZQCS_INT<6:0>].
+
+                                                                 0x0 = Automatic self refresh interval is controlled by
+                                                                 2^(2+LMC()_CONFIG[IDLEPOWER]) CK cycles instead. Self refresh has priority
+                                                                 over precharge power-down.
+
+                                                                 Only valid when LMC()_EXT_CONFIG2[SREF_AUTO_ENABLE] is set. */
+        uint64_t sref_auto_enable      : 1;  /**< [ 21: 21](R/W) Enable automatic self-refresh mode.
+                                                                 This field should only be set after initialization. */
         uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Reserved, MBZ.
                                                                  Internal:
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
@@ -4682,14 +4698,28 @@ typedef union
                                                                  Internal:
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R1]. */
-        uint64_t reserved_21_63        : 43;
+        uint64_t sref_auto_enable      : 1;  /**< [ 21: 21](R/W) Enable automatic self-refresh mode.
+                                                                 This field should only be set after initialization. */
+        uint64_t sref_auto_idle_thres  : 5;  /**< [ 26: 22](R/W) Self-refresh idle threshold.
+                                                                 Enter self-refresh mode after the memory controller has been idle for
+                                                                 2^(SREF_AUTO_IDLE_THRES-1) * TREFI.
+                                                                 Where TREFI time is controlled by LMC()_CONFIG[REF_ZQCS_INT<6:0>].
+
+                                                                 0x0 = Automatic self refresh interval is controlled by
+                                                                 2^(2+LMC()_CONFIG[IDLEPOWER]) CK cycles instead. Self refresh has priority
+                                                                 over precharge power-down.
+
+                                                                 Only valid when LMC()_EXT_CONFIG2[SREF_AUTO_ENABLE] is set. */
+        uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_lmcx_ext_config2_cn81xx cn83xx; */
     struct bdk_lmcx_ext_config2_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
+        uint64_t reserved_27_63        : 37;
+        uint64_t sref_auto_idle_thres  : 5;  /**< [ 26: 22](RO) Reserved. */
+        uint64_t sref_auto_enable      : 1;  /**< [ 21: 21](RO) Reserved. */
         uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Reserved, MBZ.
                                                                  Internal:
                                                                  Added in pass 2.0.
@@ -4847,7 +4877,9 @@ typedef union
 
                                                                  When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R1]. */
-        uint64_t reserved_21_63        : 43;
+        uint64_t sref_auto_enable      : 1;  /**< [ 21: 21](RO) Reserved. */
+        uint64_t sref_auto_idle_thres  : 5;  /**< [ 26: 22](RO) Reserved. */
+        uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
     } cn88xxp2;
 } bdk_lmcx_ext_config2_t;

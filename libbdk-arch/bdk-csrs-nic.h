@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -3878,13 +3878,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
@@ -3965,13 +3966,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
@@ -4138,13 +4140,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
@@ -4193,13 +4196,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
@@ -4642,13 +4646,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
@@ -4729,13 +4734,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
@@ -4902,13 +4908,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
@@ -4957,13 +4964,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
@@ -5124,13 +5132,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
@@ -5211,13 +5220,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
@@ -5384,13 +5394,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
         uint64_t blk2                  : 16; /**< [ 31: 16](R/W) Group 0 Block 2 memories.
@@ -5439,13 +5450,14 @@ typedef union
                                                                  nic_l.nic_l1.reb.nic_reb_stdn_buffer.nic_reb_fifo_256x128.nic_reb_fifo
                                                                  mem_256x128.
                                                                    <30>  = nic_l.nic_l1.reb.nic_reb_x2p.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
-                                                                   <29:20>  =
+                                                                   <29:18> = Reserved.
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
                                                                  peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
-                                                                   <19:10>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
                                                                  ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
-                                                                   <9:0>  =
+                                                                   <17:0>  = All memories in "pipeline" blocks aliased together
                                                                  nic_l.nic_l1.reb.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
                                                                  ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
 #endif /* Word 0 - End */
