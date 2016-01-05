@@ -1183,7 +1183,7 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
             /* Skip tuning for CCPI running KR training as tuning overrides
                the values found by training */
             BDK_CSR_INIT(qlm_cfg, node, BDK_OCX_QLMX_CFG(qlm - 8));
-            if (qlm_cfg.s.trn_ena)
+            if (qlm_cfg.s.trn_ena && !qlm_cfg.s.trn_rxeq_only)
                 return;
             break;
         }
