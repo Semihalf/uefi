@@ -1354,8 +1354,8 @@ void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz
             }
         }
 
-        int tx_pre = premptap & 0xf;
-        int tx_post = premptap >> 4;
+        int tx_pre = (premptap == -1) ? -1 : premptap & 0xf;
+        int tx_post = (premptap == -1) ? -1 : premptap >> 4;
         int gain = bdk_config_get_int(BDK_CONFIG_QLM_TUNING_TX_GAIN, node, qlm, lane);
         int vboost = bdk_config_get_int(BDK_CONFIG_QLM_TUNING_TX_VBOOST, node, qlm, lane);
 
