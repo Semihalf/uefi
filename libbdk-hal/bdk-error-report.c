@@ -1,5 +1,10 @@
 #include <bdk.h>
 
+/* It is questionable whether we want to report CCPI errors that are
+   automatically fixed by the hardware. This controls if these are
+   reported for CN88XX pass 2 and newr chips */
+static int report_ccpi_recoverable_errors = 1;
+
 /* This code is an optional part of the BDK. It is only linked in
     if BDK_REQUIRE() needs it */
 BDK_REQUIRE_DEFINE(ERROR_DECODE);
@@ -258,14 +263,23 @@ static void check_cn88xx(bdk_node_t node)
             for (int lane=0; lane<24; lane++)
             {
                 BDK_CSR_INIT(c, node, BDK_OCX_LNEX_INT(lane));
-                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, disp_err);
-                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, bad_64b67b);
+                if (report_ccpi_recoverable_errors)
+                {
+                    CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, disp_err);
+                    CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, bad_64b67b);
+                    CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, crc32_err);
+                }
+                else
+                {
+                    CLEAR_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, disp_err);
+                    CLEAR_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, bad_64b67b);
+                    CLEAR_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, crc32_err);
+                }
                 CLEAR_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, stat_cnt_ovfl);
                 CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, stat_msg);
                 CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, dskew_fifo_ovfl);
                 CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, scrm_sync_loss);
                 CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, ukwn_cntl_word);
-                CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, crc32_err);
                 CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, bdry_sync_loss);
                 CHECK_CHIP_ERROR(BDK_OCX_LNEX_INT(lane), s, serdes_lock_loss);
             }
@@ -276,9 +290,17 @@ static void check_cn88xx(bdk_node_t node)
             BDK_CSR_INIT(c, node, BDK_OCX_COM_LINKX_INT(link));
             if (!loopback)
             {
-                CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, bad_word);
+                if (report_ccpi_recoverable_errors)
+                {
+                    CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, bad_word);
+                }
+                else
+                {
+                    CLEAR_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, bad_word);
+                }
                 CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, align_fail);
                 CLEAR_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, align_done);
+                CLEAR_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, up);
                 CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, stop);
                 if (c.s.blk_err)
                 {
@@ -308,6 +330,10 @@ void bdk_error_enable(bdk_node_t node)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
+        /* Require reporting of all CCPI errors on pass 1 as automatic
+           recovery doesn't work */
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+            report_ccpi_recoverable_errors = 1;
         enable_cn88xx(node);
         check_cn88xx(node);
         bdk_error_check = check_cn88xx;
