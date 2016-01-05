@@ -181,7 +181,7 @@ local function board_test()
     local tg_pass = true
     local trafficgen = require("trafficgen")
     local tg = trafficgen.new()
-    cavium.c.bdk_wait_usec(3 * 1000000) -- wait for links to come up.
+    cavium.c.bdk_if_link_wait_all(10 * 1000000) -- wait for links to come up.
     -- Do 100k packets, 60 bytes each, 50% of gigabit, timeout 5 secs
     all_pass = tg_run(tg, "XLAUI0", 60, 100000, 50, 5) and all_pass
     -- Do 100k packets, 1499 bytes each, 50% of gigabit, timeout 7 secs
