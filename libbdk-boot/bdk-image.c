@@ -127,7 +127,16 @@ int bdk_image_boot(const char *filename, uint64_t loc)
     }
 
     /* Putting all cores except this one in reset */
-    bdk_reset_cores(bdk_numa_local(), -2);
+    for (bdk_node_t node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    {
+        if (bdk_numa_exists(node))
+        {
+            if (node == bdk_numa_local())
+                bdk_reset_cores(node, -2);
+            else
+                bdk_reset_cores(node, -1);
+        }
+    }
 
     printf("---\n");
     fflush(NULL);

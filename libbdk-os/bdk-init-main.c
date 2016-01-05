@@ -124,6 +124,8 @@ void __bdk_init_node(bdk_node_t node)
         bdk_error_enable(node);
         if (bdk_error_check)
         {
+            if (node != bdk_numa_local())
+                bdk_init_cores(node, 1);
             if (bdk_thread_create(node, 0, __bdk_error_poll, 0, NULL, 0))
                 bdk_fatal("Create of error poll thread failed\n");
         }
