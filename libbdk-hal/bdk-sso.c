@@ -1,7 +1,9 @@
 #include <bdk.h>
 
-/* Channels is 12 bits in WQE */
-static bdk_if_handle_t sso_map[BDK_NUMA_MAX_NODES][0x1000] = { { 0, }, };
+/* Channels is 12 bits in WQE. This contains pointers to 1024 element arrays
+   for each node. They are not allocated until a network interface is required
+   for the node to save space */
+static bdk_if_handle_t *sso_map[BDK_NUMA_MAX_NODES] = { NULL, };
 
 /**
  * Initialize the SSO
@@ -70,6 +72,16 @@ int bdk_sso_init(bdk_node_t node)
  */
 void bdk_sso_register_handle(bdk_if_handle_t handle)
 {
+    if (sso_map[handle->node] == NULL)
+    {
+        /* Channels is 12 bits in WQE */
+        sso_map[handle->node] = calloc(0x1000, sizeof(bdk_if_handle_t));
+        if (sso_map[handle->node] == NULL)
+        {
+            bdk_error("N%d.SSO: Failed to allocate channel mapping table\n", handle->node);
+            return;
+        }
+    }
     sso_map[handle->node][handle->pki_channel] = handle;
 }
 
@@ -85,7 +97,10 @@ int bdk_sso_wqe_to_packet(const void *work, bdk_if_packet_t *packet)
 {
     const union bdk_pki_wqe_s *wqe = work;
     const bdk_node_t input_node = wqe->s.node;
-    packet->if_handle = sso_map[input_node][wqe->s.chan];
+    if (sso_map[input_node])
+        packet->if_handle = sso_map[input_node][wqe->s.chan];
+    else
+        packet->if_handle = NULL;
     packet->length = wqe->s.len;
     packet->segments = wqe->s.bufs;
     /* Error combines word2[errlev] and word2[opcode] into 11 bits */
