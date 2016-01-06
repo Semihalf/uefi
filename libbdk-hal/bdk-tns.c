@@ -745,11 +745,11 @@ typedef struct _tns_profile {
  * This array contains the TNS Datapath HW configuration in a simple run-length format.
  * The Search Engine, SDE and TxQ HW configuration is done separately.
  */
-tns_datapath_config_t tns_datapath_config_passthru[] = {
+static const tns_datapath_config_t tns_datapath_config_passthru[] = {
 #include "bdk-tns-datapath-config-passthru.h"
 };
 
-tns_datapath_config_t tns_datapath_config_bgxloopback[] = {
+static const tns_datapath_config_t tns_datapath_config_bgxloopback[] = {
 #include "bdk-tns-datapath-config-bgxloopback.h"
 };
 
@@ -757,15 +757,15 @@ tns_datapath_config_t tns_datapath_config_bgxloopback[] = {
  * This array contains the TNS Search Engine, SDE and TxQ HW configuration in
  * a packed format.  The DataPath HW configuration is done separately.
  */
-tns_sst_config_t tns_sst_config_passthru[] = {
+static const tns_sst_config_t tns_sst_config_passthru[] = {
 #include "bdk-tns-sst-config-passthru.h"
 };
 
-tns_sst_config_t tns_sst_config_bgxloopback[] = {
+static const tns_sst_config_t tns_sst_config_bgxloopback[] = {
 #include "bdk-tns-sst-config-bgxloopback.h"
 };
 
-tns_profile_t tns_profiles[] = {
+static const tns_profile_t tns_profiles[] = {
     {"passthru", tns_sst_config_passthru, TNS_CONFIG_SIZE(tns_sst_config_passthru),
         tns_datapath_config_passthru, TNS_CONFIG_SIZE(tns_datapath_config_passthru)},
     {"bgxloopback", tns_sst_config_bgxloopback, TNS_CONFIG_SIZE(tns_sst_config_bgxloopback),
