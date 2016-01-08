@@ -18464,7 +18464,7 @@ static const int16_t __bdk_csr_db_CN88XXP2_0[] = {
 };
 
 const __bdk_csr_db_type_t __bdk_csr_db_csr[] = {
-    {-1, 0, 0, BDK_CSR_TYPE_NCB, 0, 0, {0,0,0,0}, {0,0,0,0}}, /* 0 */
+    {0, 0, 0, BDK_CSR_TYPE_NCB, 0, 0, {0,0,0,0}, {0,0,0,0}}, /* 0 */
     {    0,    1, 0, BDK_CSR_TYPE_SYSREG,8,  0,{ 3, 0, 0, 0},{ 0, 0, 0, 0}}, /* 1 */
     {   14,    3, 0, BDK_CSR_TYPE_SYSREG,4,  2,{ 6, 3, 0, 0},{ 2, 0, 0, 0}}, /* 2 */
     {   28,    4, 0, BDK_CSR_TYPE_SYSREG,4,  2,{ 6, 0, 0, 0},{ 2, 0, 0, 0}}, /* 3 */

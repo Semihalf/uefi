@@ -152,7 +152,7 @@ def writeDB(arch, regs):
     #
     # Write the per chip CSR tables
     #
-    null_csr = getCsrTable("{-1, 0, 0, BDK_CSR_TYPE_NCB, 0, 0, {0,0,0,0}, {0,0,0,0}}")
+    null_csr = getCsrTable("{0, 0, 0, BDK_CSR_TYPE_NCB, 0, 0, {0,0,0,0}, {0,0,0,0}}")
     for chip in chip_list.getChips():
         if not csr_utils.isChipArch(arch, chip):
             continue
