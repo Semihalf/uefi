@@ -14,7 +14,6 @@ extern void bdk_fatal(const char *format, ...) __attribute__ ((noreturn, format(
 extern void bdk_error(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
 extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 2)));
 #define bdk_warn_if(expression, format, ...) if (bdk_unlikely(expression)) bdk_warn(format, ##__VA_ARGS__)
-#define static_assert(a) _Static_assert(a, #a)
 
 /* The following defines control detailed tracing of various parts of the
    BDK. Each one can be enabled(1) or disabled(0) independently. These

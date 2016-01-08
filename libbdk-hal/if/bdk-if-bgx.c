@@ -1312,7 +1312,7 @@ static int vnic_setup(bdk_if_handle_t handle)
 
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     /* Make sure SQ dynamic data is in a different cache line */
-    static_assert((offsetof(bgx_priv_t, sq_state) & BDK_CACHE_LINE_MASK) == 0);
+    _Static_assert((offsetof(bgx_priv_t, sq_state) & BDK_CACHE_LINE_MASK) == 0, "NIC SQ not is different cache line");
 
     void *sq_memory = memalign(128, 16 * SQ_ENTRIES);
     if (!sq_memory)
