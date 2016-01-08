@@ -18,7 +18,9 @@
 
 
 #undef PI
-#define PI (3.14159265358979323846)
+// BDK: Changed to 3 to fix LLVM warning
+//#define PI (3.14159265358979323846)
+#define PI (3)
 #define RADIANS_PER_DEGREE (PI/180.0)
 
 
@@ -30,7 +32,8 @@
 
 
 static int math_abs (lua_State *L) {
-  lua_pushnumber(L, l_tg(fabs)(luaL_checknumber(L, 1)));
+  // BDK: Changed from fabs to labs to fix LLVM warning
+  lua_pushnumber(L, l_tg(labs)(luaL_checknumber(L, 1)));
   return 1;
 }
 
