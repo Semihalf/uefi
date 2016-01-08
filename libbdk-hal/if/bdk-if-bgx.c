@@ -1412,7 +1412,7 @@ static int vnic_setup(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_PKINDX_CFG(handle->pknd),
         c.s.lenerr_en = 0;
         c.s.minlen = 0;
-        c.s.maxlen = -1);
+        c.s.maxlen = 65535);
 
     /* Bypass the TNS */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_INTFX_SEND_CFG(handle->interface),
