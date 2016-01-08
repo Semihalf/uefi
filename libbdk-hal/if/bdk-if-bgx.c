@@ -5,12 +5,6 @@
     for CN88XX. This block combines SGMII, XAUI, DXAUI, RXAUI, XFI, XLAUI,
     10GBASE-KR, and 40GBASE-KR all into one interface */
 
-#define CQ_ENTRIES_QSIZE 0
-#define CQ_ENTRIES (1024 << CQ_ENTRIES_QSIZE)
-#define SQ_ENTRIES_QSIZE 0
-#define SQ_ENTRIES (1024 << SQ_ENTRIES_QSIZE)
-#define RBDR_ENTRIES_QSIZE 0
-#define RBDR_ENTRIES (8192 << RBDR_ENTRIES_QSIZE)
 #define MAX_MTU 9212
 
 typedef enum
@@ -25,15 +19,6 @@ typedef enum
     BGX_MODE_40G_KR,/* 4 lanes, 10.3125 Gbaud */
 } bgx_mode_t;
 
-/**
- * SQ state that changes is stored independently to avoid cache thrashing
- */
-typedef struct BDK_CACHE_LINE_ALIGNED
-{
-    int         sq_loc;         /* Location where the next send should go */
-    int         sq_available;   /* Amount of space left in the queue (fuzzy) */
-} bgx_priv_sq_t;
-
 typedef struct
 {
     /* BGX related config */
@@ -42,29 +27,7 @@ typedef struct
     int         num_port;       /* Number of physical ports on this interface */
     int         use_training;   /* True if this port is in 10G or 40G and uses training */
     uint64_t    restart_auto_neg; /* Time we last restarted auto-neg. Ued to make sure we give auto-neg enough time */
-
-    /* VNIC related config */
-    int         vnic;           /* NIC index number (0-127) */
-    int         qos;            /* NIC QoS level (0-7). We only use zero */
-    int         cq;             /* Which complete queue to use. The second index is always zero */
-    int         rbdr;           /* Which receive descriptor to use. The second index is always zero */
-    int         shares_cq;      /* This device shares a CQ/RBDR with another port */
-
-    /* Cached data from SQ for faster transmit */
-    void *      sq_base;        /* Pointer to the beginning of the SQ in memory */
-    bgx_priv_sq_t sq_state;     /* SQ state that changes is stored independently to avoid cache thrashing */
 } bgx_priv_t;
-
-typedef struct BDK_CACHE_LINE_ALIGNED
-{
-    void *base;
-    int loc;
-} vnic_queue_state_t;
-
-static void if_receive(int unused, void *hand);
-
-/* Table used to convert VNIC numbers to interface handles */
-static bdk_if_handle_t global_handle_table[128];
 
 /**
  * Create the private structure needed by BGX
@@ -309,17 +272,6 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_RX_LMACS(handle->interface),
         c.s.lmacs = priv->num_port);
 
-    /* Program LMAC credits */
-    int bytes_per_port = (48<<10) / priv->num_port;
-    int credit = (bytes_per_port - MAX_MTU) / 16;
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_LMACX_CREDIT(handle->interface * 4 + handle->index),
-        c.s.cc_unit_cnt = credit;
-        c.s.cc_packet_cnt = 0x1ff;
-        c.s.cc_enable = 1);
-    /* Pad packets to 60 bytes, 15 32bit words (before FCS) */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_LMACX_CFG(handle->interface * 4 + handle->index),
-        c.s.min_pkt_size = 15);
-
     /* Set the backpressure AND mask. Each interface gets 16 channels in this
        mask. When there is only 1 port, all 64 channels are available but
        the upper channels are used for anything. That's why this code only uses
@@ -355,8 +307,6 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
 
 static int if_probe(bdk_if_handle_t handle)
 {
-    static int next_free_vnic = 0;
-
     /* Don't show ports that have zero in BGXX_CMRX_RX_DMAC_CTL. These are
        not on the board and hidden by the bootstub */
     if (BDK_CSR_READ(handle->node, BDK_BGXX_CMRX_RX_DMAC_CTL(handle->interface, handle->index)) == 0)
@@ -365,27 +315,8 @@ static int if_probe(bdk_if_handle_t handle)
         return -1;
     }
 
-    if (next_free_vnic >= 128)
-    {
-        bdk_error("Ran out of VNIC interfaces\n");
-        return -1;
-    }
-
-    if (next_free_vnic == 0)
-    {
-        /* Must be done before the first vnic */
-        memset(global_handle_table, 0, sizeof(global_handle_table));
-    }
-
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     create_priv(handle->node, handle->interface, handle->index, priv);
-    priv->vnic = next_free_vnic++;
-    handle->vnic = priv->vnic;
-    /* Share CQ/RBDR for ports on the same interface unless DRAM is
-       setup. Sharing saves lots of memory at the cost of performance */
-    priv->shares_cq = handle->index > 0;
-    if (__bdk_is_dram_enabled(handle->node))
-        priv->shares_cq = 0;
 
     /* Change name to be something that might be meaningful to the user */
     const char *name_format = "UNKNOWN";
@@ -1066,378 +997,6 @@ static int xaui_link(bdk_if_handle_t handle)
     return 0;
 }
 
-static int vnic_setup_cq(bdk_if_handle_t handle)
-{
-    static int next_free_cq = 0;
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-    int cq;
-    int cq_idx = 0;
-
-    /* CN88XX pass 1.x had the drop level reset value too low */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CQM_CFG,
-        c.s.drop_level = 128);
-
-    if (priv->shares_cq)
-    {
-        /* These are allocated linearly. We know that the first port was
-           the last guy to allcoate a CQ */
-        cq = next_free_cq - 1;
-    }
-    else
-    {
-        if (next_free_cq >= 128)
-        {
-            bdk_error("%s: No free completion queues\n", handle->name);
-            return -1;
-        }
-        /* Note that the completion queue requires 512 byte alignment */
-        void *cq_memory = memalign(512, 512 * CQ_ENTRIES);
-        if (!cq_memory)
-        {
-            bdk_error("%s: Failed to allocate memory for completion queue\n", handle->name);
-            return -1;
-        }
-        cq = next_free_cq++;
-        /* Configure the completion queue (CQ) */
-        BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_CQX_BASE(cq, cq_idx),
-            bdk_ptr_to_phys(cq_memory));
-        BDK_CSR_MODIFY(c, handle->node, BDK_NIC_QSX_CQX_CFG(cq, cq_idx),
-            c.s.ena = 1;
-            c.s.caching = 1;
-            c.s.qsize = CQ_ENTRIES_QSIZE);
-    }
-
-    /* Configure our vnic to send to the CQ */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_SQX_CFG(priv->vnic, priv->qos),
-        c.s.cq_qs = cq;
-        c.s.cq_idx = cq_idx);
-
-    priv->cq = cq;
-
-    return 0;
-}
-
-static void vnic_fill_receive_buffer(bdk_if_handle_t handle, int rbdr_free)
-{
-    const int buffer_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
-    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-    int rbdr = priv->rbdr;
-    int rbdr_idx = 0;
-
-    BDK_CSR_INIT(rbdr_base, handle->node, BDK_NIC_QSX_RBDRX_BASE(rbdr, rbdr_idx));
-    BDK_CSR_INIT(rbdr_tail, handle->node, BDK_NIC_QSX_RBDRX_TAIL(rbdr, rbdr_idx));
-
-    uint64_t *rbdr_ptr = bdk_phys_to_ptr(rbdr_base.u);
-    int loc = rbdr_tail.s.tail_ptr;
-
-    int added = 0;
-    for (int i = 0; i < rbdr_free; i++)
-    {
-        bdk_if_packet_t packet;
-        if (bdk_if_alloc(&packet, buffer_size))
-        {
-            bdk_error("%s: Failed to allocate buffer for RX ring (added %d)\n", handle->name, added);
-            break;
-        }
-        rbdr_ptr[loc] = packet.packet[0].s.address;
-        loc++;
-        loc &= RBDR_ENTRIES - 1;
-        added++;
-    }
-    BDK_WMB;
-    BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_RBDRX_DOOR(rbdr, rbdr_idx), added);
-}
-
-static int vnic_setup_rbdr(bdk_if_handle_t handle)
-{
-    static int next_free_rbdr = 0;
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-    int rbdr;
-    int rbdr_idx = 0;
-    int cq_idx = 0;
-    int do_fill;
-
-    if (priv->shares_cq)
-    {
-        /* These are allocated linearly. We know that the first port was
-           the last guy to allcoate a CQ */
-        rbdr = next_free_rbdr - 1;
-        do_fill = 0;
-    }
-    else
-    {
-        if (next_free_rbdr >= 128)
-        {
-            bdk_error("%s: No free receive buffer descriptor rings\n", handle->name);
-            return -1;
-        }
-        void *rbdr_memory = memalign(128, 8 * RBDR_ENTRIES);
-        if (!rbdr_memory)
-        {
-            bdk_error("%s: Failed to allocate memory for RBDR\n", handle->name);
-            return -1;
-        }
-        rbdr = next_free_rbdr++;
-
-        /* Configure the receive buffer ring (RBDR) */
-        BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_RBDRX_BASE(rbdr, rbdr_idx),
-            bdk_ptr_to_phys(rbdr_memory));
-        const int buffer_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
-        BDK_CSR_MODIFY(c, handle->node, BDK_NIC_QSX_RBDRX_CFG(rbdr, rbdr_idx),
-            c.s.ena = 1;
-            c.s.ldwb = BDK_USE_DWB;
-            c.s.qsize = RBDR_ENTRIES_QSIZE;
-            c.s.lines = buffer_size / 128);
-        do_fill = 1;
-    }
-
-    /* Configure our vnic to use the RBDR */
-    /* Connect this RQ to the RBDR. Both the first and next buffers come from
-       the same RBDR */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_CFG(priv->vnic, priv->qos),
-        c.s.caching = 1; /* Allocate to L2 */
-        c.s.cq_qs = priv->cq;
-        c.s.cq_idx = cq_idx;
-        c.s.rbdr_cont_qs = rbdr;
-        c.s.rbdr_cont_idx = rbdr_idx;
-        c.s.rbdr_strt_qs = rbdr;
-        c.s.rbdr_strt_idx = rbdr_idx);
-    /* NIC_PF_CQM_CFG is configure to drop everything if the CQ has 128 or
-       less entries available. Start backpressure when we have 256 or less */
-    int cq_bp = 256;
-    int rbdr_bp = 256;
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_BP_CFG(priv->vnic, priv->qos),
-        c.s.rbdr_bp_ena = 1;
-        c.s.cq_bp_ena = 1;
-        c.s.rbdr_bp = rbdr_bp * 256 / RBDR_ENTRIES; /* Zero means no buffers, 256 means lots available */
-        c.s.cq_bp = cq_bp * 256 / CQ_ENTRIES; /* Zero means full, 256 means idle */
-        c.s.bpid = priv->vnic);
-    /* Errata (NIC-21269) Limited NIC receive scenario verification */
-    /* RED drop set with pass=drop, so no statistical dropping */
-    // FIXME: COnfigure and enable RED
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_RQX_DROP_CFG(priv->vnic, priv->qos),
-        c.s.rbdr_red = 0;
-        c.s.cq_red = 0;
-        c.s.rbdr_pass = 0; /* Zero means no buffers, 256 means lots available */
-        c.s.rbdr_drop = 0;
-        c.s.cq_pass = 0; /* Zero means full, 256 means idle */
-        c.s.cq_drop = 0);
-
-    priv->rbdr = rbdr;
-
-    if (do_fill)
-    {
-        /* We probably don't have enough space to completely fill the RBDR. Use
-           1/4 of the buffers available minus a few. We expect to only have 2
-           RBDR rings per node and a max of 2 nodes */
-        int fill_num = (bdk_config_get_int(BDK_CONFIG_NUM_PACKET_BUFFERS) - 200) / 4;
-        /* Note that RBDR must leave one spot empty */
-        if (fill_num > RBDR_ENTRIES - 1)
-            fill_num = RBDR_ENTRIES - 1;
-        vnic_fill_receive_buffer(handle, fill_num);
-    }
-
-    return 0;
-}
-
-static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
-{
-    /* Setup traffic shaping. The BDK disables traffic-shaping, but we still
-       have to assign the various TL* resourses */
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-
-    /* TL1 feeds the DMA engines. One for each BGX */
-    int tl1_index = handle->interface;
-
-    /* TL2 feeds TL1 based on the top/bottom half. Use an independent TL1
-       entry for each BGX port */
-    int tl2_index = tl1_index * 32;
-    tl2_index += priv->port;
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL2X_CFG(tl2_index),
-        c.s.rr_quantum = (MAX_MTU+4) / 4);
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL2X_PRI(tl2_index),
-        c.s.rr_pri = 0);
-
-    /* TL3 feeds Tl2. We only need one entry */
-    int tl3_index = tl2_index * 4;
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3AX_CFG(tl3_index / 4),
-        c.s.tl3a = tl2_index);
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CFG(tl3_index),
-        c.s.rr_quantum = (MAX_MTU+4) / 4);
-    int tl_channel = BDK_NIC_CHAN_E_BGXX_PORTX_CHX(handle->interface, priv->port, 0/*channel*/);
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CHAN(tl3_index),
-        c.s.chan = tl_channel);
-
-    /* TL4 feeds TL3. We only need one entry */
-    int tl4_index = tl3_index * 4;
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL4AX_CFG(tl4_index / 4),
-        c.s.tl4a = tl3_index);
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL4X_CFG(tl4_index),
-        c.s.sq_qs = priv->vnic;
-        c.s.sq_idx = priv->qos;
-        c.s.rr_quantum = (MAX_MTU+4) / 4);
-
-    /* SQ feeds TL4 */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_SQX_CFG2(priv->vnic, priv->qos),
-        c.s.tl4 = tl4_index);
-
-    return 0;
-}
-
-static int vnic_setup(bdk_if_handle_t handle)
-{
-    static int next_free_cpi = 0;
-    static int next_free_rssi = 0;
-
-    /* VNIC setup requirements
-       The code in this file makes the following assumptions:
-       1) One RBDR for each CQ. No locking is done on RBDR
-       2) A CQ can be shared across multiple ports, saving space as the
-            cost of performance.
-       3) One SQ per physical port, no locking on TX
-       4) One RQ per physical port, many RQ may share RBDR/CQ
-
-        Current setup without DRAM:
-        1) One RBDR allocated per BGX block. RBDR = (priv->rbdr, 0)
-        2) One CQ allocated per BGX block. CQ = (priv->cq, 0)
-        3) One SQ allcoated per BGX port/channel. SQ = (priv->vnic, priv->qos)
-        4) One RQ allcoated per BGX port/channel. RQ = (priv->vnic, priv->qos)
-
-        Current setup with DRAM:
-        1) One RBDR allocated per BGX port/channel. RBDR = (priv->rbdr, 0)
-        2) One CQ allocated per BGX port/channel. CQ = (priv->cq, 0)
-        3) One SQ allcoated per BGX port/channel. SQ = (priv->vnic, priv->qos)
-        4) One RQ allcoated per BGX port/channel. RQ = (priv->vnic, priv->qos)
-       */
-
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-    /* Make sure SQ dynamic data is in a different cache line */
-    _Static_assert((offsetof(bgx_priv_t, sq_state) & BDK_CACHE_LINE_MASK) == 0, "NIC SQ not is different cache line");
-
-    void *sq_memory = memalign(128, 16 * SQ_ENTRIES);
-    if (!sq_memory)
-    {
-        bdk_error("%s: Unable to allocate queues\n", handle->name);
-        return -1;
-    }
-
-    int sq = priv->vnic;
-    int sq_idx = priv->qos;
-    int rq = priv->vnic;
-    int rq_idx = priv->qos;
-
-    /* Enable global BP state updates */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_BP_CFG,
-        c.s.bp_poll_ena = 1;
-        c.s.bp_poll_dly = 3);
-
-    /* Enable interface level backpresure */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_INTFX_BP_CFG(handle->interface),
-        c.s.bp_ena = 1;
-        c.s.bp_type = 0; /* BGX */
-        c.s.bp_id = 0x8 + handle->interface); /* 8 for bgx0, 9 for bgx1 */
-
-    /* Configure the submit queue (SQ) */
-    priv->sq_base = sq_memory;
-    priv->sq_state.sq_loc = 0;
-    priv->sq_state.sq_available = SQ_ENTRIES;
-    BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_SQX_BASE(sq, sq_idx),
-        bdk_ptr_to_phys(sq_memory));
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_QSX_SQX_CFG(sq, sq_idx),
-        if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-            c.s.cq_limit = 1;
-        c.s.ena = 1;
-        c.s.ldwb = BDK_USE_DWB;
-        c.s.qsize = SQ_ENTRIES_QSIZE);
-
-    /* Configure the receive queue (RQ) */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_QSX_RQ_GEN_CFG(rq),
-        c.s.vlan_strip = 0;
-        c.s.len_l4 = 0;
-        c.s.len_l3 = 0;
-        c.s.csum_sctp = 0;
-        c.s.csum_l4 = 0;
-        c.s.ip6_udp_opt = 0;
-        c.s.splt_hdr_ena = 0;
-        c.s.cq_hdr_copy = 0;
-        c.s.max_tcp_reass = 0;
-        c.s.cq_pkt_size = 0;
-        c.s.later_skip = 0;
-        c.s.first_skip = 0);
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_QSX_RQX_CFG(rq, rq_idx),
-        c.s.ena = 1;
-        c.s.tcp_ena = 0);
-    /* Determine the flow channel for the CPI */
-    /* Flow here is a compressed NIC_CHAN_E enum value. Flow is bit[8] and
-       bit[6:0] from NIC_CHAN_E. This works out as:
-       bit 7: BGX interface number(0-1)
-       bit 6:4: BGX port number(0-3)
-       bit 3:0: BGX channel on a port (0-15) */
-    int flow = (handle->interface) ? 0x80 : 0x00;
-    flow += priv->port * 16;
-    flow += 0; /* channel */
-    int cpi = next_free_cpi++;  /* Allocate a new Channel Parse Index (CPI) */
-    int rssi = next_free_rssi++;/* Allocate a new Receive-Side Scaling Index (RSSI) */
-    /* NIC_CHAN_E hard mapped to "flow". Flow chooses the CPI */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CHANX_RX_CFG(flow),
-        c.s.cpi_alg = BDK_NIC_CPI_ALG_E_NONE;
-        c.s.cpi_base = cpi);
-    /* Setup backpressure */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CHANX_RX_BP_CFG(flow),
-        c.s.ena = 1;
-        c.s.bpid = priv->vnic);
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CHANX_TX_CFG(flow),
-        c.s.bp_ena = 1);
-    /* CPI is the output of the above alogrithm, this is used to lookup the
-       VNIC for receive and RSSI */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CPIX_CFG(cpi),
-        c.cn88xxp1.vnic = priv->vnic; /* TX and RX use the same VNIC */
-        c.cn88xxp1.rss_size = 0; /* RSS hash is disabled */
-        c.s.padd = 0; /* Used if we have multiple channels per port */
-        c.cn88xxp1.rssi_base = rssi); /* Base RSSI */
-    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-    {
-        /* CN88XX pass 2 moved some fields to a different CSR */
-        BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_MPIX_CFG(cpi),
-            c.s.vnic = priv->vnic; /* TX and RX use the same VNIC */
-            c.s.rss_size = 0; /* RSS hash is disabled */
-            c.s.rssi_base = rssi); /* Base RSSI */
-    }
-    /* The RSSI is used to determine which Receive Queue (RQ) we use */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_RSSIX_RQ(rssi),
-        c.s.rq_qs = rq;
-        c.s.rq_idx = rq_idx);
-    /* Set the min and max packet size. PKND comes from BGX. It is always zero
-       for now */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_PKINDX_CFG(handle->pknd),
-        c.s.lenerr_en = 0;
-        c.s.minlen = 0;
-        c.s.maxlen = 65535);
-
-    /* Bypass the TNS */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_INTFX_SEND_CFG(handle->interface),
-       c.s.tns_nonbypass = 0;
-       c.s.block = 0x8 + handle->interface);
-
-    /* Errata (NIC-21858) If NIC_PF_QS()_CFG ENA is set after RRM enabled...RRM breaks */
-    /* Do global vnic init */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_CFG(priv->vnic),
-        c.s.ena = 1;
-        c.s.vnic = priv->vnic);
-
-    if (vnic_setup_tx_shaping(handle))
-        return -1;
-    if (vnic_setup_cq(handle))
-        return -1;
-    if (vnic_setup_rbdr(handle))
-        return -1;
-
-    /* We use the received VNIC number to find the interface handle */
-    global_handle_table[priv->vnic] = handle;
-
-    return 0;
-}
-
 static int if_init(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
@@ -1452,15 +1011,6 @@ static int if_init(bdk_if_handle_t handle)
         xaui_init(handle);
     }
 
-    /* Disabled on thunder per HW recommendation */
-#if 0
-    /* Set BGX to buffer half its FIFO before starting transmit. This reduces
-       the chances that we have a TX under run due to memory contention */
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_THRESH(bgx_block, bgx_index),
-        c.s.cnt = (0x800 / 2 / priv->num_port) - 1);
-    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_THRESH(bgx_block, bgx_index),
-        c.s.cnt = (0x800 / 2 / priv->num_port) - 1);
-#endif
     /* Configure to allow max sized frames */
     const int buffer_size = bdk_config_get_int(BDK_CONFIG_PACKET_BUFFER_SIZE);
     int max_size = buffer_size * 12; /* 12 is from nic_cqe_rx_s */
@@ -1474,18 +1024,41 @@ static int if_init(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_GMI_TXX_SGMII_CTL(bgx_block, bgx_index),
         c.s.align = !txx_append.s.preamble);
 
-    if (vnic_setup(handle))
-        return -1;
-
-    /* Create a receive thread if this handle has its own CQ/RBDR */
-    if (!priv->shares_cq)
+    if (1) // FIXME: How to select PKI+PKO on CN83XX
     {
-        if (bdk_thread_create(handle->node, 0, if_receive, 0, handle, 0))
+        bdk_nic_type_t ntype;
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         {
-            bdk_error("%s: Failed to allocate receive thread\n", handle->name);
+            ntype = BDK_NIC_TYPE_BGX; /* Ignore TNS case */
+        }
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        {
+            ntype = BDK_NIC_TYPE_BGX;
+        }
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        {
+            ntype = BDK_NIC_TYPE_BGX; // FIXME: RGMII?
+        }
+        else
+        {
+            bdk_error("%s: Unsupported chip (NIC init)\n", handle->name);
             return -1;
         }
+        int bytes_per_port;
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        {
+            /* This chip doesn't have BGXX_CONST */
+            bytes_per_port = (48<<10) / priv->num_port;
+        }
+        else
+        {
+            BDK_CSR_INIT(bgxx_const, handle->node, BDK_BGXX_CONST(handle->interface));
+            bytes_per_port = bgxx_const.s.tx_fifosz / priv->num_port;
+        }
+        if (bdk_nic_port_init(handle, ntype, bytes_per_port))
+            return -1;
     }
+
     return 0;
 }
 
@@ -1694,224 +1267,6 @@ static void if_link_set(bdk_if_handle_t handle, bdk_if_link_t link_info)
 }
 
 /**
- * Transmit a single packet
- *
- * @param handle Port to transmit on
- * @param packet Packet to transmit
- *
- * @return Zero on success, negative on failure
- */
-static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
-{
-    /* The SQ can't be filled completely as it reguires at least one free
-       entry so the head and pointer don't look like empty. SQ_SLOP is the
-       amount of SQ space we reserve to make sure of this */
-    const int SQ_SLOP = 1;
-    bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-
-    /* Update the SQ available if we're out of space. The NIC should have sent
-       packets, making more available. This allows us to only read the STATUS
-       CSR when really necessary, normally using the L1 cached value */
-    if (priv->sq_state.sq_available < packet->segments + 1 + SQ_SLOP)
-    {
-        BDK_CSR_INIT(sq_status, handle->node, BDK_NIC_QSX_SQX_STATUS(priv->vnic, priv->qos));
-        priv->sq_state.sq_available = SQ_ENTRIES - sq_status.s.qcount;
-    }
-    /* Check for space. A packets is a header plus its segments */
-    if (priv->sq_state.sq_available < packet->segments + 1 + SQ_SLOP)
-        return -1;
-
-    /* Build the command */
-    void *sq_ptr = priv->sq_base;
-    int loc = priv->sq_state.sq_loc;
-    union bdk_nic_send_hdr_s send_hdr;
-    send_hdr.u[0] = 0;
-    send_hdr.u[1] = 0;
-    send_hdr.s.subdc = BDK_NIC_SEND_SUBDC_E_HDR;
-    send_hdr.s.subdcnt = packet->segments;
-    send_hdr.s.total = packet->length;
-    *(union bdk_nic_send_hdr_s *)(sq_ptr + loc * 16) = send_hdr;
-    loc++;
-    loc &= SQ_ENTRIES - 1;
-    for (int s = 0; s < packet->segments; s++)
-    {
-        union bdk_nic_send_gather_s gather;
-        gather.u[0] = 0;
-        gather.u[1] = 0;
-        gather.s.addr = packet->packet[s].s.address;
-        gather.s.subdc = BDK_NIC_SEND_SUBDC_E_GATHER;
-        gather.s.ld_type = (BDK_USE_DWB) ? BDK_NIC_SEND_LD_TYPE_E_LDWB : BDK_NIC_SEND_LD_TYPE_E_LDD;
-        gather.s.size = packet->packet[s].s.size;
-        *(union bdk_nic_send_gather_s *)(sq_ptr + loc * 16) = gather;
-        loc++;
-        loc &= SQ_ENTRIES - 1;
-    }
-
-    BDK_WMB;
-
-    /* Ring the doorbell */
-    BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_SQX_DOOR(priv->vnic, priv->qos),
-        packet->segments + 1);
-
-    /* Update our cached state */
-    priv->sq_state.sq_available -= packet->segments + 1;
-    priv->sq_state.sq_loc = loc;
-
-    return 0;
-}
-
-/**
- * Free the buffers in a packet to the RBDR used by the port
- *
- * @param priv   Determines which RBDR is used
- * @param packet Packet to put in RBDR
- */
-static void if_free_to_rbdr(bdk_if_packet_t *packet, vnic_queue_state_t *vnic_rbdr_state)
-{
-    uint64_t *rbdr_ptr = vnic_rbdr_state->base;
-    int loc = vnic_rbdr_state->loc;
-
-    for (int s = 0; s < packet->segments; s++)
-    {
-        /* Make sure we strip off any padding added by the hardware in the address */
-        uint64_t address = packet->packet[s].s.address & -BDK_CACHE_LINE_SIZE;
-        rbdr_ptr[loc] = address;
-        loc++;
-        loc &= RBDR_ENTRIES - 1;
-    }
-    vnic_rbdr_state->loc = loc;
-}
-
-/**
- * Process a CQ receive entry
- *
- * @param handle
- * @param cq_header
- *
- * @return Returns the amount the RBDR doorbell needs to increment
- */
-static int if_process_complete_rx(bdk_if_handle_t handle, vnic_queue_state_t *vnic_rbdr_state, const union bdk_nic_cqe_rx_s *cq_header)
-{
-    int vnic = cq_header->s.rq_qs;
-
-    bdk_if_packet_t packet;
-    packet.length = cq_header->s.len;
-    packet.segments = cq_header->s.rb_cnt;
-    packet.if_handle = global_handle_table[vnic];
-    /* Combine the errlev and errop into a single 11 bit number. Errop
-       is 8 bits, so errlev will be in the top byte */
-    packet.rx_error = cq_header->s.errlev;
-    packet.rx_error <<= 8;
-    packet.rx_error |= cq_header->s.errop;
-
-    const uint16_t *rb_sizes = (void*)cq_header + 24; /* Offset of RBSZ0 */
-    const uint64_t *rb_addresses = (uint64_t*)(cq_header+1);
-    int segment_length = 0;
-
-    for (int s = 0; s < packet.segments; s++)
-    {
-        BDK_PREFETCH(bdk_phys_to_ptr(rb_addresses[s]), 0);
-        packet.packet[s].u = rb_addresses[s];
-        packet.packet[s].s.size = rb_sizes[s];
-        segment_length += rb_sizes[s];
-    }
-
-    /* If we ran out of buffer the packet could be truncated */
-    if (segment_length < packet.length)
-        packet.length = segment_length;
-
-    if (bdk_likely(packet.if_handle))
-    {
-        /* Do RX stats in software as it is fast and I don't really trust
-           the hardware. The hardware tends to count packets that are received
-           and dropped in some weird way. Hopefully the hardware counters
-           looking for drops can find these. It is important that they
-           aren't counted as good */
-        packet.if_handle->stats.rx.packets++;
-        packet.if_handle->stats.rx.octets += packet.length + 4;
-        if (packet.rx_error)
-            packet.if_handle->stats.rx.errors++;
-        bdk_if_dispatch_packet(&packet);
-    }
-    else
-    {
-        bdk_error("Unable to determine interface for VNIC %d\n", vnic);
-        packet.if_handle = handle;
-    }
-
-    if_free_to_rbdr(&packet, vnic_rbdr_state);
-    return packet.segments;
-}
-
-/**
- * Process all entries in a completion queue (CQ). Note that a CQ is shared
- * among many ports, so packets will be dispatch for other port handles.
- *
- * @param handle Interface handle connected to the CQ
- *
- * @return Number of packets received
- */
-static void if_receive(int unused, void *hand)
-{
-    bdk_if_handle_t handle = hand;
-
-    /* Figure out which completion queue we're using */
-    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-    int cq = priv->cq;
-    int cq_idx = 0;
-
-    BDK_CSR_INIT(cq_base, handle->node, BDK_NIC_QSX_CQX_BASE(cq, cq_idx));
-    const void *cq_ptr = bdk_phys_to_ptr(cq_base.u);
-
-    /* Find the current CQ location */
-    BDK_CSR_INIT(cq_head, handle->node, BDK_NIC_QSX_CQX_HEAD(cq, cq_idx));
-    int loc = cq_head.s.head_ptr;
-
-    /* Store the RBDR data locally to avoid contention */
-    int rbdr_idx = 0;
-    BDK_CSR_INIT(rbdr_base, handle->node, BDK_NIC_QSX_RBDRX_BASE(priv->rbdr, rbdr_idx));
-    BDK_CSR_INIT(rbdr_tail, handle->node, BDK_NIC_QSX_RBDRX_TAIL(priv->rbdr, rbdr_idx));
-    vnic_queue_state_t vnic_rbdr_state;
-    vnic_rbdr_state.base = bdk_phys_to_ptr(rbdr_base.u);
-    vnic_rbdr_state.loc = rbdr_tail.s.tail_ptr;
-
-    while (1)
-    {
-        /* Exit immediately if the CQ is empty */
-        BDK_CSR_INIT(cq_status, handle->node, BDK_NIC_QSX_CQX_STATUS(cq, cq_idx));
-        int pending_count = cq_status.s.qcount;
-        if (bdk_likely(!pending_count))
-        {
-            bdk_wait_usec(1);
-            continue;
-        }
-
-        /* Loop through all pending CQs */
-        int rbdr_doorbell = 0;
-        int count = 0;
-        const union bdk_nic_cqe_rx_s *cq_next = cq_ptr + loc * 512;
-        while (count < pending_count)
-        {
-            const union bdk_nic_cqe_rx_s *cq_header = cq_next;
-            loc++;
-            loc &= CQ_ENTRIES - 1;
-            cq_next = cq_ptr + loc * 512;
-            BDK_PREFETCH(cq_next, 0);
-            if (bdk_likely(cq_header->s.cqe_type == BDK_NIC_CQE_TYPE_E_RX))
-                rbdr_doorbell += if_process_complete_rx(handle, &vnic_rbdr_state, cq_header);
-            else
-                bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);
-            count++;
-        }
-        /* Ring the RBDR doorbell for all packets */
-        BDK_WMB;
-        BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_RBDRX_DOOR(priv->rbdr, rbdr_idx), rbdr_doorbell);
-        /* Free all the CQs that we've processed */
-        BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_CQX_DOOR(cq, cq_idx), count);
-    }
-}
-
-/**
  * Setup loopback
  *
  * @param handle
@@ -1969,11 +1324,20 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     return &handle->stats;
 }
 
+static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
+{
+    if (handle->pko_queue == -1)
+        return bdk_nic_transmit(handle, packet);
+    else
+        return bdk_pko_transmit(handle, packet);
+}
+
 static int if_get_queue_depth(bdk_if_handle_t handle)
 {
-    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
-    BDK_CSR_INIT(sq_status, handle->node, BDK_NIC_QSX_SQX_STATUS(priv->vnic, priv->qos));
-    return sq_status.s.qcount;
+    if (handle->pko_queue == -1)
+        return bdk_nic_get_queue_depth(handle);
+    else
+        return bdk_pko_get_queue_depth(handle);
 }
 
 const __bdk_if_ops_t __bdk_if_ops_bgx = {
