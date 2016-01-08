@@ -9,6 +9,9 @@
    such that we can't proceed through the normal boot path */
 static int is_misconfigured = 0;
 
+/* Filename of the next stage, default is init.bin */
+static const char *next_stage = NULL;
+
 /**
  * This function is not defined by the BDK libraries. It must be
  * defined by all BDK applications. It should be empty except for
@@ -34,6 +37,8 @@ void boot_menu(void)
         bdk_menu_init(&menu, "Boot Options");
         if (!is_misconfigured) // Hidden if no board configuration
             bdk_menu_item(&menu, 'N', "Boot Normally", NULL, NULL);
+        if (!is_misconfigured && next_stage) // Hidden if no custom next stage is configured
+            bdk_menu_item(&menu, 'I', "Boot Normally (ignoring custom boot stages)", NULL, NULL);
         bdk_menu_item(&menu, 'S', "Enter Setup", NULL, NULL);
         if (!is_misconfigured) // Hidden if no board configuration
             bdk_menu_item(&menu, 'D', "Enter Diagnostics", NULL, NULL);
@@ -54,6 +59,9 @@ void boot_menu(void)
         switch (key)
         {
             case 'N': /* Boot normally */
+                bdk_image_boot(next_stage ? next_stage : "/fatfs/init.bin", 0);
+                break;
+            case 'I': /* Force-boot init.bin (skip any custom stage) */
                 bdk_image_boot("/fatfs/init.bin", 0);
                 break;
             case 'S': /* Enter Setup */
@@ -168,6 +176,9 @@ int main(void)
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
         goto menu;
 
+    /* Check if the next boot stage is configured. */
+    next_stage = bdk_config_get_str(BDK_CONFIG_BOOT_NEXT_STAGE, "BOOT");
+
     /* If no DRAM config goto the boot menu. First check for SPD addresses */
     int spd_addr = bdk_config_get_int(BDK_CONFIG_DDR_SPD_ADDR, 0 /* DIMM */, 0 /* LMC */, bdk_numa_master());
     if ((spd_addr == 0) && !bdk_is_platform(BDK_PLATFORM_ASIM))
@@ -208,6 +219,19 @@ int main(void)
     if (key == -1)
     {
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_NO_BOOT_MENU_KEY);
+        if (next_stage)
+        {
+            bdk_image_boot(next_stage, 0);
+
+            printf("**********************************************************************\n");
+            printf("* WARNING\n");
+            printf("*\n");
+            printf("* Next boot stage file is configured as:\n");
+            printf("*    %s\n", next_stage);
+            printf("* but loading the stage failed. Loading INIT instead.\n");
+            printf("**********************************************************************\n");
+        }
+
         bdk_image_boot("/fatfs/init.bin", 0);
         bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_LOAD_FAILED);
     }

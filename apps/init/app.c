@@ -335,6 +335,21 @@ int main(int argc, const char **argv)
     /* Transfer control to next image */
     if (use_atf)
     {
+        /* Check if the next boot stage is configured. */
+        const char *next_stage = bdk_config_get_str(BDK_CONFIG_BOOT_NEXT_STAGE, "INIT");
+        if (next_stage)
+        {
+            bdk_image_boot(next_stage, 0);
+
+            printf("**********************************************************************\n");
+            printf("* WARNING\n");
+            printf("*\n");
+            printf("* Next boot stage file is configured as:\n");
+            printf("*    %s\n", next_stage);
+            printf("* but loading the stage failed. Loading ATF instead.\n");
+            printf("**********************************************************************\n");
+        }
+
         /* Try to load ATF image from raw flash */
         BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
         bdk_image_boot("/boot", ATF_ADDRESS);
