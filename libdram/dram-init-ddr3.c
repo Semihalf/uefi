@@ -3376,7 +3376,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 	// workaround needed for all THUNDER chips thru T88 Pass 2.0
 	// FIXME: but not 81xx most likely, TBD...
-        if ((ddr_type == DDR4_DRAM)) {
+        if (ddr_type == DDR4_DRAM) {
             /* Workaround bug 24006. Use Trrd_l. */
             lmc_timing_params1.s.trrd     = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 2;
         } else
