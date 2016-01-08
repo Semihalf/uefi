@@ -273,7 +273,7 @@ __bdk_exception_\label:
 
 .align 12
 __bdk_initial_stack_start:
-    .dword   0
+    .quad   0
 .align 12
 __bdk_initial_stack_end:
 
