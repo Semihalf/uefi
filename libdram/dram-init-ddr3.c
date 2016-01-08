@@ -1189,11 +1189,13 @@ display_RL_with_score(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_ra
     do_display_RL(node, ddr_interface_num, lmc_rlevel_rank, rank, 1, score);
 }
 
+#if !PICK_BEST_RANK_SCORE_NOT_AVG
 static inline void
 display_RL_with_average(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank, int score)
 {
     do_display_RL(node, ddr_interface_num, lmc_rlevel_rank, rank, 3, score);
 }
+#endif
 
 static inline void
 display_RL_with_final(bdk_node_t node, int ddr_interface_num, bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank, int score)
@@ -2378,7 +2380,9 @@ static int compute_rc3x (int64_t tclk_psecs)
 }
 
 static const int   run_init_sequence_1 = RUN_INIT_SEQ_1;
+#if RUN_INIT_SEQ_2
 static const int   run_init_sequence_2 = RUN_INIT_SEQ_2;
+#endif
 static const int   run_init_sequence_3 = RUN_INIT_SEQ_3;
 
 static const int   rlevel_separate_ab  = 1;
