@@ -7,7 +7,6 @@
  * @{
  */
 
-#define BDK_FPA_NUM_POOLS 16 /* Can be 16, or 32 for CN83XX. Must not be bigger than FPA_CONST[pools] */
 #define BDK_FPA_NUM_AURAS 512 /* 512 for CN83XX. Must not be bigger than FPA_CONST[auras] */
 
 /**
@@ -18,6 +17,7 @@ typedef enum
     BDK_FPA_PACKET_POOL,    /* Stores PKI packet buffers */
     BDK_FPA_SSO_POOL,       /* Used for internal storage in the SSO */
     BDK_FPA_PKO_POOL,       /* Used for queue storage in the PKO */
+    BDK_FPA_NUM_POOLS = 16  /* Can be 16, or 32 for CN83XX. Must not be bigger than FPA_CONST[pools] */
 } bdk_fpa_pool_t;
 
 /**

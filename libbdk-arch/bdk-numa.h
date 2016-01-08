@@ -7,13 +7,13 @@
  * <hr>$Revision: 49448 $<hr>
  */
 
-#define BDK_NUMA_MAX_NODES 4
 typedef enum
 {
     BDK_NODE_0 = 0,
     BDK_NODE_1 = 1,
     BDK_NODE_2 = 2,
     BDK_NODE_3 = 3,
+    BDK_NUMA_MAX_NODES = 4
 } bdk_node_t;
 
 /**
