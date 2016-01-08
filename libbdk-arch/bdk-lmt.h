@@ -47,7 +47,7 @@ static inline void bdk_lmt_store(int offset, uint64_t data)
 static inline int bdk_lmt_submit(uint64_t io_address)
 {
     int result = 0;
-    asm volatile ("LDEOR xzr,%[rf],[%[rs]]" : [rf] "=r"(result): [rs] "r"(io_address));
+    asm volatile ("LDEOR xzr,%x[rf],[%[rs]]" : [rf] "=r"(result): [rs] "r"(io_address));
     return result;
 }
 

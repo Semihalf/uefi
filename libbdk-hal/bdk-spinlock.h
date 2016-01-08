@@ -61,16 +61,16 @@ static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
     uint32_t serving;
 
     asm volatile (
-        "mov %[serving], 1<<32                      \n"
-        "ldadda %[serving], %[combined], [%[ptr]]   \n"
-        "and %[serving], %[combined], 0xffffffff    \n"
-        "lsr %[ticket], %[combined], 32             \n"
-        "cmp %[ticket], %[serving]                  \n"
+        "mov %x[serving], 1<<32                     \n"
+        "ldadda %x[serving], %x[combined], [%[ptr]] \n"
+        "and %x[serving], %x[combined], 0xffffffff  \n"
+        "lsr %x[ticket], %x[combined], 32           \n"
+        "cmp %x[ticket], %x[serving]                \n"
         "b.eq 1f                                    \n"
         "sevl                                       \n"
      "2: wfe                                        \n"
-        "ldxr %w[serving], [%[ptr]]                 \n"
-        "cmp %[ticket], %[serving]                  \n"
+        "ldxr %x[serving], [%[ptr]]                 \n"
+        "cmp %x[ticket], %x[serving]                \n"
         "b.ne 2b                                    \n"
      "1:                                            \n"
         : [serving] "=&r" (serving), [ticket] "=&r" (ticket), [combined] "=&r" (combined), "+m" (lock->combined)
