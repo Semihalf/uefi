@@ -12,6 +12,7 @@ echo "    -2 <diagnostics>       (Example: diagnostics.bin)"
 echo "    -3 <setup>             (Example: setup.bin)"
 echo "    -l <lua files>         (Example: \"lua/*.lua\")"
 echo "    -c <config files>      (Example: default.cfg)"
+echo "    -x <extra files>       (Example: my-app.bin)"
 exit 2
 }
 
@@ -22,7 +23,8 @@ STAGE2=
 STAGE3=
 LUA_FILES=
 CONFIG_FILES=
-while getopts o:0:1:2:3:l:c: arg
+EXTRA_FILES=
+while getopts o:0:1:2:3:l:c:x: arg
 do
     case ${arg} in
     o) OUT_FILE="$OPTARG";;
@@ -32,6 +34,7 @@ do
     3) STAGE3="$OPTARG";;
     l) LUA_FILES="$OPTARG";;
     c) CONFIG_FILES="$OPTARG";;
+    x) EXTRA_FILES="$OPTARG";;
     ?) usage;;
     esac
 done
@@ -90,6 +93,11 @@ fi
 # Add the config files to the FAT fs
 if [ "${CONFIG_FILES}" != "" ]; then
     ${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${CONFIG_FILES} / || exit 1
+fi
+
+# Add any extra files to the FAT fs
+if [ "${EXTRA_FILES}" != "" ]; then
+    ${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${EXTRA_FILES} / || exit 1
 fi
 
 #
