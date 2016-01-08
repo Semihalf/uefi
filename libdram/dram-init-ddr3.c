@@ -1103,7 +1103,7 @@ static int roundup_ddr3_wlevel_bitmask(int bitmask)
 	    break;
     }
 
-    for (leader=leader; leader<16; ++leader) {
+    for (/*leader=leader*/; leader<16; ++leader) {
 	shifted_bitmask = (bitmask>>(leader%8));
 	if (shifted_bitmask&1)
 	    break;
