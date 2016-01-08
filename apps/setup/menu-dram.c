@@ -15,7 +15,7 @@ void dram_speed(bdk_menu_t *parent, char key, void *arg)
     const char *result = bdk_readline(prompt, NULL, 0);
     if (sscanf(result, "%li", &v) == 1)
     {
-        for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+        for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
             bdk_config_set_int(v, BDK_CONFIG_DDR_SPEED, node);
     }
 }
@@ -34,7 +34,7 @@ void dram_alt_refclk(bdk_menu_t *parent, char key, void *arg)
     const char *result = bdk_readline(prompt, NULL, 0);
     if (sscanf(result, "%li", &v) == 1)
     {
-        for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+        for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
             bdk_config_set_int(v, BDK_CONFIG_DDR_ALT_REFCLK, node);
     }
 }

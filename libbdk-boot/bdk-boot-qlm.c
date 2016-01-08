@@ -3,7 +3,7 @@
 static void boot_init_qlm_clk(void)
 {
     /* Setup reference clocks */
-    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+    for (bdk_node_t n = BDK_NODE_0; n < BDK_NUMA_MAX_NODES; n++)
     {
         if (!bdk_numa_exists(n))
             continue;
@@ -41,7 +41,7 @@ static void boot_init_qlm_mode(void)
     {
         /* Auto configuration of QLMs
          */
-        for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+        for (bdk_node_t n = BDK_NODE_0; n < BDK_NUMA_MAX_NODES; n++)
         {
             if (bdk_numa_exists(n))
             {
@@ -54,7 +54,7 @@ static void boot_init_qlm_mode(void)
     {
         /* Initialize the QLMs based on configuration file settings
          */
-        for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+        for (bdk_node_t n = BDK_NODE_0; n < BDK_NUMA_MAX_NODES; n++)
         {
             if (!bdk_numa_exists(n))
                 continue;

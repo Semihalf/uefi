@@ -203,7 +203,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         max_cores += bdk_get_num_running_cores(bdk_numa_local());
         /* Calculate the total number of cores being used. The per node number
            is confusing to people */
-        for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+        for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
             if (flags & (1 << node))
             {
                 if (flags & BDK_DRAM_TEST_USE_CCPI)
@@ -221,7 +221,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     uint64_t start_dram_ops[BDK_NUMA_MAX_NODES][4];
     uint64_t stop_dram_dclk[BDK_NUMA_MAX_NODES][4];
     uint64_t stop_dram_ops[BDK_NUMA_MAX_NODES][4];
-    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (flags & (1 << node))
         {
@@ -240,7 +240,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     uint64_t stop_ccpi_data[BDK_NUMA_MAX_NODES][3];
     uint64_t stop_ccpi_idle[BDK_NUMA_MAX_NODES][3];
     uint64_t stop_ccpi_err[BDK_NUMA_MAX_NODES][3];
-    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (flags & (1 << node))
         {
@@ -297,7 +297,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         /* Start threads for all the cores */
         int total_count = 0;
         bdk_atomic_set64(&dram_test_thread_done, 0);
-        for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+        for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
         {
             if (flags & (1 << node))
             {
@@ -346,7 +346,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     }
 
     /* Get the DRAM perf counters */
-    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (flags & (1 << node))
         {
@@ -359,7 +359,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         }
     }
     /* Get the CCPI link counters */
-    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (flags & (1 << node))
         {
@@ -384,7 +384,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     if (!(flags & BDK_DRAM_TEST_NO_STATS))
     {
         /* Display LMC load */
-        for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+        for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
         {
             if (flags & (1 << node))
             {
@@ -404,7 +404,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         if (flags & BDK_DRAM_TEST_USE_CCPI)
         {
             /* Display CCPI load */
-            for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+            for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
             {
                 if (flags & (1 << node))
                 {
@@ -467,7 +467,7 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length, bdk_dram_te
         flags |= BDK_DRAM_TEST_NODE0 | BDK_DRAM_TEST_NODE1 | BDK_DRAM_TEST_NODE2 | BDK_DRAM_TEST_NODE3;
 
     /* Remove nodes from the flags that don't exist */
-    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (flags & BDK_DRAM_TEST_USE_CCPI)
         {
@@ -494,7 +494,7 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length, bdk_dram_te
     }
 
     /* Make sure at least one core from each node is running */
-    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (flags & (1<<node))
         {
@@ -508,7 +508,7 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length, bdk_dram_te
     int errors = __bdk_dram_run_test(&TEST_INFO[test], start_address, length, flags);
 
     /* Poll for any errors right now to make sure any ECC errors are reported */
-    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (bdk_numa_exists(node) && bdk_error_check)
             bdk_error_check(node);

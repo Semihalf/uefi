@@ -314,7 +314,7 @@ void bdk_thread_first(bdk_thread_func_t func, int arg0, void *arg1, int stack_si
  */
 void bdk_thread_show_stats()
 {
-    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (!bdk_numa_exists(node))
             continue;

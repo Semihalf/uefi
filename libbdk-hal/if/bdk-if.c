@@ -164,7 +164,7 @@ static int __bdk_if_init(void)
         return -1;
     }
 
-    for (int node=0; node<BDK_NUMA_MAX_NODES; node++)
+    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (bdk_numa_exists(node))
             result |= __bdk_if_init_node(node);
