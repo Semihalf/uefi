@@ -196,7 +196,7 @@ void __bdk_init_main(int argc, void *argv)
         /* Core 0 start main as another thread. We create a new thread so that
             the coremask will allow all cores in case the application
             goes multicore later */
-        extern int main(int argc, const char *argv);
+        extern int main(int argc, const char **argv);
         BDK_TRACE(INIT, "Switching to main\n");
         if (bdk_thread_create(node, 0, (bdk_thread_func_t)main, argc, argv, BDK_THREAD_MAIN_STACK_SIZE))
             bdk_fatal("Create of main thread failed\n");
