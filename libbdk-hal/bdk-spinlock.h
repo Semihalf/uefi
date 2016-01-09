@@ -69,7 +69,7 @@ static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
         "b.eq 1f                                    \n"
         "sevl                                       \n"
      "2: wfe                                        \n"
-        "ldxr %x[serving], [%[ptr]]                 \n"
+        "ldxr %w[serving], [%[ptr]]                 \n"
         "cmp %x[ticket], %x[serving]                \n"
         "b.ne 2b                                    \n"
      "1:                                            \n"
