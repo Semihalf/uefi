@@ -479,7 +479,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 	int ba_loop, ba_bits;
 	for (ba_loop = 0, ba_bits = bank & 3;
 	     ba_loop < 4;
-	     ba_loop++, ba_bits = (ba_bits + 1) % 4)
+	     ba_loop++, ba_bits = (ba_bits + 1) & 3)
 	{
 
 	    /*
@@ -545,17 +545,23 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num,
 	} /* for (int ba_loop = 0; ba_loop < 4; ba_loop++) */
 
 	if (errors) {
+#if 0
 	    rlevel_ctl.s.or_dis = save_or_dis;
 	    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
 	    dram_verbosity = save_dram_verbosity;
 	    //printf("Address 0x%lx has 0x%x errors\n", p, errors);
 	    return errors;
+#else
+            goto done_now;
+#endif
 	}
 	//} /* i */
         //} /* j */
     } /* k */
     } /* for (ii = 0; ii < (1ULL << 31); ii += (1ULL << 29)) */
-
+#if 1
+ done_now:
+#endif
     rlevel_ctl.s.or_dis = save_or_dis;
     DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
 
