@@ -225,8 +225,10 @@ static int dram_tuning_mem_xor(uint64_t p, uint64_t bitmask)
 		    p1 = p + ii + k + j;
 		    p2 = p1 + p2offset;
 
-		    BDK_PREFETCH(p1 + J_INC, BDK_CACHE_LINE_SIZE);
-		    BDK_PREFETCH(p2 + J_INC, BDK_CACHE_LINE_SIZE);
+                    if (j < (J_MAX - J_INC)) {
+                        BDK_PREFETCH(p1 + J_INC, BDK_CACHE_LINE_SIZE);
+                        BDK_PREFETCH(p2 + J_INC, BDK_CACHE_LINE_SIZE);
+                    }
 	    
 		    v = pattern1 * (p1 + i);
 		    v1 = v; // write the same thing to both areas
@@ -264,8 +266,10 @@ static int dram_tuning_mem_xor(uint64_t p, uint64_t bitmask)
 			p1 = p + ii + k + j;
 			p2 = p1 + p2offset;
 
-			BDK_PREFETCH(p1 + J_INC, BDK_CACHE_LINE_SIZE);
-			BDK_PREFETCH(p2 + J_INC, BDK_CACHE_LINE_SIZE);
+                        if (j < (J_MAX - J_INC)) {
+                            BDK_PREFETCH(p1 + J_INC, BDK_CACHE_LINE_SIZE);
+                            BDK_PREFETCH(p2 + J_INC, BDK_CACHE_LINE_SIZE);
+                        }
 	    
 			v  = __bdk_dram_read64(p1 + i) ^ this_pattern;
 			v1 = __bdk_dram_read64(p2 + i) ^ this_pattern;
@@ -303,8 +307,10 @@ static int dram_tuning_mem_xor(uint64_t p, uint64_t bitmask)
 		    p1 = p + ii + k + j;
 		    p2 = p1 + p2offset;
 
-		    BDK_PREFETCH(p1 + J_INC, BDK_CACHE_LINE_SIZE);
-		    BDK_PREFETCH(p2 + J_INC, BDK_CACHE_LINE_SIZE);
+                    if (j < (J_MAX - J_INC)) {
+                        BDK_PREFETCH(p1 + J_INC, BDK_CACHE_LINE_SIZE);
+                        BDK_PREFETCH(p2 + J_INC, BDK_CACHE_LINE_SIZE);
+                    }
 	    
 		    // process entire cachelines in the innermost loop
 		    for (i = 0; i < I_MAX; i += I_INC) {
@@ -353,7 +359,7 @@ static int dram_tuning_mem_xor(uint64_t p, uint64_t bitmask)
 static int dram_tuning_mem_xor2(uint64_t p, uint64_t bitmask, int xbits)
 {
     uint64_t p1, p2, d1, d2;
-    uint64_t v, v1;
+    uint64_t v, vpred;
     uint64_t p2offset = dram_tune_rank_offset; // FIXME?
     uint64_t datamask;
     uint64_t xor;
@@ -363,6 +369,7 @@ static int dram_tuning_mem_xor2(uint64_t p, uint64_t bitmask, int xbits)
     int errors = 0;
     int errs_by_lmc[4] = { 0,0,0,0 };
     int lmc;
+    uint64_t vbase, vincr;
 
     // Byte lanes may be clear in the mask to indicate no testing on that lane.
     datamask = bitmask;
@@ -372,22 +379,26 @@ static int dram_tuning_mem_xor2(uint64_t p, uint64_t bitmask, int xbits)
      */
     p += AREA_BASE_OFFSET; // make sure base is out of the way of boot
 
+    // move the multiplies outside the loop
+    vbase = p * pattern1;
+    vincr = 8 * pattern1;
+
 #define II_INC (1ULL <<  3)
 #define II_MAX (1ULL << 22) // stop where the core ID bits start
 
     // walk the memory areas by 8-byte words
+    v = vbase;
     for (ii = 0; ii < II_MAX; ii += II_INC) {
 
 	p1 = p + ii;
 	p2 = p1 + p2offset;
 
-	v = pattern1 * p1;
-	v1 = v; // write the same thing to both areas
-
 	__bdk_dram_write64(p1, v);
-	__bdk_dram_write64(p2, v1);
+	__bdk_dram_write64(p2, v);
 
+        v += vincr;
     }
+
     __bdk_dram_flush_to_mem_range(p           , p            + II_MAX);
     __bdk_dram_flush_to_mem_range(p + p2offset, p + p2offset + II_MAX);
     BDK_DCACHE_INVALIDATE;
@@ -402,19 +413,20 @@ static int dram_tuning_mem_xor2(uint64_t p, uint64_t bitmask, int xbits)
         /* XOR the data with a random value, applying the change to both
          * memory areas.
          */
+#if 0
 	BDK_PREFETCH(p           , BDK_CACHE_LINE_SIZE);
 	BDK_PREFETCH(p + p2offset, BDK_CACHE_LINE_SIZE);
-
+#endif
 	for (ii = 0; ii < II_MAX; ii += II_INC) { // FIXME? extend the range of memory tested!!
 
 	    p1 = p + ii;
 	    p2 = p1 + p2offset;
 
-	    v  = __bdk_dram_read64(p1) ^ this_pattern;
-	    v1 = __bdk_dram_read64(p2) ^ this_pattern;
+	    d1 = __bdk_dram_read64(p1) ^ this_pattern;
+	    d2 = __bdk_dram_read64(p2) ^ this_pattern;
 
-	    __bdk_dram_write64(p1, v);
-	    __bdk_dram_write64(p2, v1);
+	    __bdk_dram_write64(p1, d1);
+	    __bdk_dram_write64(p2, d2);
 
 	}
 	__bdk_dram_flush_to_mem_range(p           , p            + II_MAX);
@@ -426,17 +438,20 @@ static int dram_tuning_mem_xor2(uint64_t p, uint64_t bitmask, int xbits)
          * means that on all subsequent passes the pair of locations remain
          * out of sync giving spurious errors.
          */
+#if 0
 	BDK_PREFETCH(p           , BDK_CACHE_LINE_SIZE);
 	BDK_PREFETCH(p + p2offset, BDK_CACHE_LINE_SIZE);
-
+#endif
+        vpred = vbase;
 	for (ii = 0; ii < II_MAX; ii += II_INC) {
 
 	    p1 = p + ii;
 	    p2 = p1 + p2offset;
 
-	    v = (p1 * pattern1) ^ pattern2; // this should predict what we find...
+	    v = vpred ^ pattern2; // this should predict what we find...
 	    d1 = __bdk_dram_read64(p1);
 	    d2 = __bdk_dram_read64(p2);
+            vpred += vincr;
 
 	    xor = ((d1 ^ v) | (d2 ^ v)) & datamask; // union of error bits only in active byte lanes
 	    if (!xor) // no errors
@@ -461,7 +476,7 @@ static int dram_tuning_mem_xor2(uint64_t p, uint64_t bitmask, int xbits)
 		bymsk <<= 8; // move mask into next byte lane
 		bybit <<= 1; // move bit into next byte position
 	    } /* while (xor != 0) */
-	}
+	} /* for (ii = 0; ii < II_MAX; ii += II_INC) */
     } /* for (int burst = 0; burst < dram_tune_use_bursts; burst++) */
 
     // update the global LMC error states
@@ -731,7 +746,7 @@ static void dram_tuning_thread2(int arg, void *arg1)
     return;
 }
 
-static int dram_tune_use_xor2 = 0; // default to original mem_xor (LMC-based) code
+static int dram_tune_use_xor2 = 1; // FIXME: do NOT default to original mem_xor (LMC-based) code
 
 static int
 run_dram_tuning_threads(bdk_node_t node, int num_lmcs, uint64_t bytemask)
@@ -765,9 +780,27 @@ run_dram_tuning_threads(bdk_node_t node, int num_lmcs, uint64_t bytemask)
 	}
     }
 
+#if 0
     /* Wait for threads to finish */
     while (bdk_atomic_get64(&test_dram_byte_threads_done) < total_count)
 	bdk_thread_yield();
+#else
+#define TIMEOUT_SECS 5  // FIXME: long enough so a pass for a given setting will not print
+        /* Wait for threads to finish, with progress */
+        int cur_count;
+        uint64_t cur_time;
+        uint64_t period = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) * TIMEOUT_SECS; // FIXME? 
+        uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + period;
+        do {
+            bdk_thread_yield();
+            cur_count = bdk_atomic_get64(&test_dram_byte_threads_done);
+            cur_time = bdk_clock_get_count(BDK_CLOCK_TIME);
+            if (cur_time >= timeout) {
+                printf("Waiting for %d cores\n", total_count - cur_count);
+                timeout = cur_time + period;
+            }
+        } while (cur_count < total_count);
+#endif
 
     // NOTE: this is the summary of errors across all LMCs
     return (int)bdk_atomic_get64((int64_t *)&test_dram_byte_threads_errs);
@@ -1275,6 +1308,11 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 	    dram_tune_test_pattern = test_pattern_1;
     }
 #endif
+
+    // allow override of the test mem_xor algorithm
+    if ((s = getenv("ddr_tune_use_xor2")) != NULL) {
+        dram_tune_use_xor2 = !!strtoul(s, NULL, 10);
+    }
 
     // print current working values
     ddr_print("N%d: %s: started %d cores, use %d cores, use %d bursts.\n",
