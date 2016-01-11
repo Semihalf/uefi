@@ -34,6 +34,7 @@
  * SUCH DAMAGE.
  */
 
+#include <sys/param.h>
 #if defined(LIBC_SCCS) && !defined(lint)
 static char sccsid[] = "@(#)hash_func.c	8.2 (Berkeley) 2/21/94";
 #endif /* LIBC_SCCS and not lint */
