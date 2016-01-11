@@ -68,7 +68,7 @@ is_leap_year (int year)
 
 /* Needed for strptime. */
 static int
-match_string (const char **buf, const char **strs)
+match_string (const char *__restrict__ *buf, const char *__restrict__ *strs)
 {
     int i = 0;
 
