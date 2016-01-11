@@ -1401,44 +1401,44 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-/////    ECC byte tuning   //////
+/////    HW-assist byte DLL offset tuning   //////
 
 #if 1
-// setup default for ECC byte test pattern array
+// setup default for byte test pattern array
 #if 0
-static const uint64_t ecc_pattern_1[] = {
+static const uint64_t byte_pattern_1[] = {
     0x5555555555555555ULL, // GP0
     0xAAAAAAAAAAAAAAAAULL, // GP1
     0xAA55ULL,             // GP2
 };
-static const uint64_t ecc_pattern_2[] = {
+static const uint64_t byte_pattern_2[] = {
     0xA5A5A5A5A5A5A5A5ULL, // GP0
     0x5A5A5A5A5A5A5A5AULL, // GP1
     0x5AA5ULL,             // GP2
 };
 #else
 // take these from the HRM section 6.9.13
-static const uint64_t ecc_pattern_1[] = {
+static const uint64_t byte_pattern_1[] = {
     0xFFAAFFFFFF55FFFFULL, // GP0
     0x55555555AAAAAAAAULL, // GP1
     0xAA55AAAAULL,         // GP2
 };
-static const uint64_t ecc_pattern_2[] = {
+static const uint64_t byte_pattern_2[] = {
     0xFBF7EFDFBF7FFEFDULL, // GP0
     0x0F1E3C78F0E1C387ULL, // GP1
     0xF0E1BF7FULL,         // GP2
 };
 #endif
 
-static const uint64_t *ecc_patterns[] = { ecc_pattern_1, ecc_pattern_2};
-#define NUM_ECC_PATTERNS ((int)(sizeof(ecc_patterns)/sizeof(uint64_t *)))
+static const uint64_t *byte_patterns[] = { byte_pattern_1, byte_pattern_2};
+#define NUM_BYTE_PATTERNS ((int)(sizeof(byte_patterns)/sizeof(uint64_t *)))
 
-#define DEFAULT_ECC_BURSTS 32 // FIXME: this is what what the longest test usually has
-int dram_tune_ecc_bursts = DEFAULT_ECC_BURSTS;
+#define DEFAULT_BYTE_BURSTS 32 // FIXME: this is what what the longest test usually has
+int dram_tune_byte_bursts = DEFAULT_BYTE_BURSTS;
 #endif
 
-static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
-				int lmc, int ddr_interface_64b)
+static void hw_assist_set_dll_offset(bdk_node_t node, int dll_offset_mode,
+                                    int lmc, int bytelane, int ddr_interface_64b)
 {
     int byte_offset, new_best_offset;
     int rank_delay_start[4];
@@ -1460,16 +1460,16 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
 	rank_max = 2; // FIXME???
     }
 
-    debug_print("N%d: auto_set_ECC_dll_offset: starting LMC%d with rank offset 0x%lx\n",
-	      node, lmc, dram_tune_rank_offset);
+    debug_print("N%d: %s: starting LMC%d with rank offset 0x%lx\n",
+                node, __FUNCTION__, lmc, dram_tune_rank_offset);
 
     // start of pattern loop
     // we do the set of tests for each pattern supplied...
 
     new_best_offset = 0;
-    for (pattern = 0; pattern < NUM_ECC_PATTERNS; pattern++) {
+    for (pattern = 0; pattern < NUM_BYTE_PATTERNS; pattern++) {
 	int pat_best_offset = 0;
-	pattern_p = ecc_patterns[pattern];
+	pattern_p = byte_patterns[pattern];
 
 	/*
 	  3) Setup GENERAL_PURPOSE[0-2] registers with the data pattern of choice.
@@ -1499,9 +1499,9 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
 	for (byte_offset = -63; byte_offset < 64; byte_offset += BYTE_OFFSET_INCR) {
 
 	    // do the setup on the active LMC
-	    // set *only* the ECC byte lane DLL offset
+	    // set *only* the byte lane DLL offset
 	    change_dll_offset_enable(node, lmc, 0);
-	    load_dll_offset(node, lmc, dll_offset_mode, byte_offset, 8);
+	    load_dll_offset(node, lmc, dll_offset_mode, byte_offset, bytelane);
 	    change_dll_offset_enable(node, lmc, 1);
 
 	    bdk_watchdog_poke();
@@ -1514,26 +1514,27 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
 	    for (rankx = 0; rankx < rank_max; rankx++) {
 		uint64_t phys_addr = (lmc << 7);
 		phys_addr |= (rankx) ? dram_tune_rank_offset : 0; // FIXME!! what if ranks> 2?
-		errors[rankx] = test_dram_byte_hw(node, lmc, phys_addr, 8, 0xff);
+
+		errors[rankx] = test_dram_byte_hw(node, lmc, phys_addr, bytelane, 0xff);
 
 		// check errors
-		if (errors[rankx]) { // yes, an error in the ECC byte lane in this rank
+		if (errors[rankx]) { // yes, an error in the byte lane in this rank
 		    off_errors |= errors[rankx];
 
-		    ddr_print("N%d.LMC%d.R%d: ECC DLL %s Offset Test %3d: Address 0x%012lx errors 0x%x\n",
-			      node, lmc, rankx, mode_str,
+		    ddr_print("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: Address 0x%012lx errors 0x%x\n",
+			      node, lmc, rankx, bytelane, mode_str,
 			      byte_offset, phys_addr, errors[rankx]);
 
 		    if (rank_delay_count[rankx] > 0) { // had started run
-			ddr_print("N%d.LMC%d.R%d: ECC DLL %s Offset Test %3d: stopping a run here\n",
-				  node, lmc, rankx, mode_str, byte_offset);
+			ddr_print("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: stopping a run here\n",
+				  node, lmc, rankx, bytelane, mode_str, byte_offset);
 			rank_delay_count[rankx] = 0;   // stop now
 		    }
 		    // FIXME: else had not started run - nothing else to do?
-		} else { // no error in the ECC byte lane
+		} else { // no error in the byte lane
 		    if (rank_delay_count[rankx] == 0) { // first success, set run start
-			ddr_print("N%d.LMC%d.R%d: ECC DLL %s Offset Test %3d: starting a run here\n",
-				  node, lmc, rankx, mode_str, byte_offset);
+			ddr_print("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: starting a run here\n",
+				  node, lmc, rankx, bytelane, mode_str, byte_offset);
 			rank_delay_start[rankx] = byte_offset;
 		    }
 		    rank_delay_count[rankx] += BYTE_OFFSET_INCR; // bump run length
@@ -1542,8 +1543,8 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
 		    if (rank_delay_count[rankx] > rank_delay_best_count[rankx]) {
 			rank_delay_best_count[rankx] = rank_delay_count[rankx];
 			rank_delay_best_start[rankx] = rank_delay_start[rankx];
-			debug_print("N%d.LMC%d.R%d: ECC DLL %s Offset Test %3d: updating best to %d/%d\n",
-				  node, lmc, rankx, mode_str, byte_offset,
+			debug_print("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test %3d: updating best to %d/%d\n",
+                                    node, lmc, rankx, bytelane, mode_str, byte_offset,
 				  rank_delay_best_start[rankx], rank_delay_best_count[rankx]);
 		    }
 		}
@@ -1560,13 +1561,13 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
 	    int rank_delay_best = rank_delay_best_start[rankx] + (rank_delay_best_count[rankx] / 2);
 	    pat_sum += rank_delay_best;
 	    pat_cnt++;
-	    ddr_print("N%d.LMC%d.R%d: ECC DLL %s Offset Test:  Rank Best %3d\n",
-		      node, lmc, rankx, mode_str, rank_delay_best);
+	    ddr_print("N%d.LMC%d.R%d: Bytelane %d DLL %s Offset Test:  Rank Best %3d\n",
+		      node, lmc, rankx, bytelane, mode_str, rank_delay_best);
 	} /* for (rankx = 0; rankx < rank_max; rankx++) */
 
 	pat_best_offset = pat_sum / pat_cnt;
-	ddr_print("N%d.LMC%d: ECC DLL %s Offset Test:  Pattern %d Average %3d\n",
-		  node, lmc, mode_str, pattern, pat_best_offset);
+	ddr_print("N%d.LMC%d: Bytelane %d DLL %s Offset Test:  Pattern %d Average %3d\n",
+		  node, lmc, bytelane, mode_str, pattern, pat_best_offset);
 
 
 #if 0
@@ -1581,24 +1582,24 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
 	new_best_offset += pat_best_offset; // sum the pattern averages
     } // end of pattern loop
 
-    new_best_offset /= NUM_ECC_PATTERNS; // create the new average
+    new_best_offset /= NUM_BYTE_PATTERNS; // create the new average
 
     // print the best offset from all patterns
 
-    ddr_print("N%d.LMC%d: ECC DLL %s Offset Best Delay: %3d\n",
-	      node, lmc, mode_str, new_best_offset);
+    ddr_print("N%d.LMC%d: Bytelane %d DLL %s Offset Best Delay: %3d\n",
+	      node, lmc, bytelane, mode_str, new_best_offset);
 
     // done with testing, load up the best offset we found...
     change_dll_offset_enable(node, lmc, 0); // disable offsets while we load...
-    load_dll_offset(node, lmc, dll_offset_mode, new_best_offset, 8);
+    load_dll_offset(node, lmc, dll_offset_mode, new_best_offset, bytelane);
     change_dll_offset_enable(node, lmc, 1); // re-enable the offsets now that we are done loading
 
 #if 0
     // run the test one last time 
     // print whether there are errors or not, but only when verbose...
     tot_errors = run_test_dram_byte_threads(node, num_lmcs, bytemask);
-    printf("ECC DLL %s Offset Final Test: errors 0x%x\n",
-	   mode_str, tot_errors);
+    printf("N%d.LMC%d: Bytelane %d DLL %s Offset Final Test: errors 0x%x\n",
+	   node, lmc, bytelane, mode_str, tot_errors);
 #endif
 }
 
@@ -1615,16 +1616,17 @@ int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_t
     //bdk_lmcx_comp_ctl2_t comp_ctl2;
     int loops = 1, loop;
     int tune_enable = 0; // disable by default
+    int bytelane = 8; // default to ECC bytelane
 
     // FIXME? allow override of the filtering
     if ((s = getenv("ddr_tune_ecc_enable")) != NULL) {
-        tune_enable = !!strtoul(s, NULL, 10);
+        tune_enable = strtoul(s, NULL, 10);
     }
     if (!tune_enable) {
 	debug_print("N%d: ECC DLL read offset currently not eligible for tuning.\n", node);
-	// FIXME? allow override to do tuning?
 	return 0;
     }
+    bytelane = tune_enable - 1; // FIXME: let the flag indicate the bytelane
 
     // see if we want to do the tuning more than once per LMC...
     if ((s = getenv("ddr_tune_ecc_loops"))) {
@@ -1632,14 +1634,14 @@ int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_t
     }
 
     // allow override of the test repeats (bursts)
-    if ((s = getenv("ddr_tune_ecc_bursts")) != NULL) {
-        dram_tune_ecc_bursts = strtoul(s, NULL, 10);
+    if ((s = getenv("ddr_tune_byte_bursts")) != NULL) {
+        dram_tune_byte_bursts = strtoul(s, NULL, 10);
     }
 
     // print current working values
     ddr_print("N%d: %s: %d loops, %d bursts, %d patterns.\n",
-	      node, __FUNCTION__, loops, dram_tune_ecc_bursts,
-	      NUM_ECC_PATTERNS);
+	      node, __FUNCTION__, loops, dram_tune_byte_bursts,
+	      NUM_BYTE_PATTERNS);
 
     // FIXME? get flag from LMC0 only
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(0));
@@ -1664,7 +1666,7 @@ int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_t
 	for (loop = 0; loop < loops; loop++) {
 	    /* Perform DLL offset tuning */
 	    //auto_set_dll_offset(node,  1 /* 1=write */, lmc, ddr_interface_64b);
-	    auto_set_ECC_dll_offset(node,  2 /* 2=read */, lmc, ddr_interface_64b);
+	    hw_assist_set_dll_offset(node,  2 /* 2=read */, lmc, bytelane, ddr_interface_64b);
 	}
 
 	// perform cleanup on active LMC   
