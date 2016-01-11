@@ -135,9 +135,11 @@ static int dram_tune_rank_mask;
 static int low_risk_count, needs_review_count;
 
 // Utility routines
-int is_dac_delta_low_risk(int orig, int max, int min, int limit)
+int is_dac_delta_low_risk(int orig, int maxm, int minm, int limit)
 {
-    return (min(_abs(orig - max), _abs(orig - min)) >= limit);
+    //return (min(_abs(maxm - orig), _abs(orig - minm)) >= limit);
+    if ((orig > maxm) || (orig < minm)) return 0; // not inside window, report problem
+    return (min((maxm - orig), (orig - minm)) >= limit);
 }
 
 static int errs_by_bytelane(uint64_t xor)
