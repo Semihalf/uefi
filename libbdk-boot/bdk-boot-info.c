@@ -12,13 +12,10 @@ void bdk_boot_info_strapping(bdk_node_t node)
     BDK_CSR_INIT(gicd_iidr, node, BDK_GICD_IIDR);
 
     BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
-    int boot_method;
-    int vrm_disable;
-    int trust_mode;
     const char *boot_method_str;
-    BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
-    BDK_EXTRACT(vrm_disable, gpio_strap.u, 9, 1);
-    BDK_EXTRACT(trust_mode, gpio_strap.u, 10, 1);
+    int boot_method = bdk_extract(gpio_strap.u, 0, 4);
+    int vrm_disable = bdk_extract(gpio_strap.u, 9, 1);
+    int trust_mode = bdk_extract(gpio_strap.u, 10, 1);
 
     switch (boot_method)
     {

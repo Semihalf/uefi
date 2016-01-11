@@ -22,11 +22,6 @@
 #define BDK_MRS(reg, val) asm volatile ("mrs %x[rd]," #reg : [rd] "=r" (val))
 #define BDK_MSR(reg, val) asm volatile ("msr " #reg ",%x[rd]" : : [rd] "r" (val))
 
-/* Bit insert / extract */
-#define BDK_EXTRACT(result,input,lsb,width) asm ("UBFX %x[rt],%x[rs]," __BDK_TMP_STR(lsb) "," __BDK_TMP_STR(width) : [rt] "=r" (result) : [rs] "r" (input))
-#define BDK_EXTRACTS(result,input,lsb,width) asm ("SBFX %x[rt],%x[rs]," __BDK_TMP_STR(lsb) "," __BDK_TMP_STR(width) : [rt] "=r" (result) : [rs] "r" (input))
-#define BDK_INSERT(result,input,lsb,width) asm ("BFI %x[rt],%x[rs]," __BDK_TMP_STR(lsb) "," __BDK_TMP_STR(width) : [rt] "+r" (result) : [rs] "r" (input))
-
 /* other useful stuff */
 #define BDK_MB          asm volatile ("dmb sy"      : : :"memory") /* Full memory barrier, like MIPS SYNC */
 #define BDK_WMB         asm volatile ("dmb st"      : : :"memory") /* Write memory barreir, like MIPS SYNCW */

@@ -38,6 +38,39 @@ static inline uint64_t bdk_build_mask(uint64_t bits)
         return ~((~0x0ull) << bits);
 }
 
+/**
+ * Extract bits out of a number
+ *
+ * @param input  Number to extract from
+ * @param lsb    Starting bit, least significant (0-63)
+ * @param width  Width in bits (1-64)
+ *
+ * @return Extracted number
+ */
+static inline uint64_t bdk_extract(uint64_t input, int lsb, int width)
+{
+    uint64_t result = input >> lsb;
+    result &= bdk_build_mask(width);
+    return result;
+}
+
+/**
+ * Insert bits into a number
+ *
+ * @param original Original data, before insert
+ * @param input    Data to insert
+ * @param lsb    Starting bit, least significant (0-63)
+ * @param width  Width in bits (1-64)
+ *
+ * @return Number with inserted bits
+ */
+static inline uint64_t bdk_insert(uint64_t original, uint64_t input, int lsb, int width)
+{
+    uint64_t mask = bdk_build_mask(width);
+    uint64_t result = original & ~(mask << lsb);
+    result |= (input & mask) << lsb;
+    return result;
+}
 
 /**
  * Return the number of cores available in the chip

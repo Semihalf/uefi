@@ -305,7 +305,7 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
         /* The node ID may change while we're running */
         int mpidr_el1;
         BDK_MRS(MPIDR_EL1, mpidr_el1);
-        BDK_EXTRACT(node, mpidr_el1, 16, 8);
+        node = bdk_extract(mpidr_el1, 16, 8);
 
         if (ccpi_trace)
         {

@@ -116,7 +116,7 @@ static void populate_device(bdk_device_t *device)
         uint64_t size_mask = (uint64_t)bdk_ecam_read32(device, bar + 4) << 32;
         size_mask |= bdk_ecam_read32(device, bar);
         /* Make sure the node bits are correct in the address */
-        BDK_INSERT(address, device->node, 44, 2);
+        address = bdk_insert(address, device->node, 44, 2);
         /* Restore address value */
         bdk_ecam_write32(device, bar, address);
         bdk_ecam_write32(device, bar + 4, address >> 32);
@@ -225,7 +225,7 @@ static void populate_device(bdk_device_t *device)
                     uint64_t base = (uint64_t)ea_entry.s.baseh << 32;
                     base |= ea_entry.s.basel << 2;
                     /* Make sure the node bits are correct in the address */
-                    BDK_INSERT(base, device->node, 44, 2);
+                    base = bdk_insert(base, device->node, 44, 2);
                     uint64_t offset = (uint64_t)ea_entry.s.offseth << 32;
                     offset |= (ea_entry.s.offsetl << 2) | 3;
                     switch (ea_entry.s.bei)
@@ -349,7 +349,7 @@ static void populate_device(bdk_device_t *device)
                     uint64_t size_mask = (uint64_t)bdk_ecam_read32(device, bar + 4) << 32;
                     size_mask |= bdk_ecam_read32(device, bar);
                     /* Make sure the node bits are correct in the address */
-                    BDK_INSERT(address, device->node, 44, 2);
+                    address = bdk_insert(address, device->node, 44, 2);
                     /* Restore address value */
                     bdk_ecam_write32(device, bar, address);
                     bdk_ecam_write32(device, bar + 4, address >> 32);
