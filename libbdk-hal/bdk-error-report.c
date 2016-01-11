@@ -195,9 +195,13 @@ static void check_cn88xx(bdk_node_t node)
             CHECK_CHIP_ERROR(BDK_L2C_CBCX_INT_W1C(index), s, rsdsbe);
         }
         {
-            BDK_CSR_INIT(c, node, BDK_L2C_MCIX_INT_W1C(index));
-            CHECK_CHIP_ERROR(BDK_L2C_MCIX_INT_W1C(index), s, vbfdbe);
-            CHECK_CHIP_ERROR(BDK_L2C_MCIX_INT_W1C(index), s, vbfsbe);
+            BDK_CSR_INIT(w1c, node, BDK_L2C_MCIX_INT_W1C(index));
+            if (w1c.s.vbfdbe || w1c.s.vbfsbe) { // L2C_MCIX ECC errors
+                BDK_CSR_INIT(err, node, BDK_L2C_MCIX_ERR(index));
+                bdk_error("N%d.L2C_MCI%d: VBF ECC %s: [0x%016lx] \n",
+                          node, index, (w1c.s.vbfdbe) ? "double" : "single", err.u);
+                BDK_CSR_WRITE(node, BDK_L2C_MCIX_INT_W1C(index), w1c.u);
+            }
         }
     }
     for (int index = 0; index < 8; index++)
