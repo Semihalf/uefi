@@ -614,6 +614,7 @@ int __bdk_dram_test_mem_xor(uint64_t area, uint64_t max_address, int bursts)
     // move the multiplies outside the loop
     uint64_t pbase = address1 * pattern1;
     uint64_t pincr = 8 * pattern1;
+    uint64_t ppred;
 
     p = pbase;
     while (address1 < area2)
@@ -660,10 +661,7 @@ int __bdk_dram_test_mem_xor(uint64_t area, uint64_t max_address, int bursts)
 	 * will be out of sync, giving spurious errors.
          */
         address1 = area;
-
-	// move the multiplies outside the loop
-	pbase = address1 * pattern1;
-	pincr = 8 * pattern1;
+	ppred = pbase;
 
         while (address1 < area2)
         {
@@ -676,7 +674,7 @@ int __bdk_dram_test_mem_xor(uint64_t area, uint64_t max_address, int bursts)
             d1 = READ64(address1         );
             d2 = READ64(address1 + offset);
 
-	    p = pbase ^ pattern2;
+	    p = ppred ^ pattern2;
 
             if (bdk_unlikely(d1 != p)) {
 		failures += __bdk_dram_retry_failure(burst, address1, d1, p);
@@ -690,7 +688,7 @@ int __bdk_dram_test_mem_xor(uint64_t area, uint64_t max_address, int bursts)
             }
 
             address1 += 8;
-	    pbase += pincr;
+	    ppred += pincr;
 
         } /* while (address1 < area2) */
     } /* for (int burst = 0; burst < bursts; burst++) */
