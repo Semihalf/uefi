@@ -281,7 +281,7 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
 
     lock_retries_limit = DEFAULT_LOCK_RETRY_LIMIT;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) // FIXME? modify for 81xx, 83xx?
-        lock_retries_limit += 5; // give pass 2.0 a few more
+        lock_retries_limit *= 3; // give pass 2.0 thrice as many // FIXME: orig was only +5
 
 
     do { /* while (sat_retries < sat_retry_limit) */
@@ -4479,7 +4479,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     // FIXME: will need to add CN83XX (all) and CN81XX (all) at some point...
     if ((ddr_type == DDR3_DRAM) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X)) {
         load_dac_override(node, ddr_interface_num, 127, /* all */0x0A);
-        ddr_print("N%d.LMC%d, Overriding DDR3 internal VREF DAC settings to 127 (early).\n",
+        ddr_print("N%d.LMC%d: Overriding DDR3 internal VREF DAC settings to 127 (early).\n",
                   node, ddr_interface_num);
     }
 #endif
@@ -4494,12 +4494,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     if (deskew_training_errors) {
 	if (internal_retries < DEFAULT_INTERNAL_VREF_TRAINING_LIMIT) {
 	    internal_retries++;
-	    ddr_print("Deskew training results still unsettled - retrying internal Vref training (%d)\n",
-		      internal_retries);
+	    ddr_print("N%d.LMC%d: Deskew training results still unsettled - retrying internal Vref training (%d)\n",
+		      node, ddr_interface_num, internal_retries);
 	    goto perform_internal_vref_training;
 	} else {
-	    ddr_print("Deskew training results still unsettled - retries exhausted (%d)\n",
-		      internal_retries);
+	    ddr_print("N%d.LMC%d: Deskew training results still unsettled - retries exhausted (%d)\n",
+		      node, ddr_interface_num, internal_retries);
 	    // bypass chip reset when deskew retries fail because of nibble errors
 	    if (!ddr_disable_deskew_fail_reset) {
 		// if we cannot get past here, reset the node
