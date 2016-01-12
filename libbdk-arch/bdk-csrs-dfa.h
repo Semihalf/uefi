@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -1699,17 +1699,17 @@ typedef union
                                                                  * When DFA_INT_STATUS[DONE_CNT] = 0, then no results are pending, the interrupt
                                                                  coalescing timer is held to zero, and an interrupt is not sent.
 
-                                                                 * When DFA_INT_STATUS[DONE_CNT] != 0, then the interrupt coalescing timer counts. If
-                                                                 the counter is >= DFA_DONE_WAIT[TIME_WAIT]*1024, or DFA_INT_STATUS[DONE_CNT]
-                                                                 >= DFA_DONE_WAIT[NUM_WAIT], i.e.enough time has passed or enough results
-                                                                 have arrived, then the interrupt is sent.  Otherwise, it is not sent due to
-                                                                 coalescing.
+                                                                 * When DFA_INT_STATUS[DONE_CNT] != 0, then the interrupt coalescing timer
+                                                                 counts. If the counter is >= DFA_DONE_WAIT[TIME_WAIT]*1024, or
+                                                                 DFA_INT_STATUS[DONE_CNT] >= DFA_DONE_WAIT[NUM_WAIT], i.e. enough time has passed
+                                                                 or enough results have arrived, then the interrupt is sent.  Otherwise, it is
+                                                                 not sent due to coalescing.
 
-                                                                 * When DFA_DONE_ACK is written, the interrupt coalescing timer restarts.
-                                                                 Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 DFA_INT_STATUS[DONE_CNT] >= DFA_DONE_WAIT[NUM_WAIT] and the timer is zero, the
-                                                                 interrupt will be resent immediately.  (This covers the race case between
-                                                                 software acknowledging an interrupt and a result returning.)
+                                                                 * When DFA_DONE_ACK is written, the interrupt coalescing timer restarts.  Note
+                                                                 after decrementing this interrupt equation is recomputed, for example if
+                                                                 DFA_INT_STATUS[DONE_CNT] >= DFA_DONE_WAIT[NUM_WAIT] and because the timer is
+                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.)
 
                                                                  * When DFA_INT_DONE_ENA_W1S[DONE_ENA] = 0, interrupts are not sent, but the counting
                                                                  described above still occurs.
@@ -1729,17 +1729,17 @@ typedef union
                                                                  * When DFA_INT_STATUS[DONE_CNT] = 0, then no results are pending, the interrupt
                                                                  coalescing timer is held to zero, and an interrupt is not sent.
 
-                                                                 * When DFA_INT_STATUS[DONE_CNT] != 0, then the interrupt coalescing timer counts. If
-                                                                 the counter is >= DFA_DONE_WAIT[TIME_WAIT]*1024, or DFA_INT_STATUS[DONE_CNT]
-                                                                 >= DFA_DONE_WAIT[NUM_WAIT], i.e.enough time has passed or enough results
-                                                                 have arrived, then the interrupt is sent.  Otherwise, it is not sent due to
-                                                                 coalescing.
+                                                                 * When DFA_INT_STATUS[DONE_CNT] != 0, then the interrupt coalescing timer
+                                                                 counts. If the counter is >= DFA_DONE_WAIT[TIME_WAIT]*1024, or
+                                                                 DFA_INT_STATUS[DONE_CNT] >= DFA_DONE_WAIT[NUM_WAIT], i.e. enough time has passed
+                                                                 or enough results have arrived, then the interrupt is sent.  Otherwise, it is
+                                                                 not sent due to coalescing.
 
-                                                                 * When DFA_DONE_ACK is written, the interrupt coalescing timer restarts.
-                                                                 Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 DFA_INT_STATUS[DONE_CNT] >= DFA_DONE_WAIT[NUM_WAIT] and the timer is zero, the
-                                                                 interrupt will be resent immediately.  (This covers the race case between
-                                                                 software acknowledging an interrupt and a result returning.)
+                                                                 * When DFA_DONE_ACK is written, the interrupt coalescing timer restarts.  Note
+                                                                 after decrementing this interrupt equation is recomputed, for example if
+                                                                 DFA_INT_STATUS[DONE_CNT] >= DFA_DONE_WAIT[NUM_WAIT] and because the timer is
+                                                                 zero, the interrupt will be resent immediately.  (This covers the race case
+                                                                 between software acknowledging an interrupt and a result returning.)
 
                                                                  * When DFA_INT_DONE_ENA_W1S[DONE_ENA] = 0, interrupts are not sent, but the counting
                                                                  described above still occurs.

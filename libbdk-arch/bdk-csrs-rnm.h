@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -74,6 +74,26 @@ typedef union
     struct bdk_rnm_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_rnm_bist_status_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t nz                    : 1;  /**< [  1:  1](RO/H) Status of the no-zeros memory BIST. 0 = passed BIST, 1 = failed BIST. */
+        uint64_t nml                   : 1;  /**< [  0:  0](RO/H) Status of the normal memory BIST. 0 = passed BIST, 1 = failed BIST. */
+#else /* Word 0 - Little Endian */
+        uint64_t nml                   : 1;  /**< [  0:  0](RO/H) Status of the normal memory BIST. 0 = passed BIST, 1 = failed BIST. */
+        uint64_t nz                    : 1;  /**< [  1:  1](RO/H) Status of the no-zeros memory BIST. 0 = passed BIST, 1 = failed BIST. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_rnm_bist_status_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t rrc                   : 1;  /**< [  1:  1](RO/H) Status of the RRC memory block BIST. 0 = passed BIST, 1 = failed BIST. */
         uint64_t mem                   : 1;  /**< [  0:  0](RO/H) Status of MEM memory block BIST. 0 = passed BIST, 1 = failed BIST. */
@@ -82,8 +102,8 @@ typedef union
         uint64_t rrc                   : 1;  /**< [  1:  1](RO/H) Status of the RRC memory block BIST. 0 = passed BIST, 1 = failed BIST. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rnm_bist_status_s cn; */
+    } cn88xx;
+    /* struct bdk_rnm_bist_status_cn81xx cn83xx; */
 } bdk_rnm_bist_status_t;
 
 #define BDK_RNM_BIST_STATUS BDK_RNM_BIST_STATUS_FUNC()

@@ -32,6 +32,15 @@ extern int bdk_dram_config(int node, int ddr_clock_override);
 extern int bdk_dram_tune(int node);
 
 /**
+ * Do DRAM Margin all tests
+ *
+ * @param node   Node to tune
+ *
+ * @return None
+ */
+extern void bdk_dram_margin(int node);
+
+/**
  * Get the amount of DRAM configured for a node. This is read from the LMC
  * controller after DRAM is setup.
  *

@@ -7,7 +7,7 @@ from yaml_utils import raiseException
 # Various data items below contain dictionaries that are index per chip. This
 # class overrides the default dictionary so we can do better checking and find
 # script bugs. It is a dictionary that requires all values to be type checked
-# and all keys msut be a valid chip, or "s".
+# and all keys must be a valid chip, or "s".
 #
 class PerChip(types.DictType):
     def __init__(self, allowedType, allowedType2=None):

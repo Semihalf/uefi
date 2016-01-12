@@ -153,7 +153,7 @@ static int __bdk_if_init_node(bdk_node_t node)
  */
 static int __bdk_if_init(void)
 {
-    static_assert(sizeof(bdk_if_packet_t) == BDK_CACHE_LINE_SIZE);
+    _Static_assert(sizeof(bdk_if_packet_t) == BDK_CACHE_LINE_SIZE, "Packet not exactly one cache line");
     int result = 0;
 
     __bdk_if_global_ops = __bdk_if_global_ops_cn8xxx;
@@ -164,7 +164,7 @@ static int __bdk_if_init(void)
         return -1;
     }
 
-    for (int node=0; node<BDK_NUMA_MAX_NODES; node++)
+    for (bdk_node_t node = BDK_NODE_0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (bdk_numa_exists(node))
             result |= __bdk_if_init_node(node);

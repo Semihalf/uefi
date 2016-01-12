@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -60,7 +60,7 @@
  */
 #define BDK_SSO_BAR_E_SSO_PF_BAR0 (0x860000000000ll) /**< Base address for standard PF registers. */
 #define BDK_SSO_BAR_E_SSO_PF_BAR4 (0x860700000000ll) /**< Base address for MSI-X PF registers. */
-#define BDK_SSO_BAR_E_SSO_VFX_BAR0(a) (0x860800000000ll + 0x100000ll * (a)) /**< Base address for standard PF registers. */
+#define BDK_SSO_BAR_E_SSO_VFX_BAR0(a) (0x860800000000ll + 0x100000ll * (a)) /**< Base address for standard VF registers. */
 #define BDK_SSO_BAR_E_SSO_VFX_BAR4(a) (0x860c00000000ll + 0x100000ll * (a)) /**< Base address for MSI-X VF registers. */
 
 /**
@@ -98,21 +98,41 @@
  * SSO MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_SSO_VF_INT_VEC_E_GRP (0) /**< See interrupt clears SSO_VHGRP(0..63)_INT,
-                                       interrupt sets SSO_VHGRP(0..63)_INT_W1S,
-                                       enable clears SSO_VHGRP(0..63)_INT_ENA_W1C,
-                                       and enable sets SSO_VHGRP(0..63)_INT_ENA_W1S. */
+#define BDK_SSO_VF_INT_VEC_E_GRP (0) /**< See interrupt clears SSO_VHGRP()_INT[MBOX,XAQ_LIMIT,EXE_INT,AQ_INT],
+                                       interrupt sets SSO_VHGRP()_INT_W1S[MBOX,XAQ_LIMIT,EXE_INT,AQ_INT],
+                                       enable clears SSO_VHGRP()_INT_ENA_W1C[MBOX,XAQ_LIMIT,EXE_INT,AQ_INT],
+                                       and enable sets SSO_VHGRP()_INT_ENA_W1S[MBOX,XAQ_LIMIT,EXE_INT,AQ_INT]. */
 
 /**
- * Register (NCB) sso_active_cycles#
+ * Enumeration sso_wa_e
  *
- * SSO Active Cycles Register
- * This register counts every coprocessor clock (SCLK) cycle that the SSO clocks are active.
+ * SSO Work Add Interface Enumeration
+ * Enumerates the different SSO work-add interfaces bit fields in SSO_AW_INP_CTL[WA_DIS].
+ */
+#define BDK_SSO_WA_E_ADDWQ (3) /**< Software add-work interface. */
+#define BDK_SSO_WA_E_CPT0 (2) /**< CPT0 add-work interface. */
+#define BDK_SSO_WA_E_CPT1 (4) /**< CPT1 add-work interface. */
+#define BDK_SSO_WA_E_DDF (0xc) /**< DDF add-work interface. */
+#define BDK_SSO_WA_E_DFA (5) /**< DFA add-work interface. */
+#define BDK_SSO_WA_E_DPI (6) /**< DPI add-work interface. */
+#define BDK_SSO_WA_E_HNA (7) /**< HNA add-work interface. */
+#define BDK_SSO_WA_E_IOBN (0) /**< Not a real add-work slot. */
+#define BDK_SSO_WA_E_PKI (1) /**< PKI add-work interface. */
+#define BDK_SSO_WA_E_PKO (8) /**< PKO add-work interface. */
+#define BDK_SSO_WA_E_RAD (9) /**< RAD add-work interface. */
+#define BDK_SSO_WA_E_TIM (0xa) /**< TIM add-work interface. */
+#define BDK_SSO_WA_E_ZIP (0xb) /**< ZIP add-work interface. */
+
+/**
+ * Register (NCB) sso_active_cycles0
+ *
+ * SSO PF Active Cycles Register
+ * This register counts every coprocessor-clock cycle that the SSO clocks are active in AW.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_sso_active_cyclesx_s
+    struct bdk_sso_active_cycles0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain. */
@@ -120,28 +140,101 @@ typedef union
         uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_sso_active_cyclesx_s cn; */
-} bdk_sso_active_cyclesx_t;
+    /* struct bdk_sso_active_cycles0_s cn; */
+} bdk_sso_active_cycles0_t;
 
-static inline uint64_t BDK_SSO_ACTIVE_CYCLESX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SSO_ACTIVE_CYCLESX(unsigned long a)
+#define BDK_SSO_ACTIVE_CYCLES0 BDK_SSO_ACTIVE_CYCLES0_FUNC()
+static inline uint64_t BDK_SSO_ACTIVE_CYCLES0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SSO_ACTIVE_CYCLES0_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
-        return 0x860000001100ll + 8ll * ((a) & 0x3);
-    __bdk_csr_fatal("SSO_ACTIVE_CYCLESX", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x860000001100ll;
+    __bdk_csr_fatal("SSO_ACTIVE_CYCLES0", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_SSO_ACTIVE_CYCLESX(a) bdk_sso_active_cyclesx_t
-#define bustype_BDK_SSO_ACTIVE_CYCLESX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_SSO_ACTIVE_CYCLESX(a) "SSO_ACTIVE_CYCLESX"
-#define device_bar_BDK_SSO_ACTIVE_CYCLESX(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_SSO_ACTIVE_CYCLESX(a) (a)
-#define arguments_BDK_SSO_ACTIVE_CYCLESX(a) (a),-1,-1,-1
+#define typedef_BDK_SSO_ACTIVE_CYCLES0 bdk_sso_active_cycles0_t
+#define bustype_BDK_SSO_ACTIVE_CYCLES0 BDK_CSR_TYPE_NCB
+#define basename_BDK_SSO_ACTIVE_CYCLES0 "SSO_ACTIVE_CYCLES0"
+#define device_bar_BDK_SSO_ACTIVE_CYCLES0 0x0 /* PF_BAR0 */
+#define busnum_BDK_SSO_ACTIVE_CYCLES0 0
+#define arguments_BDK_SSO_ACTIVE_CYCLES0 -1,-1,-1,-1
+
+/**
+ * Register (NCB) sso_active_cycles1
+ *
+ * SSO PF Active Cycles Register
+ * This register counts every coprocessor-clock cycle that the SSO clocks are active in GW.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sso_active_cycles1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain in AW. */
+#else /* Word 0 - Little Endian */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain in AW. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sso_active_cycles1_s cn; */
+} bdk_sso_active_cycles1_t;
+
+#define BDK_SSO_ACTIVE_CYCLES1 BDK_SSO_ACTIVE_CYCLES1_FUNC()
+static inline uint64_t BDK_SSO_ACTIVE_CYCLES1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SSO_ACTIVE_CYCLES1_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x860000001108ll;
+    __bdk_csr_fatal("SSO_ACTIVE_CYCLES1", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_SSO_ACTIVE_CYCLES1 bdk_sso_active_cycles1_t
+#define bustype_BDK_SSO_ACTIVE_CYCLES1 BDK_CSR_TYPE_NCB
+#define basename_BDK_SSO_ACTIVE_CYCLES1 "SSO_ACTIVE_CYCLES1"
+#define device_bar_BDK_SSO_ACTIVE_CYCLES1 0x0 /* PF_BAR0 */
+#define busnum_BDK_SSO_ACTIVE_CYCLES1 0
+#define arguments_BDK_SSO_ACTIVE_CYCLES1 -1,-1,-1,-1
+
+/**
+ * Register (NCB) sso_active_cycles2
+ *
+ * SSO PF Active Cycles Register
+ * This register counts every coprocessor-clock cycle that the SSO clocks are active in WS.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sso_active_cycles2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain. */
+#else /* Word 0 - Little Endian */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](RO/H) Counts the number of active cycles in each conditional clock domain. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sso_active_cycles2_s cn; */
+} bdk_sso_active_cycles2_t;
+
+#define BDK_SSO_ACTIVE_CYCLES2 BDK_SSO_ACTIVE_CYCLES2_FUNC()
+static inline uint64_t BDK_SSO_ACTIVE_CYCLES2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SSO_ACTIVE_CYCLES2_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x860000001110ll;
+    __bdk_csr_fatal("SSO_ACTIVE_CYCLES2", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_SSO_ACTIVE_CYCLES2 bdk_sso_active_cycles2_t
+#define bustype_BDK_SSO_ACTIVE_CYCLES2 BDK_CSR_TYPE_NCB
+#define basename_BDK_SSO_ACTIVE_CYCLES2 "SSO_ACTIVE_CYCLES2"
+#define device_bar_BDK_SSO_ACTIVE_CYCLES2 0x0 /* PF_BAR0 */
+#define busnum_BDK_SSO_ACTIVE_CYCLES2 0
+#define arguments_BDK_SSO_ACTIVE_CYCLES2 -1,-1,-1,-1
 
 /**
  * Register (NCB) sso_aw_add
  *
- * SSO Work-Entries Add Register
+ * SSO PF Work-Entries Add Register
  */
 typedef union
 {
@@ -182,7 +275,7 @@ static inline uint64_t BDK_SSO_AW_ADD_FUNC(void)
 /**
  * Register (NCB) sso_aw_cfg
  *
- * SSO Add-Work Configuration Register
+ * SSO PF Add-Work Configuration Register
  * This register controls the operation of the add-work block (AW).
  */
 typedef union
@@ -242,7 +335,7 @@ static inline uint64_t BDK_SSO_AW_CFG_FUNC(void)
 /**
  * Register (NCB) sso_aw_eco
  *
- * INTERNAL: SSO_AW ECO Register
+ * INTERNAL: SSO PF AW ECO Register
  */
 typedef union
 {
@@ -281,7 +374,7 @@ static inline uint64_t BDK_SSO_AW_ECO_FUNC(void)
 /**
  * Register (NCB) sso_aw_inp_ctl
  *
- * SSO Add-Work Input Control Register
+ * SSO PF Add-Work Input Control Register
  */
 typedef union
 {
@@ -289,37 +382,15 @@ typedef union
     struct bdk_sso_aw_inp_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t wa_dis                : 20; /**< [ 19:  0](R/W) Add-work input disable.  Each bit corresponds to a hardware input queue, and if
+        uint64_t reserved_13_63        : 51;
+        uint64_t wa_dis                : 13; /**< [ 12:  0](R/W) Add-work input disable.  Each bit corresponds to a hardware input queue, and if
                                                                  set add-works from the corresponding coprocessor will be dropped.
-                                                                 <0> = PKI.
-                                                                 <1> = Software add-works
-                                                                 <2> = DPI.
-                                                                 <3> = PKO.
-                                                                 <4> = RAD.
-                                                                 <5> = TIM.
-                                                                 <6> = ZIP.
-                                                                 <7> = CPT.
-                                                                 <19:8> = Reserved.
-
-                                                                 Internal:
-                                                                 FIXME update based on input bus connections in sso_params.vh. */
+                                                                 Bit numbers enumerated by SSO_WA_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t wa_dis                : 20; /**< [ 19:  0](R/W) Add-work input disable.  Each bit corresponds to a hardware input queue, and if
+        uint64_t wa_dis                : 13; /**< [ 12:  0](R/W) Add-work input disable.  Each bit corresponds to a hardware input queue, and if
                                                                  set add-works from the corresponding coprocessor will be dropped.
-                                                                 <0> = PKI.
-                                                                 <1> = Software add-works
-                                                                 <2> = DPI.
-                                                                 <3> = PKO.
-                                                                 <4> = RAD.
-                                                                 <5> = TIM.
-                                                                 <6> = ZIP.
-                                                                 <7> = CPT.
-                                                                 <19:8> = Reserved.
-
-                                                                 Internal:
-                                                                 FIXME update based on input bus connections in sso_params.vh. */
-        uint64_t reserved_20_63        : 44;
+                                                                 Bit numbers enumerated by SSO_WA_E. */
+        uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_aw_inp_ctl_s cn; */
@@ -344,7 +415,7 @@ static inline uint64_t BDK_SSO_AW_INP_CTL_FUNC(void)
 /**
  * Register (NCB) sso_aw_read_arb
  *
- * SSO Read Arbitration Register
+ * SSO PF Read Arbitration Register
  * This register fine tunes the AW read arbiter and is for diagnostic use.
  */
 typedef union
@@ -396,7 +467,7 @@ static inline uint64_t BDK_SSO_AW_READ_ARB_FUNC(void)
 /**
  * Register (NCB) sso_aw_status
  *
- * SSO Add-Work Status Register
+ * SSO PF Add-Work Status Register
  * This register indicates the status of the add-work block (AW).
  */
 typedef union
@@ -434,7 +505,7 @@ static inline uint64_t BDK_SSO_AW_STATUS_FUNC(void)
 /**
  * Register (NCB) sso_aw_tag_latency_pc
  *
- * SSO Short Form Tag Requests Perf-Count Register
+ * SSO PF Short Form Tag Requests Perf-Count Register
  */
 typedef union
 {
@@ -471,7 +542,7 @@ static inline uint64_t BDK_SSO_AW_TAG_LATENCY_PC_FUNC(void)
 /**
  * Register (NCB) sso_aw_tag_req_pc
  *
- * SSO Short Form Tag Latency Perf-Count Register
+ * SSO PF Short Form Tag Latency Perf-Count Register
  */
 typedef union
 {
@@ -506,7 +577,7 @@ static inline uint64_t BDK_SSO_AW_TAG_REQ_PC_FUNC(void)
 /**
  * Register (NCB) sso_aw_we
  *
- * SSO Work-Entries Count Register
+ * SSO PF Work-Entries Count Register
  */
 typedef union
 {
@@ -515,21 +586,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_29_63        : 35;
-        uint64_t rsvd_free             : 13; /**< [ 28: 16](R/W/H) Number of free reserved entries. Used to ensure that each group can get a specific number
-                                                                 of entries. Must always be greater than or equal to the sum across all
-                                                                 SSO_GRP()_IAQ_THR[RSVD_THR], and will generally be equal to that sum unless changes
-                                                                 to RSVD_THR are going to be made. To prevent races, software should not change this
-                                                                 register when SSO is being used; instead use SSO_AW_ADD[RSVD_FREE]. */
+        uint64_t rsvd_free             : 13; /**< [ 28: 16](R/W/H) Number of free reserved entries. Used to ensure that each hardware-group can get
+                                                                 a specific number of entries. Must always be greater than or equal to the sum
+                                                                 across all SSO_GRP()_IAQ_THR[RSVD_THR], and will generally be equal to that sum
+                                                                 unless changes to RSVD_THR are going to be made. To prevent races, software
+                                                                 should not change this register when SSO is being used; instead use
+                                                                 SSO_AW_ADD[RSVD_FREE]. */
         uint64_t reserved_13_15        : 3;
         uint64_t free_cnt              : 13; /**< [ 12:  0](RO/H) Number of total free entries. */
 #else /* Word 0 - Little Endian */
         uint64_t free_cnt              : 13; /**< [ 12:  0](RO/H) Number of total free entries. */
         uint64_t reserved_13_15        : 3;
-        uint64_t rsvd_free             : 13; /**< [ 28: 16](R/W/H) Number of free reserved entries. Used to ensure that each group can get a specific number
-                                                                 of entries. Must always be greater than or equal to the sum across all
-                                                                 SSO_GRP()_IAQ_THR[RSVD_THR], and will generally be equal to that sum unless changes
-                                                                 to RSVD_THR are going to be made. To prevent races, software should not change this
-                                                                 register when SSO is being used; instead use SSO_AW_ADD[RSVD_FREE]. */
+        uint64_t rsvd_free             : 13; /**< [ 28: 16](R/W/H) Number of free reserved entries. Used to ensure that each hardware-group can get
+                                                                 a specific number of entries. Must always be greater than or equal to the sum
+                                                                 across all SSO_GRP()_IAQ_THR[RSVD_THR], and will generally be equal to that sum
+                                                                 unless changes to RSVD_THR are going to be made. To prevent races, software
+                                                                 should not change this register when SSO is being used; instead use
+                                                                 SSO_AW_ADD[RSVD_FREE]. */
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
@@ -555,7 +628,7 @@ static inline uint64_t BDK_SSO_AW_WE_FUNC(void)
 /**
  * Register (NCB) sso_bist_status0
  *
- * SSO BIST Status Register
+ * SSO PF BIST Status Register
  * Contains the BIST status for the SSO memories.
  */
 typedef union
@@ -564,33 +637,35 @@ typedef union
     struct bdk_sso_bist_status0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_10_63        : 54;
-        uint64_t bist                  : 10; /**< [  9:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
+        uint64_t reserved_11_63        : 53;
+        uint64_t bist                  : 11; /**< [ 10:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
                                                                  Internal:
-                                                                 <9> = WES.
-                                                                 <8> = FFF.
-                                                                 <7> = XAQ.
-                                                                 <6> = QTC.
-                                                                 <5> = INP.
-                                                                 <4> = LLM.
-                                                                 <3> = TIAQ_HPTR.
-                                                                 <2> = TIAQ_TPTR.
-                                                                 <1> = TOAQ_HPTR.
-                                                                 <0> = TOAQ_TPTR. */
+                                                                 <10> = MEMMGT.
+                                                                  <9> = WES.
+                                                                  <8> = FFF.
+                                                                  <7> = XAQ.
+                                                                  <6> = QTC.
+                                                                  <5> = INP.
+                                                                  <4> = LLM.
+                                                                  <3> = TIAQ_HPTR.
+                                                                  <2> = TIAQ_TPTR.
+                                                                  <1> = TOAQ_HPTR.
+                                                                  <0> = TOAQ_TPTR. */
 #else /* Word 0 - Little Endian */
-        uint64_t bist                  : 10; /**< [  9:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
+        uint64_t bist                  : 11; /**< [ 10:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
                                                                  Internal:
-                                                                 <9> = WES.
-                                                                 <8> = FFF.
-                                                                 <7> = XAQ.
-                                                                 <6> = QTC.
-                                                                 <5> = INP.
-                                                                 <4> = LLM.
-                                                                 <3> = TIAQ_HPTR.
-                                                                 <2> = TIAQ_TPTR.
-                                                                 <1> = TOAQ_HPTR.
-                                                                 <0> = TOAQ_TPTR. */
-        uint64_t reserved_10_63        : 54;
+                                                                 <10> = MEMMGT.
+                                                                  <9> = WES.
+                                                                  <8> = FFF.
+                                                                  <7> = XAQ.
+                                                                  <6> = QTC.
+                                                                  <5> = INP.
+                                                                  <4> = LLM.
+                                                                  <3> = TIAQ_HPTR.
+                                                                  <2> = TIAQ_TPTR.
+                                                                  <1> = TOAQ_HPTR.
+                                                                  <0> = TOAQ_TPTR. */
+        uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_bist_status0_s cn; */
@@ -615,7 +690,7 @@ static inline uint64_t BDK_SSO_BIST_STATUS0_FUNC(void)
 /**
  * Register (NCB) sso_bist_status1
  *
- * SSO BIST Status 1 Register
+ * SSO PF BIST Status 1 Register
  * Contains the BIST status for the SSO memories.
  */
 typedef union
@@ -624,9 +699,10 @@ typedef union
     struct bdk_sso_bist_status1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t bist                  : 7;  /**< [  6:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
+        uint64_t reserved_8_63         : 56;
+        uint64_t bist                  : 8;  /**< [  7:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
                                                                  Internal:
+                                                                 <7> = MBOX_MEM,
                                                                  <6> = THRINT.
                                                                  <5> = MASK.
                                                                  <4> = GDW.
@@ -635,8 +711,9 @@ typedef union
                                                                  <1> = HPTR.
                                                                  <0> = CNTR. */
 #else /* Word 0 - Little Endian */
-        uint64_t bist                  : 7;  /**< [  6:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
+        uint64_t bist                  : 8;  /**< [  7:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
                                                                  Internal:
+                                                                 <7> = MBOX_MEM,
                                                                  <6> = THRINT.
                                                                  <5> = MASK.
                                                                  <4> = GDW.
@@ -644,7 +721,7 @@ typedef union
                                                                  <2> = TPTR.
                                                                  <1> = HPTR.
                                                                  <0> = CNTR. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_bist_status1_s cn; */
@@ -669,7 +746,7 @@ static inline uint64_t BDK_SSO_BIST_STATUS1_FUNC(void)
 /**
  * Register (NCB) sso_bist_status2
  *
- * SSO BIST Status 2 Register
+ * SSO PF BIST Status 2 Register
  * Contains the BIST status for the SSO memories.
  */
 typedef union
@@ -678,9 +755,10 @@ typedef union
     struct bdk_sso_bist_status2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t bist                  : 9;  /**< [  8:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
+        uint64_t reserved_10_63        : 54;
+        uint64_t bist                  : 10; /**< [  9:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
                                                                  Internal:
+                                                                 <9> = PCC.
                                                                  <8> = PC_WS.
                                                                  <7> = PC_WA.
                                                                  <6> = PC_TS.
@@ -691,8 +769,9 @@ typedef union
                                                                  <1> = NIDX.
                                                                  <0> = PIDX. */
 #else /* Word 0 - Little Endian */
-        uint64_t bist                  : 9;  /**< [  8:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
+        uint64_t bist                  : 10; /**< [  9:  0](RO/H) Memory BIST status. 0 = pass, 1 = fail.
                                                                  Internal:
+                                                                 <9> = PCC.
                                                                  <8> = PC_WS.
                                                                  <7> = PC_WA.
                                                                  <6> = PC_TS.
@@ -702,7 +781,7 @@ typedef union
                                                                  <2> = OTH.
                                                                  <1> = NIDX.
                                                                  <0> = PIDX. */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_bist_status2_s cn; */
@@ -727,7 +806,7 @@ static inline uint64_t BDK_SSO_BIST_STATUS2_FUNC(void)
 /**
  * Register (NCB) sso_bp_test0
  *
- * INTERNAL: SSO Backpressure Test Register 0
+ * INTERNAL: SSO PF Backpressure Test Register 0
  */
 typedef union
 {
@@ -800,7 +879,7 @@ static inline uint64_t BDK_SSO_BP_TEST0_FUNC(void)
 /**
  * Register (NCB) sso_bp_test1
  *
- * INTERNAL: SSO Backpressure Test Register 1
+ * INTERNAL: SSO PF Backpressure Test Register 1
  */
 typedef union
 {
@@ -873,7 +952,7 @@ static inline uint64_t BDK_SSO_BP_TEST1_FUNC(void)
 /**
  * Register (NCB) sso_bp_test2
  *
- * INTERNAL: SSO Backpressure Test Register 2
+ * INTERNAL: SSO PF Backpressure Test Register 2
  */
 typedef union
 {
@@ -946,7 +1025,7 @@ static inline uint64_t BDK_SSO_BP_TEST2_FUNC(void)
 /**
  * Register (NCB) sso_const
  *
- * SSO Constants Register
+ * SSO PF Constants Register
  * This register contains constants for software discovery.
  */
 typedef union
@@ -959,9 +1038,9 @@ typedef union
         uint64_t taq_b                 : 8;  /**< [ 55: 48](RAZ) Number of TAQ entries per line.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
         uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
         uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries. */
-        uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of groups. */
+        uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of hardware-groups. */
 #else /* Word 0 - Little Endian */
-        uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of groups. */
+        uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of hardware-groups. */
         uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries. */
         uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
         uint64_t taq_b                 : 8;  /**< [ 55: 48](RAZ) Number of TAQ entries per line.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
@@ -990,7 +1069,7 @@ static inline uint64_t BDK_SSO_CONST_FUNC(void)
 /**
  * Register (NCB) sso_const1
  *
- * SSO Constants Register 1
+ * SSO PF Constants Register 1
  * This register contains constants for software discovery.
  */
 typedef union
@@ -1032,7 +1111,7 @@ static inline uint64_t BDK_SSO_CONST1_FUNC(void)
 /**
  * Register (NCB) sso_ecc_ctl0
  *
- * SSO ECC Control 0 Register
+ * SSO PF ECC Control 0 Register
  */
 typedef union
 {
@@ -1040,7 +1119,9 @@ typedef union
     struct bdk_sso_ecc_ctl0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_33_63        : 31;
+        uint64_t memmgt_flip           : 2;  /**< [ 32: 31](R/W) MEMMGT flip syndrome bits on write. */
+        uint64_t memmgt_cdis           : 1;  /**< [ 30: 30](R/W) MEMMGT ECC correction disable. */
         uint64_t toaqt_flip            : 2;  /**< [ 29: 28](R/W) TOAQT flip syndrome bits on write. */
         uint64_t toaqt_cdis            : 1;  /**< [ 27: 27](R/W) TOAQT ECC correction disable. */
         uint64_t toaqh_flip            : 2;  /**< [ 26: 25](R/W) TOAQH flip syndrome bits on write. */
@@ -1084,7 +1165,9 @@ typedef union
         uint64_t toaqh_flip            : 2;  /**< [ 26: 25](R/W) TOAQH flip syndrome bits on write. */
         uint64_t toaqt_cdis            : 1;  /**< [ 27: 27](R/W) TOAQT ECC correction disable. */
         uint64_t toaqt_flip            : 2;  /**< [ 29: 28](R/W) TOAQT flip syndrome bits on write. */
-        uint64_t reserved_30_63        : 34;
+        uint64_t memmgt_cdis           : 1;  /**< [ 30: 30](R/W) MEMMGT ECC correction disable. */
+        uint64_t memmgt_flip           : 2;  /**< [ 32: 31](R/W) MEMMGT flip syndrome bits on write. */
+        uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ecc_ctl0_s cn; */
@@ -1109,7 +1192,7 @@ static inline uint64_t BDK_SSO_ECC_CTL0_FUNC(void)
 /**
  * Register (NCB) sso_ecc_ctl1
  *
- * SSO ECC Control 1 Register
+ * SSO PF ECC Control 1 Register
  */
 typedef union
 {
@@ -1117,7 +1200,9 @@ typedef union
     struct bdk_sso_ecc_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_21_63        : 43;
+        uint64_t reserved_24_63        : 40;
+        uint64_t mbox_mem_flip         : 2;  /**< [ 23: 22](R/W) MBOX_MEM flip syndrome bits on write. */
+        uint64_t mbox_mem_cdis         : 1;  /**< [ 21: 21](R/W) MBOX_MEM ECC correction disable. */
         uint64_t thrint_flip           : 2;  /**< [ 20: 19](R/W) THRINT flip syndrome bits on write. */
         uint64_t thrint_cdis           : 1;  /**< [ 18: 18](R/W) THRINT ECC correction disable. */
         uint64_t mask_flip             : 2;  /**< [ 17: 16](R/W) MASK flip syndrome bits on write. */
@@ -1149,7 +1234,9 @@ typedef union
         uint64_t mask_flip             : 2;  /**< [ 17: 16](R/W) MASK flip syndrome bits on write. */
         uint64_t thrint_cdis           : 1;  /**< [ 18: 18](R/W) THRINT ECC correction disable. */
         uint64_t thrint_flip           : 2;  /**< [ 20: 19](R/W) THRINT flip syndrome bits on write. */
-        uint64_t reserved_21_63        : 43;
+        uint64_t mbox_mem_cdis         : 1;  /**< [ 21: 21](R/W) MBOX_MEM ECC correction disable. */
+        uint64_t mbox_mem_flip         : 2;  /**< [ 23: 22](R/W) MBOX_MEM flip syndrome bits on write. */
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ecc_ctl1_s cn; */
@@ -1174,7 +1261,7 @@ static inline uint64_t BDK_SSO_ECC_CTL1_FUNC(void)
 /**
  * Register (NCB) sso_ecc_ctl2
  *
- * SSO ECC Control 2 Register
+ * SSO PF ECC Control 2 Register
  */
 typedef union
 {
@@ -1182,7 +1269,9 @@ typedef union
     struct bdk_sso_ecc_ctl2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_18_63        : 46;
+        uint64_t pcc_flip              : 2;  /**< [ 17: 16](R/W) PCC flip syndrome bits on write. */
+        uint64_t pcc_cdis              : 1;  /**< [ 15: 15](R/W) PCC ECC correction disable. */
         uint64_t ncbo_flip             : 2;  /**< [ 14: 13](R/W) NCBO flip syndrome bits on write. */
         uint64_t ncbo_cdis             : 1;  /**< [ 12: 12](R/W) NCBO ECC correction disable. */
         uint64_t pnd_flip              : 2;  /**< [ 11: 10](R/W) PND flip syndrome bits on write. */
@@ -1206,7 +1295,9 @@ typedef union
         uint64_t pnd_flip              : 2;  /**< [ 11: 10](R/W) PND flip syndrome bits on write. */
         uint64_t ncbo_cdis             : 1;  /**< [ 12: 12](R/W) NCBO ECC correction disable. */
         uint64_t ncbo_flip             : 2;  /**< [ 14: 13](R/W) NCBO flip syndrome bits on write. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t pcc_cdis              : 1;  /**< [ 15: 15](R/W) PCC ECC correction disable. */
+        uint64_t pcc_flip              : 2;  /**< [ 17: 16](R/W) PCC flip syndrome bits on write. */
+        uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ecc_ctl2_s cn; */
@@ -1231,7 +1322,7 @@ static inline uint64_t BDK_SSO_ECC_CTL2_FUNC(void)
 /**
  * Register (NCB) sso_err0
  *
- * SSO Error 0 Register
+ * SSO PF Error 0 Register
  * This register contains ECC and other miscellaneous error bits.
  */
 typedef union
@@ -1240,7 +1331,9 @@ typedef union
     struct bdk_sso_err0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
+        uint64_t reserved_54_63        : 10;
+        uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for MEMMGT RAM. */
+        uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for MEMMGT RAM. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for TOAQT RAM. */
         uint64_t toaqt_sbe             : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for TOAQT RAM. */
         uint64_t toaqh_dbe             : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for TOAQH RAM. */
@@ -1261,7 +1354,9 @@ typedef union
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1C/H) Single-bit error for  RAM. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Double-bit error for WES RAM. */
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Single-bit error for WES RAM. */
-        uint64_t reserved_8_31         : 24;
+        uint64_t reserved_9_31         : 23;
+        uint64_t gmid_multi            : 1;  /**< [  8:  8](R/W1C/H) Coprocessor add-work dropped due to SSO_PF_MAP() having a double hit. When a
+                                                                 request thus dropped, even if this bit is already set, SSO_UNMAP_INFO is loaded. */
         uint64_t gmid_unmap            : 1;  /**< [  7:  7](R/W1C/H) Coprocessor add-work dropped due to that coprocessor requesting with GMID not
                                                                  mapped in SSO_PF_MAP(). When a request thus dropped, even if this bit is already
                                                                  set, SSO_UNMAP_INFO is loaded. */
@@ -1270,8 +1365,8 @@ typedef union
                                                                  registers. */
         uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1C/H) Add work dropped due to wrong command/DID requested. */
         uint64_t awempty               : 1;  /**< [  4:  4](R/W1C/H) Received add work with tag specified as EMPTY. */
-        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1C/H) Add work to disabled group. An ADDWQ was received and dropped to a group with
-                                                                 SSO_GRP()_IAQ_THR[RSVD_THR] = 0. */
+        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1C/H) Add work to disabled hardware-group. An ADDWQ was received and dropped to a
+                                                                 hardware-group with SSO_GRP()_IAQ_THR[RSVD_THR] = 0. */
         uint64_t bfp                   : 1;  /**< [  2:  2](R/W1C/H) Bad-fill-packet error. The WAE VLD_CRC field was incorrect, or the XAQ next address was
                                                                  zero. */
         uint64_t awe                   : 1;  /**< [  1:  1](R/W1C/H) Out-of-memory error. (ADDWQ request is dropped.) */
@@ -1283,8 +1378,8 @@ typedef union
         uint64_t awe                   : 1;  /**< [  1:  1](R/W1C/H) Out-of-memory error. (ADDWQ request is dropped.) */
         uint64_t bfp                   : 1;  /**< [  2:  2](R/W1C/H) Bad-fill-packet error. The WAE VLD_CRC field was incorrect, or the XAQ next address was
                                                                  zero. */
-        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1C/H) Add work to disabled group. An ADDWQ was received and dropped to a group with
-                                                                 SSO_GRP()_IAQ_THR[RSVD_THR] = 0. */
+        uint64_t grpdis                : 1;  /**< [  3:  3](R/W1C/H) Add work to disabled hardware-group. An ADDWQ was received and dropped to a
+                                                                 hardware-group with SSO_GRP()_IAQ_THR[RSVD_THR] = 0. */
         uint64_t awempty               : 1;  /**< [  4:  4](R/W1C/H) Received add work with tag specified as EMPTY. */
         uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1C/H) Add work dropped due to wrong command/DID requested. */
         uint64_t gmid0                 : 1;  /**< [  6:  6](R/W1C/H) Coprocessor add-work dropped due to that coprocessor requesting with
@@ -1293,7 +1388,9 @@ typedef union
         uint64_t gmid_unmap            : 1;  /**< [  7:  7](R/W1C/H) Coprocessor add-work dropped due to that coprocessor requesting with GMID not
                                                                  mapped in SSO_PF_MAP(). When a request thus dropped, even if this bit is already
                                                                  set, SSO_UNMAP_INFO is loaded. */
-        uint64_t reserved_8_31         : 24;
+        uint64_t gmid_multi            : 1;  /**< [  8:  8](R/W1C/H) Coprocessor add-work dropped due to SSO_PF_MAP() having a double hit. When a
+                                                                 request thus dropped, even if this bit is already set, SSO_UNMAP_INFO is loaded. */
+        uint64_t reserved_9_31         : 23;
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Single-bit error for WES RAM. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Double-bit error for WES RAM. */
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1C/H) Single-bit error for  RAM. */
@@ -1314,7 +1411,9 @@ typedef union
         uint64_t toaqh_dbe             : 1;  /**< [ 49: 49](R/W1C/H) Double-bit error for TOAQH RAM. */
         uint64_t toaqt_sbe             : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for TOAQT RAM. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1C/H) Double-bit error for TOAQT RAM. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for MEMMGT RAM. */
+        uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1C/H) Double-bit error for MEMMGT RAM. */
+        uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_s cn; */
@@ -1339,7 +1438,7 @@ static inline uint64_t BDK_SSO_ERR0_FUNC(void)
 /**
  * Register (NCB) sso_err0_ena_w1c
  *
- * SSO Error 0 Enable Clear Register
+ * SSO PF Error 0 Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -1348,7 +1447,9 @@ typedef union
     struct bdk_sso_err0_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
+        uint64_t reserved_54_63        : 10;
+        uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1C/H) Reads or clears enable for SSO_ERR0[MEMMGT_DBE]. */
+        uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Reads or clears enable for SSO_ERR0[MEMMGT_SBE]. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for SSO_ERR0[TOAQT_DBE]. */
         uint64_t toaqt_sbe             : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for SSO_ERR0[TOAQT_SBE]. */
         uint64_t toaqh_dbe             : 1;  /**< [ 49: 49](R/W1C/H) Reads or clears enable for SSO_ERR0[TOAQH_DBE]. */
@@ -1369,7 +1470,8 @@ typedef union
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for SSO_ERR0[FFF_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for SSO_ERR0[WES_DBE]. */
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for SSO_ERR0[WES_SBE]. */
-        uint64_t reserved_8_31         : 24;
+        uint64_t reserved_9_31         : 23;
+        uint64_t gmid_multi            : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_MULTI]. */
         uint64_t gmid_unmap            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID0]. */
         uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SSO_ERR0[ADDWQ_DROPPED]. */
@@ -1387,7 +1489,8 @@ typedef union
         uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SSO_ERR0[ADDWQ_DROPPED]. */
         uint64_t gmid0                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_UNMAP]. */
-        uint64_t reserved_8_31         : 24;
+        uint64_t gmid_multi            : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SSO_ERR0[GMID_MULTI]. */
+        uint64_t reserved_9_31         : 23;
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for SSO_ERR0[WES_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for SSO_ERR0[WES_DBE]. */
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for SSO_ERR0[FFF_SBE]. */
@@ -1408,7 +1511,9 @@ typedef union
         uint64_t toaqh_dbe             : 1;  /**< [ 49: 49](R/W1C/H) Reads or clears enable for SSO_ERR0[TOAQH_DBE]. */
         uint64_t toaqt_sbe             : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for SSO_ERR0[TOAQT_SBE]. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for SSO_ERR0[TOAQT_DBE]. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1C/H) Reads or clears enable for SSO_ERR0[MEMMGT_SBE]. */
+        uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1C/H) Reads or clears enable for SSO_ERR0[MEMMGT_DBE]. */
+        uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_ena_w1c_s cn; */
@@ -1433,7 +1538,7 @@ static inline uint64_t BDK_SSO_ERR0_ENA_W1C_FUNC(void)
 /**
  * Register (NCB) sso_err0_ena_w1s
  *
- * SSO Error 0 Enable Set Register
+ * SSO PF Error 0 Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -1442,7 +1547,9 @@ typedef union
     struct bdk_sso_err0_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
+        uint64_t reserved_54_63        : 10;
+        uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets enable for SSO_ERR0[MEMMGT_DBE]. */
+        uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets enable for SSO_ERR0[MEMMGT_SBE]. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for SSO_ERR0[TOAQT_DBE]. */
         uint64_t toaqt_sbe             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for SSO_ERR0[TOAQT_SBE]. */
         uint64_t toaqh_dbe             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets enable for SSO_ERR0[TOAQH_DBE]. */
@@ -1463,7 +1570,8 @@ typedef union
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for SSO_ERR0[FFF_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for SSO_ERR0[WES_DBE]. */
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for SSO_ERR0[WES_SBE]. */
-        uint64_t reserved_8_31         : 24;
+        uint64_t reserved_9_31         : 23;
+        uint64_t gmid_multi            : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_MULTI]. */
         uint64_t gmid_unmap            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID0]. */
         uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SSO_ERR0[ADDWQ_DROPPED]. */
@@ -1481,7 +1589,8 @@ typedef union
         uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SSO_ERR0[ADDWQ_DROPPED]. */
         uint64_t gmid0                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_UNMAP]. */
-        uint64_t reserved_8_31         : 24;
+        uint64_t gmid_multi            : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SSO_ERR0[GMID_MULTI]. */
+        uint64_t reserved_9_31         : 23;
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for SSO_ERR0[WES_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for SSO_ERR0[WES_DBE]. */
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for SSO_ERR0[FFF_SBE]. */
@@ -1502,7 +1611,9 @@ typedef union
         uint64_t toaqh_dbe             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets enable for SSO_ERR0[TOAQH_DBE]. */
         uint64_t toaqt_sbe             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for SSO_ERR0[TOAQT_SBE]. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for SSO_ERR0[TOAQT_DBE]. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets enable for SSO_ERR0[MEMMGT_SBE]. */
+        uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets enable for SSO_ERR0[MEMMGT_DBE]. */
+        uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_ena_w1s_s cn; */
@@ -1527,7 +1638,7 @@ static inline uint64_t BDK_SSO_ERR0_ENA_W1S_FUNC(void)
 /**
  * Register (NCB) sso_err0_w1s
  *
- * SSO Error 0 Set Register
+ * SSO PF Error 0 Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -1536,7 +1647,9 @@ typedef union
     struct bdk_sso_err0_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
+        uint64_t reserved_54_63        : 10;
+        uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets SSO_ERR0[MEMMGT_DBE]. */
+        uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets SSO_ERR0[MEMMGT_SBE]. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets SSO_ERR0[TOAQT_DBE]. */
         uint64_t toaqt_sbe             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets SSO_ERR0[TOAQT_SBE]. */
         uint64_t toaqh_dbe             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets SSO_ERR0[TOAQH_DBE]. */
@@ -1557,7 +1670,8 @@ typedef union
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets SSO_ERR0[FFF_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets SSO_ERR0[WES_DBE]. */
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets SSO_ERR0[WES_SBE]. */
-        uint64_t reserved_8_31         : 24;
+        uint64_t reserved_9_31         : 23;
+        uint64_t gmid_multi            : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SSO_ERR0[GMID_MULTI]. */
         uint64_t gmid_unmap            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SSO_ERR0[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SSO_ERR0[GMID0]. */
         uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SSO_ERR0[ADDWQ_DROPPED]. */
@@ -1575,7 +1689,8 @@ typedef union
         uint64_t addwq_dropped         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SSO_ERR0[ADDWQ_DROPPED]. */
         uint64_t gmid0                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SSO_ERR0[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SSO_ERR0[GMID_UNMAP]. */
-        uint64_t reserved_8_31         : 24;
+        uint64_t gmid_multi            : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SSO_ERR0[GMID_MULTI]. */
+        uint64_t reserved_9_31         : 23;
         uint64_t wes_sbe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets SSO_ERR0[WES_SBE]. */
         uint64_t wes_dbe               : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets SSO_ERR0[WES_DBE]. */
         uint64_t fff_sbe               : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets SSO_ERR0[FFF_SBE]. */
@@ -1596,7 +1711,9 @@ typedef union
         uint64_t toaqh_dbe             : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets SSO_ERR0[TOAQH_DBE]. */
         uint64_t toaqt_sbe             : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets SSO_ERR0[TOAQT_SBE]. */
         uint64_t toaqt_dbe             : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets SSO_ERR0[TOAQT_DBE]. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t memmgt_sbe            : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets SSO_ERR0[MEMMGT_SBE]. */
+        uint64_t memmgt_dbe            : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets SSO_ERR0[MEMMGT_DBE]. */
+        uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err0_w1s_s cn; */
@@ -1621,7 +1738,7 @@ static inline uint64_t BDK_SSO_ERR0_W1S_FUNC(void)
 /**
  * Register (NCB) sso_err1
  *
- * SSO Error 1 Register
+ * SSO PF Error 1 Register
  * This register contains ECC and other miscellaneous error bits.
  */
 typedef union
@@ -1630,7 +1747,9 @@ typedef union
     struct bdk_sso_err1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_16_63        : 48;
+        uint64_t mbox_mem_dbe          : 1;  /**< [ 15: 15](R/W1C/H) Double-bit error for MBOX_MEM RAM. */
+        uint64_t mbox_mem_sbe          : 1;  /**< [ 14: 14](R/W1C/H) Single-bit error for MBOX_MEM RAM. */
         uint64_t thrint_dbe            : 1;  /**< [ 13: 13](R/W1C/H) Double-bit error for THRINT RAM. */
         uint64_t thrint_sbe            : 1;  /**< [ 12: 12](R/W1C/H) Single-bit error for THRINT RAM. */
         uint64_t mask_dbe              : 1;  /**< [ 11: 11](R/W1C/H) Double-bit error for MASK RAM. */
@@ -1660,7 +1779,9 @@ typedef union
         uint64_t mask_dbe              : 1;  /**< [ 11: 11](R/W1C/H) Double-bit error for MASK RAM. */
         uint64_t thrint_sbe            : 1;  /**< [ 12: 12](R/W1C/H) Single-bit error for THRINT RAM. */
         uint64_t thrint_dbe            : 1;  /**< [ 13: 13](R/W1C/H) Double-bit error for THRINT RAM. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t mbox_mem_sbe          : 1;  /**< [ 14: 14](R/W1C/H) Single-bit error for MBOX_MEM RAM. */
+        uint64_t mbox_mem_dbe          : 1;  /**< [ 15: 15](R/W1C/H) Double-bit error for MBOX_MEM RAM. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err1_s cn; */
@@ -1685,7 +1806,7 @@ static inline uint64_t BDK_SSO_ERR1_FUNC(void)
 /**
  * Register (NCB) sso_err1_ena_w1c
  *
- * SSO Error 1 Enable Clear Register
+ * SSO PF Error 1 Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -1694,7 +1815,9 @@ typedef union
     struct bdk_sso_err1_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_16_63        : 48;
+        uint64_t mbox_mem_dbe          : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for SSO_ERR1[MBOX_MEM_DBE]. */
+        uint64_t mbox_mem_sbe          : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for SSO_ERR1[MBOX_MEM_SBE]. */
         uint64_t thrint_dbe            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SSO_ERR1[THRINT_DBE]. */
         uint64_t thrint_sbe            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SSO_ERR1[THRINT_SBE]. */
         uint64_t mask_dbe              : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SSO_ERR1[MASK_DBE]. */
@@ -1724,7 +1847,9 @@ typedef union
         uint64_t mask_dbe              : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SSO_ERR1[MASK_DBE]. */
         uint64_t thrint_sbe            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SSO_ERR1[THRINT_SBE]. */
         uint64_t thrint_dbe            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SSO_ERR1[THRINT_DBE]. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t mbox_mem_sbe          : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for SSO_ERR1[MBOX_MEM_SBE]. */
+        uint64_t mbox_mem_dbe          : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for SSO_ERR1[MBOX_MEM_DBE]. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err1_ena_w1c_s cn; */
@@ -1749,7 +1874,7 @@ static inline uint64_t BDK_SSO_ERR1_ENA_W1C_FUNC(void)
 /**
  * Register (NCB) sso_err1_ena_w1s
  *
- * SSO Error 1 Enable Set Register
+ * SSO PF Error 1 Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -1758,7 +1883,9 @@ typedef union
     struct bdk_sso_err1_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_16_63        : 48;
+        uint64_t mbox_mem_dbe          : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for SSO_ERR1[MBOX_MEM_DBE]. */
+        uint64_t mbox_mem_sbe          : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for SSO_ERR1[MBOX_MEM_SBE]. */
         uint64_t thrint_dbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SSO_ERR1[THRINT_DBE]. */
         uint64_t thrint_sbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SSO_ERR1[THRINT_SBE]. */
         uint64_t mask_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SSO_ERR1[MASK_DBE]. */
@@ -1788,7 +1915,9 @@ typedef union
         uint64_t mask_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SSO_ERR1[MASK_DBE]. */
         uint64_t thrint_sbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SSO_ERR1[THRINT_SBE]. */
         uint64_t thrint_dbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SSO_ERR1[THRINT_DBE]. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t mbox_mem_sbe          : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for SSO_ERR1[MBOX_MEM_SBE]. */
+        uint64_t mbox_mem_dbe          : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for SSO_ERR1[MBOX_MEM_DBE]. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err1_ena_w1s_s cn; */
@@ -1813,7 +1942,7 @@ static inline uint64_t BDK_SSO_ERR1_ENA_W1S_FUNC(void)
 /**
  * Register (NCB) sso_err1_w1s
  *
- * SSO Error 1 Set Register
+ * SSO PF Error 1 Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -1822,7 +1951,9 @@ typedef union
     struct bdk_sso_err1_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
+        uint64_t reserved_16_63        : 48;
+        uint64_t mbox_mem_dbe          : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets SSO_ERR1[MBOX_MEM_DBE]. */
+        uint64_t mbox_mem_sbe          : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets SSO_ERR1[MBOX_MEM_SBE]. */
         uint64_t thrint_dbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SSO_ERR1[THRINT_DBE]. */
         uint64_t thrint_sbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SSO_ERR1[THRINT_SBE]. */
         uint64_t mask_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SSO_ERR1[MASK_DBE]. */
@@ -1852,7 +1983,9 @@ typedef union
         uint64_t mask_dbe              : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SSO_ERR1[MASK_DBE]. */
         uint64_t thrint_sbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SSO_ERR1[THRINT_SBE]. */
         uint64_t thrint_dbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SSO_ERR1[THRINT_DBE]. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t mbox_mem_sbe          : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets SSO_ERR1[MBOX_MEM_SBE]. */
+        uint64_t mbox_mem_dbe          : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets SSO_ERR1[MBOX_MEM_DBE]. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err1_w1s_s cn; */
@@ -1877,7 +2010,7 @@ static inline uint64_t BDK_SSO_ERR1_W1S_FUNC(void)
 /**
  * Register (NCB) sso_err2
  *
- * SSO Error 2 Register
+ * SSO PF Error 2 Register
  * This register contains ECC and other miscellaneous error bits.
  */
 typedef union
@@ -1886,7 +2019,9 @@ typedef union
     struct bdk_sso_err2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
+        uint64_t reserved_44_63        : 20;
+        uint64_t pcc_dbe               : 1;  /**< [ 43: 43](R/W1C/H) Double-bit error for PCC RAM. */
+        uint64_t pcc_sbe               : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for PCC RAM. */
         uint64_t ncbo_dbe              : 1;  /**< [ 41: 41](R/W1C/H) Double-bit error for NCBO RAM. */
         uint64_t ncbo_sbe              : 1;  /**< [ 40: 40](R/W1C/H) Single-bit error for NCBO RAM. */
         uint64_t pnd_dbe               : 1;  /**< [ 39: 39](R/W1C/H) Double-bit error for PND RAM. */
@@ -1897,7 +2032,14 @@ typedef union
         uint64_t nidx_sbe              : 1;  /**< [ 34: 34](R/W1C/H) Single-bit error for IDX RAM. */
         uint64_t pidx_dbe              : 1;  /**< [ 33: 33](R/W1C/H) Double-bit error for FIDX RAM. */
         uint64_t pidx_sbe              : 1;  /**< [ 32: 32](R/W1C/H) Single-bit error for FIDX RAM. */
-        uint64_t reserved_13_31        : 19;
+        uint64_t reserved_30_31        : 2;
+        uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1C/H) Work-slot operation found a SSO_PF_MAP() double hit; no-work was returned or the
+                                                                 switch-tag was not performed. When a request thus dropped, even if this bit is
+                                                                 already set, SSO_UNMAP_INFO is loaded. */
+        uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1C/H) Work-slot operation found a SSO_PF_MAP() double hit; no-work was returned or the
+                                                                 switch-tag was not performed. When a request thus dropped, even if this bit is
+                                                                 already set, SSO_UNMAP_INFO is loaded. */
+        uint64_t reserved_13_27        : 15;
         uint64_t iop                   : 13; /**< [ 12:  0](R/W1C/H) Illegal operation errors:
                                                                  <12> = Received command before SSO_RESET[BUSY] cleared.
                                                                  <11> = Reserved.
@@ -1937,7 +2079,14 @@ typedef union
                                                                  <1> = Received SWTAG/SWTAG_DESCH/DESCH/UPD_WQP_GRP from work slot in UNTAGGED state.
                                                                  <0> = Received SWTAG/SWTAG_FULL/SWTAG_DESCH/DESCH/UPD_WQP_GRP from work slot in EMPTY
                                                                  state. */
-        uint64_t reserved_13_31        : 19;
+        uint64_t reserved_13_27        : 15;
+        uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1C/H) Work-slot operation found a SSO_PF_MAP() double hit; no-work was returned or the
+                                                                 switch-tag was not performed. When a request thus dropped, even if this bit is
+                                                                 already set, SSO_UNMAP_INFO is loaded. */
+        uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1C/H) Work-slot operation found a SSO_PF_MAP() double hit; no-work was returned or the
+                                                                 switch-tag was not performed. When a request thus dropped, even if this bit is
+                                                                 already set, SSO_UNMAP_INFO is loaded. */
+        uint64_t reserved_30_31        : 2;
         uint64_t pidx_sbe              : 1;  /**< [ 32: 32](R/W1C/H) Single-bit error for FIDX RAM. */
         uint64_t pidx_dbe              : 1;  /**< [ 33: 33](R/W1C/H) Double-bit error for FIDX RAM. */
         uint64_t nidx_sbe              : 1;  /**< [ 34: 34](R/W1C/H) Single-bit error for IDX RAM. */
@@ -1948,7 +2097,9 @@ typedef union
         uint64_t pnd_dbe               : 1;  /**< [ 39: 39](R/W1C/H) Double-bit error for PND RAM. */
         uint64_t ncbo_sbe              : 1;  /**< [ 40: 40](R/W1C/H) Single-bit error for NCBO RAM. */
         uint64_t ncbo_dbe              : 1;  /**< [ 41: 41](R/W1C/H) Double-bit error for NCBO RAM. */
-        uint64_t reserved_42_63        : 22;
+        uint64_t pcc_sbe               : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for PCC RAM. */
+        uint64_t pcc_dbe               : 1;  /**< [ 43: 43](R/W1C/H) Double-bit error for PCC RAM. */
+        uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err2_s cn; */
@@ -1973,7 +2124,7 @@ static inline uint64_t BDK_SSO_ERR2_FUNC(void)
 /**
  * Register (NCB) sso_err2_ena_w1c
  *
- * SSO Error 2 Enable Clear Register
+ * SSO PF Error 2 Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -1982,7 +2133,9 @@ typedef union
     struct bdk_sso_err2_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
+        uint64_t reserved_44_63        : 20;
+        uint64_t pcc_dbe               : 1;  /**< [ 43: 43](R/W1C/H) Reads or clears enable for SSO_ERR2[PCC_DBE]. */
+        uint64_t pcc_sbe               : 1;  /**< [ 42: 42](R/W1C/H) Reads or clears enable for SSO_ERR2[PCC_SBE]. */
         uint64_t ncbo_dbe              : 1;  /**< [ 41: 41](R/W1C/H) Reads or clears enable for SSO_ERR2[NCBO_DBE]. */
         uint64_t ncbo_sbe              : 1;  /**< [ 40: 40](R/W1C/H) Reads or clears enable for SSO_ERR2[NCBO_SBE]. */
         uint64_t pnd_dbe               : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for SSO_ERR2[PND_DBE]. */
@@ -1993,11 +2146,17 @@ typedef union
         uint64_t nidx_sbe              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for SSO_ERR2[NIDX_SBE]. */
         uint64_t pidx_dbe              : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for SSO_ERR2[PIDX_DBE]. */
         uint64_t pidx_sbe              : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for SSO_ERR2[PIDX_SBE]. */
-        uint64_t reserved_13_31        : 19;
+        uint64_t reserved_30_31        : 2;
+        uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for SSO_ERR2[WS_MULTI]. */
+        uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for SSO_ERR2[WS_UNMAP]. */
+        uint64_t reserved_13_27        : 15;
         uint64_t iop                   : 13; /**< [ 12:  0](R/W1C/H) Reads or clears enable for SSO_ERR2[IOP]. */
 #else /* Word 0 - Little Endian */
         uint64_t iop                   : 13; /**< [ 12:  0](R/W1C/H) Reads or clears enable for SSO_ERR2[IOP]. */
-        uint64_t reserved_13_31        : 19;
+        uint64_t reserved_13_27        : 15;
+        uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for SSO_ERR2[WS_UNMAP]. */
+        uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for SSO_ERR2[WS_MULTI]. */
+        uint64_t reserved_30_31        : 2;
         uint64_t pidx_sbe              : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for SSO_ERR2[PIDX_SBE]. */
         uint64_t pidx_dbe              : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for SSO_ERR2[PIDX_DBE]. */
         uint64_t nidx_sbe              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for SSO_ERR2[NIDX_SBE]. */
@@ -2008,7 +2167,9 @@ typedef union
         uint64_t pnd_dbe               : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for SSO_ERR2[PND_DBE]. */
         uint64_t ncbo_sbe              : 1;  /**< [ 40: 40](R/W1C/H) Reads or clears enable for SSO_ERR2[NCBO_SBE]. */
         uint64_t ncbo_dbe              : 1;  /**< [ 41: 41](R/W1C/H) Reads or clears enable for SSO_ERR2[NCBO_DBE]. */
-        uint64_t reserved_42_63        : 22;
+        uint64_t pcc_sbe               : 1;  /**< [ 42: 42](R/W1C/H) Reads or clears enable for SSO_ERR2[PCC_SBE]. */
+        uint64_t pcc_dbe               : 1;  /**< [ 43: 43](R/W1C/H) Reads or clears enable for SSO_ERR2[PCC_DBE]. */
+        uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err2_ena_w1c_s cn; */
@@ -2033,7 +2194,7 @@ static inline uint64_t BDK_SSO_ERR2_ENA_W1C_FUNC(void)
 /**
  * Register (NCB) sso_err2_ena_w1s
  *
- * SSO Error 2 Enable Set Register
+ * SSO PF Error 2 Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -2042,7 +2203,9 @@ typedef union
     struct bdk_sso_err2_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
+        uint64_t reserved_44_63        : 20;
+        uint64_t pcc_dbe               : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets enable for SSO_ERR2[PCC_DBE]. */
+        uint64_t pcc_sbe               : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets enable for SSO_ERR2[PCC_SBE]. */
         uint64_t ncbo_dbe              : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets enable for SSO_ERR2[NCBO_DBE]. */
         uint64_t ncbo_sbe              : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets enable for SSO_ERR2[NCBO_SBE]. */
         uint64_t pnd_dbe               : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for SSO_ERR2[PND_DBE]. */
@@ -2053,11 +2216,17 @@ typedef union
         uint64_t nidx_sbe              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for SSO_ERR2[NIDX_SBE]. */
         uint64_t pidx_dbe              : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for SSO_ERR2[PIDX_DBE]. */
         uint64_t pidx_sbe              : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for SSO_ERR2[PIDX_SBE]. */
-        uint64_t reserved_13_31        : 19;
+        uint64_t reserved_30_31        : 2;
+        uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for SSO_ERR2[WS_MULTI]. */
+        uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for SSO_ERR2[WS_UNMAP]. */
+        uint64_t reserved_13_27        : 15;
         uint64_t iop                   : 13; /**< [ 12:  0](R/W1S/H) Reads or sets enable for SSO_ERR2[IOP]. */
 #else /* Word 0 - Little Endian */
         uint64_t iop                   : 13; /**< [ 12:  0](R/W1S/H) Reads or sets enable for SSO_ERR2[IOP]. */
-        uint64_t reserved_13_31        : 19;
+        uint64_t reserved_13_27        : 15;
+        uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for SSO_ERR2[WS_UNMAP]. */
+        uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for SSO_ERR2[WS_MULTI]. */
+        uint64_t reserved_30_31        : 2;
         uint64_t pidx_sbe              : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for SSO_ERR2[PIDX_SBE]. */
         uint64_t pidx_dbe              : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for SSO_ERR2[PIDX_DBE]. */
         uint64_t nidx_sbe              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for SSO_ERR2[NIDX_SBE]. */
@@ -2068,7 +2237,9 @@ typedef union
         uint64_t pnd_dbe               : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for SSO_ERR2[PND_DBE]. */
         uint64_t ncbo_sbe              : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets enable for SSO_ERR2[NCBO_SBE]. */
         uint64_t ncbo_dbe              : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets enable for SSO_ERR2[NCBO_DBE]. */
-        uint64_t reserved_42_63        : 22;
+        uint64_t pcc_sbe               : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets enable for SSO_ERR2[PCC_SBE]. */
+        uint64_t pcc_dbe               : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets enable for SSO_ERR2[PCC_DBE]. */
+        uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err2_ena_w1s_s cn; */
@@ -2093,7 +2264,7 @@ static inline uint64_t BDK_SSO_ERR2_ENA_W1S_FUNC(void)
 /**
  * Register (NCB) sso_err2_w1s
  *
- * SSO Error 2 Set Register
+ * SSO PF Error 2 Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -2102,7 +2273,9 @@ typedef union
     struct bdk_sso_err2_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_42_63        : 22;
+        uint64_t reserved_44_63        : 20;
+        uint64_t pcc_dbe               : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets SSO_ERR2[PCC_DBE]. */
+        uint64_t pcc_sbe               : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets SSO_ERR2[PCC_SBE]. */
         uint64_t ncbo_dbe              : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets SSO_ERR2[NCBO_DBE]. */
         uint64_t ncbo_sbe              : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets SSO_ERR2[NCBO_SBE]. */
         uint64_t pnd_dbe               : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets SSO_ERR2[PND_DBE]. */
@@ -2113,11 +2286,17 @@ typedef union
         uint64_t nidx_sbe              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets SSO_ERR2[NIDX_SBE]. */
         uint64_t pidx_dbe              : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets SSO_ERR2[PIDX_DBE]. */
         uint64_t pidx_sbe              : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets SSO_ERR2[PIDX_SBE]. */
-        uint64_t reserved_13_31        : 19;
+        uint64_t reserved_30_31        : 2;
+        uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets SSO_ERR2[WS_MULTI]. */
+        uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets SSO_ERR2[WS_UNMAP]. */
+        uint64_t reserved_13_27        : 15;
         uint64_t iop                   : 13; /**< [ 12:  0](R/W1S/H) Reads or sets SSO_ERR2[IOP]. */
 #else /* Word 0 - Little Endian */
         uint64_t iop                   : 13; /**< [ 12:  0](R/W1S/H) Reads or sets SSO_ERR2[IOP]. */
-        uint64_t reserved_13_31        : 19;
+        uint64_t reserved_13_27        : 15;
+        uint64_t ws_unmap              : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets SSO_ERR2[WS_UNMAP]. */
+        uint64_t ws_multi              : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets SSO_ERR2[WS_MULTI]. */
+        uint64_t reserved_30_31        : 2;
         uint64_t pidx_sbe              : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets SSO_ERR2[PIDX_SBE]. */
         uint64_t pidx_dbe              : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets SSO_ERR2[PIDX_DBE]. */
         uint64_t nidx_sbe              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets SSO_ERR2[NIDX_SBE]. */
@@ -2128,7 +2307,9 @@ typedef union
         uint64_t pnd_dbe               : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets SSO_ERR2[PND_DBE]. */
         uint64_t ncbo_sbe              : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets SSO_ERR2[NCBO_SBE]. */
         uint64_t ncbo_dbe              : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets SSO_ERR2[NCBO_DBE]. */
-        uint64_t reserved_42_63        : 22;
+        uint64_t pcc_sbe               : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets SSO_ERR2[PCC_SBE]. */
+        uint64_t pcc_dbe               : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets SSO_ERR2[PCC_DBE]. */
+        uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_err2_w1s_s cn; */
@@ -2151,53 +2332,11 @@ static inline uint64_t BDK_SSO_ERR2_W1S_FUNC(void)
 #define arguments_BDK_SSO_ERR2_W1S -1,-1,-1,-1
 
 /**
- * Register (NCB) sso_grp#_aq_limit
- *
- * SSO Admission Queue Limit Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_sso_grpx_aq_limit_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t aq_limit              : 33; /**< [ 32:  0](RO/H) AQ limit. If an add work is requested to a group where [AQ_LIMIT] <=
-                                                                 SSO_VHGRP()_AQ_CNT[AQ_CNT], then the add work is dropped and
-                                                                 SSO_VHGRP()_INT[AQ_LIMIT] is set. When 0x0, limiting is disabled. Due to
-                                                                 pipelining, hardware may exceed this limit by up to TBD entries. */
-#else /* Word 0 - Little Endian */
-        uint64_t aq_limit              : 33; /**< [ 32:  0](RO/H) AQ limit. If an add work is requested to a group where [AQ_LIMIT] <=
-                                                                 SSO_VHGRP()_AQ_CNT[AQ_CNT], then the add work is dropped and
-                                                                 SSO_VHGRP()_INT[AQ_LIMIT] is set. When 0x0, limiting is disabled. Due to
-                                                                 pipelining, hardware may exceed this limit by up to TBD entries. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_sso_grpx_aq_limit_s cn; */
-} bdk_sso_grpx_aq_limit_t;
-
-static inline uint64_t BDK_SSO_GRPX_AQ_LIMIT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SSO_GRPX_AQ_LIMIT(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x860020000220ll + 0x100000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("SSO_GRPX_AQ_LIMIT", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_SSO_GRPX_AQ_LIMIT(a) bdk_sso_grpx_aq_limit_t
-#define bustype_BDK_SSO_GRPX_AQ_LIMIT(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_SSO_GRPX_AQ_LIMIT(a) "SSO_GRPX_AQ_LIMIT"
-#define device_bar_BDK_SSO_GRPX_AQ_LIMIT(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_SSO_GRPX_AQ_LIMIT(a) (a)
-#define arguments_BDK_SSO_GRPX_AQ_LIMIT(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) sso_grp#_ds_pc
  *
- * SSO Deschedule Performance Counter Register
- * Counts the number of deschedule requests for each group. Counter rolls over through zero when
- * max value exceeded.
+ * SSO PF Hardware-Group Deschedule Performance Counter Register
+ * Counts the number of deschedule requests for each hardware-group. Counter rolls over
+ * through zero when max value exceeded.
  */
 typedef union
 {
@@ -2219,7 +2358,7 @@ static inline uint64_t BDK_SSO_GRPX_DS_PC(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_SSO_GRPX_DS_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x860020001160ll + 0x100000ll * ((a) & 0x3f);
+        return 0x860020001400ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_GRPX_DS_PC", 1, a, 0, 0, 0);
 }
 
@@ -2233,7 +2372,7 @@ static inline uint64_t BDK_SSO_GRPX_DS_PC(unsigned long a)
 /**
  * Register (NCB) sso_grp#_ext_pc
  *
- * SSO External Schedule Performance Counter Register
+ * SSO PF Hardware-Group External Schedule Performance Counter Register
  * Counts the number of cache lines of WAEs sent to L2/DDR. Counter rolls over through zero when
  * max value exceeded.
  */
@@ -2273,7 +2412,7 @@ static inline uint64_t BDK_SSO_GRPX_EXT_PC(unsigned long a)
 /**
  * Register (NCB) sso_grp#_iaq_thr
  *
- * SSO In-unit Admission Queue Threshold Registers
+ * SSO PF Hardware-Group In-unit Admission Queue Threshold Registers
  * These registers contain the thresholds for allocating SSO in-unit admission queue entries.
  */
 typedef union
@@ -2283,8 +2422,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
-        uint64_t grp_cnt               : 13; /**< [ 60: 48](RO/H) Group's entry count. Number of internal entries allocated to IAQ, conflicted work, or CQ
-                                                                 in this group.
+        uint64_t grp_cnt               : 13; /**< [ 60: 48](RO/H) Hardware-group's entry count. Number of internal entries allocated to IAQ,
+                                                                 conflicted work, or CQ in this hardware-group.
 
                                                                  Internal:
                                                                  Increments on admission to IAQ, decrements on scheduling into
@@ -2292,24 +2431,26 @@ typedef union
         uint64_t reserved_45_47        : 3;
         uint64_t max_thr               : 13; /**< [ 44: 32](R/W) Max threshold for this internal admission queue. If non-zero, must be >= [RSVD_THR] + 4.
                                                                  To insure full streaming performance to all cores, should be at least 208. Must not be
-                                                                 changed after traffic is sent to this group. */
+                                                                 changed after traffic is sent to this hardware-group. */
         uint64_t reserved_13_31        : 19;
-        uint64_t rsvd_thr              : 13; /**< [ 12:  0](R/W) Reserved threshold for this internal group queue. Should be at least 1 for any groups that
-                                                                 must make forward progress when other group's work is pending. Updates to this field must
-                                                                 also update SSO_AW_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this
-                                                                 group. */
+        uint64_t rsvd_thr              : 13; /**< [ 12:  0](R/W) Reserved threshold for this internal hardware-group queue. Should be at least 1
+                                                                 for any hardware-groups that must make forward progress when other
+                                                                 hardware-group's work is pending. Updates to this field must also update
+                                                                 SSO_AW_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this
+                                                                 hardware-group. */
 #else /* Word 0 - Little Endian */
-        uint64_t rsvd_thr              : 13; /**< [ 12:  0](R/W) Reserved threshold for this internal group queue. Should be at least 1 for any groups that
-                                                                 must make forward progress when other group's work is pending. Updates to this field must
-                                                                 also update SSO_AW_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this
-                                                                 group. */
+        uint64_t rsvd_thr              : 13; /**< [ 12:  0](R/W) Reserved threshold for this internal hardware-group queue. Should be at least 1
+                                                                 for any hardware-groups that must make forward progress when other
+                                                                 hardware-group's work is pending. Updates to this field must also update
+                                                                 SSO_AW_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this
+                                                                 hardware-group. */
         uint64_t reserved_13_31        : 19;
         uint64_t max_thr               : 13; /**< [ 44: 32](R/W) Max threshold for this internal admission queue. If non-zero, must be >= [RSVD_THR] + 4.
                                                                  To insure full streaming performance to all cores, should be at least 208. Must not be
-                                                                 changed after traffic is sent to this group. */
+                                                                 changed after traffic is sent to this hardware-group. */
         uint64_t reserved_45_47        : 3;
-        uint64_t grp_cnt               : 13; /**< [ 60: 48](RO/H) Group's entry count. Number of internal entries allocated to IAQ, conflicted work, or CQ
-                                                                 in this group.
+        uint64_t grp_cnt               : 13; /**< [ 60: 48](RO/H) Hardware-group's entry count. Number of internal entries allocated to IAQ,
+                                                                 conflicted work, or CQ in this hardware-group.
 
                                                                  Internal:
                                                                  Increments on admission to IAQ, decrements on scheduling into
@@ -2338,8 +2479,8 @@ static inline uint64_t BDK_SSO_GRPX_IAQ_THR(unsigned long a)
 /**
  * Register (NCB) sso_grp#_pri
  *
- * SSO Group Priority Register
- * Controls the priority and group affinity arbitration for each group.
+ * SSO PF Hardware-Group Priority Register
+ * Controls the priority and hardware-group affinity arbitration for each hardware-group.
  */
 typedef union
 {
@@ -2348,37 +2489,39 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_30_63        : 34;
-        uint64_t wgt_left              : 6;  /**< [ 29: 24](RO/H) Cross-group arbitration credits remaining on this group. */
+        uint64_t wgt_left              : 6;  /**< [ 29: 24](RO/H) Arbitration credits remaining on this hardware-group. */
         uint64_t reserved_22_23        : 2;
-        uint64_t weight                : 6;  /**< [ 21: 16](R/W) Cross-group arbitration weight to apply to this group. Must be >= 0x2. */
+        uint64_t weight                : 6;  /**< [ 21: 16](R/W) Arbitration weight to apply to this hardware-group. Must be >= 0x2. */
         uint64_t reserved_12_15        : 4;
-        uint64_t affinity              : 4;  /**< [ 11:  8](R/W) Processor affinity arbitration weight to apply to this group. If zero, affinity
+        uint64_t affinity              : 4;  /**< [ 11:  8](R/W) Processor affinity arbitration weight to apply to this hardware-group. If zero, affinity
                                                                  is disabled. A change to AFFINITY will not take effect until the old AFFINITY's
                                                                  value loaded into SSO_HWS()_ARB[AFF_LEFT] has drained to zero. */
         uint64_t reserved_3_7          : 5;
-        uint64_t pri                   : 3;  /**< [  2:  0](R/W) Priority for this group relative to other groups. To prevent a HWS from receiving work on
-                                                                 a group use SSO_HWS()_S()_GRPMSK().
+        uint64_t pri                   : 3;  /**< [  2:  0](R/W) Priority for this hardware-group relative to other hardware-groups. To prevent a
+                                                                 HWS from receiving work use SSO_HWS()_S()_GRPMSK().
+
                                                                  0x0 = highest priority.
                                                                  0x7 = lowest priority.
 
                                                                  Changing priority while GET_WORKs are in flight may result in a GET_WORK using either the
                                                                  old or new priority, or a mix thereof. */
 #else /* Word 0 - Little Endian */
-        uint64_t pri                   : 3;  /**< [  2:  0](R/W) Priority for this group relative to other groups. To prevent a HWS from receiving work on
-                                                                 a group use SSO_HWS()_S()_GRPMSK().
+        uint64_t pri                   : 3;  /**< [  2:  0](R/W) Priority for this hardware-group relative to other hardware-groups. To prevent a
+                                                                 HWS from receiving work use SSO_HWS()_S()_GRPMSK().
+
                                                                  0x0 = highest priority.
                                                                  0x7 = lowest priority.
 
                                                                  Changing priority while GET_WORKs are in flight may result in a GET_WORK using either the
                                                                  old or new priority, or a mix thereof. */
         uint64_t reserved_3_7          : 5;
-        uint64_t affinity              : 4;  /**< [ 11:  8](R/W) Processor affinity arbitration weight to apply to this group. If zero, affinity
+        uint64_t affinity              : 4;  /**< [ 11:  8](R/W) Processor affinity arbitration weight to apply to this hardware-group. If zero, affinity
                                                                  is disabled. A change to AFFINITY will not take effect until the old AFFINITY's
                                                                  value loaded into SSO_HWS()_ARB[AFF_LEFT] has drained to zero. */
         uint64_t reserved_12_15        : 4;
-        uint64_t weight                : 6;  /**< [ 21: 16](R/W) Cross-group arbitration weight to apply to this group. Must be >= 0x2. */
+        uint64_t weight                : 6;  /**< [ 21: 16](R/W) Arbitration weight to apply to this hardware-group. Must be >= 0x2. */
         uint64_t reserved_22_23        : 2;
-        uint64_t wgt_left              : 6;  /**< [ 29: 24](RO/H) Cross-group arbitration credits remaining on this group. */
+        uint64_t wgt_left              : 6;  /**< [ 29: 24](RO/H) Arbitration credits remaining on this hardware-group. */
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } s;
@@ -2403,9 +2546,9 @@ static inline uint64_t BDK_SSO_GRPX_PRI(unsigned long a)
 /**
  * Register (NCB) sso_grp#_taq_thr
  *
- * SSO Transitory Admission Queue Threshold Registers
+ * SSO PF Hardware-Group Transitory Admission Queue Threshold Registers
  * These registers contain the thresholds for allocating SSO transitory admission queue storage
- * buffers.
+ * buffers, indexed by hardware-group.
  */
 typedef union
 {
@@ -2414,29 +2557,33 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_59_63        : 5;
-        uint64_t grp_cnt               : 11; /**< [ 58: 48](RO/H) Group's entry count. Number of transitory admission buffers allocated to this group. */
+        uint64_t grp_cnt               : 11; /**< [ 58: 48](RO/H) Hardware-group's entry count. Number of transitory admission buffers allocated to this group. */
         uint64_t reserved_43_47        : 5;
-        uint64_t max_thr               : 11; /**< [ 42: 32](R/W) Max threshold for this transitory admission queue, in buffers of 11 entries. Must be >= 3,
-                                                                 must be >= [RSVD_THR], and to insure full streaming performance on this group, should be
-                                                                 at least 16 buffers. SSO may exceed this count using unreserved free buffers if and only
-                                                                 if persistently backpressured by IOBI. Must not be changed after traffic is sent to this
-                                                                 group. */
+        uint64_t max_thr               : 11; /**< [ 42: 32](R/W) Max threshold for this transitory admission queue, in buffers of 11
+                                                                 entries. Must be >= 3, must be >= [RSVD_THR], and to insure full streaming
+                                                                 performance on this hardware-group, should be at least 16 buffers. SSO may
+                                                                 exceed this count using unreserved free buffers if and only if persistently
+                                                                 backpressured by IOBI. Must not be changed after traffic is sent to this
+                                                                 hardware-group. */
         uint64_t reserved_11_31        : 21;
-        uint64_t rsvd_thr              : 11; /**< [ 10:  0](R/W) Reserved threshold for this transitory admission queue, in buffers of 11 entries. Must be
-                                                                 at least 3 buffers for any groups that are to be used. Changes to this field must also
-                                                                 update SSO_TAQ_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this group. */
+        uint64_t rsvd_thr              : 11; /**< [ 10:  0](R/W) Reserved threshold for this transitory admission queue, in buffers of 11
+                                                                 entries. Must be at least 3 buffers for any hardware-groups that are to be
+                                                                 used. Changes to this field must also update SSO_TAQ_ADD[RSVD_FREE]. Must not be
+                                                                 changed after traffic is sent to this hardware-group. */
 #else /* Word 0 - Little Endian */
-        uint64_t rsvd_thr              : 11; /**< [ 10:  0](R/W) Reserved threshold for this transitory admission queue, in buffers of 11 entries. Must be
-                                                                 at least 3 buffers for any groups that are to be used. Changes to this field must also
-                                                                 update SSO_TAQ_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this group. */
+        uint64_t rsvd_thr              : 11; /**< [ 10:  0](R/W) Reserved threshold for this transitory admission queue, in buffers of 11
+                                                                 entries. Must be at least 3 buffers for any hardware-groups that are to be
+                                                                 used. Changes to this field must also update SSO_TAQ_ADD[RSVD_FREE]. Must not be
+                                                                 changed after traffic is sent to this hardware-group. */
         uint64_t reserved_11_31        : 21;
-        uint64_t max_thr               : 11; /**< [ 42: 32](R/W) Max threshold for this transitory admission queue, in buffers of 11 entries. Must be >= 3,
-                                                                 must be >= [RSVD_THR], and to insure full streaming performance on this group, should be
-                                                                 at least 16 buffers. SSO may exceed this count using unreserved free buffers if and only
-                                                                 if persistently backpressured by IOBI. Must not be changed after traffic is sent to this
-                                                                 group. */
+        uint64_t max_thr               : 11; /**< [ 42: 32](R/W) Max threshold for this transitory admission queue, in buffers of 11
+                                                                 entries. Must be >= 3, must be >= [RSVD_THR], and to insure full streaming
+                                                                 performance on this hardware-group, should be at least 16 buffers. SSO may
+                                                                 exceed this count using unreserved free buffers if and only if persistently
+                                                                 backpressured by IOBI. Must not be changed after traffic is sent to this
+                                                                 hardware-group. */
         uint64_t reserved_43_47        : 5;
-        uint64_t grp_cnt               : 11; /**< [ 58: 48](RO/H) Group's entry count. Number of transitory admission buffers allocated to this group. */
+        uint64_t grp_cnt               : 11; /**< [ 58: 48](RO/H) Hardware-group's entry count. Number of transitory admission buffers allocated to this group. */
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
     } s;
@@ -2461,9 +2608,9 @@ static inline uint64_t BDK_SSO_GRPX_TAQ_THR(unsigned long a)
 /**
  * Register (NCB) sso_grp#_ts_pc
  *
- * SSO Tag Switch Performance Counter Register
- * Counts the number of tag switch requests for each group being switched to. Counter rolls over
- * through zero when max value exceeded.
+ * SSO PF Hardware-Group Tag Switch Performance Counter Register
+ * Counts the number of tag switch requests for each hardware-group being switched
+ * to. Counter rolls over through zero when max value exceeded.
  */
 typedef union
 {
@@ -2485,7 +2632,7 @@ static inline uint64_t BDK_SSO_GRPX_TS_PC(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_SSO_GRPX_TS_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x860020001140ll + 0x100000ll * ((a) & 0x3f);
+        return 0x860020001300ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_GRPX_TS_PC", 1, a, 0, 0, 0);
 }
 
@@ -2499,9 +2646,9 @@ static inline uint64_t BDK_SSO_GRPX_TS_PC(unsigned long a)
 /**
  * Register (NCB) sso_grp#_wa_pc
  *
- * SSO Work-Add Performance Counter Registers
- * Counts the number of add new work requests for each group. The counter rolls over through zero
- * when the max value exceeded.
+ * SSO PF Hardware-Group Work-Add Performance Counter Registers
+ * Counts the number of add new work requests for each hardware-group. The counter
+ * rolls over through zero when the max value exceeded.
  */
 typedef union
 {
@@ -2509,13 +2656,13 @@ typedef union
     struct bdk_sso_grpx_wa_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Work add performance counter for group. Increments when work moves into IAQ. Writes are
-                                                                 for diagnostic use only, and defined only when neither work nor GET_WORKs are present in
-                                                                 the SSO. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Work add performance counter for hardware-group. Increments when work moves into
+                                                                 IAQ. Writes are for diagnostic use only, and defined only when neither work nor
+                                                                 GET_WORKs are present in the SSO. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Work add performance counter for group. Increments when work moves into IAQ. Writes are
-                                                                 for diagnostic use only, and defined only when neither work nor GET_WORKs are present in
-                                                                 the SSO. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Work add performance counter for hardware-group. Increments when work moves into
+                                                                 IAQ. Writes are for diagnostic use only, and defined only when neither work nor
+                                                                 GET_WORKs are present in the SSO. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_grpx_wa_pc_s cn; */
@@ -2525,7 +2672,7 @@ static inline uint64_t BDK_SSO_GRPX_WA_PC(unsigned long a) __attribute__ ((pure,
 static inline uint64_t BDK_SSO_GRPX_WA_PC(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x860020001120ll + 0x100000ll * ((a) & 0x3f);
+        return 0x860020001200ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_GRPX_WA_PC", 1, a, 0, 0, 0);
 }
 
@@ -2539,9 +2686,9 @@ static inline uint64_t BDK_SSO_GRPX_WA_PC(unsigned long a)
 /**
  * Register (NCB) sso_grp#_ws_pc
  *
- * SSO Work-Schedule Performance Counter Registers
- * Counts the number of work schedules for each group. The counter rolls over through zero when
- * the maximum value is exceeded.
+ * SSO PF Hardware-Group Work-Schedule Performance Counter Registers
+ * Counts the number of work schedules for each hardware-group. The counter rolls over
+ * through zero when the maximum value is exceeded.
  */
 typedef union
 {
@@ -2549,11 +2696,13 @@ typedef union
     struct bdk_sso_grpx_ws_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Work schedule performance counter for group. Writes are for diagnostic use only, and
-                                                                 defined only when neither work nor GET_WORKs are present in the SSO. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Work schedule performance counter for hardware-group. Writes are for diagnostic
+                                                                 use only, and defined only when neither work nor GET_WORKs are present in the
+                                                                 SSO. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Work schedule performance counter for group. Writes are for diagnostic use only, and
-                                                                 defined only when neither work nor GET_WORKs are present in the SSO. */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Work schedule performance counter for hardware-group. Writes are for diagnostic
+                                                                 use only, and defined only when neither work nor GET_WORKs are present in the
+                                                                 SSO. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_grpx_ws_pc_s cn; */
@@ -2575,9 +2724,53 @@ static inline uint64_t BDK_SSO_GRPX_WS_PC(unsigned long a)
 #define arguments_BDK_SSO_GRPX_WS_PC(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) sso_grp#_xaq_limit
+ *
+ * SSO PF Hardware-Group External Admission Queue Limit Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sso_grpx_xaq_limit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t xaq_limit             : 33; /**< [ 32:  0](RO/H) XAQ limit. Each count holds 11 work entries. If an add work is requested to a
+                                                                 group where SSO_VHGRP()_XAQ_CNT[XAQ_CNT] >= [XAQ_LIMIT], then the add work is
+                                                                 dropped and will SSO_VHGRP()_QCTL[ENA] is cleared and SSO_VHGRP()_INT[XAQ_LIMIT] is
+                                                                 set. When 0x0, limiting is disabled. Due to pipelining, hardware may exceed this
+                                                                 limit by up to the TAQ size (320) entries. */
+#else /* Word 0 - Little Endian */
+        uint64_t xaq_limit             : 33; /**< [ 32:  0](RO/H) XAQ limit. Each count holds 11 work entries. If an add work is requested to a
+                                                                 group where SSO_VHGRP()_XAQ_CNT[XAQ_CNT] >= [XAQ_LIMIT], then the add work is
+                                                                 dropped and will SSO_VHGRP()_QCTL[ENA] is cleared and SSO_VHGRP()_INT[XAQ_LIMIT] is
+                                                                 set. When 0x0, limiting is disabled. Due to pipelining, hardware may exceed this
+                                                                 limit by up to the TAQ size (320) entries. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sso_grpx_xaq_limit_s cn; */
+} bdk_sso_grpx_xaq_limit_t;
+
+static inline uint64_t BDK_SSO_GRPX_XAQ_LIMIT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SSO_GRPX_XAQ_LIMIT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x860020000220ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("SSO_GRPX_XAQ_LIMIT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SSO_GRPX_XAQ_LIMIT(a) bdk_sso_grpx_xaq_limit_t
+#define bustype_BDK_SSO_GRPX_XAQ_LIMIT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SSO_GRPX_XAQ_LIMIT(a) "SSO_GRPX_XAQ_LIMIT"
+#define device_bar_BDK_SSO_GRPX_XAQ_LIMIT(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SSO_GRPX_XAQ_LIMIT(a) (a)
+#define arguments_BDK_SSO_GRPX_XAQ_LIMIT(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) sso_gw_eco
  *
- * INTERNAL: SSO_GW ECO Register
+ * INTERNAL: SSO PF GW ECO Register
  */
 typedef union
 {
@@ -2616,7 +2809,7 @@ static inline uint64_t BDK_SSO_GW_ECO_FUNC(void)
 /**
  * Register (NCB) sso_gwe_cfg
  *
- * SSO Get-Work Examiner Configuration Register
+ * SSO PF Get-Work Examiner Configuration Register
  * This register controls the operation of the get-work examiner (GWE).
  */
 typedef union
@@ -2626,13 +2819,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t dis_wgt_credit        : 1;  /**< [  8:  8](R/W) Disable group weight credits. When set, groups have infinite weight credit. */
+        uint64_t dis_wgt_credit        : 1;  /**< [  8:  8](R/W) Disable hardware-group weight credits. When set, groups have infinite weight credit. */
         uint64_t ws_retries            : 8;  /**< [  7:  0](R/W) Work slot retries. When a given work-slot performs this number of retries without
                                                                  successfully finding work then NO_WORK will be returned. Values 0, 1, 2, 3 are reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t ws_retries            : 8;  /**< [  7:  0](R/W) Work slot retries. When a given work-slot performs this number of retries without
                                                                  successfully finding work then NO_WORK will be returned. Values 0, 1, 2, 3 are reserved. */
-        uint64_t dis_wgt_credit        : 1;  /**< [  8:  8](R/W) Disable group weight credits. When set, groups have infinite weight credit. */
+        uint64_t dis_wgt_credit        : 1;  /**< [  8:  8](R/W) Disable hardware-group weight credits. When set, groups have infinite weight credit. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
@@ -2658,7 +2851,7 @@ static inline uint64_t BDK_SSO_GWE_CFG_FUNC(void)
 /**
  * Register (NCB) sso_gwe_random
  *
- * SSO Get-Work Examiner Random Register
+ * SSO PF Get-Work Examiner Random Register
  * This register contains the random search start position for the get-work examiner (GWE).
  */
 typedef union
@@ -2668,13 +2861,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t rnd                   : 16; /**< [ 15:  0](R/W/H) Current random value, with low 8 bits indicating first group to start next get-work search
-                                                                 at. Changes on each work search, even if unsuccessful or retried. For diagnostic use only,
-                                                                 must not be zero.
+        uint64_t rnd                   : 16; /**< [ 15:  0](R/W/H) Current random value, with low 8 bits indicating first hardware-group to start
+                                                                 next get-work search at. Changes on each work search, even if unsuccessful or
+                                                                 retried. For diagnostic use only, must not be zero.
 
                                                                  Internal:
                                                                  Uses 16, 15, 13, 4 tap LFSR (this choice is important to
-                                                                 insure even group probabilities) with the formula:
+                                                                 insure even hardware-group probabilities) with the formula:
                                                                  _ grp_to_start_arb_at = RND[7:0];
                                                                  _ RND_next[15:8] = RND[7:0];
                                                                  _ RND_next[7] = ^(RND[15:0] & 0xd008);
@@ -2686,13 +2879,13 @@ typedef union
                                                                  _ RND_next[1] = ^(RND[15:0] & 0x3742);
                                                                  _ RND_next[0] = ^(RND[15:0] & 0x1ba1); */
 #else /* Word 0 - Little Endian */
-        uint64_t rnd                   : 16; /**< [ 15:  0](R/W/H) Current random value, with low 8 bits indicating first group to start next get-work search
-                                                                 at. Changes on each work search, even if unsuccessful or retried. For diagnostic use only,
-                                                                 must not be zero.
+        uint64_t rnd                   : 16; /**< [ 15:  0](R/W/H) Current random value, with low 8 bits indicating first hardware-group to start
+                                                                 next get-work search at. Changes on each work search, even if unsuccessful or
+                                                                 retried. For diagnostic use only, must not be zero.
 
                                                                  Internal:
                                                                  Uses 16, 15, 13, 4 tap LFSR (this choice is important to
-                                                                 insure even group probabilities) with the formula:
+                                                                 insure even hardware-group probabilities) with the formula:
                                                                  _ grp_to_start_arb_at = RND[7:0];
                                                                  _ RND_next[15:8] = RND[7:0];
                                                                  _ RND_next[7] = ^(RND[15:0] & 0xd008);
@@ -2728,8 +2921,8 @@ static inline uint64_t BDK_SSO_GWE_RANDOM_FUNC(void)
 /**
  * Register (NCB) sso_hws#_arb
  *
- * SSO HWS Arbitration State Register
- * For diagnostic use, returns the group affinity arbitration state for each HWS.
+ * SSO PF HWS Arbitration State Register
+ * For diagnostic use, returns the arbitration state for each HWS.
  */
 typedef union
 {
@@ -2738,13 +2931,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t aff_left              : 4;  /**< [ 19: 16](RO/H) HWS affinity arbitration credits remaining on the last serviced group. */
+        uint64_t aff_left              : 4;  /**< [ 19: 16](RO/H) HWS affinity arbitration credits remaining on the last serviced hardware-group. */
         uint64_t reserved_8_15         : 8;
-        uint64_t last_grp              : 8;  /**< [  7:  0](RO/H) Last group number serviced by this HWS. */
+        uint64_t last_grp              : 8;  /**< [  7:  0](RO/H) Last hardware-group number serviced by this HWS. */
 #else /* Word 0 - Little Endian */
-        uint64_t last_grp              : 8;  /**< [  7:  0](RO/H) Last group number serviced by this HWS. */
+        uint64_t last_grp              : 8;  /**< [  7:  0](RO/H) Last hardware-group number serviced by this HWS. */
         uint64_t reserved_8_15         : 8;
-        uint64_t aff_left              : 4;  /**< [ 19: 16](RO/H) HWS affinity arbitration credits remaining on the last serviced group. */
+        uint64_t aff_left              : 4;  /**< [ 19: 16](RO/H) HWS affinity arbitration credits remaining on the last serviced hardware-group. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -2755,7 +2948,7 @@ static inline uint64_t BDK_SSO_HWSX_ARB(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_SSO_HWSX_ARB(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x860040000000ll + 0x100000ll * ((a) & 0x1f);
+        return 0x860040000100ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSO_HWSX_ARB", 1, a, 0, 0, 0);
 }
 
@@ -2767,11 +2960,88 @@ static inline uint64_t BDK_SSO_HWSX_ARB(unsigned long a)
 #define arguments_BDK_SSO_HWSX_ARB(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) sso_hws#_gmctl
+ *
+ * SSO PF HWS Guest Machine Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sso_hwsx_gmctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) GMID assigned to this VHWS.
+                                                                 Used to translate the following CSRs:
+
+                                                                   * SSOW_VHWS()_GRPMSK_CHG()[GGRP].
+                                                                   * SSOW_VHWS()_TAG[GGRP].
+                                                                   * SSOW_VHWS()_LINKS[GGRP].
+                                                                   * SSOW_VHWS()_OP_UPD_WQP_GRP0[GGRP].
+                                                                   * SSOW_VHWS()_OP_SWTAG_NOSCHED[GGRP].
+                                                                   * SSOW_VHWS()_OP_SWTAG_FULL0[GGRP].
+                                                                   * SSOW_VHWS()_OP_SWTAG_DESCHED[GGRP].
+                                                                   * SSOW_VHWS()_OP_GET_WORK0[GGRP].
+                                                                   * SSOW_VHWS()_OP_GET_WORK0/1's SSOW_GET_WORK_ADDR_S[INDEX_GGRP_MASK].
+
+                                                                 If 0x0, (which normally represents a disabled-GMID), results are unpredictable.
+
+                                                                 Else if 0x1, then the above CSRs will not be translated; the value read from the
+                                                                 field above will be a hardware-group number.
+
+                                                                 Else (if not 0x0 nor 0x1), see the CSR descriptions above for the
+                                                                 transformations performed; which generally use SSO_PF_MAP(). */
+#else /* Word 0 - Little Endian */
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) GMID assigned to this VHWS.
+                                                                 Used to translate the following CSRs:
+
+                                                                   * SSOW_VHWS()_GRPMSK_CHG()[GGRP].
+                                                                   * SSOW_VHWS()_TAG[GGRP].
+                                                                   * SSOW_VHWS()_LINKS[GGRP].
+                                                                   * SSOW_VHWS()_OP_UPD_WQP_GRP0[GGRP].
+                                                                   * SSOW_VHWS()_OP_SWTAG_NOSCHED[GGRP].
+                                                                   * SSOW_VHWS()_OP_SWTAG_FULL0[GGRP].
+                                                                   * SSOW_VHWS()_OP_SWTAG_DESCHED[GGRP].
+                                                                   * SSOW_VHWS()_OP_GET_WORK0[GGRP].
+                                                                   * SSOW_VHWS()_OP_GET_WORK0/1's SSOW_GET_WORK_ADDR_S[INDEX_GGRP_MASK].
+
+                                                                 If 0x0, (which normally represents a disabled-GMID), results are unpredictable.
+
+                                                                 Else if 0x1, then the above CSRs will not be translated; the value read from the
+                                                                 field above will be a hardware-group number.
+
+                                                                 Else (if not 0x0 nor 0x1), see the CSR descriptions above for the
+                                                                 transformations performed; which generally use SSO_PF_MAP(). */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sso_hwsx_gmctl_s cn; */
+} bdk_sso_hwsx_gmctl_t;
+
+static inline uint64_t BDK_SSO_HWSX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SSO_HWSX_GMCTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
+        return 0x860040000200ll + 0x100000ll * ((a) & 0x1f);
+    __bdk_csr_fatal("SSO_HWSX_GMCTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SSO_HWSX_GMCTL(a) bdk_sso_hwsx_gmctl_t
+#define bustype_BDK_SSO_HWSX_GMCTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SSO_HWSX_GMCTL(a) "SSO_HWSX_GMCTL"
+#define device_bar_BDK_SSO_HWSX_GMCTL(a) 0x0 /* PF_BAR0 */
+#define busnum_BDK_SSO_HWSX_GMCTL(a) (a)
+#define arguments_BDK_SSO_HWSX_GMCTL(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) sso_hws#_s#_grpmsk#
  *
- * SSO HWS Group Mask Registers
- * These registers select which group or groups a HWS belongs to. There are 2 sets of masks per
- * HWS, each with 1 register corresponding to 64 groups.
+ * SSO PF HWS Hardware-Group Mask Registers
+ * These registers select which hardware-group(s) a HWS belongs to. There are 2 sets of
+ * masks per HWS, each with 1 register corresponding to 64 hardware-groups.
+ *
+ * Note bit-fields are indexed by hardware-group, not the guest-group; therefore this
+ * register should not be exposed as-is to guest drivers.
  */
 typedef union
 {
@@ -2779,8 +3049,8 @@ typedef union
     struct bdk_sso_hwsx_sx_grpmskx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t grp_msk               : 64; /**< [ 63:  0](R/W) HWS group mask. A one in any bit position sets the HWS's membership in the
-                                                                 corresponding group for groups <63:0>.
+        uint64_t grp_msk               : 64; /**< [ 63:  0](R/W) HWS hardware-group mask. A one in any bit position sets the HWS's membership in
+                                                                 the corresponding hardware-group for hardware-groups <63:0>.
 
                                                                  A value of 0x0 in GRPMSK for a given HWS prevents the HWS from receiving new
                                                                  work. HWSs that will never receive work should use GRPMSK=0x0; while this
@@ -2795,8 +3065,8 @@ typedef union
                                                                  SSO virtualization will only allow PF access; this register will only be used
                                                                  for paging HWS in or out.  Guests must use SSOW_VHWS()_GRPMSK_CHG(). */
 #else /* Word 0 - Little Endian */
-        uint64_t grp_msk               : 64; /**< [ 63:  0](R/W) HWS group mask. A one in any bit position sets the HWS's membership in the
-                                                                 corresponding group for groups <63:0>.
+        uint64_t grp_msk               : 64; /**< [ 63:  0](R/W) HWS hardware-group mask. A one in any bit position sets the HWS's membership in
+                                                                 the corresponding hardware-group for hardware-groups <63:0>.
 
                                                                  A value of 0x0 in GRPMSK for a given HWS prevents the HWS from receiving new
                                                                  work. HWSs that will never receive work should use GRPMSK=0x0; while this
@@ -2833,7 +3103,7 @@ static inline uint64_t BDK_SSO_HWSX_SX_GRPMSKX(unsigned long a, unsigned long b,
 /**
  * Register (NCB) sso_ient#_grp
  *
- * SSO Internal Entry Group Registers
+ * SSO PF Internal Entry Hardware-Group Registers
  * Returns unit memory status for an index.
  */
 typedef union
@@ -2846,15 +3116,15 @@ typedef union
         uint64_t head                  : 1;  /**< [ 61: 61](RO/H) SSO entry is at the head of a tag chain that is descheduled. */
         uint64_t nosched               : 1;  /**< [ 60: 60](RO/H) The nosched bit for the SSO entry. */
         uint64_t reserved_56_59        : 4;
-        uint64_t grp                   : 8;  /**< [ 55: 48](RO/H) Group of the SSO entry.
-                                                                 Internal:
-                                                                 The upper bits are not stored in the RAM, but rather indicate the OCI node number. */
+        uint64_t grp                   : 8;  /**< [ 55: 48](RO/H) Hardware-group of the SSO entry. This register is typically only for diagnostic
+                                                                 use; however if this value is delivered to guest drivers, [GRP] must be
+                                                                 converted to a guest-group by the hypervisor software. */
         uint64_t reserved_0_47         : 48;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_47         : 48;
-        uint64_t grp                   : 8;  /**< [ 55: 48](RO/H) Group of the SSO entry.
-                                                                 Internal:
-                                                                 The upper bits are not stored in the RAM, but rather indicate the OCI node number. */
+        uint64_t grp                   : 8;  /**< [ 55: 48](RO/H) Hardware-group of the SSO entry. This register is typically only for diagnostic
+                                                                 use; however if this value is delivered to guest drivers, [GRP] must be
+                                                                 converted to a guest-group by the hypervisor software. */
         uint64_t reserved_56_59        : 4;
         uint64_t nosched               : 1;  /**< [ 60: 60](RO/H) The nosched bit for the SSO entry. */
         uint64_t head                  : 1;  /**< [ 61: 61](RO/H) SSO entry is at the head of a tag chain that is descheduled. */
@@ -2882,7 +3152,7 @@ static inline uint64_t BDK_SSO_IENTX_GRP(unsigned long a)
 /**
  * Register (NCB) sso_ient#_links
  *
- * SSO Internal Entry Links Registers
+ * SSO PF Internal Entry Links Registers
  * Returns unit memory status for an index.
  */
 typedef union
@@ -2929,7 +3199,7 @@ static inline uint64_t BDK_SSO_IENTX_LINKS(unsigned long a)
 /**
  * Register (NCB) sso_ient#_pendtag
  *
- * SSO Internal Entry Pending Tag Registers
+ * SSO PF Internal Entry Pending Tag Registers
  * Returns unit memory status for an index.
  */
 typedef union
@@ -2974,7 +3244,7 @@ static inline uint64_t BDK_SSO_IENTX_PENDTAG(unsigned long a)
 /**
  * Register (NCB) sso_ient#_qlinks
  *
- * SSO Internal Queue Links Registers
+ * SSO PF Internal Queue Links Registers
  * Returns unit memory status for an index.
  */
 typedef union
@@ -3011,7 +3281,7 @@ static inline uint64_t BDK_SSO_IENTX_QLINKS(unsigned long a)
 /**
  * Register (NCB) sso_ient#_tag
  *
- * SSO Internal Entry Tag Registers
+ * SSO PF Internal Entry Tag Registers
  * Returns unit memory status for an index.
  */
 typedef union
@@ -3062,7 +3332,7 @@ static inline uint64_t BDK_SSO_IENTX_TAG(unsigned long a)
 /**
  * Register (NCB) sso_ient#_wqp
  *
- * SSO Internal Entry WQP Registers
+ * SSO PF Internal Entry WQP Registers
  * Returns unit memory status for an index.
  */
 typedef union
@@ -3071,11 +3341,11 @@ typedef union
     struct bdk_sso_ientx_wqp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue IOVA held in the SSO entry. */
+        uint64_t wqp                   : 64; /**< [ 63:  0](RO/H) Work queue IOVA held in the SSO entry.
+                                                                 Bits <63:49> are a sign extension of <48>.  Bits <2:0> are 0x0. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue IOVA held in the SSO entry. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t wqp                   : 64; /**< [ 63:  0](RO/H) Work queue IOVA held in the SSO entry.
+                                                                 Bits <63:49> are a sign extension of <48>.  Bits <2:0> are 0x0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_ientx_wqp_s cn; */
@@ -3099,8 +3369,8 @@ static inline uint64_t BDK_SSO_IENTX_WQP(unsigned long a)
 /**
  * Register (NCB) sso_ipl_conf#
  *
- * SSO Conflicted List State Registers
- * Returns list status for the conflicted list indexed by group.  Register
+ * SSO PF Hardware-Group Conflicted List State Registers
+ * Returns list status for the conflicted list indexed by hardware-group. Register
  * fields are identical to those in SSO_IPL_IAQ() above.
  */
 typedef union
@@ -3147,8 +3417,8 @@ static inline uint64_t BDK_SSO_IPL_CONFX(unsigned long a)
 /**
  * Register (NCB) sso_ipl_desched#
  *
- * SSO Deschedule List State Registers
- * Returns list status for the deschedule list indexed by group.  Register
+ * SSO PF Hardware-Group Deschedule List State Registers
+ * Returns list status for the deschedule list indexed by hardware-group. Register
  * fields are identical to those in SSO_IPL_IAQ() above.
  */
 typedef union
@@ -3195,7 +3465,7 @@ static inline uint64_t BDK_SSO_IPL_DESCHEDX(unsigned long a)
 /**
  * Register (NCB) sso_ipl_free#
  *
- * SSO Free List State Registers
+ * SSO PF Free List State Registers
  * Returns list status.
  */
 typedef union
@@ -3246,8 +3516,8 @@ static inline uint64_t BDK_SSO_IPL_FREEX(unsigned long a)
 /**
  * Register (NCB) sso_ipl_iaq#
  *
- * SSO IAQ List State Registers
- * Returns list status for the internal admission queue indexed by group.
+ * SSO PF Hardware-Group IAQ List State Registers
+ * Returns list status for the internal admission queue indexed by hardware-group.
  */
 typedef union
 {
@@ -3293,7 +3563,7 @@ static inline uint64_t BDK_SSO_IPL_IAQX(unsigned long a)
 /**
  * Register (NCB) sso_nos_cnt
  *
- * SSO No-schedule Count Register
+ * SSO PF No-schedule Count Register
  * Contains the number of work-queue entries on the no-schedule list.
  */
 typedef union
@@ -3331,7 +3601,7 @@ static inline uint64_t BDK_SSO_NOS_CNT_FUNC(void)
 /**
  * Register (NCB) sso_nw_tim
  *
- * SSO New-Work Timer Period Register
+ * SSO PF New-Work Timer Period Register
  * Sets the minimum period for a new-work-request timeout. The period is specified in n-1
  * notation, with the increment value of 1024 clock cycles. Thus, a value of 0x0 in this register
  * translates to 1024 cycles, 0x1 translates to 2048 cycles, 0x2 translates to 3072 cycles, etc.
@@ -3379,7 +3649,7 @@ static inline uint64_t BDK_SSO_NW_TIM_FUNC(void)
 /**
  * Register (NCB) sso_page_cnt
  *
- * SSO In-use Page Count Register
+ * SSO PF In-use Page Count Register
  */
 typedef union
 {
@@ -3419,9 +3689,82 @@ static inline uint64_t BDK_SSO_PAGE_CNT_FUNC(void)
  * Register (NCB) sso_pf_map#
  *
  * SSO PF VF Mapping Registers
- * These registers map GMIDs and guest groups to hardware groups. Regardless of these
- * registers, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one mapping of
- * GGRP into VHGRP.
+ * These registers map GMIDs and guest-groups to hardware-groups, and GMIDs and
+ * hardware-groups to GGRPs. An entry must not be changed if there is traffic in flight
+ * that may potentially match that entry's GMID/VHGRP/GGRP.
+ *
+ * The mapping algorithm depends on the type of operation:
+ *
+ * * Coprocessors make add-work requests with a GMID and guest-group, which
+ *   is translated to a hardware-group as follows:
+ *
+ *   o Regardless of this mapping table, GMID 0x0 is always invalid and use of 0x0 will
+ *     cause a SSO_ERR0[GMID0] error and the add-work is dropped.
+ *
+ *   o else, regardless of this mapping table, GMID 0x1 is always a one-to-one mapping
+ *     of GGRP into VHGRP.
+ *
+ *   o else (excluding GMID 0x0 and 0x1), a lookup is performed across all SSO_PF_MAP()
+ *     entries, looking for a entry where [VALID] is set, the request's GMID = entry's
+ *     [GMID], and the request's GGRP = entry's [GGRP].
+ *
+ *   o if the lookup hits a single entry, the resulting hardware-group is from the
+ *     matching entry's [VHGRP].
+ *
+ *   o if the lookup does not hit any entries a SSO_ERR0[GMID_UNMAP] error is reported
+ *     and the add-work is dropped.
+ *
+ *   o if the lookup hits duplicate entries a SSO_ERR0[GMID_MULTI] error is reported
+ *     and the add-work is dropped.
+ *
+ * * HWS operations make guest-group read requests, where the GMID is from
+ *   SSO_HWS()_GMCTL[GMID] and the GGRP is from SSOW_VHWS()_GRPMSK_CHG()[GGRP],
+ *   SSOW_VHWS()_OP_GET_WORK0[GGRP], SSOW_VHWS()_OP_UPD_WQP_GRP0[GGRP],
+ *   SSOW_VHWS()_OP_SWTAG_NOSCHED[GGRP], SSOW_VHWS()_OP_SWTAG_FULL0[GGRP],
+ *   SSOW_VHWS()_OP_SWTAG_DESCHED[GGRP], or SSOW_VHWS()_OP_GET_WORK0/1's
+ *   SSOW_GET_WORK_ADDR_S[INDEX_GGRP_MASK]. These are translated to a hardware-group as
+ *   follows:
+ *
+ *   o Regardless of this mapping table, using GMID 0x0 is unpredictable.
+ *
+ *   o else, regardless of this mapping table, GMID 0x1 is always a one-to-one mapping
+ *     of GGRP into VHGRP.
+ *
+ *   o else (excluding GMID 0x0 and 0x1), a lookup is performed across all SSO_PF_MAP()
+ *     entries, looking for a entry where [VALID] is set, the request's GMID = entry's
+ *     [GMID], and the request's GGRP = entry's [GGRP].
+ *
+ *   o if the lookup hits a single entry, the resulting hardware-group is from the
+ *     matching entry's [VHGRP].
+ *
+ *   o if the lookup does not hit any entries a SSO_ERR2[WS_UNMAP] error is reported
+ *     and the group-mask change or switch-tag is dropped.
+ *
+ *   o if the lookup hits duplicate entries a SSO_ERR2[WS_MULTI] error is reported and
+ *     the group-mask change or switch-tag is dropped.
+ *
+ * * HWS reads, where the GMID is from SSO_HWS()_GMCTL[GMID], return a guest-group in
+ *   SSOW_VHWS()_TAG[GGRP] and SSOW_VHWS()_LINKS[GGRP]. These are translated from the
+ *   HWS's storage of a hardware-group to the operation's read value's guest-group
+ *   follows:
+ *
+ *   o Regardless of this mapping table, using GMID 0x0 is unprefictable.
+ *
+ *   o else, regardless of this mapping table, GMID 0x1 is always a one-to-one mapping
+ *     of VHGRP into GGRP.
+ *
+ *   o else (excluding GMID 0x0 and 0x1), a lookup is performed across all SSO_PF_MAP()
+ *     entries, looking for a entry where [VALID] is set, the request's GMID = entry's
+ *     [GMID], and the request's VHGRP = entry's [VHGRP].
+ *
+ *   o if the lookup hits a single entry, the resulting guest-group is from the
+ *     matching entry's [GGRP].
+ *
+ *   o if the lookup does not hit any entriesa a SSO_ERR2[WS_UNMAP] error is reported
+ *     and the GGRP returned is the VHGRP.
+ *
+ *  o if the lookup hits duplicate entries a SSO_ERR2[WS_MULTI] error is reported and
+ *     the GGRP returned is the VHGRP.
  */
 typedef union
 {
@@ -3429,25 +3772,19 @@ typedef union
     struct bdk_sso_pf_mapx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) This entry is valid for matching. */
-        uint64_t reserved_37_62        : 26;
-        uint64_t vhgrp                 : 5;  /**< [ 36: 32](R/W) When [VALID] is set and this entry matches, the VHGRP the request's add-work
-                                                                 will be added to. */
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) This entry is valid for matching. See register description. */
+        uint64_t reserved_38_62        : 25;
+        uint64_t vhgrp                 : 6;  /**< [ 37: 32](R/W) Entry's hardware-group. See register description. */
         uint64_t reserved_26_31        : 6;
-        uint64_t ggrp                  : 10; /**< [ 25: 16](R/W) Guest group. When [VALID] is set, the guest's group to which this entry will be
-                                                                 compared. */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine ID. When [VALID], the guest machine identifier to which [GGRP]
-                                                                 belongs, and to which this entry will be compared. */
+        uint64_t ggrp                  : 10; /**< [ 25: 16](R/W) Entry's guest-group. See register description. */
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Entry's guest machine ID. See register description. */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine ID. When [VALID], the guest machine identifier to which [GGRP]
-                                                                 belongs, and to which this entry will be compared. */
-        uint64_t ggrp                  : 10; /**< [ 25: 16](R/W) Guest group. When [VALID] is set, the guest's group to which this entry will be
-                                                                 compared. */
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Entry's guest machine ID. See register description. */
+        uint64_t ggrp                  : 10; /**< [ 25: 16](R/W) Entry's guest-group. See register description. */
         uint64_t reserved_26_31        : 6;
-        uint64_t vhgrp                 : 5;  /**< [ 36: 32](R/W) When [VALID] is set and this entry matches, the VHGRP the request's add-work
-                                                                 will be added to. */
-        uint64_t reserved_37_62        : 26;
-        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) This entry is valid for matching. */
+        uint64_t vhgrp                 : 6;  /**< [ 37: 32](R/W) Entry's hardware-group. See register description. */
+        uint64_t reserved_38_62        : 25;
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) This entry is valid for matching. See register description. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_pf_mapx_s cn; */
@@ -3612,7 +3949,7 @@ static inline uint64_t BDK_SSO_PF_MBOX_INT_W1SX(unsigned long a)
 /**
  * Register (NCB) sso_pf_msix_pba#
  *
- * SSO MSI-X Pending Bit Array Registers
+ * SSO PF MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the SSO_PF_INT_VEC_E
  * enumeration.
  */
@@ -3636,7 +3973,7 @@ static inline uint64_t BDK_SSO_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_SSO_PF_MSIX_PBAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x8607000f0000ll + 0x10ll * ((a) & 0x0);
+        return 0x8607000f0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("SSO_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
@@ -3650,7 +3987,7 @@ static inline uint64_t BDK_SSO_PF_MSIX_PBAX(unsigned long a)
 /**
  * Register (NCB) sso_pf_msix_vec#_addr
  *
- * SSO MSI-X Vector-Table Address Register
+ * SSO PF MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the SSO_PF_INT_VEC_E enumeration.
  */
 typedef union
@@ -3662,7 +3999,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's SSO_PF_MSIX_VEC()_ADDR, SSO_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of SSO_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -3672,7 +4009,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's SSO_PF_MSIX_VEC()_ADDR, SSO_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of SSO_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -3692,7 +4029,7 @@ typedef union
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x860700000000ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("SSO_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -3707,7 +4044,7 @@ static inline uint64_t BDK_SSO_PF_MSIX_VECX_ADDR(unsigned long a)
 /**
  * Register (NCB) sso_pf_msix_vec#_ctl
  *
- * SSO MSI-X Vector-Table Control and Data Register
+ * SSO PF MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the SSO_PF_INT_VEC_E enumeration.
  */
 typedef union
@@ -3733,7 +4070,7 @@ typedef union
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x860700000008ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("SSO_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -3794,7 +4131,7 @@ static inline uint64_t BDK_SSO_PF_VHGRPX_MBOXX(unsigned long a, unsigned long b)
 /**
  * Register (NCB) sso_reset
  *
- * SSO Soft Reset Register
+ * SSO PF Soft Reset Register
  * Writing a 1 to SSO_RESET[RESET] resets the SSO. After receiving a store to this CSR, the SSO
  * must not be sent any other operations for 2500 coprocessor (SCLK) cycles. Note that the
  * contents of this register are reset along with the rest of the SSO.
@@ -3840,7 +4177,7 @@ static inline uint64_t BDK_SSO_RESET_FUNC(void)
 /**
  * Register (NCB) sso_taq#_link
  *
- * SSO Transitory Admission Queue Link Registers
+ * SSO PF Transitory Admission Queue Link Registers
  * Returns TAQ status for a given line.
  */
 typedef union
@@ -3877,7 +4214,7 @@ static inline uint64_t BDK_SSO_TAQX_LINK(unsigned long a)
 /**
  * Register (NCB) sso_taq#_wae#_tag
  *
- * SSO Transitory Admission Queue Tag Registers
+ * SSO PF Transitory Admission Queue Tag Registers
  * Returns TAQ status for a given line and WAE within that line.
  */
 typedef union
@@ -3901,7 +4238,7 @@ typedef union
 static inline uint64_t BDK_SSO_TAQX_WAEX_TAG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TAQX_WAEX_TAG(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=319) && (b<=12)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=319) && (b<=10)))
         return 0x8600d0000000ll + 0x1000ll * ((a) & 0x1ff) + 0x10ll * ((b) & 0xf);
     __bdk_csr_fatal("SSO_TAQX_WAEX_TAG", 2, a, b, 0, 0);
 }
@@ -3916,7 +4253,7 @@ static inline uint64_t BDK_SSO_TAQX_WAEX_TAG(unsigned long a, unsigned long b)
 /**
  * Register (NCB) sso_taq#_wae#_wqp
  *
- * SSO Transitory Admission Queue Pointer Registers
+ * SSO PF Transitory Admission Queue Pointer Registers
  * Returns TAQ status for a given line and WAE within that line.
  */
 typedef union
@@ -3925,11 +4262,11 @@ typedef union
     struct bdk_sso_taqx_waex_wqp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue IOVA held in the TAQ entry. Bits <2:0> are always zero. */
+        uint64_t wqp                   : 64; /**< [ 63:  0](RO/H) Work queue IOVA held in the TAQ entry.
+                                                                 Bits <63:49> are a sign extension of <48>.  Bits <2:0> are 0x0. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue IOVA held in the TAQ entry. Bits <2:0> are always zero. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t wqp                   : 64; /**< [ 63:  0](RO/H) Work queue IOVA held in the TAQ entry.
+                                                                 Bits <63:49> are a sign extension of <48>.  Bits <2:0> are 0x0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_taqx_waex_wqp_s cn; */
@@ -3938,7 +4275,7 @@ typedef union
 static inline uint64_t BDK_SSO_TAQX_WAEX_WQP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TAQX_WAEX_WQP(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=319) && (b<=12)))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=319) && (b<=10)))
         return 0x8600d0000008ll + 0x1000ll * ((a) & 0x1ff) + 0x10ll * ((b) & 0xf);
     __bdk_csr_fatal("SSO_TAQX_WAEX_WQP", 2, a, b, 0, 0);
 }
@@ -3953,7 +4290,7 @@ static inline uint64_t BDK_SSO_TAQX_WAEX_WQP(unsigned long a, unsigned long b)
 /**
  * Register (NCB) sso_taq_add
  *
- * SSO Transitory Admission Queue Add Register
+ * SSO PF Transitory Admission Queue Add Register
  */
 typedef union
 {
@@ -3994,7 +4331,7 @@ static inline uint64_t BDK_SSO_TAQ_ADD_FUNC(void)
 /**
  * Register (NCB) sso_taq_cnt
  *
- * SSO Transitory Admission Queue Count Register
+ * SSO PF Transitory Admission Queue Count Register
  */
 typedef union
 {
@@ -4003,23 +4340,23 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_27_63        : 37;
-        uint64_t rsvd_free             : 11; /**< [ 26: 16](R/W/H) Number of free reserved buffers. Used to insure each group may get a specific number of
-                                                                 buffers. Must always be greater than or equal to the sum across all
-                                                                 SSO_GRP()_TAQ_THR[RSVD_THR], and will generally be equal to that sum unless changes
-                                                                 to RSVD_THR are going to be made. To prevent races, software should not change this
-                                                                 register when SSO is being used; instead use SSO_TAQ_ADD[RSVD_FREE]. Legal values are
-                                                                 0..0x140 */
+        uint64_t rsvd_free             : 11; /**< [ 26: 16](R/W/H) Number of free reserved buffers. Used to insure each hardware-group may get a
+                                                                 specific number of buffers. Must always be greater than or equal to the sum
+                                                                 across all SSO_GRP()_TAQ_THR[RSVD_THR], and will generally be equal to that sum
+                                                                 unless changes to RSVD_THR are going to be made. To prevent races, software
+                                                                 should not change this register when SSO is being used; instead use
+                                                                 SSO_TAQ_ADD[RSVD_FREE]. Legal values are 0..0x140 */
         uint64_t reserved_11_15        : 5;
         uint64_t free_cnt              : 11; /**< [ 10:  0](RO/H) Number of total free buffers. */
 #else /* Word 0 - Little Endian */
         uint64_t free_cnt              : 11; /**< [ 10:  0](RO/H) Number of total free buffers. */
         uint64_t reserved_11_15        : 5;
-        uint64_t rsvd_free             : 11; /**< [ 26: 16](R/W/H) Number of free reserved buffers. Used to insure each group may get a specific number of
-                                                                 buffers. Must always be greater than or equal to the sum across all
-                                                                 SSO_GRP()_TAQ_THR[RSVD_THR], and will generally be equal to that sum unless changes
-                                                                 to RSVD_THR are going to be made. To prevent races, software should not change this
-                                                                 register when SSO is being used; instead use SSO_TAQ_ADD[RSVD_FREE]. Legal values are
-                                                                 0..0x140 */
+        uint64_t rsvd_free             : 11; /**< [ 26: 16](R/W/H) Number of free reserved buffers. Used to insure each hardware-group may get a
+                                                                 specific number of buffers. Must always be greater than or equal to the sum
+                                                                 across all SSO_GRP()_TAQ_THR[RSVD_THR], and will generally be equal to that sum
+                                                                 unless changes to RSVD_THR are going to be made. To prevent races, software
+                                                                 should not change this register when SSO is being used; instead use
+                                                                 SSO_TAQ_ADD[RSVD_FREE]. Legal values are 0..0x140 */
         uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
     } s;
@@ -4045,8 +4382,8 @@ static inline uint64_t BDK_SSO_TAQ_CNT_FUNC(void)
 /**
  * Register (NCB) sso_tiaq#_status
  *
- * SSO Transitory Input Admission Queue Status Registers
- * Returns TAQ inbound status indexed by group.
+ * SSO PF Hardware-Group Transitory Input Admission Queue Status Registers
+ * This register returns TAQ inbound status indexed by hardware-group.
  */
 typedef union
 {
@@ -4054,7 +4391,7 @@ typedef union
     struct bdk_sso_tiaqx_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-12. This provides the second index into
+        uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-10. This provides the second index into
                                                                  SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP. */
         uint64_t wae_tail              : 4;  /**< [ 59: 56](RO/H) When [WAE_USED] is non-zero, this provides the next free WAE number in the cache
                                                                  line of the tail entry. If 0x0, the next entry will be placed at the beginning of
@@ -4081,7 +4418,7 @@ typedef union
                                                                  line of the tail entry. If 0x0, the next entry will be placed at the beginning of
                                                                  a new cache line. This provides the second index into SSO_TAQ()_WAE()_TAG and
                                                                  SSO_TAQ()_WAE()_WQP. */
-        uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-12. This provides the second index into
+        uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-10. This provides the second index into
                                                                  SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP. */
 #endif /* Word 0 - End */
     } s;
@@ -4106,8 +4443,8 @@ static inline uint64_t BDK_SSO_TIAQX_STATUS(unsigned long a)
 /**
  * Register (NCB) sso_toaq#_status
  *
- * SSO Transitory Output Admission Queue Status Registers
- * Returns TAQ outbound status indexed by group.
+ * SSO PF Hardware-Group Transitory Output Admission Queue Status Registers
+ * This register returns TAQ outbound status indexed by hardware-group.
  */
 typedef union
 {
@@ -4116,7 +4453,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
-        uint64_t ext_vld               : 1;  /**< [ 61: 61](RO/H) External queuing is in use on this group. */
+        uint64_t ext_vld               : 1;  /**< [ 61: 61](RO/H) External queuing is in use on this hardware-group. */
         uint64_t partial               : 1;  /**< [ 60: 60](RO/H) Partial cache line is allocated to tail of queue. */
         uint64_t wae_tail              : 4;  /**< [ 59: 56](RO/H) If PARTIAL is set, this provides the next free WAE number in the cache line of the tail
                                                                  entry. If PARTIAL is clear, the next entry will be placed at the beginning of a new cache
@@ -4144,7 +4481,7 @@ typedef union
                                                                  line. This provides the
                                                                  second index into SSO_TAQ()_WAE()_TAG and SSO_TAQ()_WAE()_WQP. */
         uint64_t partial               : 1;  /**< [ 60: 60](RO/H) Partial cache line is allocated to tail of queue. */
-        uint64_t ext_vld               : 1;  /**< [ 61: 61](RO/H) External queuing is in use on this group. */
+        uint64_t ext_vld               : 1;  /**< [ 61: 61](RO/H) External queuing is in use on this hardware-group. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -4169,9 +4506,10 @@ static inline uint64_t BDK_SSO_TOAQX_STATUS(unsigned long a)
 /**
  * Register (NCB) sso_unmap_info
  *
- * SSO Unmapped Error Information Register
- * When any SSO_ERR0[GMID_UNMAP] error occurs, this register is latched with
- * information from the original request.
+ * SSO PF Unmapped Error Information Register
+ * When any SSO_ERR0[GMID_UNMAP], SSO_ERR0[GMID_MULTI], SSO_ERR2[WS_UNMAP] or
+ * SSO_ERR2[WS_MULTI] error occurs, this register is latched with information from the
+ * original request.
  */
 typedef union
 {
@@ -4208,7 +4546,7 @@ static inline uint64_t BDK_SSO_UNMAP_INFO_FUNC(void)
 /**
  * Register (NCB) sso_vf#_msix_pba#
  *
- * SSO MSI-X Pending Bit Array Registers
+ * SSO VF MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the SSO_VF_INT_VEC_E
  * enumeration.
  */
@@ -4218,11 +4556,11 @@ typedef union
     struct bdk_sso_vfx_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated SSO_PF_MSIX_VEC()_CTL, enumerated by
-                                                                 SSO_PF_INT_VEC_E. Bits that have no associated SSO_PF_INT_VEC_E are 0. */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated SSO_VF_MSIX_VEC()_CTL, enumerated by
+                                                                 SSO_VF_INT_VEC_E. Bits that have no associated SSO_VF_INT_VEC_E are 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated SSO_PF_MSIX_VEC()_CTL, enumerated by
-                                                                 SSO_PF_INT_VEC_E. Bits that have no associated SSO_PF_INT_VEC_E are 0. */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated SSO_VF_MSIX_VEC()_CTL, enumerated by
+                                                                 SSO_VF_INT_VEC_E. Bits that have no associated SSO_VF_INT_VEC_E are 0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vfx_msix_pbax_s cn; */
@@ -4246,7 +4584,7 @@ static inline uint64_t BDK_SSO_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 /**
  * Register (NCB) sso_vf#_msix_vec#_addr
  *
- * SSO MSI-X Vector-Table Address Register
+ * SSO VF MSI-X Vector-Table Address Register
  * This register is the MSI-X vector table, indexed by the SSO_VF_INT_VEC_E enumeration.
  */
 typedef union
@@ -4291,7 +4629,7 @@ static inline uint64_t BDK_SSO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
 /**
  * Register (NCB) sso_vf#_msix_vec#_ctl
  *
- * SSO MSI-X Vector-Table Control and Data Register
+ * SSO VF MSI-X Vector-Table Control and Data Register
  * This register is the MSI-X vector table, indexed by the SSO_VF_INT_VEC_E enumeration.
  */
 typedef union
@@ -4332,7 +4670,7 @@ static inline uint64_t BDK_SSO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long 
 /**
  * Register (NCB) sso_vhgrp#_aq_cnt
  *
- * SSO Admission Queue Count Registers
+ * SSO VF Hardware-Group Admission Queue Count Registers
  */
 typedef union
 {
@@ -4341,9 +4679,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t aq_cnt                : 33; /**< [ 32:  0](RO/H) Number of total in-unit, transitional and external admission queue entries for this group. */
+        uint64_t aq_cnt                : 33; /**< [ 32:  0](RO/H) Number of total in-unit, transitional and external admission queue entries for this hardware-group. */
 #else /* Word 0 - Little Endian */
-        uint64_t aq_cnt                : 33; /**< [ 32:  0](RO/H) Number of total in-unit, transitional and external admission queue entries for this group. */
+        uint64_t aq_cnt                : 33; /**< [ 32:  0](RO/H) Number of total in-unit, transitional and external admission queue entries for this hardware-group. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
@@ -4368,7 +4706,7 @@ static inline uint64_t BDK_SSO_VHGRPX_AQ_CNT(unsigned long a)
 /**
  * Register (NCB) sso_vhgrp#_aq_thr
  *
- * SSO Total Admission Queue Threshold Register
+ * SSO VF Hardware-Group Total Admission Queue Threshold Register
  */
 typedef union
 {
@@ -4406,9 +4744,9 @@ static inline uint64_t BDK_SSO_VHGRPX_AQ_THR(unsigned long a)
 /**
  * Register (NCB) sso_vhgrp#_int
  *
- * SSO Group Interrupt Register
- * Contains the per-group interrupts and are used to clear these interrupts. For more information
- * on this register, refer to Interrupts.
+ * SSO VF Hardware-Group Interrupt Register
+ * Contains the per-hardware-group interrupts and are used to clear these
+ * interrupts. For more information on this register, refer to Interrupts.
  */
 typedef union
 {
@@ -4419,13 +4757,14 @@ typedef union
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
-                                                                 * The hardware decrements the time counter for this group to zero, i.e.
+                                                                 * The hardware decrements the time counter for this hardware-group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
         uint64_t reserved_4_62         : 59;
         uint64_t mbox                  : 1;  /**< [  3:  3](R/W1C/H) PF to VF mailbox interrupt. Set when SSO_VHGRP(0..63)_MBOX(0) is written. */
-        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1C/H) Group AQ exceeded allocation limit. Set when SSO_VHGRP()_AQ_CNT[AQ_CNT] >=
-                                                                 SSO_GRP()_AQ_LIMIT[AQ_LIMIT]. */
+        uint64_t xaq_limit             : 1;  /**< [  2:  2](R/W1C/H) Hardware-group AQ exceeded allocation limit error; add-works to this VHGRP may
+                                                                 be dropped. Set when SSO_VHGRP()_XAQ_CNT[XAQ_CNT] >=
+                                                                 SSO_GRP()_XAQ_LIMIT[XAQ_LIMIT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1C/H) Work-executable interrupt. Generally used to indicate work is waiting for software.
                                                                  Set by hardware whenever:
 
@@ -4442,10 +4781,10 @@ typedef union
                                                                  _ SSO_VHGRP()_INT_CNT[IAQ_CNT] > 0
                                                                  _ SSO_VHGRP()_INT_CNT[DS_CNT] > 0
                                                                  _ SSO_VHGRP()_INT_CNT[CQ_CNT] > 0 */
-        uint64_t aq_int                : 1;  /**< [  0:  0](R/W1C/H) External group queue threshold interrupt. Set if SSO_VHGRP()_AQ_CNT changes, and the
+        uint64_t aq_int                : 1;  /**< [  0:  0](R/W1C/H) AQ threshold interrupt. Set if SSO_VHGRP()_AQ_CNT changes, and the
                                                                  resulting value is equal to SSO_VHGRP()_AQ_THR. */
 #else /* Word 0 - Little Endian */
-        uint64_t aq_int                : 1;  /**< [  0:  0](R/W1C/H) External group queue threshold interrupt. Set if SSO_VHGRP()_AQ_CNT changes, and the
+        uint64_t aq_int                : 1;  /**< [  0:  0](R/W1C/H) AQ threshold interrupt. Set if SSO_VHGRP()_AQ_CNT changes, and the
                                                                  resulting value is equal to SSO_VHGRP()_AQ_THR. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1C/H) Work-executable interrupt. Generally used to indicate work is waiting for software.
                                                                  Set by hardware whenever:
@@ -4463,14 +4802,15 @@ typedef union
                                                                  _ SSO_VHGRP()_INT_CNT[IAQ_CNT] > 0
                                                                  _ SSO_VHGRP()_INT_CNT[DS_CNT] > 0
                                                                  _ SSO_VHGRP()_INT_CNT[CQ_CNT] > 0 */
-        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1C/H) Group AQ exceeded allocation limit. Set when SSO_VHGRP()_AQ_CNT[AQ_CNT] >=
-                                                                 SSO_GRP()_AQ_LIMIT[AQ_LIMIT]. */
+        uint64_t xaq_limit             : 1;  /**< [  2:  2](R/W1C/H) Hardware-group AQ exceeded allocation limit error; add-works to this VHGRP may
+                                                                 be dropped. Set when SSO_VHGRP()_XAQ_CNT[XAQ_CNT] >=
+                                                                 SSO_GRP()_XAQ_LIMIT[XAQ_LIMIT]. */
         uint64_t mbox                  : 1;  /**< [  3:  3](R/W1C/H) PF to VF mailbox interrupt. Set when SSO_VHGRP(0..63)_MBOX(0) is written. */
         uint64_t reserved_4_62         : 59;
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
-                                                                 * The hardware decrements the time counter for this group to zero, i.e.
+                                                                 * The hardware decrements the time counter for this hardware-group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
 #endif /* Word 0 - End */
@@ -4496,9 +4836,9 @@ static inline uint64_t BDK_SSO_VHGRPX_INT(unsigned long a)
 /**
  * Register (NCB) sso_vhgrp#_int_cnt
  *
- * SSO Work-Queue Interrupt Count Registers
+ * SSO VF Hardware-Group Work-Queue Interrupt Count Registers
  * These registers contain a read-only copy of the counts used to trigger work-queue interrupts
- * (one per group). For more information on this register, refer to Interrupts.
+ * (one per hardware-group). For more information on this register, refer to Interrupts.
  */
 typedef union
 {
@@ -4507,7 +4847,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
-        uint64_t tc_cnt                : 13; /**< [ 60: 48](RO/H) Time counter current value for this group. Hardware sets this field to the value of
+        uint64_t tc_cnt                : 13; /**< [ 60: 48](RO/H) Time counter current value. Hardware sets this field to the value of
                                                                  SSO_VHGRP()_INT_THR[TC_THR] whenever:
                                                                  * Corresponding SSO_VHGRP()_INT_CNT[IAQ_CNT, DS_CNT and CQ_CNT] are all equal to 0.
                                                                  * Corresponding SSO_VHGRP()_INT[EXE_INT] is written with a one to clear by software.
@@ -4518,19 +4858,19 @@ typedef union
                                                                  Otherwise, hardware decrements this field whenever the periodic counter SSO_WQ_INT_PC[PC]
                                                                  is equal to 0. This field is 0 whenever SSO_VHGRP()_INT_THR[TC_THR] is equal to 0. */
         uint64_t reserved_45_47        : 3;
-        uint64_t cq_cnt                : 13; /**< [ 44: 32](RO/H) Conflicted queue executable count for this group. */
+        uint64_t cq_cnt                : 13; /**< [ 44: 32](RO/H) Conflicted queue executable count. */
         uint64_t reserved_29_31        : 3;
-        uint64_t ds_cnt                : 13; /**< [ 28: 16](RO/H) Deschedule executable count for this group. */
+        uint64_t ds_cnt                : 13; /**< [ 28: 16](RO/H) Deschedule executable count. */
         uint64_t reserved_13_15        : 3;
         uint64_t iaq_cnt               : 13; /**< [ 12:  0](RO/H) Work-queue entries for this in-unit admission queue. */
 #else /* Word 0 - Little Endian */
         uint64_t iaq_cnt               : 13; /**< [ 12:  0](RO/H) Work-queue entries for this in-unit admission queue. */
         uint64_t reserved_13_15        : 3;
-        uint64_t ds_cnt                : 13; /**< [ 28: 16](RO/H) Deschedule executable count for this group. */
+        uint64_t ds_cnt                : 13; /**< [ 28: 16](RO/H) Deschedule executable count. */
         uint64_t reserved_29_31        : 3;
-        uint64_t cq_cnt                : 13; /**< [ 44: 32](RO/H) Conflicted queue executable count for this group. */
+        uint64_t cq_cnt                : 13; /**< [ 44: 32](RO/H) Conflicted queue executable count. */
         uint64_t reserved_45_47        : 3;
-        uint64_t tc_cnt                : 13; /**< [ 60: 48](RO/H) Time counter current value for this group. Hardware sets this field to the value of
+        uint64_t tc_cnt                : 13; /**< [ 60: 48](RO/H) Time counter current value. Hardware sets this field to the value of
                                                                  SSO_VHGRP()_INT_THR[TC_THR] whenever:
                                                                  * Corresponding SSO_VHGRP()_INT_CNT[IAQ_CNT, DS_CNT and CQ_CNT] are all equal to 0.
                                                                  * Corresponding SSO_VHGRP()_INT[EXE_INT] is written with a one to clear by software.
@@ -4564,7 +4904,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_CNT(unsigned long a)
 /**
  * Register (NCB) sso_vhgrp#_int_ena_w1c
  *
- * SSO Group Interrupt Enable Clear Register
+ * SSO VF Hardware-Group Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -4576,24 +4916,24 @@ typedef union
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
-                                                                 * The hardware decrements the time counter for this group to zero, i.e.
+                                                                 * The hardware decrements the time counter for this hardware-group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
         uint64_t reserved_4_62         : 59;
         uint64_t mbox                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[MBOX]. */
-        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
+        uint64_t xaq_limit             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[XAQ_LIMIT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[EXE_INT]. */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[AQ_INT]. */
 #else /* Word 0 - Little Endian */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[AQ_INT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[EXE_INT]. */
-        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
+        uint64_t xaq_limit             : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[XAQ_LIMIT]. */
         uint64_t mbox                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_VHGRP(0..63)_INT[MBOX]. */
         uint64_t reserved_4_62         : 59;
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
-                                                                 * The hardware decrements the time counter for this group to zero, i.e.
+                                                                 * The hardware decrements the time counter for this hardware-group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
 #endif /* Word 0 - End */
@@ -4619,7 +4959,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1C(unsigned long a)
 /**
  * Register (NCB) sso_vhgrp#_int_ena_w1s
  *
- * SSO Group Interrupt Enable Set Register
+ * SSO VF Hardware-Group Interrupt Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -4631,24 +4971,24 @@ typedef union
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
-                                                                 * The hardware decrements the time counter for this group to zero, i.e.
+                                                                 * The hardware decrements the time counter for this hardware-group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
         uint64_t reserved_4_62         : 59;
         uint64_t mbox                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[MBOX]. */
-        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
+        uint64_t xaq_limit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[XAQ_LIMIT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[EXE_INT]. */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[AQ_INT]. */
 #else /* Word 0 - Little Endian */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[AQ_INT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[EXE_INT]. */
-        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
+        uint64_t xaq_limit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[XAQ_LIMIT]. */
         uint64_t mbox                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_VHGRP(0..63)_INT[MBOX]. */
         uint64_t reserved_4_62         : 59;
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
-                                                                 * The hardware decrements the time counter for this group to zero, i.e.
+                                                                 * The hardware decrements the time counter for this hardware-group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
 #endif /* Word 0 - End */
@@ -4674,9 +5014,9 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1S(unsigned long a)
 /**
  * Register (NCB) sso_vhgrp#_int_thr
  *
- * SSO Work-Queue Interrupt Threshold Registers
+ * SSO VF Hardware-Group Work-Queue Interrupt Threshold Registers
  * These registers contain the thresholds for enabling and setting work-queue interrupts (one per
- * group). For more information on this register, refer to Interrupts.
+ * hardware-group). For more information on this register, refer to Interrupts.
  */
 typedef union
 {
@@ -4684,41 +5024,41 @@ typedef union
     struct bdk_sso_vhgrpx_int_thr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tc_en                 : 1;  /**< [ 63: 63](R/W) Time counter interrupt enable for this group. This field must be zero when [TC_THR] is 0. */
+        uint64_t tc_en                 : 1;  /**< [ 63: 63](R/W) Time counter interrupt enable for this hardware-group. This field must be zero when [TC_THR] is 0. */
         uint64_t reserved_61_62        : 2;
-        uint64_t tc_thr                : 13; /**< [ 60: 48](R/W) Time counter interrupt threshold for this group. Compared against
+        uint64_t tc_thr                : 13; /**< [ 60: 48](R/W) Time counter interrupt threshold for this hardware-group. Compared against
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT]. When this field is equal to 0,
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is zero. */
         uint64_t reserved_45_47        : 3;
-        uint64_t cq_thr                : 13; /**< [ 44: 32](R/W) Conflicted queue count threshold for this group. Compared against
+        uint64_t cq_thr                : 13; /**< [ 44: 32](R/W) Conflicted queue count threshold for this hardware-group. Compared against
                                                                  SSO_VHGRP()_INT_CNT[CQ_CNT]. When this field is 0, the threshold interrupt is
                                                                  disabled. */
         uint64_t reserved_29_31        : 3;
-        uint64_t ds_thr                : 13; /**< [ 28: 16](R/W) Deschedule count threshold for this group. Compared against
-                                                                 SSO_VHGRP()_INT_CNT[DS_CNT]. When this field is 0, the threshold interrupt is
-                                                                 disabled. */
+        uint64_t ds_thr                : 13; /**< [ 28: 16](R/W) Deschedule count threshold for this hardware-group. Compared against
+                                                                 SSO_VHGRP()_INT_CNT[DS_CNT]. When
+                                                                 this field is 0, the threshold interrupt is disabled. */
         uint64_t reserved_13_15        : 3;
-        uint64_t iaq_thr               : 13; /**< [ 12:  0](R/W) In-unit admission queue threshold for this group. Compared against
+        uint64_t iaq_thr               : 13; /**< [ 12:  0](R/W) In-unit admission queue threshold for this hardware-group. Compared against
                                                                  SSO_VHGRP()_INT_CNT[IAQ_CNT]. When this field is 0, the threshold interrupt is
                                                                  disabled. */
 #else /* Word 0 - Little Endian */
-        uint64_t iaq_thr               : 13; /**< [ 12:  0](R/W) In-unit admission queue threshold for this group. Compared against
+        uint64_t iaq_thr               : 13; /**< [ 12:  0](R/W) In-unit admission queue threshold for this hardware-group. Compared against
                                                                  SSO_VHGRP()_INT_CNT[IAQ_CNT]. When this field is 0, the threshold interrupt is
                                                                  disabled. */
         uint64_t reserved_13_15        : 3;
-        uint64_t ds_thr                : 13; /**< [ 28: 16](R/W) Deschedule count threshold for this group. Compared against
-                                                                 SSO_VHGRP()_INT_CNT[DS_CNT]. When this field is 0, the threshold interrupt is
-                                                                 disabled. */
+        uint64_t ds_thr                : 13; /**< [ 28: 16](R/W) Deschedule count threshold for this hardware-group. Compared against
+                                                                 SSO_VHGRP()_INT_CNT[DS_CNT]. When
+                                                                 this field is 0, the threshold interrupt is disabled. */
         uint64_t reserved_29_31        : 3;
-        uint64_t cq_thr                : 13; /**< [ 44: 32](R/W) Conflicted queue count threshold for this group. Compared against
+        uint64_t cq_thr                : 13; /**< [ 44: 32](R/W) Conflicted queue count threshold for this hardware-group. Compared against
                                                                  SSO_VHGRP()_INT_CNT[CQ_CNT]. When this field is 0, the threshold interrupt is
                                                                  disabled. */
         uint64_t reserved_45_47        : 3;
-        uint64_t tc_thr                : 13; /**< [ 60: 48](R/W) Time counter interrupt threshold for this group. Compared against
+        uint64_t tc_thr                : 13; /**< [ 60: 48](R/W) Time counter interrupt threshold for this hardware-group. Compared against
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT]. When this field is equal to 0,
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is zero. */
         uint64_t reserved_61_62        : 2;
-        uint64_t tc_en                 : 1;  /**< [ 63: 63](R/W) Time counter interrupt enable for this group. This field must be zero when [TC_THR] is 0. */
+        uint64_t tc_en                 : 1;  /**< [ 63: 63](R/W) Time counter interrupt enable for this hardware-group. This field must be zero when [TC_THR] is 0. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_int_thr_s cn; */
@@ -4742,7 +5082,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_THR(unsigned long a)
 /**
  * Register (NCB) sso_vhgrp#_int_w1s
  *
- * SSO Group Interrupt Set Register
+ * SSO VF Hardware-Group Interrupt Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -4754,24 +5094,24 @@ typedef union
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
-                                                                 * The hardware decrements the time counter for this group to zero, i.e.
+                                                                 * The hardware decrements the time counter for this hardware-group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
         uint64_t reserved_4_62         : 59;
         uint64_t mbox                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[MBOX]. */
-        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
+        uint64_t xaq_limit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[XAQ_LIMIT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[EXE_INT]. */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[AQ_INT]. */
 #else /* Word 0 - Little Endian */
         uint64_t aq_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[AQ_INT]. */
         uint64_t exe_int               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[EXE_INT]. */
-        uint64_t aq_limit              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[AQ_LIMIT]. */
+        uint64_t xaq_limit             : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[XAQ_LIMIT]. */
         uint64_t mbox                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_VHGRP(0..63)_INT[MBOX]. */
         uint64_t reserved_4_62         : 59;
         uint64_t exe_dis               : 1;  /**< [ 63: 63](R/W1S/H) Executable interrupt temporary disable. Corresponding [EXE_INT] bit cannot be set due to
                                                                  IAQ_CNT/IAQ_THR check when this bit is set. [EXE_DIS] is cleared by hardware whenever:
                                                                  * SSO_VHGRP()_INT_CNT[IAQ_CNT] is zero, or
-                                                                 * The hardware decrements the time counter for this group to zero, i.e.
+                                                                 * The hardware decrements the time counter for this hardware-group to zero, i.e.
                                                                  SSO_VHGRP()_INT_CNT[TC_CNT] is equal to 1 when periodic counter SSO_WQ_INT_PC[PC] is
                                                                  equal to 0. */
 #endif /* Word 0 - End */
@@ -4797,7 +5137,7 @@ static inline uint64_t BDK_SSO_VHGRPX_INT_W1S(unsigned long a)
 /**
  * Register (NCB) sso_vhgrp#_op_add_work0
  *
- * SSO Add Work Register 0
+ * SSO VF Hardware-Group Add Work Register 0
  * See SSO_VHGRP()_OP_ADD_WORK1.
  */
 typedef union
@@ -4836,7 +5176,7 @@ static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK0(unsigned long a)
 /**
  * Register (NCB) sso_vhgrp#_op_add_work1
  *
- * SSO Add Work Register 1
+ * SSO VF Hardware-Group Add Work Register 1
  * A write to this register performs an add work. Either:
  *   * A single-transaction 128-bit store (SDP) is used to ADD_WORK0 and ADD_WORK1 to
  *   perform a single add work with both a tag and work pointer.
@@ -4851,11 +5191,9 @@ typedef union
     struct bdk_sso_vhgrpx_op_add_work1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry. */
+        uint64_t wqp                   : 64; /**< [ 63:  0](WO) IOVA of the work-queue entry.  Bits <63:49> and <2:0> are ignored. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t wqp                   : 64; /**< [ 63:  0](WO) IOVA of the work-queue entry.  Bits <63:49> and <2:0> are ignored. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_vhgrpx_op_add_work1_s cn; */
@@ -4921,9 +5259,87 @@ static inline uint64_t BDK_SSO_VHGRPX_PF_MBOXX(unsigned long a, unsigned long b)
 #define arguments_BDK_SSO_VHGRPX_PF_MBOXX(a,b) (a),(b),-1,-1
 
 /**
+ * Register (NCB) sso_vhgrp#_qctl
+ *
+ * SSO Admission Queue Control Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sso_vhgrpx_qctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W/H) VHGRP enable. If clear, add work is dropped.
+
+                                                                 Cleared by hardware when SSO_GRP()_XAQ_LIMIT[XAQ_LIMIT] >=
+                                                                 SSO_VHGRP()_XAQ_CNT[XAQ_CNT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W/H) VHGRP enable. If clear, add work is dropped.
+
+                                                                 Cleared by hardware when SSO_GRP()_XAQ_LIMIT[XAQ_LIMIT] >=
+                                                                 SSO_VHGRP()_XAQ_CNT[XAQ_CNT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sso_vhgrpx_qctl_s cn; */
+} bdk_sso_vhgrpx_qctl_t;
+
+static inline uint64_t BDK_SSO_VHGRPX_QCTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SSO_VHGRPX_QCTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x860800000010ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("SSO_VHGRPX_QCTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SSO_VHGRPX_QCTL(a) bdk_sso_vhgrpx_qctl_t
+#define bustype_BDK_SSO_VHGRPX_QCTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SSO_VHGRPX_QCTL(a) "SSO_VHGRPX_QCTL"
+#define device_bar_BDK_SSO_VHGRPX_QCTL(a) 0x10 /* VF_BAR0 */
+#define busnum_BDK_SSO_VHGRPX_QCTL(a) (a)
+#define arguments_BDK_SSO_VHGRPX_QCTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) sso_vhgrp#_xaq_cnt
+ *
+ * SSO VF Hardware-Group External Queue Count Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sso_vhgrpx_xaq_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t xaq_cnt               : 33; /**< [ 32:  0](RO/H) Number of external admission queue entries for this hardware-group. */
+#else /* Word 0 - Little Endian */
+        uint64_t xaq_cnt               : 33; /**< [ 32:  0](RO/H) Number of external admission queue entries for this hardware-group. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sso_vhgrpx_xaq_cnt_s cn; */
+} bdk_sso_vhgrpx_xaq_cnt_t;
+
+static inline uint64_t BDK_SSO_VHGRPX_XAQ_CNT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SSO_VHGRPX_XAQ_CNT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x8608000001b0ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("SSO_VHGRPX_XAQ_CNT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SSO_VHGRPX_XAQ_CNT(a) bdk_sso_vhgrpx_xaq_cnt_t
+#define bustype_BDK_SSO_VHGRPX_XAQ_CNT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SSO_VHGRPX_XAQ_CNT(a) "SSO_VHGRPX_XAQ_CNT"
+#define device_bar_BDK_SSO_VHGRPX_XAQ_CNT(a) 0x10 /* VF_BAR0 */
+#define busnum_BDK_SSO_VHGRPX_XAQ_CNT(a) (a)
+#define arguments_BDK_SSO_VHGRPX_XAQ_CNT(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) sso_wq_int_pc
  *
- * SSO Work-Queue Interrupt Periodic Counter Register
+ * SSO PF Work-Queue Interrupt Periodic Counter Register
  * Contains the threshold value for the work-executable interrupt periodic counter and also a
  * read-only copy of the periodic counter. For more information on this register, refer to
  * Interrupts.
@@ -4971,7 +5387,7 @@ static inline uint64_t BDK_SSO_WQ_INT_PC_FUNC(void)
 /**
  * Register (NCB) sso_ws_cfg
  *
- * SSO Configuration Register
+ * SSO PF Configuration Register
  * This register contains various SSO work-slot configuration bits.
  */
 typedef union
@@ -5047,7 +5463,7 @@ static inline uint64_t BDK_SSO_WS_CFG_FUNC(void)
 /**
  * Register (NCB) sso_ws_eco
  *
- * INTERNAL: SSO_WS ECO Register
+ * INTERNAL: SSO PF WS ECO Register
  */
 typedef union
 {
@@ -5086,9 +5502,11 @@ static inline uint64_t BDK_SSO_WS_ECO_FUNC(void)
 /**
  * Register (NCB) sso_xaq#_head_next
  *
- * SSO External Admission Queue Head Next Register
+ * SSO PF Hardware-Group External Admission Queue Head Next Register
  * These registers contain the pointer to the next buffer to become the head when the final cache
  * line in this buffer is read.
+ *
+ * This register must not be written when SSO_VHGRP()_QCTL[ENA] is set.
  */
 typedef union
 {
@@ -5130,11 +5548,13 @@ static inline uint64_t BDK_SSO_XAQX_HEAD_NEXT(unsigned long a)
 /**
  * Register (NCB) sso_xaq#_head_ptr
  *
- * SSO External Admission Queue Head Pointer Register
- * These registers contain the pointer to the first entry of the external linked list(s) for a
- * particular group. Software must initialize the external linked list(s) by programming
- * SSO_XAQ()_HEAD_PTR, SSO_XAQ()_HEAD_NEXT, SSO_XAQ()_TAIL_PTR and
- * SSO_XAQ()_TAIL_NEXT to identical values.
+ * SSO PF Hardware-Group External Admission Queue Head Pointer Register
+ * These registers contain the pointer to the first entry of the external linked
+ * list(s) for a particular hardware-group. Software must initialize the external
+ * linked list(s) by programming SSO_XAQ()_HEAD_PTR, SSO_XAQ()_HEAD_NEXT,
+ * SSO_XAQ()_TAIL_PTR and SSO_XAQ()_TAIL_NEXT to identical values.
+ *
+ * This register must not be written when SSO_VHGRP()_QCTL[ENA] is set.
  */
 typedef union
 {
@@ -5178,7 +5598,7 @@ static inline uint64_t BDK_SSO_XAQX_HEAD_PTR(unsigned long a)
 /**
  * Register (NCB) sso_xaq#_memmgt
  *
- * SSO External Admission Queue Memory Management Register
+ * SSO PF Hardware-Group External Admission Queue Memory Management Register
  * These registers configure the XAQ memory management.
  */
 typedef union
@@ -5188,9 +5608,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t strm                  : 8;  /**< [  7:  0](R/W) Stream identifier bits <7:0>. */
+        uint64_t strm                  : 8;  /**< [  7:  0](R/W) Stream identifier bits <7:0>. Resets and typically programmed to the index (XAQ
+                                                                 and VF number) plus one, to match standard SR-IOV function number assignment. */
 #else /* Word 0 - Little Endian */
-        uint64_t strm                  : 8;  /**< [  7:  0](R/W) Stream identifier bits <7:0>. */
+        uint64_t strm                  : 8;  /**< [  7:  0](R/W) Stream identifier bits <7:0>. Resets and typically programmed to the index (XAQ
+                                                                 and VF number) plus one, to match standard SR-IOV function number assignment. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
@@ -5215,10 +5637,12 @@ static inline uint64_t BDK_SSO_XAQX_MEMMGT(unsigned long a)
 /**
  * Register (NCB) sso_xaq#_tail_next
  *
- * SSO External Admission Queue Tail Next Register
+ * SSO PF Hardware-Group External Admission Queue Tail Next Register
  * These registers contain the pointer to the next buffer to become the tail when the final cache
  * line in this buffer is written.  Register fields are identical to those in
  * SSO_XAQ()_HEAD_NEXT above.
+ *
+ * This register must not be written when SSO_VHGRP()_QCTL[ENA] is set.
  */
 typedef union
 {
@@ -5260,12 +5684,14 @@ static inline uint64_t BDK_SSO_XAQX_TAIL_NEXT(unsigned long a)
 /**
  * Register (NCB) sso_xaq#_tail_ptr
  *
- * SSO External Admission Queue Tail Pointer Register
- * These registers contain the pointer to the last entry of the external linked list(s) for a
- * particular group.  Register fields are identical to those in SSO_XAQ()_HEAD_PTR above.
- * Software must initialize the external linked list(s) by programming
- * SSO_XAQ()_HEAD_PTR, SSO_XAQ()_HEAD_NEXT, SSO_XAQ()_TAIL_PTR and
+ * SSO PF Hardware-Group External Admission Queue Tail Pointer Register
+ * These registers contain the pointer to the last entry of the external linked list(s)
+ * for a particular hardware-group. Register fields are identical to those in
+ * SSO_XAQ()_HEAD_PTR above. Software must initialize the external linked list(s) by
+ * programming SSO_XAQ()_HEAD_PTR, SSO_XAQ()_HEAD_NEXT, SSO_XAQ()_TAIL_PTR and
  * SSO_XAQ()_TAIL_NEXT to identical values.
+ *
+ * This register must not be written when SSO_VHGRP()_QCTL[ENA] is set.
  */
 typedef union
 {
@@ -5309,7 +5735,7 @@ static inline uint64_t BDK_SSO_XAQX_TAIL_PTR(unsigned long a)
 /**
  * Register (NCB) sso_xaq_aura
  *
- * SSO External Admission Queue Aura Register
+ * SSO PF External Admission Queue Aura Register
  */
 typedef union
 {
@@ -5318,23 +5744,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved.
-                                                                 Internal:
-                                                                 Node number of current chip, to ensure that the aura is on the local node. */
-        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA guest-aura to use for SSO XAQ allocations and frees. The FPA guest-aura
+        uint64_t laura                 : 12; /**< [ 11:  0](R/W) FPA guest-aura to use for SSO XAQ allocations and frees. The FPA guest-aura
                                                                  selected by LAURA must correspond to a pool where the buffers (after any
                                                                  FPA_POOL()_CFG[BUF_OFFSET]) are at least 4 KB.
                                                                  For the FPA to not discard the request, FPA_PF_MAP() must map
                                                                  [AURA] and SSO_XAQ_GMCTL[GMID] as valid. */
 #else /* Word 0 - Little Endian */
-        uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA guest-aura to use for SSO XAQ allocations and frees. The FPA guest-aura
+        uint64_t laura                 : 12; /**< [ 11:  0](R/W) FPA guest-aura to use for SSO XAQ allocations and frees. The FPA guest-aura
                                                                  selected by LAURA must correspond to a pool where the buffers (after any
                                                                  FPA_POOL()_CFG[BUF_OFFSET]) are at least 4 KB.
                                                                  For the FPA to not discard the request, FPA_PF_MAP() must map
                                                                  [AURA] and SSO_XAQ_GMCTL[GMID] as valid. */
-        uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved.
-                                                                 Internal:
-                                                                 Node number of current chip, to ensure that the aura is on the local node. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
@@ -5360,7 +5780,7 @@ static inline uint64_t BDK_SSO_XAQ_AURA_FUNC(void)
 /**
  * Register (NCB) sso_xaq_gmctl
  *
- * SSO External Admission Queue Guest Machine Control Register
+ * SSO PF External Admission Queue Guest Machine Control Register
  */
 typedef union
 {
@@ -5401,7 +5821,7 @@ static inline uint64_t BDK_SSO_XAQ_GMCTL_FUNC(void)
 /**
  * Register (NCB) sso_xaq_latency_pc
  *
- * SSO External Admission Queue Latency Perf-Count Register
+ * SSO PF External Admission Queue Latency Perf-Count Register
  */
 typedef union
 {
@@ -5438,7 +5858,7 @@ static inline uint64_t BDK_SSO_XAQ_LATENCY_PC_FUNC(void)
 /**
  * Register (NCB) sso_xaq_req_pc
  *
- * SSO External Admission Queue Requests Perf-Count Register
+ * SSO PF External Admission Queue Requests Perf-Count Register
  */
 typedef union
 {

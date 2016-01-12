@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -2135,7 +2135,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t vmid16                : 16; /**< [ 31: 16](R/W/H) Virtual machine identifier.
 
-                                                                 This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
+                                                                 This field is 0x0 when SMMU()_(S)CR0[VMID16EN] is clear, or when
                                                                  SMMU()_IDR2[VMID16S] is clear.
 
                                                                  Internal:
@@ -2162,7 +2162,7 @@ typedef union
         uint32_t reserved_3_15         : 13;
         uint32_t vmid16                : 16; /**< [ 31: 16](R/W/H) Virtual machine identifier.
 
-                                                                 This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
+                                                                 This field is 0x0 when SMMU()_(S)CR0[VMID16EN] is clear, or when
                                                                  SMMU()_IDR2[VMID16S] is clear.
 
                                                                  Internal:
@@ -2176,7 +2176,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t vmid16                : 16; /**< [ 31: 16](R/W/H) Virtual machine identifier.
 
-                                                                 This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
+                                                                 This field is 0x0 when SMMU()_(S)CR0[VMID16EN] is clear, or when
                                                                  SMMU()_IDR2[VMID16S] is clear.
 
                                                                  Internal:
@@ -2203,7 +2203,7 @@ typedef union
         uint32_t reserved_3_15         : 13;
         uint32_t vmid16                : 16; /**< [ 31: 16](R/W/H) Virtual machine identifier.
 
-                                                                 This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
+                                                                 This field is 0x0 when SMMU()_(S)CR0[VMID16EN] is clear, or when
                                                                  SMMU()_IDR2[VMID16S] is clear.
 
                                                                  Internal:
@@ -2318,13 +2318,13 @@ typedef union
                                                                  Writes to this field are zero extended to form a 16-bit internal VMID.
                                                                  See also SMMU()_CBA2R()[VMID16].
 
-                                                                 This field is RAZ when SMMU()_(S)CR0[VMID16EN] is set. */
+                                                                 This field is 0x0 when SMMU()_(S)CR0[VMID16EN] is set. */
 #else /* Word 0 - Little Endian */
         uint32_t vmid                  : 8;  /**< [  7:  0](R/W/H) Virtual machine identifier associated with context bank.
                                                                  Writes to this field are zero extended to form a 16-bit internal VMID.
                                                                  See also SMMU()_CBA2R()[VMID16].
 
-                                                                 This field is RAZ when SMMU()_(S)CR0[VMID16EN] is set. */
+                                                                 This field is 0x0 when SMMU()_(S)CR0[VMID16EN] is set. */
         uint32_t bpshcfg_cbndx0        : 2;  /**< [  9:  8](R/W) Bypass shared configuration or context bank index <1:0>.
 
                                                                  If CTYPE=0 or 2, reserved.
@@ -4293,11 +4293,11 @@ typedef union
         uint32_t vmid16en              : 1;  /**< [ 31: 31](R/W) Handling of 16-bit VMID extension:
                                                                  0 = 8-bit VMIDs are in use.
                                                                  The VMID is held in SMMU()_CBAR()[VMID].
-                                                                 The SMMU()_CBA2R()[VMID16] field is RAZ.
+                                                                 The SMMU()_CBA2R()[VMID16] field is 0.
 
                                                                  1 = 16-bit VMIDs are in use.
                                                                  The VMID is held in SMMU()_CBA2R()[VMID16].
-                                                                 The SMMU()_CBAR()[VMID] field is RAZ.
+                                                                 The SMMU()_CBAR()[VMID] field is 0.
 
                                                                  Only exists in the non-secure copy of this register.
 
@@ -4566,11 +4566,11 @@ typedef union
         uint32_t vmid16en              : 1;  /**< [ 31: 31](R/W) Handling of 16-bit VMID extension:
                                                                  0 = 8-bit VMIDs are in use.
                                                                  The VMID is held in SMMU()_CBAR()[VMID].
-                                                                 The SMMU()_CBA2R()[VMID16] field is RAZ.
+                                                                 The SMMU()_CBA2R()[VMID16] field is 0.
 
                                                                  1 = 16-bit VMIDs are in use.
                                                                  The VMID is held in SMMU()_CBA2R()[VMID16].
-                                                                 The SMMU()_CBAR()[VMID] field is RAZ.
+                                                                 The SMMU()_CBAR()[VMID] field is 0.
 
                                                                  Only exists in the non-secure copy of this register.
 
@@ -5186,7 +5186,7 @@ static inline uint64_t BDK_SMMUX_NSTLBGSYNC(unsigned long a)
 /**
  * Register (NCB32b) smmu#_pidr0
  *
- * SMMU Component Identification Register 0
+ * SMMU Peripheral Identification Register 0
  * This register is visible regardless of the setting of SMMU()_SCR1[GASRAE].
  */
 typedef union
@@ -5896,11 +5896,11 @@ typedef union
         uint32_t vmid16en              : 1;  /**< [ 31: 31](R/W) Handling of 16-bit VMID extension:
                                                                  0 = 8-bit VMIDs are in use.
                                                                  The VMID is held in SMMU()_CBAR()[VMID].
-                                                                 The SMMU()_CBA2R()[VMID16] field is RAZ.
+                                                                 The SMMU()_CBA2R()[VMID16] field is 0.
 
                                                                  1 = 16-bit VMIDs are in use.
                                                                  The VMID is held in SMMU()_CBA2R()[VMID16].
-                                                                 The SMMU()_CBAR()[VMID] field is RAZ.
+                                                                 The SMMU()_CBAR()[VMID] field is 0.
 
                                                                  Only exists in the non-secure copy of this register.
 
@@ -6169,11 +6169,11 @@ typedef union
         uint32_t vmid16en              : 1;  /**< [ 31: 31](R/W) Handling of 16-bit VMID extension:
                                                                  0 = 8-bit VMIDs are in use.
                                                                  The VMID is held in SMMU()_CBAR()[VMID].
-                                                                 The SMMU()_CBA2R()[VMID16] field is RAZ.
+                                                                 The SMMU()_CBA2R()[VMID16] field is 0.
 
                                                                  1 = 16-bit VMIDs are in use.
                                                                  The VMID is held in SMMU()_CBA2R()[VMID16].
-                                                                 The SMMU()_CBAR()[VMID] field is RAZ.
+                                                                 The SMMU()_CBAR()[VMID] field is 0.
 
                                                                  Only exists in the non-secure copy of this register.
 

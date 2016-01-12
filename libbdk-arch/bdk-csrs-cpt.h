@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -83,85 +83,7 @@
  * CPT EOP (EPCI Opcodes) Enumeration
  * Opcodes on the epci bus.
  */
-#define BDK_CPT_EOP_E_ATM_CAS128 (0x24) /**< Compare-and-swap 128-bit. Maps to LACAS on CMB. */
-#define BDK_CPT_EOP_E_ATM_CAS32 (0x22) /**< Compare-and-swap 32-bit. Maps to LACAS on CMB. */
-#define BDK_CPT_EOP_E_ATM_CAS64 (0x23) /**< Compare-and-swap 64-bit. Maps to LACAS on CMB. */
-#define BDK_CPT_EOP_E_ATM_CLR16 (0x2d) /**< Load atomic clear 16-bit. Maps to LACLR on CMB. */
-#define BDK_CPT_EOP_E_ATM_CLR32 (0x2e) /**< Load atomic clear 32-bit. Maps to LACLR on CMB. */
-#define BDK_CPT_EOP_E_ATM_CLR64 (0x2f) /**< Load atomic clear 64-bit. Maps to LACLR on CMB. */
-#define BDK_CPT_EOP_E_ATM_CLR8 (0x2c) /**< Load atomic clear 8-bit. Maps to LACLR on CMB. */
-#define BDK_CPT_EOP_E_ATM_DECR16 (0x35) /**< Load atomic decrement 16-bit. Maps  to LADEC on CMB. */
-#define BDK_CPT_EOP_E_ATM_DECR32 (0x36) /**< Load atomic decrement 32-bit. Maps  to LADEC on CMB. */
-#define BDK_CPT_EOP_E_ATM_DECR64 (0x37) /**< Load atomic decrement 64-bit. Maps  to LADEC on CMB. */
-#define BDK_CPT_EOP_E_ATM_DECR8 (0x34) /**< Load atomic decrement 8-bit. Maps  to LADEC on CMB. */
-#define BDK_CPT_EOP_E_ATM_FAA32 (0x3a) /**< Load atomic add 32-bit. Maps to LAADD on CMB. */
 #define BDK_CPT_EOP_E_ATM_FAA64 (0x3b) /**< Load atomic add 64-bit. Maps to LAADD on CMB. */
-#define BDK_CPT_EOP_E_ATM_FAS32 (0x16) /**< Store atomic swap 32-bit. Maps to SASWP on CMB. */
-#define BDK_CPT_EOP_E_ATM_FAS64 (0x17) /**< Store atomic swap 64-bit. maps to SASWP on CMB. */
-#define BDK_CPT_EOP_E_ATM_INCR16 (0x31) /**< Load atomic increment 16-bit. Maps to LAINC on CMB. */
-#define BDK_CPT_EOP_E_ATM_INCR32 (0x32) /**< Load atomic increment 32-bit. Maps to LAINC on CMB. */
-#define BDK_CPT_EOP_E_ATM_INCR64 (0x33) /**< Load atomic increment 64-bit. Maps to LAINC on CMB. */
-#define BDK_CPT_EOP_E_ATM_INCR8 (0x30) /**< Load atomic increment 8-bit. Maps to LAINC on CMB. */
-#define BDK_CPT_EOP_E_ATM_LAEOR16 (0x81) /**< Load atomic exclusive-or 16-bit. */
-#define BDK_CPT_EOP_E_ATM_LAEOR32 (0x82) /**< Load atomic exclusive-or 32-bit. */
-#define BDK_CPT_EOP_E_ATM_LAEOR64 (0x83) /**< Load atomic exclusive-or 64-bit. */
-#define BDK_CPT_EOP_E_ATM_LAEOR8 (0x80) /**< Load atomic exclusive-or 8-bit. */
-#define BDK_CPT_EOP_E_ATM_LASMAX16 (0x85) /**< Load atomic maximum 16-bit. */
-#define BDK_CPT_EOP_E_ATM_LASMAX32 (0x86) /**< Load atomic maximum 32-bit. */
-#define BDK_CPT_EOP_E_ATM_LASMAX64 (0x87) /**< Load atomic maximum 64-bit. */
-#define BDK_CPT_EOP_E_ATM_LASMAX8 (0x84) /**< Load atomic maximum 8-bit. */
-#define BDK_CPT_EOP_E_ATM_LASMIN16 (0x89) /**< Load atomic minimum 16-bit. */
-#define BDK_CPT_EOP_E_ATM_LASMIN32 (0x8a) /**< Load atomic minimum 32-bit. */
-#define BDK_CPT_EOP_E_ATM_LASMIN64 (0x8b) /**< Load atomic minimum 64-bit. */
-#define BDK_CPT_EOP_E_ATM_LASMIN8 (0x88) /**< Load atomic minimum 8-bit. */
-#define BDK_CPT_EOP_E_ATM_LAUMAX16 (0x8d) /**< Load atomic unsigned maximum 16-bit. */
-#define BDK_CPT_EOP_E_ATM_LAUMAX32 (0x8e) /**< Load atomic unsigned maximum 32-bit. */
-#define BDK_CPT_EOP_E_ATM_LAUMAX64 (0x8f) /**< Load atomic unsigned maximum 64-bit. */
-#define BDK_CPT_EOP_E_ATM_LAUMAX8 (0x8c) /**< Load atomic unsigned maximum 8-bit. */
-#define BDK_CPT_EOP_E_ATM_LAUMIN16 (0x91) /**< Load atomic unsigned minimum 16-bit. */
-#define BDK_CPT_EOP_E_ATM_LAUMIN32 (0x92) /**< Load atomic unsigned minimum 32-bit. */
-#define BDK_CPT_EOP_E_ATM_LAUMIN64 (0x93) /**< Load atomic unsigned minimum 64-bit. */
-#define BDK_CPT_EOP_E_ATM_LAUMIN8 (0x90) /**< Load atomic unsigned minimum 8-bit. */
-#define BDK_CPT_EOP_E_ATM_SAA32 (0x3e) /**< Store atomic add 32-bit. Maps to SAADD on CMB. */
-#define BDK_CPT_EOP_E_ATM_SAA64 (0x3f) /**< Store atomic add 64-bit. Maps to SAADD on CMB. */
-#define BDK_CPT_EOP_E_ATM_SAAM132 (0x26) /**< Store atomic minus-one 32-bit. Maps to SADEC on CMB. */
-#define BDK_CPT_EOP_E_ATM_SAAM164 (0x27) /**< Store atomic minus-one 64-bit. Maps to SADEC on CMB. */
-#define BDK_CPT_EOP_E_ATM_SACLR16 (0xa5) /**< Store atomic 16-bit. Maps to SACLR on CMB. */
-#define BDK_CPT_EOP_E_ATM_SACLR32 (0xa6) /**< Store atomic 32-bit. Maps to SACLR on CMB. */
-#define BDK_CPT_EOP_E_ATM_SACLR64 (0xa7) /**< Store atomic 64-bit. Maps to SACLR on CMB. */
-#define BDK_CPT_EOP_E_ATM_SACLR8 (0xa4) /**< Store atomic 8-bit. Maps to SACLR on CMB. */
-#define BDK_CPT_EOP_E_ATM_SAEOR16 (0xa9) /**< Store atomic exclusive-or 16-bit. */
-#define BDK_CPT_EOP_E_ATM_SAEOR32 (0xaa) /**< Store atomic exclusive-or 32-bit. */
-#define BDK_CPT_EOP_E_ATM_SAEOR64 (0xab) /**< Store atomic exclusive-or 64-bit. */
-#define BDK_CPT_EOP_E_ATM_SAEOR8 (0xa8) /**< Store atomic exclusive-or 8-bit. */
-#define BDK_CPT_EOP_E_ATM_SAINCR16 (0xa1) /**< Store atomic increment 16-bit. Maps to SAINC on CMB. */
-#define BDK_CPT_EOP_E_ATM_SAINCR32 (0xa2) /**< Store atomic increment 32-bit. Maps to SAINC on CMB. */
-#define BDK_CPT_EOP_E_ATM_SAINCR64 (0xa3) /**< Store atomic increment 64-bit. Maps to SAINC on CMB. */
-#define BDK_CPT_EOP_E_ATM_SAINCR8 (0xa0) /**< Store atomic increment 8-bit. Maps to SAINC on CMB. */
-#define BDK_CPT_EOP_E_ATM_SASET16 (0xad) /**< Store atomic 16-bit. Maps to SASET on CMB. */
-#define BDK_CPT_EOP_E_ATM_SASET32 (0xae) /**< Store atomic 32-bit. Maps to SASET on CMB. */
-#define BDK_CPT_EOP_E_ATM_SASET64 (0xaf) /**< Store atomic 64-bit. Maps to SASET on CMB. */
-#define BDK_CPT_EOP_E_ATM_SASET8 (0xac) /**< Store atomic 8-bit. Maps to SASET on CMB. */
-#define BDK_CPT_EOP_E_ATM_SASMAX16 (0xb1) /**< Store atomic maximum 16-bit. */
-#define BDK_CPT_EOP_E_ATM_SASMAX32 (0xb2) /**< Store atomic maximum 32-bit. */
-#define BDK_CPT_EOP_E_ATM_SASMAX64 (0xb3) /**< Store atomic maximum 64-bit. */
-#define BDK_CPT_EOP_E_ATM_SASMAX8 (0xb0) /**< Store atomic maximum 8-bit. */
-#define BDK_CPT_EOP_E_ATM_SASMIN16 (0xb5) /**< Store atomic minimum 16-bit. */
-#define BDK_CPT_EOP_E_ATM_SASMIN32 (0xb6) /**< Store atomic minimum 32-bit. */
-#define BDK_CPT_EOP_E_ATM_SASMIN64 (0xb7) /**< Store atomic minimum 64-bit. */
-#define BDK_CPT_EOP_E_ATM_SASMIN8 (0xb4) /**< Store atomic minimum 8-bit. */
-#define BDK_CPT_EOP_E_ATM_SAUMAX16 (0xb9) /**< Store atomic unsigned maximum 16-bit. */
-#define BDK_CPT_EOP_E_ATM_SAUMAX32 (0xba) /**< Store atomic unsigned maximum 32-bit. */
-#define BDK_CPT_EOP_E_ATM_SAUMAX64 (0xbb) /**< Store atomic unsigned maximum 64-bit. */
-#define BDK_CPT_EOP_E_ATM_SAUMAX8 (0xb8) /**< Store atomic unsigned maximum 8-bit. */
-#define BDK_CPT_EOP_E_ATM_SAUMIN16 (0xbd) /**< Store atomic unsigned minimum 16-bit. */
-#define BDK_CPT_EOP_E_ATM_SAUMIN32 (0xbe) /**< Store atomic unsigned minimum 32-bit. */
-#define BDK_CPT_EOP_E_ATM_SAUMIN64 (0xbf) /**< Store atomic unsigned minimim 64-bit. */
-#define BDK_CPT_EOP_E_ATM_SAUMIN8 (0xbc) /**< Store atomic unsigned minimum 8-bit. */
-#define BDK_CPT_EOP_E_ATM_SET16 (0x29) /**< Load atomic set 16-bit. Maps to LASET on CMB. */
-#define BDK_CPT_EOP_E_ATM_SET32 (0x2a) /**< Load atomic set 32-bit. Maps to LASET on CMB. */
-#define BDK_CPT_EOP_E_ATM_SET64 (0x2b) /**< Load atomic set 64-bit. Maps to LASET on CMB. */
-#define BDK_CPT_EOP_E_ATM_SET8 (0x28) /**< Load atomic set 8-bit. Maps to LASET on CMB. */
 #define BDK_CPT_EOP_E_DMA_RD_LDD (8) /**< Read and cache local. */
 #define BDK_CPT_EOP_E_DMA_RD_LDE (0xb) /**< Read and cache local write intent. */
 #define BDK_CPT_EOP_E_DMA_RD_LDI (2) /**< Read and cache local read-only. */
@@ -184,14 +106,14 @@
  * CPT PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_CPT_PF_INT_VEC_E_ECC0 (0) /**< See interrupt clears CPT(0..1)_PF_ECC0_INT,
-                                       interrupt sets CPT(0..1)_PF_ECC0_INT_W1S,
-                                       enable clears CPT(0..1)_PF_ECC0_ENA_W1C,
-                                       and enable sets CPT(0..1)_PF_ECC0_ENA_W1S. */
-#define BDK_CPT_PF_INT_VEC_E_MBOXX(a) (1 + (a)) /**< See interrupt clears CPT(0..1)_PF_MBOX_INT(0),
-                                       interrupt sets CPT(0..1)_PF_MBOX_INT_W1S(0),
-                                       enable clears CPT(0..1)_PF_MBOX_ENA_W1C(0),
-                                       and enable sets CPT(0..1)_PF_MBOX_ENA_W1S(0). */
+#define BDK_CPT_PF_INT_VEC_E_ECC0 (0) /**< See interrupt clears CPT()_PF_ECC0_INT,
+                                       interrupt sets CPT()_PF_ECC0_INT_W1S,
+                                       enable clears CPT()_PF_ECC0_ENA_W1C,
+                                       and enable sets CPT()_PF_ECC0_ENA_W1S. */
+#define BDK_CPT_PF_INT_VEC_E_MBOXX(a) (1 + (a)) /**< See interrupt clears CPT()_PF_MBOX_INT(),
+                                       interrupt sets CPT()_PF_MBOX_INT_W1S(),
+                                       enable clears CPT()_PF_MBOX_ENA_W1C(),
+                                       and enable sets CPT()_PF_MBOX_ENA_W1S(). */
 
 /**
  * Enumeration cpt_rams_e
@@ -199,7 +121,34 @@
  * CPT RAM Field Enumeration
  * Enumerates the relative bit positions within CPT()_PF_ECC0_CTL[CDIS].
  */
-#define BDK_CPT_RAMS_E_TBD (0) /**< Bit position for TBD. */
+#define BDK_CPT_RAMS_E_CDEI_FIFO0 (0x18) /**< Bit position for CDEI_FIFO0. */
+#define BDK_CPT_RAMS_E_CDEI_FIFO1 (0x19) /**< Bit position for CDEI_FIFO1. */
+#define BDK_CPT_RAMS_E_CDEI_UCODE (0x10) /**< Bit position for CDEI_UCODE. */
+#define BDK_CPT_RAMS_E_COMP_ARRAY0 (0x11) /**< Bit position for COMP_ARRAY0. */
+#define BDK_CPT_RAMS_E_COMP_ARRAY1 (0x12) /**< Bit position for COMP_ARRAY1. */
+#define BDK_CPT_RAMS_E_COMP_FIFO (0xe) /**< Bit position for COMP_FIFO. */
+#define BDK_CPT_RAMS_E_CQM_BPTR (3) /**< Bit position for CQM_BPTR. */
+#define BDK_CPT_RAMS_E_CQM_CTLMEM (2) /**< Bit position for CQM_CTLMEM. */
+#define BDK_CPT_RAMS_E_CQM_DONE_CNT (0xc) /**< Bit position for CQM_DONE_CNT. */
+#define BDK_CPT_RAMS_E_CQM_DONE_TIMER (0xd) /**< Bit position for CQM_DONE_TIMER. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF0 (4) /**< Bit position for CQM_INSTFIF0. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF1 (5) /**< Bit position for CQM_INSTFIF1. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF2 (6) /**< Bit position for CQM_INSTFIF2. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF3 (7) /**< Bit position for CQM_INSTFIF3. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF4 (8) /**< Bit position for CQM_INSTFIF4. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF5 (9) /**< Bit position for CQM_INSTFIF5. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF6 (0xa) /**< Bit position for CQM_INSTFIF6. */
+#define BDK_CPT_RAMS_E_CQM_INSTFIF7 (0xb) /**< Bit position for CQM_INSTFIF7. */
+#define BDK_CPT_RAMS_E_CSR_VMEM (0x13) /**< Bit position for CSR_VMEM. */
+#define BDK_CPT_RAMS_E_EPCO_FIFO0 (0x1a) /**< Bit position for EPCO_FIFO0. */
+#define BDK_CPT_RAMS_E_EPCO_FIFO1 (0x1b) /**< Bit position for EPCO_FIFO1. */
+#define BDK_CPT_RAMS_E_MBOX_MEM (0xf) /**< Bit position for MBOX_MEM. */
+#define BDK_CPT_RAMS_E_NCBI_DATFIF (0) /**< Bit position for NCBI_DATFIF. */
+#define BDK_CPT_RAMS_E_NCBO_MEM0 (1) /**< Bit position for NCBO_MEM0. */
+#define BDK_CPT_RAMS_E_RSP_INST (0x15) /**< Bit position for RSP_INST. */
+#define BDK_CPT_RAMS_E_RSP_MAP (0x14) /**< Bit position for RSP_MAP. */
+#define BDK_CPT_RAMS_E_RSP_NCBO (0x16) /**< Bit position for RSP_NCBO. */
+#define BDK_CPT_RAMS_E_RSP_RNM (0x17) /**< Bit position for RSP_RNM. */
 
 /**
  * Enumeration cpt_vf_int_vec_e
@@ -207,14 +156,14 @@
  * CPT VF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_CPT_VF_INT_VEC_E_DONE (1) /**< See interrupt clears CPT(0..1)_VQ(0..63)_DONE_INT_W1C,
-                                       interrupt sets CPT(0..1)_VQ(0..63)_DONE_INT_W1S,
-                                       enable clears CPT(0..1)_VQ(0..63)_DONE_ENA_W1C
-                                       and enable sets CPT(0..1)_VQ(0..63)_DONE_ENA_W1S. */
-#define BDK_CPT_VF_INT_VEC_E_MISC (0) /**< See interrupt clears CPT(0..1)_VQ(0..63)_MISC_INT,
-                                       interrupt sets CPT(0..1)_VQ(0..63)_MISC_INT_W1S,
-                                       enable clears CPT(0..1)_VQ(0..63)_MISC_ENA_W1C
-                                       and enable sets CPT(0..1)_VQ(0..63)_MISC_ENA_W1S. */
+#define BDK_CPT_VF_INT_VEC_E_DONE (1) /**< See interrupt clears CPT()_VQ()_DONE_INT_W1C,
+                                       interrupt sets CPT()_VQ()_DONE_INT_W1S,
+                                       enable clears CPT()_VQ()_DONE_ENA_W1C
+                                       and enable sets CPT()_VQ()_DONE_ENA_W1S. */
+#define BDK_CPT_VF_INT_VEC_E_MISC (0) /**< See interrupt clears CPT()_VQ()_MISC_INT,
+                                       interrupt sets CPT()_VQ()_MISC_INT_W1S,
+                                       enable clears CPT()_VQ()_MISC_ENA_W1C
+                                       and enable sets CPT()_VQ()_MISC_ENA_W1S. */
 
 /**
  * Structure cpt_inst_s
@@ -244,17 +193,21 @@ union bdk_cpt_inst_s
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_113_127      : 15;
-        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
                                                                  If non-zero, specifies where to write CPT_RES_S.
                                                                  If zero, no result structure will be written.
-                                                                 Address must be 16-byte aligned. */
+                                                                 Address must be 16-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 1 - Little Endian */
-        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
                                                                  If non-zero, specifies where to write CPT_RES_S.
                                                                  If zero, no result structure will be written.
-                                                                 Address must be 16-byte aligned. */
-        uint64_t reserved_113_127      : 15;
+                                                                 Address must be 16-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t reserved_172_191      : 20;
@@ -274,15 +227,25 @@ union bdk_cpt_inst_s
         uint64_t reserved_172_191      : 20;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t reserved_241_255      : 15;
-        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO after all context, output data, and result write operations are
-                                                                 visible to other CNXXXX units and the cores. */
+                                                                 visible to other CNXXXX units and the cores.
+
+                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
+                                                                 use a sign-extended bit <48> for forward compatibility.
+
+                                                                 Internal:
+                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO after all context, output data, and result write operations are
-                                                                 visible to other CNXXXX units and the cores. */
-        uint64_t reserved_241_255      : 15;
+                                                                 visible to other CNXXXX units and the cores.
+
+                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
+                                                                 use a sign-extended bit <48> for forward compatibility.
+
+                                                                 Internal:
+                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t ei0                   : 64; /**< [319:256] Engine instruction word 0. Passed to the AE/SE. */
@@ -325,17 +288,21 @@ union bdk_cpt_inst_s
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_113_127      : 15;
-        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
                                                                  If non-zero, specifies where to write CPT_RES_S.
                                                                  If zero, no result structure will be written.
-                                                                 Address must be 16-byte aligned. */
+                                                                 Address must be 16-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 1 - Little Endian */
-        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
+        uint64_t res_addr              : 64; /**< [127: 64] Result IOVA.
                                                                  If non-zero, specifies where to write CPT_RES_S.
                                                                  If zero, no result structure will be written.
-                                                                 Address must be 16-byte aligned. */
-        uint64_t reserved_113_127      : 15;
+                                                                 Address must be 16-byte aligned.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t reserved_172_191      : 20;
@@ -355,15 +322,25 @@ union bdk_cpt_inst_s
         uint64_t reserved_172_191      : 20;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t reserved_241_255      : 15;
-        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO after all context, output data, and result write operations are
-                                                                 visible to other CNXXXX units and the cores. */
+                                                                 visible to other CNXXXX units and the cores.
+
+                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
+                                                                 use a sign-extended bit <48> for forward compatibility.
+
+                                                                 Internal:
+                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
 #else /* Word 3 - Little Endian */
-        uint64_t wq_ptr                : 49; /**< [240:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
+        uint64_t wq_ptr                : 64; /**< [255:192] If [WQ_PTR] is non-zero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO after all context, output data, and result write operations are
-                                                                 visible to other CNXXXX units and the cores. */
-        uint64_t reserved_241_255      : 15;
+                                                                 visible to other CNXXXX units and the cores.
+
+                                                                 Bits <2:0> must be zero.  Bits <63:49> are ignored by hardware; software should
+                                                                 use a sign-extended bit <48> for forward compatibility.
+
+                                                                 Internal:
+                                                                 Bits <63:49>, <2:0> are ignored by hardware, treated as always 0x0. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t ei0                   : 64; /**< [319:256] Engine instruction word 0. Passed to the AE/SE. */
@@ -466,8 +443,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_ACTIVE_CYCLES_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ACTIVE_CYCLES_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000010100ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000010100ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000010100ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_ACTIVE_CYCLES_PC", 1, a, 0, 0, 0);
@@ -506,8 +483,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_BIST_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000160ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000160ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000160ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_BIST_STATUS", 1, a, 0, 0, 0);
@@ -580,8 +557,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_BP_TEST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_BP_TEST(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000180ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000180ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000180ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_BP_TEST", 1, a, 0, 0, 0);
@@ -645,8 +622,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_CONSTANTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_CONSTANTS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000000ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000000ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000000ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_CONSTANTS", 1, a, 0, 0, 0);
@@ -675,11 +652,11 @@ typedef union
         uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to 1, it forces CPT clocks on. For diagnostic use only. */
         uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
                                                                  may improve CPT performance but may starve other devices on the same NCB. Values
-                                                                 > 32 are treated as 32. */
+                                                                 > 64 are treated as 64. */
 #else /* Word 0 - Little Endian */
         uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
                                                                  may improve CPT performance but may starve other devices on the same NCB. Values
-                                                                 > 32 are treated as 32. */
+                                                                 > 64 are treated as 64. */
         uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to 1, it forces CPT clocks on. For diagnostic use only. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
@@ -690,8 +667,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_DIAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_DIAG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000120ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000120ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000120ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_DIAG", 1, a, 0, 0, 0);
@@ -730,8 +707,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_ECC0_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000200ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000200ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000200ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_ECC0_CTL", 1, a, 0, 0, 0);
@@ -763,14 +740,24 @@ typedef union
         uint64_t dbe                   : 32; /**< [ 63: 32](R/W1C/H) Reads or clears enable for CPT(0..1)_PF_ECC0_INT[DBE]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_pf_ecc0_ena_w1c_s cn; */
+    struct bdk_cptx_pf_ecc0_ena_w1c_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1C/H) Reads or clears enable for CPT(0)_PF_ECC0_INT[DBE]. */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for CPT(0)_PF_ECC0_INT[SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for CPT(0)_PF_ECC0_INT[SBE]. */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1C/H) Reads or clears enable for CPT(0)_PF_ECC0_INT[DBE]. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_pf_ecc0_ena_w1c_s cn83xx; */
 } bdk_cptx_pf_ecc0_ena_w1c_t;
 
 static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000250ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000250ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000250ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_ECC0_ENA_W1C", 1, a, 0, 0, 0);
@@ -802,14 +789,24 @@ typedef union
         uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets enable for CPT(0..1)_PF_ECC0_INT[DBE]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_pf_ecc0_ena_w1s_s cn; */
+    struct bdk_cptx_pf_ecc0_ena_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets enable for CPT(0)_PF_ECC0_INT[DBE]. */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for CPT(0)_PF_ECC0_INT[SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for CPT(0)_PF_ECC0_INT[SBE]. */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets enable for CPT(0)_PF_ECC0_INT[DBE]. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_pf_ecc0_ena_w1s_s cn83xx; */
 } bdk_cptx_pf_ecc0_ena_w1s_t;
 
 static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000240ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000240ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000240ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_ECC0_ENA_W1S", 1, a, 0, 0, 0);
@@ -848,8 +845,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_ECC0_FLIP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_FLIP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000210ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000210ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000210ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_ECC0_FLIP", 1, a, 0, 0, 0);
@@ -891,8 +888,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_ECC0_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_INT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000220ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000220ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000220ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_ECC0_INT", 1, a, 0, 0, 0);
@@ -924,14 +921,24 @@ typedef union
         uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets CPT(0..1)_PF_ECC0_INT[DBE]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_pf_ecc0_int_w1s_s cn; */
+    struct bdk_cptx_pf_ecc0_int_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets CPT(0)_PF_ECC0_INT[DBE]. */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets CPT(0)_PF_ECC0_INT[SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets CPT(0)_PF_ECC0_INT[SBE]. */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets CPT(0)_PF_ECC0_INT[DBE]. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_pf_ecc0_int_w1s_s cn83xx; */
 } bdk_cptx_pf_ecc0_int_w1s_t;
 
 static inline uint64_t BDK_CPTX_PF_ECC0_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECC0_INT_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000230ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000230ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000230ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_ECC0_INT_W1S", 1, a, 0, 0, 0);
@@ -970,8 +977,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ECO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000140ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000140ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000140ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_ECO", 1, a, 0, 0, 0);
@@ -1011,8 +1018,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_ENGX_UCODE_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_ENGX_UCODE_BASE(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=47)))
-        return 0x872004002000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=47)))
+        return 0x872004002000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=47)))
         return 0x872004002000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_PF_ENGX_UCODE_BASE", 2, a, b, 0, 0);
@@ -1049,8 +1056,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_BIST_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872004000020ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872004000020ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872004000020ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_EXE_BIST_STATUS", 1, a, 0, 0, 0);
@@ -1088,8 +1095,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_CLK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_CLK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872004000008ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872004000008ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872004000008ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_EXE_CLK", 1, a, 0, 0, 0);
@@ -1125,8 +1132,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872004000000ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872004000000ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872004000000ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_EXE_CTL", 1, a, 0, 0, 0);
@@ -1167,8 +1174,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_CNTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_CNTX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=15)))
-        return 0x872004001100ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872004001100ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
         return 0x872004001100ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
     __bdk_csr_fatal("CPTX_PF_EXE_DBG_CNTX", 2, a, b, 0, 0);
@@ -1210,8 +1217,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872004000010ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872004000010ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872004000010ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_EXE_DBG_CTL", 1, a, 0, 0, 0);
@@ -1249,8 +1256,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_DATA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_DBG_DATA(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872004000018ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872004000018ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872004000018ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_EXE_DBG_DATA", 1, a, 0, 0, 0);
@@ -1291,8 +1298,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_EPCI_INBX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_EPCI_INBX_CNT(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
-        return 0x872004001200ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=1)))
+        return 0x872004001200ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x872004001200ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("CPTX_PF_EXE_EPCI_INBX_CNT", 2, a, b, 0, 0);
@@ -1333,8 +1340,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
-        return 0x872004001240ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=1)))
+        return 0x872004001240ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x872004001240ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("CPTX_PF_EXE_EPCI_OUTBX_CNT", 2, a, b, 0, 0);
@@ -1384,8 +1391,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_MEM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_MEM_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872004000030ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872004000030ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872004000030ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_EXE_MEM_CTL", 1, a, 0, 0, 0);
@@ -1429,8 +1436,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_PERF_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_PERF_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872004001000ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872004001000ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872004001000ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_EXE_PERF_CTL", 1, a, 0, 0, 0);
@@ -1487,8 +1494,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_PERF_EVENT_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_PERF_EVENT_CNT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872004001180ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872004001180ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872004001180ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_EXE_PERF_EVENT_CNT", 1, a, 0, 0, 0);
@@ -1539,8 +1546,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_EXE_REQ_TIMER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_EXE_REQ_TIMER(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872004000028ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872004000028ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872004000028ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_EXE_REQ_TIMER", 1, a, 0, 0, 0);
@@ -1590,8 +1597,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_GX_EN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_GX_EN(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=7)))
-        return 0x872000000600ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=7)))
+        return 0x872000000600ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=7)))
         return 0x872000000600ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("CPTX_PF_GX_EN", 2, a, b, 0, 0);
@@ -1632,8 +1639,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_INST_LATENCY_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_INST_LATENCY_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000010020ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000010020ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000010020ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_INST_LATENCY_PC", 1, a, 0, 0, 0);
@@ -1668,8 +1675,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_INST_REQ_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_INST_REQ_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000010000ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000010000ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000010000ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_INST_REQ_PC", 1, a, 0, 0, 0);
@@ -1699,14 +1706,22 @@ typedef union
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT(0..1)_PF_MBOX_INT(0)[MBOX]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_pf_mbox_ena_w1cx_s cn; */
+    struct bdk_cptx_pf_mbox_ena_w1cx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT(0)_PF_MBOX_INT(0)[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT(0)_PF_MBOX_INT(0)[MBOX]. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_pf_mbox_ena_w1cx_s cn83xx; */
 } bdk_cptx_pf_mbox_ena_w1cx_t;
 
 static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
-        return 0x872000000440ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x872000000440ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x872000000440ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("CPTX_PF_MBOX_ENA_W1CX", 2, a, b, 0, 0);
@@ -1736,14 +1751,22 @@ typedef union
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT(0..1)_PF_MBOX_INT(0)[MBOX]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_pf_mbox_ena_w1sx_s cn; */
+    struct bdk_cptx_pf_mbox_ena_w1sx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT(0)_PF_MBOX_INT(0)[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT(0)_PF_MBOX_INT(0)[MBOX]. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_pf_mbox_ena_w1sx_s cn83xx; */
 } bdk_cptx_pf_mbox_ena_w1sx_t;
 
 static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
-        return 0x872000000460ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x872000000460ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x872000000460ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("CPTX_PF_MBOX_ENA_W1SX", 2, a, b, 0, 0);
@@ -1774,14 +1797,24 @@ typedef union
                                                                  CPT(0..1)_VF(0..63)_PF_MBOX(1) is written. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_pf_mbox_intx_s cn; */
+    struct bdk_cptx_pf_mbox_intx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
+                                                                 CPT(0)_VF(0..15)_PF_MBOX(1) is written. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
+                                                                 CPT(0)_VF(0..15)_PF_MBOX(1) is written. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_pf_mbox_intx_s cn83xx; */
 } bdk_cptx_pf_mbox_intx_t;
 
 static inline uint64_t BDK_CPTX_PF_MBOX_INTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MBOX_INTX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
-        return 0x872000000400ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x872000000400ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x872000000400ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("CPTX_PF_MBOX_INTX", 2, a, b, 0, 0);
@@ -1811,14 +1844,22 @@ typedef union
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT(0..1)_PF_MBOX_INT(0)[MBOX]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_pf_mbox_int_w1sx_s cn; */
+    struct bdk_cptx_pf_mbox_int_w1sx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT(0)_PF_MBOX_INT(0)[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT(0)_PF_MBOX_INT(0)[MBOX]. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_pf_mbox_int_w1sx_s cn83xx; */
 } bdk_cptx_pf_mbox_int_w1sx_t;
 
 static inline uint64_t BDK_CPTX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
-        return 0x872000000420ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x872000000420ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x872000000420ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("CPTX_PF_MBOX_INT_W1SX", 2, a, b, 0, 0);
@@ -1857,8 +1898,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
-        return 0x8720100f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b==0)))
+        return 0x8720100f0000ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x8720100f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("CPTX_PF_MSIX_PBAX", 2, a, b, 0, 0);
@@ -1914,8 +1955,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
-        return 0x872010000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=1)))
+        return 0x872010000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x872010000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("CPTX_PF_MSIX_VECX_ADDR", 2, a, b, 0, 0);
@@ -1957,8 +1998,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
-        return 0x872010000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=1)))
+        return 0x872010000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x872010000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("CPTX_PF_MSIX_VECX_CTL", 2, a, b, 0, 0);
@@ -1990,9 +2031,10 @@ typedef union
                                                                  For the FPA to not discard the request, FPA_PF_MAP() must map
                                                                  [AURA] and CPT()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_45_47        : 3;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be 8*n + 1, where n is the number of instructions per buffer segment. */
         uint64_t reserved_11_31        : 21;
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
@@ -2018,14 +2060,7 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a result structure write will use STY. When clear, a result structure
-                                                                 write will use STF. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
+        uint64_t reserved_4_6          : 3;
         uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
@@ -2035,14 +2070,7 @@ typedef union
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
                                                                  0 = This queue has lower priority. Round-robin between lower priority queues. */
         uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a result structure write will use STY. When clear, a result structure
-                                                                 write will use STF. */
+        uint64_t reserved_4_6          : 3;
         uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
                                                                  0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
@@ -2059,7 +2087,7 @@ typedef union
                                                                  pointers, and result structures are stored in big endian format in memory. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
@@ -2070,7 +2098,8 @@ typedef union
 
                                                                  1 = Ignore errors and continue processing instructions. For diagnostic use only. */
         uint64_t reserved_11_31        : 21;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be 8*n + 1, where n is the number of instructions per buffer segment. */
         uint64_t reserved_45_47        : 3;
         uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
                                                                  Only used when [INST_FREE] is set.
@@ -2088,13 +2117,14 @@ typedef union
                                                                  For the FPA to not discard the request, FPA_PF_MAP() must map
                                                                  [AURA] and CPT()_PF_Q()_GMCTL[GMID] as valid. */
         uint64_t reserved_45_47        : 3;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be 8*n + 1, where n is the number of instructions per buffer segment. */
         uint64_t reserved_11_31        : 21;
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
-                                                                 CPT(0..1)_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 CPT(0)_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
                                                                  pipelining, additional instructions may have been processed between the
                                                                  instruction causing the error and the next instruction in the disabled queue
                                                                  (the instruction at CPT()_VQ()_SADDR).
@@ -2102,8 +2132,8 @@ typedef union
                                                                  1 = Ignore errors and continue processing instructions. For diagnostic use only. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big endian format in memory. */
         uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
                                                                  0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
@@ -2116,14 +2146,7 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
+        uint64_t reserved_4_6          : 3;
         uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
@@ -2133,14 +2156,7 @@ typedef union
                                                                  1 = This queue has higher priority. Round-robin between higher priority queues.
                                                                  0 = This queue has lower priority. Round-robin between lower priority queues. */
         uint64_t grp                   : 3;  /**< [  3:  1](R/W) Engine group. */
-        uint64_t l2ld_cmd              : 2;  /**< [  5:  4](R/W) Which NCB load command to use for reading gather pointers, context, history and input
-                                                                 data.
-                                                                 0x0 = LDD.
-                                                                 0x1 = LDI.
-                                                                 0x2 = LDE.
-                                                                 0x3 = LDY. */
-        uint64_t cbw_sty               : 1;  /**< [  6:  6](R/W) When set, a context cache block write will use STY. When clear, a context write
-                                                                 will use STF. */
+        uint64_t reserved_4_6          : 3;
         uint64_t iqb_ldwb              : 1;  /**< [  7:  7](R/W) Instruction load don't write back.
 
                                                                  0 = The hardware issues NCB transient load (LDT) towards the cache, which if the
@@ -2153,22 +2169,23 @@ typedef union
                                                                  read the instructions after they are posted to the hardware.
 
                                                                  Reads that do not consume the last word of a cache line always use LDI. */
-        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions are storaged in big
-                                                                 endian format in memory. */
+        uint64_t inst_be               : 1;  /**< [  8:  8](R/W) Instruction big endian control. When set, instructions, instruction next chunk
+                                                                 pointers, and result structures are stored in big endian format in memory. */
         uint64_t inst_free             : 1;  /**< [  9:  9](R/W) Instruction FPA free. When set, when CPT reaches the end of an instruction
                                                                  chunk, that chunk will be freed to the FPA. */
-        uint64_t cont_err              : 1;  /**< [ 10: 10](RAZ) Continue on error.
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When CPT()_VQ()_MISC_INT[NWRP], CPT()_VQ()_MISC_INT[IRDE] or
                                                                  CPT()_VQ()_MISC_INT[DOVF] are set by hardware or software via
-                                                                 CPT(0..1)_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
+                                                                 CPT(0)_VQ()_MISC_INT_W1S, then CPT()_VQ()_CTL[ENA] is cleared.  Due to
                                                                  pipelining, additional instructions may have been processed between the
                                                                  instruction causing the error and the next instruction in the disabled queue
                                                                  (the instruction at CPT()_VQ()_SADDR).
 
                                                                  1 = Ignore errors and continue processing instructions. For diagnostic use only. */
         uint64_t reserved_11_31        : 21;
-        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment. */
+        uint64_t size                  : 13; /**< [ 44: 32](R/W) Command-buffer size, in number of 64-bit words per command buffer segment.
+                                                                 Must be 8*n + 1, where n is the number of instructions per buffer segment. */
         uint64_t reserved_45_47        : 3;
         uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
                                                                  Only used when [INST_FREE] is set.
@@ -2183,10 +2200,10 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_QX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_QX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872008000000ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
-        return 0x872008000000ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872008000000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
+        return 0x872008000000ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0xf);
     __bdk_csr_fatal("CPTX_PF_QX_CTL", 2, a, b, 0, 0);
 }
 
@@ -2196,6 +2213,70 @@ static inline uint64_t BDK_CPTX_PF_QX_CTL(unsigned long a, unsigned long b)
 #define device_bar_BDK_CPTX_PF_QX_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_BDK_CPTX_PF_QX_CTL(a,b) (a)
 #define arguments_BDK_CPTX_PF_QX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_q#_ctl2
+ *
+ * CPT Queue Control 2 Register
+ * This register configures queues. This register should be changed only when quiescent
+ * (see CPT()_VQ()_STATUS[BUSY]).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_qx_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t exe_ldwb              : 1;  /**< [  1:  1](R/W) Execution engine load-don't-write-back.
+
+                                                                 0 = An execution engine request to LDWB will be converted to NCB transient
+                                                                 loads (LDT) towards the cache, which if the line hits and is is dirty will cause
+                                                                 the line to be written back before being replaced.
+
+                                                                 1 = An execution engine may request a NCB LDWB read-and-invalidate command
+                                                                 towards the cache; as a result the line will not be written back when replaced.
+                                                                 This improves performance, but software must not read the instructions after
+                                                                 they are posted to the hardware. */
+        uint64_t exe_no_swap           : 1;  /**< [  0:  0](R/W) Execution units no byte swap. See the HRM endian section.
+                                                                 0 = Execution unit read/writes have a byte-swap applied when accessing NCB.
+                                                                 1 = Execution unit read/writes do not byte-swap. */
+#else /* Word 0 - Little Endian */
+        uint64_t exe_no_swap           : 1;  /**< [  0:  0](R/W) Execution units no byte swap. See the HRM endian section.
+                                                                 0 = Execution unit read/writes have a byte-swap applied when accessing NCB.
+                                                                 1 = Execution unit read/writes do not byte-swap. */
+        uint64_t exe_ldwb              : 1;  /**< [  1:  1](R/W) Execution engine load-don't-write-back.
+
+                                                                 0 = An execution engine request to LDWB will be converted to NCB transient
+                                                                 loads (LDT) towards the cache, which if the line hits and is is dirty will cause
+                                                                 the line to be written back before being replaced.
+
+                                                                 1 = An execution engine may request a NCB LDWB read-and-invalidate command
+                                                                 towards the cache; as a result the line will not be written back when replaced.
+                                                                 This improves performance, but software must not read the instructions after
+                                                                 they are posted to the hardware. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_qx_ctl2_s cn; */
+} bdk_cptx_pf_qx_ctl2_t;
+
+static inline uint64_t BDK_CPTX_PF_QX_CTL2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_QX_CTL2(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872008000100ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
+        return 0x872008000100ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    __bdk_csr_fatal("CPTX_PF_QX_CTL2", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_QX_CTL2(a,b) bdk_cptx_pf_qx_ctl2_t
+#define bustype_BDK_CPTX_PF_QX_CTL2(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_QX_CTL2(a,b) "CPTX_PF_QX_CTL2"
+#define device_bar_BDK_CPTX_PF_QX_CTL2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_CPTX_PF_QX_CTL2(a,b) (a)
+#define arguments_BDK_CPTX_PF_QX_CTL2(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) cpt#_pf_q#_gmctl
@@ -2235,16 +2316,44 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_pf_qx_gmctl_s cn; */
+    struct bdk_cptx_pf_qx_gmctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
+
+                                                                 Stream 0x0 corresponds to the PF, and VFs start at 0x1.
+
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+        uint64_t gmid                  : 16; /**< [ 15:  0](RO) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
+                                                                 buffer free, or to SSO for all submit work operations initiated by this queue.
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+#else /* Word 0 - Little Endian */
+        uint64_t gmid                  : 16; /**< [ 15:  0](RO) Reserved.
+                                                                 Internal:
+                                                                 Guest machine identifier. The GMID to send to FPA for all
+                                                                 buffer free, or to SSO for all submit work operations initiated by this queue.
+                                                                 Must be non-zero or FPA/SSO will drop requests; see FPA_PF_MAP() and SSO_PF_MAP(). */
+        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
+
+                                                                 Stream 0x0 corresponds to the PF, and VFs start at 0x1.
+
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_pf_qx_gmctl_s cn83xx; */
 } bdk_cptx_pf_qx_gmctl_t;
 
 static inline uint64_t BDK_CPTX_PF_QX_GMCTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_QX_GMCTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872008000020ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
-        return 0x872008000020ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872008000020ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
+        return 0x872008000020ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0xf);
     __bdk_csr_fatal("CPTX_PF_QX_GMCTL", 2, a, b, 0, 0);
 }
 
@@ -2281,8 +2390,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_RD_LATENCY_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_RD_LATENCY_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000010060ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000010060ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000010060ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_RD_LATENCY_PC", 1, a, 0, 0, 0);
@@ -2317,8 +2426,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_RD_REQ_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_RD_REQ_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000010040ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000010040ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000010040ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_RD_REQ_PC", 1, a, 0, 0, 0);
@@ -2355,8 +2464,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_RD_UC_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_RD_UC_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000010080ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000010080ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000010080ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_RD_UC_PC", 1, a, 0, 0, 0);
@@ -2394,8 +2503,8 @@ typedef union
 static inline uint64_t BDK_CPTX_PF_RESET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_RESET(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
-        return 0x872000000100ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x872000000100ll + 0x1000000000ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x872000000100ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("CPTX_PF_RESET", 1, a, 0, 0, 0);
@@ -2436,14 +2545,34 @@ typedef union
                                                                  to the VF. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_pf_vfx_mboxx_s cn; */
+    struct bdk_cptx_pf_vfx_mboxx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
+                                                                 RAM. Each corresponding VF may access the same storage using
+                                                                 CPT()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
+                                                                 for VF to PF. Writing CPT(0)_PF_VF(0..15)_MBOX(0) (but not
+                                                                 CPT(0)_VF(0..15)_PF_MBOX(0)) will set the corresponding
+                                                                 CPT()_VQ()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
+                                                                 to the VF. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
+                                                                 RAM. Each corresponding VF may access the same storage using
+                                                                 CPT()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
+                                                                 for VF to PF. Writing CPT(0)_PF_VF(0..15)_MBOX(0) (but not
+                                                                 CPT(0)_VF(0..15)_PF_MBOX(0)) will set the corresponding
+                                                                 CPT()_VQ()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
+                                                                 to the VF. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_pf_vfx_mboxx_s cn83xx; */
 } bdk_cptx_pf_vfx_mboxx_t;
 
 static inline uint64_t BDK_CPTX_PF_VFX_MBOXX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_PF_VFX_MBOXX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63) && (c<=1)))
-        return 0x872008001000ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f) + 0x100ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15) && (c<=1)))
+        return 0x872008001000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x100ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63) && (c<=1)))
         return 0x872008001000ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f) + 0x100ll * ((c) & 0x1);
     __bdk_csr_fatal("CPTX_PF_VFX_MBOXX", 3, a, b, c, 0);
@@ -2482,8 +2611,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63) && (c==0)))
-        return 0x8720300f0000ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f) + 8ll * ((c) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15) && (c==0)))
+        return 0x8720300f0000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 8ll * ((c) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63) && (c==0)))
         return 0x8720300f0000ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f) + 8ll * ((c) & 0x0);
     __bdk_csr_fatal("CPTX_VFX_MSIX_PBAX", 3, a, b, c, 0);
@@ -2529,8 +2658,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63) && (c<=1)))
-        return 0x872030000000ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15) && (c<=1)))
+        return 0x872030000000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63) && (c<=1)))
         return 0x872030000000ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f) + 0x10ll * ((c) & 0x1);
     __bdk_csr_fatal("CPTX_VFX_MSIX_VECX_ADDR", 3, a, b, c, 0);
@@ -2572,8 +2701,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63) && (c<=1)))
-        return 0x872030000008ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f) + 0x10ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15) && (c<=1)))
+        return 0x872030000008ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 0x10ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63) && (c<=1)))
         return 0x872030000008ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f) + 0x10ll * ((c) & 0x1);
     __bdk_csr_fatal("CPTX_VFX_MSIX_VECX_CTL", 3, a, b, c, 0);
@@ -2612,14 +2741,32 @@ typedef union
                                                                  interrupt to the PF. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_vfx_pf_mboxx_s cn; */
+    struct bdk_cptx_vfx_pf_mboxx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
+                                                                 RAM. The PF may access the same storage using CPT()_PF_VF()_MBOX(). MBOX(0) is
+                                                                 typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
+                                                                 CPT(0)_VF(0..15)_PF_MBOX(1) (but not CPT(0)_PF_VF(0..15)_MBOX(1)) will set the
+                                                                 corresponding CPT()_PF_MBOX_INT() bit, which if appropriately enabled will send an
+                                                                 interrupt to the PF. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
+                                                                 RAM. The PF may access the same storage using CPT()_PF_VF()_MBOX(). MBOX(0) is
+                                                                 typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
+                                                                 CPT(0)_VF(0..15)_PF_MBOX(1) (but not CPT(0)_PF_VF(0..15)_MBOX(1)) will set the
+                                                                 corresponding CPT()_PF_MBOX_INT() bit, which if appropriately enabled will send an
+                                                                 interrupt to the PF. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_vfx_pf_mboxx_s cn83xx; */
 } bdk_cptx_vfx_pf_mboxx_t;
 
 static inline uint64_t BDK_CPTX_VFX_PF_MBOXX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VFX_PF_MBOXX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63) && (c<=1)))
-        return 0x872020001000ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f) + 8ll * ((c) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15) && (c<=1)))
+        return 0x872020001000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf) + 8ll * ((c) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63) && (c<=1)))
         return 0x872020001000ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f) + 8ll * ((c) & 0x1);
     __bdk_csr_fatal("CPTX_VFX_PF_MBOXX", 3, a, b, c, 0);
@@ -2664,8 +2811,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000100ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000100ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000100ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_CTL", 2, a, b, 0, 0);
@@ -2703,15 +2850,16 @@ typedef union
 
                                                                  * When CPT()_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
                                                                  counts. If the counter is >= CPT()_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
-                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
+                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT], i.e. enough time has
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When CPT()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
-                                                                 Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
-                                                                 the interrupt will be resent immediately.  (This covers the race case between
-                                                                 software acknowledging an interrupt and a result returning.)
+                                                                 * When CPT()_VQ()_DONE_ACK is written (or CPT()_VQ()_DONE is written but this is
+                                                                 not typical), the interrupt coalescing timer restarts.  Note after decrementing
+                                                                 this interrupt equation is recomputed, for example if CPT()_VQ()_DONE[DONE] >=
+                                                                 CPT()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
+                                                                 be resent immediately.  (This covers the race case between software
+                                                                 acknowledging an interrupt and a result returning.)
 
                                                                  * When CPT()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
@@ -2720,7 +2868,11 @@ typedef union
                                                                  interrupts the suggested scheme is to request a DONEINT on each request, and
                                                                  when an interrupt arrives perform a "greedy" scan for completions; even if a
                                                                  later command is acknowledged first this will not result in missing a
-                                                                 completion. */
+                                                                 completion.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When CPT_INST_S[DONEINT] set and that instruction completes,
                                                                  CPT()_VQ()_DONE[DONE] is incremented when the instruction finishes. Write to
@@ -2734,15 +2886,16 @@ typedef union
 
                                                                  * When CPT()_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
                                                                  counts. If the counter is >= CPT()_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
-                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
+                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT], i.e. enough time has
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When CPT()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
-                                                                 Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 CPT()_VQ()_DONE[DONE] >= CPT()_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
-                                                                 the interrupt will be resent immediately.  (This covers the race case between
-                                                                 software acknowledging an interrupt and a result returning.)
+                                                                 * When CPT()_VQ()_DONE_ACK is written (or CPT()_VQ()_DONE is written but this is
+                                                                 not typical), the interrupt coalescing timer restarts.  Note after decrementing
+                                                                 this interrupt equation is recomputed, for example if CPT()_VQ()_DONE[DONE] >=
+                                                                 CPT()_VQ()_DONE_WAIT[NUM_WAIT] and because the timer is zero, the interrupt will
+                                                                 be resent immediately.  (This covers the race case between software
+                                                                 acknowledging an interrupt and a result returning.)
 
                                                                  * When CPT()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
@@ -2751,7 +2904,11 @@ typedef union
                                                                  interrupts the suggested scheme is to request a DONEINT on each request, and
                                                                  when an interrupt arrives perform a "greedy" scan for completions; even if a
                                                                  later command is acknowledged first this will not result in missing a
-                                                                 completion. */
+                                                                 completion.
+
+                                                                 Software is responsible for making sure [DONE] does not overflow; for example by
+                                                                 insuring there are not more than 2^20-1 instructions in flight that may request
+                                                                 interrupts. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -2761,8 +2918,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_DONE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000420ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000420ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000420ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_DONE", 2, a, b, 0, 0);
@@ -2808,8 +2965,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_DONE_ACK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_ACK(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000440ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000440ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000440ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_DONE_ACK", 2, a, b, 0, 0);
@@ -2846,8 +3003,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000478ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000478ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000478ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_DONE_ENA_W1C", 2, a, b, 0, 0);
@@ -2887,8 +3044,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000470ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000470ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000470ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_DONE_ENA_W1S", 2, a, b, 0, 0);
@@ -2929,8 +3086,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1C(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000468ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000468ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000468ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_DONE_INT_W1C", 2, a, b, 0, 0);
@@ -2971,8 +3128,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_INT_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000460ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000460ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000460ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_DONE_INT_W1S", 2, a, b, 0, 0);
@@ -3022,8 +3179,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_DONE_WAIT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DONE_WAIT(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000400ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000400ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000400ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_DONE_WAIT", 2, a, b, 0, 0);
@@ -3052,11 +3209,25 @@ typedef union
         uint64_t dbell_cnt             : 20; /**< [ 19:  0](R/W/H) Number of instruction queue 64-bit words to add to the CPT instruction doorbell
                                                                  count. Readback value is the the current number of pending doorbell requests.
 
+                                                                 If counter overflows CPT()_VQ()_MISC_INT[DBELL_DOVF] is set.
+
+                                                                 To reset the count back to zero, write one to clear
+                                                                 CPT()_VQ()_MISC_INT_ENA_W1C[DBELL_DOVF], then write a value of 2^20 minus the
+                                                                 read [DBELL_CNT], then write one to CPT()_VQ()_MISC_INT_W1C[DBELL_DOVF] and
+                                                                 CPT()_VQ()_MISC_INT_ENA_W1S[DBELL_DOVF].
+
                                                                  Must be a multiple of 8.  All CPT instructions are 8 words and require a
                                                                  doorbell count of multiple of 8. */
 #else /* Word 0 - Little Endian */
         uint64_t dbell_cnt             : 20; /**< [ 19:  0](R/W/H) Number of instruction queue 64-bit words to add to the CPT instruction doorbell
                                                                  count. Readback value is the the current number of pending doorbell requests.
+
+                                                                 If counter overflows CPT()_VQ()_MISC_INT[DBELL_DOVF] is set.
+
+                                                                 To reset the count back to zero, write one to clear
+                                                                 CPT()_VQ()_MISC_INT_ENA_W1C[DBELL_DOVF], then write a value of 2^20 minus the
+                                                                 read [DBELL_CNT], then write one to CPT()_VQ()_MISC_INT_W1C[DBELL_DOVF] and
+                                                                 CPT()_VQ()_MISC_INT_ENA_W1S[DBELL_DOVF].
 
                                                                  Must be a multiple of 8.  All CPT instructions are 8 words and require a
                                                                  doorbell count of multiple of 8. */
@@ -3069,8 +3240,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_DOORBELL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_DOORBELL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000600ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000600ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000600ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_DOORBELL", 2, a, b, 0, 0);
@@ -3110,8 +3281,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_INPROG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_INPROG(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000410ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000410ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000410ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_INPROG", 2, a, b, 0, 0);
@@ -3149,14 +3320,30 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_vqx_misc_ena_w1c_s cn; */
+    struct bdk_cptx_vqx_misc_ena_w1c_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CPT(0)_VQ(0..15)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CPT(0)_VQ(0..15)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CPT(0)_VQ(0..15)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT(0)_VQ(0..15)_MISC_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT(0)_VQ(0..15)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CPT(0)_VQ(0..15)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CPT(0)_VQ(0..15)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CPT(0)_VQ(0..15)_MISC_INT[NWRP]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_vqx_misc_ena_w1c_s cn83xx; */
 } bdk_cptx_vqx_misc_ena_w1c_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000518ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000518ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000518ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_MISC_ENA_W1C", 2, a, b, 0, 0);
@@ -3194,14 +3381,30 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_vqx_misc_ena_w1s_s cn; */
+    struct bdk_cptx_vqx_misc_ena_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CPT(0)_VQ(0..15)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CPT(0)_VQ(0..15)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CPT(0)_VQ(0..15)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT(0)_VQ(0..15)_MISC_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT(0)_VQ(0..15)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CPT(0)_VQ(0..15)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CPT(0)_VQ(0..15)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CPT(0)_VQ(0..15)_MISC_INT[NWRP]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_vqx_misc_ena_w1s_s cn83xx; */
 } bdk_cptx_vqx_misc_ena_w1s_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000510ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000510ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000510ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_MISC_ENA_W1S", 2, a, b, 0, 0);
@@ -3241,14 +3444,32 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_vqx_misc_int_s cn; */
+    struct bdk_cptx_vqx_misc_int_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CPT(0)_VF(0..15)_PF_MBOX(0)
+                                                                 is written. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when CPT(0)_VF(0..15)_PF_MBOX(0)
+                                                                 is written. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_vqx_misc_int_s cn83xx; */
 } bdk_cptx_vqx_misc_int_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_MISC_INT(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000500ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000500ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000500ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_MISC_INT", 2, a, b, 0, 0);
@@ -3286,14 +3507,30 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cptx_vqx_misc_int_w1s_s cn; */
+    struct bdk_cptx_vqx_misc_int_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CPT(0)_VQ(0..15)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CPT(0)_VQ(0..15)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CPT(0)_VQ(0..15)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT(0)_VQ(0..15)_MISC_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT(0)_VQ(0..15)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CPT(0)_VQ(0..15)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CPT(0)_VQ(0..15)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CPT(0)_VQ(0..15)_MISC_INT[NWRP]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_cptx_vqx_misc_int_w1s_s cn83xx; */
 } bdk_cptx_vqx_misc_int_w1s_t;
 
 static inline uint64_t BDK_CPTX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000508ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000508ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000508ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_MISC_INT_W1S", 2, a, b, 0, 0);
@@ -3341,8 +3578,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_SADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_SADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000200ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000200ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000200ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_SADDR", 2, a, b, 0, 0);
@@ -3392,8 +3629,8 @@ typedef union
 static inline uint64_t BDK_CPTX_VQX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_CPTX_VQX_STATUS(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
-        return 0x872020000120ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a==0) && (b<=15)))
+        return 0x872020000120ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x872020000120ll + 0x1000000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3f);
     __bdk_csr_fatal("CPTX_VQX_STATUS", 2, a, b, 0, 0);

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -828,7 +828,10 @@ typedef union
                                                                  receive any of the errors in PCIEEPVF()_CFG068, for example a replay-timer timeout.
                                                                  Also, it can be set if we get any of the errors in PCIEEPVF()_CFG066 that has a severity
                                                                  set to Nonfatal and meets the Advisory Nonfatal criteria, which most ECRC errors should. */
-        uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset. */
+        uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset when written to one.
+
+                                                                 [I_FLR] must not be written to one via the indirect PEM()_CFG_WR. It should only ever
+                                                                 be written to one via a direct PCIe access. */
         uint32_t mrrs                  : 3;  /**< [ 14: 12](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[MRRS]. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[NS_EN]. */
         uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) Read-only copy of the associated PF's PCIEP()_CFG030[AP_EN]. */
@@ -852,7 +855,10 @@ typedef union
         uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) Read-only copy of the associated PF's PCIEP()_CFG030[AP_EN]. */
         uint32_t ns_en                 : 1;  /**< [ 11: 11](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[NS_EN]. */
         uint32_t mrrs                  : 3;  /**< [ 14: 12](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[MRRS]. */
-        uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset. */
+        uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset when written to one.
+
+                                                                 [I_FLR] must not be written to one via the indirect PEM()_CFG_WR. It should only ever
+                                                                 be written to one via a direct PCIe access. */
         uint32_t ce_d                  : 1;  /**< [ 16: 16](RO/H) Correctable error detected. Errors are logged in this register regardless of whether or
                                                                  not error reporting is enabled in the device control register. This field is set if we
                                                                  receive any of the errors in PCIEEPVF()_CFG068, for example a replay-timer timeout.
@@ -1345,11 +1351,13 @@ typedef union
     struct bdk_pcieepvfx_cfg046_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPOFFS]. */
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+                                                                 address of the BAR indicated by the table PBA bits. */
         uint32_t msixpbir              : 3;  /**< [  2:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPBIR]. */
 #else /* Word 0 - Little Endian */
         uint32_t msixpbir              : 3;  /**< [  2:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPBIR]. */
-        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPOFFS]. */
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO) MSI-X table offset register. Base address of the MSI-X PBA, as an offset from the base
+                                                                 address of the BAR indicated by the table PBA bits. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pcieepvfx_cfg046_s cn; */

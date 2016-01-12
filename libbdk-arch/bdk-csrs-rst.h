@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -752,13 +752,7 @@ typedef union
                                                                  <31> = Warm reset due to CCPI link 1 going down.
                                                                  <30> = Warm reset due to CCPI link 0 going down. */
         uint64_t reserved_24_29        : 6;
-        uint64_t lboot_ext45           : 6;  /**< [ 23: 18](R/W1C/H) Last boot cause mask for PEM5 and PEM4; resets only with PLL_DC_OK.
-                                                                 <23> = Warm reset due to Cntl5 link-down or hot-reset.
-                                                                 <22> = Warm reset due to Cntl4 link-down or hot-reset.
-                                                                 <21> = Cntl5 reset due to PERST5_L pin.
-                                                                 <20> = Cntl4 reset due to PERST4_L pin.
-                                                                 <19> = Warm reset due to PERST5_L pin.
-                                                                 <18> = Warm reset due to PERST4_L pin. */
+        uint64_t lboot_ext45           : 6;  /**< [ 23: 18](R/W1C/H) Reserved. */
         uint64_t lboot_ext23           : 6;  /**< [ 17: 12](R/W1C/H) Last boot cause mask for PEM3 and PEM2; resets only with PLL_DC_OK.
                                                                  <17> = Warm reset due to Cntl3 link-down or hot-reset.
                                                                  <16> = Warm reset due to Cntl2 link-down or hot-reset.
@@ -806,13 +800,7 @@ typedef union
                                                                  <14> = Cntl2 reset due to PERST2_L pin.
                                                                  <13> = Warm reset due to PERST3_L pin.
                                                                  <12> = Warm reset due to PERST2_L pin. */
-        uint64_t lboot_ext45           : 6;  /**< [ 23: 18](R/W1C/H) Last boot cause mask for PEM5 and PEM4; resets only with PLL_DC_OK.
-                                                                 <23> = Warm reset due to Cntl5 link-down or hot-reset.
-                                                                 <22> = Warm reset due to Cntl4 link-down or hot-reset.
-                                                                 <21> = Cntl5 reset due to PERST5_L pin.
-                                                                 <20> = Cntl4 reset due to PERST4_L pin.
-                                                                 <19> = Warm reset due to PERST5_L pin.
-                                                                 <18> = Warm reset due to PERST4_L pin. */
+        uint64_t lboot_ext45           : 6;  /**< [ 23: 18](R/W1C/H) Reserved. */
         uint64_t reserved_24_29        : 6;
         uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved.
                                                                  Internal:
@@ -988,11 +976,7 @@ typedef union
 static inline uint64_t BDK_RST_COLD_DATAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_COLD_DATAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
-        return 0x87e0060017c0ll + 8ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x87e0060017c0ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
+    if (a<=5)
         return 0x87e0060017c0ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("RST_COLD_DATAX", 1, a, 0, 0, 0);
 }
@@ -1132,7 +1116,132 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_rst_ctlx_s cn; */
+    /* struct bdk_rst_ctlx_s cn81xx; */
+    /* struct bdk_rst_ctlx_s cn88xx; */
+    struct bdk_rst_ctlx_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t prst_link             : 1;  /**< [  9:  9](R/W) Controls whether corresponding controller link-down or hot-reset causes the assertion of
+                                                                 RST_SOFT_PRST()[SOFT_PRST].
+                                                                 A warm/soft reset does not change this field. On cold reset, this field is initialized to
+                                                                 0. */
+        uint64_t rst_done              : 1;  /**< [  8:  8](RO/H) Reset done. Indicates the controller reset status. [RST_DONE] is always 0
+                                                                 (i.e. the controller is held in reset) when
+                                                                 * RST_SOFT_PRST()[SOFT_PRST] = 1, or
+                                                                 * [RST_RCV] = 1 and PERST*_L pin is asserted. */
+        uint64_t rst_link              : 1;  /**< [  7:  7](R/W) Reset link. Controls whether corresponding controller link-down reset or hot reset causes
+                                                                 a warm chip reset. On cold reset, this field is initialized as follows:
+
+                                                                 _ 0 when RST_CTL()[HOST_MODE] = 1.
+
+                                                                 _ 1 when RST_CTL()[HOST_MODE] = 0.
+
+                                                                 Note that a link-down or hot-reset event can never cause a warm chip reset when the
+                                                                 controller is in reset (i.e. can never cause a warm reset when [RST_DONE] = 0). */
+        uint64_t host_mode             : 1;  /**< [  6:  6](RO) Read-only access to the corresponding PEM()_CFG[HOSTMD] field indicating PEMn is root
+                                                                 complex (host). For controllers 0 and 2  the initial value is determined by straps. For
+                                                                 controllers 1 and 3 this field is initially set as host. */
+        uint64_t reserved_4_5          : 2;
+        uint64_t rst_drv               : 1;  /**< [  3:  3](R/W) Controls whether PERST*_L is driven. A warm/soft reset does not change this field. On cold
+                                                                 reset, this field is initialized as follows:
+
+                                                                 _ 0 when RST_CTL()[HOST_MODE] = 0.
+
+                                                                 _ 1 when RST_CTL()[HOST_MODE] = 1.
+
+                                                                 When set, CNXXXX drives the corresponding PERST*_L pin. Otherwise, CNXXXX does not drive
+                                                                 the corresponding PERST*_L pin. */
+        uint64_t rst_rcv               : 1;  /**< [  2:  2](R/W) Reset received. Controls whether PERST*_L is received. A warm/soft reset does
+                                                                 not change this field. On cold reset, this field is initialized as follows:
+
+                                                                 _ 0 when RST_CTL()[HOST_MODE] = 1.
+
+                                                                 _ 1 when RST_CTL()[HOST_MODE] = 0.
+
+                                                                 When [RST_RCV] = 1, the PERST*_L value is received and can be used to reset the
+                                                                 controller and (optionally, based on [RST_CHIP]) warm reset the chip.
+
+                                                                 When [RST_RCV] = 1 (and [RST_CHIP] = 0), RST_INT[PERST*] gets set when the PERST*_L
+                                                                 pin asserts. (This interrupt can alert software whenever the external reset pin initiates
+                                                                 a controller reset sequence.)
+
+                                                                 [RST_VAL] gives the PERST*_L pin value when [RST_RCV] = 1.
+
+                                                                 When [RST_RCV] = 0, the PERST*_L pin value is ignored. */
+        uint64_t rst_chip              : 1;  /**< [  1:  1](R/W) Controls whether PERST*_L causes a chip warm reset like CHIP_RESET_L. A warm/soft reset
+                                                                 does not change this field. On cold reset, this field is initialized to 0.
+
+                                                                 When [RST_RCV] = 0, [RST_CHIP] is ignored.
+
+                                                                 When [RST_RCV] = 1, [RST_CHIP] = 1, and PERST*_L asserts, a chip warm reset is generated. */
+        uint64_t rst_val               : 1;  /**< [  0:  0](RO/H) Read-only access to PERST*_L. Unpredictable when [RST_RCV] = 0.
+
+                                                                 Reads as 1 when [RST_RCV] = 1 and the PERST*_L pin is asserted.
+
+                                                                 Reads as 0 when [RST_RCV] = 1 and the PERST*_L pin is not asserted. */
+#else /* Word 0 - Little Endian */
+        uint64_t rst_val               : 1;  /**< [  0:  0](RO/H) Read-only access to PERST*_L. Unpredictable when [RST_RCV] = 0.
+
+                                                                 Reads as 1 when [RST_RCV] = 1 and the PERST*_L pin is asserted.
+
+                                                                 Reads as 0 when [RST_RCV] = 1 and the PERST*_L pin is not asserted. */
+        uint64_t rst_chip              : 1;  /**< [  1:  1](R/W) Controls whether PERST*_L causes a chip warm reset like CHIP_RESET_L. A warm/soft reset
+                                                                 does not change this field. On cold reset, this field is initialized to 0.
+
+                                                                 When [RST_RCV] = 0, [RST_CHIP] is ignored.
+
+                                                                 When [RST_RCV] = 1, [RST_CHIP] = 1, and PERST*_L asserts, a chip warm reset is generated. */
+        uint64_t rst_rcv               : 1;  /**< [  2:  2](R/W) Reset received. Controls whether PERST*_L is received. A warm/soft reset does
+                                                                 not change this field. On cold reset, this field is initialized as follows:
+
+                                                                 _ 0 when RST_CTL()[HOST_MODE] = 1.
+
+                                                                 _ 1 when RST_CTL()[HOST_MODE] = 0.
+
+                                                                 When [RST_RCV] = 1, the PERST*_L value is received and can be used to reset the
+                                                                 controller and (optionally, based on [RST_CHIP]) warm reset the chip.
+
+                                                                 When [RST_RCV] = 1 (and [RST_CHIP] = 0), RST_INT[PERST*] gets set when the PERST*_L
+                                                                 pin asserts. (This interrupt can alert software whenever the external reset pin initiates
+                                                                 a controller reset sequence.)
+
+                                                                 [RST_VAL] gives the PERST*_L pin value when [RST_RCV] = 1.
+
+                                                                 When [RST_RCV] = 0, the PERST*_L pin value is ignored. */
+        uint64_t rst_drv               : 1;  /**< [  3:  3](R/W) Controls whether PERST*_L is driven. A warm/soft reset does not change this field. On cold
+                                                                 reset, this field is initialized as follows:
+
+                                                                 _ 0 when RST_CTL()[HOST_MODE] = 0.
+
+                                                                 _ 1 when RST_CTL()[HOST_MODE] = 1.
+
+                                                                 When set, CNXXXX drives the corresponding PERST*_L pin. Otherwise, CNXXXX does not drive
+                                                                 the corresponding PERST*_L pin. */
+        uint64_t reserved_4_5          : 2;
+        uint64_t host_mode             : 1;  /**< [  6:  6](RO) Read-only access to the corresponding PEM()_CFG[HOSTMD] field indicating PEMn is root
+                                                                 complex (host). For controllers 0 and 2  the initial value is determined by straps. For
+                                                                 controllers 1 and 3 this field is initially set as host. */
+        uint64_t rst_link              : 1;  /**< [  7:  7](R/W) Reset link. Controls whether corresponding controller link-down reset or hot reset causes
+                                                                 a warm chip reset. On cold reset, this field is initialized as follows:
+
+                                                                 _ 0 when RST_CTL()[HOST_MODE] = 1.
+
+                                                                 _ 1 when RST_CTL()[HOST_MODE] = 0.
+
+                                                                 Note that a link-down or hot-reset event can never cause a warm chip reset when the
+                                                                 controller is in reset (i.e. can never cause a warm reset when [RST_DONE] = 0). */
+        uint64_t rst_done              : 1;  /**< [  8:  8](RO/H) Reset done. Indicates the controller reset status. [RST_DONE] is always 0
+                                                                 (i.e. the controller is held in reset) when
+                                                                 * RST_SOFT_PRST()[SOFT_PRST] = 1, or
+                                                                 * [RST_RCV] = 1 and PERST*_L pin is asserted. */
+        uint64_t prst_link             : 1;  /**< [  9:  9](R/W) Controls whether corresponding controller link-down or hot-reset causes the assertion of
+                                                                 RST_SOFT_PRST()[SOFT_PRST].
+                                                                 A warm/soft reset does not change this field. On cold reset, this field is initialized to
+                                                                 0. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_rst_ctlx_t;
 
 static inline uint64_t BDK_RST_CTLX(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1140,8 +1249,8 @@ static inline uint64_t BDK_RST_CTLX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x87e006001640ll + 8ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x87e006001640ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e006001640ll + 8ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e006001640ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("RST_CTLX", 1, a, 0, 0, 0);
@@ -1410,7 +1519,24 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_rst_int_s cn88xx; */
-    /* struct bdk_rst_int_s cn83xx; */
+    struct bdk_rst_int_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t perst                 : 4;  /**< [ 11:  8](R/W1C/H) PERST*_L asserted while RST_CTL()[RST_RCV] = 1 and RST_CTL()[RST_CHIP] = 0. One bit
+                                                                 corresponds to each controller. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t rst_link              : 4;  /**< [  3:  0](R/W1C/H) A controller link-down/hot-reset occurred while RST_CTL()[RST_LINK] = 0. Software must
+                                                                 assert then deassert RST_SOFT_PRST()[SOFT_PRST]. One bit corresponds to each controller. */
+#else /* Word 0 - Little Endian */
+        uint64_t rst_link              : 4;  /**< [  3:  0](R/W1C/H) A controller link-down/hot-reset occurred while RST_CTL()[RST_LINK] = 0. Software must
+                                                                 assert then deassert RST_SOFT_PRST()[SOFT_PRST]. One bit corresponds to each controller. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t perst                 : 4;  /**< [ 11:  8](R/W1C/H) PERST*_L asserted while RST_CTL()[RST_RCV] = 1 and RST_CTL()[RST_CHIP] = 0. One bit
+                                                                 corresponds to each controller. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_rst_int_t;
 
 #define BDK_RST_INT BDK_RST_INT_FUNC()
@@ -1465,7 +1591,20 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_rst_int_ena_w1c_s cn88xx; */
-    /* struct bdk_rst_int_ena_w1c_s cn83xx; */
+    struct bdk_rst_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t perst                 : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for RST_INT[PERST]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t rst_link              : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for RST_INT[RST_LINK]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rst_link              : 4;  /**< [  3:  0](R/W1C/H) Reads or clears enable for RST_INT[RST_LINK]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t perst                 : 4;  /**< [ 11:  8](R/W1C/H) Reads or clears enable for RST_INT[PERST]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_rst_int_ena_w1c_t;
 
 #define BDK_RST_INT_ENA_W1C BDK_RST_INT_ENA_W1C_FUNC()
@@ -1520,7 +1659,20 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_rst_int_ena_w1s_s cn88xx; */
-    /* struct bdk_rst_int_ena_w1s_s cn83xx; */
+    struct bdk_rst_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t perst                 : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for RST_INT[PERST]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t rst_link              : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for RST_INT[RST_LINK]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rst_link              : 4;  /**< [  3:  0](R/W1S/H) Reads or sets enable for RST_INT[RST_LINK]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t perst                 : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets enable for RST_INT[PERST]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_rst_int_ena_w1s_t;
 
 #define BDK_RST_INT_ENA_W1S BDK_RST_INT_ENA_W1S_FUNC()
@@ -1575,7 +1727,20 @@ typedef union
 #endif /* Word 0 - End */
     } cn81xx;
     /* struct bdk_rst_int_w1s_s cn88xx; */
-    /* struct bdk_rst_int_w1s_s cn83xx; */
+    struct bdk_rst_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t perst                 : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets RST_INT[PERST]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t rst_link              : 4;  /**< [  3:  0](R/W1S/H) Reads or sets RST_INT[RST_LINK]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rst_link              : 4;  /**< [  3:  0](R/W1S/H) Reads or sets RST_INT[RST_LINK]. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t perst                 : 4;  /**< [ 11:  8](R/W1S/H) Reads or sets RST_INT[PERST]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_rst_int_w1s_t;
 
 #define BDK_RST_INT_W1S BDK_RST_INT_W1S_FUNC()
@@ -2422,8 +2587,8 @@ static inline uint64_t BDK_RST_SOFT_PRSTX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
         return 0x87e0060016c0ll + 8ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x87e0060016c0ll + 8ll * ((a) & 0x7);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e0060016c0ll + 8ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=5))
         return 0x87e0060016c0ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("RST_SOFT_PRSTX", 1, a, 0, 0, 0);
@@ -2658,8 +2823,6 @@ typedef union
 static inline uint64_t BDK_RST_TNS_PLL_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_TNS_PLL_CTL_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e006001780ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 0x87e006001780ll;
     __bdk_csr_fatal("RST_TNS_PLL_CTL", 0, 0, 0, 0, 0);

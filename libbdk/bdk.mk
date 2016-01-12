@@ -1,6 +1,10 @@
 ifndef BDK_ROOT
-$(error Define BDK_ROOT in the environment)
+    $(error Define BDK_ROOT in the environment)
 endif
+ifdef BDK_CLANG_ROOT
+    USE_LLVM=1
+endif
+
 
 BDK_LINK_ADDRESS?=0x0 # Node 0
 #BDK_LINK_ADDRESS?=0x10000000000 # Node 1
@@ -16,32 +20,64 @@ SHELL=/bin/bash
 # Setup the compiler for the BDK libraries
 #
 LIBC_DIR=aarch64-thunderx-elf
-CROSS=$(LIBC_DIR)-
-CC=$(CROSS)gcc
-AR=$(CROSS)ar
-AS=$(CROSS)as
-LD=$(CROSS)ld
-RANLIB=$(CROSS)ranlib
-STRIP=$(CROSS)strip
+ifdef USE_LLVM
+    LLVM_TARGET=-target aarch64-cavium-none-elf -march=armv8.1a+crypto
+    CC=$(BDK_CLANG_ROOT)/clang $(LLVM_TARGET) -ccc-gcc-name $(LIBC_DIR)-gcc
+    AR=$(BDK_CLANG_ROOT)/llvm-ar
+    AS=$(BDK_CLANG_ROOT)/llvm-as $(LLVM_TARGET)
+    RANLIB=$(BDK_CLANG_ROOT)/llvm-ranlib
+    OBJCOPY=$(LIBC_DIR)-objcopy
+else
+    CC=$(LIBC_DIR)-gcc
+    AR=$(LIBC_DIR)-ar
+    AS=$(LIBC_DIR)-as
+    RANLIB=$(LIBC_DIR)-ranlib
+    OBJCOPY=$(LIBC_DIR)-objcopy
+endif
 
 #
 # Setup the compile flags
 #
-CPPFLAGS = $(BDK_EXTRA_CPPFLAGS)
-CPPFLAGS += -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/${LIBC_DIR}/include -I $(BDK_ROOT)/libfdt
-CFLAGS = -Wall -Wextra -Wno-unused-parameter -Winline -mcpu=thunderx -Os -g -std=gnu99 -fno-asynchronous-unwind-tables
-CFLAGS += -ffunction-sections -Winvalid-pch
+CPPFLAGS  = $(BDK_EXTRA_CPPFLAGS)
+CPPFLAGS += -I $(BDK_ROOT)/libbdk
+CPPFLAGS += -I $(BDK_ROOT)/liblua
+CPPFLAGS += -I $(BDK_ROOT)/libc/${LIBC_DIR}/include
+CPPFLAGS += -I $(BDK_ROOT)/libfdt
+
+CFLAGS  = -Wall
+CFLAGS += -Wextra
+CFLAGS += -Wno-unused-parameter
+CFLAGS += -Winline
+CFLAGS += -Winvalid-pch
+ifndef USE_LLVM
+    CFLAGS += -mcpu=thunderx
+endif
+CFLAGS += -Os -g
+CFLAGS += -std=gnu11
+CFLAGS += -fno-asynchronous-unwind-tables
+CFLAGS += -ffunction-sections
+CFLAGS += -fshort-wchar
 
 ASFLAGS = $(CFLAGS)
 
-LDFLAGS  = -nostdlib -nostartfiles
-LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o
-LDFLAGS += -Wl,-T -Wl,bdk.ld -Wl,-Map -Wl,$@.map -Wl,--gc-sections
+LDFLAGS  = -nostdlib
+LDFLAGS += -nostartfiles
+LDFLAGS += -Wl,-T
+LDFLAGS += -Wl,bdk.ld
+LDFLAGS += -Wl,-Map
+LDFLAGS += -Wl,$@.map
+LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,--defsym=BDK_LINK_ADDRESS=$(BDK_LINK_ADDRESS)
-LDLIBS = -lbdk -lgcc
+LDFLAGS += -L $(BDK_ROOT)/libbdk
+LDFLAGS += $(BDK_ROOT)/libbdk-os/bdk-start.o
+
+LDLIBS  = -lbdk
+ifndef USE_LLVM
+    LDLIBS += -lgcc
+endif
 
 # This leaves off the bits [63:40] as these contain the node ID, which we don't want
-IMAGE_END=`${CROSS}objdump -t $^ | grep " _end$$" | sed "s/^00000[0-9]\([0-9a-f]*\).*/print 0x\1/g" | python`
+IMAGE_END=`$(LIBC_DIR)-objdump -t $^ | grep " _end$$" | sed "s/^00000[0-9]\([0-9a-f]*\).*/print 0x\1/g" | python`
 
 #
 # This is needed to generate the depends files
@@ -56,7 +92,7 @@ IMAGE_END=`${CROSS}objdump -t $^ | grep " _end$$" | sed "s/^00000[0-9]\([0-9a-f]
 # Convert an ELF file into a binary
 #
 %.bin: %
-	${CROSS}objcopy $^ -O binary $@.tmp
+	$(OBJCOPY) $^ -O binary $@.tmp
 	cat $@.tmp /dev/zero | dd of=$@ bs=1 count=$(IMAGE_END) &> /dev/null
 	rm $@.tmp
 	$(BDK_ROOT)/bin/bdk-update-romfs $@ $@

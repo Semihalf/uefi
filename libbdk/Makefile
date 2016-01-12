@@ -68,6 +68,7 @@ endif
 $(BDK_ROOT)/libbdk-hal/if/bdk-microcode-cn8xxx.c: $(BDK_ROOT)/target-bin/ipemainc.elf
 	$(BDK_ROOT)/bin/bdk-convert-pki-elf $^ $@
 
+ifndef USE_LLVM
 #
 # These are needed to make bdk.h.gch
 # The -M creates the dependencies to stdout
@@ -80,6 +81,7 @@ $(BDK_ROOT)/libbdk/bdk.h.gch: $(BDK_ROOT)/libbdk/bdk.h
 $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
 	$(CC) $(CFLAGS) -M -MP -MT $(basename $@).h.gch $< > $@
 $(objs): $(BDK_ROOT)/libbdk/bdk.h.gch
+endif
 
 #
 # These are needed to generate the depends files

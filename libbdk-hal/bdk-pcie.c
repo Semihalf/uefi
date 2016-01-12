@@ -380,7 +380,7 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
             BDK_CSR_MODIFY(c, node, BDK_SLIX_S2M_REGX_ACC(sli, r),
                 c.s.ctype = ctype;
                 c.s.zero = 0;
-                c.s.mac = sli_group;
+                c.cn81xx.mac = sli_group;
                 c.s.nmerge = nmerge;
                 c.s.wtype = ordering;
                 c.s.rtype = ordering;

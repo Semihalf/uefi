@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -645,9 +645,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t cclass                : 4;  /**< [  7:  4](RO) Component class. 0x9 = Debug component. */
-        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. */
 #else /* Word 0 - Little Endian */
-        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. */
         uint32_t cclass                : 4;  /**< [  7:  4](RO) Component class. 0x9 = Debug component. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -1348,7 +1348,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
         uint32_t inout_gate            : 2;  /**< [ 25: 24](RO) Input/output options. Indicates presence of the input gate. If
-                                                                     the CTM is not implemented, this field is RAZ.
+                                                                     the CTM is not implemented, this field is 0x0.
                                                                  All other values are reserved.
                                                                  0x0 = TRC()_TRCGATE does not mask propagation of input events from
                                                                      external channels.
@@ -1410,7 +1410,7 @@ typedef union
                                                                  All other values are reserved. */
         uint32_t reserved_22_23        : 2;
         uint32_t inout_gate            : 2;  /**< [ 25: 24](RO) Input/output options. Indicates presence of the input gate. If
-                                                                     the CTM is not implemented, this field is RAZ.
+                                                                     the CTM is not implemented, this field is 0x0.
                                                                  All other values are reserved.
                                                                  0x0 = TRC()_TRCGATE does not mask propagation of input events from
                                                                      external channels.
@@ -2578,7 +2578,7 @@ typedef union
 
                                                                  For CNXXXX not supported. */
         uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
-
+                                                                 The reset value depends on the number of cores fuse-enabled in this part.
                                                                  For CNXXXX this trace unit can support up to 6 processors. */
         uint32_t sysstall              : 1;  /**< [ 27: 27](RO) Indicates if the implementation can support stall control:
                                                                    0 = The system does not support stall control of the PE.
@@ -2636,7 +2636,7 @@ typedef union
 
                                                                  CNXXXX supports stalling the PE. */
         uint32_t numproc               : 3;  /**< [ 30: 28](RO/H) Indicates the number of PEs available for tracing minus one.
-
+                                                                 The reset value depends on the number of cores fuse-enabled in this part.
                                                                  For CNXXXX this trace unit can support up to 6 processors. */
         uint32_t noovflw               : 1;  /**< [ 31: 31](RO) Indicates if TRC()_TRCSTALLCTLR[NOOVERFLOW] is supported.
 
@@ -3237,10 +3237,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. */
         uint32_t slk                   : 1;  /**< [  1:  1](RO/H) Software lock status for this component. For an access to LSR
                                                                      that is not a memory-mapped access, or when the software lock
-                                                                     is not implemented, this field is RAZ.
+                                                                     is not implemented, this field is 0.
                                                                  For memory-mapped accesses when the software lock is
                                                                      implemented, possible values of this field are:
                                                                  0 = Lock clear. Writes are permitted to this component's
@@ -3248,28 +3248,28 @@ typedef union
                                                                  1 = Lock set. Writes to this component's registers are ignored,
                                                                      and reads have no side effects. */
         uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented. For an access to LSR that is not a
-                                                                     memory-mapped access, this field is RAZ. For memory-mapped
+                                                                     memory-mapped access, this field is 0. For memory-mapped
                                                                      accesses, the value of this field is implementation defined.
                                                                      Permitted values are:
                                                                  0 = Software lock not implemented or not memory-mapped access.
                                                                  1 = Software lock implemented and memory-mapped access. */
 #else /* Word 0 - Little Endian */
         uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented. For an access to LSR that is not a
-                                                                     memory-mapped access, this field is RAZ. For memory-mapped
+                                                                     memory-mapped access, this field is 0. For memory-mapped
                                                                      accesses, the value of this field is implementation defined.
                                                                      Permitted values are:
                                                                  0 = Software lock not implemented or not memory-mapped access.
                                                                  1 = Software lock implemented and memory-mapped access. */
         uint32_t slk                   : 1;  /**< [  1:  1](RO/H) Software lock status for this component. For an access to LSR
                                                                      that is not a memory-mapped access, or when the software lock
-                                                                     is not implemented, this field is RAZ.
+                                                                     is not implemented, this field is 0.
                                                                  For memory-mapped accesses when the software lock is
                                                                      implemented, possible values of this field are:
                                                                  0 = Lock clear. Writes are permitted to this component's
                                                                      registers.
                                                                  1 = Lock set. Writes to this component's registers are ignored,
                                                                      and reads have no side effects. */
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } s;
@@ -3654,12 +3654,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. RAZ. Log<sub>2</sub> of the number of 4KB pages from the
+        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log<sub>2</sub> of the number of 4KB pages from the
                                                                  start of the component to the end of the component ID registers. */
         uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
 #else /* Word 0 - Little Endian */
         uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
-        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. RAZ. Log<sub>2</sub> of the number of 4KB pages from the
+        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. Log<sub>2</sub> of the number of 4KB pages from the
                                                                  start of the component to the end of the component ID registers. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */

@@ -7,13 +7,13 @@
  * <hr>$Revision: 49448 $<hr>
  */
 
-#define BDK_NUMA_MAX_NODES 4
 typedef enum
 {
     BDK_NODE_0 = 0,
     BDK_NODE_1 = 1,
     BDK_NODE_2 = 2,
     BDK_NODE_3 = 3,
+    BDK_NUMA_MAX_NODES = 4
 } bdk_node_t;
 
 /**
@@ -28,7 +28,7 @@ static inline bdk_node_t bdk_numa_local(void)
     int mpidr_el1;
     BDK_MRS_NV(MPIDR_EL1, mpidr_el1);
     int result;
-    BDK_EXTRACT(result, mpidr_el1, 16, 8);
+    result = (mpidr_el1 >> 16) & 0xff;
     return BDK_NODE_0 + result;
 #else
     return BDK_NODE_0; /* FIXME: choose remote node */
@@ -87,21 +87,10 @@ extern int bdk_numa_is_only_one();
  */
 static inline uint64_t bdk_numa_get_address(bdk_node_t node, uint64_t pa)
 {
-#ifndef BDK_BUILD_HOST
     if (pa & (1ull << 47))
-    {
-        BDK_INSERT(pa, node, 44, 2);
-    }
+        pa |= (uint64_t)(node&3) << 44;
     else
-    {
-        BDK_INSERT(pa, node, 40, 2);
-    }
-#else
-    if (pa & (1ull << 47))
-        pa |= (uint64_t)node << 44;
-    else
-        pa |= (uint64_t)node << 40;
-#endif
+        pa |= (uint64_t)(node&3) << 40;
     return pa;
 }
 

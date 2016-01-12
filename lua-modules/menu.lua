@@ -201,7 +201,7 @@ local function read_input(prompt)
                 pending_input = nil
                 return ""
             end
-            -- As a special case, we allow acces to CSRs on any prompt
+            -- As a special case, we allow access to CSRs on any prompt
             if cavium.csr and (pending_input:sub(1,3) == "csr") then
                 local status, message = pcall(csr_command, pending_input)
                 if not status then
@@ -283,7 +283,7 @@ end
 -- user aborts input. Output is true or false
 --
 function menu.prompt_yes_no(prompt, optional_default)
-    local result = menu.prompt_string(prompt .. "(y/n)", optional_default)
+    local result = menu.prompt_string(prompt .. "(y/n)", optional_default and "y" or "n")
     if result == "y" then
         return true
     elseif result == "n" then

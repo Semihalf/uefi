@@ -33,11 +33,23 @@ static void __bdk_init_sysreg(void)
         BDK_MSR(s3_0_c11_c0_0, cvmctl_el1.u);
     }
 
+    /* Bug #27499 - ISB not flushing the pipeline after a TLBI */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    {
+        bdk_ap_cvmctl_el1_t cvmctl_el1;
+        BDK_MRS(s3_0_c11_c0_0, cvmctl_el1.u);
+        cvmctl_el1.s.isb_flush = 1;
+        BDK_MSR(s3_0_c11_c0_0, cvmctl_el1.u);
+    }
+
     /* The defaults for write buffer timeouts are poor */
     bdk_ap_cvmmemctl0_el1_t cvmmemctl0_el1;
     BDK_MRS(s3_0_c11_c0_4, cvmmemctl0_el1.u);
     cvmmemctl0_el1.s.wbftonshena = 1; /* NSH has 2^18 timeout. All BDK mem is NSH */
     cvmmemctl0_el1.s.wbftomrgclrena = 1; /* Reset timer on merge. Hardware default is brain dead */
+    /* Errata (AP-27388) Flavors of DMB not stalling on subsequent LD */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+        cvmmemctl0_el1.s.dmbstallforce = 1;
     BDK_MSR(s3_0_c11_c0_4, cvmmemctl0_el1.u);
 }
 
@@ -112,6 +124,8 @@ void __bdk_init_node(bdk_node_t node)
         bdk_error_enable(node);
         if (bdk_error_check)
         {
+            if (node != bdk_numa_local())
+                bdk_init_cores(node, 1);
             if (bdk_thread_create(node, 0, __bdk_error_poll, 0, NULL, 0))
                 bdk_fatal("Create of error poll thread failed\n");
         }
@@ -182,7 +196,7 @@ void __bdk_init_main(int argc, void *argv)
         /* Core 0 start main as another thread. We create a new thread so that
             the coremask will allow all cores in case the application
             goes multicore later */
-        extern int main(int argc, const char *argv);
+        extern int main(int argc, const char **argv);
         BDK_TRACE(INIT, "Switching to main\n");
         if (bdk_thread_create(node, 0, (bdk_thread_func_t)main, argc, argv, BDK_THREAD_MAIN_STACK_SIZE))
             bdk_fatal("Create of main thread failed\n");

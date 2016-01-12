@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -368,9 +368,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset one-shot pulse (lasts for 4 cycles). */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1/H) Reset one-shot pulse (lasts for 4 cycles). */
 #else /* Word 0 - Little Endian */
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset one-shot pulse (lasts for 4 cycles). */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1/H) Reset one-shot pulse (lasts for 4 cycles). */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -710,7 +710,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's BCH_PF_MSIX_VEC()_ADDR, BCH_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of BCH_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -720,7 +720,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's BCH_PF_MSIX_VEC()_ADDR, BCH_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of BCH_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -890,7 +890,7 @@ typedef union
                                                                  clear. For the FPA to not discard the request, FPA_PF_MAP() must consider the
                                                                  [AURA] and BCH_PF_Q()_GMCTL[GMID] to be valid. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Reserved, must be 1.
+        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved, must be 1.
                                                                  Internal:
                                                                  Don't free buffers to the FPA. */
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64s per command buffer segment. */
@@ -898,7 +898,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_32         : 33;
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64s per command buffer segment. */
-        uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Reserved, must be 1.
+        uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved, must be 1.
                                                                  Internal:
                                                                  Don't free buffers to the FPA. */
         uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */

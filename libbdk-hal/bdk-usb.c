@@ -15,6 +15,11 @@ BDK_REQUIRE_DEFINE(USB);
  */
 int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
 {
+    /* Asim's USB model is broken */
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
+        return -1;
+
+    int is_usbdrd = !CAVIUM_IS_MODEL(CAVIUM_CN88XX);
     /* Perform the following steps to initiate a cold reset. */
 
     /* 1.  Wait for all voltages to reach a stable state.  Ensure the
@@ -34,10 +39,20 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
         a.  UPHY reset: USBDRD(0..1)_UCTL_CTL[UPHY_RST] = 1
         b. UAHC reset: USBDRD(0..1)_UCTL_CTL[UAHC_RST] = 1
         c. UCTL reset: USBDRD(0..1)_UCTL_CTL[UCTL_RST] = 1 */
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
-        c.s.uphy_rst = 1;
-        c.s.uahc_rst = 1;
-        c.s.uctl_rst = 1);
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.uphy_rst = 1;
+            c.s.uahc_rst = 1;
+            c.s.uctl_rst = 1);
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
+            c.s.uphy_rst = 1;
+            c.s.uahc_rst = 1;
+            c.s.uctl_rst = 1);
+    }
 
     /* 5.  Configure the controller clock:
         a.  Reset the clock dividers: USBDRD(0..1)_UCTL_CTL[H_CLKDIV_RST] = 1.
@@ -66,13 +81,26 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
         divider = 6;
     else
         divider = 7;
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
-        c.s.h_clkdiv_rst = 1);
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
-        c.s.h_clkdiv_sel = divider;
-        c.s.h_clk_en = 1);
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
-        c.s.h_clkdiv_rst = 0);
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.h_clkdiv_rst = 1);
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.h_clkdiv_sel = divider;
+            c.s.h_clk_en = 1);
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.h_clkdiv_rst = 0);
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
+            c.s.h_clkdiv_rst = 1);
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
+            c.s.h_clkdiv_sel = divider;
+            c.s.h_clk_en = 1);
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
+            c.s.h_clkdiv_rst = 0);
+    }
 
     /* 6.  Configure the strap signals in USBDRD(0..1)_UCTL_CTL.
         a.  Reference clock configuration (see Table 31.2): USB-
@@ -83,6 +111,21 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
         c. Enable USBDRD(0..1)_UCTL_CTL[REF_SSP_EN].
         d. Configure PHY ports:
             USBDRD(0..1)_UCTL_CTL[USB*_PORT_PERM_ATTACH, USB*_PORT_DISABLE]. */
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.ref_clk_fsel = 0x27;
+            c.s.mpll_multiplier = 0;
+            c.s.ref_clk_sel = 0;
+            c.s.ref_clk_div2 = 0);
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.ssc_en = 1;
+            c.s.ssc_ref_clk_sel = 0);
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.ref_ssp_en = 1);
+    }
+    else
+    {
         BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
             c.s.ref_clk_fsel = 0x27;
             c.s.mpll_multiplier = 0;
@@ -93,6 +136,7 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
             c.s.ssc_ref_clk_sel = 0);
         BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
             c.s.ref_ssp_en = 1);
+    }
     /* Hardware default is for ports to be enabled and not perm attach. Don't
         change it */
 
@@ -102,9 +146,18 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
             speed functionality needed.
         b. USBDRD(0..1)_UCTL_CTL [SS_POWER_EN] if SuperSpeed functionality
             needed. */
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.hs_power_en = 1;
+            c.s.ss_power_en = 1);
+    }
+    else
+    {
         BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
             c.s.hs_power_en = 1;
             c.s.ss_power_en = 1);
+    }
 
     /* 8.  Wait 10 controller-clock cycles from step 5. for controller clock
         to start and async FIFO to properly reset. */
@@ -115,63 +168,124 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
         b. USBDRD(0..1)_UCTL_CTL[UAHC_RST] = 0
         c. You will have to wait 10 controller-clock cycles before accessing
             any controller-clock-only registers. */
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
-        c.s.uctl_rst = 0
-        );
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.uctl_rst = 0);
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
+            c.s.uctl_rst = 0);
+    }
     bdk_wait_usec(1);
 
     bdk_wait_usec(100000);
     BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(4+usb_port), c.s.tx_oe=1);
     bdk_wait_usec(100000);
     BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(4+usb_port),
-        c.s.pin_sel = 0x74+usb_port
-        );
+        c.s.pin_sel = 0x74 + usb_port);
     bdk_wait_usec(100000);
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_HOST_CFG(usb_port),
-        c.s.ppc_en = 1;
-        c.s.ppc_active_high_en = 1
-        );
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_HOST_CFG(usb_port),
+            c.s.ppc_en = 1;
+            c.s.ppc_active_high_en = 1);
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_HOST_CFG(usb_port),
+            c.s.ppc_en = 1;
+            c.s.ppc_active_high_en = 1);
+    }
 
     bdk_wait_usec(100000);
 
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
-            c.s.uahc_rst = 0
-            );
-
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.uahc_rst = 0);
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
+            c.s.uahc_rst = 0);
+    }
 
     bdk_wait_usec(100000);
     bdk_wait_usec(1);
 
     /* 10. Enable conditional coprocessor clock of UCTL by writing USB-
         DRD(0..1)_UCTL_CTL[CSCLK_EN] = 1. */
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
-        c.s.csclk_en = 1);
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.csclk_en = 1);
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
+            c.s.csclk_en = 1);
+    }
 
     /* 11. Set USBDRD(0..1)_UCTL_CTL[DRD_MODE] to 1 for device mode, 0 for
         host mode. */
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.drd_mode = 0);
+    }
 
     /* 12. Soft reset the UPHY and UAHC logic via the UAHC controls:
         a.  USBDRD(0..1)_UAHC_GUSB2PHYCFG(0)[PHYSOFTRST] = 1
         b. USBDRD(0..1)_UAHC_GUSB3PIPECTL(0)[PHYSOFTRST] = 1
         c. USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] = 1 */
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GUSB2PHYCFGX(usb_port, 0),
-        c.s.physoftrst = 1);
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GUSB3PIPECTLX(usb_port, 0),
-        c.s.physoftrst = 1);
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GCTL(usb_port),
-        c.s.coresoftreset = 1);
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UAHC_GUSB2PHYCFGX(usb_port, 0),
+            c.s.physoftrst = 1);
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UAHC_GUSB3PIPECTLX(usb_port, 0),
+            c.s.physoftrst = 1);
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UAHC_GCTL(usb_port),
+            c.s.coresoftreset = 1);
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GUSB2PHYCFGX(usb_port, 0),
+            c.s.physoftrst = 1);
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GUSB3PIPECTLX(usb_port, 0),
+            c.s.physoftrst = 1);
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GCTL(usb_port),
+            c.s.coresoftreset = 1);
+    }
 
     /* 13. Program USBDRD(0..1)_UAHC_GCTL[PRTCAPDIR] to 0x2 for device mode
         or 0x1 for host mode. */
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GCTL(usb_port),
-        c.s.prtcapdir = 1);
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UAHC_GCTL(usb_port),
+            c.s.prtcapdir = 1);
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GCTL(usb_port),
+            c.s.prtcapdir = 1);
+    }
 
     /* 14. Wait 10us after step 13. for the PHY to complete its reset. */
     bdk_wait_usec(10);
 
     /* 15. Deassert UPHY reset: USBDRD(0..1)_UCTL_CTL[UPHY_RST] = 0. */
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
-        c.s.uphy_rst = 0);
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UCTL_CTL(usb_port),
+            c.s.uphy_rst = 0);
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
+            c.s.uphy_rst = 0);
+    }
 
     /* 16. Wait for at least 45us after step 15. for UPHY to output
         stable PHYCLOCK. */
@@ -200,12 +314,24 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
         a.  USBDRD(0..1)_UAHC_GUSB2PHYCFG(0)[PHYSOFTRST] = 0
         b. USBDRD(0..1)_UAHC_GUSB3PIPECTL(0)[PHYSOFTRST] = 0
         c. USBDRD(0..1)_UAHC_GCTL[CORESOFTRESET] = 0 */
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GUSB2PHYCFGX(usb_port, 0),
-        c.s.physoftrst = 0);
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GUSB3PIPECTLX(usb_port, 0),
-        c.s.physoftrst = 0);
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GCTL(usb_port),
-        c.s.coresoftreset = 0);
+    if (is_usbdrd)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UAHC_GUSB2PHYCFGX(usb_port, 0),
+            c.s.physoftrst = 0);
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UAHC_GUSB3PIPECTLX(usb_port, 0),
+            c.s.physoftrst = 0);
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UAHC_GCTL(usb_port),
+            c.s.coresoftreset = 0);
+    }
+    else
+    {
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GUSB2PHYCFGX(usb_port, 0),
+            c.s.physoftrst = 0);
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GUSB3PIPECTLX(usb_port, 0),
+            c.s.physoftrst = 0);
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_GCTL(usb_port),
+            c.s.coresoftreset = 0);
+    }
 
     /* 19. Configure the remaining UAHC_G* registers as needed, including
        any that were not configured in step 17.-b. */
@@ -224,26 +350,54 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
 
 static int usb2_test_mode(bdk_node_t node, int usb_port, int usb2_mode)
 {
-    /* Set Run/Stop bit in USBCMD to zero */
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_USBCMD(usb_port),
-        c.s.r_s = 0);
-
-    /* Wait for HCHalted in USBSTS to transition to 1 */
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_USBHX_UAHC_USBSTS(usb_port), hch, ==, 1, 100000))
+    int is_usbdrd = !CAVIUM_IS_MODEL(CAVIUM_CN88XX);
+    if (is_usbdrd)
     {
-        bdk_error("USB%d: Timeout waiting for controller halt\n", usb_port);
-        return -1;
+        /* Set Run/Stop bit in USBCMD to zero */
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UAHC_USBCMD(usb_port),
+            c.s.r_s = 0);
+
+        /* Wait for HCHalted in USBSTS to transition to 1 */
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_USBDRDX_UAHC_USBSTS(usb_port), hch, ==, 1, 100000))
+        {
+            bdk_error("USB%d: Timeout waiting for controller halt\n", usb_port);
+            return -1;
+        }
+
+        /* Set the Port Test Control field in PORTPMSC to the desired test */
+        BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UAHC_PORTPMSC_20X(usb_port, 0),
+            c.s.port_test_control = usb2_mode);
+
+        /* For force enable, turn Run/Stop back on */
+        if (usb2_mode == 5)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_USBDRDX_UAHC_USBCMD(usb_port),
+                c.s.r_s = 1);
+        }
     }
-
-    /* Set the Port Test Control field in PORTPMSC to the desired test */
-    BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_PORTPMSC_20X(usb_port, 0),
-        c.s.port_test_control = usb2_mode);
-
-    /* For force enable, turn Run/Stop back on */
-    if (usb2_mode == 5)
+    else
     {
+        /* Set Run/Stop bit in USBCMD to zero */
         BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_USBCMD(usb_port),
-            c.s.r_s = 1);
+            c.s.r_s = 0);
+
+        /* Wait for HCHalted in USBSTS to transition to 1 */
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_USBHX_UAHC_USBSTS(usb_port), hch, ==, 1, 100000))
+        {
+            bdk_error("USB%d: Timeout waiting for controller halt\n", usb_port);
+            return -1;
+        }
+
+        /* Set the Port Test Control field in PORTPMSC to the desired test */
+        BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_PORTPMSC_20X(usb_port, 0),
+            c.s.port_test_control = usb2_mode);
+
+        /* For force enable, turn Run/Stop back on */
+        if (usb2_mode == 5)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_USBHX_UAHC_USBCMD(usb_port),
+                c.s.r_s = 1);
+        }
     }
     return 0;
 }

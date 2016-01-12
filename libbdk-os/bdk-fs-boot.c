@@ -57,9 +57,8 @@ int __bdk_fs_boot_init(void)
     bdk_node_t node = bdk_numa_master();
 
     /* Determine how we booted */
-    int boot_method;
     BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
-    BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
+    int boot_method = bdk_extract(gpio_strap.u, 0, 4);
 
     switch (boot_method)
     {

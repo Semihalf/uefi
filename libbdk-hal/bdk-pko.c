@@ -17,7 +17,7 @@ typedef struct
     int pko_next_free_descr_queue;  /* L6 = Descriptor Queues 0-255 (CN83XX) */
 } global_node_state_t;
 
-static global_node_state_t global_node_state[BDK_NUMA_MAX_NODES];
+static global_node_state_t *global_node_state[BDK_NUMA_MAX_NODES] = { NULL, };
 
 /**
  * Perform global init of PKO
@@ -26,8 +26,13 @@ static global_node_state_t global_node_state[BDK_NUMA_MAX_NODES];
  */
 int bdk_pko_global_init(bdk_node_t node)
 {
-    global_node_state_t *node_state = &global_node_state[node];
-    memset(node_state, 0, sizeof(*node_state));
+    global_node_state[node] = calloc(1, sizeof(global_node_state_t));
+    if (global_node_state[node] == NULL)
+    {
+        bdk_error("N%d.PKO: Failed to allocate global state\n", node);
+        return -1;
+    }
+    global_node_state_t *node_state = global_node_state[node];
     node_state->pko_free_fifo_mask = 0x0fffffff; /* PKO_PTGFX_CFG(7) is reserved for NULL MAC */
     node_state->pko_depth_address = bdk_ptr_to_phys(node_state->pko_depth);
 
@@ -39,7 +44,6 @@ int bdk_pko_global_init(bdk_node_t node)
         return -1;
     const int aura = BDK_FPA_PKO_POOL; /* Use 1:1 mapping aura */
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_FPA_AURA,
-        c.s.node = node;
         c.s.laura = aura);
     BDK_CSR_MODIFY(c, node, BDK_PKO_DPFI_ENA,
         c.s.enable = 1);
@@ -71,7 +75,7 @@ int bdk_pko_global_init(bdk_node_t node)
  */
 static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
 {
-    global_node_state_t *node_state = &global_node_state[node];
+    global_node_state_t *node_state = global_node_state[node];
     /* Start at 0 znd look for a fifo location that has enough
         consecutive space */
     int fifo = 0;
@@ -186,7 +190,7 @@ static int __bdk_pko_allocate_fifo(bdk_node_t node, int lmac, int size)
  */
 int bdk_pko_port_init(bdk_if_handle_t handle)
 {
-    global_node_state_t *node_state = &global_node_state[handle->node];
+    global_node_state_t *node_state = global_node_state[handle->node];
     int pq;     /* L1 = port queue */
     int sq_l2;  /* L2 = schedule queue feeding PQ */
     int sq_l3;  /* L3 = schedule queue feeding L2 */
@@ -272,7 +276,7 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
                     break;
             }
             lmac = 2 + 4 * handle->interface + port;
-            compressed_channel_id = BDK_PKI_CHAN_E_BGXX_PORTX_CHX(handle->interface, handle->index, 0 /* channel */);
+            compressed_channel_id = BDK_PKI_CHAN_E_BGXX_LMACX_CHX(handle->interface, handle->index, 0 /* channel */);
             break;
         }
         case BDK_IF_PCIE:
@@ -287,7 +291,7 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
             fifo_size = 4;
             fcs_ena = 0;
             skid_max_cnt = 2;
-            compressed_channel_id = BDK_PKI_CHAN_E_LOOPBACK_CHX(handle->index);
+            compressed_channel_id = BDK_PKI_CHAN_E_LBKX_CHX(handle->interface, handle->index);
             break;
         default:
             return -1;
@@ -371,7 +375,7 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
  */
 int bdk_pko_enable(bdk_node_t node)
 {
-    global_node_state_t *node_state = &global_node_state[node];
+    global_node_state_t *node_state = global_node_state[node];
 
     /* Take FIFOs out of reset */
     /* CN83XX: 0-4 for PKO_PTGFX_CFG */
@@ -598,7 +602,7 @@ retry_lower_divider:
  */
 int bdk_pko_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
 {
-    global_node_state_t *node_state = &global_node_state[handle->node];
+    global_node_state_t *node_state = global_node_state[handle->node];
 
     /* Flush pending writes */
     BDK_WMB;

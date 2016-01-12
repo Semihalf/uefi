@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -3658,7 +3658,8 @@ static inline uint64_t BDK_AP_CVM_DCACHEVTAG1_EL1_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug0_el3
  *
- * AP Cavium Debug 0 Register
+ * INTERNAL: AP Cavium Debug 0 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3691,7 +3692,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG0_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug1_el3
  *
- * AP Cavium Debug 1 Register
+ * INTERNAL: AP Cavium Debug 1 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3724,7 +3726,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG1_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug2_el3
  *
- * AP Cavium Debug 2 Register
+ * INTERNAL: AP Cavium Debug 2 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3757,7 +3760,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG2_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug3_el3
  *
- * AP Cavium Debug 3 Register
+ * INTERNAL: AP Cavium Debug 3 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3790,7 +3794,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG3_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug4_el3
  *
- * Cavium Debug 4 Register
+ * INTERNAL: Cavium Debug 4 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3837,7 +3842,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG4_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug6_el3
  *
- * Cavium Debug 6 Register
+ * INTERNAL: Cavium Debug 6 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3880,7 +3886,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG6_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug7_el3
  *
- * Cavium Debug 7 Register
+ * INTERNAL: Cavium Debug 7 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3913,7 +3920,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG7_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug8_el3
  *
- * Cavium Debug 8 Register
+ * INTERNAL: Cavium Debug 8 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -3958,7 +3966,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG8_EL3_FUNC(void)
 /**
  * Register (SYSREG) ap_cvm_debug9_el3
  *
- * Cavium Debug 9 Register
+ * INTERNAL: Cavium Debug 9 Register
+ *
  * This register is for diagnostic use only.
  */
 typedef union
@@ -4753,7 +4762,6 @@ static inline uint64_t BDK_AP_CVM_NVBAR_EL3_FUNC(void)
  *
  * AP Cavium Power Control Register
  * This register controls power management.
- * Resets to 0x2ffff00.
  */
 typedef union
 {
@@ -4761,29 +4769,99 @@ typedef union
     struct bdk_ap_cvm_power_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t maxpow                : 8;  /**< [ 63: 56](R/W) Maximum power. */
-        uint64_t average_power         : 8;  /**< [ 55: 48](R/W) Average power. */
-        uint64_t current_setting       : 8;  /**< [ 47: 40](R/W) Current setting. */
-        uint64_t hrm_adjustment        : 8;  /**< [ 39: 32](R/W) HRM adjustment. */
+        uint64_t maxpow                : 8;  /**< [ 63: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum power. */
+        uint64_t average_power         : 8;  /**< [ 55: 48](R/W) Average power.
+                                                                 Time-averaged dynamic-power estimate for this core, in mA/GHz.
+                                                                 An approximation of this core's power is calculated with:
+
+                                                                   _ core_power = core_const * core_powered_on + [AVERAGE_POWER] * voltage * freq.
+
+                                                                 Where:
+
+                                                                 _ core_power is in mW.
+
+                                                                 _ core_const is a per-core constant leakage from the HRM power application note, and is in
+                                                                 mA.
+
+                                                                 _ core_powered_on is a boolean indicating power applied, from RST_PP_POWER<core_number>.
+
+                                                                 _ voltage is determined by the platform, perhaps by reading a VRM setting.
+
+                                                                 _ freq is in GHz and is from RST_BOOT[C_MUL] * 0.050, assuming standard 50 MHz ref-clock. */
+        uint64_t current_setting       : 8;  /**< [ 47: 40](R/W) Reserved.
+                                                                 Internal:
+                                                                 Current setting. */
+        uint64_t hrm_adjustment        : 8;  /**< [ 39: 32](R/W) Reserved.
+                                                                 Internal:
+                                                                 HRM adjustment. */
         uint64_t reserved_29_31        : 3;
-        uint64_t secret_override       : 1;  /**< [ 28: 28](R/W) Secret override. */
-        uint64_t disable_stagger       : 1;  /**< [ 27: 27](R/W) Disable stagger. */
-        uint64_t period                : 3;  /**< [ 26: 24](R/W) Period. */
-        uint64_t powlim                : 8;  /**< [ 23: 16](R/W) Power limit. */
-        uint64_t max_setting           : 8;  /**< [ 15:  8](R/W) Maximum setting. */
-        uint64_t min_setting           : 8;  /**< [  7:  0](R/W) Minimum setting. */
+        uint64_t override              : 1;  /**< [ 28: 28](R/W) Reserved.
+                                                                 Internal:
+                                                                 Override. */
+        uint64_t disable_stagger       : 1;  /**< [ 27: 27](R/W) Reserved.
+                                                                 Internal:
+                                                                 Disable stagger. */
+        uint64_t period                : 3;  /**< [ 26: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Period. */
+        uint64_t powlim                : 8;  /**< [ 23: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Power limit. */
+        uint64_t max_setting           : 8;  /**< [ 15:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum setting. */
+        uint64_t min_setting           : 8;  /**< [  7:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Minimum setting. */
 #else /* Word 0 - Little Endian */
-        uint64_t min_setting           : 8;  /**< [  7:  0](R/W) Minimum setting. */
-        uint64_t max_setting           : 8;  /**< [ 15:  8](R/W) Maximum setting. */
-        uint64_t powlim                : 8;  /**< [ 23: 16](R/W) Power limit. */
-        uint64_t period                : 3;  /**< [ 26: 24](R/W) Period. */
-        uint64_t disable_stagger       : 1;  /**< [ 27: 27](R/W) Disable stagger. */
-        uint64_t secret_override       : 1;  /**< [ 28: 28](R/W) Secret override. */
+        uint64_t min_setting           : 8;  /**< [  7:  0](R/W) Reserved.
+                                                                 Internal:
+                                                                 Minimum setting. */
+        uint64_t max_setting           : 8;  /**< [ 15:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum setting. */
+        uint64_t powlim                : 8;  /**< [ 23: 16](R/W) Reserved.
+                                                                 Internal:
+                                                                 Power limit. */
+        uint64_t period                : 3;  /**< [ 26: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Period. */
+        uint64_t disable_stagger       : 1;  /**< [ 27: 27](R/W) Reserved.
+                                                                 Internal:
+                                                                 Disable stagger. */
+        uint64_t override              : 1;  /**< [ 28: 28](R/W) Reserved.
+                                                                 Internal:
+                                                                 Override. */
         uint64_t reserved_29_31        : 3;
-        uint64_t hrm_adjustment        : 8;  /**< [ 39: 32](R/W) HRM adjustment. */
-        uint64_t current_setting       : 8;  /**< [ 47: 40](R/W) Current setting. */
-        uint64_t average_power         : 8;  /**< [ 55: 48](R/W) Average power. */
-        uint64_t maxpow                : 8;  /**< [ 63: 56](R/W) Maximum power. */
+        uint64_t hrm_adjustment        : 8;  /**< [ 39: 32](R/W) Reserved.
+                                                                 Internal:
+                                                                 HRM adjustment. */
+        uint64_t current_setting       : 8;  /**< [ 47: 40](R/W) Reserved.
+                                                                 Internal:
+                                                                 Current setting. */
+        uint64_t average_power         : 8;  /**< [ 55: 48](R/W) Average power.
+                                                                 Time-averaged dynamic-power estimate for this core, in mA/GHz.
+                                                                 An approximation of this core's power is calculated with:
+
+                                                                   _ core_power = core_const * core_powered_on + [AVERAGE_POWER] * voltage * freq.
+
+                                                                 Where:
+
+                                                                 _ core_power is in mW.
+
+                                                                 _ core_const is a per-core constant leakage from the HRM power application note, and is in
+                                                                 mA.
+
+                                                                 _ core_powered_on is a boolean indicating power applied, from RST_PP_POWER<core_number>.
+
+                                                                 _ voltage is determined by the platform, perhaps by reading a VRM setting.
+
+                                                                 _ freq is in GHz and is from RST_BOOT[C_MUL] * 0.050, assuming standard 50 MHz ref-clock. */
+        uint64_t maxpow                : 8;  /**< [ 63: 56](R/W) Reserved.
+                                                                 Internal:
+                                                                 Maximum power. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_cvm_power_el1_s cn; */
@@ -5032,7 +5110,7 @@ typedef union
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
@@ -5072,7 +5150,7 @@ typedef union
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
@@ -5095,7 +5173,7 @@ typedef union
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
@@ -5135,7 +5213,7 @@ typedef union
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. */
@@ -5158,7 +5236,7 @@ typedef union
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
@@ -5198,7 +5276,7 @@ typedef union
         uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
         uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
                                                                  WFE_DEFER<7:4>. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t isb_flush             : 1;  /**< [ 32: 32](R/W) Enable pipeline flush after an ISB. */
         uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
         uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
         uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
@@ -5255,12 +5333,18 @@ typedef union
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
@@ -5411,12 +5495,18 @@ typedef union
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
@@ -5455,12 +5545,18 @@ typedef union
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
@@ -5611,12 +5707,18 @@ typedef union
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
@@ -5655,12 +5757,18 @@ typedef union
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush.
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
@@ -5811,12 +5919,18 @@ typedef union
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization.
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed.
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
@@ -5862,12 +5976,18 @@ typedef union
                                                                  1 = DMB instructions mark prior relevant write-buffer entries for flush and wait for all
                                                                  the ACKs to return. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t tlbiicflush           : 1;  /**< [ 53: 53](R/W) Some local TLBI instructions cause ICache flush (pass 2.0 only).
                                                                  0 = Icache flush operation do not happen on the TLBI instructions listed below.
                                                                  1 = Icache is flushed on the TLBI instructions listed below:
@@ -6018,12 +6138,18 @@ typedef union
                                                                    * TLBI IPAS2E1{IS}.
                                                                    * TLBI IPAS2LE1{IS}. */
         uint64_t tlbinopdis            : 1;  /**< [ 54: 54](R/W) Disable broadcast TLBI optimization (pass 2.0 only).
-                                                                 Broadcast TLBI instructions that go to remote cores are converted to from address-based
-                                                                 TLBI instructions to context-based TLBI instructions. The actions on the local core
-                                                                 generating the TLBI instruction are still precise.
-                                                                 0 = Context-based TLBI instructions to remote cores (without intervening interruptions,
-                                                                 such as a DSB) are suppressed.
-                                                                 1 = Context-based TLBI instructions to remote cores are suppressed. */
+
+                                                                 Address-based broadcast TLBI instructions that go to remote cores are converted
+                                                                 from address-based TLBI instructions to context-based TLBI instructions. The
+                                                                 actions on the local core generating the TLBI instruction are still precise.
+
+                                                                 0 = The converted context-based TLBI instructions or original context-based
+                                                                 TLBIs to remote cores (without intervening interruptions, such as a DSB) are
+                                                                 coalesced into a single context-based TLBI. Converted and original ones do not
+                                                                 coalesce.
+
+                                                                 1 = The above-mentioned coalescing is suppressed and converted context-based
+                                                                 remote TLBIs still go out as such. */
         uint64_t dmbstallforce         : 1;  /**< [ 55: 55](R/W) Force DMB to wait for flushed write-buffer entries to be ACKed (pass 2.0 only).
                                                                  0 = DMB instructions mark prior relevant write-buffer entries for flush, but do not wait
                                                                  for the ACKs to return.
@@ -6075,7 +6201,27 @@ typedef union
     struct bdk_ap_cvmmemctl1_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_37_63        : 27;
+        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.  Added in pass 3.
+                                                                 0 = Single counter mode (combined hit and miss latency counter).
+                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
+        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
+                                                                 Added in pass 3.
+
+                                                                 Internal:
+                                                                 Backpressure is applied if:
+                                                                 <pre>
+                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
+                                                                 </pre>
+
+                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
+                                                                 is the MSB of the 4-bit miss counter being set. */
+        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency.  Added in pass 3. */
+        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency.  Added in pass 3. */
+        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare.  Added in pass 3. */
         uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
                                                                  Internal:
                                                                  83xx: Enable SSO switch-tag. */
@@ -6115,10 +6261,81 @@ typedef union
         uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
                                                                  Internal:
                                                                  83xx: Enable SSO switch-tag. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t spare                 : 1;  /**< [  7:  7](R/W) Reserved; spare.  Added in pass 3. */
+        uint64_t dprefbpmissthresh     : 12; /**< [ 19:  8](R/W) Data-stream hardware prefetcher backpressure threshold for L2C miss latency.  Added in pass 3. */
+        uint64_t dprefbphitthresh      : 12; /**< [ 31: 20](R/W) Data-stream hardware prefetcher backpressure threshold for L2C hit latency.  Added in pass 3. */
+        uint64_t dprefbpctl            : 4;  /**< [ 35: 32](R/W) Data-stream hardware prefetcher backpressure control mask for dual counter mode.
+                                                                 Added in pass 3.
+
+                                                                 Internal:
+                                                                 Backpressure is applied if:
+                                                                 <pre>
+                                                                   (   ([DPREFBPCTL]<0> && !hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<1> && !hit_ctr_bp &&  miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<2> &&  hit_ctr_bp && !miss_ctr_bp)
+                                                                    || ([DPREFBPCTL]<3> &&  hit_ctr_bp &&  miss_ctr_bp))
+                                                                 </pre>
+
+                                                                 Where hit_ctr_bp is the MSB of the 4-bit hit counter being set, and miss_ctr_bp
+                                                                 is the MSB of the 4-bit miss counter being set. */
+        uint64_t dprefbpmode           : 1;  /**< [ 36: 36](R/W) Data-stream hardware prefetcher backpressure mode select.  Added in pass 3.
+                                                                 0 = Single counter mode (combined hit and miss latency counter).
+                                                                 1 = Dual counter mode (separate hit and miss latency counters). */
+        uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ap_cvmmemctl1_el1_s cn; */
+    /* struct bdk_ap_cvmmemctl1_el1_s cn81xx; */
+    struct bdk_ap_cvmmemctl1_el1_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_37_63        : 27;
+        uint64_t reserved_8_36         : 29;
+        uint64_t reserved_7            : 1;
+        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable SSO switch-tag. */
+        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Trap any access to non-zero node id. */
+        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable atomics to I/O space.
+                                                                 0 = Atomic instructions to I/O space (PA<47>=1) will trap.
+                                                                 1 = Atomic instructions to SLI I/O space will succeed,
+                                                                     atomic instructions to other I/O spaces will trap.
+
+                                                                 Internal:
+                                                                 Also PKO/SSO. */
+        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable/disable LMTST(a). */
+        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
+        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
+        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t lodnshena             : 1;  /**< [  0:  0](R/W) LocalOrderDomain DMB/DSB_NSH{ST} enable. */
+        uint64_t lodishena             : 1;  /**< [  1:  1](R/W) LocalOrderDomain DMB/DSB_ISH{ST} enable. */
+        uint64_t lodignoresh           : 1;  /**< [  2:  2](R/W) LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
+        uint64_t lmtstena              : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable/disable LMTST(a). */
+        uint64_t ioatomicena           : 1;  /**< [  4:  4](R/W) Enable atomics to I/O space.
+                                                                 0 = Atomic instructions to I/O space (PA<47>=1) will trap.
+                                                                 1 = Atomic instructions to SLI I/O space will succeed,
+                                                                     atomic instructions to other I/O spaces will trap.
+
+                                                                 Internal:
+                                                                 Also PKO/SSO. */
+        uint64_t node1trapena          : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Trap any access to non-zero node id. */
+        uint64_t switchtagena          : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 83xx: Enable SSO switch-tag. */
+        uint64_t reserved_7            : 1;
+        uint64_t reserved_8_36         : 29;
+        uint64_t reserved_37_63        : 27;
+#endif /* Word 0 - End */
+    } cn88xx;
+    /* struct bdk_ap_cvmmemctl1_el1_s cn83xx; */
 } bdk_ap_cvmmemctl1_el1_t;
 
 #define BDK_AP_CVMMEMCTL1_EL1 BDK_AP_CVMMEMCTL1_EL1_FUNC()
@@ -15504,7 +15721,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
         uint32_t oslm_high             : 1;  /**< [  3:  3](RO) See below for description of the OSLM field. */
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not 32-bit access. This bit is always RAZ. It indicates that a
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not 32-bit access. This bit is always 0. It indicates that a
                                                                      32-bit access is needed to write the key to the OS lock access
                                                                      register. */
         uint32_t oslk                  : 1;  /**< [  1:  1](RO) OS Lock Status.
@@ -15528,7 +15745,7 @@ typedef union
                                                                      Access Register.
                                                                  0 = OS lock unlocked.
                                                                  1 = OS lock locked. */
-        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not 32-bit access. This bit is always RAZ. It indicates that a
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not 32-bit access. This bit is always 0. It indicates that a
                                                                      32-bit access is needed to write the key to the OS lock access
                                                                      register. */
         uint32_t oslm_high             : 1;  /**< [  3:  3](RO) See below for description of the OSLM field. */
@@ -15621,8 +15838,8 @@ typedef union
     struct bdk_ap_par_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mair                  : 8;  /**< [ 63: 56](R/W) - On success (f=0): Memory Attributes, following the encodings for the MAIR.
-                                                                 - On failure (f=1): Zero */
+        uint64_t mair                  : 8;  /**< [ 63: 56](R/W) On success (f=0): Memory Attributes, following the encodings for the MAIR.
+                                                                 On failure (f=1): Zero. */
         uint64_t reserved_48_55        : 8;
         uint64_t pa                    : 36; /**< [ 47: 12](R/W) Physical Address. The physical address corresponding to the
                                                                      supplied virtual address. This field returns address
@@ -15638,15 +15855,15 @@ typedef union
                                                                  0x0 = Non-shareable.
                                                                  0x2 = Outer Shareable.
                                                                  0x3 = Inner Shareable. */
-        uint64_t fs                    : 6;  /**< [  6:  1](R/W) - On success (f=0): Zero.
-                                                                 - On failure (f=1): Fault Status code shown in the Data Abort. */
+        uint64_t fs                    : 6;  /**< [  6:  1](R/W) On success (f=0): Zero.
+                                                                 On failure (f=1): Fault Status code shown in the Data Abort. */
         uint64_t f                     : 1;  /**< [  0:  0](R/W) Indicates whether the conversion completed successfully.
                                                                  0 = VA to PA conversion completed successfully. */
 #else /* Word 0 - Little Endian */
         uint64_t f                     : 1;  /**< [  0:  0](R/W) Indicates whether the conversion completed successfully.
                                                                  0 = VA to PA conversion completed successfully. */
-        uint64_t fs                    : 6;  /**< [  6:  1](R/W) - On success (f=0): Zero.
-                                                                 - On failure (f=1): Fault Status code shown in the Data Abort. */
+        uint64_t fs                    : 6;  /**< [  6:  1](R/W) On success (f=0): Zero.
+                                                                 On failure (f=1): Fault Status code shown in the Data Abort. */
         uint64_t sha                   : 2;  /**< [  8:  7](R/W) Shareability attribute, from the translation table entry for
                                                                      the returned PA.
                                                                  0x0 = Non-shareable.
@@ -15662,8 +15879,8 @@ typedef union
                                                                      supplied virtual address. This field returns address
                                                                      bits <47:12>. */
         uint64_t reserved_48_55        : 8;
-        uint64_t mair                  : 8;  /**< [ 63: 56](R/W) - On success (f=0): Memory Attributes, following the encodings for the MAIR.
-                                                                 - On failure (f=1): Zero */
+        uint64_t mair                  : 8;  /**< [ 63: 56](R/W) On success (f=0): Memory Attributes, following the encodings for the MAIR.
+                                                                 On failure (f=1): Zero. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ap_par_el1_s cn; */
@@ -16199,17 +16416,17 @@ typedef union
                                                                  0 = When enabled, AP_PMCCNTR_EL0 counts every clock cycle.
                                                                  1 = When enabled, AP_PMCCNTR_EL0 counts once every 64 clock cycles.
 
-                                                                 CNXXXX doesn't support 32-bit, so this bit is RAZ / WI. */
+                                                                 CNXXXX doesn't support 32-bit, so this bit is RAZ/WI. */
         uint32_t cc                    : 1;  /**< [  2:  2](R/W) Cycle counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit reads as zero.
                                                                  Resetting AP_PMCCNTR_EL0 does not clear the AP_PMCCNTR_EL0 overflow
                                                                      bit to 0.
                                                                  0 = No action.
                                                                  1 = Reset AP_PMCCNTR_EL0 to zero. */
         uint32_t p                     : 1;  /**< [  1:  1](R/W) Event counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit reads as zero.
                                                                  In non-secure EL0 and EL1, if EL2 is implemented, a write of 1
                                                                      to this bit does not reset event counters that AP_MDCR_EL2[HPMN]
                                                                      reserves for EL2 use.
@@ -16237,7 +16454,7 @@ typedef union
                                                                  1 = All counters are enabled by AP_PMCNTENSET_EL0. */
         uint32_t p                     : 1;  /**< [  1:  1](R/W) Event counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit reads as zero.
                                                                  In non-secure EL0 and EL1, if EL2 is implemented, a write of 1
                                                                      to this bit does not reset event counters that AP_MDCR_EL2[HPMN]
                                                                      reserves for EL2 use.
@@ -16250,7 +16467,7 @@ typedef union
                                                                      including AP_PMCCNTR_EL0, to zero. */
         uint32_t cc                    : 1;  /**< [  2:  2](R/W) Cycle counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
-                                                                 This bit is always RAZ.
+                                                                 This bit reads as zero.
                                                                  Resetting AP_PMCCNTR_EL0 does not clear the AP_PMCCNTR_EL0 overflow
                                                                      bit to 0.
                                                                  0 = No action.
@@ -16262,7 +16479,7 @@ typedef union
                                                                  0 = When enabled, AP_PMCCNTR_EL0 counts every clock cycle.
                                                                  1 = When enabled, AP_PMCCNTR_EL0 counts once every 64 clock cycles.
 
-                                                                 CNXXXX doesn't support 32-bit, so this bit is RAZ / WI. */
+                                                                 CNXXXX doesn't support 32-bit, so this bit is RAZ/WI. */
         uint32_t x                     : 1;  /**< [  4:  4](RO) Enable export of events in an implementation defined event
                                                                      stream.
                                                                  This bit is used to permit events to be exported to another

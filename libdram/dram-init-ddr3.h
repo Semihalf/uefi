@@ -13,6 +13,10 @@ extern int init_octeon3_ddr3_interface(bdk_node_t node,
     int board_rev_maj, int board_rev_min, int ddr_interface_num,
     uint32_t ddr_interface_mask);
 
+extern void
+set_vref(bdk_node_t node, int ddr_interface_num, int rank,
+	 int range, int value);
+
 typedef struct {
     unsigned char *rodt_ohms;
     unsigned char *rtt_nom_ohms;
@@ -22,6 +26,20 @@ typedef struct {
     short         *drive_strength;
     short         *dqx_strength;
 } impedence_values_t;
+
+extern impedence_values_t ddr4_impedence_values;
+
+extern int
+compute_vref_value(bdk_node_t node, int ddr_interface_num,
+		   int rankx, int dimm_count, int rank_count,
+		   impedence_values_t *imp_values, int is_stacked_die);
+
+extern unsigned short
+load_dac_override(int node, int ddr_interface_num,
+		  int dac_value, int byte);
+extern int
+read_DAC_DBI_settings(int node, int rank_mask, int ddr_interface_num,
+		      int dac_or_dbi, int *settings);
 
 #define RODT_OHMS_COUNT        8
 #define RTT_NOM_OHMS_COUNT     8

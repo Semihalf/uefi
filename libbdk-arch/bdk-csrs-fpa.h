@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -524,11 +524,11 @@ typedef union
     struct bdk_fpa_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_38_63        : 26;
-        uint64_t status                : 38; /**< [ 37:  0](RO/H) Memory BIST status. */
+        uint64_t reserved_42_63        : 22;
+        uint64_t status                : 42; /**< [ 41:  0](RO/H) Memory BIST status. */
 #else /* Word 0 - Little Endian */
-        uint64_t status                : 38; /**< [ 37:  0](RO/H) Memory BIST status. */
-        uint64_t reserved_38_63        : 26;
+        uint64_t status                : 42; /**< [ 41:  0](RO/H) Memory BIST status. */
+        uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_bist_status_s cn; */
@@ -561,20 +561,56 @@ typedef union
     struct bdk_fpa_bp_test_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
                                                                  <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
-        uint64_t reserved_24_59        : 36;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 <60> = Apply backpressure to adp      to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG12].
+                                                                 <59> = Apply backpressure to adp      to l2s traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG11].
+                                                                 <58> = Apply backpressure to adp      to l2l traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG10].
+                                                                 <57> = Apply backpressure to red read to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG9].
+                                                                 <56> = Apply backpressure to l2arb    to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG8].
+                                                                 <55> = Apply backpressure to csr      to adp traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG7].
+                                                                 <54> = Apply backpressure to pcc      to gib traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG6].
+                                                                 <53> = Apply backpressure to adp      to pfc traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG5].
+                                                                 <52> = generate pmc                   to pfc backpressure. Backpressure weight controlled
+                                                                 by [BP_CFG4].
+                                                                 <51> = Apply backpressure to pmc      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG3].
+                                                                 <50> = Apply backpressure to csr      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG2].
+                                                                 <49> = Apply backpressure to l2s      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG1].
+                                                                 <48> = Apply backpressure to l2l      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG0]. */
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
                                                                  0x3=75% of the time.
+                                                                   <47:46> = BP_CFG15.
+                                                                   <45:44> = BP_CFG14.
+                                                                   <43:42> = BP_CFG13.
+                                                                   <41:40> = BP_CFG12.
+                                                                   <39:38> = BP_CFG11.
+                                                                   <37:36> = BP_CFG10.
+                                                                   <35:34> = BP_CFG9.
+                                                                   <33:32> = BP_CFG8.
+                                                                   <31:30> = BP_CFG7.
+                                                                   <29:28> = BP_CFG6.
+                                                                   <27:26> = BP_CFG5.
+                                                                   <25:24> = BP_CFG4.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
@@ -584,24 +620,60 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
         uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
+        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
                                                                  Internal:
                                                                  There are 2 backpressure configuration bits per enable, with the two bits
                                                                  defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
                                                                  0x3=75% of the time.
+                                                                   <47:46> = BP_CFG15.
+                                                                   <45:44> = BP_CFG14.
+                                                                   <43:42> = BP_CFG13.
+                                                                   <41:40> = BP_CFG12.
+                                                                   <39:38> = BP_CFG11.
+                                                                   <37:36> = BP_CFG10.
+                                                                   <35:34> = BP_CFG9.
+                                                                   <33:32> = BP_CFG8.
+                                                                   <31:30> = BP_CFG7.
+                                                                   <29:28> = BP_CFG6.
+                                                                   <27:26> = BP_CFG5.
+                                                                   <25:24> = BP_CFG4.
                                                                    <23:22> = BP_CFG3.
                                                                    <21:20> = BP_CFG2.
                                                                    <19:18> = BP_CFG1.
                                                                    <17:16> = BP_CFG0. */
-        uint64_t reserved_24_59        : 36;
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
+        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
                                                                  at the corresponding point to allow for more frequent backpressure.
                                                                  <63> = Reserved. FIXME - add some.
                                                                  <62> = Reserved. FIXME - add some.
                                                                  <61> = Reserved. FIXME - add some.
-                                                                 <60> = Reserved. FIXME - add some. */
+                                                                 <60> = Apply backpressure to adp      to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG12].
+                                                                 <59> = Apply backpressure to adp      to l2s traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG11].
+                                                                 <58> = Apply backpressure to adp      to l2l traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG10].
+                                                                 <57> = Apply backpressure to red read to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG9].
+                                                                 <56> = Apply backpressure to l2arb    to csr traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG8].
+                                                                 <55> = Apply backpressure to csr      to adp traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG7].
+                                                                 <54> = Apply backpressure to pcc      to gib traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG6].
+                                                                 <53> = Apply backpressure to adp      to pfc traffic.      Backpressure weight controlled
+                                                                 by [BP_CFG5].
+                                                                 <52> = generate pmc                   to pfc backpressure. Backpressure weight controlled
+                                                                 by [BP_CFG4].
+                                                                 <51> = Apply backpressure to pmc      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG3].
+                                                                 <50> = Apply backpressure to csr      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG2].
+                                                                 <49> = Apply backpressure to l2s      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG1].
+                                                                 <48> = Apply backpressure to l2l      to ncbi traffic.     Backpressure weight controlled
+                                                                 by [BP_CFG0]. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_bp_test_s cn; */
@@ -755,23 +827,19 @@ typedef union
     struct bdk_fpa_ecc_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
-        uint64_t ram_flip1             : 20; /**< [ 61: 42](R/W) Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
+        uint64_t reserved_63           : 1;
+        uint64_t ram_flip1             : 21; /**< [ 62: 42](R/W) Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. */
-        uint64_t reserved_41           : 1;
-        uint64_t ram_flip0             : 20; /**< [ 40: 21](R/W) Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
+        uint64_t ram_flip0             : 21; /**< [ 41: 21](R/W) Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. */
-        uint64_t reserved_20           : 1;
-        uint64_t ram_cdis              : 20; /**< [ 19:  0](R/W) RAM ECC correction disable. Each bit corresponds to a different RAM. */
+        uint64_t ram_cdis              : 21; /**< [ 20:  0](R/W) RAM ECC correction disable. Each bit corresponds to a different RAM. */
 #else /* Word 0 - Little Endian */
-        uint64_t ram_cdis              : 20; /**< [ 19:  0](R/W) RAM ECC correction disable. Each bit corresponds to a different RAM. */
-        uint64_t reserved_20           : 1;
-        uint64_t ram_flip0             : 20; /**< [ 40: 21](R/W) Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
+        uint64_t ram_cdis              : 21; /**< [ 20:  0](R/W) RAM ECC correction disable. Each bit corresponds to a different RAM. */
+        uint64_t ram_flip0             : 21; /**< [ 41: 21](R/W) Flip syndrome bits on write. Flip syndrome bits <0> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. */
-        uint64_t reserved_41           : 1;
-        uint64_t ram_flip1             : 20; /**< [ 61: 42](R/W) Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
+        uint64_t ram_flip1             : 21; /**< [ 62: 42](R/W) Flip syndrome bits on write. Flip syndrome bits <1> on writes to the corresponding ram to
                                                                  test single-bit or double-bit error handling. */
-        uint64_t reserved_62_63        : 2;
+        uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_ctl_s cn; */
@@ -805,15 +873,15 @@ typedef union
     struct bdk_fpa_ecc_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1C/H) Set when a double-bit error is detected in the corresponding RAM. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1C/H) Set when a single-bit error is detected in the corresponding RAM. */
+        uint64_t reserved_53_63        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Set when a double-bit error is detected in the corresponding RAM. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Set when a single-bit error is detected in the corresponding RAM. */
 #else /* Word 0 - Little Endian */
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1C/H) Set when a single-bit error is detected in the corresponding RAM. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1C/H) Set when a double-bit error is detected in the corresponding RAM. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Set when a single-bit error is detected in the corresponding RAM. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Set when a double-bit error is detected in the corresponding RAM. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_s cn; */
@@ -847,15 +915,15 @@ typedef union
     struct bdk_fpa_ecc_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_53_63        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_SBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1C/H) Reads or clears enable for FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_ena_w1c_s cn; */
@@ -889,15 +957,15 @@ typedef union
     struct bdk_fpa_ecc_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_53_63        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_SBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets enable for FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_ena_w1s_s cn; */
@@ -931,15 +999,15 @@ typedef union
     struct bdk_fpa_ecc_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_53_63        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ram_sbe               : 20; /**< [ 19:  0](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_SBE]. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t ram_dbe               : 20; /**< [ 51: 32](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_DBE]. */
-        uint64_t reserved_52_63        : 12;
+        uint64_t ram_sbe               : 21; /**< [ 20:  0](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_SBE]. */
+        uint64_t reserved_21_31        : 11;
+        uint64_t ram_dbe               : 21; /**< [ 52: 32](R/W1S/H) Reads or sets FPA_ECC_INT[RAM_DBE]. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_ecc_int_w1s_s cn; */
@@ -974,7 +1042,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
-        uint64_t dwbq                  : 6;  /**< [ 17: 12](RAZ) Don't write back queue size. Number of transactions requesting DWB that may be
+        uint64_t dwbq                  : 6;  /**< [ 17: 12](R/W) Don't write back queue size. Number of transactions requesting DWB that may be
                                                                  held waiting for DWB. Once the stack is full, additional DWB requests will be
                                                                  ignored. 0x0 disables DWBs. 0x3F sets to maximum size. */
         uint64_t halfrate              : 1;  /**< [ 11: 11](R/W) Half rate. Limit peak alloc/free rate to half of peak to insure all alloc/frees are
@@ -1018,7 +1086,7 @@ typedef union
                                                                  alloc/frees. See also [HALFRATE]. */
         uint64_t halfrate              : 1;  /**< [ 11: 11](R/W) Half rate. Limit peak alloc/free rate to half of peak to insure all alloc/frees are
                                                                  visible to OCLA. */
-        uint64_t dwbq                  : 6;  /**< [ 17: 12](RAZ) Don't write back queue size. Number of transactions requesting DWB that may be
+        uint64_t dwbq                  : 6;  /**< [ 17: 12](R/W) Don't write back queue size. Number of transactions requesting DWB that may be
                                                                  held waiting for DWB. Once the stack is full, additional DWB requests will be
                                                                  ignored. 0x0 disables DWBs. 0x3F sets to maximum size. */
         uint64_t reserved_18_63        : 46;
@@ -1055,9 +1123,12 @@ typedef union
     struct bdk_fpa_gen_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with
+                                                                 GMID/GAURA have multiple hits in FPA_PF_MAP(). When a request thus dropped, even
+                                                                 if this bit is already set, FPA_UNMAP_INFO is loaded. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID
                                                                  not mapped in FPA_PF_MAP(). When a request thus dropped, even if this bit is
                                                                  already set, FPA_UNMAP_INFO is loaded. */
@@ -1071,9 +1142,12 @@ typedef union
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with GMID
                                                                  not mapped in FPA_PF_MAP(). When a request thus dropped, even if this bit is
                                                                  already set, FPA_UNMAP_INFO is loaded. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1C/H) Coprocessor allocate/return dropped due to that coprocessor requesting with
+                                                                 GMID/GAURA have multiple hits in FPA_PF_MAP(). When a request thus dropped, even
+                                                                 if this bit is already set, FPA_UNMAP_INFO is loaded. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) A free request was dropped due to the settings of FPA_INP_CTL[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) An allocation request was dropped due to the settings of FPA_INP_CTL[ALLOC_DIS]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_s cn; */
@@ -1107,17 +1181,19 @@ typedef union
     struct bdk_fpa_gen_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_MULTI]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for FPA_GEN_INT[GMID_MULTI]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_ena_w1c_s cn; */
@@ -1151,17 +1227,19 @@ typedef union
     struct bdk_fpa_gen_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_MULTI]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for FPA_GEN_INT[GMID_MULTI]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_GEN_INT[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_ena_w1s_s cn; */
@@ -1195,17 +1273,19 @@ typedef union
     struct bdk_fpa_gen_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_MULTI]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_UNMAP]. */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets FPA_GEN_INT[GMID0]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid0                 : 1;  /**< [  0:  0](R/W1S/H) Reads or sets FPA_GEN_INT[GMID0]. */
         uint64_t gmid_unmap            : 1;  /**< [  1:  1](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_UNMAP]. */
-        uint64_t free_dis              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
-        uint64_t alloc_dis             : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t gmid_multi            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets FPA_GEN_INT[GMID_MULTI]. */
+        uint64_t free_dis              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_GEN_INT[FREE_DIS]. */
+        uint64_t alloc_dis             : 1;  /**< [  4:  4](R/W1S/H) Reads or sets FPA_GEN_INT[ALLOC_DIS]. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_gen_int_w1s_s cn; */
@@ -1249,7 +1329,7 @@ typedef union
 
                                                                  Internal:
                                                                  FIXME update based on input bus connections in fpa_xfr.v. */
-        uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
+        uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Dellocation input disable. Each bit corresponds to a hardware deallocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped
                                                                  and FPA_GEN_INT[FREE_DIS] set
                                                                  <0> = SSO.
@@ -1257,18 +1337,20 @@ typedef union
                                                                  <2> = PKI.
                                                                  <3> = Reserved.
                                                                  <4> = ZIP.
-                                                                 <5> = RAD.
-                                                                 <6> = PKO send commands.
-                                                                 <7> = Reserved.
-                                                                 <8> = DPI.
-                                                                 <9> = DFA.
-                                                                 <10> = BCH.
-                                                                 <19:11> = Reserved.
+                                                                 <5> = TIM.
+                                                                 <6> = RAD.
+                                                                 <7> = PKO send commands.
+                                                                 <8> = Reserved.
+                                                                 <9> = DPI.
+                                                                 <10> = Reserved.
+                                                                 <11> = BCH.
+                                                                 <19:12> = Reserved.
 
                                                                  Internal:
-                                                                 FIXME update based on input bus connections in fpa_xpd.v. */
+                                                                 Once the grant is sent, the request is marked and it is dropped when the request
+                                                                 data is received. */
 #else /* Word 0 - Little Endian */
-        uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
+        uint64_t free_dis              : 20; /**< [ 19:  0](R/W) Dellocation input disable. Each bit corresponds to a hardware deallocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped
                                                                  and FPA_GEN_INT[FREE_DIS] set
                                                                  <0> = SSO.
@@ -1276,16 +1358,18 @@ typedef union
                                                                  <2> = PKI.
                                                                  <3> = Reserved.
                                                                  <4> = ZIP.
-                                                                 <5> = RAD.
-                                                                 <6> = PKO send commands.
-                                                                 <7> = Reserved.
-                                                                 <8> = DPI.
-                                                                 <9> = DFA.
-                                                                 <10> = BCH.
-                                                                 <19:11> = Reserved.
+                                                                 <5> = TIM.
+                                                                 <6> = RAD.
+                                                                 <7> = PKO send commands.
+                                                                 <8> = Reserved.
+                                                                 <9> = DPI.
+                                                                 <10> = Reserved.
+                                                                 <11> = BCH.
+                                                                 <19:12> = Reserved.
 
                                                                  Internal:
-                                                                 FIXME update based on input bus connections in fpa_xpd.v. */
+                                                                 Once the grant is sent, the request is marked and it is dropped when the request
+                                                                 data is received. */
         uint64_t alloc_dis             : 20; /**< [ 39: 20](R/W) Allocation input disable. Each bit corresponds to a hardware allocation input
                                                                  queue, and if set add-works from the corresponding coprocessor will be dropped
                                                                  and FPA_GEN_INT[ALLOC_DIS] set.
@@ -1322,9 +1406,19 @@ static inline uint64_t BDK_FPA_INP_CTL_FUNC(void)
  * Register (NCB) fpa_pf_map#
  *
  * FPA PF VF-Mapping Registers
- * These registers map GMIDs and guest aura-sets to hardware aura-sets. Regardless of
- * these registers, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one
- * mapping of GAURASET into VHAURASET.
+ * These registers map GMIDs and guest aura-sets to hardware aura-sets.
+ *
+ * * Regardless of this mapping table, GMID 0x0 is always invalid and use of 0x0 will
+ * cause a FPA_GEN_INT[GMID0] error.
+ *
+ * * else, regardless of this mapping table, GMID 0x1 is always a one-to-one mapping of
+ * GAURASET into VHAURASET.
+ *
+ * * else (excluding GMID 0x0 and 0x1), if a request hits duplicate entries a
+ * FPA_GEN_INT[GMID_MULTI] error will be reported.
+ *
+ * * else (excluding GMID 0x0 and 0x1), if a request does not hit any entries a
+ * FPA_GEN_INT[GMID_UNMAP] error will be reported.
  */
 typedef union
 {
@@ -1424,7 +1518,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's FPA_PF_MSIX_VEC()_ADDR, FPA_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of FPA_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -1434,7 +1528,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 = This vector's FPA_PF_MSIX_VEC()_ADDR, FPA_PF_MSIX_VEC()_CTL, and corresponding
                                                                  bit of FPA_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -2067,6 +2161,46 @@ static inline uint64_t BDK_FPA_SFT_RST_FUNC(void)
 #define arguments_BDK_FPA_SFT_RST -1,-1,-1,-1
 
 /**
+ * Register (NCB) fpa_status
+ *
+ * FPA Status Register
+ * This register returns FPA operational status.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_fpa_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t dwbq_busy             : 1;  /**< [  1:  1](RO/H) When 1, the DWBQ queue is non-empty. */
+        uint64_t inp_busy              : 1;  /**< [  0:  0](R/W1/H) When 1, an input queue is non-empty. */
+#else /* Word 0 - Little Endian */
+        uint64_t inp_busy              : 1;  /**< [  0:  0](R/W1/H) When 1, an input queue is non-empty. */
+        uint64_t dwbq_busy             : 1;  /**< [  1:  1](RO/H) When 1, the DWBQ queue is non-empty. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_fpa_status_s cn; */
+} bdk_fpa_status_t;
+
+#define BDK_FPA_STATUS BDK_FPA_STATUS_FUNC()
+static inline uint64_t BDK_FPA_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_FPA_STATUS_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8280000000c0ll;
+    __bdk_csr_fatal("FPA_STATUS", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_FPA_STATUS bdk_fpa_status_t
+#define bustype_BDK_FPA_STATUS BDK_CSR_TYPE_NCB
+#define basename_BDK_FPA_STATUS "FPA_STATUS"
+#define device_bar_BDK_FPA_STATUS 0x0 /* PF_BAR0 */
+#define busnum_BDK_FPA_STATUS 0
+#define arguments_BDK_FPA_STATUS -1,-1,-1,-1
+
+/**
  * Register (NCB) fpa_unmap_info
  *
  * FPA Unmapped Error Information Register
@@ -2356,7 +2490,6 @@ static inline uint64_t BDK_FPA_VFX_INT_W1S(unsigned long a)
  * FPA MSI-X Pending Bit Array Registers
  * This register is the MSI-X PBA table; the bit number is indexed by the FPA_VF()_INT_VEC_E
  * enumeration.
- * FIXME: arch_max: "1024,4"
  */
 typedef union
 {
@@ -2661,13 +2794,17 @@ typedef union
     struct bdk_fpa_vhaurax_op_allocx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) IOVA newly allocated by hardware. Bits <6:0> are always zero. If all zeros, the
-                                                                 selected pool is empty, aura limit has been hit, or RED/DROP was applied. */
+        uint64_t addr                  : 64; /**< [ 63:  0](RO/H) IOVA newly allocated by hardware. Bits <6:0> are always zero.  Bits <63:49> are
+                                                                 a sign extension of bit <48>.
+
+                                                                 If all zeros, the selected pool is empty, aura limit has been hit, or RED/DROP
+                                                                 was applied. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) IOVA newly allocated by hardware. Bits <6:0> are always zero. If all zeros, the
-                                                                 selected pool is empty, aura limit has been hit, or RED/DROP was applied. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 64; /**< [ 63:  0](RO/H) IOVA newly allocated by hardware. Bits <6:0> are always zero.  Bits <63:49> are
+                                                                 a sign extension of bit <48>.
+
+                                                                 If all zeros, the selected pool is empty, aura limit has been hit, or RED/DROP
+                                                                 was applied. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhaurax_op_allocx_s cn; */
@@ -2708,11 +2845,11 @@ typedef union
     struct bdk_fpa_vhaurax_op_freex_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte aligned. */
+        uint64_t addr                  : 64; /**< [ 63:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte
+                                                                 aligned. Bits<63:49> are ignored (as they are typically sign extensions of bit <48>). */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte aligned. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 64; /**< [ 63:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte
+                                                                 aligned. Bits<63:49> are ignored (as they are typically sign extensions of bit <48>). */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_vhaurax_op_freex_s cn; */

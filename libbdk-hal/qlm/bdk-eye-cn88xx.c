@@ -120,9 +120,8 @@ static void eye_move_location(bdk_node_t node, int qlm, int lane, int x, int y)
     const int SETTLE_TIME = bdk_config_get_int(BDK_CONFIG_EYE_SETTLE_TIME);
 
     /* Extract the current Y location from DWC_RX_CFG_4[13:8] */
-    int current_y;
     uint64_t reg = BDK_CSR_READ(node, BDK_GSERX_LANEX_RX_CFG_4(qlm, lane));
-    BDK_EXTRACT(current_y, reg, 8, 6);
+    int current_y = bdk_extract(reg, 8, 6);
     if (current_y & 0x20)
     {
         /* Convert negative */
@@ -142,15 +141,14 @@ static void eye_move_location(bdk_node_t node, int qlm, int lane, int x, int y)
         if (current_y < 0)
             tmp_y = -current_y | 0x20;
         uint64_t reg = BDK_CSR_READ(node, BDK_GSERX_LANEX_RX_CFG_4(qlm, lane));
-        BDK_INSERT(reg, tmp_y, 8, 6);
+        reg = bdk_insert(reg, tmp_y, 8, 6);
         BDK_CSR_WRITE(node, BDK_GSERX_LANEX_RX_CFG_4(qlm, lane), reg);
         bdk_wait_usec(SETTLE_TIME);
     }
 
     /* Extract the current X location */
-    int current_x;
     reg = BDK_CSR_READ(node, BDK_GSERX_LANEX_RX_CDR_CTRL_2(qlm, lane));
-    BDK_EXTRACT(current_x, reg, 8, 7);
+    int current_x = bdk_extract(reg, 8, 7);
 
     /* Calculate step direction. The hardware may lose sync if we step by more
        than one */
@@ -160,7 +158,7 @@ static void eye_move_location(bdk_node_t node, int qlm, int lane, int x, int y)
     {
         current_x += step_x;
         reg = BDK_CSR_READ(node, BDK_GSERX_LANEX_RX_CDR_CTRL_2(qlm, lane));
-        BDK_INSERT(reg, current_x, 8, 7);
+        reg = bdk_insert(reg, current_x, 8, 7);
         BDK_CSR_WRITE(node, BDK_GSERX_LANEX_RX_CDR_CTRL_2(qlm, lane), reg);
         bdk_wait_usec(SETTLE_TIME);
     }

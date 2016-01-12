@@ -89,6 +89,8 @@ int bdk_fpa_fill_pool(bdk_node_t node, bdk_fpa_pool_t pool, int num_blocks)
             block_size = pko_const.s.pdm_buf_size;
             break;
         }
+        case BDK_FPA_NUM_POOLS: /* Invalid, here to keep compiler happy */
+            break;
     }
     if (block_size == 0)
         bdk_fatal("Unable to determine FPA block size for pool %d\n", pool);

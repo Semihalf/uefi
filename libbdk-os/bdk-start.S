@@ -135,7 +135,10 @@ copy_code:
     str     x0, [x20, GPIO_CLK_OFFSET]
 #endif
 
-    mov     x0, after_relocate  /* Load the actual location we're suppose to be at */
+    /* Load the actual location we're suppose to be at */
+    adr     x0, after_relocate  /* Relative address */
+    adr     x1, _start          /* Relative address */
+    sub     x0, x0, x1          /* This only works if _start is suppose to be zero */
     mov     x1, x7              /* X7 is our link address */
     add     x0, x0, x1
     br      x0                  /* Branch to relocated code */
@@ -273,7 +276,7 @@ __bdk_exception_\label:
 
 .align 12
 __bdk_initial_stack_start:
-    .dword   0
+    .quad   0
 .align 12
 __bdk_initial_stack_end:
 

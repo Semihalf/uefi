@@ -6,7 +6,7 @@
 void bdk_boot_pcie(void)
 {
     /* Initialize PCIe and bring up the link */
-    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+    for (bdk_node_t n = BDK_NODE_0; n < BDK_NUMA_MAX_NODES; n++)
     {
         if (bdk_numa_exists(n))
         {

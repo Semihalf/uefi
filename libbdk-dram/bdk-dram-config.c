@@ -104,6 +104,21 @@ int bdk_dram_tune(int node)
 }
 
 /**
+ * Do all the DRAM Margin tests 
+ *
+ * @param node   Node to test
+ *
+ * @return Success or Fail
+ */
+void bdk_dram_margin(int node)
+{
+    BDK_TRACE(DRAM, "N%d: Starting DRAM margining\n", node);
+    libdram_margin(node);
+    BDK_TRACE(DRAM, "N%d: Finished DRAM margining.\n", node);
+    return;
+}
+
+/**
  * Lookup a DRAM configuration by name and return ddr_clock_hertz field
  *
  * @param node   Node to configure

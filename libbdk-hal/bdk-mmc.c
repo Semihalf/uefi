@@ -663,7 +663,7 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
     bdk_mio_emm_rsp_sts_t status;
     ocr_register_t ocr_reg;
 
-    // Disable buses, casues the clocking to reset to the default
+    // Disable buses, causes the clocking to reset to the default
     // Errata (EMMC-26703) EMMC CSR reset doesn't consistently work
     BDK_CSR_INIT( mio_emm_modex, node, BDK_MIO_EMM_MODEX(chip_sel));
     while (mio_emm_modex.s.clk_lo != 2500)
@@ -747,7 +747,7 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
 
             ocr_reg.u32 = (uint32_t) ((BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO) >>8) &0xFFFFFFFF);
         } while (ocr_reg.s.done_bit == 0x0);
-        // Success, we have an SD card version 2.0 or above, fall thru
+        // Success, we have an SD card version 2.0 or above, fall through
     }
     else
     {
@@ -765,7 +765,7 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
                 if (status.u)
                 {
                     // Have an SD card, version less than 2.0
-                    // fall thru, exit the loop
+                    // fall through, exit the loop
                     card_state[chip_sel].card_is_sd = 1;
                     break;
                 }

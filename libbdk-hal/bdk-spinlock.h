@@ -34,7 +34,10 @@ typedef union
  */
 static inline void bdk_spinlock_init(bdk_spinlock_t *lock)
 {
-    __atomic_store_8(&lock->combined, 0, __ATOMIC_RELAXED);
+    asm volatile ("str xzr, [%[b]]"
+                  : "+m" (lock->combined)
+                  : [b] "r" (&lock->combined)
+                  : "memory");
 }
 
 /**
@@ -45,7 +48,11 @@ static inline void bdk_spinlock_init(bdk_spinlock_t *lock)
 static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock) __attribute__ ((pure, always_inline));
 static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
 {
-    __atomic_store_4(&lock->s.serving, lock->s.serving + 1, __ATOMIC_RELEASE);
+    /* Implies a release */
+    asm volatile ("stlr %w[v], [%[b]]"
+                  : "+m" (lock->s.serving)
+                  : [v] "r" (lock->s.serving + 1), [b] "r" (&lock->s.serving)
+                  : "memory");
 }
 
 /**
@@ -61,16 +68,16 @@ static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
     uint32_t serving;
 
     asm volatile (
-        "mov %[serving], 1<<32                      \n"
-        "ldadda %[serving], %[combined], [%[ptr]]   \n"
-        "and %[serving], %[combined], 0xffffffff    \n"
-        "lsr %[ticket], %[combined], 32             \n"
-        "cmp %[ticket], %[serving]                  \n"
+        "mov %x[serving], 1<<32                     \n"
+        "ldadda %x[serving], %x[combined], [%[ptr]] \n"
+        "and %x[serving], %x[combined], 0xffffffff  \n"
+        "lsr %x[ticket], %x[combined], 32           \n"
+        "cmp %x[ticket], %x[serving]                \n"
         "b.eq 1f                                    \n"
         "sevl                                       \n"
      "2: wfe                                        \n"
         "ldxr %w[serving], [%[ptr]]                 \n"
-        "cmp %[ticket], %[serving]                  \n"
+        "cmp %x[ticket], %x[serving]                \n"
         "b.ne 2b                                    \n"
      "1:                                            \n"
         : [serving] "=&r" (serving), [ticket] "=&r" (ticket), [combined] "=&r" (combined), "+m" (lock->combined)
@@ -87,13 +94,13 @@ static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
 static inline int bdk_spinlock_trylock(bdk_spinlock_t *lock) __attribute__ ((pure, always_inline));
 static inline int bdk_spinlock_trylock(bdk_spinlock_t *lock)
 {
-    uint64_t combined = __atomic_load_8(&lock->combined, __ATOMIC_RELAXED);
+    uint64_t combined = *(volatile uint64_t *)&lock->combined;
     uint32_t ticket = combined >> 32;
     uint32_t serving = (uint32_t)combined;
     if (ticket != serving)
         return -1;
     uint64_t new_combined = combined + (1ull << 32);
-    return !__atomic_compare_exchange_8(&lock->combined, &combined, new_combined, 0, __ATOMIC_ACQUIRE, __ATOMIC_RELAXED);
+    return !__atomic_compare_exchange(&lock->combined, &combined, &new_combined, 0, __ATOMIC_ACQUIRE, __ATOMIC_RELAXED);
 }
 
 /** @} */

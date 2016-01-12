@@ -290,22 +290,22 @@ static int __bdk_sata_is_initialized(bdk_node_t node, int controller)
  * Initialize a SATA controller and begin device detection
  *
  * @param node       Node to initialize
- * @param controller Which controller to initalize
+ * @param controller Which controller to initialize
  *
  * @return Zero on success, negative on failure
  */
 int bdk_sata_initialize(bdk_node_t node, int controller)
 {
-    static_assert(sizeof(fis_reg_h2d_t) == 5 * 4);
-    static_assert(sizeof(fis_reg_d2h_t)== 5 * 4);
-    static_assert(sizeof(fis_data_t) == 2 * 4);
-    static_assert(sizeof(fis_pio_setup_t) == 5 * 4);
-    static_assert(sizeof(fis_dma_setup_t) == 7 * 4);
-    static_assert(sizeof(fis_bist_t) == 3 * 4);
-    static_assert(sizeof(hba_fis_t) == 256);
-    static_assert(sizeof(hba_cmd_header_t) == 8 * 4);
-    static_assert(sizeof(hba_prdt_entry_t) == 4 * 4);
-    static_assert(sizeof(hba_cmd_tbl_t)== 128 + sizeof(hba_prdt_entry_t));
+    _Static_assert(sizeof(fis_reg_h2d_t) == 5 * 4, "Size of fis_reg_h2d_t wrong");
+    _Static_assert(sizeof(fis_reg_d2h_t)== 5 * 4, "Size of fis_reg_d2h_t wrong");
+    _Static_assert(sizeof(fis_data_t) == 2 * 4, "Size of fis_data_t wrong");
+    _Static_assert(sizeof(fis_pio_setup_t) == 5 * 4, "Size of fis_pio_setup_t wrong");
+    _Static_assert(sizeof(fis_dma_setup_t) == 7 * 4, "Size of fis_dma_setup_t wrong");
+    _Static_assert(sizeof(fis_bist_t) == 3 * 4, "Size of fis_bist_t wrong");
+    _Static_assert(sizeof(hba_fis_t) == 256, "Size of hba_fis_t wrong");
+    _Static_assert(sizeof(hba_cmd_header_t) == 8 * 4, "Size of hba_cmd_header_t wrong");
+    _Static_assert(sizeof(hba_prdt_entry_t) == 4 * 4, "Size of hba_prdt_entry_t wrong");
+    _Static_assert(sizeof(hba_cmd_tbl_t)== 128 + sizeof(hba_prdt_entry_t), "Size of hba_cmd_tbl_t wrong");
 
     /* Make sure port is clocked before proceeding */
     BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(controller));
@@ -770,7 +770,7 @@ int bdk_sata_bist_fis(bdk_node_t node, int controller, int port, bdk_sata_bist_f
         Setup:
         1) Write SATAX_UAHC_GBL_BISTCR.ferlib = 1
         2) Connect pattern generator
-        3) Pattern generator msut send ALIGNs for PHY sync up
+        3) Pattern generator must send ALIGNs for PHY sync up
         4) Pattern should be looped back out
 
         2) Far-end Transmit Only Responder Mode (Software Initiated)

@@ -81,7 +81,7 @@ static int if_probe(bdk_if_handle_t handle)
             break;
         case BDK_LBK_CONNECT_E_PKIX(0):
             /* Use PKI_CHAN_E channel numbers 0 - 63 */
-            handle->pki_channel = BDK_PKI_CHAN_E_LOOPBACK_CHX(handle->index);
+            handle->pki_channel = BDK_PKI_CHAN_E_LBKX_CHX(handle->interface, handle->index);
             break;
         default:
             bdk_error("%s: Invalid input enumeration\n", handle->name);

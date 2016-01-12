@@ -139,7 +139,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
         {
             if (qlm < 2)
-                return BDK_QLM_MODE_XFI_4X1;
+                return BDK_QLM_MODE_XLAUI_1X4;
             else
                 return BDK_QLM_MODE_DISABLED;
         }
@@ -1331,10 +1331,12 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn88xx = {
     .get_qlm_num = qlm_get_qlm_num,
     .reset = __bdk_qlm_reset,
     .enable_prbs = __bdk_qlm_enable_prbs,
+    .disable_prbs = __bdk_qlm_disable_prbs,
     .get_prbs_errors = __bdk_qlm_get_prbs_errors,
     .inject_prbs_error = __bdk_qlm_inject_prbs_error,
     .enable_loop = __bdk_qlm_enable_loop,
     .auto_config = bdk_qlm_mcu_auto_config,
+    .tune_lane_tx = __bdk_qlm_tune_lane_tx,
     .rx_equalization = __bdk_qlm_rx_equalization,
     .eye_capture = __bdk_qlm_eye_capture_cn8xxx,
 };

@@ -64,6 +64,12 @@ static void bdk_boot_ccpi_nodes(void)
  */
 void bdk_boot_ccpi(void)
 {
+    /* Only CN88XX supports CCPI */
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return;
+    /* Emulator doesn't support CCPI */
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        return;
     if (bdk_boot_ccpi_link() == 0)
         bdk_boot_ccpi_nodes();
 }

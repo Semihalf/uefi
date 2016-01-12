@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -2302,8 +2302,8 @@ static inline uint64_t BDK_GSERX_LANEX_LBERT_PAT_CFG(unsigned long a, unsigned l
  *
  * GSER Lane Miscellaneous Configuration 0 Register
  * These registers are for diagnostic use only.
- * They are reset by hardware only during chip cold reset.
- * The values of the fields in these registers do not change during chip warm or soft resets.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
  */
 typedef union
 {
@@ -4508,6 +4508,251 @@ static inline uint64_t BDK_GSERX_LANEX_RX_MISC_OVRRD(unsigned long a, unsigned l
 #define arguments_BDK_GSERX_LANEX_RX_MISC_OVRRD(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) gser#_lane#_rx_os_mvalbbd_1
+ *
+ * GSER Lane SerDes RX Offset Calibration Manual Control 1 Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_lanex_rx_os_mvalbbd_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t pcs_sds_rx_os_mval    : 16; /**< [ 15:  0](R/W/H) Offset calibration override value when GSER()_LANE()_RX_CFG_1[PCS_SDS_RX_OS_MEN] is set.
+                                                                 Requires SIGN-MAG format.
+                                                                 <15:14> = Not used.
+                                                                 <13:8> = Qerr0.
+                                                                 <7:2> = I.
+                                                                 <3:0> = Ib. */
+#else /* Word 0 - Little Endian */
+        uint64_t pcs_sds_rx_os_mval    : 16; /**< [ 15:  0](R/W/H) Offset calibration override value when GSER()_LANE()_RX_CFG_1[PCS_SDS_RX_OS_MEN] is set.
+                                                                 Requires SIGN-MAG format.
+                                                                 <15:14> = Not used.
+                                                                 <13:8> = Qerr0.
+                                                                 <7:2> = I.
+                                                                 <3:0> = Ib. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_rx_os_mvalbbd_1_s cn; */
+} bdk_gserx_lanex_rx_os_mvalbbd_1_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_OS_MVALBBD_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_OS_MVALBBD_1(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e090440230ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440230ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
+        return 0x87e090440230ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_OS_MVALBBD_1", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_GSERX_LANEX_RX_OS_MVALBBD_1(a,b) bdk_gserx_lanex_rx_os_mvalbbd_1_t
+#define bustype_BDK_GSERX_LANEX_RX_OS_MVALBBD_1(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_LANEX_RX_OS_MVALBBD_1(a,b) "GSERX_LANEX_RX_OS_MVALBBD_1"
+#define device_bar_BDK_GSERX_LANEX_RX_OS_MVALBBD_1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_GSERX_LANEX_RX_OS_MVALBBD_1(a,b) (a)
+#define arguments_BDK_GSERX_LANEX_RX_OS_MVALBBD_1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) gser#_lane#_rx_os_mvalbbd_2
+ *
+ * GSER Lane SerDes RX Offset Calibration Manual Control 1 Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_lanex_rx_os_mvalbbd_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t pcs_sds_rx_os_mval    : 16; /**< [ 15:  0](R/W/H) Offset calibration override value when GSER()_LANE()_RX_CFG_1[PCS_SDS_RX_OS_MEN] is set.
+                                                                 Requires SIGN-MAG format.
+                                                                 <15:12> = Ib.
+                                                                 <11:6> = Q.
+                                                                 <5:0> = Qb. */
+#else /* Word 0 - Little Endian */
+        uint64_t pcs_sds_rx_os_mval    : 16; /**< [ 15:  0](R/W/H) Offset calibration override value when GSER()_LANE()_RX_CFG_1[PCS_SDS_RX_OS_MEN] is set.
+                                                                 Requires SIGN-MAG format.
+                                                                 <15:12> = Ib.
+                                                                 <11:6> = Q.
+                                                                 <5:0> = Qb. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_rx_os_mvalbbd_2_s cn; */
+} bdk_gserx_lanex_rx_os_mvalbbd_2_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_OS_MVALBBD_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_OS_MVALBBD_2(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e090440238ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e090440238ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
+        return 0x87e090440238ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_OS_MVALBBD_2", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_GSERX_LANEX_RX_OS_MVALBBD_2(a,b) bdk_gserx_lanex_rx_os_mvalbbd_2_t
+#define bustype_BDK_GSERX_LANEX_RX_OS_MVALBBD_2(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_LANEX_RX_OS_MVALBBD_2(a,b) "GSERX_LANEX_RX_OS_MVALBBD_2"
+#define device_bar_BDK_GSERX_LANEX_RX_OS_MVALBBD_2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_GSERX_LANEX_RX_OS_MVALBBD_2(a,b) (a)
+#define arguments_BDK_GSERX_LANEX_RX_OS_MVALBBD_2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) gser#_lane#_rx_os_out_1
+ *
+ * GSER Lane SerDes RX Calibration Status 1 Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_lanex_rx_os_out_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t sds_pcs_rx_os_out     : 12; /**< [ 11:  0](RO/H) Offset calibration code for readout, 2's complement.
+                                                                 <11:6> = Not used.
+                                                                 <5:0> = Qerr0. */
+#else /* Word 0 - Little Endian */
+        uint64_t sds_pcs_rx_os_out     : 12; /**< [ 11:  0](RO/H) Offset calibration code for readout, 2's complement.
+                                                                 <11:6> = Not used.
+                                                                 <5:0> = Qerr0. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_rx_os_out_1_s cn; */
+} bdk_gserx_lanex_rx_os_out_1_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_1(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e0904402a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904402a0ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
+        return 0x87e0904402a0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_OS_OUT_1", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_GSERX_LANEX_RX_OS_OUT_1(a,b) bdk_gserx_lanex_rx_os_out_1_t
+#define bustype_BDK_GSERX_LANEX_RX_OS_OUT_1(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_LANEX_RX_OS_OUT_1(a,b) "GSERX_LANEX_RX_OS_OUT_1"
+#define device_bar_BDK_GSERX_LANEX_RX_OS_OUT_1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_GSERX_LANEX_RX_OS_OUT_1(a,b) (a)
+#define arguments_BDK_GSERX_LANEX_RX_OS_OUT_1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) gser#_lane#_rx_os_out_2
+ *
+ * GSER Lane SerDes RX Calibration Status 2 Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_lanex_rx_os_out_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t sds_pcs_rx_os_out     : 12; /**< [ 11:  0](RO/H) Offset calibration code for readout, 2's complement.
+                                                                 <11:6> = I.
+                                                                 <5:0> = Ib. */
+#else /* Word 0 - Little Endian */
+        uint64_t sds_pcs_rx_os_out     : 12; /**< [ 11:  0](RO/H) Offset calibration code for readout, 2's complement.
+                                                                 <11:6> = I.
+                                                                 <5:0> = Ib. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_rx_os_out_2_s cn; */
+} bdk_gserx_lanex_rx_os_out_2_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_2(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e0904402a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904402a8ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
+        return 0x87e0904402a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_OS_OUT_2", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_GSERX_LANEX_RX_OS_OUT_2(a,b) bdk_gserx_lanex_rx_os_out_2_t
+#define bustype_BDK_GSERX_LANEX_RX_OS_OUT_2(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_LANEX_RX_OS_OUT_2(a,b) "GSERX_LANEX_RX_OS_OUT_2"
+#define device_bar_BDK_GSERX_LANEX_RX_OS_OUT_2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_GSERX_LANEX_RX_OS_OUT_2(a,b) (a)
+#define arguments_BDK_GSERX_LANEX_RX_OS_OUT_2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) gser#_lane#_rx_os_out_3
+ *
+ * GSER Lane SerDes RX Calibration Status 3 Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_lanex_rx_os_out_3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t sds_pcs_rx_os_out     : 12; /**< [ 11:  0](RO/H) Offset calibration code for readout, 2's complement.
+                                                                 <11:6> = Q.
+                                                                 <5:0> = Qb. */
+#else /* Word 0 - Little Endian */
+        uint64_t sds_pcs_rx_os_out     : 12; /**< [ 11:  0](RO/H) Offset calibration code for readout, 2's complement.
+                                                                 <11:6> = Q.
+                                                                 <5:0> = Qb. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_rx_os_out_3_s cn; */
+} bdk_gserx_lanex_rx_os_out_3_t;
+
+static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_RX_OS_OUT_3(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=1)))
+        return 0x87e0904402b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=6) && (b<=3)))
+        return 0x87e0904402b0ll + 0x1000000ll * ((a) & 0x7) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=13) && (b<=3)))
+        return 0x87e0904402b0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_OS_OUT_3", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_GSERX_LANEX_RX_OS_OUT_3(a,b) bdk_gserx_lanex_rx_os_out_3_t
+#define bustype_BDK_GSERX_LANEX_RX_OS_OUT_3(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_LANEX_RX_OS_OUT_3(a,b) "GSERX_LANEX_RX_OS_OUT_3"
+#define device_bar_BDK_GSERX_LANEX_RX_OS_OUT_3(a,b) 0x0 /* PF_BAR0 */
+#define busnum_BDK_GSERX_LANEX_RX_OS_OUT_3(a,b) (a)
+#define arguments_BDK_GSERX_LANEX_RX_OS_OUT_3(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) gser#_lane#_rx_precorr_ctrl
  *
  * GSER Lane RX Precorrelation Control Register
@@ -5323,9 +5568,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_3[CFG_RX_ERRDET_CTRL[6:5]:
-                                                                 0x0 = Window counter[19:12] (VMA RAW FOM).
-                                                                 0x1 = Window counter[11:4].
+        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL]<6:5>:
+                                                                 0x0 = Window counter<19:12> (VMA RAW FOM).
+                                                                 0x1 = Window counter<11:4>.
                                                                  0x2 = CTLE (continous time linear equalizer) pole, SDLL_IQ.
                                                                  0x3 = Pre-CTLE gain, CTLE Peak.
 
@@ -5337,9 +5582,9 @@ typedef union
 
                                                                  <2:0>: CDR Phase Offset, DLL IQ Training value. */
 #else /* Word 0 - Little Endian */
-        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_3[CFG_RX_ERRDET_CTRL[6:5]:
-                                                                 0x0 = Window counter[19:12] (VMA RAW FOM).
-                                                                 0x1 = Window counter[11:4].
+        uint64_t sds_pcs_rx_vma_status : 16; /**< [ 15:  0](RO/H) <15:8>: Output is controlled by GSER()_LANE()_RX_CFG_4[CFG_RX_ERRDET_CTRL]<6:5>:
+                                                                 0x0 = Window counter<19:12> (VMA RAW FOM).
+                                                                 0x1 = Window counter<11:4>.
                                                                  0x2 = CTLE (continous time linear equalizer) pole, SDLL_IQ.
                                                                  0x3 = Pre-CTLE gain, CTLE Peak.
 
@@ -7439,39 +7684,7 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_pipe_lpbk_s cn81xx; */
-    struct bdk_gserx_pipe_lpbk_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pcie_lpbk             : 1;  /**< [  0:  0](R/W) For links that are in PCIE mode, places the PHY in serial loopback mode, where the
-                                                                 QLMn_TXN/QLMn_TXP data are looped back to the QLMn_RXN/QLMn_RXP.
-
-                                                                 This register has no meaning for links that don't support PCIe i.e. GSER(5..13). */
-#else /* Word 0 - Little Endian */
-        uint64_t pcie_lpbk             : 1;  /**< [  0:  0](R/W) For links that are in PCIE mode, places the PHY in serial loopback mode, where the
-                                                                 QLMn_TXN/QLMn_TXP data are looped back to the QLMn_RXN/QLMn_RXP.
-
-                                                                 This register has no meaning for links that don't support PCIe i.e. GSER(5..13). */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn88xx;
-    struct bdk_gserx_pipe_lpbk_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t pcie_lpbk             : 1;  /**< [  0:  0](R/W) For links that are in PCIE mode, places the PHY in serial loopback mode, where the
-                                                                 QLMn_TXN/QLMn_TXP data are looped back to the QLMn_RXN/QLMn_RXP.
-
-                                                                 This register has no meaning for links that don't support PCIe i.e. */
-#else /* Word 0 - Little Endian */
-        uint64_t pcie_lpbk             : 1;  /**< [  0:  0](R/W) For links that are in PCIE mode, places the PHY in serial loopback mode, where the
-                                                                 QLMn_TXN/QLMn_TXP data are looped back to the QLMn_RXN/QLMn_RXP.
-
-                                                                 This register has no meaning for links that don't support PCIe i.e. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_gserx_pipe_lpbk_s cn; */
 } bdk_gserx_pipe_lpbk_t;
 
 static inline uint64_t BDK_GSERX_PIPE_LPBK(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9367,8 +9580,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t l3_rst                : 1;  /**< [  3:  3](R/W) Reserved. */
-        uint64_t l2_rst                : 1;  /**< [  2:  2](R/W) Reserved. */
+        uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Reserved. */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Reserved. */
         uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1.
                                                                  This register is used for SATA lanes only for GSER(4..6). */
         uint64_t l0_rst                : 1;  /**< [  0:  0](R/W) Independent reset for lane 0.
@@ -9378,8 +9591,8 @@ typedef union
                                                                  This register is used for SATA lanes only for GSER(4..6). */
         uint64_t l1_rst                : 1;  /**< [  1:  1](R/W) Independent reset for lane 1.
                                                                  This register is used for SATA lanes only for GSER(4..6). */
-        uint64_t l2_rst                : 1;  /**< [  2:  2](R/W) Reserved. */
-        uint64_t l3_rst                : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint64_t l2_rst                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint64_t l3_rst                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;
@@ -9545,8 +9758,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t l3_inv                : 1;  /**< [  3:  3](R/W) Reserved. */
-        uint64_t l2_inv                : 1;  /**< [  2:  2](R/W) Reserved. */
+        uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Reserved. */
+        uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Reserved. */
         uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
                                                                  lane 1 transmitted data.
                                                                  This register is used for SATA lanes only for GSER(4..6). */
@@ -9560,8 +9773,8 @@ typedef union
         uint64_t l1_inv                : 1;  /**< [  1:  1](R/W) Instructs the SATA PCS to perform a polarity inversion on the
                                                                  lane 1 transmitted data.
                                                                  This register is used for SATA lanes only for GSER(4..6). */
-        uint64_t l2_inv                : 1;  /**< [  2:  2](R/W) Reserved. */
-        uint64_t l3_inv                : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint64_t l2_inv                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint64_t l3_inv                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;
@@ -9882,9 +10095,11 @@ typedef union
     struct bdk_gserx_spd_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_4_63         : 60;
+        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) Not used. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t spd                   : 4;  /**< [  3:  0](R/W/H) Not used. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn83xx;
     struct bdk_gserx_spd_cn88xxp2

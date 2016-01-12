@@ -241,6 +241,12 @@ int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
         int old_baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
         if (old_baud_mhz == baud_mhz)
         {
+            if ((mode == BDK_QLM_MODE_PCIE_1X8) && ((qlm & 1) == 0))
+            {
+                /* Use the same reference clock for the second QLM */
+                BDK_CSR_WRITE(node, BDK_GSERX_REFCLK_SEL(qlm + 1),
+                    BDK_CSR_READ(node, BDK_GSERX_REFCLK_SEL(qlm)));
+            }
             BDK_TRACE(QLM, "N%d.QLM%d: Skipping set_mode as QLM is already in correct mode\n", node, qlm);
             return 0;
         }
@@ -334,6 +340,19 @@ int bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t 
 }
 
 /**
+ * Disable PRBS on a QLM
+ *
+ * @param node   Node to use in a numa setup
+ * @param qlm    QLM to use
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_qlm_disable_prbs(bdk_node_t node, int qlm)
+{
+    return qlm_ops->disable_prbs(node, qlm);
+}
+
+/**
  * Return the number of PRBS errors since PRBS started running
  *
  * @param node   Node to use in numa setup
@@ -372,6 +391,25 @@ void bdk_qlm_inject_prbs_error(bdk_node_t node, int qlm, int lane)
 int bdk_qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
 {
     return qlm_ops->enable_loop(node, qlm, loop);
+}
+/**
+ * Configure the TX tuning parameters for a QLM lane. The tuning parameters can
+ * be specified as -1 to maintain their current value
+ *
+ * @param node      Node to configure
+ * @param qlm       QLM to configure
+ * @param lane      Lane to configure
+ * @param tx_swing  Transmit swing (coef 0) Range 0-31
+ * @param tx_pre    Pre cursor emphasis (Coef -1). Range 0-15
+ * @param tx_post   Post cursor emphasis (Coef +1). Range 0-31
+ * @param tx_gain   Transmit gain. Range 0-7
+ * @param tx_vboost Transmit voltage boost. Range 0-1
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_qlm_tune_lane_tx(bdk_node_t node, int qlm, int lane, int tx_swing, int tx_pre, int tx_post, int tx_gain, int tx_vboost)
+{
+    return qlm_ops->tune_lane_tx(node, qlm, lane, tx_swing, tx_pre, tx_post, tx_gain, tx_vboost);
 }
 
 /**

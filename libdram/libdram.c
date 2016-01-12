@@ -22,7 +22,7 @@ static void bdk_dram_clear_mem(bdk_node_t node)
 	uint64_t len =  (mbytes << 20) - skip;
 
 	BDK_TRACE(DRAM, "N%d: Clearing DRAM\n", node);
-	printf("N%d: Clearing DRAM: start 0x%lx length 0x%lx\n", node, skip, len);
+	ddr_print("N%d: Clearing DRAM: start 0x%lx length 0x%lx\n", node, skip, len);
 	bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)), len);
 	BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);
     }
@@ -42,18 +42,34 @@ static void bdk_dram_clear_ecc(bdk_node_t node)
 static int bdk_libdram_tune_node(int node)
 {
     int errs, tot_errs;
+    int do_dllwo = 0; // default to NO
+    const char *str;
 
     // Automatically tune the data byte DLL read offsets
     BDK_TRACE(DRAM, "N%d: Starting DLL Read Offset Tuning for LMCs\n", node);
-    errs = perform_dll_offset_tuning(node, 2); 
+    errs = perform_dll_offset_tuning(node, 2, /* tune */1); 
     BDK_TRACE(DRAM, "N%d: Finished DLL Read Offset Tuning for LMCs, %d errors)\n",
 	      node, errs);
     tot_errs = errs;
 
+    // disabled by default for now, does not seem to be needed?
+    // Automatically tune the data byte DLL read offsets
+    // allow override of default setting
+    str = getenv("ddr_tune_write_offsets");
+    if (str)
+	do_dllwo = !!strtoul(str, NULL, 0);
+    if (do_dllwo) {
+	BDK_TRACE(DRAM, "N%d: Starting DLL Write Offset Tuning for LMCs\n", node);
+	errs = perform_dll_offset_tuning(node, 1, /* tune */1); 
+	BDK_TRACE(DRAM, "N%d: Finished DLL Write Offset Tuning for LMCs, %d errors)\n",
+	       node, errs);
+	tot_errs += errs;
+    }
+
     // Automatically tune the ECC byte DLL read offsets
     BDK_TRACE(DRAM, "N%d: Starting ECC DLL Read Offset Tuning for LMCs\n", node);
-    errs = perform_ECC_dll_offset_tuning(node, 2); 
-    BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors)\n",
+    errs = perform_ECC_dll_offset_tuning(node, 2, /* tune */1); 
+    BDK_TRACE(DRAM, "N%d: Finished ECC DLL Read Offset Tuning for LMCs, %d errors\n",
 	      node, errs);
     tot_errs += errs;
 
@@ -96,9 +112,15 @@ static const uint32_t ddr_speed_filter[2][2][2] = {
 
 static int bdk_libdram_maybe_tune_node(int node)
 {
-    // FIXME: allow an override here so that all configs can be tuned
-    if (getenv("ddr_tune_all_configs") != NULL) // just being defined is enough...
-	return bdk_libdram_tune_node(node);
+    const char *str;
+
+    // FIXME: allow an override here so that all configs can be tuned or none
+    // If the envvar is defined, always either force it or avoid it accordingly
+    if ((str = getenv("ddr_tune_all_configs")) != NULL) {
+	int tune_it = !!strtoul(str, NULL, 0);
+	printf("N%d: DRAM auto-tuning %s.\n", node, (tune_it) ? "forced" : "avoided");
+	return (tune_it) ? bdk_libdram_tune_node(node) : 0;
+    }
 
     // filter the tuning calls here...
     // determine if we should/can run automatically for this configuration
@@ -117,9 +139,9 @@ static int bdk_libdram_maybe_tune_node(int node)
     uint32_t ddr_min_speed = ddr_speed_filter[is_ddr4][is_rdimm][is_1slot];
     do_tune = (ddr_min_speed && (ddr_speed > ddr_min_speed));
 
-    printf("N%d: DDR%d %cDIMM %d-slot at %d MHz %s eligible for auto-tuning.\n",
-	   node, (is_ddr4)?4:3, (is_rdimm)?'R':'U', (is_1slot)?1:2,
-	   ddr_speed, (do_tune)?"is":"is not");
+    ddr_print("N%d: DDR%d %cDIMM %d-slot at %d MHz %s eligible for auto-tuning.\n",
+	      node, (is_ddr4)?4:3, (is_rdimm)?'R':'U', (is_1slot)?1:2,
+	      ddr_speed, (do_tune)?"is":"is not");
 
     // call the tuning routines, done filtering...
     return ((do_tune) ? bdk_libdram_tune_node(node) : 0);
@@ -151,29 +173,29 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     if (gpio_select != -1)
         bdk_gpio_initialize(bdk_numa_master(), gpio_select, 1, 1);
 
-    const char *str;
+    /* Read all the SPDs and store them in the device tree. They are needed by
+       later software to populate SMBIOS information */
+    for (int lmc = 0; lmc < 4; lmc++)
+        for (int dimm = 0; dimm < DDR_CFG_T_MAX_DIMMS; dimm++)
+            read_entire_spd(node, (dram_config_t *)dram_config, lmc, dimm);
+
     const ddr_configuration_t *ddr_config = dram_config->config;
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
     int errs;
 
-    // look for an envvar or board config option to select 100 MHz or default to 50 MHz refclk
-    // assumption: the alternate refclk is setup for 100MHz
-    // note: we only need to turn on the alternate refclk select bit in LMC0
+    // At this point, we only know the desired clock rate (ddr_clock_hertz).
+    // We do not know whether we are configuring RDIMMs.
+    // We also do not yet know if 100MHz alternate refclk is actually available.
+    // so, if we are being asked for 2133MT/s or better, we still need to do:
+    // 1. probe for RDIMMs (if not, 50MHz refclk is good enough)
+    // 2. determine if 100MHz refclk is there, and switch to it before starting any configuration
+    //
+    // NOTES:
+    // 1. dclk_alt_refclk_sel need only be set on LMC0 (see above disabled code)
+    // 2. I think we need to first probe to see if we need it, and configure it then if dictated use
+    // 3. then go on to configure at the selected refclk
     int ddr_refclk_hertz = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
     int alt_refclk = bdk_config_get_int(BDK_CONFIG_DDR_ALT_REFCLK, node);
-
-    str = getenv("ddr_100mhz_refclk");
-    if (str)
-        alt_refclk = strtoul(str, NULL, 0) * 100;
-
-    if (alt_refclk) { // if alternate clock was selected, we also need to set the bit and wait a little...
-	ddr_refclk_hertz = alt_refclk * 1000000;
-	DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(0), c.s.dclk_alt_refclk_sel = 1);
-	bdk_wait_usec(1000); // wait 1 msec
-    }
-
-    BDK_TRACE(DRAM, "N%d: DRAM init started (hertz=%d, refclk=%d, config=%p)\n",
-	      node, ddr_clock_hertz, ddr_refclk_hertz, dram_config);
 
     dram_verbosity = bdk_config_get_int(BDK_CONFIG_DRAM_VERBOSE);
 
@@ -185,7 +207,31 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
         if (ddr_config[i].dimm_config_table[0].spd_addrs[0] ||
             ddr_config[i].dimm_config_table[0].spd_ptrs[0])
             interface_mask |= 1 << i;
+
+        // we know whether alternate refclk is always wanted
+        // we also know already if we want 2133 MT/s
+        // if alt refclk not always wanted, then probe DDR and DIMM type
+        // if DDR4 and RDIMMs, then set desired refclk to 100MHz, otherwise to default (50MHz)
+        // depend on ddr_initialize() to do the refclk selection and validation
+        if (i == 0) { // only check for LMC0
+            if (alt_refclk) { // if alternate refclk was specified, let it override everything
+                ddr_refclk_hertz = alt_refclk * 1000000;
+                ddr_print("N%d: DRAM init: %d MHz refclk is REQUESTED ALWAYS\n", node, alt_refclk);
+            } else if (ddr_clock_hertz > 1000000000) { // if more than 2000 MT/s
+                int ddr_type = get_ddr_type(node, &ddr_config[0].dimm_config_table[0], 0);
+                int spd_dimm_type = get_dimm_module_type(node, &ddr_config[0].dimm_config_table[0], 0, ddr_type);
+                if ((ddr_type == DDR4_DRAM) && (spd_dimm_type == 1)) { // is DDR4 and RDIMM just to be sure
+                    ddr_refclk_hertz = 100000000; // yes, we require 100MHz refclk, so set it
+                    ddr_print("N%d: DRAM init: 100 MHz refclk is REQUIRED\n", node);
+                }
+            } // if (ddr_clock_hertz > 1000000000)
+        } // if (i == 0)
     }
+
+    BDK_TRACE(DRAM, "N%d: DRAM init started (hertz=%d, refclk=%d, config=%p)\n",
+              node, ddr_clock_hertz, ddr_refclk_hertz, dram_config);
+    debug_print("N%d: DRAM init started (hertz=%d, refclk=%d, config=%p)\n",
+                node, ddr_clock_hertz, ddr_refclk_hertz, dram_config);
 
     BDK_TRACE(DRAM, "N%d: Calling DRAM init\n", node);
     measured_ddr_hertz[node] = 0;
@@ -232,17 +278,237 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
 int libdram_tune(int node)
 {
     int tot_errs;
+    int l2c_num_locked = bdk_l2c_get_num_locked(node);
 
     dram_verbosity = bdk_config_get_int(BDK_CONFIG_DRAM_VERBOSE);
 
+    // the only way this entry point should be called is from a MENU item,
+    // so, enable any non-running cores on this node, and leave them
+    // running at the end...
+    ddr_print("N%d: %s: Starting cores (mask was 0x%lx)\n",
+	      node, __FUNCTION__, bdk_get_running_coremask(node));
+    bdk_init_cores(node, ~0ULL);
+
+    // must test for L2C locked here, cannot go on with it unlocked
+    // FIXME: but we only need to worry about Node 0???
+    if (node == 0) {
+	if (l2c_num_locked == 0) { // is unlocked, must lock it now
+	    ddr_print("N%d: %s: L2C was unlocked - locking it now\n", node, __FUNCTION__);
+	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
+	    bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+	} else {
+	    ddr_print("N%d: %s: L2C was already locked - continuing\n", node, __FUNCTION__);
+	}
+    } else {
+	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+    }
+
     // call the tuning routines, no filtering...
     tot_errs = bdk_libdram_tune_node(node);
+
+    // FIXME: only for node 0, unlock L2C if it was unlocked before...
+    if (node == 0) {
+	if (l2c_num_locked == 0) { // it was Node 0 and unlocked, must re-unlock it now
+	    ddr_print("N%d: Node 0 L2C was unlocked before - unlocking it now\n", node);
+	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
+	    bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+	} else {
+	    ddr_print("N%d: %s: L2C was already locked - leaving it locked\n", node, __FUNCTION__);
+	}
+    } else {
+	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+    }
 
     // make sure to clear memory and any ECC errs when done... 
     bdk_dram_clear_mem(node);
     bdk_dram_clear_ecc(node);
 
     return tot_errs;
+}
+
+/**
+ * This is the main function for DRAM margining of Write Voltage.
+ * Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to test. This may not be the same node as the one running the code
+ *
+ * @return Success or Fail
+ */
+static
+int libdram_margin_write_voltage(int node)
+{
+    int tot_errs;
+
+    // call the margining routine
+    tot_errs = perform_margin_write_voltage(node);
+
+    // make sure to clear memory and any ECC errs when done... 
+    bdk_dram_clear_mem(node);
+    bdk_dram_clear_ecc(node);
+
+    return tot_errs;
+}
+
+/**
+ * This is the main function for DRAM margining of Read Voltage.
+ * Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to test. This may not be the same node as the one running the code
+ *
+ * @return Success or Fail
+ */
+static
+int libdram_margin_read_voltage(int node)
+{
+    int tot_errs;
+
+    // call the margining routine
+    tot_errs = perform_margin_read_voltage(node);
+
+    // make sure to clear memory and any ECC errs when done... 
+    bdk_dram_clear_mem(node);
+    bdk_dram_clear_ecc(node);
+
+    return tot_errs;
+}
+
+/**
+ * This is the main function for DRAM margining of Write Timing.
+ * Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to test. This may not be the same node as the one running the code
+ *
+ * @return Success or Fail
+ */
+static
+int libdram_margin_write_timing(int node)
+{
+    int tot_errs;
+
+    // call the tuning routine, tell it we are margining not tuning...
+    tot_errs = perform_dll_offset_tuning(node, /* write offsets */1, /* margin */0);
+
+    // make sure to clear memory and any ECC errs when done... 
+    bdk_dram_clear_mem(node);
+    bdk_dram_clear_ecc(node);
+
+    return tot_errs;
+}
+
+/**
+ * This is the main function for DRAM margining of Read Timing.
+ * Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to test. This may not be the same node as the one running the code
+ *
+ * @return Success or Fail
+ */
+static
+int libdram_margin_read_timing(int node)
+{
+    int tot_errs;
+
+    // call the tuning routine, tell it we are margining not tuning...
+    tot_errs = perform_dll_offset_tuning(node, /* read offsets */2, /* margin */0);
+
+    // make sure to clear memory and any ECC errs when done... 
+    bdk_dram_clear_mem(node);
+    bdk_dram_clear_ecc(node);
+
+    return tot_errs;
+}
+
+/**
+ * This is the main function for all DRAM margining.
+ * Users of libdram should call this function,
+ * avoiding the other internal function. As a rule, functions starting with
+ * "libdram_*" are part of the external API and should be used.
+ *
+ * @param node   Node to test. This may not be the same node as the one running the code
+ *
+ * @return Success or Fail
+ */
+int libdram_margin(int node)
+{
+    int ret_rt, ret_wt, ret_rv, ret_wv;
+    char *risk[2] = { "Low Risk", "Needs Review" };
+    int l2c_num_locked = bdk_l2c_get_num_locked(node);
+
+    dram_verbosity = bdk_config_get_int(BDK_CONFIG_DRAM_VERBOSE);
+
+    // the only way this entry point should be called is from a MENU item,
+    // so, enable any non-running cores on this node, and leave them
+    // running at the end...
+    ddr_print("N%d: %s: Starting cores (mask was 0x%lx)\n",
+	      node, __FUNCTION__, bdk_get_running_coremask(node));
+    bdk_init_cores(node, ~0ULL);
+
+    // must test for L2C locked here, cannot go on with it unlocked
+    // FIXME: but we only need to worry about Node 0???
+    if (node == 0) {
+	if (l2c_num_locked == 0) { // is unlocked, must lock it now
+	    ddr_print("N%d: %s: L2C was unlocked - locking it now\n", node, __FUNCTION__);
+	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
+	    bdk_l2c_lock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+	} else {
+	    ddr_print("N%d: %s: L2C was already locked - continuing\n", node, __FUNCTION__);
+	}
+    } else {
+	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+    }
+
+    debug_print("N%d: Starting DRAM Margin ALL\n", node);
+    ret_rt = libdram_margin_read_timing(node);
+    ret_wt = libdram_margin_write_timing(node);
+    ret_rv = libdram_margin_read_voltage(node);
+    ret_wv = libdram_margin_write_voltage(node);
+    debug_print("N%d: DRAM Margin ALL finished\n", node);
+
+    /*
+      >>> Summary from DDR Margining tool:
+      >>> N0: Read Timing Margin   : Low Risk
+      >>> N0: Write Timing Margin  : Low Risk
+      >>> N0: Read Voltage Margin  : Low Risk
+      >>> N0: Write Voltage Margin : Low Risk  
+     */
+    printf("  \n");
+    printf("-------------------------------------\n");
+    printf("  \n");
+    printf("Summary from DDR Margining tool\n");
+    printf("N%d: Read Timing Margin   : %s\n", node, risk[!!ret_rt]);
+    printf("N%d: Write Timing Margin  : %s\n", node, risk[!!ret_wt]);
+
+    // these may not have been done due to DDR3 and/or THUNDER pass 1.x
+    // FIXME? would it be better to print an appropriate message here? 
+    if (ret_rv != -1) printf("N%d: Read Voltage Margin  : %s\n", node, risk[!!ret_rv]);
+    if (ret_wv != -1) printf("N%d: Write Voltage Margin : %s\n", node, risk[!!ret_wv]);
+
+    printf("  \n");
+    printf("-------------------------------------\n");
+    printf("  \n");
+
+    // FIXME: only for node 0, unlock L2C if it was unlocked before...
+    if (node == 0) {
+	if (l2c_num_locked == 0) { // it was Node 0 and unlocked, must re-unlock it now
+	    ddr_print("N%d: Node 0 L2C was unlocked before - unlocking it now\n", node);
+	    // FIXME: this should be common-ized; it currently matches bdk_init()... 
+	    bdk_l2c_unlock_mem_region(node, 0, bdk_l2c_get_cache_size_bytes(node) * 3 / 4);
+	} else {
+	    ddr_print("N%d: %s: L2C was already locked - leaving it locked\n", node, __FUNCTION__);
+	}
+    } else {
+	ddr_print("N%d: %s: non-zero node, not worrying about L2C lock status\n", node, __FUNCTION__);
+    }
+
+    return 0;
 }
 
 /**

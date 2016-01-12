@@ -44,7 +44,7 @@ void bdk_power_throttle(bdk_node_t node, int throttle)
             BDK_CSR_DEFINE(power, BDK_AP_CVM_POWER_EL1);
             power.u = bdk_sysreg_read(node, core, BDK_AP_CVM_POWER_EL1);
             power.s.max_setting = throttle;
-            power.s.secret_override = 1;
+            power.s.override = 1;
             bdk_sysreg_write(node, core, BDK_AP_CVM_POWER_EL1, power.u);
         }
     }

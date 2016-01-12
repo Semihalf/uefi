@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -668,15 +668,19 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t reserved_126_127      : 2;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t reserved_177_191      : 15;
-        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
+                                                                 and requirements in each case.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 2 - Little Endian */
-        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
-        uint64_t reserved_177_191      : 15;
+                                                                 and requirements in each case.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_192_255      : 64;
@@ -1089,15 +1093,19 @@ union bdk_dpi_dma_instr_hdr_s
         uint64_t reserved_126_127      : 2;
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t reserved_177_191      : 15;
-        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
+                                                                 and requirements in each case.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #else /* Word 2 - Little Endian */
-        uint64_t ptr                   : 49; /**< [176:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
+        uint64_t ptr                   : 64; /**< [191:128] Completion pointer. Usage determined by [PT] value. The DPI_HDR_PT_E
                                                                  enumeration describes the supported [PT] values and the [PTR] usage
-                                                                 and requirements in each case. */
-        uint64_t reserved_177_191      : 15;
+                                                                 and requirements in each case.
+
+                                                                 Bits <63:49> are ignored by hardware; software should use a sign-extended bit
+                                                                 <48> for forward compatibility. */
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
         uint64_t reserved_192_255      : 64;
@@ -1551,7 +1559,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
-                                                                 <41:7> of the starting instructions address. When new chunks are fetched by the hardware,
+                                                                 <48:7> of the starting instructions address. When new chunks are fetched by the hardware,
                                                                  SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
                                                                  the queue's doorbell (DPI(0)_DMA()_COUNTS[DBELL) and its tail pointer
                                                                  (DPI(0)_DMA()_NADDR[ADDR]). */
@@ -1559,7 +1567,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
         uint64_t saddr                 : 42; /**< [ 48:  7](R/W/H) Starting address. The 128-byte aligned starting or chunk address. SADDR is address bit
-                                                                 <41:7> of the starting instructions address. When new chunks are fetched by the hardware,
+                                                                 <48:7> of the starting instructions address. When new chunks are fetched by the hardware,
                                                                  SADDR is updated to reflect the address of the current chunk. A write to SADDR resets both
                                                                  the queue's doorbell (DPI(0)_DMA()_COUNTS[DBELL) and its tail pointer
                                                                  (DPI(0)_DMA()_NADDR[ADDR]). */
@@ -1690,9 +1698,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions. */
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions.  For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions. */
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address. Provides the next L2C address to read instructions.  For diagnostic use only. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -2295,45 +2303,59 @@ typedef union
     struct bdk_dpix_engx_buf_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_38_63        : 26;
-        uint64_t compblks              : 6;  /**< [ 37: 32](RO/H) Computed engine block size */
-        uint64_t reserved_10_31        : 22;
-        uint64_t base                  : 6;  /**< [  9:  4](RO/H) The base address in 512-byte blocks of the DMA engine FIFO. */
-        uint64_t blks                  : 4;  /**< [  3:  0](R/W) The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
+        uint64_t reserved_22_63        : 42;
+        uint64_t base                  : 6;  /**< [ 21: 16](RO/H) The base address in 512-byte blocks of the DMA engine FIFO. */
+        uint64_t reserved_5_15         : 11;
+        uint64_t blks                  : 5;  /**< [  4:  0](R/W) The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
                                                                  DPI()_ENG()_BUF[BLKS] registers must not exceed the overall RDB memory size of
-                                                                 32 KB.
-                                                                 0x0 = Engine disabled.
-                                                                 0x1 = 0.5 KB FIFO.
-                                                                 0x2 = 1.0 KB FIFO.
-                                                                 0x3 = 1.5 KB FIFO.
-                                                                 0x4 = 2.0 KB FIFO.
-                                                                 0x5 = 2.5 KB FIFO.
-                                                                 0x6 = 3.0 KB FIFO.
-                                                                 0x7 = 3.5 KB FIFO.
-                                                                 0x8 = 4.0 KB FIFO.
-                                                                 0x9 = 6.0 KB FIFO.
-                                                                 0xA = 8.0 KB FIFO.
-                                                                 0xB = 16.0 KB FIFO. */
+                                                                 32 KB. If the value of 0 is used, the corresponding engine enable in
+                                                                 DPI()_DMA_CONTROL[DMA_ENB]
+                                                                 must also be cleared.
+
+                                                                 0x00 = Engine disabled.
+                                                                 0x01 = 1 KB FIFO.
+                                                                 0x02 = 2 KB FIFO.
+                                                                 0x03 = 3 KB FIFO.
+                                                                 0x04 = 4 KB FIFO.
+                                                                 0x05 = 5 KB FIFO.
+                                                                 0x06 = 6 KB FIFO.
+                                                                 0x07 = 7 KB FIFO.
+                                                                 0x08 = 8 KB FIFO.
+                                                                 0x09 = 9 KB FIFO.
+                                                                 0x0A = 10 KB FIFO.
+                                                                 0x0B = 11 KB FIFO.
+                                                                 0x0C = 12 KB FIFO.
+                                                                 0x0D = 13 KB FIFO.
+                                                                 0x0E = 14 KB FIFO.
+                                                                 0x0F = 15 KB FIFO.
+                                                                 0x10 = 16 KB FIFO. */
 #else /* Word 0 - Little Endian */
-        uint64_t blks                  : 4;  /**< [  3:  0](R/W) The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
+        uint64_t blks                  : 5;  /**< [  4:  0](R/W) The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
                                                                  DPI()_ENG()_BUF[BLKS] registers must not exceed the overall RDB memory size of
-                                                                 32 KB.
-                                                                 0x0 = Engine disabled.
-                                                                 0x1 = 0.5 KB FIFO.
-                                                                 0x2 = 1.0 KB FIFO.
-                                                                 0x3 = 1.5 KB FIFO.
-                                                                 0x4 = 2.0 KB FIFO.
-                                                                 0x5 = 2.5 KB FIFO.
-                                                                 0x6 = 3.0 KB FIFO.
-                                                                 0x7 = 3.5 KB FIFO.
-                                                                 0x8 = 4.0 KB FIFO.
-                                                                 0x9 = 6.0 KB FIFO.
-                                                                 0xA = 8.0 KB FIFO.
-                                                                 0xB = 16.0 KB FIFO. */
-        uint64_t base                  : 6;  /**< [  9:  4](RO/H) The base address in 512-byte blocks of the DMA engine FIFO. */
-        uint64_t reserved_10_31        : 22;
-        uint64_t compblks              : 6;  /**< [ 37: 32](RO/H) Computed engine block size */
-        uint64_t reserved_38_63        : 26;
+                                                                 32 KB. If the value of 0 is used, the corresponding engine enable in
+                                                                 DPI()_DMA_CONTROL[DMA_ENB]
+                                                                 must also be cleared.
+
+                                                                 0x00 = Engine disabled.
+                                                                 0x01 = 1 KB FIFO.
+                                                                 0x02 = 2 KB FIFO.
+                                                                 0x03 = 3 KB FIFO.
+                                                                 0x04 = 4 KB FIFO.
+                                                                 0x05 = 5 KB FIFO.
+                                                                 0x06 = 6 KB FIFO.
+                                                                 0x07 = 7 KB FIFO.
+                                                                 0x08 = 8 KB FIFO.
+                                                                 0x09 = 9 KB FIFO.
+                                                                 0x0A = 10 KB FIFO.
+                                                                 0x0B = 11 KB FIFO.
+                                                                 0x0C = 12 KB FIFO.
+                                                                 0x0D = 13 KB FIFO.
+                                                                 0x0E = 14 KB FIFO.
+                                                                 0x0F = 15 KB FIFO.
+                                                                 0x10 = 16 KB FIFO. */
+        uint64_t reserved_5_15         : 11;
+        uint64_t base                  : 6;  /**< [ 21: 16](RO/H) The base address in 512-byte blocks of the DMA engine FIFO. */
+        uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dpix_engx_buf_s cn; */
@@ -2749,7 +2771,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 =  This vector's DPI_MSIX_VEC()_ADDR, DPI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of DPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -2759,7 +2781,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
                                                                  1 =  This vector's DPI_MSIX_VEC()_ADDR, DPI_MSIX_VEC()_CTL, and corresponding
                                                                  bit of DPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
@@ -3100,46 +3122,6 @@ static inline uint64_t BDK_DPIX_REQ_ERR_RST_EN(unsigned long a)
 #define device_bar_BDK_DPIX_REQ_ERR_RST_EN(a) 0x0 /* PF_BAR0 */
 #define busnum_BDK_DPIX_REQ_ERR_RST_EN(a) (a)
 #define arguments_BDK_DPIX_REQ_ERR_RST_EN(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) dpi#_req_err_skip_comp
- *
- * INTERNAL: DPI Instruction Queue Skip Completion Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dpix_req_err_skip_comp_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t en_rst                : 8;  /**< [ 23: 16](RAZ) Reserved. */
-        uint64_t reserved_8_15         : 8;
-        uint64_t en_rsp                : 8;  /**< [  7:  0](R/W/H) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t en_rsp                : 8;  /**< [  7:  0](R/W/H) Reserved. */
-        uint64_t reserved_8_15         : 8;
-        uint64_t en_rst                : 8;  /**< [ 23: 16](RAZ) Reserved. */
-        uint64_t reserved_24_63        : 40;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dpix_req_err_skip_comp_s cn; */
-} bdk_dpix_req_err_skip_comp_t;
-
-static inline uint64_t BDK_DPIX_REQ_ERR_SKIP_COMP(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DPIX_REQ_ERR_SKIP_COMP(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86e000000838ll + 0x10000000000ll * ((a) & 0x0);
-    __bdk_csr_fatal("DPIX_REQ_ERR_SKIP_COMP", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_DPIX_REQ_ERR_SKIP_COMP(a) bdk_dpix_req_err_skip_comp_t
-#define bustype_BDK_DPIX_REQ_ERR_SKIP_COMP(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DPIX_REQ_ERR_SKIP_COMP(a) "DPIX_REQ_ERR_SKIP_COMP"
-#define device_bar_BDK_DPIX_REQ_ERR_SKIP_COMP(a) 0x0 /* PF_BAR0 */
-#define busnum_BDK_DPIX_REQ_ERR_SKIP_COMP(a) (a)
-#define arguments_BDK_DPIX_REQ_ERR_SKIP_COMP(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) dpi#_req_gbl_en

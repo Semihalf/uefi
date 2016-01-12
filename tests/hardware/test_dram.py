@@ -7,7 +7,9 @@ def wait_for_main_menu(cnx):
     cnx.match("=================================")
     if cnx.multinode:
         cnx.match("node) Select active node (Currently 0)")
-    cnx.match("tune) DRAM Tuning")
+    cnx.match("verbose) Change verbosity level (Currently 0)")
+    cnx.match("tune) DDR Read Tuning")
+    cnx.match("margin) DDR Margining Tool")
     cnx.match("test) Memory Testing Menu")
     cnx.match("quit) Main menu")
     cnx.match("(INS)Menu choice []:")

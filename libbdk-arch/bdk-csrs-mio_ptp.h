@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -69,9 +69,8 @@
  * Note that CCPI reference clocks cannot be selected.
  */
 #define BDK_MIO_PTP_EXT_SEL_E_GPIOX(a) (0 + (a)) /**< Normal GPIO inputs. */
-#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN81XX(a) (0x80 + (a)) /**< GSER0-GSER3 reference clock. */
-#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN88XX(a) (0x38 + (a)) /**< GSER0-7 reference clock. */
-#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX_CN83XX(a) (0x80 + (a)) /**< GSER0-GSER3 reference clock. */
+#define BDK_MIO_PTP_EXT_SEL_E_GSER_REFX(a) (0x80 + (a)) /**< GSER0-GSER3 reference clock. */
+#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX(a) (0x38 + (a)) /**< GSER0-7 reference clock. */
 
 /**
  * Enumeration mio_ptp_int_vec_e

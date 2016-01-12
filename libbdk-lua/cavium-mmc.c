@@ -326,7 +326,7 @@ static int mmc_init(lua_State *L)
     bdk_mio_emm_rsp_sts_t status;
     ocr_register_t ocr_reg;
 
-    // Disable bus 1, casues the clocking to reset to the default
+    // Disable bus 1, causes the clocking to reset to the default
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
     bdk_wait_usec(200000);
 
@@ -388,7 +388,7 @@ static int mmc_init(lua_State *L)
 
             ocr_reg.u32 = (uint32_t) ((BDK_CSR_READ(node, BDK_MIO_EMM_RSP_LO) >>8) &0xFFFFFFFF);
         } while (ocr_reg.s.done_bit == 0x0);
-        // Success, we have an SD card version 2.0 or above, fall thru
+        // Success, we have an SD card version 2.0 or above, fall through
     }
     else
     {
@@ -403,7 +403,7 @@ static int mmc_init(lua_State *L)
                 if (status.u)
                 {
                     // Have an SD card, version less than 2.0
-                    // fall thru, exit the loop
+                    // fall through, exit the loop
                     card_is_sd = 1;
                     break;
                 }

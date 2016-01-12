@@ -1312,7 +1312,7 @@ static int vnic_setup(bdk_if_handle_t handle)
 
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     /* Make sure SQ dynamic data is in a different cache line */
-    static_assert((offsetof(bgx_priv_t, sq_state) & BDK_CACHE_LINE_MASK) == 0);
+    _Static_assert((offsetof(bgx_priv_t, sq_state) & BDK_CACHE_LINE_MASK) == 0, "NIC SQ not is different cache line");
 
     void *sq_memory = memalign(128, 16 * SQ_ENTRIES);
     if (!sq_memory)
@@ -1412,7 +1412,7 @@ static int vnic_setup(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_PKINDX_CFG(handle->pknd),
         c.s.lenerr_en = 0;
         c.s.minlen = 0;
-        c.s.maxlen = -1);
+        c.s.maxlen = 65535);
 
     /* Bypass the TNS */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_INTFX_SEND_CFG(handle->interface),
@@ -1897,7 +1897,7 @@ static void if_receive(int unused, void *hand)
             loc &= CQ_ENTRIES - 1;
             cq_next = cq_ptr + loc * 512;
             BDK_PREFETCH(cq_next, 0);
-            if (bdk_likely(cq_header->s.cqe_type == BDK_NIC_CQE_TYPE_E_RX_CN88XX))
+            if (bdk_likely(cq_header->s.cqe_type == BDK_NIC_CQE_TYPE_E_RX))
                 rbdr_doorbell += if_process_complete_rx(handle, &vnic_rbdr_state, cq_header);
             else
                 bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);

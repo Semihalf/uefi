@@ -340,7 +340,7 @@ static int cavium_csr_index(lua_State* L)
     {
         /* Make sure the node number is valid */
         node = luaL_checkinteger(L, 2);
-        if ((node < 0) || (node >= BDK_NUMA_MAX_NODES) || !bdk_numa_exists(node))
+        if ((node < 0) || (node >= (int)BDK_NUMA_MAX_NODES) || !bdk_numa_exists(node))
             luaL_error(L, "Invalid Node");
         return create_csr_table(L, node);
     }

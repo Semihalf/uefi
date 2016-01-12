@@ -2,6 +2,11 @@ ifndef BDK_ROOT
     export BDK_ROOT:=$(shell pwd)
     $(info BDK_ROOT not set, assuming $(BDK_ROOT))
 endif
+ifdef BDK_CLANG_ROOT
+    $(info BDK_CLANG_ROOT set, using LLVM tools)
+else
+    #$(info BDK_CLANG_ROOT not set, using GNU tools)
+endif
 include $(BDK_ROOT)/libbdk/bdk.mk
 
 TFTPBOOT?=/tftpboot/
@@ -108,13 +113,7 @@ version:
 
 .PHONY: emu
 emu:
-	od -Ax -vtx1 -w1 target-bin/normal-generic.bin | cut -d " " -f 2 > thunder-emmc-ascii.img
-	scp thunder-emmc-ascii.img dev001:emulator_images/
-	ssh dev001 chmod o+r emulator_images/thunder-emmc-ascii.img
-
-.PHONY: emu-normal
-emu-normal:
-	od -Ax -vtx1 -w1 target-bin/normal-ebb8800.bin | cut -d " " -f 2 > thunder-emmc-ascii.img
+	od -Ax -vtx1 -w1 target-bin/bdk.bin | cut -d " " -f 2 > thunder-emmc-ascii.img
 	scp thunder-emmc-ascii.img dev001:emulator_images/
 	ssh dev001 chmod o+r emulator_images/thunder-emmc-ascii.img
 

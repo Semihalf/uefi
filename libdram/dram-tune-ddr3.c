@@ -1,6 +1,10 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
+static  int64_t test_dram_byte_threads_done;
+static uint64_t test_dram_byte_threads_errs;
+static uint64_t test_dram_byte_lmc_errs[4];
+
 #if 0
 /*
  * Suggested testing patterns.
@@ -87,10 +91,11 @@ static const uint64_t *dram_tune_test_pattern = test_pattern_1;
 #endif
 
 // set this to 1 to shorten the testing to exit when all byte lanes have errors
-// having this at 0 forces the testing to take place over the entire range every iteration
+// having this at 0 forces the testing to take place over the entire range every iteration,
+// hopefully ensuring an even load on the memory subsystem 
 #define EXIT_WHEN_ALL_LANES_HAVE_ERRORS 0
 
-#define DEFAULT_TEST_BURSTS 7 // FIXME: this is what works so far...
+#define DEFAULT_TEST_BURSTS 5 // FIXME: this is what works so far...// FIXME: was 7
 int dram_tune_use_bursts = DEFAULT_TEST_BURSTS;
 
 // dram_tune_rank_offset is used to offset the second area used in test_dram_mem_xor.
@@ -118,7 +123,40 @@ static uint64_t dram_tune_rank_offset = AREA_DUPE_OFFSET; // default
 // defaults to 0, but will be set elsewhere to the address offset to next DIMM if multi-slot
 static uint64_t dram_tune_dimm_offset = 0; // default
 
-static int test_dram_mem_xor(uint64_t p, uint64_t bitmask)
+
+static int speed_bin_offset[3] = {25, 20, 15};
+static int speed_bin_winlen[3] = {70, 60, 60};
+
+static int
+get_speed_bin(bdk_node_t node, int lmc)
+{
+    uint32_t mts_speed = (libdram_get_freq_from_pll(node, lmc) / 1000000) * 2;
+    int ret = 0;
+
+    // FIXME: is this reasonable speed "binning"?
+    if (mts_speed >= 1700) {
+	if (mts_speed >= 2000)
+	    ret = 2;
+	else
+	    ret = 1;
+    }
+
+    debug_print("N%d.LMC%d: %s: returning bin %d for MTS %d\n", 
+		node, lmc, __FUNCTION__, ret, mts_speed);
+
+    return ret;
+}
+
+static int is_low_risk_offset(int speed_bin, int offset)
+{
+    return (_abs(offset) <= speed_bin_offset[speed_bin]);
+}
+static int is_low_risk_winlen(int speed_bin, int winlen)
+{
+    return (winlen >= speed_bin_winlen[speed_bin]);
+}
+
+static int dram_tuning_mem_xor(uint64_t p, uint64_t bitmask)
 {
     uint64_t p1, p2, d1, d2;
     uint64_t v, v1;
@@ -149,6 +187,31 @@ static int test_dram_mem_xor(uint64_t p, uint64_t bitmask)
 #define I_INC  (1ULL <<  3)
 #define I_MAX  (1ULL <<  7)
 
+#if 0
+    int ix;
+    // add this loop to fill memory with the test pattern first
+    // loops are ordered so that only entire cachelines are written 
+    for (ii = 0; ii < II_MAX; ii += II_INC) { // FIXME? extend the range of memory tested!!
+	for (k = 0; k < K_MAX; k += K_INC) {
+	    for (j = 0; j < J_MAX; j += J_INC) {
+		p1 = p + ii + k + j;
+		p2 = p1 + p2offset;
+		for (i = 0, ix = 0; i < I_MAX; i += I_INC, ix++) {
+
+		    v = dram_tune_test_pattern[ix];
+		    v1 = v; // write the same thing to both areas
+
+		    __bdk_dram_write64(p1 + i, v);
+		    __bdk_dram_write64(p2 + i, v1);
+
+		}
+		BDK_CACHE_WBI_L2(p1);
+		BDK_CACHE_WBI_L2(p2);
+	    }
+	}
+    } /* for (ii = 0; ii < (1ULL << 31); ii += (1ULL << 29)) */
+#endif
+
     BDK_PREFETCH(p           , BDK_CACHE_LINE_SIZE);
     BDK_PREFETCH(p + p2offset, BDK_CACHE_LINE_SIZE);
 
@@ -178,10 +241,6 @@ static int test_dram_mem_xor(uint64_t p, uint64_t bitmask)
 	}
     } /* for (ii = 0; ii < (1ULL << 31); ii += (1ULL << 29)) */
 
-#if 0
-    __bdk_dram_flush_to_mem_range(p, p + (1ULL << 20)); // max_addr is start + where k stops...
-    __bdk_dram_flush_to_mem_range(p + p2offset, p + p2offset + (1ULL << 20)); // max_addr is start + where k stops...
-#endif
     BDK_DCACHE_INVALIDATE;
 
     /* Make a series of passes over the memory areas. */
@@ -221,10 +280,6 @@ static int test_dram_mem_xor(uint64_t p, uint64_t bitmask)
 	    }
 	} /* for (ii = 0; ii < (1ULL << 31); ii += (1ULL << 29)) */
 
-#if 0
-	__bdk_dram_flush_to_mem_range(p, p + (1ULL << 20)); // max_addr is start + where k stops...
-	__bdk_dram_flush_to_mem_range(p + p2offset, p + p2offset + (1ULL << 20)); // max_addr is start + where k stops...
-#endif
         BDK_DCACHE_INVALIDATE;
 
 	BDK_PREFETCH(p           , BDK_CACHE_LINE_SIZE);
@@ -289,8 +344,138 @@ static int test_dram_mem_xor(uint64_t p, uint64_t bitmask)
     return errors;
 }
 
+#undef II_INC
+#undef II_MAX
+
+#define EXTRACT(v, lsb, width) (((v) >> (lsb)) & ((1ull << (width)) - 1))
+#define LMCNO(address, xbits) (EXTRACT(address, 7, xbits) ^ EXTRACT(address, 20, xbits) ^ EXTRACT(address, 12, xbits))
+
+static int dram_tuning_mem_xor2(uint64_t p, uint64_t bitmask, int xbits)
+{
+    uint64_t p1, p2, d1, d2;
+    uint64_t v, v1;
+    uint64_t p2offset = dram_tune_rank_offset; // FIXME?
+    uint64_t datamask;
+    uint64_t xor;
+    uint64_t ii;
+    uint64_t pattern1 = bdk_rng_get_random64();
+    uint64_t pattern2 = 0;
+    int errors = 0;
+    int errs_by_lmc[4] = { 0,0,0,0 };
+    int lmc;
+
+    // Byte lanes may be clear in the mask to indicate no testing on that lane.
+    datamask = bitmask;
+
+    /* Add offset to both test regions to not clobber boot stuff
+     * when running from L2 for NAND boot.
+     */
+    p += AREA_BASE_OFFSET; // make sure base is out of the way of boot
+
+#define II_INC (1ULL <<  3)
+#define II_MAX (1ULL << 22) // stop where the core ID bits start
+
+    // walk the memory areas by 8-byte words
+    for (ii = 0; ii < II_MAX; ii += II_INC) {
+
+	p1 = p + ii;
+	p2 = p1 + p2offset;
+
+	v = pattern1 * p1;
+	v1 = v; // write the same thing to both areas
+
+	__bdk_dram_write64(p1, v);
+	__bdk_dram_write64(p2, v1);
+
+    }
+    __bdk_dram_flush_to_mem_range(p           , p            + II_MAX);
+    __bdk_dram_flush_to_mem_range(p + p2offset, p + p2offset + II_MAX);
+    BDK_DCACHE_INVALIDATE;
+
+    /* Make a series of passes over the memory areas. */
+
+    for (int burst = 0; burst < dram_tune_use_bursts; burst++)
+    {
+	uint64_t this_pattern = bdk_rng_get_random64();
+	pattern2 ^= this_pattern;
+
+        /* XOR the data with a random value, applying the change to both
+         * memory areas.
+         */
+	BDK_PREFETCH(p           , BDK_CACHE_LINE_SIZE);
+	BDK_PREFETCH(p + p2offset, BDK_CACHE_LINE_SIZE);
+
+	for (ii = 0; ii < II_MAX; ii += II_INC) { // FIXME? extend the range of memory tested!!
+
+	    p1 = p + ii;
+	    p2 = p1 + p2offset;
+
+	    v  = __bdk_dram_read64(p1) ^ this_pattern;
+	    v1 = __bdk_dram_read64(p2) ^ this_pattern;
+
+	    __bdk_dram_write64(p1, v);
+	    __bdk_dram_write64(p2, v1);
+
+	}
+	__bdk_dram_flush_to_mem_range(p           , p            + II_MAX);
+	__bdk_dram_flush_to_mem_range(p + p2offset, p + p2offset + II_MAX);
+        BDK_DCACHE_INVALIDATE;
+
+        /* Look for differences in the areas. If there is a mismatch, reset
+         * both memory locations with the same pattern. Failing to do so
+         * means that on all subsequent passes the pair of locations remain
+         * out of sync giving spurious errors.
+         */
+	BDK_PREFETCH(p           , BDK_CACHE_LINE_SIZE);
+	BDK_PREFETCH(p + p2offset, BDK_CACHE_LINE_SIZE);
+
+	for (ii = 0; ii < II_MAX; ii += II_INC) {
+
+	    p1 = p + ii;
+	    p2 = p1 + p2offset;
+
+	    v = (p1 * pattern1) ^ pattern2; // this should predict what we find...
+	    d1 = __bdk_dram_read64(p1);
+	    d2 = __bdk_dram_read64(p2);
+
+	    xor = ((d1 ^ v) | (d2 ^ v)) & datamask; // union of error bits only in active byte lanes
+	    if (!xor) // no errors
+		continue;
+
+	    lmc = LMCNO(p1, xbits); // FIXME: LMC should be SAME for p1 and p2!!!
+	    if (lmc != (int)LMCNO(p2, xbits)) {
+		printf("ERROR: LMCs for addresses [0x%016lX] (%lld) and [0x%016lX] (%lld) differ!!!\n",
+		       p1, LMCNO(p1, xbits), p2, LMCNO(p2, xbits));
+	    }
+	    int bybit = 1;
+	    uint64_t bymsk = 0xffULL; // start in byte lane 0
+	    while (xor != 0) {
+		debug_print("ERROR(%03d): [0x%016lX] [0x%016lX]  expected 0x%016lX d1 %016lX d2 %016lX\n",
+			    burst, p1, p2, v, d1, d2);
+		if (xor & bymsk) { // error(s) in this lane
+		    errs_by_lmc[lmc] |= bybit; // set the byte error bit in the LMCs errors
+		    errors |= bybit; // set the byte error bit
+		    xor &= ~bymsk; // clear byte lane in error bits
+		    //datamask &= ~bymsk; // clear the byte lane in the mask
+		}
+		bymsk <<= 8; // move mask into next byte lane
+		bybit <<= 1; // move bit into next byte position
+	    } /* while (xor != 0) */
+	}
+    } /* for (int burst = 0; burst < dram_tune_use_bursts; burst++) */
+
+    // update the global LMC error states
+    for (lmc = 0; lmc < 4; lmc++) {
+	if (errs_by_lmc[lmc]) {
+	    bdk_atomic_fetch_and_bset64_nosync(&test_dram_byte_lmc_errs[lmc], errs_by_lmc[lmc]);
+	}
+    }
+
+    return errors;
+}
+
 #if 0
-static int test_dram_mem_rows(uint64_t p, uint64_t bitmask)
+static int dram_tuning_mem_rows(uint64_t p, uint64_t bitmask)
 {
     uint64_t p1, p2, d1, d2;
     uint64_t v, v1;
@@ -434,67 +619,67 @@ int dram_tune_use_cores = DEFAULT_USE_CORES; // max cores to use, override avail
 int dram_tune_max_cores; // max cores available on a node
 #define CORE_SHIFT 22          // FIXME: offset into rank_address passed to test_dram_byte
 
-static  int64_t test_dram_byte_threads_done;
-static uint64_t test_dram_byte_threads_errs;
-static uint64_t test_dram_byte_lmc_errs[4];
-
-#define USE_SPINLOCKS_NOT_ATOMICS 0
-#if USE_SPINLOCKS_NOT_ATOMICS
-bdk_spinlock_t test_dram_byte_error_lock;
-#endif
+typedef void (*__dram_tuning_thread_t)(int arg, void *arg1);
 
 typedef struct
 {
     bdk_node_t node;
-    uint64_t num_lmcs;
+    int64_t num_lmcs;
     uint64_t byte_mask;
 } test_dram_byte_info_t;
 
-test_dram_byte_info_t test_dram_byte_info;
-
-static void test_dram_byte_thread(int arg, void *arg1)
+static void dram_tuning_thread(int arg, void *arg1)
 {
     test_dram_byte_info_t *test_info = arg1;
     int core = arg;
     uint64_t errs;
     bdk_node_t node = test_info->node;
-    int lmc = (core % test_info->num_lmcs); // FIXME: map core numbers into hopefully equal groups per LMC
-    
-    uint64_t rank_address = (lmc << 7);
+    int num_lmcs, lmc;
+#if 0
+    num_lmcs = test_info->num_lmcs;
+    // map core numbers into hopefully equal groups per LMC
+    lmc = core % num_lmcs;
+#else
+    // FIXME: this code should allow running all the cores on a single LMC...
+    // if incoming num_lmcs > 0, then use as normal; if < 0 remap to a single LMC
+    if (test_info->num_lmcs >= 0) {
+	num_lmcs = test_info->num_lmcs;
+	// map core numbers into hopefully equal groups per LMC
+	lmc = core % num_lmcs;
+    } else {
+	num_lmcs = 1;
+	// incoming num_lmcs is (desired LMC - 10)
+	lmc = 10 + test_info->num_lmcs;
+    }
+#endif
+    uint64_t base_address = (lmc << 7);
     uint64_t bytemask = test_info->byte_mask;
 
     /* Figure out our work memory range.
      *
-     * Note: rank_address above just provides the physical offset which determines
+     * Note: base_address above just provides the physical offset which determines
      * specific LMC portions of the address space and does not have the node bits set.
      */
-    rank_address  = bdk_numa_get_address(node, rank_address); // map to node
-    rank_address |= (core << CORE_SHIFT); // FIXME: also put full core into address
+    base_address  = bdk_numa_get_address(node, base_address); // map to node
+    base_address |= (core << CORE_SHIFT); // FIXME: also put full core into address
     if (dram_tune_dimm_offset) { // if multi-slot in some way, choose a DIMM for the core
-	rank_address |= (core & (1 << (test_info->num_lmcs >> 1))) ? dram_tune_dimm_offset : 0;
+	base_address |= (core & (1 << (num_lmcs >> 1))) ? dram_tune_dimm_offset : 0;
     }
 
     debug_print("Node %d, core %d, Testing area 1 at 0x%011lx, area 2 at 0x%011lx\n",
-		node, core, rank_address + AREA_BASE_OFFSET,
-		rank_address + AREA_BASE_OFFSET + dram_tune_rank_offset);
+		node, core, base_address + AREA_BASE_OFFSET,
+		base_address + AREA_BASE_OFFSET + dram_tune_rank_offset);
 
-    errs = test_dram_mem_xor(rank_address, bytemask);
-    //errs = test_dram_mem_rows(rank_address, bytemask);
+    errs = dram_tuning_mem_xor(base_address, bytemask);
+    //errs = dram_tuning_mem_rows(base_address, bytemask);
 
     /* Report that we're done */
     debug_print("Core %d on LMC %d node %d done with test_dram_byte with 0x%lx errs\n",
 	      core, node, errs);
 
     if (errs) {
-#if USE_SPINLOCKS_NOT_ATOMICS
-	bdk_spinlock_lock(&test_dram_byte_error_lock);
-	test_dram_byte_threads_errs  |= errs;
-	test_dram_byte_lmc_errs[lmc] |= errs;	
-	bdk_spinlock_unlock(&test_dram_byte_error_lock);
-#else
 	bdk_atomic_fetch_and_bset64_nosync(&test_dram_byte_threads_errs, errs);
 	bdk_atomic_fetch_and_bset64_nosync(&test_dram_byte_lmc_errs[lmc], errs);
-#endif
     }
 
     bdk_atomic_add64_nosync(&test_dram_byte_threads_done, 1);
@@ -502,11 +687,59 @@ static void test_dram_byte_thread(int arg, void *arg1)
     return;
 }
 
-static int
-run_test_dram_byte_threads(bdk_node_t node, int num_lmcs, uint64_t bytemask)
+static void dram_tuning_thread2(int arg, void *arg1)
 {
+    test_dram_byte_info_t *test_info = arg1;
+    int core = arg;
+    uint64_t errs;
+    bdk_node_t node = test_info->node;
+    int num_lmcs = test_info->num_lmcs;
+
+    uint64_t base_address = 0; // 
+    uint64_t bytemask = test_info->byte_mask;
+
+    /* Figure out our work memory range.
+     *
+     * Note: base_address above just provides the physical offset which determines
+     * specific portions of the address space and does not have the node bits set.
+     */
+    base_address  = bdk_numa_get_address(node, base_address); // map to node
+    base_address |= (core << CORE_SHIFT); // FIXME: also put full core into address
+    if (dram_tune_dimm_offset) { // if multi-slot in some way, choose a DIMM for the core
+	base_address |= (core & 1) ? dram_tune_dimm_offset : 0;
+    }
+
+    debug_print("Node %d, core %d, Testing area 1 at 0x%011lx, area 2 at 0x%011lx\n",
+		node, core, base_address + AREA_BASE_OFFSET,
+		base_address + AREA_BASE_OFFSET + dram_tune_rank_offset);
+
+    errs = dram_tuning_mem_xor2(base_address, bytemask, (num_lmcs == 4) ? 2 : 1);
+    //errs = dram_tuning_mem_rows(base_address, bytemask);
+
+    /* Report that we're done */
+    debug_print("Core %d on LMC %d node %d done with test_dram_byte with 0x%lx errs\n",
+	      core, node, errs);
+
+    if (errs) {
+	bdk_atomic_fetch_and_bset64_nosync(&test_dram_byte_threads_errs, errs);
+	// FIXME: this will have been done already in the called test routine
+	//bdk_atomic_fetch_and_bset64_nosync(&test_dram_byte_lmc_errs[lmc], errs);
+    }
+
+    bdk_atomic_add64_nosync(&test_dram_byte_threads_done, 1);
+
+    return;
+}
+
+static int dram_tune_use_xor2 = 0; // default to original mem_xor (LMC-based) code
+
+static int
+run_dram_tuning_threads(bdk_node_t node, int num_lmcs, uint64_t bytemask)
+{
+    test_dram_byte_info_t test_dram_byte_info;
     test_dram_byte_info_t *test_info = &test_dram_byte_info;
     int total_count = 0;
+    __dram_tuning_thread_t thread_p = (dram_tune_use_xor2) ? dram_tuning_thread2 : dram_tuning_thread;
 
     test_info->node = node;
     test_info->num_lmcs = num_lmcs;
@@ -515,18 +748,16 @@ run_test_dram_byte_threads(bdk_node_t node, int num_lmcs, uint64_t bytemask)
     // init some global data
     bdk_atomic_set64(&test_dram_byte_threads_done, 0);
     bdk_atomic_set64((int64_t *)&test_dram_byte_threads_errs, 0);
-    // FIXME? do we need to use atomics for this, and the above?
-    memset(test_dram_byte_lmc_errs, 0, sizeof(test_dram_byte_lmc_errs));
-
-#if USE_SPINLOCKS_NOT_ATOMICS
-    bdk_spinlock_init(&test_dram_byte_error_lock); // FIXME?
-#endif
+    bdk_atomic_set64((int64_t *)&test_dram_byte_lmc_errs[0], 0);
+    bdk_atomic_set64((int64_t *)&test_dram_byte_lmc_errs[1], 0);
+    bdk_atomic_set64((int64_t *)&test_dram_byte_lmc_errs[2], 0);
+    bdk_atomic_set64((int64_t *)&test_dram_byte_lmc_errs[3], 0);
 
     /* Start threads for cores on the node */
     if (bdk_numa_exists(node)) {
 	debug_print("Starting %d threads for test_dram_byte\n", dram_tune_use_cores);
 	for (int core = 0; core < dram_tune_use_cores; core++) {
-	    if (bdk_thread_create(node, 0, test_dram_byte_thread, core, (void *)test_info, 0)) {
+	    if (bdk_thread_create(node, 0, thread_p, core, (void *)test_info, 0)) {
 		bdk_error("Failed to create thread %d for test_dram_byte\n", core);
 	    } else {
 		total_count++;
@@ -542,31 +773,166 @@ run_test_dram_byte_threads(bdk_node_t node, int num_lmcs, uint64_t bytemask)
     return (int)bdk_atomic_get64((int64_t *)&test_dram_byte_threads_errs);
 }
 
-#define DEFAULT_SAMPLE_GRAN 5 // sample for errors every N offset values (was 3)
+/* These variables count the number of ECC errors. They should only be accessed atomically */
+extern int64_t __bdk_dram_ecc_single_bit_errors[];
+extern int64_t __bdk_dram_ecc_double_bit_errors[];
+
+// make the tuning test callable as a standalone
+int
+bdk_run_dram_tuning_test(int node)
+{
+    int num_lmcs = __bdk_dram_get_num_lmc(node);
+    const char *s;
+    int lmc, byte;
+    int errors;
+    uint64_t start_dram_dclk[4], start_dram_ops[4];
+    int save_use_bursts;
+
+    // check for the cores on this node, abort if not more than 1 // FIXME?
+    dram_tune_max_cores = bdk_get_num_running_cores(node);
+    if (dram_tune_max_cores < 2) {
+	//bdk_init_cores(node, 0);
+	printf("N%d: ERROR: not enough cores to run the DRAM tuning test.\n", node);
+	return 0;
+    }
+
+    // but use only a certain number of cores, at most what is available
+    if ((s = getenv("ddr_tune_use_cores")) != NULL) {
+	dram_tune_use_cores = strtoul(s, NULL, 0);
+	if (dram_tune_use_cores <= 0) // allow 0 or negative to mean all
+	    dram_tune_use_cores = dram_tune_max_cores;
+    }
+    if (dram_tune_use_cores > dram_tune_max_cores)
+	dram_tune_use_cores = dram_tune_max_cores;
+
+    // save the original bursts, so we can replace it with a better number for just testing
+    save_use_bursts = dram_tune_use_bursts;
+    dram_tune_use_bursts = 1500; // FIXME: hard code bursts for the test here...
+
+    // allow override of the test repeats (bursts) per thread create
+    if ((s = getenv("ddr_tune_use_bursts")) != NULL) {
+        dram_tune_use_bursts = strtoul(s, NULL, 10);
+    }
+
+    // allow override of the test mem_xor algorithm
+    if ((s = getenv("ddr_tune_use_xor2")) != NULL) {
+        dram_tune_use_xor2 = !!strtoul(s, NULL, 10);
+    }
+
+    // FIXME? consult LMC0 only
+    BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(0));
+    if (lmcx_config.s.rank_ena) { // replace the default offset when there is more than 1 rank...
+	dram_tune_rank_offset = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena + (num_lmcs/2));
+	ddr_print("N%d: run_dram_tuning_test: changing rank offset to 0x%lx\n", node, dram_tune_rank_offset);
+    }
+    if (lmcx_config.s.init_status & 0x0c) { // bit 2 or 3 set indicates 2 DIMMs
+	dram_tune_dimm_offset = 1ull << (28 + lmcx_config.s.pbank_lsb + (num_lmcs/2));
+	ddr_print("N%d: run_dram_tuning_test: changing dimm offset to 0x%lx\n", node, dram_tune_dimm_offset);
+    }
+    int ddr_interface_64b = !lmcx_config.s.mode32b;
+
+    // construct the bytemask
+    int bytes_todo = (ddr_interface_64b) ? 0xff : 0x0f; // FIXME: hack?
+    uint64_t bytemask = 0;
+    for (byte = 0; byte < 8; ++byte) {
+	uint64_t bitmask;
+	if (bytes_todo & (1 << byte)) {
+	    bitmask = ((!ddr_interface_64b) && (byte == 4)) ? 0x0f: 0xff;
+	    bytemask |= bitmask << (8*byte); // set the bytes bits in the bytemask 
+	}
+    } /* for (byte = 0; byte < 8; ++byte) */
+
+    // print current working values
+    ddr_print("N%d: run_dram_tuning_test: max %d cores, use %d cores, use %d bursts.\n",
+	      node, dram_tune_max_cores, dram_tune_use_cores, dram_tune_use_bursts);
+
+    // do the setup on active LMCs
+    for (lmc = 0; lmc < num_lmcs; lmc++) {
+	// record start cycle CSRs here for utilization measure
+	start_dram_dclk[lmc] = BDK_CSR_READ(node, BDK_LMCX_DCLK_CNT(lmc));
+	start_dram_ops[lmc]  = BDK_CSR_READ(node, BDK_LMCX_OPS_CNT(lmc));
+#if 0
+	bdk_atomic_set64(&__bdk_dram_ecc_single_bit_errors[lmc], 0);
+	bdk_atomic_set64(&__bdk_dram_ecc_double_bit_errors[lmc], 0);
+#else
+	__bdk_dram_ecc_single_bit_errors[lmc] = 0;
+	__bdk_dram_ecc_double_bit_errors[lmc] = 0;
+#endif
+    } /* for (lmc = 0; lmc < num_lmcs; lmc++) */
+
+    bdk_watchdog_poke();
+
+    // run the test(s)
+    // only 1 call should be enough, let the bursts, etc, control the load...  
+    errors = run_dram_tuning_threads(node, num_lmcs, bytemask);
+
+    /* Check ECC error counters after the test */
+    int64_t ecc_single = 0;
+    int64_t ecc_double = 0;
+    int64_t ecc_single_errs[4];
+    int64_t ecc_double_errs[4];
+
+    // finally, print the utilizations all together, and sum the ECC errors
+    for (lmc = 0; lmc < num_lmcs; lmc++) {
+	uint64_t dclk_diff = BDK_CSR_READ(node, BDK_LMCX_DCLK_CNT(lmc)) - start_dram_dclk[lmc];
+	uint64_t ops_diff  = BDK_CSR_READ(node, BDK_LMCX_OPS_CNT(lmc)) - start_dram_ops[lmc];
+	uint64_t percent_x10 = ops_diff * 1000 / dclk_diff;
+	printf("N%d.LMC%d: ops %lu, cycles %lu, used %lu.%lu%%\n",
+		  node, lmc, ops_diff, dclk_diff, percent_x10 / 10, percent_x10 % 10);
+
+        ecc_single += (ecc_single_errs[lmc] = bdk_atomic_get64(&__bdk_dram_ecc_single_bit_errors[lmc]));
+        ecc_double += (ecc_double_errs[lmc] = bdk_atomic_get64(&__bdk_dram_ecc_double_bit_errors[lmc]));
+    } /* for (lmc = 0; lmc < num_lmcs; lmc++) */
+
+    /* Always print any ECC errors */
+    if (ecc_single || ecc_double) {
+        printf("Test \"%s\": ECC errors, %ld/%ld/%ld/%ld corrected, %ld/%ld/%ld/%ld uncorrected\n",
+	       "DRAM Tuning Test",
+	       ecc_single_errs[0], ecc_single_errs[1], ecc_single_errs[2], ecc_single_errs[3],
+	       ecc_double_errs[0], ecc_double_errs[1], ecc_double_errs[2], ecc_double_errs[3]);
+    }
+    if (errors || ecc_double || ecc_single) {
+	printf("Test \"%s\": FAIL: %ld single, %ld double, %d compare errors\n",
+	       "DRAM Tuning Test", ecc_single, ecc_double, errors);
+    }
+
+    // restore bursts
+    dram_tune_use_bursts = save_use_bursts;
+
+    return (errors + ecc_double + ecc_single);
+}
+
+#define DEFAULT_SAMPLE_GRAN 3 // sample for errors every N offset values
 #define MIN_BYTE_OFFSET -63
 #define MAX_BYTE_OFFSET +63
 int dram_tune_use_gran = DEFAULT_SAMPLE_GRAN;
 
-static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
-				int num_lmcs, int ddr_interface_64b)
+static int
+auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
+		    int num_lmcs, int ddr_interface_64b,
+		    int do_tune)
 {
     int byte_offset;
     //unsigned short result[9];
     int byte;
     int byte_delay_start[4][9];
     int byte_delay_count[4][9];
+    uint64_t byte_delay_windows [4][9];
     int byte_delay_best_start[4][9];
     int byte_delay_best_count[4][9];
-    char sbuffer[50];
-    int this_rodt;
-    uint64_t percent_x10;
+    //int this_rodt;
     uint64_t ops_sum[4], dclk_sum[4];
     uint64_t start_dram_dclk[4], stop_dram_dclk[4];
     uint64_t start_dram_ops[4], stop_dram_ops[4];
     int errors, tot_errors;
     int lmc;
-
+    char *mode_str = (dll_offset_mode == 2) ? "Read" : "Write";
+    int mode_is_read = (dll_offset_mode == 2);;
+    char *mode_blk = (dll_offset_mode == 2) ? " " : "";
     int start_offset, end_offset, incr_offset;
+
+    int speed_bin = get_speed_bin(node, 0); // FIXME: just get from LMC0?
+    int low_risk_count = 0, needs_review_count = 0;
 
     if (dram_tune_use_gran != DEFAULT_SAMPLE_GRAN) {
 	ddr_print("N%d: changing sample granularity from %d to %d\n",
@@ -581,10 +947,10 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
     memset(dclk_sum, 0, sizeof(dclk_sum));
     memset(byte_delay_start, 0, sizeof(byte_delay_start));
     memset(byte_delay_count, 0, sizeof(byte_delay_count));
+    memset(byte_delay_windows,  0, sizeof(byte_delay_windows));
     memset(byte_delay_best_start, 0, sizeof(byte_delay_best_start));
     memset(byte_delay_best_count, 0, sizeof(byte_delay_best_count));
 
-    // FIXME: must revise this for 2-slot!!!
     // FIXME? consult LMC0 only
     BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(0));
     if (lmcx_config.s.rank_ena) { // replace the default offset when there is more than 1 rank...
@@ -597,8 +963,8 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
     }
 
     // FIXME? do this for LMC0 only
-    BDK_CSR_INIT(comp_ctl2, node, BDK_LMCX_COMP_CTL2(0));
-    this_rodt = comp_ctl2.s.rodt_ctl;
+    //BDK_CSR_INIT(comp_ctl2, node, BDK_LMCX_COMP_CTL2(0));
+    //this_rodt = comp_ctl2.s.rodt_ctl;
 
     // construct the bytemask
     int bytes_todo = (ddr_interface_64b) ? 0xff : 0x0f; // FIXME: hack?
@@ -611,7 +977,7 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 	}
     } /* for (byte = 0; byte < 8; ++byte) */
 
-    // now loop through all legal values for the DLL byte offset...
+    // now loop through selected legal values for the DLL byte offset...
 
     for (byte_offset = start_offset; byte_offset <= end_offset; byte_offset += incr_offset) {
 
@@ -635,7 +1001,7 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 
 	// run the test(s)
 	// only 1 call should be enough, let the bursts, etc, control the load...  
-	tot_errors = run_test_dram_byte_threads(node, num_lmcs, bytemask);
+	tot_errors = run_dram_tuning_threads(node, num_lmcs, bytemask);
 
 	for (lmc = 0; lmc < num_lmcs; lmc++) {
 	    // record stop cycle CSRs here for utilization measure
@@ -648,16 +1014,14 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 
 	    errors = test_dram_byte_lmc_errs[lmc];
 
-	    // check errors by byte
+	    // check errors by byte, but not ECC
 	    for (byte = 0; byte < 8; ++byte) {
 		if (!(bytes_todo & (1 << byte))) // is this byte lane to be done
 		    continue; // no
 
+		byte_delay_windows[lmc][byte] <<= 1; // always put in a zero
 		if (errors & (1 << byte)) { // yes, an error in this byte lane
-		    if (byte_delay_count[lmc][byte] > 0) { // had started run
-			byte_delay_count[lmc][byte] = 0; // stop now
-		    }
-		    // FIXME: else had not started run - nothing else to do?
+		    byte_delay_count[lmc][byte] = 0; // stop now always
 		} else { // no error in this byte lane
 		    if (byte_delay_count[lmc][byte] == 0) { // first success, set run start
 			byte_delay_start[lmc][byte] = byte_offset;
@@ -668,66 +1032,171 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 			byte_delay_best_count[lmc][byte] = byte_delay_count[lmc][byte];
 			byte_delay_best_start[lmc][byte] = byte_delay_start[lmc][byte];
 		    }
+		    byte_delay_windows[lmc][byte] |= 1ULL; // for pass, put in a 1
 		}
 	    } /* for (byte = 0; byte < 8; ++byte) */
 
 	    // only print when there are errors and verbose...
 	    if (errors) {
 		debug_print("DLL %s Offset Test %3d: errors 0x%x\n",
-			    dll_offset_mode == 1 ? "Write" : "Read",
-			    byte_offset, errors);
+			    mode_str, byte_offset, errors);
 	    }
 	} /* for (lmc = 0; lmc < num_lmcs; lmc++) */
 
     } /* for (byte_offset=-63; byte_offset<63; byte_offset += BYTE_OFFSET_INCR) */
 
-    // done with testing, load up the offsets we found...
+    // done with testing, load up and/or print out the offsets we found...
+
+    // only when margining...
+    if (!do_tune) {
+	printf("  \n");
+	printf("-------------------------------------\n");
+#if 0
+	uint32_t mts_speed = (libdram_get_freq_from_pll(node, 0) * 2) / 1000000; // FIXME: sample LMC0
+	printf("N%d: Starting %s Timing Margining for %d MT/s.\n", node, mode_str, mts_speed);
+#else
+	printf("N%d: Starting %s Timing Margining.\n", node, mode_str);
+#endif
+	printf("  \n");
+    } /* if (!do_tune) */
+
     for (lmc = 0; lmc < num_lmcs; lmc++) {
+#if 1
+	// FIXME FIXME
+	// FIXME: this just makes ECC always show 0
+	byte_delay_best_start[lmc][8] = start_offset;
+	byte_delay_best_count[lmc][8] = end_offset - start_offset + incr_offset;
+#endif
+
 	// disable offsets while we load...
 	change_dll_offset_enable(node, lmc, 0);
 
-	// first print and load the offset values themselves
-	sprintf(sbuffer, "N%d.LMC%d: DLL %s Offset Delay (RODT%d)", node, lmc,
-		dll_offset_mode == 1 ? "Write" : "Read ", this_rodt);
-	printf("%-45s : ", sbuffer); // FIXME: force print
-	for (byte = 8; byte >= 0; --byte) { // print in "normal" reverse index order
-	    byte_offset =  byte_delay_best_start[lmc][byte] +
-		((byte_delay_best_count[lmc][byte] - incr_offset) / 2); // adj by incr
-	    printf(" %3d", byte_offset); // FIXME: force print
+	// only when margining...
+	if (!do_tune) {
+	    // print the heading
+	    printf("  \n");
+	    printf("N%d.LMC%d: %s Timing Margin     %s : ", node, lmc, mode_str, mode_blk);
+	    printf("     ECC/8 ");
+	    for (byte = 7; byte >= 0; byte--) {
+		printf("    Byte %d ", byte);
+	    }
+	    printf("\n");
+	} /* if (!do_tune) */
 
-	    load_dll_offset(node, lmc, dll_offset_mode, byte_offset, byte);
+	// print and load the offset values
+	// print the windows bit arrays
+	printf("N%d.LMC%d: DLL %s Offset Amount %s : ", node, lmc, mode_str, mode_blk);
+	for (byte = 8; byte >= 0; --byte) { // print in "normal" reverse index order
+
+	    int count = byte_delay_best_count[lmc][byte];
+	    if (count == 0)
+		count = incr_offset; // should make non-tested ECC byte come out 0
+	   
+	    byte_offset =  byte_delay_best_start[lmc][byte] +
+		((count - incr_offset) / 2); // adj by incr
+
+	    int will_need_review = !do_tune && !is_low_risk_winlen(speed_bin, (count - incr_offset)) &&
+		                   !is_low_risk_offset(speed_bin, byte_offset);
+
+	    printf("%10d%c", byte_offset, (will_need_review) ? '<' :' ');
+
+	    if (!do_tune) { // do bother counting if not tuning
+		if (will_need_review)
+		    needs_review_count++;
+		else
+		    low_risk_count++;
+	    }
+
+	    // FIXME? should we be able to override this?
+	    if (mode_is_read) // for READ offsets, always store what we found
+		load_dll_offset(node, lmc, dll_offset_mode, byte_offset, byte);
+	    else // for WRITE offsets, always store 0
+		load_dll_offset(node, lmc, dll_offset_mode, 0, byte);
 
 	}
-	printf("\n"); // FIXME: force print
+	printf("\n");
 
 	// re-enable the offsets now that we are done loading
 	change_dll_offset_enable(node, lmc, 1);
 
-#if 1
-	// next print the window counts
-	sprintf(sbuffer, "N%d.LMC%d: DLL %s Offset Count (RODT%d)", node, lmc,
-		dll_offset_mode == 1 ? "Write" : "Read ", this_rodt);
-	printf("%-45s : ", sbuffer); // FIXME: force print
-	for (byte = 8; byte >= 0; --byte) { // print in "normal" reverse index order
-	    printf(" %3d", byte_delay_best_count[lmc][byte]); // FIXME: force print
-	}
-	printf("\n"); // FIXME: force print
+	// only when margining...
+	if (!do_tune) {
+	    // print the window sizes
+	    printf("N%d.LMC%d: DLL %s Window Length %s : ", node, lmc, mode_str, mode_blk);
+	    for (byte = 8; byte >= 0; --byte) { // print in "normal" reverse index order
+		int count = byte_delay_best_count[lmc][byte];
+		if (count == 0)
+		    count = incr_offset; // should make non-tested ECC byte come out 0
+
+		// do this again since the "needs review" test is an AND...
+		byte_offset =  byte_delay_best_start[lmc][byte] +
+		    ((count - incr_offset) / 2); // adj by incr
+
+		int will_need_review = !is_low_risk_winlen(speed_bin, (count - incr_offset)) &&
+		    !is_low_risk_offset(speed_bin, byte_offset);
+
+		printf("%10d%c", count - incr_offset, (will_need_review) ? '<' :' ');
+	    }
+	    printf("\n");
+
+	    // print the window extents
+	    printf("N%d.LMC%d: DLL %s Window Bounds %s : ", node, lmc, mode_str, mode_blk);
+	    for (byte = 8; byte >= 0; --byte) { // print in "normal" reverse index order
+		int start = byte_delay_best_start[lmc][byte];
+		int count = byte_delay_best_count[lmc][byte];
+		if (count == 0)
+		    count = incr_offset; // should make non-tested ECC byte come out 0
+		printf(" %3d to%3d ", start,
+		       start + count - incr_offset);
+	    }
+	    printf("\n");
+#if 0
+	    // FIXME: should have a way to force these out...
+	    // print the windows bit arrays
+	    printf("N%d.LMC%d: DLL %s Window Bitmap%s : ", node, lmc, mode_str, mode_blk);
+	    for (byte = 8; byte >= 0; --byte) { // print in "normal" reverse index order
+		printf("%010lx ", byte_delay_windows[lmc][byte]);
+	    }
+	    printf("\n");
 #endif
+	} /* if (!do_tune) */
     } /* for (lmc = 0; lmc < num_lmcs; lmc++) */
 
+    // only when margining...
+    if (!do_tune) {
+	// print the Summary line(s) here
+	printf("  \n");
+	printf("N%d: %s Timing Margining Summary : %s ", node, mode_str,
+	       (needs_review_count > 0) ? "Needs Review" : "Low Risk");
+	if (needs_review_count > 0)
+	    printf("(%d)", needs_review_count); 
+	printf("\n");
+
+	// FIXME??? want to print here: "N0: %s Offsets have been applied already"
+
+	printf("-------------------------------------\n");
+	printf("  \n");
+    } /* if (!do_tune) */
+
+    // FIXME: we probably want this only when doing verbose...
     // finally, print the utilizations all together
     for (lmc = 0; lmc < num_lmcs; lmc++) {
-	percent_x10 = ops_sum[lmc] * 1000 / dclk_sum[lmc];
-	printf("N%d.LMC%d: ops %lu, cycles %lu, used %lu.%lu%%\n",
-	       node, lmc, ops_sum[lmc], dclk_sum[lmc], percent_x10 / 10, percent_x10 % 10);
+	uint64_t percent_x10 = ops_sum[lmc] * 1000 / dclk_sum[lmc];
+	ddr_print("N%d.LMC%d: ops %lu, cycles %lu, used %lu.%lu%%\n",
+		  node, lmc, ops_sum[lmc], dclk_sum[lmc], percent_x10 / 10, percent_x10 % 10);
     } /* for (lmc = 0; lmc < num_lmcs; lmc++) */
 
+    // FIXME: only when verbose, or only when there are errors?
     // run the test one last time 
     // print whether there are errors or not, but only when verbose...
     bdk_watchdog_poke();
-    tot_errors = run_test_dram_byte_threads(node, num_lmcs, bytemask);
-    printf("DLL %s Offset Final Test: errors 0x%x\n",
-	   dll_offset_mode == 1 ? "Write" : "Read", tot_errors);
+    debug_print("N%d: %s: Start running test one last time\n", node, __FUNCTION__);
+    tot_errors = run_dram_tuning_threads(node, num_lmcs, bytemask);
+    debug_print("N%d: %s: Finished running test one last time\n", node, __FUNCTION__);
+    if (tot_errors)
+	ddr_print("%s Timing Final Test: errors 0x%x\n", mode_str, tot_errors);
+
+    return (do_tune) ? tot_errors : !!(needs_review_count > 0);
 }
 
 #define USE_L2_WAYS_LIMIT 0 // non-zero to enable L2 ways limiting
@@ -735,7 +1204,7 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode,
 /*
  * Automatically adjust the DLL offset for the data bytes
  */
-int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
+int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 {
     int ddr_interface_64b;
     int save_ecc_ena[4];
@@ -745,12 +1214,18 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
 #if USE_L2_WAYS_LIMIT
     int ways, ways_print = 0;
 #endif
+#if 0
     int dram_tune_use_rodt = -1, save_rodt[4];
     bdk_lmcx_comp_ctl2_t comp_ctl2;
+#endif
     int loops = 1, loop;
+    uint64_t orig_coremask;
 
-    // enable all the cores on this node
-    bdk_init_cores(node, 0);
+    // enable any non-running cores on this node
+    orig_coremask = bdk_get_running_coremask(node);
+    ddr_print("N%d: %s: Starting cores (mask was 0x%lx)\n",
+	      node, __FUNCTION__, orig_coremask);
+    bdk_init_cores(node, ~0ULL & ~orig_coremask);
     dram_tune_max_cores = bdk_get_num_running_cores(node);
 
     // but use only a certain number of cores, at most what is available
@@ -777,6 +1252,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
         dram_tune_use_bursts = strtoul(s, NULL, 10);
     }
 
+#if 0
     // allow override of Read ODT setting just during the tuning run(s)
     if ((s = getenv("ddr_tune_use_rodt")) != NULL) {
         int temp = strtoul(s, NULL, 10);
@@ -784,6 +1260,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
 	if (temp >= 0 && temp <= 7)
 	    dram_tune_use_rodt = temp;
     }
+#endif
 
 #if 0
     // allow override of the test pattern
@@ -799,9 +1276,10 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
     }
 #endif
 
-    // print current working values // FIXME: force print
-    printf("N%d: perform_lmc_offset_tuning: started %d cores, use %d cores, use %d bursts.\n",
-	   node, dram_tune_max_cores, dram_tune_use_cores, dram_tune_use_bursts);
+    // print current working values
+    ddr_print("N%d: %s: started %d cores, use %d cores, use %d bursts.\n",
+		node, __FUNCTION__, dram_tune_max_cores, dram_tune_use_cores,
+		dram_tune_use_bursts);
 
 #if USE_L2_WAYS_LIMIT
     // see if L2 ways are limited
@@ -813,19 +1291,23 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
     }
 #endif
 
+#if 0
     // if RODT is to be overridden during tuning, note change
     if (dram_tune_use_rodt >= 0) {
 	ddr_print("N%d: using RODT %d for tuning.\n",
 		  node, dram_tune_use_rodt);
     }
+#endif
 
     // FIXME? get flag from LMC0 only
+    lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(0));
     ddr_interface_64b = !lmc_config.s.mode32b;
 
     // do setup for each active LMC
-    debug_print("N%d: perform_lmc_offset_tuning: starting LMCs setup.\n", node);
+    ddr_print("N%d: %s: starting LMCs setup.\n", node, __FUNCTION__);
     for (lmc = 0; lmc < num_lmcs; lmc++) {
 
+#if 0
 	// if RODT change, save old and set new here...
 	if (dram_tune_use_rodt >= 0) {
 	    comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(lmc));
@@ -834,7 +1316,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
 	    DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(lmc), comp_ctl2.u);
 	    BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(lmc));
 	}
-
+#endif
 	/* Disable ECC for DRAM tests */
 	lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(lmc));
 	save_ecc_ena[lmc] = lmc_config.s.ecc_ena;
@@ -853,8 +1335,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
     // FIXME: for now, loop here to show what happens multiple times
     for (loop = 0; loop < loops; loop++) {
 	/* Perform DLL offset tuning */
-	//auto_set_dll_offset(node,  1 /* 1=write */, lmc, ddr_interface_64b);
-	auto_set_dll_offset(node,  2 /* 2=read */, num_lmcs, ddr_interface_64b);
+	auto_set_dll_offset(node, dll_offset_mode, num_lmcs, ddr_interface_64b, do_tune);
     }
 
 #if USE_L2_WAYS_LIMIT
@@ -863,7 +1344,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
 #endif
 
     // perform cleanup on all active LMCs   
-    debug_print("N%d: perform_lmc_offset_tuning: starting LMCs cleanup.\n", node);
+    ddr_print("N%d: %s: starting LMCs cleanup.\n", node, __FUNCTION__);
     for (lmc = 0; lmc < num_lmcs; lmc++) {
 
 	/* Restore ECC for DRAM tests */
@@ -871,7 +1352,7 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
 	lmc_config.s.ecc_ena = save_ecc_ena[lmc];
 	DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(lmc), lmc_config.u);
 	lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(lmc));
-
+#if 0
 	// if RODT change, restore old here...
 	if (dram_tune_use_rodt >= 0) {
 	    comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(lmc));
@@ -879,29 +1360,41 @@ int perform_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
 	    DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(lmc), comp_ctl2.u);
 	    BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(lmc));
 	}
-
+#endif
 	// finally, see if there are any read offset overrides after tuning
-	for (int by = 0; by < 9; by++) {
-	    if ((s = lookup_env_parameter("ddr%d_tune_byte%d", lmc, by)) != NULL) {
-		int dllro = strtoul(s, NULL, 10);
-		change_dll_offset_enable(node, lmc, 0);
-		load_dll_offset(node, lmc, 2 /* 2=read */, dllro, by);
-		change_dll_offset_enable(node, lmc, 1);
-	    }
-	}
-
+        // FIXME: provide a way to do write offsets also??
+        if (dll_offset_mode == 2) {
+            for (int by = 0; by < 9; by++) {
+                if ((s = lookup_env_parameter("ddr%d_tune_byte%d", lmc, by)) != NULL) {
+                    int dllro = strtoul(s, NULL, 10);
+                    change_dll_offset_enable(node, lmc, 0);
+                    load_dll_offset(node, lmc, /* read */2, dllro, by);
+                    change_dll_offset_enable(node, lmc, 1);
+                }
+            }
+        }
     } /* for (lmc = 0; lmc < num_lmcs; lmc++) */
 
     // finish up...
 
+#if 0
     // if RODT was overridden during tuning, note restore
     if (dram_tune_use_rodt >= 0) {
 	ddr_print("N%d: restoring RODT %d after tuning.\n",
 		  node, save_rodt[0]); // FIXME? use LMC0
     }
+#endif
 
-    // put the unnecessary cores on this node back into reset
-    bdk_reset_cores(node, ((int)node == 0) ? ~1ULL: ~0ULL);
+    // put any cores on this node, that were not running at the start, back into reset
+    uint64_t reset_coremask = bdk_get_running_coremask(node) & ~orig_coremask;
+    if (reset_coremask) {
+	ddr_print("N%d: %s: Stopping cores 0x%lx\n", node, __FUNCTION__,
+		  reset_coremask);
+	bdk_reset_cores(node, reset_coremask);
+    } else {
+	ddr_print("N%d: %s: leaving cores set to 0x%lx\n", node, __FUNCTION__,
+		  orig_coremask);
+    }
 
     return 0;
 } /* perform_dll_offset_tuning */
@@ -952,13 +1445,13 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
     int rank_delay_count[4];
     int rank_delay_best_start[4];
     int rank_delay_best_count[4];
-    //char sbuffer[50];
     int errors[4], off_errors, tot_errors;
     int num_lmcs = __bdk_dram_get_num_lmc(node);
     int rank_max = 1; // default to 1 rank
     int pattern;
     const uint64_t *pattern_p;
     int rankx;
+    char *mode_str = (dll_offset_mode == 2) ? "Read" : "Write";
 
     // FIXME: must revise this for 2-slot!!!
     BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(lmc));
@@ -1028,19 +1521,19 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
 		    off_errors |= errors[rankx];
 
 		    ddr_print("N%d.LMC%d.R%d: ECC DLL %s Offset Test %3d: Address 0x%012lx errors 0x%x\n",
-			      node, lmc, rankx, dll_offset_mode == 1 ? "Write" : "Read",
+			      node, lmc, rankx, mode_str,
 			      byte_offset, phys_addr, errors[rankx]);
 
 		    if (rank_delay_count[rankx] > 0) { // had started run
 			ddr_print("N%d.LMC%d.R%d: ECC DLL %s Offset Test %3d: stopping a run here\n",
-				  node, lmc, rankx, dll_offset_mode == 1 ? "Write" : "Read", byte_offset);
+				  node, lmc, rankx, mode_str, byte_offset);
 			rank_delay_count[rankx] = 0;   // stop now
 		    }
 		    // FIXME: else had not started run - nothing else to do?
 		} else { // no error in the ECC byte lane
 		    if (rank_delay_count[rankx] == 0) { // first success, set run start
 			ddr_print("N%d.LMC%d.R%d: ECC DLL %s Offset Test %3d: starting a run here\n",
-				  node, lmc, rankx, dll_offset_mode == 1 ? "Write" : "Read", byte_offset);
+				  node, lmc, rankx, mode_str, byte_offset);
 			rank_delay_start[rankx] = byte_offset;
 		    }
 		    rank_delay_count[rankx] += BYTE_OFFSET_INCR; // bump run length
@@ -1050,7 +1543,7 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
 			rank_delay_best_count[rankx] = rank_delay_count[rankx];
 			rank_delay_best_start[rankx] = rank_delay_start[rankx];
 			debug_print("N%d.LMC%d.R%d: ECC DLL %s Offset Test %3d: updating best to %d/%d\n",
-				  node, lmc, rankx, dll_offset_mode == 1 ? "Write" : "Read", byte_offset,
+				  node, lmc, rankx, mode_str, byte_offset,
 				  rank_delay_best_start[rankx], rank_delay_best_count[rankx]);
 		    }
 		}
@@ -1068,24 +1561,21 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
 	    pat_sum += rank_delay_best;
 	    pat_cnt++;
 	    ddr_print("N%d.LMC%d.R%d: ECC DLL %s Offset Test:  Rank Best %3d\n",
-		      node, lmc, rankx, dll_offset_mode == 1 ? "Write" : "Read",
-		      rank_delay_best);
+		      node, lmc, rankx, mode_str, rank_delay_best);
 	} /* for (rankx = 0; rankx < rank_max; rankx++) */
 
 	pat_best_offset = pat_sum / pat_cnt;
 	ddr_print("N%d.LMC%d: ECC DLL %s Offset Test:  Pattern %d Average %3d\n",
-		  node, lmc, dll_offset_mode == 1 ? "Write" : "Read",
-		  pattern, pat_best_offset);
+		  node, lmc, mode_str, pattern, pat_best_offset);
 
 
 #if 0
 	// FIXME: next print the window counts
 	sprintf(sbuffer, "N%d.LMC%d Pattern %d: DLL %s Offset Count ",
-		node, lmc, pattern,
-		dll_offset_mode == 1 ? "Write" : "Read ");
-	printf("%-45s : ", sbuffer); // FIXME: force print
-	printf(" %3d", byte_delay_best_count); // FIXME: force print
-	printf("\n"); // FIXME: force print
+		node, lmc, pattern, mode_str);
+	printf("%-45s : ", sbuffer);
+	printf(" %3d", byte_delay_best_count);
+	printf("\n");
 #endif
 
 	new_best_offset += pat_best_offset; // sum the pattern averages
@@ -1096,9 +1586,7 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
     // print the best offset from all patterns
 
     ddr_print("N%d.LMC%d: ECC DLL %s Offset Best Delay: %3d\n",
-	      node, lmc,
-	      dll_offset_mode == 1 ? "Write" : "Read ",
-	      new_best_offset);
+	      node, lmc, mode_str, new_best_offset);
 
     // done with testing, load up the best offset we found...
     change_dll_offset_enable(node, lmc, 0); // disable offsets while we load...
@@ -1110,14 +1598,14 @@ static void auto_set_ECC_dll_offset(bdk_node_t node, int dll_offset_mode,
     // print whether there are errors or not, but only when verbose...
     tot_errors = run_test_dram_byte_threads(node, num_lmcs, bytemask);
     printf("ECC DLL %s Offset Final Test: errors 0x%x\n",
-	   dll_offset_mode == 1 ? "Write" : "Read", tot_errors);
+	   mode_str, tot_errors);
 #endif
 }
 
 /*
  * Automatically adjust the DLL offset for the ECC byte
  */
-int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
+int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode, int do_tune)
 {
     int ddr_interface_64b;
     int save_ecc_ena[4];
@@ -1133,7 +1621,7 @@ int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
         tune_enable = !!strtoul(s, NULL, 10);
     }
     if (!tune_enable) {
-	printf("N%d: ECC DLL read offset currently not eligible for tuning.\n", node);
+	debug_print("N%d: ECC DLL read offset currently not eligible for tuning.\n", node);
 	// FIXME? allow override to do tuning?
 	return 0;
     }
@@ -1148,9 +1636,10 @@ int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
         dram_tune_ecc_bursts = strtoul(s, NULL, 10);
     }
 
-    // print current working values // FIXME: force print
-    printf("N%d: perform_ECC_dll_offset_tuning: %d loops, %d bursts, %d patterns.\n",
-	   node, loops, dram_tune_ecc_bursts, NUM_ECC_PATTERNS);
+    // print current working values
+    ddr_print("N%d: %s: %d loops, %d bursts, %d patterns.\n",
+	      node, __FUNCTION__, loops, dram_tune_ecc_bursts,
+	      NUM_ECC_PATTERNS);
 
     // FIXME? get flag from LMC0 only
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(0));
@@ -1160,7 +1649,7 @@ int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
 
     for (lmc = 0; lmc < num_lmcs; lmc++) {
 
-	ddr_print("N%d: perform_ECC_dll_offset_tuning: starting LMC%d ECC tune.\n", node, lmc);
+	ddr_print("N%d: %s: starting LMC%d ECC tune.\n", node, __FUNCTION__, lmc);
 
 	/* Enable ECC for the HW tests */
 	// NOTE: we do enable ECC, but the HW tests used will not generate "visible" errors
@@ -1179,7 +1668,7 @@ int perform_ECC_dll_offset_tuning(bdk_node_t node, int dll_offset_mode)
 	}
 
 	// perform cleanup on active LMC   
-	ddr_print("N%d: perform_ECC_dll_offset_tuning: finishing LMC%d ECC tune.\n", node, lmc);
+	ddr_print("N%d: %s: finishing LMC%d ECC tune.\n", node, __FUNCTION__, lmc);
 
 	/* Restore ECC for DRAM tests */
 	lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(lmc));
