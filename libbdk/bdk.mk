@@ -27,19 +27,39 @@ STRIP=$(CROSS)strip
 #
 # Setup the compile flags
 #
-CPPFLAGS = $(BDK_EXTRA_CPPFLAGS)
-CPPFLAGS += -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/${LIBC_DIR}/include -I $(BDK_ROOT)/libfdt
-CFLAGS = -Wall -Wextra -Wno-unused-parameter -Winline -mcpu=thunderx -Os -g -std=gnu99 -fno-asynchronous-unwind-tables
-CFLAGS += -ffunction-sections -Winvalid-pch
+CPPFLAGS  = $(BDK_EXTRA_CPPFLAGS)
+CPPFLAGS += -I $(BDK_ROOT)/libbdk
+CPPFLAGS += -I $(BDK_ROOT)/liblua
+CPPFLAGS += -I $(BDK_ROOT)/libc/${LIBC_DIR}/include
+CPPFLAGS += -I $(BDK_ROOT)/libfdt
+
+CFLAGS  = -Wall
+CFLAGS += -Wextra
+CFLAGS += -Wno-unused-parameter
+CFLAGS += -Winline
+CFLAGS += -Winvalid-pch
+CFLAGS += -mcpu=thunderx
+CFLAGS += -Os -g
+CFLAGS += -std=gnu11
+CFLAGS += -fno-asynchronous-unwind-tables
+CFLAGS += -ffunction-sections
 CFLAGS += -fshort-wchar
 
 ASFLAGS = $(CFLAGS)
 
-LDFLAGS  = -nostdlib -nostartfiles
-LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o
-LDFLAGS += -Wl,-T -Wl,bdk.ld -Wl,-Map -Wl,$@.map -Wl,--gc-sections
+LDFLAGS  = -nostdlib
+LDFLAGS += -nostartfiles
+LDFLAGS += -Wl,-T
+LDFLAGS += -Wl,bdk.ld
+LDFLAGS += -Wl,-Map
+LDFLAGS += -Wl,$@.map
+LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,--defsym=BDK_LINK_ADDRESS=$(BDK_LINK_ADDRESS)
-LDLIBS = -lbdk -lgcc
+LDFLAGS += -L $(BDK_ROOT)/libbdk
+LDFLAGS += $(BDK_ROOT)/libbdk-os/bdk-start.o
+
+LDLIBS  = -lbdk
+LDLIBS += -lgcc
 
 # This leaves off the bits [63:40] as these contain the node ID, which we don't want
 IMAGE_END=`${CROSS}objdump -t $^ | grep " _end$$" | sed "s/^00000[0-9]\([0-9a-f]*\).*/print 0x\1/g" | python`
