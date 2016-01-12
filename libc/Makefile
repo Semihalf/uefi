@@ -1,4 +1,14 @@
 CROSS=aarch64-thunderx-elf
+export CC=$(CROSS)-gcc
+
+CFLAGS := -D__FILENAME_MAX__=64
+CFLAGS += -D__BUFSIZ__=512
+CFLAGS += -g
+CFLAGS += -Os
+CFLAGS += -fno-asynchronous-unwind-tables
+CFLAGS += -ffunction-sections
+CFLAGS += -fshort-wchar
+export CFLAGS
 
 NEWLIB_CONFIG := --host=$(CROSS)
 NEWLIB_CONFIG += --target=$(CROSS)
@@ -27,7 +37,7 @@ ${CROSS}/lib/libc.a: build/Makefile
 build/Makefile:
 	rm -rf build
 	mkdir build
-	cd build && CC=$(CROSS)-gcc CFLAGS="-D__FILENAME_MAX__=64 -D__BUFSIZ__=512 -g -Os -fno-asynchronous-unwind-tables -ffunction-sections -fshort-wchar" ../newlib-2.1.0/newlib/configure  $(NEWLIB_CONFIG)
+	cd build && ../newlib-2.1.0/newlib/configure $(NEWLIB_CONFIG)
 
 clean:
 	rm -rf share build ${CROSS}
