@@ -2,6 +2,11 @@ ifndef BDK_ROOT
     export BDK_ROOT:=$(shell pwd)
     $(info BDK_ROOT not set, assuming $(BDK_ROOT))
 endif
+ifdef BDK_CLANG_ROOT
+    $(info BDK_CLANG_ROOT set, using LLVM tools)
+else
+    #$(info BDK_CLANG_ROOT not set, using GNU tools)
+endif
 include $(BDK_ROOT)/libbdk/bdk.mk
 
 TFTPBOOT?=/tftpboot/

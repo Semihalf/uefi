@@ -1,5 +1,17 @@
+ifdef BDK_CLANG_ROOT
+    USE_LLVM=1
+endif
+
 CROSS=aarch64-thunderx-elf
-export CC=$(CROSS)-gcc
+ifdef USE_LLVM
+    LLVM_TARGET=-target aarch64-cavium-none-elf -march=armv8.1a+crypto
+    export CC=$(BDK_CLANG_ROOT)/clang $(LLVM_TARGET) -ccc-gcc-name $(CROSS)-gcc
+    export AR=$(BDK_CLANG_ROOT)/llvm-ar
+    export AS=$(BDK_CLANG_ROOT)/llvm-as $(LLVM_TARGET)
+    export RANLIB=$(BDK_CLANG_ROOT)/llvm-ranlib
+else
+    export CC=$(CROSS)-gcc
+endif
 
 CFLAGS := -D__FILENAME_MAX__=64
 CFLAGS += -D__BUFSIZ__=512
