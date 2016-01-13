@@ -16,6 +16,12 @@ License Text:   libc/newlib-2.1.0/COPYING.NEWLIB
 Project URL:    https://sourceware.org/newlib/
 Directories:    libc/newlib-2.1.0/*
 
+Component:      libgloss
+License:        BSD
+License Text:   libc/newlib-2.1.0/COPYING.LIBGLOSS
+Project URL:    https://sourceware.org/newlib/
+Directories:    libc/newlib-2.1.0/*
+
 Component:      FatFS
 License:        BSD-style
 License Text:   utils/fatfs-tool/FatFs/doc/en/appnote.html
