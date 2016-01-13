@@ -380,3 +380,5 @@
 
   # Legacy Linux Loader
   ArmPkg/Application/LinuxLoader/LinuxLoader.inf
+
+  ArmPlatformPkg/ArmA8kPkg/Drivers/A8kI2cDxe/A8kI2cDxe.inf
