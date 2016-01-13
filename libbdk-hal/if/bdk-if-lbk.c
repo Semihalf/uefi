@@ -113,6 +113,14 @@ static int if_init(bdk_if_handle_t handle)
     /* Record the PKND for this port */
     BDK_CSR_MODIFY(c, handle->node, BDK_LBKX_CHX_PKIND(handle->interface, handle->index),
         c.s.pkind = handle->pknd);
+
+    if (handle->vnic)
+    {
+        BDK_CSR_INIT(lbkx_const, handle->node, BDK_LBKX_CONST(handle->interface));
+        if (bdk_nic_port_init(handle, BDK_NIC_TYPE_LBK, lbkx_const.s.buf_size))
+            return -1;
+    }
+
     return 0;
 }
 
@@ -165,6 +173,22 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     return &handle->stats;
 }
 
+static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
+{
+    if (handle->pko_queue == -1)
+        return bdk_nic_transmit(handle, packet);
+    else
+        return bdk_pko_transmit(handle, packet);
+}
+
+static int if_get_queue_depth(bdk_if_handle_t handle)
+{
+    if (handle->pko_queue == -1)
+        return bdk_nic_get_queue_depth(handle);
+    else
+        return bdk_pko_get_queue_depth(handle);
+}
+
 __bdk_if_ops_t __bdk_if_ops_lbk = {
     .priv_size = 0,
     .if_num_interfaces = if_num_interfaces,
@@ -175,8 +199,8 @@ __bdk_if_ops_t __bdk_if_ops_lbk = {
     .if_disable = if_disable,
     .if_link_get = if_link_get,
     .if_get_stats = if_get_stats,
-    .if_transmit = bdk_pko_transmit,
+    .if_transmit = if_transmit,
     .if_loopback = if_loopback,
-    .if_get_queue_depth = bdk_pko_get_queue_depth,
+    .if_get_queue_depth = if_get_queue_depth,
 };
 
