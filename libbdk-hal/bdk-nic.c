@@ -653,6 +653,7 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
     nic->vnic = handle->vnic;
     nic->qos = 0;
     nic->handle = handle;
+    nic->shares_cq = (handle->index > 0) && !__bdk_is_dram_enabled(handle->node);
 
     int sq = nic->vnic;
     int sq_idx = nic->qos;
