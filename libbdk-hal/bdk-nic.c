@@ -738,7 +738,7 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
     BDK_CSR_MODIFY(c, nic->node, BDK_NIC_PF_PKINDX_CFG(handle->pknd),
         c.s.lenerr_en = 0;
         c.s.minlen = 0;
-        c.s.maxlen = -1);
+        c.s.maxlen = 65535);
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
     {
