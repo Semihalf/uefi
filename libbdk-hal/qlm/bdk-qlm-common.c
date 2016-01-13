@@ -939,67 +939,77 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
         int qlm_speed = (speed >> 8) * 1000 + (speed & 0xff) * 1000 / 256;
         int use_ref = 0;
         bdk_qlm_mode_flags_t qlm_flags = 0;
-        switch (mode)
+        if (mode < 0x4000)
         {
-            case 0x0000: /* No Configuration */
-                qlm_mode = BDK_QLM_MODE_DISABLED;
-                break;
-            case 0x0101: /* PCIe Host */
-                qlm_mode = (width == 8) ? BDK_QLM_MODE_PCIE_1X8 : BDK_QLM_MODE_PCIE_1X4;
-                use_ref = REF_100MHZ;
-                break;
-            case 0x0102: /* PCIe Endpoint */
-                qlm_mode = (width == 8) ? BDK_QLM_MODE_PCIE_1X8 : BDK_QLM_MODE_PCIE_1X4;
-                qlm_flags = BDK_QLM_MODE_FLAG_ENDPOINT;
-                use_ref = 0; /* Use the external reference for EP mode */
-                break;
-            case 0x1000: /* SGMII */
-                qlm_mode = (width == 2) ? BDK_QLM_MODE_SGMII_2X1 : BDK_QLM_MODE_SGMII_4X1;
-                use_ref = REF_156MHZ;
-                break;
-            case 0x2000: /* XAUI */
-                qlm_mode = BDK_QLM_MODE_XAUI_1X4;
-                use_ref = REF_156MHZ;
-                break;
-            case 0x2100: /* RXAUI */
-                qlm_mode = (width == 2) ? BDK_QLM_MODE_RXAUI_1X2 : BDK_QLM_MODE_RXAUI_2X2;
-                use_ref = REF_156MHZ;
-                break;
-            case 0x2200: /* DXAUI */
-                qlm_mode = BDK_QLM_MODE_XAUI_1X4;
-                use_ref = REF_156MHZ;
-                break;
-            case 0x3001: /* Interlaken */
-                qlm_mode = BDK_QLM_MODE_ILK;
-                use_ref = REF_156MHZ;
-                break;
-            case 0x4000: /* SATA */
-                qlm_mode = (width == 2) ? BDK_QLM_MODE_SATA_2X1 : BDK_QLM_MODE_SATA_4X1;
-                use_ref = REF_100MHZ;
-                break;
-            case 0x5001: /* XFI */
-                qlm_mode = (width == 2) ? BDK_QLM_MODE_XFI_2X1 : BDK_QLM_MODE_XFI_4X1;
-                use_ref = REF_156MHZ;
-                break;
-            case 0x5002: /* 10G-KR */
-                qlm_mode = (width == 2) ? BDK_QLM_MODE_10G_KR_2X1 : BDK_QLM_MODE_10G_KR_4X1;
-                use_ref = REF_156MHZ;
-                break;
-            case 0x6001: /* XLAUI */
-                qlm_mode = BDK_QLM_MODE_XLAUI_1X4;
-                use_ref = REF_156MHZ;
-                break;
-            case 0x6002: /* 40G-KR4 */
-                qlm_mode = BDK_QLM_MODE_40G_KR4_1X4;
-                use_ref = REF_156MHZ;
-                break;
-            case 0x1100: /* QSGMII */
-            case 0x3002: /* Interlaken Look-Aside */
-            case 0x7000: /* SRIO */
-            default:
-                bdk_error("QLM Config: Unexpected interface mode (0x%x) from MCU\n", mode);
-                qlm_mode = BDK_QLM_MODE_DISABLED;
-                break;
+            switch (mode)
+            {
+                case 0x0000: /* No Configuration */
+                    qlm_mode = BDK_QLM_MODE_DISABLED;
+                    break;
+                case 0x0101: /* PCIe Host */
+                    qlm_mode = (width == 8) ? BDK_QLM_MODE_PCIE_1X8 : BDK_QLM_MODE_PCIE_1X4;
+                    use_ref = REF_100MHZ;
+                    break;
+                case 0x0102: /* PCIe Endpoint */
+                    qlm_mode = (width == 8) ? BDK_QLM_MODE_PCIE_1X8 : BDK_QLM_MODE_PCIE_1X4;
+                    qlm_flags = BDK_QLM_MODE_FLAG_ENDPOINT;
+                    use_ref = 0; /* Use the external reference for EP mode */
+                    break;
+                case 0x1000: /* SGMII */
+                    qlm_mode = (width == 2) ? BDK_QLM_MODE_SGMII_2X1 : BDK_QLM_MODE_SGMII_4X1;
+                    use_ref = REF_156MHZ;
+                    break;
+                case 0x2000: /* XAUI */
+                    qlm_mode = BDK_QLM_MODE_XAUI_1X4;
+                    use_ref = REF_156MHZ;
+                    break;
+                case 0x2100: /* RXAUI */
+                    qlm_mode = (width == 2) ? BDK_QLM_MODE_RXAUI_1X2 : BDK_QLM_MODE_RXAUI_2X2;
+                    use_ref = REF_156MHZ;
+                    break;
+                case 0x2200: /* DXAUI */
+                    qlm_mode = BDK_QLM_MODE_XAUI_1X4;
+                    use_ref = REF_156MHZ;
+                    break;
+                case 0x3001: /* Interlaken */
+                    qlm_mode = BDK_QLM_MODE_ILK;
+                    use_ref = REF_156MHZ;
+                    break;
+                default:
+                    bdk_error("QLM Config: Unexpected interface mode (0x%x) from MCU\n", mode);
+                    qlm_mode = BDK_QLM_MODE_DISABLED;
+                    break;
+            }
+        }
+        else
+        {
+            switch (mode)
+            {
+                case 0x4000: /* SATA */
+                    qlm_mode = (width == 2) ? BDK_QLM_MODE_SATA_2X1 : BDK_QLM_MODE_SATA_4X1;
+                    use_ref = REF_100MHZ;
+                    break;
+                case 0x5001: /* XFI */
+                    qlm_mode = (width == 2) ? BDK_QLM_MODE_XFI_2X1 : BDK_QLM_MODE_XFI_4X1;
+                    use_ref = REF_156MHZ;
+                    break;
+                case 0x5002: /* 10G-KR */
+                    qlm_mode = (width == 2) ? BDK_QLM_MODE_10G_KR_2X1 : BDK_QLM_MODE_10G_KR_4X1;
+                    use_ref = REF_156MHZ;
+                    break;
+                case 0x6001: /* XLAUI */
+                    qlm_mode = BDK_QLM_MODE_XLAUI_1X4;
+                    use_ref = REF_156MHZ;
+                    break;
+                case 0x6002: /* 40G-KR4 */
+                    qlm_mode = BDK_QLM_MODE_40G_KR4_1X4;
+                    use_ref = REF_156MHZ;
+                    break;
+                default:
+                    bdk_error("QLM Config: Unexpected interface mode (0x%x) from MCU\n", mode);
+                    qlm_mode = BDK_QLM_MODE_DISABLED;
+                    break;
+            }
         }
         lane += width;
         do
