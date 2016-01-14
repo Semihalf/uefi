@@ -65,7 +65,7 @@ run-normal: run-asim
 #
 ASIM_CHIP ?= CN88XX:1.0
 ASIM_IMAGE = $(BDK_ROOT)/target-bin/bdk.bin
-ASIM_ELF = $(BDK_ROOT)/apps/boot/app
+ASIM_ELF = $(BDK_ROOT)/apps/diagnostics/app
 ASIM_ENV = ASIM_CHIP=$(ASIM_CHIP)
 ASIM_ENV += UART0PORT=2000
 ASIM_ENV += UART1PORT=2001
