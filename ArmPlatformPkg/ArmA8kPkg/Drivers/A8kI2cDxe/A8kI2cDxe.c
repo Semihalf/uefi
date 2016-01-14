@@ -35,6 +35,15 @@
 
 #include "A8kI2cDxe.h"
 
+/* TODO */
+#define DELAY(x)
+#define get_tclk(x)  1
+#define device_printf(args...)
+#define bzero(a,b)	0
+#define device_get_softc(x) 0
+
+STATIC A8K_I2C_BAUD_RATE baud_rate[IIC_FASTEST + 1];
+
 EFI_STATUS
 EFIAPI
 A8kI2cInitialise (
@@ -42,6 +51,12 @@ A8kI2cInitialise (
   IN EFI_SYSTEM_TABLE	*SystemTable
   )
 {
+  /* this is required to avoid errors about unused functions */
+  A8kI2cCalBaudRate(TWSI_BAUD_RATE_SLOW, &baud_rate[IIC_SLOW]);
+  A8kI2cRepeatedStart((EFI_HANDLE)0, 0, 0);
+  A8kI2cStart((EFI_HANDLE)0, 0, 0);
+  A8kI2cRead((EFI_HANDLE) 0, 0, 0, 0, 0, 0);
+  A8kI2cWrite((EFI_HANDLE) 0, 0, 0, 0, 0);
   return EFI_SUCCESS;
 }
 
@@ -64,283 +79,31 @@ A8kI2cBindingStart (
   IN EFI_DEVICE_PATH_PROTOCOL               *RemainingDevicePath OPTIONAL
   )
 {
-  return EFI_SUCCESS;
-}
-
-EFI_STATUS
-EFIAPI
-A8kI2cBindingStop (
-  IN EFI_DRIVER_BINDING_PROTOCOL            *This,
-  IN  EFI_HANDLE                            ControllerHandle,
-  IN  UINTN                                 NumberOfChildren,
-  IN  EFI_HANDLE                            *ChildHandleBuffer OPTIONAL
-  )
-{
-  return EFI_SUCCESS;
-}
+  /* bus logic doesn't apply, exclude for now */
 #if 0
-struct mv_twsi_softc {
-  device_t  dev;
-  struct resource  *res[1];  /* SYS_RES_MEMORY */
-  struct mtx  mutex;
-  device_t  iicbus;
-};
-
-static struct mv_twsi_baud_rate {
-  uint32_t  raw;
-  int    param;
-  int    m;
-  int    n;
-} baud_rate[IIC_FASTEST + 1];
-
-static int mv_twsi_probe(device_t);
-static int mv_twsi_attach(device_t);
-static int mv_twsi_detach(device_t);
-
-static int A8kI2cReset(device_t dev, u_char speed, u_char addr,
-    u_char *oldaddr);
-static int A8kI2cRepeatedStart(device_t dev, u_char slave, int timeout);
-static int A8kI2cStart(device_t dev, u_char slave, int timeout);
-static int A8kI2cStop(device_t dev);
-static int A8kI2cRead(device_t dev, char *buf, int len, int *read, int last,
-    int delay);
-static int A8kI2cWrite(device_t dev, const char *buf, int len, int *sent,
-    int timeout);
-
-static struct resource_spec res_spec[] = {
-  { SYS_RES_MEMORY, 0, RF_ACTIVE },
-  { -1, 0 }
-};
-
-static device_method_t mv_twsi_methods[] = {
-  /* device interface */
-  DEVMETHOD(device_probe,    mv_twsi_probe),
-  DEVMETHOD(device_attach,  mv_twsi_attach),
-  DEVMETHOD(device_detach,  mv_twsi_detach),
-
-  /* iicbus interface */
-  DEVMETHOD(iicbus_callback, iicbus_null_callback),
-  DEVMETHOD(iicbus_repeated_start, A8kI2cRepeatedStart),
-  DEVMETHOD(iicbus_start,    A8kI2cStart),
-  DEVMETHOD(iicbus_stop,    A8kI2cStop),
-  DEVMETHOD(iicbus_write,    A8kI2cWrite),
-  DEVMETHOD(iicbus_read,    A8kI2cRead),
-  DEVMETHOD(iicbus_reset,    A8kI2cReset),
-  DEVMETHOD(iicbus_transfer,  iicbus_transfer_gen),
-  { 0, 0 }
-};
-
-static devclass_t mv_twsi_devclass;
-
-static driver_t mv_twsi_driver = {
-  MV_TWSI_NAME,
-  mv_twsi_methods,
-  sizeof(struct mv_twsi_softc),
-};
-
-DRIVER_MODULE(twsi, simplebus, mv_twsi_driver, mv_twsi_devclass, 0, 0);
-DRIVER_MODULE(iicbus, twsi, iicbus_driver, iicbus_devclass, 0, 0);
-MODULE_DEPEND(twsi, iicbus, 1, 1, 1);
-
-static __inline uint32_t
-TWSI_READ(struct mv_twsi_softc *sc, bus_size_t off)
-{
-
-  return (bus_read_4(sc->res[0], off));
-}
-
-static __inline void
-TWSI_WRITE(struct mv_twsi_softc *sc, bus_size_t off, uint32_t val)
-{
-
-  bus_write_4(sc->res[0], off, val);
-}
-
-static __inline void
-twsi_control_clear(struct mv_twsi_softc *sc, uint32_t mask)
-{
-  uint32_t val;
-
-  val = TWSI_READ(sc, TWSI_CONTROL);
-  val &= ~mask;
-  TWSI_WRITE(sc, TWSI_CONTROL, val);
-}
-
-static __inline void
-twsi_control_set(struct mv_twsi_softc *sc, uint32_t mask)
-{
-  uint32_t val;
-
-  val = TWSI_READ(sc, TWSI_CONTROL);
-  val |= mask;
-  TWSI_WRITE(sc, TWSI_CONTROL, val);
-}
-
-static __inline void
-twsi_clear_iflg(struct mv_twsi_softc *sc)
-{
-
-  DELAY(1000);
-  twsi_control_clear(sc, TWSI_CONTROL_IFLG);
-  DELAY(1000);
-}
-
-
-/*
- * timeout given in us
- * returns
- *   0 on sucessfull mask change
- *   non-zero on timeout
- */
-static int
-twsi_poll_ctrl(struct mv_twsi_softc *sc, int timeout, uint32_t mask)
-{
-
-  timeout /= 10;
-  while (!(TWSI_READ(sc, TWSI_CONTROL) & mask)) {
-    DELAY(10);
-    if (--timeout < 0)
-      return (timeout);
-  }
-  return (0);
-}
-
-
-/*
- * 'timeout' is given in us. Note also that timeout handling is not exact --
- * twsi_locked_start() total wait can be more than 2 x timeout
- * (twsi_poll_ctrl() is called twice). 'mask' can be either TWSI_STATUS_START
- * or TWSI_STATUS_RPTD_START
- */
-static int
-twsi_locked_start(device_t dev, struct mv_twsi_softc *sc, int32_t mask,
-    u_char slave, int timeout)
-{
-  int read_access, iflg_set = 0;
-  uint32_t status;
-
-  mtx_assert(&sc->mutex, MA_OWNED);
-
-  if (mask == TWSI_STATUS_RPTD_START)
-    /* read IFLG to know if it should be cleared later; from NBSD */
-    iflg_set = TWSI_READ(sc, TWSI_CONTROL) & TWSI_CONTROL_IFLG;
-
-  twsi_control_set(sc, TWSI_CONTROL_START);
-
-  if (mask == TWSI_STATUS_RPTD_START && iflg_set) {
-    debugf("IFLG set, clearing\n");
-    twsi_clear_iflg(sc);
-  }
-
-  /*
-   * Without this delay we timeout checking IFLG if the timeout is 0.
-   * NBSD driver always waits here too.
-   */
-  DELAY(1000);
-
-  if (twsi_poll_ctrl(sc, timeout, TWSI_CONTROL_IFLG)) {
-    debugf("timeout sending %sSTART condition\n",
-        mask == TWSI_STATUS_START ? "" : "repeated ");
-    return (IIC_ETIMEOUT);
-  }
-
-  status = TWSI_READ(sc, TWSI_STATUS);
-  if (status != mask) {
-    debugf("wrong status (%02x) after sending %sSTART condition\n",
-        status, mask == TWSI_STATUS_START ? "" : "repeated ");
-    return (IIC_ESTATUS);
-  }
-
-  TWSI_WRITE(sc, TWSI_DATA, slave);
-  DELAY(1000);
-  twsi_clear_iflg(sc);
-
-  if (twsi_poll_ctrl(sc, timeout, TWSI_CONTROL_IFLG)) {
-    debugf("timeout sending slave address\n");
-    return (IIC_ETIMEOUT);
-  }
-  
-  read_access = (slave & 0x1) ? 1 : 0;
-  status = TWSI_READ(sc, TWSI_STATUS);
-  if (status != (read_access ?
-      TWSI_STATUS_ADDR_R_ACK : TWSI_STATUS_ADDR_W_ACK)) {
-    debugf("no ACK (status: %02x) after sending slave address\n",
-        status);
-    return (IIC_ENOACK);
-  }
-
-  return (IIC_NOERR);
-}
-
-static int
-mv_twsi_probe(device_t dev)
-{
-
-  if (!ofw_bus_status_okay(dev))
-    return (ENXIO);
-
-  if (!ofw_bus_is_compatible(dev, "mrvl,twsi"))
-    return (ENXIO);
-
-  device_set_desc(dev, "Marvell Integrated I2C Bus Controller");
-  return (BUS_PROBE_DEFAULT);
-}
-
-#define  ABSSUB(a,b)  (((a) > (b)) ? (a) - (b) : (b) - (a))
-static void
-mv_twsi_cal_baud_rate(const uint32_t target, struct mv_twsi_baud_rate *rate)
-{
-  uint32_t clk, cur, diff, diff0;
-  int m, n, m0, n0;
-
-  /* Calculate baud rate. */
-  m0 = n0 = 4;  /* Default values on reset */
-  diff0 = 0xffffffff;
-  clk = get_tclk();
-
-  for (n = 0; n < 8; n++) {
-    for (m = 0; m < 16; m++) {
-      cur = TWSI_BAUD_RATE_RAW(clk,m,n);
-      diff = ABSSUB(target, cur);
-      if (diff < diff0) {
-        m0 = m;
-        n0 = n;
-        diff0 = diff;
-      }
-    }
-  }
-  rate->raw = TWSI_BAUD_RATE_RAW(clk, m0, n0);
-  rate->param = TWSI_BAUD_RATE_PARAM(m0, n0);
-  rate->m = m0;
-  rate->n = n0;
-}
-
-static int
-mv_twsi_attach(device_t dev)
-{
-  struct mv_twsi_softc *sc;
+  A8K_I2C_INSTANCE *sc;
   phandle_t child, iicbusnode;
   device_t childdev;
   struct iicbus_ivar *devi;
-  char dname[32];  /* 32 is taken from struct u_device */
-  uint32_t paddr;
-  int len, error;
+  UINT8 dname[32];  /* 32 is taken from struct u_device */
+  UINT32 paddr;
+  UINTN len, error;
 
   sc = device_get_softc(dev);
   sc->dev = dev;
   bzero(baud_rate, sizeof(baud_rate));
 
-  mtx_init(&sc->mutex, device_get_nameunit(dev), MV_TWSI_NAME, MTX_DEF);
+  //mtx_init(&sc->mutex, device_get_nameunit(dev), MV_TWSI_NAME, MTX_DEF);
 
   /* Allocate IO resources */
   if (bus_alloc_resources(dev, res_spec, sc->res)) {
     device_printf(dev, "could not allocate resources\n");
     mv_twsi_detach(dev);
-    return (ENXIO);
+    return (EFI_UNSUPPORTED);
   }
 
-  mv_twsi_cal_baud_rate(TWSI_BAUD_RATE_SLOW, &baud_rate[IIC_SLOW]);
-  mv_twsi_cal_baud_rate(TWSI_BAUD_RATE_FAST, &baud_rate[IIC_FAST]);
+  A8kI2cCalBaudRate(TWSI_BAUD_RATE_SLOW, &baud_rate[IIC_SLOW]);
+  A8kI2cCalBaudRate(TWSI_BAUD_RATE_FAST, &baud_rate[IIC_FAST]);
   if (bootverbose)
     device_printf(dev, "calculated baud rates are:\n"
         " %" PRIu32 " kHz (M=%d, N=%d) for slow,\n"
@@ -356,7 +119,7 @@ mv_twsi_attach(device_t dev)
   if (sc->iicbus == NULL) {
     device_printf(dev, "could not add iicbus child\n");
     mv_twsi_detach(dev);
-    return (ENXIO);
+    return (EFI_UNSUPPORTED);
   }
   /* Attach iicbus. */
   bus_generic_attach(dev);
@@ -408,15 +171,23 @@ mv_twsi_attach(device_t dev)
 
 attach_end:
   bus_generic_attach(sc->iicbus);
+#endif
 
-  return (0);
+  return EFI_SUCCESS;
 }
 
-static int
-mv_twsi_detach(device_t dev)
+EFI_STATUS
+EFIAPI
+A8kI2cBindingStop (
+  IN EFI_DRIVER_BINDING_PROTOCOL            *This,
+  IN  EFI_HANDLE                            ControllerHandle,
+  IN  UINTN                                 NumberOfChildren,
+  IN  EFI_HANDLE                            *ChildHandleBuffer OPTIONAL
+  )
 {
-  struct mv_twsi_softc *sc;
-  int rv;
+/*
+  A8K_I2C_INSTANCE *sc;
+  UINTN rv;
 
   sc = device_get_softc(dev);
 
@@ -427,23 +198,215 @@ mv_twsi_detach(device_t dev)
     if ((rv = device_delete_child(dev, sc->iicbus)) != 0)
       return (rv);
 
-  bus_release_resources(dev, res_spec, sc->res);
+  bus_release_resources(dev, res_spec, sc->res);*/
 
-  mtx_destroy(&sc->mutex);
+  //mtx_destroy(&sc->mutex);
+  return EFI_SUCCESS;
+}
+
+STATIC UINT32
+TWSI_READ(
+  IN A8K_I2C_INSTANCE *sc,
+  IN UINTN off)
+{
+
+//  return (bus_read_4(sc->res[0], off));
+  return 0;
+}
+
+STATIC
+VOID
+TWSI_WRITE (
+  IN A8K_I2C_INSTANCE *sc,
+  IN UINTN off,
+  IN UINT32 val)
+{
+
+//  bus_write_4(sc->res[0], off, val);
+}
+
+STATIC
+VOID
+A8kI2cControlClear (
+  IN A8K_I2C_INSTANCE *sc,
+  IN UINT32 mask)
+{
+  UINT32 val;
+
+  val = TWSI_READ(sc, TWSI_CONTROL);
+  val &= ~mask;
+  TWSI_WRITE(sc, TWSI_CONTROL, val);
+}
+
+STATIC
+VOID
+A8kI2cControlSet (
+  IN A8K_I2C_INSTANCE *sc,
+  IN UINT32 mask)
+{
+  UINT32 val;
+
+  val = TWSI_READ(sc, TWSI_CONTROL);
+  val |= mask;
+  TWSI_WRITE(sc, TWSI_CONTROL, val);
+}
+
+STATIC
+VOID
+A8kI2cClearIflg (
+ IN A8K_I2C_INSTANCE *sc
+ )
+{
+
+  DELAY(1000);
+  A8kI2cControlClear(sc, TWSI_CONTROL_IFLG);
+  DELAY(1000);
+}
+
+
+/*
+ * timeout given in us
+ * returns
+ *   0 on sucessfull mask change
+ *   non-zero on timeout
+ */
+STATIC
+UINTN
+A8kI2cPollCtrl (
+  IN A8K_I2C_INSTANCE *sc,
+  IN UINTN timeout,
+  IN UINT32 mask)
+{
+
+  timeout /= 10;
+  while (!(TWSI_READ(sc, TWSI_CONTROL) & mask)) {
+    DELAY(10);
+    if (--timeout < 0)
+      return (timeout);
+  }
   return (0);
+}
+
+
+/*
+ * 'timeout' is given in us. Note also that timeout handling is not exact --
+ * A8kI2cLockedStart() total wait can be more than 2 x timeout
+ * (A8kI2cPollCtrl() is called twice). 'mask' can be either TWSI_STATUS_START
+ * or TWSI_STATUS_RPTD_START
+ */
+STATIC
+EFI_STATUS
+A8kI2cLockedStart (
+  IN EFI_HANDLE dev,
+  IN A8K_I2C_INSTANCE *sc,
+  IN INT32 mask,
+  IN UINT8 slave,
+  IN UINTN timeout
+  )
+{
+  UINTN read_access, iflg_set = 0;
+  UINT32 status;
+
+  //mtx_assert(&sc->mutex, MA_OWNED);
+
+  if (mask == TWSI_STATUS_RPTD_START)
+    /* read IFLG to know if it should be cleared later; from NBSD */
+    iflg_set = TWSI_READ(sc, TWSI_CONTROL) & TWSI_CONTROL_IFLG;
+
+  A8kI2cControlSet(sc, TWSI_CONTROL_START);
+
+  if (mask == TWSI_STATUS_RPTD_START && iflg_set) {
+    debugf("IFLG set, clearing\n");
+    A8kI2cClearIflg(sc);
+  }
+
+  /*
+   * Without this delay we timeout checking IFLG if the timeout is 0.
+   * NBSD driver always waits here too.
+   */
+  DELAY(1000);
+
+  if (A8kI2cPollCtrl(sc, timeout, TWSI_CONTROL_IFLG)) {
+    debugf("timeout sending %sSTART condition\n",
+        mask == TWSI_STATUS_START ? "" : "repeated ");
+    return (EFI_NO_RESPONSE);
+  }
+
+  status = TWSI_READ(sc, TWSI_STATUS);
+  if (status != mask) {
+    debugf("wrong status (%02x) after sending %sSTART condition\n",
+        status, mask == TWSI_STATUS_START ? "" : "repeated ");
+    return (EFI_DEVICE_ERROR);
+  }
+
+  TWSI_WRITE(sc, TWSI_DATA, slave);
+  DELAY(1000);
+  A8kI2cClearIflg(sc);
+
+  if (A8kI2cPollCtrl(sc, timeout, TWSI_CONTROL_IFLG)) {
+    debugf("timeout sending slave address\n");
+    return (EFI_NO_RESPONSE);
+  }
+  
+  read_access = (slave & 0x1) ? 1 : 0;
+  status = TWSI_READ(sc, TWSI_STATUS);
+  if (status != (read_access ?
+      TWSI_STATUS_ADDR_R_ACK : TWSI_STATUS_ADDR_W_ACK)) {
+    debugf("no ACK (status: %02x) after sending slave address\n",
+        status);
+    return (EFI_NO_RESPONSE);
+  }
+
+  return (EFI_SUCCESS);
+}
+
+#define  ABSSUB(a,b)  (((a) > (b)) ? (a) - (b) : (b) - (a))
+STATIC
+VOID
+A8kI2cCalBaudRate (
+  IN CONST UINT32 target,
+  IN OUT A8K_I2C_BAUD_RATE *rate
+  )
+{
+  UINT32 clk, cur, diff, diff0;
+  UINTN m, n, m0, n0;
+
+  /* Calculate baud rate. */
+  m0 = n0 = 4;  /* Default values on reset */
+  diff0 = 0xffffffff;
+  clk = get_tclk();
+
+  for (n = 0; n < 8; n++) {
+    for (m = 0; m < 16; m++) {
+      cur = TWSI_BAUD_RATE_RAW(clk,m,n);
+      diff = ABSSUB(target, cur);
+      if (diff < diff0) {
+        m0 = m;
+        n0 = n;
+        diff0 = diff;
+      }
+    }
+  }
+  rate->raw = TWSI_BAUD_RATE_RAW(clk, m0, n0);
+  rate->param = TWSI_BAUD_RATE_PARAM(m0, n0);
+  rate->m = m0;
+  rate->n = n0;
 }
 
 /*
  * Only slave mode supported, disregard [old]addr
  */
-static int
-A8kI2cReset(device_t dev, u_char speed, u_char addr, u_char *oldaddr)
+EFI_STATUS
+EFIAPI
+A8kI2cReset (
+  IN CONST EFI_I2C_MASTER_PROTOCOL *This
+  )
 {
-  struct mv_twsi_softc *sc;
-  uint32_t param;
+  A8K_I2C_INSTANCE *sc;
+  UINT32 param;
 
   sc = device_get_softc(dev);
-
+/*
   switch (speed) {
   case IIC_SLOW:
   case IIC_FAST:
@@ -454,90 +417,113 @@ A8kI2cReset(device_t dev, u_char speed, u_char addr, u_char *oldaddr)
   default:
     param = baud_rate[IIC_FAST].param;
     break;
-  }
+  }*/
+  param = baud_rate[IIC_FAST].param;
 
-  mtx_lock(&sc->mutex);
+  //mtx_lock(&sc->mutex);
   TWSI_WRITE(sc, TWSI_SOFT_RESET, 0x0);
   DELAY(2000);
   TWSI_WRITE(sc, TWSI_BAUD_RATE, param);
   TWSI_WRITE(sc, TWSI_CONTROL, TWSI_CONTROL_TWSIEN | TWSI_CONTROL_ACK);
   DELAY(1000);
-  mtx_unlock(&sc->mutex);
+  //mtx_unlock(&sc->mutex);
 
-  return (0);
+  return (EFI_SUCCESS);
 }
 
 /*
  * timeout is given in us
  */
-static int
-A8kI2cRepeatedStart(device_t dev, u_char slave, int timeout)
+STATIC
+EFI_STATUS
+A8kI2cRepeatedStart (
+  IN EFI_HANDLE dev,
+  IN UINT8 slave,
+  IN UINTN timeout
+  )
 {
-  struct mv_twsi_softc *sc;
-  int rv;
+  A8K_I2C_INSTANCE *sc;
+  EFI_STATUS rv;
 
   sc = device_get_softc(dev);
 
-  mtx_lock(&sc->mutex);
-  rv = twsi_locked_start(dev, sc, TWSI_STATUS_RPTD_START, slave,
+  //mtx_lock(&sc->mutex);
+  rv = A8kI2cLockedStart(dev, sc, TWSI_STATUS_RPTD_START, slave,
       timeout);
-  mtx_unlock(&sc->mutex);
+  //mtx_unlock(&sc->mutex);
 
-  if (rv) {
+  if (rv != EFI_SUCCESS) {
     A8kI2cStop(dev);
     return (rv);
   } else
-    return (IIC_NOERR);
+    return (rv);
 }
 
 /*
  * timeout is given in us
  */
-static int
-A8kI2cStart(device_t dev, u_char slave, int timeout)
+STATIC
+EFI_STATUS
+A8kI2cStart (
+  IN EFI_HANDLE dev,
+  IN UINT8 slave,
+  IN UINTN timeout
+  )
 {
-  struct mv_twsi_softc *sc;
-  int rv;
+  A8K_I2C_INSTANCE *sc;
+  EFI_STATUS rv;
 
   sc = device_get_softc(dev);
 
-  mtx_lock(&sc->mutex);
-  rv = twsi_locked_start(dev, sc, TWSI_STATUS_START, slave, timeout);
-  mtx_unlock(&sc->mutex);
+  //mtx_lock(&sc->mutex);
+  rv = A8kI2cLockedStart(dev, sc, TWSI_STATUS_START, slave, timeout);
+  //mtx_unlock(&sc->mutex);
 
-  if (rv) {
+  if (rv != EFI_SUCCESS) {
     A8kI2cStop(dev);
     return (rv);
   } else
-    return (IIC_NOERR);
+    return (EFI_SUCCESS);
 }
 
-static int
-A8kI2cStop(device_t dev)
+STATIC
+EFI_STATUS
+A8kI2cStop (
+  IN EFI_HANDLE dev
+  )
 {
-  struct mv_twsi_softc *sc;
+  A8K_I2C_INSTANCE *sc;
 
   sc = device_get_softc(dev);
 
-  mtx_lock(&sc->mutex);
-  twsi_control_set(sc, TWSI_CONTROL_STOP);
+  //mtx_lock(&sc->mutex);
+  A8kI2cControlSet(sc, TWSI_CONTROL_STOP);
   DELAY(1000);
-  twsi_clear_iflg(sc);
-  mtx_unlock(&sc->mutex);
+  A8kI2cClearIflg(sc);
+  //mtx_unlock(&sc->mutex);
 
-  return (IIC_NOERR);
+  return (EFI_SUCCESS);
 }
 
-static int
-A8kI2cRead(device_t dev, char *buf, int len, int *read, int last, int delay)
+STATIC
+EFI_STATUS
+A8kI2cRead (
+  IN EFI_HANDLE dev,
+  IN OUT UINT8 *buf,
+  IN UINTN len,
+  IN OUT UINTN *read,
+  IN UINTN last,
+  IN UINTN delay
+  )
 {
-  struct mv_twsi_softc *sc;
-  uint32_t status;
-  int last_byte, rv;
+  A8K_I2C_INSTANCE *sc;
+  UINT32 status;
+  UINTN last_byte;
+  EFI_STATUS rv;
 
   sc = device_get_softc(dev);
 
-  mtx_lock(&sc->mutex);
+  //mtx_lock(&sc->mutex);
   *read = 0;
   while (*read < len) {
     /*
@@ -546,16 +532,16 @@ A8kI2cRead(device_t dev, char *buf, int len, int *read, int last, int delay)
      */
     last_byte = ((*read == len - 1) && last) ? 1 : 0;
     if (last_byte)
-      twsi_control_clear(sc, TWSI_CONTROL_ACK);
+      A8kI2cControlClear(sc, TWSI_CONTROL_ACK);
     else
-      twsi_control_set(sc, TWSI_CONTROL_ACK);
+      A8kI2cControlSet(sc, TWSI_CONTROL_ACK);
 
     DELAY (1000);
-    twsi_clear_iflg(sc);
+    A8kI2cClearIflg(sc);
 
-    if (twsi_poll_ctrl(sc, delay, TWSI_CONTROL_IFLG)) {
+    if (A8kI2cPollCtrl(sc, delay, TWSI_CONTROL_IFLG)) {
       debugf("timeout reading data\n");
-      rv = IIC_ETIMEOUT;
+      rv = EFI_NO_RESPONSE;
       goto out;
     }
 
@@ -563,59 +549,78 @@ A8kI2cRead(device_t dev, char *buf, int len, int *read, int last, int delay)
     if (status != (last_byte ?
         TWSI_STATUS_DATA_RD_NOACK : TWSI_STATUS_DATA_RD_ACK)) {
       debugf("wrong status (%02x) while reading\n", status);
-      rv = IIC_ESTATUS;
+      rv = EFI_DEVICE_ERROR;
       goto out;
     }
 
     *buf++ = TWSI_READ(sc, TWSI_DATA);
     (*read)++;
   }
-  rv = IIC_NOERR;
+  rv = EFI_SUCCESS;
 out:
-  mtx_unlock(&sc->mutex);
+  //mtx_unlock(&sc->mutex);
   return (rv);
 }
 
-static int
-A8kI2cWrite(device_t dev, const char *buf, int len, int *sent, int timeout)
+STATIC
+EFI_STATUS
+A8kI2cWrite (
+  IN EFI_HANDLE dev,
+  IN OUT CONST UINT8 *buf,
+  IN UINTN len,
+  IN OUT UINTN *sent,
+  IN UINTN timeout
+  )
 {
-  struct mv_twsi_softc *sc;
-  uint32_t status;
-  int rv;
+  A8K_I2C_INSTANCE *sc;
+  UINT32 status;
+  EFI_STATUS rv;
 
   sc = device_get_softc(dev);
 
-  mtx_lock(&sc->mutex);
+  //mtx_lock(&sc->mutex);
   *sent = 0;
   while (*sent < len) {
     TWSI_WRITE(sc, TWSI_DATA, *buf++);
 
-    twsi_clear_iflg(sc);
-    if (twsi_poll_ctrl(sc, timeout, TWSI_CONTROL_IFLG)) {
+    A8kI2cClearIflg(sc);
+    if (A8kI2cPollCtrl(sc, timeout, TWSI_CONTROL_IFLG)) {
       debugf("timeout writing data\n");
-      rv = IIC_ETIMEOUT;
+      rv = EFI_NO_RESPONSE;
       goto out;
     }
 
     status = TWSI_READ(sc, TWSI_STATUS);
     if (status != TWSI_STATUS_DATA_WR_ACK) {
       debugf("wrong status (%02x) while writing\n", status);
-      rv = IIC_ESTATUS;
+      rv = EFI_DEVICE_ERROR;
       goto out;
     }
     (*sent)++;
   }
-  rv = IIC_NOERR;
+  rv = EFI_SUCCESS;
 out:
-  mtx_unlock(&sc->mutex);
+  //mtx_unlock(&sc->mutex);
   return (rv);
 }
-#endif
+
+STATIC
+EFI_STATUS
+A8kI2cStartRequest (
+  IN CONST EFI_I2C_MASTER_PROTOCOL *This,
+  IN UINTN                         SlaveAddress,
+  IN EFI_I2C_REQUEST_PACKET        *RequestPacket,
+  IN EFI_EVENT                     Event      OPTIONAL,
+  OUT EFI_STATUS                   *I2cStatus OPTIONAL
+  )
+{
+  return EFI_SUCCESS;
+}
 
 EFI_I2C_MASTER_PROTOCOL gI2cMasterProtocol = {
   NULL,
-  NULL,
-  NULL,
+  A8kI2cReset,
+  A8kI2cStartRequest,
   NULL
 };
 

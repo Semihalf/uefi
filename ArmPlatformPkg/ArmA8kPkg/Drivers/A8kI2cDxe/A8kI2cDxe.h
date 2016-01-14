@@ -35,6 +35,11 @@
 
 #define TWSI_SOFT_RESET    0x1c
 
+#define IIC_UNKNOWN        0x0
+#define IIC_SLOW           0x1
+#define IIC_FAST           0x2
+#define IIC_FASTEST        0x3
+
 #define TWSI_DEBUG
 #undef TWSI_DEBUG
 
@@ -45,8 +50,164 @@
 #endif
 
 typedef struct {
-  EFI_HANDLE            Handle;
+  EFI_HANDLE            dev;
   EFI_CPU_IO2_PROTOCOL  *CpuIo;
 } A8K_I2C_INSTANCE;
+
+typedef struct {
+  UINT32  raw;
+  UINTN    param;
+  UINTN    m;
+  UINTN    n;
+} A8K_I2C_BAUD_RATE;
+
+EFI_STATUS
+EFIAPI
+A8kI2cInitialise (
+  IN EFI_HANDLE	ImageHandle,
+  IN EFI_SYSTEM_TABLE	*SystemTable
+  );
+
+EFI_STATUS
+EFIAPI
+A8kI2cBindingSupported (
+  IN EFI_DRIVER_BINDING_PROTOCOL            *This,
+  IN EFI_HANDLE                             ControllerHandle,
+  IN EFI_DEVICE_PATH_PROTOCOL               *RemainingDevicePath OPTIONAL
+  );
+
+EFI_STATUS
+EFIAPI
+A8kI2cBindingStart (
+  IN EFI_DRIVER_BINDING_PROTOCOL            *This,
+  IN EFI_HANDLE                             ControllerHandle,
+  IN EFI_DEVICE_PATH_PROTOCOL               *RemainingDevicePath OPTIONAL
+  );
+
+EFI_STATUS
+EFIAPI
+A8kI2cBindingStop (
+  IN EFI_DRIVER_BINDING_PROTOCOL            *This,
+  IN  EFI_HANDLE                            ControllerHandle,
+  IN  UINTN                                 NumberOfChildren,
+  IN  EFI_HANDLE                            *ChildHandleBuffer OPTIONAL
+  );
+
+STATIC UINT32
+TWSI_READ(
+  IN A8K_I2C_INSTANCE *sc,
+  IN UINTN off
+  );
+
+STATIC
+VOID
+TWSI_WRITE (
+  IN A8K_I2C_INSTANCE *sc,
+  IN UINTN off,
+  IN UINT32 val
+  );
+
+STATIC
+VOID
+A8kI2cControlClear (
+  IN A8K_I2C_INSTANCE *sc,
+  IN UINT32 mask
+  );
+
+STATIC
+VOID
+A8kI2cControlSet (
+  IN A8K_I2C_INSTANCE *sc,
+  IN UINT32 mask
+  );
+
+STATIC
+VOID
+A8kI2cClearIflg (
+ IN A8K_I2C_INSTANCE *sc
+ );
+STATIC
+UINTN
+A8kI2cPollCtrl (
+  IN A8K_I2C_INSTANCE *sc,
+  IN UINTN timeout,
+  IN UINT32 mask
+  );
+
+STATIC
+EFI_STATUS
+A8kI2cLockedStart (
+  IN EFI_HANDLE dev,
+  IN A8K_I2C_INSTANCE *sc,
+  IN INT32 mask,
+  IN UINT8 slave,
+  IN UINTN timeout
+  );
+
+STATIC
+VOID
+A8kI2cCalBaudRate (
+  IN CONST UINT32 target,
+  IN OUT A8K_I2C_BAUD_RATE *rate
+  );
+
+EFI_STATUS
+EFIAPI
+A8kI2cReset (
+  IN CONST EFI_I2C_MASTER_PROTOCOL *This
+  );
+
+STATIC
+EFI_STATUS
+A8kI2cRepeatedStart (
+  IN EFI_HANDLE dev,
+  IN UINT8 slave,
+  IN UINTN timeout
+  );
+
+STATIC
+EFI_STATUS
+A8kI2cStart (
+  IN EFI_HANDLE dev,
+  IN UINT8 slave,
+  IN UINTN timeout
+  );
+
+STATIC
+EFI_STATUS
+A8kI2cStop (
+  IN EFI_HANDLE dev
+  );
+
+STATIC
+EFI_STATUS
+A8kI2cRead (
+  IN EFI_HANDLE dev,
+  IN OUT UINT8 *buf,
+  IN UINTN len,
+  IN OUT UINTN *read,
+  IN UINTN last,
+  IN UINTN delay
+  );
+
+STATIC
+EFI_STATUS
+A8kI2cWrite (
+  IN EFI_HANDLE dev,
+  IN OUT CONST UINT8 *buf,
+  IN UINTN len,
+  IN OUT UINTN *sent,
+  IN UINTN timeout
+  );
+
+STATIC
+EFI_STATUS
+A8kI2cStartRequest (
+  IN CONST EFI_I2C_MASTER_PROTOCOL *This,
+  IN UINTN                         SlaveAddress,
+  IN EFI_I2C_REQUEST_PACKET        *RequestPacket,
+  IN EFI_EVENT                     Event      OPTIONAL,
+  OUT EFI_STATUS                   *I2cStatus OPTIONAL
+  );
 
 #endif // __A8K_I2C_H__
