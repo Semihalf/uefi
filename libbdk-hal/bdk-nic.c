@@ -599,6 +599,12 @@ int bdk_nic_port_init(bdk_if_handle_t handle, bdk_nic_type_t ntype, int lmac_cre
         else
         {
             BDK_CSR_INIT(nic_pf_const1, handle->node, BDK_NIC_PF_CONST1);
+            if (bdk_is_platform(BDK_PLATFORM_ASIM))
+            {
+                /* Asim doesn't model the NIC correctly */
+                if (nic_pf_const1.u == 0)
+                    nic_pf_const1.u = (CAVIUM_IS_MODEL(CAVIUM_CN81XX)) ? 0x8 : 0x20;
+            }
             global_node_state[handle->node]->num_vnics = nic_pf_const1.s.vnics;
         }
 
