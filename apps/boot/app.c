@@ -134,6 +134,13 @@ int main(void)
     bdk_gpio_initialize(node, 10, 1, 1);
     bdk_boot_status(BDK_BOOT_STATUS_BOOT_STUB_STARTING);
 
+    const char *board = bdk_config_get_str(BDK_CONFIG_BOARD_MODEL);
+    if (strncasecmp(board, "EBB", 3) == 0)
+    {
+        bdk_evb_display_init(node);
+        bdk_evb_display_write_str(node, "THUNDERX");
+    }
+
     /* Get the address of the version field in our header */
     uint64_t version_offset = offsetof(bdk_image_header_t, version);
     uint64_t version_pa = bdk_numa_get_address(node, version_offset);
@@ -152,7 +159,7 @@ int main(void)
         "\n",
         version,
         bdk_version_string(),
-        bdk_config_get_str(BDK_CONFIG_BOARD_MODEL),
+        board,
         bdk_config_get_str(BDK_CONFIG_BOARD_REVISION),
         bdk_config_get_str(BDK_CONFIG_BOARD_SERIAL));
     bdk_boot_info_strapping(bdk_numa_master());
