@@ -5,6 +5,7 @@
 #define CCPI_MAX_LINKS 3
 #define CCPI_SHORT_TIMEOUT 1 /* Seconds to wait for and CCPI links for quick detection of single node */
 #define CCPI_MASTER_TIMEOUT 30 /* Seconds to wait for CCPI links */
+#define REF_CLOCK 50000000 /* This is currently defined to be 50Mhz */
 
 #define EOL "\33[0K\r\n" /* Erase EOL */
 
@@ -14,14 +15,26 @@ static bdk_node_t node;
 extern void __bdk_reset_thread(int arg1, void *arg2);
 
 /**
+ * Get the current reference clock count. When running on secondary nodes, the
+ * normal clock functions don't work when compiled with LLVM. This serves as
+ * a simple replacement that should work regardless of the compiler.
+ *
+ * @return Reference clock count
+ */
+static uint64_t get_ref_clock(void)
+{
+    return BDK_CSR_READ(node, BDK_RST_REF_CNTR);
+}
+
+/**
  * Delay for the specified microseconds
  *
  * @param usec
  */
 static void wait_usec(uint64_t usec)
 {
-    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_MAIN_REF) + bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF) * usec / 1000000;
-    while (bdk_clock_get_count(BDK_CLOCK_MAIN_REF) < timeout)
+    uint64_t timeout = get_ref_clock() + REF_CLOCK * usec / 1000000;
+    while (get_ref_clock() < timeout)
     {
         /* Spin */
     }
@@ -282,8 +295,8 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
     if (ccpi_trace)
         bdk_dbg_uart_str("\33[0m" "\33[1;r" "\33[1;1H" "\33[2J");
 
-    const uint64_t one_second = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
-    const uint64_t start_time = bdk_clock_get_count(BDK_CLOCK_MAIN_REF);
+    const uint64_t one_second = REF_CLOCK;
+    const uint64_t start_time = get_ref_clock();
     const uint64_t master_timeout = start_time + one_second * CCPI_MASTER_TIMEOUT;
     const uint64_t short_timeout = start_time + one_second * CCPI_SHORT_TIMEOUT;
 
@@ -293,7 +306,7 @@ int __bdk_init_ccpi_connection(int is_master, uint64_t gbaud, int ccpi_trace)
     {
         BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
         wait_usec(100000);
-        uint64_t wall_time = bdk_clock_get_count(BDK_CLOCK_MAIN_REF);
+        uint64_t wall_time = get_ref_clock();
 
         if (is_master && (wall_time >= master_timeout))
         {
