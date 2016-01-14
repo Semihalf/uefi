@@ -29,85 +29,56 @@
  * SUCH DAMAGE.
  */
 
-/*
- * Driver for the TWSI (aka I2C, aka IIC) bus controller found on Marvell
- * SoCs. Supports master operation only, and works in polling mode.
- *
- * Calls to DELAY() are needed per Application Note AN-179 "TWSI Software
- * Guidelines for Discovery(TM), Horizon (TM) and Feroceon(TM) Devices".
- */
+#include <Protocol/I2cMaster.h>
+#include <Protocol/DriverBinding.h>
+#include <Protocol/CpuIo2.h>
 
-#include <sys/cdefs.h>
-__FBSDID("$FreeBSD$");
+#include "A8kI2cDxe.h"
 
-#include <sys/param.h>
-#include <sys/systm.h>
-#include <sys/bus.h>
-#include <sys/kernel.h>
-#include <sys/module.h>
-#include <sys/resource.h>
+EFI_STATUS
+EFIAPI
+A8kI2cInitialise (
+  IN EFI_HANDLE	ImageHandle,
+  IN EFI_SYSTEM_TABLE	*SystemTable
+  )
+{
+  return EFI_SUCCESS;
+}
 
-#include <machine/_inttypes.h>
-#include <machine/bus.h>
-#include <machine/resource.h>
+EFI_STATUS
+EFIAPI
+A8kI2cBindingSupported (
+  IN EFI_DRIVER_BINDING_PROTOCOL            *This,
+  IN EFI_HANDLE                             ControllerHandle,
+  IN EFI_DEVICE_PATH_PROTOCOL               *RemainingDevicePath OPTIONAL
+  )
+{
+  return EFI_SUCCESS;
+}
 
-#include <sys/rman.h>
+EFI_STATUS
+EFIAPI
+A8kI2cBindingStart (
+  IN EFI_DRIVER_BINDING_PROTOCOL            *This,
+  IN EFI_HANDLE                             ControllerHandle,
+  IN EFI_DEVICE_PATH_PROTOCOL               *RemainingDevicePath OPTIONAL
+  )
+{
+  return EFI_SUCCESS;
+}
 
-#include <sys/lock.h>
-#include <sys/mutex.h>
-
-#include <dev/iicbus/iiconf.h>
-#include <dev/iicbus/iicbus.h>
-#include <dev/fdt/fdt_common.h>
-#include <dev/ofw/ofw_bus.h>
-#include <dev/ofw/ofw_bus_subr.h>
-
-#include <arm/mv/mvreg.h>
-#include <arm/mv/mvvar.h>
-
-#include "iicbus_if.h"
-
-#define MV_TWSI_NAME    "twsi"
-#define  IICBUS_DEVNAME    "iicbus"
-
-#define TWSI_SLAVE_ADDR    0x00
-#define TWSI_EXT_SLAVE_ADDR  0x10
-#define TWSI_DATA    0x04
-
-#define TWSI_CONTROL    0x08
-#define TWSI_CONTROL_ACK  (1 << 2)
-#define TWSI_CONTROL_IFLG  (1 << 3)
-#define TWSI_CONTROL_STOP  (1 << 4)
-#define TWSI_CONTROL_START  (1 << 5)
-#define TWSI_CONTROL_TWSIEN  (1 << 6)
-#define TWSI_CONTROL_INTEN  (1 << 7)
-
-#define TWSI_STATUS      0x0c
-#define TWSI_STATUS_START    0x08
-#define TWSI_STATUS_RPTD_START    0x10
-#define TWSI_STATUS_ADDR_W_ACK    0x18
-#define TWSI_STATUS_DATA_WR_ACK    0x28
-#define TWSI_STATUS_ADDR_R_ACK    0x40
-#define TWSI_STATUS_DATA_RD_ACK    0x50
-#define TWSI_STATUS_DATA_RD_NOACK  0x58
-
-#define TWSI_BAUD_RATE    0x0c
-#define  TWSI_BAUD_RATE_PARAM(M,N)  ((((M) << 3) | ((N) & 0x7)) & 0x7f)
-#define  TWSI_BAUD_RATE_RAW(C,M,N)  ((C)/((10*(M+1))<<(N+1)))
-#define  TWSI_BAUD_RATE_SLOW    50000  /* 50kHz */
-#define  TWSI_BAUD_RATE_FAST    100000  /* 100kHz */
-
-#define TWSI_SOFT_RESET    0x1c
-
-#define TWSI_DEBUG
-#undef TWSI_DEBUG
-
-#ifdef  TWSI_DEBUG
-#define debugf(fmt, args...) do { printf("%s(): ", __func__); printf(fmt,##args); } while (0)
-#else
-#define debugf(fmt, args...)
-#endif
-
+EFI_STATUS
+EFIAPI
+A8kI2cBindingStop (
+  IN EFI_DRIVER_BINDING_PROTOCOL            *This,
+  IN  EFI_HANDLE                            ControllerHandle,
+  IN  UINTN                                 NumberOfChildren,
+  IN  EFI_HANDLE                            *ChildHandleBuffer OPTIONAL
+  )
+{
+  return EFI_SUCCESS;
+}
+#if 0
 struct mv_twsi_softc {
   device_t  dev;
   struct resource  *res[1];  /* SYS_RES_MEMORY */
@@ -126,14 +97,14 @@ static int mv_twsi_probe(device_t);
 static int mv_twsi_attach(device_t);
 static int mv_twsi_detach(device_t);
 
-static int mv_twsi_reset(device_t dev, u_char speed, u_char addr,
+static int A8kI2cReset(device_t dev, u_char speed, u_char addr,
     u_char *oldaddr);
-static int mv_twsi_repeated_start(device_t dev, u_char slave, int timeout);
-static int mv_twsi_start(device_t dev, u_char slave, int timeout);
-static int mv_twsi_stop(device_t dev);
-static int mv_twsi_read(device_t dev, char *buf, int len, int *read, int last,
+static int A8kI2cRepeatedStart(device_t dev, u_char slave, int timeout);
+static int A8kI2cStart(device_t dev, u_char slave, int timeout);
+static int A8kI2cStop(device_t dev);
+static int A8kI2cRead(device_t dev, char *buf, int len, int *read, int last,
     int delay);
-static int mv_twsi_write(device_t dev, const char *buf, int len, int *sent,
+static int A8kI2cWrite(device_t dev, const char *buf, int len, int *sent,
     int timeout);
 
 static struct resource_spec res_spec[] = {
@@ -149,12 +120,12 @@ static device_method_t mv_twsi_methods[] = {
 
   /* iicbus interface */
   DEVMETHOD(iicbus_callback, iicbus_null_callback),
-  DEVMETHOD(iicbus_repeated_start, mv_twsi_repeated_start),
-  DEVMETHOD(iicbus_start,    mv_twsi_start),
-  DEVMETHOD(iicbus_stop,    mv_twsi_stop),
-  DEVMETHOD(iicbus_write,    mv_twsi_write),
-  DEVMETHOD(iicbus_read,    mv_twsi_read),
-  DEVMETHOD(iicbus_reset,    mv_twsi_reset),
+  DEVMETHOD(iicbus_repeated_start, A8kI2cRepeatedStart),
+  DEVMETHOD(iicbus_start,    A8kI2cStart),
+  DEVMETHOD(iicbus_stop,    A8kI2cStop),
+  DEVMETHOD(iicbus_write,    A8kI2cWrite),
+  DEVMETHOD(iicbus_read,    A8kI2cRead),
+  DEVMETHOD(iicbus_reset,    A8kI2cReset),
   DEVMETHOD(iicbus_transfer,  iicbus_transfer_gen),
   { 0, 0 }
 };
@@ -466,7 +437,7 @@ mv_twsi_detach(device_t dev)
  * Only slave mode supported, disregard [old]addr
  */
 static int
-mv_twsi_reset(device_t dev, u_char speed, u_char addr, u_char *oldaddr)
+A8kI2cReset(device_t dev, u_char speed, u_char addr, u_char *oldaddr)
 {
   struct mv_twsi_softc *sc;
   uint32_t param;
@@ -500,7 +471,7 @@ mv_twsi_reset(device_t dev, u_char speed, u_char addr, u_char *oldaddr)
  * timeout is given in us
  */
 static int
-mv_twsi_repeated_start(device_t dev, u_char slave, int timeout)
+A8kI2cRepeatedStart(device_t dev, u_char slave, int timeout)
 {
   struct mv_twsi_softc *sc;
   int rv;
@@ -513,7 +484,7 @@ mv_twsi_repeated_start(device_t dev, u_char slave, int timeout)
   mtx_unlock(&sc->mutex);
 
   if (rv) {
-    mv_twsi_stop(dev);
+    A8kI2cStop(dev);
     return (rv);
   } else
     return (IIC_NOERR);
@@ -523,7 +494,7 @@ mv_twsi_repeated_start(device_t dev, u_char slave, int timeout)
  * timeout is given in us
  */
 static int
-mv_twsi_start(device_t dev, u_char slave, int timeout)
+A8kI2cStart(device_t dev, u_char slave, int timeout)
 {
   struct mv_twsi_softc *sc;
   int rv;
@@ -535,14 +506,14 @@ mv_twsi_start(device_t dev, u_char slave, int timeout)
   mtx_unlock(&sc->mutex);
 
   if (rv) {
-    mv_twsi_stop(dev);
+    A8kI2cStop(dev);
     return (rv);
   } else
     return (IIC_NOERR);
 }
 
 static int
-mv_twsi_stop(device_t dev)
+A8kI2cStop(device_t dev)
 {
   struct mv_twsi_softc *sc;
 
@@ -558,7 +529,7 @@ mv_twsi_stop(device_t dev)
 }
 
 static int
-mv_twsi_read(device_t dev, char *buf, int len, int *read, int last, int delay)
+A8kI2cRead(device_t dev, char *buf, int len, int *read, int last, int delay)
 {
   struct mv_twsi_softc *sc;
   uint32_t status;
@@ -606,7 +577,7 @@ out:
 }
 
 static int
-mv_twsi_write(device_t dev, const char *buf, int len, int *sent, int timeout)
+A8kI2cWrite(device_t dev, const char *buf, int len, int *sent, int timeout)
 {
   struct mv_twsi_softc *sc;
   uint32_t status;
@@ -639,3 +610,20 @@ out:
   mtx_unlock(&sc->mutex);
   return (rv);
 }
+#endif
+
+EFI_I2C_MASTER_PROTOCOL gI2cMasterProtocol = {
+  NULL,
+  NULL,
+  NULL,
+  NULL
+};
+
+EFI_DRIVER_BINDING_PROTOCOL gDriverBindingProtocol = {
+  A8kI2cBindingSupported,
+  A8kI2cBindingStart,
+  A8kI2cBindingStop,
+  0x10,			// version
+  NULL,			// ImageHandle
+  NULL			// DriverBindingHandle
+};

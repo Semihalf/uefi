@@ -30,3 +30,6 @@
   UefiBootServicesTableLib
 
 [Protocols]
+  gEfiCpuIo2ProtocolGuid
+  gEfiDriverBindingProtocolGuid
+  gEfiI2cMasterProtocolGuid	  # produced
